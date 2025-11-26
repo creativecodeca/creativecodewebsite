@@ -89,7 +89,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
             // Log the response structure for debugging
             console.log('GHL API Response:', data);
             console.log('Response keys:', Object.keys(data));
-            
+
             if (Object.keys(data).length === 0) {
                 console.warn('No slots data returned from API');
             }
@@ -112,7 +112,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
             });
             console.log('Available days:', Array.from(days));
             setAvailableDays(days);
-            
+
             // Cache whether this month has slots
             const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
             setMonthSlotsCache(prev => ({ ...prev, [monthKey]: days.size > 0 }));
@@ -122,7 +122,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
             // Set empty slots on error to prevent UI from breaking
             setSlots({});
             setAvailableDays(new Set());
-            
+
             // Mark this month as having no slots
             const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
             setMonthSlotsCache(prev => ({ ...prev, [monthKey]: false }));
@@ -133,6 +133,16 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
 
     useEffect(() => {
         fetchSlots(currentDate.getFullYear(), currentDate.getMonth());
+
+        // Prefetch adjacent months to know if arrows should be disabled
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth();
+
+        // Prefetch previous month
+        checkMonthHasSlots(currentYear, currentMonth - 1);
+
+        // Prefetch next month
+        checkMonthHasSlots(currentYear, currentMonth + 1);
     }, [currentDate]);
 
     // Auto-select earliest available day and first time slot when slots are loaded and nothing is selected
@@ -141,30 +151,30 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
             // Find the earliest available day that's not in the past
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-            
+
             const sortedDays = Array.from(availableDays).sort();
             for (const dateKey of sortedDays) {
                 const [year, month, day] = dateKey.split('-').map(Number);
                 const date = new Date(year, month - 1, day);
                 date.setHours(0, 0, 0, 0);
-                
+
                 if (date >= today) {
                     setSelectedDate(date);
-                    
+
                     // Also auto-select the first available time slot for this date
                     const dayData = slots[dateKey];
                     if (dayData) {
                         let firstSlot: string | null = null;
                         if (Array.isArray(dayData.slots) && dayData.slots.length > 0) {
-                            firstSlot = typeof dayData.slots[0] === 'string' 
-                                ? dayData.slots[0] 
+                            firstSlot = typeof dayData.slots[0] === 'string'
+                                ? dayData.slots[0]
                                 : dayData.slots[0].startTime;
                         } else if (Array.isArray(dayData) && dayData.length > 0) {
-                            firstSlot = typeof dayData[0] === 'string' 
-                                ? dayData[0] 
+                            firstSlot = typeof dayData[0] === 'string'
+                                ? dayData[0]
                                 : dayData[0].startTime;
                         }
-                        
+
                         if (firstSlot) {
                             onSelectSlot(firstSlot);
                         }
@@ -177,7 +187,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
 
     const checkMonthHasSlots = async (year: number, month: number): Promise<boolean> => {
         const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
-        
+
         // Check cache first - if we know it has no slots, return false
         // If we know it has slots, return true
         // If unknown, check it
@@ -187,19 +197,19 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
         if (monthSlotsCache[monthKey] === true) {
             return true; // We know this month has slots
         }
-        
+
         // Unknown - fetch and check
         try {
             const startDate = new Date(year, month, 1).getTime();
             const endDate = new Date(year, month + 1, 0).getTime();
             const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            
+
             const res = await fetch(`/api/ghl-slots?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}`);
             if (!res.ok) {
                 setMonthSlotsCache(prev => ({ ...prev, [monthKey]: false }));
                 return false;
             }
-            
+
             const data = await res.json();
             const days = new Set<string>();
             Object.keys(data).forEach(key => {
@@ -209,7 +219,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
                     days.add(key);
                 }
             });
-            
+
             const hasSlots = days.size > 0;
             setMonthSlotsCache(prev => ({ ...prev, [monthKey]: hasSlots }));
             return hasSlots;
@@ -219,53 +229,35 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
         }
     };
 
-    const handlePrevMonth = async () => {
+    const handlePrevMonth = () => {
         const currentYear = currentDate.getFullYear();
         const currentMonth = currentDate.getMonth();
         const newYear = currentYear;
         const newMonth = currentMonth - 1;
-        
-        // Allow navigation if we don't know yet, or if it has slots
-        // Only block if we know it has no slots
+
+        // Only navigate if we know the month has slots or we don't know yet
         const monthKey = `${newYear}-${String(newMonth + 1).padStart(2, '0')}`;
         const knownNoSlots = monthSlotsCache[monthKey] === false;
-        
+
         if (!knownNoSlots) {
-            // Navigate optimistically, then check
             setCurrentDate(new Date(newYear, newMonth, 1));
             setSelectedDate(null);
-            
-            // Check in background and prevent if no slots
-            const hasSlots = await checkMonthHasSlots(newYear, newMonth);
-            if (!hasSlots) {
-                // Go back to original month if no slots found
-                setCurrentDate(new Date(currentYear, currentMonth, 1));
-            }
         }
     };
 
-    const handleNextMonth = async () => {
+    const handleNextMonth = () => {
         const currentYear = currentDate.getFullYear();
         const currentMonth = currentDate.getMonth();
         const newYear = currentYear;
         const newMonth = currentMonth + 1;
-        
-        // Allow navigation if we don't know yet, or if it has slots
-        // Only block if we know it has no slots
+
+        // Only navigate if we know the month has slots or we don't know yet
         const monthKey = `${newYear}-${String(newMonth + 1).padStart(2, '0')}`;
         const knownNoSlots = monthSlotsCache[monthKey] === false;
-        
+
         if (!knownNoSlots) {
-            // Navigate optimistically, then check
             setCurrentDate(new Date(newYear, newMonth, 1));
             setSelectedDate(null);
-            
-            // Check in background and prevent if no slots
-            const hasSlots = await checkMonthHasSlots(newYear, newMonth);
-            if (!hasSlots) {
-                // Go back to original month if no slots found
-                setCurrentDate(new Date(currentYear, currentMonth, 1));
-            }
         }
     };
 
@@ -333,7 +325,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
             dayDate.setHours(0, 0, 0, 0);
             const isPast = dayDate < today;
             const isDisabled = isPast || !hasSlots;
-            
+
             // Debug logging for first few days
             if (i <= 3) {
                 console.log(`Day ${i}: dateKey=${dateKey}, hasSlots=${hasSlots}, isPast=${isPast}, isDisabled=${isDisabled}`);
@@ -480,17 +472,27 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
                         {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
                     </h3>
                     <div className="flex gap-2">
-                        <button 
-                            onClick={handlePrevMonth} 
-                            disabled={loading}
+                        <button
+                            onClick={handlePrevMonth}
+                            disabled={loading || (() => {
+                                const prevMonth = currentDate.getMonth() - 1;
+                                const prevYear = currentDate.getFullYear();
+                                const monthKey = `${prevYear}-${String(prevMonth + 1).padStart(2, '0')}`;
+                                return monthSlotsCache[monthKey] === false;
+                            })()}
                             className="p-2 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                             title="Previous month"
                         >
                             <ChevronLeft className="w-5 h-5" />
                         </button>
-                        <button 
-                            onClick={handleNextMonth} 
-                            disabled={loading}
+                        <button
+                            onClick={handleNextMonth}
+                            disabled={loading || (() => {
+                                const nextMonth = currentDate.getMonth() + 1;
+                                const nextYear = currentDate.getFullYear();
+                                const monthKey = `${nextYear}-${String(nextMonth + 1).padStart(2, '0')}`;
+                                return monthSlotsCache[monthKey] === false;
+                            })()}
                             className="p-2 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                             title="Next month"
                         >
