@@ -154,10 +154,10 @@ const Products: React.FC = () => {
                         <div className="order-2 md:order-1 relative group">
                             <div className="absolute -inset-4 bg-emerald-500/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                             <SpotlightCard>
-                                <div className="relative bg-[#0a0a0a] rounded-xl p-8 aspect-[4/3] flex items-center justify-center overflow-hidden">
+                                <div className="relative bg-[#0a0a0a] rounded-xl p-6 sm:p-8 min-h-[400px] sm:min-h-0 sm:aspect-[4/3] flex items-center justify-center overflow-hidden">
                                     {/* Flow Diagram */}
                                     <div className="relative z-10 w-full max-w-sm">
-                                        <div className="flex flex-col gap-8 items-center">
+                                        <div className="flex flex-col gap-6 sm:gap-8 items-center">
                                             {/* Top Node */}
                                             <div className="flex items-center gap-3 px-4 py-3 bg-neutral-800 rounded-lg border border-white/10 w-full">
                                                 <div className="w-8 h-8 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center">
