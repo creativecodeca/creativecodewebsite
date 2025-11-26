@@ -100,6 +100,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.log('=== Creating Appointment ===');
         const appointmentPayload = {
             calendarId: CALENDAR_ID,
+            locationId: LOCATION_ID,
             contactId: contactId,
             startTime: startTime,
             title: title || `Meeting with ${name}`,
