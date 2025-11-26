@@ -119,7 +119,7 @@ const Contact: React.FC = () => {
         };
         const emailBody = `New Contact Form Submission\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nTopic: ${topicLabels[formData.topic] || formData.topic}\n\nAdditional Information:\n${formData.additionalInfo || 'N/A'}\n\nConsent (Non-Marketing): ${formData.consentNonMarketing ? 'Yes' : 'No'}\nConsent (Marketing): ${formData.consentMarketing ? 'Yes' : 'No'}`;
         try {
-            const response = await fetch('http://localhost:4000/api/contact', {
+            const response = await fetch('http://creativecodeca.com/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
