@@ -278,21 +278,21 @@ const Home: React.FC = () => {
                     </div>
                   </div>
                   <div className="space-y-3 relative z-10">
-                    <div className="flex items-center gap-4 p-3 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all cursor-pointer shadow-lg">
-                      <div className="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-[10px] font-bold text-white shadow-md">SJ</div>
-                      <div className="flex-1">
-                        <div className="h-2 w-24 bg-white/30 rounded mb-1.5"></div>
-                        <div className="h-1.5 w-16 bg-white/10 rounded"></div>
+                    <div className="flex items-center gap-3 sm:gap-4 p-3 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all cursor-pointer shadow-lg min-w-[280px]">
+                      <div className="w-9 h-9 flex-shrink-0 rounded-full bg-slate-700 flex items-center justify-center text-[10px] font-bold text-white shadow-md">SJ</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="h-2 w-full max-w-[96px] bg-white/30 rounded mb-1.5"></div>
+                        <div className="h-1.5 w-full max-w-[64px] bg-white/10 rounded"></div>
                       </div>
-                      <div className="text-emerald-400 font-bold text-xs">$12,400</div>
+                      <div className="text-emerald-400 font-bold text-xs whitespace-nowrap flex-shrink-0">$12,400</div>
                     </div>
-                    <div className="flex items-center gap-4 p-3 bg-transparent rounded-lg border border-transparent hover:bg-white/5 hover:border-white/10 transition-colors cursor-pointer">
-                      <div className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white shadow-md">MK</div>
-                      <div className="flex-1">
-                        <div className="h-2 w-20 bg-white/30 rounded mb-1.5"></div>
-                        <div className="h-1.5 w-12 bg-white/10 rounded"></div>
+                    <div className="flex items-center gap-3 sm:gap-4 p-3 bg-transparent rounded-lg border border-transparent hover:bg-white/5 hover:border-white/10 transition-colors cursor-pointer min-w-[280px]">
+                      <div className="w-9 h-9 flex-shrink-0 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white shadow-md">MK</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="h-2 w-full max-w-[80px] bg-white/30 rounded mb-1.5"></div>
+                        <div className="h-1.5 w-full max-w-[48px] bg-white/10 rounded"></div>
                       </div>
-                      <div className="text-slate-500 font-medium text-xs">$4,200</div>
+                      <div className="text-slate-500 font-medium text-xs whitespace-nowrap flex-shrink-0">$4,200</div>
                     </div>
                   </div>
                 </div>
@@ -408,24 +408,33 @@ const Home: React.FC = () => {
               />
 
               {/* Left Preview */}
-              <div className="absolute left-[15%] top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 scale-75 opacity-40 blur-[1px] grayscale pointer-events-none transition-all duration-500">
+              <div
+                key={`left-${activeStep}`}
+                className="absolute left-[15%] top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 scale-75 opacity-40 blur-[1px] grayscale pointer-events-none transition-all duration-500"
+              >
                 <div className="flex flex-col items-center">
                   {steps[getStepIndex(-1)].content}
                 </div>
               </div>
 
               {/* Active Item */}
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 scale-100 opacity-100 transition-all duration-500 pointer-events-none">
+              <div
+                key={`active-${activeStep}`}
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 scale-100 opacity-100 transition-all duration-500 pointer-events-none animate-in fade-in slide-in-from-right-4 duration-500"
+              >
                 <div className="flex flex-col items-center">
                   {steps[activeStep].content}
-                  <p className="text-white text-lg font-bold uppercase tracking-wider mt-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                  <p className="text-white text-sm font-bold uppercase tracking-wider mt-4 text-center w-full max-w-[200px] px-4">
                     {steps[activeStep].label}
                   </p>
                 </div>
               </div>
 
               {/* Right Preview */}
-              <div className="absolute right-[15%] top-1/2 translate-x-1/2 -translate-y-1/2 z-10 scale-75 opacity-40 blur-[1px] grayscale pointer-events-none transition-all duration-500">
+              <div
+                key={`right-${activeStep}`}
+                className="absolute right-[15%] top-1/2 translate-x-1/2 -translate-y-1/2 z-10 scale-75 opacity-40 blur-[1px] grayscale pointer-events-none transition-all duration-500"
+              >
                 <div className="flex flex-col items-center">
                   {steps[getStepIndex(1)].content}
                 </div>
@@ -436,7 +445,7 @@ const Home: React.FC = () => {
                 {steps.map((_, i) => (
                   <div
                     key={i}
-                    className={`w-2 h-2 rounded-full transition-colors duration-300 ${i === activeStep ? 'bg-white' : 'bg-white/20'}`}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${i === activeStep ? 'bg-white w-6' : 'bg-white/20'}`}
                   />
                 ))}
               </div>

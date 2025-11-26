@@ -9,15 +9,19 @@ const CustomCursor: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Check if device is mobile/tablet
+    // Check if device supports hover (has a mouse/trackpad)
+    // This properly handles hybrid devices - if they have a mouse, show cursor
     const checkIsMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      // Use hover media query - true if primary input can hover (mouse/trackpad)
+      const canHover = window.matchMedia('(hover: hover)').matches;
 
-      // Regex for common mobile/tablet user agents
+      // Also check for strictly mobile user agents (phones/tablets without mouse)
+      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
       const isMobileUserAgent = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
 
-      return isTouchDevice || isMobileUserAgent;
+      // Show custom cursor if device can hover OR is not a mobile device
+      // This ensures hybrid devices (Surface, touchscreen laptops) show cursor when using mouse
+      return !canHover && isMobileUserAgent;
     };
 
     setIsMobile(checkIsMobile());
