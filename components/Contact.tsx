@@ -107,7 +107,7 @@ const Contact: React.FC = () => {
         }
     };
 
-    // Send email via backend API
+    // Send email via backend API (Vercel serverless function)
     const sendEmail = async () => {
         const topicLabels: { [key: string]: string } = {
             website: 'Website Design',
@@ -119,7 +119,7 @@ const Contact: React.FC = () => {
         };
         const emailBody = `New Contact Form Submission\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nTopic: ${topicLabels[formData.topic] || formData.topic}\n\nAdditional Information:\n${formData.additionalInfo || 'N/A'}\n\nConsent (Non-Marketing): ${formData.consentNonMarketing ? 'Yes' : 'No'}\nConsent (Marketing): ${formData.consentMarketing ? 'Yes' : 'No'}`;
         try {
-            const response = await fetch('https://creativecodeca.com/api/contact', {
+            const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -130,7 +130,7 @@ const Contact: React.FC = () => {
                     additionalInfo: formData.additionalInfo,
                     consentNonMarketing: formData.consentNonMarketing,
                     consentMarketing: formData.consentMarketing,
-                    message: emailBody,
+                    message: emailBody, // kept for potential logging/debugging on backend
                 }),
             });
             if (!response.ok) throw new Error('Network response was not ok');
