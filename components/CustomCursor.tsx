@@ -53,7 +53,9 @@ const CustomCursor: React.FC = () => {
           target.tagName === 'BUTTON' ||
           target.closest('a') !== null ||
           target.closest('button') !== null ||
-          target.closest('.interactable') !== null
+          target.closest('.interactable') !== null ||
+          target.classList.contains('cursor-pointer') ||
+          target.closest('.cursor-pointer') !== null
         );
 
       setIsHovered(isInteractive);

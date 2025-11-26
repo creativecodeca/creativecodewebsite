@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import CustomCursor from './components/CustomCursor';
@@ -44,7 +44,7 @@ function AppContent() {
           <Route path="/privacy" element={<PageWrapper><PrivacyPolicy /></PageWrapper>} />
           <Route path="/terms" element={<PageWrapper><TermsConditions /></PageWrapper>} />
           {/* Catch-all route - redirect to home for any undefined paths */}
-          <Route path="*" element={<PageWrapper><Home /></PageWrapper>} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AnimatePresence>
 

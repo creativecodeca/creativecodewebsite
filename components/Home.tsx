@@ -112,7 +112,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Video Showcase Section */}
-      <section className="relative z-20 px-6 pb-20 -mt-20">
+      <section className="relative z-20 px-6 pb-20 mt-10 md:-mt-20">
         <div className="max-w-6xl mx-auto">
           <div className="relative rounded-[2rem] p-3 bg-black border border-white/10 backdrop-blur-3xl shadow-[0_0_100px_rgba(0,0,0,0.8)] group animate-fade-in delay-300">
             {/* Subtle Glow effect behind video */}
@@ -324,7 +324,7 @@ const Home: React.FC = () => {
             {/* DESKTOP VIEW - GRID */}
             <div className="hidden md:flex absolute inset-0 items-center justify-between px-6 md:px-24 z-20">
               {/* Node 1: Paid Ads */}
-              <div className="relative group interactable">
+              <Link to="/products" className="relative group interactable">
                 <div className="absolute -inset-4 bg-gradient-to-r from-pink-500/0 via-pink-500/10 to-pink-500/0 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="w-20 h-20 md:w-24 md:h-24 bg-[#151515] border border-white/20 rounded-2xl flex items-center justify-center relative z-10 group-hover:border-pink-500/50 group-hover:scale-110 transition-all duration-300 cursor-pointer shadow-[0_0_30px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_40px_rgba(236,72,153,0.15)]">
                   <Target className="w-8 h-8 md:w-10 md:h-10 text-slate-400 group-hover:text-pink-500 transition-colors" />
@@ -332,10 +332,10 @@ const Home: React.FC = () => {
                 <div className="absolute top-28 left-1/2 -translate-x-1/2 text-center w-32">
                   <p className="text-white text-xs font-bold uppercase tracking-wider">Paid Ads</p>
                 </div>
-              </div>
+              </Link>
 
               {/* Node 2: Premium Website */}
-              <div className="relative group interactable">
+              <Link to="/products" className="relative group interactable">
                 <div className="absolute -inset-4 bg-blue-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="w-20 h-20 md:w-24 md:h-24 bg-[#151515] border border-white/20 rounded-2xl flex items-center justify-center relative z-10 group-hover:border-blue-500/50 group-hover:scale-110 transition-all duration-300 cursor-pointer shadow-lg group-hover:shadow-[0_0_40px_rgba(59,130,246,0.15)]">
                   <Monitor className="w-8 h-8 md:w-10 md:h-10 text-slate-400 group-hover:text-blue-500 transition-colors" />
@@ -343,10 +343,10 @@ const Home: React.FC = () => {
                 <div className="absolute top-28 left-1/2 -translate-x-1/2 text-center w-32">
                   <p className="text-white text-xs font-bold uppercase tracking-wider">Premium Website</p>
                 </div>
-              </div>
+              </Link>
 
               {/* Node 3: Automated Follow Up */}
-              <div className="relative group interactable">
+              <Link to="/products" className="relative group interactable">
                 <div className="absolute -inset-4 bg-white/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="w-20 h-20 md:w-24 md:h-24 bg-[#151515] border border-white/20 rounded-2xl flex items-center justify-center relative z-10 group-hover:border-white/50 group-hover:scale-110 transition-all duration-300 cursor-pointer shadow-lg group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
                   <Mail className="w-8 h-8 md:w-10 md:h-10 text-slate-400 group-hover:text-white transition-colors" />
@@ -354,10 +354,10 @@ const Home: React.FC = () => {
                 <div className="absolute top-28 left-1/2 -translate-x-1/2 text-center w-40">
                   <p className="text-white text-xs font-bold uppercase tracking-wider">Automated Follow Up</p>
                 </div>
-              </div>
+              </Link>
 
               {/* Node 4: Closed Deal */}
-              <div className="relative group interactable">
+              <Link to="/products" className="relative group interactable">
                 <div className="absolute -inset-4 bg-emerald-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="w-20 h-20 md:w-24 md:h-24 bg-[#151515] border border-white/20 rounded-2xl flex items-center justify-center relative z-10 group-hover:border-emerald-500/50 group-hover:scale-110 transition-all duration-300 cursor-pointer shadow-lg group-hover:shadow-[0_0_40px_rgba(16,185,129,0.15)]">
                   <CheckCircle className="w-8 h-8 md:w-10 md:h-10 text-slate-400 group-hover:text-emerald-500 transition-colors" />
@@ -370,7 +370,7 @@ const Home: React.FC = () => {
                 <div className="absolute top-28 left-1/2 -translate-x-1/2 text-center w-32">
                   <p className="text-white text-xs font-bold uppercase tracking-wider">Closed Deal</p>
                 </div>
-              </div>
+              </Link>
             </div>
 
             {/* DESKTOP SVG */}

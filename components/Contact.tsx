@@ -642,7 +642,7 @@ const Contact: React.FC = () => {
                                 src="https://api.leadconnectorhq.com/widget/booking/lZdUtuT0ufJlVxYH6Sjn"
                                 className="w-full rounded-lg"
                                 style={{ height: '970px', border: 'none' }}
-                                scrolling="no"
+                                scrolling="yes"
                                 title="Book a Meeting"
                             />
                         </div>
