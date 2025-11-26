@@ -13,11 +13,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { name, email, phone, startTime, title } = req.body;
 
     if (!GHL_API_KEY || !CALENDAR_ID || !LOCATION_ID) {
-        console.error('Missing env vars:', {
-            hasKey: !!GHL_API_KEY,
-            hasCalendar: !!CALENDAR_ID,
-            hasLocation: !!LOCATION_ID
-        });
+        console.error('Missing env vars');
         return res.status(500).json({ error: 'Server configuration error: Missing API credentials' });
     }
 
@@ -26,21 +22,50 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-        // Format phone number - remove all non-digit characters except +
         const formattedPhone = phone ? phone.replace(/[^\d+]/g, '') : undefined;
 
         console.log('=== Booking Request ===');
-        console.log('Name:', name);
         console.log('Email:', email);
         console.log('Phone:', formattedPhone);
-        console.log('Start Time:', startTime);
 
-        // 1. Search for existing contact by email
+        // 1. Search for existing contact using lookup endpoint
         let contactId: string | null = null;
 
         if (email) {
-            console.log('=== Searching for existing contact by email ===');
-            const searchUrl = `https://services.leadconnectorhq.com/contacts/?locationId=${LOCATION_ID}&query=${encodeURIComponent(email)}`;
+            console.log('=== Searching by email using lookup ===');
+            const lookupUrl = `https://services.leadconnectorhq.com/contacts/lookup?email=${encodeURIComponent(email)}&locationId=${LOCATION_ID}`;
+
+            const lookupResponse = await fetch(lookupUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${GHL_API_KEY}`,
+                    'Version': '2021-04-15',
+                    'Accept': 'application/json'
+                }
+            });
+
+            console.log('Lookup status:', lookupResponse.status);
+
+            if (lookupResponse.ok) {
+                const lookupData = await lookupResponse.json() as any;
+                console.log('Lookup response:', JSON.stringify(lookupData, null, 2));
+
+                // Extract contact ID from lookup response
+                contactId = lookupData.contact?.id || lookupData.contacts?.[0]?.id || lookupData.id;
+
+                if (contactId) {
+                    console.log('Found existing contact via lookup:', contactId);
+                }
+            } else {
+                const errorText = await lookupResponse.text();
+                console.log('Lookup failed:', errorText);
+            }
+        }
+
+        // 2. If lookup didn't work, try search endpoint
+        if (!contactId && email) {
+            console.log('=== Trying search endpoint ===');
+            const searchUrl = `https://services.leadconnectorhq.com/contacts/search?locationId=${LOCATION_ID}&email=${encodeURIComponent(email)}`;
 
             const searchResponse = await fetch(searchUrl, {
                 method: 'GET',
@@ -51,27 +76,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 }
             });
 
+            console.log('Search status:', searchResponse.status);
+
             if (searchResponse.ok) {
                 const searchData = await searchResponse.json() as any;
                 console.log('Search response:', JSON.stringify(searchData, null, 2));
 
                 if (searchData.contacts && searchData.contacts.length > 0) {
-                    // Find exact email match
-                    const exactMatch = searchData.contacts.find((c: any) =>
-                        c.email && c.email.toLowerCase() === email.toLowerCase()
-                    );
-
-                    if (exactMatch) {
-                        contactId = exactMatch.id;
-                        console.log('Found existing contact:', contactId);
-                    }
+                    contactId = searchData.contacts[0].id;
+                    console.log('Found existing contact via search:', contactId);
                 }
             } else {
-                console.log('Search failed:', searchResponse.status, await searchResponse.text());
+                const errorText = await searchResponse.text();
+                console.log('Search failed:', errorText);
             }
         }
 
-        // 2. If no contact found, create new one
+        // 3. If still no contact found, create new one
         if (!contactId) {
             console.log('=== Creating new contact ===');
 
@@ -79,23 +100,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 locationId: LOCATION_ID
             };
 
-            // Name fields
             const nameParts = name.trim().split(/\s+/);
             contactPayload.firstName = nameParts[0] || name;
             contactPayload.lastName = nameParts.slice(1).join(' ') || '';
 
-            // Contact info
             if (email) contactPayload.email = email.trim();
             if (formattedPhone) contactPayload.phone = formattedPhone;
 
-            // Tags and source
             contactPayload.tags = ['website-booking'];
             contactPayload.source = 'website';
 
             console.log('Contact Payload:', JSON.stringify(contactPayload, null, 2));
 
-            const createUrl = 'https://services.leadconnectorhq.com/contacts/';
-            const createResponse = await fetch(createUrl, {
+            const createResponse = await fetch('https://services.leadconnectorhq.com/contacts/', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${GHL_API_KEY}`,
@@ -107,8 +124,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             });
 
             const responseText = await createResponse.text();
-            console.log('Contact Create Response Status:', createResponse.status);
-            console.log('Contact Create Response Body:', responseText);
+            console.log('Create status:', createResponse.status);
+            console.log('Create response:', responseText);
 
             if (!createResponse.ok) {
                 let errData;
@@ -117,32 +134,39 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 } catch {
                     errData = { message: responseText };
                 }
-                console.error('Contact Create Error:', errData);
+
+                // If it's a duplicate error, the contact exists but we couldn't find it
+                // Return a more helpful error
+                if (responseText.includes('duplicate')) {
+                    return res.status(400).json({
+                        error: 'Contact already exists',
+                        details: 'A contact with this email already exists. Please contact support or try a different email.',
+                        status: createResponse.status
+                    });
+                }
 
                 return res.status(createResponse.status).json({
-                    error: 'Failed to create/update contact',
-                    details: errData.message || errData.error || errData.msg || responseText,
+                    error: 'Failed to create contact',
+                    details: errData.message || errData.error || responseText,
                     status: createResponse.status
                 });
             }
 
             const contactData = JSON.parse(responseText) as any;
-            console.log('Contact Created:', contactData);
-
             contactId = contactData.contact?.id || contactData.id || contactData.contactId;
 
             if (!contactId) {
-                console.error('Could not extract contact ID from response');
                 return res.status(500).json({
-                    error: 'Could not retrieve contact ID',
-                    details: 'Unexpected response format from GHL API'
+                    error: 'Could not retrieve contact ID'
                 });
             }
+
+            console.log('Created contact:', contactId);
         }
 
         console.log('Using Contact ID:', contactId);
 
-        // 3. Create appointment
+        // 4. Create appointment
         console.log('=== Creating Appointment ===');
         const appointmentPayload = {
             calendarId: CALENDAR_ID,
@@ -168,8 +192,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
 
         const appointmentResponseText = await appointmentResponse.text();
-        console.log('Appointment Response Status:', appointmentResponse.status);
-        console.log('Appointment Response Body:', appointmentResponseText);
+        console.log('Appointment status:', appointmentResponse.status);
+        console.log('Appointment response:', appointmentResponseText);
 
         if (!appointmentResponse.ok) {
             let errData;
@@ -178,7 +202,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             } catch {
                 errData = { message: appointmentResponseText };
             }
-            console.error('Appointment Error:', errData);
             return res.status(appointmentResponse.status).json({
                 error: 'Failed to book appointment',
                 details: errData.message || errData.error || appointmentResponseText
@@ -186,8 +209,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         const appointmentData = JSON.parse(appointmentResponseText);
-        console.log('=== Booking Success ===');
-        console.log('Appointment:', appointmentData);
+        console.log('=== Success ===');
 
         return res.json({
             success: true,
@@ -196,7 +218,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     } catch (error: any) {
         console.error('Server Error:', error);
-        console.error('Error Stack:', error.stack);
         return res.status(500).json({
             error: 'Internal server error',
             details: error.message
