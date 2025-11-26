@@ -25,148 +25,78 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const formattedPhone = phone ? phone.replace(/[^\d+]/g, '') : undefined;
 
         console.log('=== Booking Request ===');
+        console.log('Name:', name);
         console.log('Email:', email);
         console.log('Phone:', formattedPhone);
 
-        // 1. Search for existing contact using lookup endpoint
-        let contactId: string | null = null;
+        // 1. Use upsert endpoint to create or update contact
+        console.log('=== Upserting Contact ===');
 
-        if (email) {
-            console.log('=== Searching by email using lookup ===');
-            const lookupUrl = `https://services.leadconnectorhq.com/contacts/lookup?email=${encodeURIComponent(email)}&locationId=${LOCATION_ID}`;
+        const contactPayload: any = {
+            locationId: LOCATION_ID
+        };
 
-            const lookupResponse = await fetch(lookupUrl, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${GHL_API_KEY}`,
-                    'Version': '2021-04-15',
-                    'Accept': 'application/json'
-                }
-            });
+        const nameParts = name.trim().split(/\s+/);
+        contactPayload.firstName = nameParts[0] || name;
+        contactPayload.lastName = nameParts.slice(1).join(' ') || '';
 
-            console.log('Lookup status:', lookupResponse.status);
+        if (email) contactPayload.email = email.trim();
+        if (formattedPhone) contactPayload.phone = formattedPhone;
 
-            if (lookupResponse.ok) {
-                const lookupData = await lookupResponse.json() as any;
-                console.log('Lookup response:', JSON.stringify(lookupData, null, 2));
+        contactPayload.tags = ['website-booking'];
+        contactPayload.source = 'website';
 
-                // Extract contact ID from lookup response
-                contactId = lookupData.contact?.id || lookupData.contacts?.[0]?.id || lookupData.id;
+        console.log('Contact Payload:', JSON.stringify(contactPayload, null, 2));
 
-                if (contactId) {
-                    console.log('Found existing contact via lookup:', contactId);
-                }
-            } else {
-                const errorText = await lookupResponse.text();
-                console.log('Lookup failed:', errorText);
+        // Use the upsert endpoint
+        const upsertResponse = await fetch('https://services.leadconnectorhq.com/contacts/upsert', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${GHL_API_KEY}`,
+                'Version': '2021-04-15',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(contactPayload)
+        });
+
+        const responseText = await upsertResponse.text();
+        console.log('Upsert status:', upsertResponse.status);
+        console.log('Upsert response:', responseText);
+
+        if (!upsertResponse.ok) {
+            let errData;
+            try {
+                errData = JSON.parse(responseText);
+            } catch {
+                errData = { message: responseText };
             }
+
+            console.error('Upsert error:', errData);
+
+            return res.status(upsertResponse.status).json({
+                error: 'Failed to create/update contact',
+                details: errData.message || errData.error || responseText,
+                status: upsertResponse.status
+            });
         }
 
-        // 2. If lookup didn't work, try search endpoint
-        if (!contactId && email) {
-            console.log('=== Trying search endpoint ===');
-            const searchUrl = `https://services.leadconnectorhq.com/contacts/search?locationId=${LOCATION_ID}&email=${encodeURIComponent(email)}`;
+        const contactData = JSON.parse(responseText) as any;
+        console.log('Upsert success:', contactData);
 
-            const searchResponse = await fetch(searchUrl, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${GHL_API_KEY}`,
-                    'Version': '2021-04-15',
-                    'Accept': 'application/json'
-                }
-            });
+        const contactId = contactData.contact?.id || contactData.id || contactData.contactId;
 
-            console.log('Search status:', searchResponse.status);
-
-            if (searchResponse.ok) {
-                const searchData = await searchResponse.json() as any;
-                console.log('Search response:', JSON.stringify(searchData, null, 2));
-
-                if (searchData.contacts && searchData.contacts.length > 0) {
-                    contactId = searchData.contacts[0].id;
-                    console.log('Found existing contact via search:', contactId);
-                }
-            } else {
-                const errorText = await searchResponse.text();
-                console.log('Search failed:', errorText);
-            }
-        }
-
-        // 3. If still no contact found, create new one
         if (!contactId) {
-            console.log('=== Creating new contact ===');
-
-            const contactPayload: any = {
-                locationId: LOCATION_ID
-            };
-
-            const nameParts = name.trim().split(/\s+/);
-            contactPayload.firstName = nameParts[0] || name;
-            contactPayload.lastName = nameParts.slice(1).join(' ') || '';
-
-            if (email) contactPayload.email = email.trim();
-            if (formattedPhone) contactPayload.phone = formattedPhone;
-
-            contactPayload.tags = ['website-booking'];
-            contactPayload.source = 'website';
-
-            console.log('Contact Payload:', JSON.stringify(contactPayload, null, 2));
-
-            const createResponse = await fetch('https://services.leadconnectorhq.com/contacts/', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${GHL_API_KEY}`,
-                    'Version': '2021-04-15',
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(contactPayload)
+            console.error('Could not extract contact ID from:', contactData);
+            return res.status(500).json({
+                error: 'Could not retrieve contact ID',
+                details: 'Unexpected response format'
             });
-
-            const responseText = await createResponse.text();
-            console.log('Create status:', createResponse.status);
-            console.log('Create response:', responseText);
-
-            if (!createResponse.ok) {
-                let errData;
-                try {
-                    errData = JSON.parse(responseText);
-                } catch {
-                    errData = { message: responseText };
-                }
-
-                // If it's a duplicate error, the contact exists but we couldn't find it
-                // Return a more helpful error
-                if (responseText.includes('duplicate')) {
-                    return res.status(400).json({
-                        error: 'Contact already exists',
-                        details: 'A contact with this email already exists. Please contact support or try a different email.',
-                        status: createResponse.status
-                    });
-                }
-
-                return res.status(createResponse.status).json({
-                    error: 'Failed to create contact',
-                    details: errData.message || errData.error || responseText,
-                    status: createResponse.status
-                });
-            }
-
-            const contactData = JSON.parse(responseText) as any;
-            contactId = contactData.contact?.id || contactData.id || contactData.contactId;
-
-            if (!contactId) {
-                return res.status(500).json({
-                    error: 'Could not retrieve contact ID'
-                });
-            }
-
-            console.log('Created contact:', contactId);
         }
 
-        console.log('Using Contact ID:', contactId);
+        console.log('Contact ID:', contactId);
 
-        // 4. Create appointment
+        // 2. Create appointment
         console.log('=== Creating Appointment ===');
         const appointmentPayload = {
             calendarId: CALENDAR_ID,
@@ -202,6 +132,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             } catch {
                 errData = { message: appointmentResponseText };
             }
+            console.error('Appointment error:', errData);
             return res.status(appointmentResponse.status).json({
                 error: 'Failed to book appointment',
                 details: errData.message || errData.error || appointmentResponseText
@@ -209,7 +140,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         const appointmentData = JSON.parse(appointmentResponseText);
-        console.log('=== Success ===');
+        console.log('=== Booking Success ===');
 
         return res.json({
             success: true,
