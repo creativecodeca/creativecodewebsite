@@ -11,28 +11,28 @@ const Home: React.FC = () => {
   const steps = [
     {
       id: 0,
-      label: "Ad Source",
+      label: "Paid Ads",
       content: (
         <div className="w-24 h-24 bg-[#151515] border border-white/20 rounded-2xl flex items-center justify-center relative shadow-[0_0_30px_rgba(236,72,153,0.15)] mb-4 transition-transform duration-500">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10 text-pink-500"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+          <Target className="w-10 h-10 text-pink-500" />
         </div>
       )
     },
     {
       id: 1,
-      label: "Funnel",
+      label: "Premium Website",
       content: (
         <div className="w-24 h-24 bg-[#151515] border border-white/20 rounded-2xl flex items-center justify-center relative shadow-[0_0_30px_rgba(59,130,246,0.15)] mb-4 transition-transform duration-500">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10 text-blue-500"><path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"></path></svg>
+          <Monitor className="w-10 h-10 text-blue-500" />
         </div>
       )
     },
     {
       id: 2,
-      label: "AI Logic Core",
+      label: "Automated Follow Up",
       content: (
-        <div className="w-24 h-24 bg-[#1a1a1a] border-2 border-white/30 rounded-2xl flex items-center justify-center relative shadow-[0_0_50px_rgba(255,255,255,0.1)] mb-4 transition-transform duration-500">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"><path d="M12 20v2"></path><path d="M12 2v2"></path><path d="M17 20v2"></path><path d="M17 2v2"></path><path d="M2 12h2"></path><path d="M2 17h2"></path><path d="M2 7h2"></path><path d="M20 12h2"></path><path d="M20 17h2"></path><path d="M20 7h2"></path><path d="M7 20v2"></path><path d="M7 2v2"></path><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8" y="8" width="8" height="8" rx="1"></rect></svg>
+        <div className="w-24 h-24 bg-[#151515] border border-white/20 rounded-2xl flex items-center justify-center relative shadow-[0_0_30px_rgba(255,255,255,0.15)] mb-4 transition-transform duration-500">
+          <Mail className="w-10 h-10 text-white" />
         </div>
       )
     },
@@ -323,40 +323,40 @@ const Home: React.FC = () => {
 
             {/* DESKTOP VIEW - GRID */}
             <div className="hidden md:flex absolute inset-0 items-center justify-between px-6 md:px-24 z-20">
-              {/* Node 1: Source */}
+              {/* Node 1: Paid Ads */}
               <div className="relative group interactable">
                 <div className="absolute -inset-4 bg-gradient-to-r from-pink-500/0 via-pink-500/10 to-pink-500/0 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="w-20 h-20 md:w-24 md:h-24 bg-[#151515] border border-white/20 rounded-2xl flex items-center justify-center relative z-10 group-hover:border-pink-500/50 group-hover:scale-110 transition-all duration-300 cursor-pointer shadow-[0_0_30px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_40px_rgba(236,72,153,0.15)]">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 md:w-10 md:h-10 text-slate-400 group-hover:text-pink-500 transition-colors"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                  <Target className="w-8 h-8 md:w-10 md:h-10 text-slate-400 group-hover:text-pink-500 transition-colors" />
                 </div>
                 <div className="absolute top-28 left-1/2 -translate-x-1/2 text-center w-32">
-                  <p className="text-white text-xs font-bold uppercase tracking-wider">Ad Source</p>
+                  <p className="text-white text-xs font-bold uppercase tracking-wider">Paid Ads</p>
                 </div>
               </div>
 
-              {/* Node 2: Filter */}
+              {/* Node 2: Premium Website */}
               <div className="relative group interactable">
                 <div className="absolute -inset-4 bg-blue-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="w-20 h-20 md:w-24 md:h-24 bg-[#151515] border border-white/20 rounded-2xl flex items-center justify-center relative z-10 group-hover:border-blue-500/50 group-hover:scale-110 transition-all duration-300 cursor-pointer shadow-lg group-hover:shadow-[0_0_40px_rgba(59,130,246,0.15)]">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 md:w-10 md:h-10 text-slate-400 group-hover:text-blue-500 transition-colors"><path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"></path></svg>
+                  <Monitor className="w-8 h-8 md:w-10 md:h-10 text-slate-400 group-hover:text-blue-500 transition-colors" />
                 </div>
                 <div className="absolute top-28 left-1/2 -translate-x-1/2 text-center w-32">
-                  <p className="text-white text-xs font-bold uppercase tracking-wider">Funnel</p>
+                  <p className="text-white text-xs font-bold uppercase tracking-wider">Premium Website</p>
                 </div>
               </div>
 
-              {/* Node 3: AI Processing */}
+              {/* Node 3: Automated Follow Up */}
               <div className="relative group interactable">
-                <div className="absolute -inset-6 bg-white/5 blur-2xl rounded-full animate-pulse"></div>
-                <div className="w-24 h-24 md:w-28 md:h-28 bg-[#1a1a1a] border-2 border-white/30 rounded-2xl flex items-center justify-center relative z-10 shadow-[0_0_50px_rgba(255,255,255,0.1)]">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10 md:w-12 md:h-12 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"><path d="M12 20v2"></path><path d="M12 2v2"></path><path d="M17 20v2"></path><path d="M17 2v2"></path><path d="M2 12h2"></path><path d="M2 17h2"></path><path d="M2 7h2"></path><path d="M20 12h2"></path><path d="M20 17h2"></path><path d="M20 7h2"></path><path d="M7 20v2"></path><path d="M7 2v2"></path><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8" y="8" width="8" height="8" rx="1"></rect></svg>
+                <div className="absolute -inset-4 bg-white/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="w-20 h-20 md:w-24 md:h-24 bg-[#151515] border border-white/20 rounded-2xl flex items-center justify-center relative z-10 group-hover:border-white/50 group-hover:scale-110 transition-all duration-300 cursor-pointer shadow-lg group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+                  <Mail className="w-8 h-8 md:w-10 md:h-10 text-slate-400 group-hover:text-white transition-colors" />
                 </div>
-                <div className="absolute top-32 left-1/2 -translate-x-1/2 text-center w-40">
-                  <p className="text-white text-sm font-bold uppercase tracking-wider text-glow">AI Logic Core</p>
+                <div className="absolute top-28 left-1/2 -translate-x-1/2 text-center w-40">
+                  <p className="text-white text-xs font-bold uppercase tracking-wider">Automated Follow Up</p>
                 </div>
               </div>
 
-              {/* Node 4: Conversion */}
+              {/* Node 4: Closed Deal */}
               <div className="relative group interactable">
                 <div className="absolute -inset-4 bg-emerald-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="w-20 h-20 md:w-24 md:h-24 bg-[#151515] border border-white/20 rounded-2xl flex items-center justify-center relative z-10 group-hover:border-emerald-500/50 group-hover:scale-110 transition-all duration-300 cursor-pointer shadow-lg group-hover:shadow-[0_0_40px_rgba(16,185,129,0.15)]">

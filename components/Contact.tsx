@@ -29,6 +29,7 @@ const Contact: React.FC = () => {
     const dropdownRef = useRef<HTMLDivElement>(null);
     const congratsRef = useRef<HTMLButtonElement>(null);
     const countryDropdownRef = useRef<HTMLDivElement>(null);
+    const formContainerRef = useRef<HTMLDivElement>(null);
 
     // Country codes data
     const countryCodes = [
@@ -87,6 +88,16 @@ const Contact: React.FC = () => {
         };
     }, [isDropdownOpen, isCountryDropdownOpen]);
 
+    // Auto-scroll to form on step change (Mobile only)
+    useEffect(() => {
+        if (window.innerWidth < 768 && formContainerRef.current) {
+            // Small delay to ensure DOM has updated
+            setTimeout(() => {
+                formContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+    }, [currentStep]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value, type, checked } = e.target as any;
         if (type === 'checkbox') {
@@ -96,7 +107,7 @@ const Contact: React.FC = () => {
         }
     };
 
-    // Send email via backend API, fallback to mailto link
+    // Send email via backend API
     const sendEmail = async () => {
         const topicLabels: { [key: string]: string } = {
             website: 'Website Design',
@@ -125,9 +136,7 @@ const Contact: React.FC = () => {
             if (!response.ok) throw new Error('Network response was not ok');
             return true;
         } catch (err) {
-            console.error('Email API failed, falling back to mailto:', err);
-            const mailto = `mailto:info@creativecodeca.com?subject=New Contact Form Submission from ${encodeURIComponent(formData.name)}&body=${encodeURIComponent(emailBody)}`;
-            window.location.href = mailto;
+            console.error('Email API failed:', err);
             return false;
         }
     };
@@ -243,7 +252,7 @@ const Contact: React.FC = () => {
     return (
         <>
             {/* Hero Section */}
-            <section className="md:pt-48 md:pb-40 overflow-hidden flex flex-col pt-32 pb-24 relative justify-center">
+            <section className="md:pt-48 md:pb-72 overflow-hidden flex flex-col pt-32 pb-48 relative justify-center">
                 <ParticleCanvas />
                 <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-[#020202]/40 z-0 pointer-events-none" />
                 <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
@@ -261,9 +270,9 @@ const Contact: React.FC = () => {
             </section>
 
             {/* Contact Form Section */}
-            <section className="py-20 px-6 relative">
-                <div className="max-w-3xl mx-auto">
-                    <div className="relative rounded-3xl bg-[rgba(20,20,20,0.6)] overflow-hidden shadow-2xl min-h-[500px] flex flex-col">
+            <section className="pb-20 px-6 relative z-20">
+                <div className="max-w-3xl mx-auto -mt-24 md:-mt-48">
+                    <div ref={formContainerRef} className="relative rounded-3xl bg-[rgba(20,20,20,0.6)] overflow-hidden shadow-2xl min-h-[500px] flex flex-col">
                         <div className="relative h-full rounded-[22px] border border-white/5 bg-[#0a0a0a] overflow-visible p-8 md:p-12 flex-1 flex flex-col">
                             {isSubmitted ? (
                                 <div className="flex-1 flex flex-col items-center justify-center">
@@ -272,8 +281,11 @@ const Contact: React.FC = () => {
                                         onClick={handleFormSentClick}
                                         className="w-full max-w-md bg-emerald-600 text-white h-14 px-10 rounded-full font-bold hover:bg-emerald-500 transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-[1.02] interactable"
                                     >
-                                        Form Sent!
+                                        Congrats! Form sent.
                                     </button>
+                                    <p className="text-white mt-6 text-center max-w-md leading-relaxed">
+                                        Thanks for reaching out! We've received your message and will get back to you shortly.
+                                    </p>
                                 </div>
                             ) : (
                                 <div className="flex-1 flex flex-col">
@@ -366,7 +378,7 @@ const Contact: React.FC = () => {
                                                                     setIsCountryDropdownOpen(true);
                                                                 }}
                                                                 onFocus={() => setIsCountryDropdownOpen(true)}
-                                                                className="w-32 px-4 py-4 bg-white/5 border-b-2 border-white/20 hover:border-white/30 focus:border-emerald-500 text-white text-2xl md:text-3xl rounded-lg transition-colors outline-none"
+                                                                className="w-24 md:w-32 px-2 md:px-4 py-4 bg-white/5 border-b-2 border-white/20 hover:border-white/30 focus:border-emerald-500 text-white text-xl md:text-3xl rounded-lg transition-colors outline-none"
                                                                 placeholder="+1"
                                                             />
 
@@ -410,7 +422,7 @@ const Contact: React.FC = () => {
                                                             }}
                                                             autoFocus
                                                             autocomplete="new-password"
-                                                            className="flex-1 bg-transparent border-b-2 border-white/20 text-3xl md:text-4xl py-4 text-white placeholder-white/20 focus:outline-none focus:border-emerald-500 transition-colors"
+                                                            className="flex-1 bg-transparent border-b-2 border-white/20 text-2xl md:text-4xl py-4 text-white placeholder-white/20 focus:outline-none focus:border-emerald-500 transition-colors min-w-0"
                                                             placeholder="555 000 0000"
                                                             onKeyDown={(e) => e.key === 'Enter' && formData.phone && isValidPhone(formData.phone) && handleNext()}
                                                         />
@@ -613,11 +625,11 @@ const Contact: React.FC = () => {
                             )}
                         </div>
                     </div>
-                </div >
-            </section >
+                </div>
+            </section>
 
             {/* Booking Section */}
-            < section id="booking" className="py-20 px-6 relative bg-[#050505] border-y border-white/10" >
+            <section id="booking" className="py-20 px-6 relative bg-[#050505] border-y border-white/10">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(circle_at_center,black_40%,transparent_80%)]" />
                 <div className="max-w-5xl mx-auto relative z-10">
                     <div className="text-center mb-12">
@@ -636,10 +648,10 @@ const Contact: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </section >
+            </section>
 
             {/* Additional Contact Info */}
-            < section className="py-20 px-6 relative" >
+            <section className="py-20 px-6 relative">
                 <div className="max-w-5xl mx-auto">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white mb-4 text-glow">Other Ways to Reach Us</h2>
@@ -683,7 +695,7 @@ const Contact: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </section >
+            </section>
         </>
     );
 };

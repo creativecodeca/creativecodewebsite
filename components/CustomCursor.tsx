@@ -5,10 +5,26 @@ const CustomCursor: React.FC = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
+    // Check if device is mobile/tablet
+    const checkIsMobile = () => {
+      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+      // Regex for common mobile/tablet user agents
+      const isMobileUserAgent = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+
+      return isTouchDevice || isMobileUserAgent;
+    };
+
+    setIsMobile(checkIsMobile());
+
     const handleMouseMove = (e: MouseEvent) => {
+      if (isMobile) return; // Don't track mouse on mobile
+
       setPosition({ x: e.clientX, y: e.clientY });
 
       const target = e.target as HTMLElement;
@@ -42,18 +58,20 @@ const CustomCursor: React.FC = () => {
     const handleMouseEnter = () => setIsHidden(false);
     const handleMouseLeave = () => setIsHidden(true);
 
-    window.addEventListener('mousemove', handleMouseMove);
-    document.body.addEventListener('mouseenter', handleMouseEnter);
-    document.body.addEventListener('mouseleave', handleMouseLeave);
+    if (!isMobile) {
+      window.addEventListener('mousemove', handleMouseMove);
+      document.body.addEventListener('mouseenter', handleMouseEnter);
+      document.body.addEventListener('mouseleave', handleMouseLeave);
+    }
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       document.body.removeEventListener('mouseenter', handleMouseEnter);
       document.body.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, []);
+  }, [isMobile]);
 
-  if (isHidden) return null;
+  if (isHidden || isMobile) return null;
 
   return (
     <div
