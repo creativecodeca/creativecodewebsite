@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import fetch from 'node-fetch';
 
-const GHL_API_KEY = 'pit-c2cd0560-41a1-4bc9-83c9-3e0b46ab0e62';
-const CALENDAR_ID = 'lZdUtuT0ufJlVxYH6Sjn';
+const GHL_API_KEY = process.env.GHL_API_KEY;
+const CALENDAR_ID = process.env.CALENDAR_ID;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') {
@@ -10,6 +10,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const { name, email, phone, startTime, title } = req.body;
+
+    if (!GHL_API_KEY || !CALENDAR_ID) {
+        return res.status(500).json({ error: 'Server configuration error: Missing API credentials' });
+    }
 
     if (!email && !phone) {
         return res.status(400).json({ error: 'Email or Phone is required' });

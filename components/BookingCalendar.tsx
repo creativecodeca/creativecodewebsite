@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Loader2, Clock, Calendar as CalendarIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Loader2, Clock, Calendar as CalendarIcon, ArrowLeft, CheckCircle, User, Mail, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Slot {
@@ -7,17 +7,52 @@ interface Slot {
     label: string; // Display time
 }
 
+interface BookingFormData {
+    name: string;
+    email: string;
+    phone: string;
+}
+
 interface BookingCalendarProps {
     onSelectSlot: (slot: string) => void;
     selectedSlot: string | null;
+    onSubmitBooking: (formData: BookingFormData) => Promise<void>;
+    bookingStatus: 'idle' | 'loading' | 'success' | 'error';
+    bookingError: string | null;
+    initialFormData?: BookingFormData;
 }
 
-const BookingCalendar: React.FC<BookingCalendarProps> = ({ onSelectSlot, selectedSlot }) => {
+const BookingCalendar: React.FC<BookingCalendarProps> = ({
+    onSelectSlot,
+    selectedSlot,
+    onSubmitBooking,
+    bookingStatus,
+    bookingError,
+    initialFormData
+}) => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [slots, setSlots] = useState<Record<string, any>>({});
     const [loading, setLoading] = useState(false);
     const [availableDays, setAvailableDays] = useState<Set<string>>(new Set());
+    const [view, setView] = useState<'calendar' | 'form'>('calendar');
+    const [formData, setFormData] = useState<BookingFormData>({
+        name: initialFormData?.name || '',
+        email: initialFormData?.email || '',
+        phone: initialFormData?.phone || ''
+    });
+
+    // Update local form data if initial changes (e.g. user filled contact form)
+    useEffect(() => {
+        if (initialFormData) {
+            setFormData(prev => ({
+                ...prev,
+                name: initialFormData.name || prev.name,
+                email: initialFormData.email || prev.email,
+                phone: initialFormData.phone || prev.phone
+            }));
+        }
+    }, [initialFormData]);
 
     // Helper to get days in month
     const getDaysInMonth = (date: Date) => {
@@ -88,6 +123,11 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({ onSelectSlot, selecte
         onSelectSlot(''); // Reset slot when date changes
     };
 
+    const handleSlotClick = (slot: string) => {
+        onSelectSlot(slot);
+        setView('form');
+    };
+
     const getSlotsForSelectedDate = () => {
         if (!selectedDate) return [];
         const year = selectedDate.getFullYear();
@@ -133,24 +173,25 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({ onSelectSlot, selecte
                 selectedDate.getMonth() === currentDate.getMonth() &&
                 selectedDate.getFullYear() === currentDate.getFullYear();
 
-            // Disable past dates
+            // Disable past dates and dates with no slots
             const isPast = new Date(year, currentDate.getMonth(), i + 1).getTime() < Date.now();
+            const isDisabled = isPast || !hasSlots;
 
             days.push(
                 <button
                     key={i}
-                    onClick={() => !isPast && handleDateClick(i)}
-                    disabled={isPast}
+                    onClick={() => !isDisabled && handleDateClick(i)}
+                    disabled={isDisabled}
                     className={`
             h-10 w-10 rounded-full flex items-center justify-center text-sm font-medium transition-all relative
             ${isSelected ? 'bg-emerald-500 text-white shadow-lg scale-110 z-10' : ''}
-            ${!isSelected && !isPast ? 'hover:bg-white/10 text-slate-300' : ''}
-            ${isPast ? 'text-slate-700 cursor-not-allowed' : ''}
-            ${hasSlots && !isSelected && !isPast ? 'text-white font-bold' : ''}
+            ${!isSelected && !isDisabled ? 'hover:bg-white/10 text-slate-300 cursor-pointer' : ''}
+            ${isDisabled ? 'text-slate-800 cursor-default' : ''}
+            ${hasSlots && !isSelected && !isDisabled ? 'text-white font-bold' : ''}
           `}
                 >
                     {i}
-                    {hasSlots && !isSelected && !isPast && (
+                    {hasSlots && !isSelected && !isDisabled && (
                         <div className="absolute bottom-1 w-1 h-1 bg-emerald-500 rounded-full"></div>
                     )}
                 </button>
@@ -159,8 +200,116 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({ onSelectSlot, selecte
         return days;
     };
 
+    if (bookingStatus === 'success') {
+        return (
+            <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center p-8">
+                <div className="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mb-6">
+                    <CheckCircle className="w-10 h-10" />
+                </div>
+                <h3 className="text-3xl font-bold text-white mb-4">Booking Confirmed!</h3>
+                <p className="text-slate-400 mb-8 max-w-md">
+                    We've sent a confirmation email to <span className="text-white">{formData.email}</span>. We look forward to speaking with you.
+                </p>
+                <button
+                    onClick={() => window.location.reload()}
+                    className="bg-white text-black px-8 py-3 rounded-full font-bold hover:bg-slate-200 transition-colors"
+                >
+                    Back to Home
+                </button>
+            </div>
+        );
+    }
+
+    if (view === 'form' && selectedSlot) {
+        return (
+            <div className="h-full min-h-[400px] flex flex-col max-w-md mx-auto">
+                <button
+                    onClick={() => setView('calendar')}
+                    className="flex items-center gap-2 text-slate-400 hover:text-white mb-6 transition-colors self-start"
+                >
+                    <ArrowLeft className="w-4 h-4" />
+                    Back to Calendar
+                </button>
+
+                <h3 className="text-2xl font-bold text-white mb-2">Finalize Booking</h3>
+                <p className="text-slate-400 mb-6">
+                    {new Date(selectedSlot).toLocaleString([], { dateStyle: 'full', timeStyle: 'short' })}
+                </p>
+
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    onSubmitBooking(formData);
+                }} className="space-y-4">
+                    <div className="space-y-1">
+                        <label className="text-sm font-medium text-slate-400 ml-1">Full Name</label>
+                        <div className="relative">
+                            <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                            <input
+                                type="text"
+                                required
+                                value={formData.name}
+                                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                                className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                placeholder="John Doe"
+                            />
+                        </div>
+                    </div>
+                    <div className="space-y-1">
+                        <label className="text-sm font-medium text-slate-400 ml-1">Email Address</label>
+                        <div className="relative">
+                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                            <input
+                                type="email"
+                                required
+                                value={formData.email}
+                                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                                className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                placeholder="john@example.com"
+                            />
+                        </div>
+                    </div>
+                    <div className="space-y-1">
+                        <label className="text-sm font-medium text-slate-400 ml-1">Phone Number</label>
+                        <div className="relative">
+                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                            <input
+                                type="tel"
+                                required
+                                value={formData.phone}
+                                onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                                className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                placeholder="+1 (555) 000-0000"
+                            />
+                        </div>
+                    </div>
+
+                    {bookingError && (
+                        <div className="text-red-500 text-sm bg-red-500/10 p-3 rounded-lg">
+                            {bookingError}
+                        </div>
+                    )}
+
+                    <button
+                        type="submit"
+                        disabled={bookingStatus === 'loading'}
+                        className="w-full bg-emerald-500 text-white font-bold py-4 rounded-xl hover:bg-emerald-400 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 mt-4"
+                    >
+                        {bookingStatus === 'loading' ? (
+                            <>
+                                <Loader2 className="w-5 h-5 animate-spin" />
+                                Confirming...
+                            </>
+                        ) : (
+                            'Confirm Appointment'
+                        )}
+                    </button>
+                </form>
+            </div>
+        );
+    }
+
     return (
-        <div className="flex flex-col md:flex-row gap-8 h-full">
+        <div className="flex flex-col md:flex-row gap-8 h-full min-h-[400px]">
             {/* Calendar Section */}
             <div className="flex-1 min-w-[300px]">
                 <div className="flex items-center justify-between mb-6">
@@ -198,7 +347,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({ onSelectSlot, selecte
             </div>
 
             {/* Time Slots Section */}
-            <div className="flex-1 md:border-l border-white/10 md:pl-8 min-h-[300px] flex flex-col">
+            <div className="flex-1 md:border-l border-white/10 md:pl-8 flex flex-col">
                 <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
                     <Clock className="w-5 h-5 text-emerald-500" />
                     Available Times
@@ -213,9 +362,8 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({ onSelectSlot, selecte
                         No slots available for this date
                     </div>
                 ) : (
-                    <div className="grid grid-cols-2 gap-3 overflow-y-auto max-h-[300px] pr-2 custom-scrollbar">
+                    <div className="grid grid-cols-2 gap-3 overflow-y-auto max-h-[350px] pr-2 custom-scrollbar content-start">
                         {currentSlots.map((slot: any, idx: number) => {
-                            // Slot might be a string (ISO) or object. GHL usually returns ISO strings in the array.
                             const timeString = typeof slot === 'string' ? slot : slot.startTime;
                             const date = new Date(timeString);
                             const timeLabel = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -223,7 +371,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({ onSelectSlot, selecte
                             return (
                                 <button
                                     key={idx}
-                                    onClick={() => onSelectSlot(timeString)}
+                                    onClick={() => handleSlotClick(timeString)}
                                     className={`
                       py-3 px-4 rounded-lg text-sm font-medium border transition-all
                       ${selectedSlot === timeString
