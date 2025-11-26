@@ -20,36 +20,63 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
+        // Format phone number - remove all non-digit characters except +
+        const formattedPhone = phone ? phone.replace(/[^\d+]/g, '') : undefined;
+        
+        // Prepare contact data
+        const contactPayload: any = {
+            firstName: name.split(' ')[0] || name,
+            lastName: name.split(' ').slice(1).join(' ') || '',
+            name: name,
+            tags: ['website-booking']
+        };
+        
+        // Only include email/phone if they exist
+        if (email) contactPayload.email = email;
+        if (formattedPhone) contactPayload.phone = formattedPhone;
+
         // 1. Upsert Contact
         const upsertResponse = await fetch('https://services.leadconnectorhq.com/contacts/upsert', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${GHL_API_KEY}`,
-                'Version': '2021-07-28', // Use newer version for contacts if possible, or stick to 2021-04-15
+                'Version': '2021-04-15',
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
-            body: JSON.stringify({
-                email,
-                phone,
-                firstName: name.split(' ')[0],
-                lastName: name.split(' ').slice(1).join(' '),
-                name: name,
-                tags: ['website-booking']
-            })
+            body: JSON.stringify(contactPayload)
         });
 
         if (!upsertResponse.ok) {
-            const err = await upsertResponse.text();
-            console.error('Contact Upsert Error:', err);
-            return res.status(400).json({ error: 'Failed to create/update contact', details: err });
+            const errText = await upsertResponse.text();
+            let errData;
+            try {
+                errData = JSON.parse(errText);
+            } catch {
+                errData = { message: errText };
+            }
+            console.error('Contact Upsert Error:', upsertResponse.status, errData);
+            return res.status(upsertResponse.status).json({ 
+                error: 'Failed to create/update contact', 
+                details: errData.message || errData.error || errText 
+            });
         }
 
         const contactData = await upsertResponse.json() as any;
-        const contactId = contactData.contact?.id || contactData.id;
+        console.log('Contact Upsert Response:', contactData);
+        
+        // GHL API can return contact in different formats
+        const contactId = contactData.contact?.id || 
+                         contactData.id || 
+                         contactData.contactId ||
+                         (contactData.contact && contactData.contact.id);
 
         if (!contactId) {
-            return res.status(500).json({ error: 'Could not retrieve contact ID' });
+            console.error('Contact response structure:', JSON.stringify(contactData, null, 2));
+            return res.status(500).json({ 
+                error: 'Could not retrieve contact ID',
+                details: 'Unexpected response format from GHL API'
+            });
         }
 
         const appointmentResponse = await fetch('https://services.leadconnectorhq.com/calendars/events/appointments', {
