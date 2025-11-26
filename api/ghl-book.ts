@@ -23,20 +23,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Format phone number - remove all non-digit characters except +
         const formattedPhone = phone ? phone.replace(/[^\d+]/g, '') : undefined;
         
-        // Prepare contact data
-        const contactPayload: any = {
-            firstName: name.split(' ')[0] || name,
-            lastName: name.split(' ').slice(1).join(' ') || '',
-            name: name,
-            tags: ['website-booking']
-        };
+        // Prepare contact data - GHL API format
+        const contactPayload: any = {};
         
-        // Only include email/phone if they exist
-        if (email) contactPayload.email = email;
+        // Name fields
+        const nameParts = name.trim().split(/\s+/);
+        contactPayload.firstName = nameParts[0] || name;
+        contactPayload.lastName = nameParts.slice(1).join(' ') || '';
+        contactPayload.name = name;
+        
+        // Contact info - at least one is required
+        if (email) contactPayload.email = email.trim();
         if (formattedPhone) contactPayload.phone = formattedPhone;
+        
+        // Tags
+        contactPayload.tags = ['website-booking'];
+        
+        // Ensure we have at least email or phone
+        if (!contactPayload.email && !contactPayload.phone) {
+            return res.status(400).json({ error: 'Email or Phone is required' });
+        }
 
         // 1. Upsert Contact
-        const upsertResponse = await fetch('https://services.leadconnectorhq.com/contacts/upsert', {
+        // GHL API requires locationId - try to extract from calendar or use contacts endpoint
+        // First, try the contacts/upsert endpoint (may need locationId in URL)
+        const upsertUrl = 'https://services.leadconnectorhq.com/contacts/upsert';
+        
+        console.log('Contact Payload:', JSON.stringify(contactPayload, null, 2));
+        
+        const upsertResponse = await fetch(upsertUrl, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${GHL_API_KEY}`,
@@ -47,18 +62,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             body: JSON.stringify(contactPayload)
         });
 
+        const responseText = await upsertResponse.text();
+        console.log('Contact Upsert Response Status:', upsertResponse.status);
+        console.log('Contact Upsert Response Body:', responseText);
+
         if (!upsertResponse.ok) {
-            const errText = await upsertResponse.text();
             let errData;
             try {
-                errData = JSON.parse(errText);
+                errData = JSON.parse(responseText);
             } catch {
-                errData = { message: errText };
+                errData = { message: responseText };
             }
-            console.error('Contact Upsert Error:', upsertResponse.status, errData);
+            console.error('Contact Upsert Error Details:', {
+                status: upsertResponse.status,
+                statusText: upsertResponse.statusText,
+                error: errData
+            });
             return res.status(upsertResponse.status).json({ 
                 error: 'Failed to create/update contact', 
-                details: errData.message || errData.error || errText 
+                details: errData.message || errData.error || errData.msg || responseText,
+                status: upsertResponse.status
             });
         }
 

@@ -36,6 +36,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
     const [loading, setLoading] = useState(false);
     const [availableDays, setAvailableDays] = useState<Set<string>>(new Set());
     const [view, setView] = useState<'calendar' | 'form'>('calendar');
+    const [monthSlotsCache, setMonthSlotsCache] = useState<Record<string, boolean>>({});
     const [formData, setFormData] = useState<BookingFormData>({
         name: initialFormData?.name || '',
         email: initialFormData?.email || '',
@@ -111,12 +112,20 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
             });
             console.log('Available days:', Array.from(days));
             setAvailableDays(days);
+            
+            // Cache whether this month has slots
+            const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
+            setMonthSlotsCache(prev => ({ ...prev, [monthKey]: days.size > 0 }));
 
         } catch (err) {
             console.error('Error fetching slots:', err);
             // Set empty slots on error to prevent UI from breaking
             setSlots({});
             setAvailableDays(new Set());
+            
+            // Mark this month as having no slots
+            const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
+            setMonthSlotsCache(prev => ({ ...prev, [monthKey]: false }));
         } finally {
             setLoading(false);
         }
@@ -166,14 +175,98 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
         }
     }, [availableDays, selectedDate, selectedSlot, loading, slots, onSelectSlot]);
 
-    const handlePrevMonth = () => {
-        setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
-        setSelectedDate(null);
+    const checkMonthHasSlots = async (year: number, month: number): Promise<boolean> => {
+        const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
+        
+        // Check cache first - if we know it has no slots, return false
+        // If we know it has slots, return true
+        // If unknown, check it
+        if (monthSlotsCache[monthKey] === false) {
+            return false; // We know this month has no slots
+        }
+        if (monthSlotsCache[monthKey] === true) {
+            return true; // We know this month has slots
+        }
+        
+        // Unknown - fetch and check
+        try {
+            const startDate = new Date(year, month, 1).getTime();
+            const endDate = new Date(year, month + 1, 0).getTime();
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            
+            const res = await fetch(`/api/ghl-slots?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}`);
+            if (!res.ok) {
+                setMonthSlotsCache(prev => ({ ...prev, [monthKey]: false }));
+                return false;
+            }
+            
+            const data = await res.json();
+            const days = new Set<string>();
+            Object.keys(data).forEach(key => {
+                if (data[key] && Array.isArray(data[key].slots) && data[key].slots.length > 0) {
+                    days.add(key);
+                } else if (Array.isArray(data[key]) && data[key].length > 0) {
+                    days.add(key);
+                }
+            });
+            
+            const hasSlots = days.size > 0;
+            setMonthSlotsCache(prev => ({ ...prev, [monthKey]: hasSlots }));
+            return hasSlots;
+        } catch {
+            setMonthSlotsCache(prev => ({ ...prev, [monthKey]: false }));
+            return false;
+        }
     };
 
-    const handleNextMonth = () => {
-        setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
-        setSelectedDate(null);
+    const handlePrevMonth = async () => {
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth();
+        const newYear = currentYear;
+        const newMonth = currentMonth - 1;
+        
+        // Allow navigation if we don't know yet, or if it has slots
+        // Only block if we know it has no slots
+        const monthKey = `${newYear}-${String(newMonth + 1).padStart(2, '0')}`;
+        const knownNoSlots = monthSlotsCache[monthKey] === false;
+        
+        if (!knownNoSlots) {
+            // Navigate optimistically, then check
+            setCurrentDate(new Date(newYear, newMonth, 1));
+            setSelectedDate(null);
+            
+            // Check in background and prevent if no slots
+            const hasSlots = await checkMonthHasSlots(newYear, newMonth);
+            if (!hasSlots) {
+                // Go back to original month if no slots found
+                setCurrentDate(new Date(currentYear, currentMonth, 1));
+            }
+        }
+    };
+
+    const handleNextMonth = async () => {
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth();
+        const newYear = currentYear;
+        const newMonth = currentMonth + 1;
+        
+        // Allow navigation if we don't know yet, or if it has slots
+        // Only block if we know it has no slots
+        const monthKey = `${newYear}-${String(newMonth + 1).padStart(2, '0')}`;
+        const knownNoSlots = monthSlotsCache[monthKey] === false;
+        
+        if (!knownNoSlots) {
+            // Navigate optimistically, then check
+            setCurrentDate(new Date(newYear, newMonth, 1));
+            setSelectedDate(null);
+            
+            // Check in background and prevent if no slots
+            const hasSlots = await checkMonthHasSlots(newYear, newMonth);
+            if (!hasSlots) {
+                // Go back to original month if no slots found
+                setCurrentDate(new Date(currentYear, currentMonth, 1));
+            }
+        }
     };
 
     const handleDateClick = (day: number) => {
@@ -387,10 +480,20 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
                         {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
                     </h3>
                     <div className="flex gap-2">
-                        <button onClick={handlePrevMonth} className="p-2 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition-colors">
+                        <button 
+                            onClick={handlePrevMonth} 
+                            disabled={loading}
+                            className="p-2 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            title="Previous month"
+                        >
                             <ChevronLeft className="w-5 h-5" />
                         </button>
-                        <button onClick={handleNextMonth} className="p-2 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition-colors">
+                        <button 
+                            onClick={handleNextMonth} 
+                            disabled={loading}
+                            className="p-2 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            title="Next month"
+                        >
                             <ChevronRight className="w-5 h-5" />
                         </button>
                     </div>
