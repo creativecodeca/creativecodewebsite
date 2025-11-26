@@ -126,6 +126,46 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
         fetchSlots(currentDate.getFullYear(), currentDate.getMonth());
     }, [currentDate]);
 
+    // Auto-select earliest available day and first time slot when slots are loaded and nothing is selected
+    useEffect(() => {
+        if (availableDays.size > 0 && !selectedDate && !selectedSlot && !loading) {
+            // Find the earliest available day that's not in the past
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const sortedDays = Array.from(availableDays).sort();
+            for (const dateKey of sortedDays) {
+                const [year, month, day] = dateKey.split('-').map(Number);
+                const date = new Date(year, month - 1, day);
+                date.setHours(0, 0, 0, 0);
+                
+                if (date >= today) {
+                    setSelectedDate(date);
+                    
+                    // Also auto-select the first available time slot for this date
+                    const dayData = slots[dateKey];
+                    if (dayData) {
+                        let firstSlot: string | null = null;
+                        if (Array.isArray(dayData.slots) && dayData.slots.length > 0) {
+                            firstSlot = typeof dayData.slots[0] === 'string' 
+                                ? dayData.slots[0] 
+                                : dayData.slots[0].startTime;
+                        } else if (Array.isArray(dayData) && dayData.length > 0) {
+                            firstSlot = typeof dayData[0] === 'string' 
+                                ? dayData[0] 
+                                : dayData[0].startTime;
+                        }
+                        
+                        if (firstSlot) {
+                            onSelectSlot(firstSlot);
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }, [availableDays, selectedDate, selectedSlot, loading, slots, onSelectSlot]);
+
     const handlePrevMonth = () => {
         setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
         setSelectedDate(null);

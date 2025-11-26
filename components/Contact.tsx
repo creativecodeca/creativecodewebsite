@@ -37,8 +37,11 @@ const Contact: React.FC = () => {
     const [bookingStatus, setBookingStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [bookingError, setBookingError] = useState<string | null>(null);
 
-    const handleBookMeeting = async () => {
-        if (!bookingSlot || !formData.email || !formData.name) return;
+    const handleBookMeeting = async (bookingFormData: { name: string; email: string; phone: string }) => {
+        if (!bookingSlot || !bookingFormData.email || !bookingFormData.name) {
+            setBookingError('Please select a time slot and fill in all required fields');
+            return;
+        }
 
         setBookingStatus('loading');
         setBookingError(null);
@@ -48,11 +51,11 @@ const Contact: React.FC = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    name: formData.name,
-                    email: formData.email,
-                    phone: formData.phone,
+                    name: bookingFormData.name,
+                    email: bookingFormData.email,
+                    phone: bookingFormData.phone,
                     startTime: bookingSlot,
-                    title: `Meeting with ${formData.name}`
+                    title: `Meeting with ${bookingFormData.name}`
                 })
             });
 
