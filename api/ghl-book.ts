@@ -29,91 +29,120 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Format phone number - remove all non-digit characters except +
         const formattedPhone = phone ? phone.replace(/[^\d+]/g, '') : undefined;
 
-        // Prepare contact data - GHL API format
-        const contactPayload: any = {
-            locationId: LOCATION_ID
-        };
+        console.log('=== Booking Request ===');
+        console.log('Name:', name);
+        console.log('Email:', email);
+        console.log('Phone:', formattedPhone);
+        console.log('Start Time:', startTime);
 
-        // Name fields
-        const nameParts = name.trim().split(/\s+/);
-        contactPayload.firstName = nameParts[0] || name;
-        contactPayload.lastName = nameParts.slice(1).join(' ') || '';
+        // 1. Search for existing contact by email
+        let contactId: string | null = null;
 
-        // Contact info - at least one is required
-        if (email) contactPayload.email = email.trim();
-        if (formattedPhone) contactPayload.phone = formattedPhone;
+        if (email) {
+            console.log('=== Searching for existing contact by email ===');
+            const searchUrl = `https://services.leadconnectorhq.com/contacts/?locationId=${LOCATION_ID}&query=${encodeURIComponent(email)}`;
 
-        // Tags
-        contactPayload.tags = ['website-booking'];
+            const searchResponse = await fetch(searchUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${GHL_API_KEY}`,
+                    'Version': '2021-04-15',
+                    'Accept': 'application/json'
+                }
+            });
 
-        // Source
-        contactPayload.source = 'website';
+            if (searchResponse.ok) {
+                const searchData = await searchResponse.json() as any;
+                console.log('Search response:', JSON.stringify(searchData, null, 2));
 
-        console.log('=== Creating/Updating Contact ===');
-        console.log('Location ID:', LOCATION_ID);
-        console.log('Contact Payload:', JSON.stringify(contactPayload, null, 2));
+                if (searchData.contacts && searchData.contacts.length > 0) {
+                    // Find exact email match
+                    const exactMatch = searchData.contacts.find((c: any) =>
+                        c.email && c.email.toLowerCase() === email.toLowerCase()
+                    );
 
-        // Create contact using the standard contacts endpoint
-        const createUrl = 'https://services.leadconnectorhq.com/contacts/';
-        const createResponse = await fetch(createUrl, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${GHL_API_KEY}`,
-                'Version': '2021-04-15',
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(contactPayload)
-        });
-
-        const responseText = await createResponse.text();
-        console.log('Contact Create Response Status:', createResponse.status);
-        console.log('Contact Create Response Headers:', JSON.stringify(Object.fromEntries(createResponse.headers.entries())));
-        console.log('Contact Create Response Body:', responseText);
-
-        if (!createResponse.ok) {
-            let errData;
-            try {
-                errData = JSON.parse(responseText);
-            } catch {
-                errData = { message: responseText };
+                    if (exactMatch) {
+                        contactId = exactMatch.id;
+                        console.log('Found existing contact:', contactId);
+                    }
+                }
+            } else {
+                console.log('Search failed:', searchResponse.status, await searchResponse.text());
             }
-            console.error('Contact Create Error Details:', {
-                status: createResponse.status,
-                statusText: createResponse.statusText,
-                headers: Object.fromEntries(createResponse.headers.entries()),
-                error: errData
-            });
-
-            // Return detailed error to help debug
-            return res.status(createResponse.status).json({
-                error: 'Failed to create/update contact',
-                details: errData.message || errData.error || errData.msg || responseText,
-                status: createResponse.status,
-                payload: contactPayload // Include payload for debugging
-            });
         }
 
-        const contactData = JSON.parse(responseText) as any;
-        console.log('Contact Create Success:', contactData);
-
-        // Extract contact ID
-        const contactId = contactData.contact?.id ||
-            contactData.id ||
-            contactData.contactId;
-
+        // 2. If no contact found, create new one
         if (!contactId) {
-            console.error('Contact response structure:', JSON.stringify(contactData, null, 2));
-            return res.status(500).json({
-                error: 'Could not retrieve contact ID',
-                details: 'Unexpected response format from GHL API',
-                response: contactData
+            console.log('=== Creating new contact ===');
+
+            const contactPayload: any = {
+                locationId: LOCATION_ID
+            };
+
+            // Name fields
+            const nameParts = name.trim().split(/\s+/);
+            contactPayload.firstName = nameParts[0] || name;
+            contactPayload.lastName = nameParts.slice(1).join(' ') || '';
+
+            // Contact info
+            if (email) contactPayload.email = email.trim();
+            if (formattedPhone) contactPayload.phone = formattedPhone;
+
+            // Tags and source
+            contactPayload.tags = ['website-booking'];
+            contactPayload.source = 'website';
+
+            console.log('Contact Payload:', JSON.stringify(contactPayload, null, 2));
+
+            const createUrl = 'https://services.leadconnectorhq.com/contacts/';
+            const createResponse = await fetch(createUrl, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${GHL_API_KEY}`,
+                    'Version': '2021-04-15',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(contactPayload)
             });
+
+            const responseText = await createResponse.text();
+            console.log('Contact Create Response Status:', createResponse.status);
+            console.log('Contact Create Response Body:', responseText);
+
+            if (!createResponse.ok) {
+                let errData;
+                try {
+                    errData = JSON.parse(responseText);
+                } catch {
+                    errData = { message: responseText };
+                }
+                console.error('Contact Create Error:', errData);
+
+                return res.status(createResponse.status).json({
+                    error: 'Failed to create/update contact',
+                    details: errData.message || errData.error || errData.msg || responseText,
+                    status: createResponse.status
+                });
+            }
+
+            const contactData = JSON.parse(responseText) as any;
+            console.log('Contact Created:', contactData);
+
+            contactId = contactData.contact?.id || contactData.id || contactData.contactId;
+
+            if (!contactId) {
+                console.error('Could not extract contact ID from response');
+                return res.status(500).json({
+                    error: 'Could not retrieve contact ID',
+                    details: 'Unexpected response format from GHL API'
+                });
+            }
         }
 
-        console.log('Contact ID:', contactId);
+        console.log('Using Contact ID:', contactId);
 
-        // 2. Create appointment
+        // 3. Create appointment
         console.log('=== Creating Appointment ===');
         const appointmentPayload = {
             calendarId: CALENDAR_ID,
@@ -157,11 +186,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         const appointmentData = JSON.parse(appointmentResponseText);
-        console.log('Appointment Success:', appointmentData);
+        console.log('=== Booking Success ===');
+        console.log('Appointment:', appointmentData);
 
         return res.json({
             success: true,
-            contact: contactData,
             appointment: appointmentData
         });
 
@@ -170,8 +199,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.error('Error Stack:', error.stack);
         return res.status(500).json({
             error: 'Internal server error',
-            details: error.message,
-            stack: error.stack
+            details: error.message
         });
     }
 }

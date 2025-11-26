@@ -415,10 +415,12 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
                             <input
                                 type="email"
                                 required
+                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                                 value={formData.email}
                                 onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                                 className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
                                 placeholder="john@example.com"
+                                title="Please enter a valid email address"
                             />
                         </div>
                     </div>
