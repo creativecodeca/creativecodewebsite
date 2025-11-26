@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Loader2, Clock, Calendar as CalendarIcon, ArrowLeft, CheckCircle, User, Mail, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -42,6 +42,10 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
         email: initialFormData?.email || '',
         phone: initialFormData?.phone || ''
     });
+
+    // Refs for scrolling
+    const timeSlotsRef = useRef<HTMLDivElement>(null);
+    const formRef = useRef<HTMLDivElement>(null);
 
     // Update local form data if initial changes (e.g. user filled contact form)
     useEffect(() => {
@@ -242,6 +246,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
         if (!knownNoSlots) {
             setCurrentDate(new Date(newYear, newMonth, 1));
             setSelectedDate(null);
+            onSelectSlot(''); // Reset slot to trigger auto-selection
         }
     };
 
@@ -258,6 +263,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
         if (!knownNoSlots) {
             setCurrentDate(new Date(newYear, newMonth, 1));
             setSelectedDate(null);
+            onSelectSlot(''); // Reset slot to trigger auto-selection
         }
     };
 
@@ -265,11 +271,25 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
         const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
         setSelectedDate(date);
         onSelectSlot(''); // Reset slot when date changes
+
+        // Scroll to time slots on mobile
+        setTimeout(() => {
+            if (window.innerWidth < 768 && timeSlotsRef.current) {
+                timeSlotsRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }, 100);
     };
 
     const handleSlotClick = (slot: string) => {
         onSelectSlot(slot);
         setView('form');
+
+        // Scroll to form
+        setTimeout(() => {
+            if (formRef.current) {
+                formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 100);
     };
 
     const getSlotsForSelectedDate = () => {
@@ -376,7 +396,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
 
     if (view === 'form' && selectedSlot) {
         return (
-            <div className="h-full min-h-[400px] flex flex-col max-w-md mx-auto">
+            <div ref={formRef} className="h-full min-h-[400px] flex flex-col max-w-md mx-auto">
                 <button
                     onClick={() => setView('calendar')}
                     className="flex items-center gap-2 text-slate-400 hover:text-white mb-6 transition-colors self-start"
@@ -523,7 +543,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
             </div>
 
             {/* Time Slots Section */}
-            <div className="flex-1 md:border-l border-white/10 md:pl-8 flex flex-col">
+            <div ref={timeSlotsRef} className="flex-1 md:border-l border-white/10 md:pl-8 flex flex-col">
                 <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
                     <Clock className="w-5 h-5 text-emerald-500" />
                     Available Times
