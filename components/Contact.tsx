@@ -31,11 +31,25 @@ const Contact: React.FC = () => {
     const congratsRef = useRef<HTMLButtonElement>(null);
     const countryDropdownRef = useRef<HTMLDivElement>(null);
     const formContainerRef = useRef<HTMLDivElement>(null);
+    const bookingSectionRef = useRef<HTMLDivElement>(null);
 
     // Booking State
     const [bookingSlot, setBookingSlot] = useState<string | null>(null);
     const [bookingStatus, setBookingStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [bookingError, setBookingError] = useState<string | null>(null);
+
+    // Handle hash scrolling to booking section
+    useEffect(() => {
+        if (window.location.hash === '#booking') {
+            // Small delay to ensure DOM is rendered
+            setTimeout(() => {
+                const bookingSection = document.getElementById('booking');
+                if (bookingSection) {
+                    bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
+    }, []);
 
     const handleBookMeeting = async (bookingFormData: { name: string; email: string; phone: string }) => {
         if (!bookingSlot || !bookingFormData.email || !bookingFormData.name) {
@@ -671,7 +685,7 @@ const Contact: React.FC = () => {
             </section>
 
             {/* Booking Section */}
-            <section id="booking" className="py-20 px-6 relative bg-[#050505] border-y border-white/10">
+            <section id="booking" ref={bookingSectionRef} className="py-20 px-6 relative bg-[#050505] border-y border-white/10">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(circle_at_center,black_40%,transparent_80%)]" />
                 <div className="max-w-5xl mx-auto relative z-10">
                     <div className="text-center mb-12">

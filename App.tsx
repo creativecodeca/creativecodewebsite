@@ -21,7 +21,11 @@ function AppContent() {
   const location = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Only scroll to top if there's no hash in the URL
+    // If there's a hash, let the component handle the scroll
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
   }, [location.pathname]);
 
   return (
