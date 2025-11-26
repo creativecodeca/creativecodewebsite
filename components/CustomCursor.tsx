@@ -79,13 +79,14 @@ const CustomCursor: React.FC = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 border border-white/50 bg-white/[0.05] rounded-full pointer-events-none z-[9999] backdrop-blur-[2px] mix-blend-difference transition-all duration-200 ease-out`}
+      className={`fixed top-0 left-0 border border-white/50 bg-white/[0.05] rounded-full pointer-events-none z-[9999] backdrop-blur-[2px] mix-blend-difference transition-all duration-300 ease-out`}
       style={{
         transform: `translate(${position.x}px, ${position.y}px) translate(-50%, -50%)`,
-        width: isHovered ? '50px' : '20px',
-        height: isHovered ? '50px' : '20px',
+        width: isHovered ? '60px' : '20px',
+        height: isHovered ? '60px' : '20px',
         borderColor: isHovered ? '#fff' : 'rgba(255, 255, 255, 0.5)',
-        background: isHovered ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)'
+        background: isHovered ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+        borderWidth: isHovered ? '2px' : '1px'
       }}
     />
   );

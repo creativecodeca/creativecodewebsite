@@ -262,35 +262,10 @@ const WebsiteServices: React.FC = () => {
                         </div>
                     </div>
                 </section>
-
-                {/* Footer Info */}
-                <section className="py-12 px-6 border-t border-white/10 bg-[#050505]">
-                    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-                        <div className="col-span-1 md:col-span-2">
-                            <h3 className="text-xl font-bold text-white mb-4">Creative Code CA INC.</h3>
-                            <p className="text-slate-400 max-w-sm">
-                                We help businesses and individuals grow by creating high-performing websites, implementing AI-driven automation, and delivering comprehensive marketing solutions.
-                            </p>
-                        </div>
-                        <div>
-                            <h4 className="text-white font-bold mb-4">Contact</h4>
-                            <ul className="space-y-2 text-slate-400">
-                                <li><a href="mailto:info@creativecodeca.com" className="hover:text-white transition-colors">info@creativecodeca.com</a></li>
-                                <li><a href="tel:+18889775027" className="hover:text-white transition-colors">+1 888 977 5027</a></li>
-                                <li>Toronto, Ontario</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="text-white font-bold mb-4">Links</h4>
-                            <ul className="space-y-2 text-slate-400">
-                                <li><a href="https://creativecodeca.com" className="hover:text-white transition-colors">Website</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
             </div>
         </div>
     );
 };
 
 export default WebsiteServices;
+

@@ -412,7 +412,7 @@ const Home: React.FC = () => {
                 key={`left-${activeStep}`}
                 className="absolute left-[15%] top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 scale-75 opacity-40 blur-[1px] grayscale pointer-events-none transition-all duration-500"
               >
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center justify-start h-[180px]">
                   {steps[getStepIndex(-1)].content}
                 </div>
               </div>
@@ -422,7 +422,7 @@ const Home: React.FC = () => {
                 key={`active-${activeStep}`}
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 scale-100 opacity-100 transition-all duration-500 pointer-events-none animate-in fade-in slide-in-from-right-4 duration-500"
               >
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center justify-start h-[180px]">
                   {steps[activeStep].content}
                   <p className="text-white text-sm font-bold uppercase tracking-wider mt-4 text-center w-full max-w-[200px] px-4">
                     {steps[activeStep].label}
@@ -435,7 +435,7 @@ const Home: React.FC = () => {
                 key={`right-${activeStep}`}
                 className="absolute right-[15%] top-1/2 translate-x-1/2 -translate-y-1/2 z-10 scale-75 opacity-40 blur-[1px] grayscale pointer-events-none transition-all duration-500"
               >
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center justify-start h-[180px]">
                   {steps[getStepIndex(1)].content}
                 </div>
               </div>
