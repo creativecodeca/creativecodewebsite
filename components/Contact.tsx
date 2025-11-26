@@ -4,6 +4,7 @@ import { Send, CheckCircle, X, Phone, MapPin, Mail, Calendar, ArrowRight, ArrowL
 import { motion, AnimatePresence } from 'framer-motion';
 import ParticleCanvas from './ParticleCanvas';
 import CaptchaGame from './CaptchaGame';
+import BookingCalendar from './BookingCalendar';
 
 const Contact: React.FC = () => {
     // Form state
@@ -30,6 +31,45 @@ const Contact: React.FC = () => {
     const congratsRef = useRef<HTMLButtonElement>(null);
     const countryDropdownRef = useRef<HTMLDivElement>(null);
     const formContainerRef = useRef<HTMLDivElement>(null);
+
+    // Booking State
+    const [bookingSlot, setBookingSlot] = useState<string | null>(null);
+    const [showBookingModal, setShowBookingModal] = useState(false);
+    const [bookingStatus, setBookingStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [bookingError, setBookingError] = useState<string | null>(null);
+
+    const handleBookMeeting = async () => {
+        if (!bookingSlot || !formData.email || !formData.name) return;
+
+        setBookingStatus('loading');
+        setBookingError(null);
+
+        try {
+            const res = await fetch('/api/ghl-book', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    phone: formData.phone,
+                    startTime: bookingSlot,
+                    title: `Meeting with ${formData.name}`
+                })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error || 'Failed to book meeting');
+            }
+
+            setBookingStatus('success');
+        } catch (err: any) {
+            console.error(err);
+            setBookingStatus('error');
+            setBookingError(err.message || 'Something went wrong. Please try again.');
+        }
+    };
 
     // Country codes data
     const countryCodes = [
@@ -636,18 +676,141 @@ const Contact: React.FC = () => {
                         <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white mb-4 text-glow">Book a Meeting</h2>
                         <p className="text-slate-400">Schedule a time that works best for you</p>
                     </div>
-                    <div className="w-full">
-                        <div className="relative z-10 w-full max-w-3xl mx-auto" style={{ minHeight: '970px' }}>
-                            <iframe
-                                src="https://api.leadconnectorhq.com/widget/booking/lZdUtuT0ufJlVxYH6Sjn"
-                                className="w-full rounded-lg"
-                                style={{ height: '970px', border: 'none' }}
-                                scrolling="yes"
-                                title="Book a Meeting"
-                            />
-                        </div>
+
+                    <div className="w-full bg-[#0a0a0a] border border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl">
+                        <BookingCalendar
+                            selectedSlot={bookingSlot}
+                            onSelectSlot={(slot) => {
+                                setBookingSlot(slot);
+                                setShowBookingModal(true);
+                            }}
+                        />
                     </div>
                 </div>
+
+                {/* Booking Modal */}
+                <AnimatePresence>
+                    {showBookingModal && bookingSlot && (
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={() => setShowBookingModal(false)}
+                                className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                            />
+                            <motion.div
+                                initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                                animate={{ scale: 1, opacity: 1, y: 0 }}
+                                exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                                className="relative w-full max-w-md bg-[#111] border border-white/10 rounded-2xl p-6 shadow-2xl overflow-hidden"
+                            >
+                                <button
+                                    onClick={() => setShowBookingModal(false)}
+                                    className="absolute top-4 right-4 text-slate-400 hover:text-white"
+                                >
+                                    <X className="w-5 h-5" />
+                                </button>
+
+                                {bookingStatus === 'success' ? (
+                                    <div className="text-center py-10">
+                                        <div className="w-16 h-16 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                                            <CheckCircle className="w-8 h-8" />
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-white mb-2">Booking Confirmed!</h3>
+                                        <p className="text-slate-400 mb-6">
+                                            We've sent a confirmation email to {formData.email || 'you'}.
+                                        </p>
+                                        <button
+                                            onClick={() => {
+                                                setShowBookingModal(false);
+                                                setBookingSlot(null);
+                                                setBookingStatus('idle');
+                                            }}
+                                            className="bg-white text-black px-8 py-3 rounded-full font-bold hover:bg-slate-200 transition-colors"
+                                        >
+                                            Done
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <h3 className="text-xl font-bold text-white mb-6">Confirm Booking</h3>
+
+                                        <div className="bg-white/5 rounded-lg p-4 mb-6 flex items-center gap-3">
+                                            <Calendar className="w-5 h-5 text-emerald-500" />
+                                            <div>
+                                                <div className="text-sm text-slate-400">Date & Time</div>
+                                                <div className="text-white font-medium">
+                                                    {new Date(bookingSlot).toLocaleString([], { dateStyle: 'full', timeStyle: 'short' })}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <form onSubmit={(e) => {
+                                            e.preventDefault();
+                                            handleBookMeeting();
+                                        }} className="space-y-4">
+                                            <div>
+                                                <label className="block text-sm font-medium text-slate-400 mb-1">Name</label>
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    value={formData.name}
+                                                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                                                    className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                                    placeholder="John Doe"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-slate-400 mb-1">Email</label>
+                                                <input
+                                                    type="email"
+                                                    required
+                                                    value={formData.email}
+                                                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                                                    className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                                    placeholder="john@example.com"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-slate-400 mb-1">Phone</label>
+                                                <input
+                                                    type="tel"
+                                                    required
+                                                    value={formData.phone}
+                                                    onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                                                    className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                                    placeholder="+1 (555) 000-0000"
+                                                />
+                                            </div>
+
+                                            {bookingError && (
+                                                <div className="text-red-500 text-sm bg-red-500/10 p-3 rounded-lg">
+                                                    {bookingError}
+                                                </div>
+                                            )}
+
+                                            <button
+                                                type="submit"
+                                                disabled={bookingStatus === 'loading'}
+                                                className="w-full bg-emerald-500 text-white font-bold py-4 rounded-xl hover:bg-emerald-400 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
+                                            >
+                                                {bookingStatus === 'loading' ? (
+                                                    <>
+                                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                        Booking...
+                                                    </>
+                                                ) : (
+                                                    'Confirm Appointment'
+                                                )}
+                                            </button>
+                                        </form>
+                                    </>
+                                )}
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
             </section>
 
             {/* Additional Contact Info */}
