@@ -15,7 +15,7 @@ interface BookingCalendarProps {
 const BookingCalendar: React.FC<BookingCalendarProps> = ({ onSelectSlot, selectedSlot }) => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    const [slots, setSlots] = useState<Record<string, any[]>>({});
+    const [slots, setSlots] = useState<Record<string, any>>({});
     const [loading, setLoading] = useState(false);
     const [availableDays, setAvailableDays] = useState<Set<string>>(new Set());
 
@@ -34,10 +34,6 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({ onSelectSlot, selecte
         return new Date(year, month, 1).getDay();
     };
 
-    const formatDateKey = (date: Date) => {
-        return date.toISOString().split('T')[0];
-    };
-
     const fetchSlots = async (year: number, month: number) => {
         setLoading(true);
         // Calculate start and end of month in ms
@@ -50,19 +46,16 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({ onSelectSlot, selecte
             if (!res.ok) throw new Error('Failed to fetch slots');
             const data = await res.json();
 
-            // GHL returns object where keys are dates (YYYY-MM-DD) and values are arrays of slots
-            // Example: { "2023-10-25": [{ "2023-10-25T10:00:00+00:00": 1 }, ...] }
-            // Actually GHL structure varies, usually it's { "dates": [ { "date": "...", "slots": [] } ] } or similar.
-            // Let's assume standard GHL response for free-slots:
-            // { "2024-05-01": ["2024-05-01T09:00:00-04:00", ...], ... }
-
-            // Let's handle the response dynamically.
-            // If it's an object with date keys:
             setSlots(data);
 
             const days = new Set<string>();
             Object.keys(data).forEach(key => {
-                if (Array.isArray(data[key]) && data[key].length > 0) {
+                // Check if it's the object structure { slots: [] } which GHL returns
+                if (data[key] && Array.isArray(data[key].slots) && data[key].slots.length > 0) {
+                    days.add(key);
+                }
+                // Fallback for direct array if API changes
+                else if (Array.isArray(data[key]) && data[key].length > 0) {
                     days.add(key);
                 }
             });
@@ -91,23 +84,30 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({ onSelectSlot, selecte
 
     const handleDateClick = (day: number) => {
         const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-        // Adjust for timezone offset to match the keys usually returned by GHL (local date string)
-        // Actually, constructing Date(y, m, d) creates a local date.
-        // formatDateKey uses toISOString which converts to UTC.
-        // We need a local YYYY-MM-DD string.
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const d = String(date.getDate()).padStart(2, '0');
-        const key = `${year}-${month}-${d}`;
-
-        // Check if we have slots for this key
-        // We might need to check if the key exists in `slots`
-        // Let's try to match the key format from GHL.
-        // Usually GHL keys are YYYY-MM-DD.
-
         setSelectedDate(date);
         onSelectSlot(''); // Reset slot when date changes
     };
+
+    const getSlotsForSelectedDate = () => {
+        if (!selectedDate) return [];
+        const year = selectedDate.getFullYear();
+        const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+        const d = String(selectedDate.getDate()).padStart(2, '0');
+        const key = `${year}-${month}-${d}`;
+
+        const dayData = slots[key];
+        if (!dayData) return [];
+
+        if (Array.isArray(dayData.slots)) {
+            return dayData.slots;
+        }
+        if (Array.isArray(dayData)) {
+            return dayData;
+        }
+        return [];
+    };
+
+    const currentSlots = getSlotsForSelectedDate();
 
     const renderCalendarDays = () => {
         const daysInMonth = getDaysInMonth(currentDate);
@@ -158,17 +158,6 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({ onSelectSlot, selecte
         }
         return days;
     };
-
-    const getSlotsForSelectedDate = () => {
-        if (!selectedDate) return [];
-        const year = selectedDate.getFullYear();
-        const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
-        const d = String(selectedDate.getDate()).padStart(2, '0');
-        const key = `${year}-${month}-${d}`;
-        return slots[key] || [];
-    };
-
-    const currentSlots = getSlotsForSelectedDate();
 
     return (
         <div className="flex flex-col md:flex-row gap-8 h-full">
