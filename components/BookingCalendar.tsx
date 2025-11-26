@@ -78,26 +78,45 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
 
         try {
             const res = await fetch(`/api/ghl-slots?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}`);
-            if (!res.ok) throw new Error('Failed to fetch slots');
+            if (!res.ok) {
+                const errorData = await res.json().catch(() => ({ error: 'Unknown error' }));
+                console.error('API Error:', res.status, errorData);
+                throw new Error(`Failed to fetch slots: ${errorData.error || 'Unknown error'}`);
+            }
             const data = await res.json();
+
+            // Log the response structure for debugging
+            console.log('GHL API Response:', data);
+            console.log('Response keys:', Object.keys(data));
+            
+            if (Object.keys(data).length === 0) {
+                console.warn('No slots data returned from API');
+            }
 
             setSlots(data);
 
             const days = new Set<string>();
             Object.keys(data).forEach(key => {
+                console.log(`Checking key: ${key}`, data[key]);
                 // Check if it's the object structure { slots: [] } which GHL returns
                 if (data[key] && Array.isArray(data[key].slots) && data[key].slots.length > 0) {
+                    console.log(`Adding day with slots: ${key}`);
                     days.add(key);
                 }
                 // Fallback for direct array if API changes
                 else if (Array.isArray(data[key]) && data[key].length > 0) {
+                    console.log(`Adding day with direct array: ${key}`);
                     days.add(key);
                 }
             });
+            console.log('Available days:', Array.from(days));
             setAvailableDays(days);
 
         } catch (err) {
-            console.error(err);
+            console.error('Error fetching slots:', err);
+            // Set empty slots on error to prevent UI from breaking
+            setSlots({});
+            setAvailableDays(new Set());
         } finally {
             setLoading(false);
         }
@@ -174,8 +193,18 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
                 selectedDate.getFullYear() === currentDate.getFullYear();
 
             // Disable past dates and dates with no slots
-            const isPast = new Date(year, currentDate.getMonth(), i + 1).getTime() < Date.now();
+            // Compare date at midnight to avoid time-of-day issues
+            const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            dayDate.setHours(0, 0, 0, 0);
+            const isPast = dayDate < today;
             const isDisabled = isPast || !hasSlots;
+            
+            // Debug logging for first few days
+            if (i <= 3) {
+                console.log(`Day ${i}: dateKey=${dateKey}, hasSlots=${hasSlots}, isPast=${isPast}, isDisabled=${isDisabled}`);
+            }
 
             days.push(
                 <button
