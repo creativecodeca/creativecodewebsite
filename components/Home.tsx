@@ -278,21 +278,21 @@ const Home: React.FC = () => {
                     </div>
                   </div>
                   <div className="space-y-3 relative z-10">
-                    <div className="flex items-center gap-3 sm:gap-4 p-3 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all cursor-pointer shadow-lg min-w-[280px]">
-                      <div className="w-9 h-9 flex-shrink-0 rounded-full bg-slate-700 flex items-center justify-center text-[10px] font-bold text-white shadow-md">SJ</div>
+                    <div className="flex items-center gap-2 sm:gap-3 p-3 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all cursor-pointer shadow-lg">
+                      <div className="w-8 h-8 sm:w-9 sm:h-9 flex-shrink-0 rounded-full bg-slate-700 flex items-center justify-center text-[10px] font-bold text-white shadow-md">SJ</div>
                       <div className="flex-1 min-w-0">
-                        <div className="h-2 w-full max-w-[96px] bg-white/30 rounded mb-1.5"></div>
-                        <div className="h-1.5 w-full max-w-[64px] bg-white/10 rounded"></div>
+                        <div className="h-2 w-20 sm:w-24 bg-white/30 rounded mb-1.5"></div>
+                        <div className="h-1.5 w-14 sm:w-16 bg-white/10 rounded"></div>
                       </div>
-                      <div className="text-emerald-400 font-bold text-xs whitespace-nowrap flex-shrink-0">$12,400</div>
+                      <div className="text-emerald-400 font-bold text-[11px] sm:text-xs whitespace-nowrap flex-shrink-0">$12,400</div>
                     </div>
-                    <div className="flex items-center gap-3 sm:gap-4 p-3 bg-transparent rounded-lg border border-transparent hover:bg-white/5 hover:border-white/10 transition-colors cursor-pointer min-w-[280px]">
-                      <div className="w-9 h-9 flex-shrink-0 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white shadow-md">MK</div>
+                    <div className="flex items-center gap-2 sm:gap-3 p-3 bg-transparent rounded-lg border border-transparent hover:bg-white/5 hover:border-white/10 transition-colors cursor-pointer">
+                      <div className="w-8 h-8 sm:w-9 sm:h-9 flex-shrink-0 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white shadow-md">MK</div>
                       <div className="flex-1 min-w-0">
-                        <div className="h-2 w-full max-w-[80px] bg-white/30 rounded mb-1.5"></div>
-                        <div className="h-1.5 w-full max-w-[48px] bg-white/10 rounded"></div>
+                        <div className="h-2 w-16 sm:w-20 bg-white/30 rounded mb-1.5"></div>
+                        <div className="h-1.5 w-10 sm:w-12 bg-white/10 rounded"></div>
                       </div>
-                      <div className="text-slate-500 font-medium text-xs whitespace-nowrap flex-shrink-0">$4,200</div>
+                      <div className="text-slate-500 font-medium text-[11px] sm:text-xs whitespace-nowrap flex-shrink-0">$4,200</div>
                     </div>
                   </div>
                 </div>

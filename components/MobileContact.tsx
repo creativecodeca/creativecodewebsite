@@ -58,22 +58,20 @@ const MobileContact: React.FC = () => {
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.8, duration: 0.8 }}
-                        className="text-slate-400 text-xs sm:text-sm font-medium tracking-widest uppercase mb-6 sm:mb-8 relative z-10"
+                        className="text-slate-400 text-xs sm:text-sm font-medium tracking-widest uppercase relative z-10"
                     >
                         Digital Agency
                     </motion.p>
 
-                    {/* Contact Info Text - No Buttons */}
-                    <motion.div
+                    {/* Tap to save hint */}
+                    <motion.p
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 1.0, duration: 0.8 }}
-                        className="flex flex-col items-center gap-2 relative z-10 text-center"
+                        className="text-slate-500 text-[10px] sm:text-xs mt-6 italic relative z-10"
                     >
-                        <p className="text-slate-300 text-xs sm:text-sm font-medium">+1 (888) 977-5027</p>
-                        <p className="text-slate-400 text-xs sm:text-sm">info@creativecodeca.com</p>
-                        <p className="text-slate-500 text-[10px] sm:text-xs mt-2 italic">Tap to save contact</p>
-                    </motion.div>
+                        Tap to save contact
+                    </motion.p>
 
                     {/* Subtle Bottom Shine */}
                     <div className="absolute bottom-0 right-0 w-[40%] h-[30%] bg-gradient-to-tl from-white/[0.03] to-transparent opacity-100 pointer-events-none" />

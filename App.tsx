@@ -43,6 +43,8 @@ function AppContent() {
           <Route path="/services/website/buy-standard" element={<PageWrapper><BuyStandardWebsite /></PageWrapper>} />
           <Route path="/privacy" element={<PageWrapper><PrivacyPolicy /></PageWrapper>} />
           <Route path="/terms" element={<PageWrapper><TermsConditions /></PageWrapper>} />
+          {/* Catch-all route - redirect to home for any undefined paths */}
+          <Route path="*" element={<PageWrapper><Home /></PageWrapper>} />
         </Routes>
       </AnimatePresence>
 
