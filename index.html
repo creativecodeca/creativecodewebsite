@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-black">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creative Code | Intelligent Scaling</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --cursor-x: 50%;
+      --cursor-y: 50%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #020202;
+      cursor: none;
+    }
+
+    /* Hide default cursor on all clickable elements */
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    label,
+    [role="button"],
+    .interactable {
+      cursor: none !important;
+    }
+
+    /* Animations */
+    @keyframes flow-line {
+      0% {
+        stroke-dashoffset: 1000;
+      }
+
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    .path-active {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: flow-line 3s linear infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        transform: scale(0.8);
+        opacity: 0.8;
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+      }
+
+      100% {
+        transform: scale(2);
+        opacity: 0;
+        box-shadow: 0 0 0 20px rgba(139, 92, 246, 0);
+      }
+    }
+
+    .animate-pulse-ring::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 50%;
+      border: 1px solid #a78bfa;
+      animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+
+    @keyframes fade-in-up {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: blur(10px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    .animate-fade-in {
+      animation: fade-in-up 0.8s ease-out forwards;
+    }
+
+    .delay-100 {
+      animation-delay: 0.1s;
+    }
+
+    .delay-200 {
+      animation-delay: 0.2s;
+    }
+
+    .delay-300 {
+      animation-delay: 0.3s;
+    }
+
+    .money-symbol {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      color: #34d399;
+      font-weight: 700;
+      font-size: 1.5rem;
+      opacity: 0;
+      animation: flyMoney 2s linear infinite;
+      text-shadow: 0 0 15px rgba(52, 211, 153, 0.8);
+      pointer-events: none;
+      z-index: 20
+    }
+
+    @keyframes flyMoney {
+      0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0
+      }
+
+      20% {
+        opacity: 1
+      }
+
+      100% {
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.5);
+        opacity: 0
+      }
+    }
+
+    .text-glow {
+      text-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+    }
+
+    .text-glow-purple {
+      text-shadow: 0 0 30px rgba(167, 139, 250, 0.3);
+    }
+
+    /* New Animations for Products Page */
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes scan {
+      0% {
+        top: 0;
+      }
+
+      100% {
+        top: 100%;
+      }
+    }
+
+    @keyframes pop-in {
+      0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .pop-in-1 {
+      animation: pop-in 0.5s ease-out forwards 0.2s;
+      opacity: 0;
+    }
+
+    .pop-in-2 {
+      animation: pop-in 0.5s ease-out forwards 1.2s;
+      opacity: 0;
+    }
+
+    .pop-in-3 {
+      animation: pop-in 0.5s ease-out forwards 2.5s;
+      opacity: 0;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 4px;
+      background: #555;
+    }
+
+    /* Autofill styling - Match wizard form sizes */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-text-fill-color: white !important;
+      -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+      /* Match the large wizard input size (text-3xl = 1.875rem, text-4xl = 2.25rem) */
+      font-size: 1.875rem !important;
+      font-family: inherit !important;
+      line-height: 1 !important;
+      caret-color: white !important;
+    }
+
+    /* Larger size for desktop */
+    @media (min-width: 768px) {
+
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover,
+      input:-webkit-autofill:focus,
+      input:-webkit-autofill:active {
+        font-size: 2.25rem !important;
+      }
+    }
+
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover,
+    textarea:-webkit-autofill:focus,
+    textarea:-webkit-autofill:active {
+      -webkit-text-fill-color: white !important;
+      -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+      /* Match textarea size (text-xl = 1.25rem, text-2xl = 1.5rem) */
+      font-size: 1.25rem !important;
+      font-family: inherit !important;
+      line-height: 1.5 !important;
+      caret-color: white !important;
+    }
+
+    @media (min-width: 768px) {
+
+      textarea:-webkit-autofill,
+      textarea:-webkit-autofill:hover,
+      textarea:-webkit-autofill:focus,
+      textarea:-webkit-autofill:active {
+        font-size: 1.5rem !important;
+      }
+    }
+  </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^6.22.3",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
+  }
+}
+</script>
+  <link rel="stylesheet" href="/index.css">
+</head>
+
+<body class="text-slate-200 antialiased overflow-x-hidden selection:bg-white/20 selection:text-white">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>
