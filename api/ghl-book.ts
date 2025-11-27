@@ -10,9 +10,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { name, email, phone, startTime, title } = req.body;
+    const { name, email, phone, startTime, title, calendarId } = req.body;
 
-    if (!GHL_API_KEY || !CALENDAR_ID || !LOCATION_ID) {
+    const targetCalendarId = calendarId || CALENDAR_ID;
+
+    if (!GHL_API_KEY || !targetCalendarId || !LOCATION_ID) {
         console.error('Missing env vars');
         return res.status(500).json({ error: 'Server configuration error: Missing API credentials' });
     }
@@ -28,6 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.log('Name:', name);
         console.log('Email:', email);
         console.log('Phone:', formattedPhone);
+        console.log('Calendar ID:', targetCalendarId);
 
         // 1. Use upsert endpoint to create or update contact
         console.log('=== Upserting Contact ===');
@@ -99,7 +102,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // 2. Create appointment
         console.log('=== Creating Appointment ===');
         const appointmentPayload = {
-            calendarId: CALENDAR_ID,
+            calendarId: targetCalendarId,
             locationId: LOCATION_ID,
             contactId: contactId,
             startTime: startTime,

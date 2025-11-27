@@ -20,6 +20,7 @@ interface BookingCalendarProps {
     bookingStatus: 'idle' | 'loading' | 'success' | 'error';
     bookingError: string | null;
     initialFormData?: BookingFormData;
+    calendarId?: string;
 }
 
 const BookingCalendar: React.FC<BookingCalendarProps> = ({
@@ -28,7 +29,8 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
     onSubmitBooking,
     bookingStatus,
     bookingError,
-    initialFormData
+    initialFormData,
+    calendarId
 }) => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -82,7 +84,12 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
         try {
-            const res = await fetch(`/api/ghl-slots?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}`);
+            let url = `/api/ghl-slots?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}`;
+            if (calendarId) {
+                url += `&calendarId=${calendarId}`;
+            }
+
+            const res = await fetch(url);
             if (!res.ok) {
                 const errorData = await res.json().catch(() => ({ error: 'Unknown error' }));
                 console.error('API Error:', res.status, errorData);
@@ -208,7 +215,12 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
             const endDate = new Date(year, month + 1, 0).getTime();
             const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-            const res = await fetch(`/api/ghl-slots?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}`);
+            let url = `/api/ghl-slots?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}`;
+            if (calendarId) {
+                url += `&calendarId=${calendarId}`;
+            }
+
+            const res = await fetch(url);
             if (!res.ok) {
                 setMonthSlotsCache(prev => ({ ...prev, [monthKey]: false }));
                 return false;

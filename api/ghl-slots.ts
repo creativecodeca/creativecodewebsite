@@ -9,10 +9,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { startDate, endDate, timezone } = req.query;
+    const { startDate, endDate, timezone, calendarId } = req.query;
 
-    if (!GHL_API_KEY || !CALENDAR_ID) {
-        return res.status(500).json({ error: 'Server configuration error: Missing API credentials' });
+    const targetCalendarId = calendarId || CALENDAR_ID;
+
+    if (!GHL_API_KEY || !targetCalendarId) {
+        return res.status(500).json({ error: 'Server configuration error: Missing API credentials or Calendar ID' });
     }
 
     if (!startDate || !endDate || !timezone) {
@@ -20,7 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-        const url = `https://services.leadconnectorhq.com/calendars/${CALENDAR_ID}/free-slots?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}`;
+        const url = `https://services.leadconnectorhq.com/calendars/${targetCalendarId}/free-slots?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}`;
 
         const response = await fetch(url, {
             headers: {

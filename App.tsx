@@ -15,6 +15,7 @@ import WebsiteServices from './components/WebsiteServices';
 import BuyPopupWebsite from './components/BuyPopupWebsite';
 import BuyStandardWebsite from './components/BuyStandardWebsite';
 import MobileContact from './components/MobileContact';
+import ClientCall from './components/ClientCall';
 import PageWrapper from './components/PageWrapper';
 
 function AppContent() {
@@ -42,6 +43,7 @@ function AppContent() {
           <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
           <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
           <Route path="/mobilecontact" element={<PageWrapper><MobileContact /></PageWrapper>} />
+          <Route path="/clientcall" element={<PageWrapper><ClientCall /></PageWrapper>} />
           <Route path="/services/website" element={<PageWrapper><WebsiteServices /></PageWrapper>} />
           <Route path="/services/website/buy-popup" element={<PageWrapper><BuyPopupWebsite /></PageWrapper>} />
           <Route path="/services/website/buy-standard" element={<PageWrapper><BuyStandardWebsite /></PageWrapper>} />
