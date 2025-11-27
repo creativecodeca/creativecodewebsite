@@ -219,54 +219,28 @@
       background: #555;
     }
 
-    /* Autofill styling - Match wizard form sizes */
+    /* Autofill styling - Generic fix for all forms */
     input:-webkit-autofill,
     input:-webkit-autofill:hover,
     input:-webkit-autofill:focus,
-    input:-webkit-autofill:active {
-      -webkit-text-fill-color: white !important;
-      -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
-      transition: background-color 5000s ease-in-out 0s;
-      /* Match the large wizard input size (text-3xl = 1.875rem, text-4xl = 2.25rem) */
-      font-size: 1.875rem !important;
-      font-family: inherit !important;
-      line-height: 1 !important;
-      caret-color: white !important;
-    }
-
-    /* Larger size for desktop */
-    @media (min-width: 768px) {
-
-      input:-webkit-autofill,
-      input:-webkit-autofill:hover,
-      input:-webkit-autofill:focus,
-      input:-webkit-autofill:active {
-        font-size: 2.25rem !important;
-      }
-    }
-
+    input:-webkit-autofill:active,
     textarea:-webkit-autofill,
     textarea:-webkit-autofill:hover,
     textarea:-webkit-autofill:focus,
     textarea:-webkit-autofill:active {
       -webkit-text-fill-color: white !important;
-      -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
+      /* Use a transition to delay the background color change indefinitely */
       transition: background-color 5000s ease-in-out 0s;
-      /* Match textarea size (text-xl = 1.25rem, text-2xl = 1.5rem) */
-      font-size: 1.25rem !important;
+      /* Inherit font properties to match the input's original design */
+      font-size: inherit !important;
       font-family: inherit !important;
-      line-height: 1.5 !important;
+      line-height: inherit !important;
       caret-color: white !important;
-    }
-
-    @media (min-width: 768px) {
-
-      textarea:-webkit-autofill,
-      textarea:-webkit-autofill:hover,
-      textarea:-webkit-autofill:focus,
-      textarea:-webkit-autofill:active {
-        font-size: 1.5rem !important;
-      }
+      /* Ensure the background stays transparent/dark by using a large box-shadow matching the container bg if needed, 
+         but since we can't know every container's bg, the transition hack is the primary fix. 
+         However, some browsers might still force a background. 
+         Setting a box-shadow to the likely dark background helps. */
+      -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
     }
   </style>
   <script type="importmap">

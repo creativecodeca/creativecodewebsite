@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Send, CheckCircle, X, ArrowRight, ArrowLeft, UploadCloud } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ParticleCanvas from './ParticleCanvas';
-import CaptchaGame from './CaptchaGame';
 
 const WebsiteOnboardingForm: React.FC = () => {
     // Form state
@@ -25,10 +24,16 @@ const WebsiteOnboardingForm: React.FC = () => {
     const totalSteps = 7; // Contact, Business, Design, Features, Competitors, Assets, Additional
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [showCaptcha, setShowCaptcha] = useState(false);
-    const [captchaCompleted, setCaptchaCompleted] = useState(false);
 
     const formContainerRef = useRef<HTMLDivElement>(null);
+
+    // Word limits for text fields
+    const WORD_LIMITS = {
+        designPreferences: 200,
+        features: 200,
+        competitors: 150,
+        additionalInfo: 200,
+    };
 
     // Validation helpers
     const isValidEmail = (email: string) => {
@@ -36,10 +41,35 @@ const WebsiteOnboardingForm: React.FC = () => {
         return emailRegex.test(email);
     };
 
+    const countWords = (text: string) => {
+        return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+    };
+
+    const isStepValid = () => {
+        switch (currentStep) {
+            case 0: // Contact Info
+                return formData.name.trim() && formData.email.trim() && isValidEmail(formData.email) && formData.phone.trim();
+            case 1: // Business Info
+                return formData.companyName.trim() && formData.industry.trim();
+            case 2: // Design Preferences
+                return formData.designPreferences.trim() && countWords(formData.designPreferences) <= WORD_LIMITS.designPreferences;
+            case 3: // Features
+                return formData.features.trim() && countWords(formData.features) <= WORD_LIMITS.features;
+            case 4: // Competitors (optional)
+                return true; // This step is optional
+            case 5: // Assets Link
+                return formData.assetsLink.trim();
+            case 6: // Additional Info
+                return countWords(formData.additionalInfo) <= WORD_LIMITS.additionalInfo;
+            default:
+                return true;
+        }
+    };
+
     const handleNext = () => {
         if (currentStep === totalSteps - 1) {
-            // If it's the last step, show captcha
-            setShowCaptcha(true);
+            // If it's the last step, submit directly
+            submitForm();
         } else {
             setCurrentStep(prev => Math.min(prev + 1, totalSteps - 1));
         }
@@ -81,12 +111,6 @@ const WebsiteOnboardingForm: React.FC = () => {
         } finally {
             setIsSubmitting(false);
         }
-    };
-
-    const handleCaptchaSuccess = () => {
-        setCaptchaCompleted(true);
-        setShowCaptcha(false);
-        submitForm();
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -206,11 +230,11 @@ const WebsiteOnboardingForm: React.FC = () => {
                                                     className="flex-1 flex flex-col justify-center space-y-6"
                                                 >
                                                     <h2 className="text-2xl md:text-3xl font-medium text-white mb-2">
-                                                        Tell us about your business.
+                                                        Tell us about your business. <span className="text-emerald-500">*</span>
                                                     </h2>
                                                     <div className="space-y-4">
                                                         <div>
-                                                            <label className="block text-sm text-slate-400 mb-1">Company Name</label>
+                                                            <label className="block text-sm text-slate-400 mb-1">Company Name <span className="text-emerald-500">*</span></label>
                                                             <input
                                                                 type="text"
                                                                 name="companyName"
@@ -221,7 +245,7 @@ const WebsiteOnboardingForm: React.FC = () => {
                                                             />
                                                         </div>
                                                         <div>
-                                                            <label className="block text-sm text-slate-400 mb-1">Industry / Niche</label>
+                                                            <label className="block text-sm text-slate-400 mb-1">Industry / Niche <span className="text-emerald-500">*</span></label>
                                                             <input
                                                                 type="text"
                                                                 name="industry"
@@ -257,9 +281,12 @@ const WebsiteOnboardingForm: React.FC = () => {
                                                     className="flex-1 flex flex-col justify-center"
                                                 >
                                                     <label className="block text-2xl md:text-3xl font-medium text-white mb-6">
-                                                        What are your design preferences?
+                                                        What are your design preferences? <span className="text-emerald-500">*</span>
                                                     </label>
-                                                    <p className="text-slate-400 mb-4 text-sm">Describe the look and feel you want (e.g., modern, minimalist, colorful, dark mode). Mention any specific colors or fonts.</p>
+                                                    <p className="text-slate-400 mb-4 text-sm">
+                                                        Describe the look and feel you want (e.g., modern, minimalist, colorful, dark mode).
+                                                        Mention any specific colors or fonts. Max {WORD_LIMITS.designPreferences} words.
+                                                    </p>
                                                     <textarea
                                                         name="designPreferences"
                                                         value={formData.designPreferences}
@@ -268,6 +295,9 @@ const WebsiteOnboardingForm: React.FC = () => {
                                                         className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-emerald-500 outline-none transition-colors resize-none"
                                                         placeholder="I want a sleek, dark-themed website with neon green accents..."
                                                     />
+                                                    <div className="text-sm text-slate-500 mt-2">
+                                                        {countWords(formData.designPreferences)} / {WORD_LIMITS.designPreferences} words
+                                                    </div>
                                                 </motion.div>
                                             )}
 
@@ -282,9 +312,12 @@ const WebsiteOnboardingForm: React.FC = () => {
                                                     className="flex-1 flex flex-col justify-center"
                                                 >
                                                     <label className="block text-2xl md:text-3xl font-medium text-white mb-6">
-                                                        What features do you need?
+                                                        What features do you need? <span className="text-emerald-500">*</span>
                                                     </label>
-                                                    <p className="text-slate-400 mb-4 text-sm">List pages (Home, About, Services) and functionality (Contact Form, Booking System, E-commerce, Blog).</p>
+                                                    <p className="text-slate-400 mb-4 text-sm">
+                                                        List pages (Home, About, Services) and functionality (Contact Form, Booking System, E-commerce, Blog).
+                                                        Max {WORD_LIMITS.features} words.
+                                                    </p>
                                                     <textarea
                                                         name="features"
                                                         value={formData.features}
@@ -293,6 +326,9 @@ const WebsiteOnboardingForm: React.FC = () => {
                                                         className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-emerald-500 outline-none transition-colors resize-none"
                                                         placeholder="We need a Home page, About Us, Services page, and a Contact form. Also need a booking calendar..."
                                                     />
+                                                    <div className="text-sm text-slate-500 mt-2">
+                                                        {countWords(formData.features)} / {WORD_LIMITS.features} words
+                                                    </div>
                                                 </motion.div>
                                             )}
 
@@ -309,7 +345,10 @@ const WebsiteOnboardingForm: React.FC = () => {
                                                     <label className="block text-2xl md:text-3xl font-medium text-white mb-6">
                                                         Who are your competitors?
                                                     </label>
-                                                    <p className="text-slate-400 mb-4 text-sm">List a few competitor websites or websites you admire for inspiration.</p>
+                                                    <p className="text-slate-400 mb-4 text-sm">
+                                                        Optional. List a few competitor websites or websites you admire for inspiration.
+                                                        Max {WORD_LIMITS.competitors} words.
+                                                    </p>
                                                     <textarea
                                                         name="competitors"
                                                         value={formData.competitors}
@@ -318,6 +357,9 @@ const WebsiteOnboardingForm: React.FC = () => {
                                                         className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-emerald-500 outline-none transition-colors resize-none"
                                                         placeholder="Competitor A (www.comp-a.com) - I like their layout. Competitor B..."
                                                     />
+                                                    <div className="text-sm text-slate-500 mt-2">
+                                                        {countWords(formData.competitors)} / {WORD_LIMITS.competitors} words
+                                                    </div>
                                                 </motion.div>
                                             )}
 
@@ -332,7 +374,7 @@ const WebsiteOnboardingForm: React.FC = () => {
                                                     className="flex-1 flex flex-col justify-center"
                                                 >
                                                     <label className="block text-2xl md:text-3xl font-medium text-white mb-6">
-                                                        Brand Assets
+                                                        Brand Assets <span className="text-emerald-500">*</span>
                                                     </label>
                                                     <p className="text-slate-400 mb-4 text-sm">
                                                         Please provide a link to a Google Drive or Dropbox folder containing your logo, brand guidelines, images, and any other assets we should use.
@@ -364,6 +406,9 @@ const WebsiteOnboardingForm: React.FC = () => {
                                                     <label className="block text-2xl md:text-3xl font-medium text-white mb-6">
                                                         Anything else?
                                                     </label>
+                                                    <p className="text-slate-400 mb-4 text-sm">
+                                                        Optional. Max {WORD_LIMITS.additionalInfo} words.
+                                                    </p>
                                                     <textarea
                                                         name="additionalInfo"
                                                         value={formData.additionalInfo}
@@ -372,40 +417,34 @@ const WebsiteOnboardingForm: React.FC = () => {
                                                         className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-emerald-500 outline-none transition-colors resize-none"
                                                         placeholder="Any specific deadlines, budget constraints, or other details..."
                                                     />
+                                                    <div className="text-sm text-slate-500 mt-2">
+                                                        {countWords(formData.additionalInfo)} / {WORD_LIMITS.additionalInfo} words
+                                                    </div>
                                                 </motion.div>
-                                            )}
-
-                                            {/* Captcha Step */}
-                                            {showCaptcha && (
-                                                <CaptchaGame onSuccess={handleCaptchaSuccess} />
                                             )}
                                         </AnimatePresence>
 
                                         {/* Navigation Buttons */}
-                                        {!showCaptcha && (
-                                            <div className="flex justify-between items-center mt-12 pt-6 border-t border-white/5">
-                                                <button
-                                                    type="button"
-                                                    onClick={handleBack}
-                                                    className={`flex items-center gap-2 text-slate-400 hover:text-white transition-colors ${currentStep === 0 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
-                                                >
-                                                    <ArrowLeft className="w-5 h-5" />
-                                                    Back
-                                                </button>
+                                        <div className="flex justify-between items-center mt-12 pt-6 border-t border-white/5">
+                                            <button
+                                                type="button"
+                                                onClick={handleBack}
+                                                className={`flex items-center gap-2 text-slate-400 hover:text-white transition-colors ${currentStep === 0 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+                                            >
+                                                <ArrowLeft className="w-5 h-5" />
+                                                Back
+                                            </button>
 
-                                                <button
-                                                    type="button"
-                                                    onClick={handleNext}
-                                                    disabled={
-                                                        (currentStep === 0 && (!formData.name || !formData.email || !isValidEmail(formData.email)))
-                                                    }
-                                                    className="bg-white text-black h-12 px-8 rounded-full font-bold hover:bg-slate-200 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                                                >
-                                                    {currentStep === totalSteps - 1 ? 'Submit' : 'Next'}
-                                                    <ArrowRight className="w-4 h-4" />
-                                                </button>
-                                            </div>
-                                        )}
+                                            <button
+                                                type="button"
+                                                onClick={handleNext}
+                                                disabled={!isStepValid() || isSubmitting}
+                                                className="bg-white text-black h-12 px-8 rounded-full font-bold hover:bg-slate-200 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                            >
+                                                {isSubmitting ? 'Submitting...' : (currentStep === totalSteps - 1 ? 'Submit' : 'Next')}
+                                                <ArrowRight className="w-4 h-4" />
+                                            </button>
+                                        </div>
                                     </form>
                                 </div>
                             )}
