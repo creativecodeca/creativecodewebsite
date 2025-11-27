@@ -157,44 +157,63 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
     }, [currentDate]);
 
     // Auto-select earliest available day and first time slot when slots are loaded and nothing is selected
+    // Auto-select earliest available day and first time slot when slots are loaded and nothing is selected
     useEffect(() => {
-        if (availableDays.size > 0 && !selectedDate && !selectedSlot && !loading) {
-            // Find the earliest available day that's not in the past
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
+        if (availableDays.size > 0 && !loading) {
+            // Check if we need to auto-select
+            let shouldAutoSelect = false;
 
-            const sortedDays = Array.from(availableDays).sort();
-            for (const dateKey of sortedDays) {
-                const [year, month, day] = dateKey.split('-').map(Number);
-                const date = new Date(year, month - 1, day);
-                date.setHours(0, 0, 0, 0);
+            if (!selectedDate) {
+                shouldAutoSelect = true;
+            } else {
+                // Check if selectedDate is in availableDays
+                const year = selectedDate.getFullYear();
+                const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+                const day = String(selectedDate.getDate()).padStart(2, '0');
+                const key = `${year}-${month}-${day}`;
+                if (!availableDays.has(key)) {
+                    shouldAutoSelect = true;
+                }
+            }
 
-                if (date >= today) {
-                    setSelectedDate(date);
+            if (shouldAutoSelect) {
+                // Find the earliest available day that's not in the past
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
 
-                    // Also auto-select the first available time slot for this date
-                    const dayData = slots[dateKey];
-                    if (dayData) {
-                        let firstSlot: string | null = null;
-                        if (Array.isArray(dayData.slots) && dayData.slots.length > 0) {
-                            firstSlot = typeof dayData.slots[0] === 'string'
-                                ? dayData.slots[0]
-                                : dayData.slots[0].startTime;
-                        } else if (Array.isArray(dayData) && dayData.length > 0) {
-                            firstSlot = typeof dayData[0] === 'string'
-                                ? dayData[0]
-                                : dayData[0].startTime;
+                const sortedDays = Array.from(availableDays).sort();
+                for (const dateKey of sortedDays) {
+                    const [year, month, day] = dateKey.split('-').map(Number);
+                    const date = new Date(year, month - 1, day);
+                    date.setHours(0, 0, 0, 0);
+
+                    if (date >= today) {
+                        setSelectedDate(date);
+
+                        // Also auto-select the first available time slot for this date
+                        const dayData = slots[dateKey];
+                        if (dayData) {
+                            let firstSlot: string | null = null;
+                            if (Array.isArray(dayData.slots) && dayData.slots.length > 0) {
+                                firstSlot = typeof dayData.slots[0] === 'string'
+                                    ? dayData.slots[0]
+                                    : dayData.slots[0].startTime;
+                            } else if (Array.isArray(dayData) && dayData.length > 0) {
+                                firstSlot = typeof dayData[0] === 'string'
+                                    ? dayData[0]
+                                    : dayData[0].startTime;
+                            }
+
+                            if (firstSlot) {
+                                onSelectSlot(firstSlot);
+                            }
                         }
-
-                        if (firstSlot) {
-                            onSelectSlot(firstSlot);
-                        }
+                        break;
                     }
-                    break;
                 }
             }
         }
-    }, [availableDays, selectedDate, selectedSlot, loading, slots, onSelectSlot]);
+    }, [availableDays, selectedDate, loading, slots, onSelectSlot]);
 
     const checkMonthHasSlots = async (year: number, month: number): Promise<boolean> => {
         const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
@@ -299,7 +318,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
         // Scroll to form
         setTimeout(() => {
             if (formRef.current) {
-                formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                formRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }, 100);
     };
