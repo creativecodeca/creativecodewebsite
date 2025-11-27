@@ -4,7 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import CustomCursor from './components/CustomCursor';
 import Navbar from './components/Navbar';
-import AIChatWidget from './components/AIChatWidget';
+// import AIChatWidget from './components/AIChatWidget';
 import Home from './components/Home';
 import Products from './components/Products';
 import About from './components/About';
@@ -34,7 +34,7 @@ function AppContent() {
     <div className="relative min-h-screen bg-[#020202] text-slate-200 selection:bg-white/20 selection:text-white overflow-x-hidden font-sans">
       <CustomCursor />
       <Navbar />
-      <AIChatWidget />
+      {/* <AIChatWidget /> */}
 
       <AnimatePresence mode="wait">
         {/* @ts-ignore */}
