@@ -33,6 +33,7 @@ const Contact: React.FC = () => {
     const countryDropdownRef = useRef<HTMLDivElement>(null);
     const formContainerRef = useRef<HTMLDivElement>(null);
     const bookingSectionRef = useRef<HTMLDivElement>(null);
+    const lastSubmissionTime = useRef<number>(0); // Track last submission to prevent duplicates
 
     // Booking State
     const [bookingSlot, setBookingSlot] = useState<string | null>(null);
@@ -166,6 +167,14 @@ const Contact: React.FC = () => {
 
     // Send email via backend API (Vercel serverless function)
     const sendEmail = async () => {
+        // Prevent duplicate submissions within 3 seconds
+        const now = Date.now();
+        if (now - lastSubmissionTime.current < 3000) {
+            console.log('Submission blocked: Too soon after last submission');
+            return false;
+        }
+        lastSubmissionTime.current = now;
+
         const topicLabels: { [key: string]: string } = {
             website: 'Website Design',
             ads: 'Ad Campaigns',

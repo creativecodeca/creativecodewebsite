@@ -69,6 +69,7 @@ const Navbar: React.FC = () => {
           <button
             className="md:hidden text-white interactable"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {mobileMenuOpen ? <X /> : <Menu />}
           </button>
