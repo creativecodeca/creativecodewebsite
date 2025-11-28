@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Mail, Phone, MapPin } from 'lucide-react';
 import ParticleCanvas from './ParticleCanvas';
 import SpotlightCard from './SpotlightCard';
@@ -39,20 +40,19 @@ const About: React.FC = () => {
 
                     {/* CTA Button */}
                     <div className="flex flex-col md:flex-row items-center justify-center gap-5">
-                        <a
-                            href="#contact"
-                            onClick={(e) => {
-                                const contactSection = document.getElementById('contact');
-                                if (contactSection) {
-                                    e.preventDefault();
-                                    contactSection.scrollIntoView({ behavior: 'smooth' });
-                                }
-                            }}
+                        <Link
+                            to="/contact"
                             className="bg-white text-black h-14 px-10 rounded-full font-bold hover:bg-slate-200 transition-all interactable flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-105"
                         >
                             Get Started
                             <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2.5} />
-                        </a>
+                        </Link>
+                        <Link
+                            to="/products"
+                            className="bg-white/5 border border-white/10 text-white h-14 px-10 rounded-full font-bold hover:bg-white/10 transition-all interactable flex items-center gap-2 backdrop-blur-md"
+                        >
+                            View Services
+                        </Link>
                     </div>
                 </div>
             </section>

@@ -105,7 +105,7 @@ const Home: React.FC = () => {
 
           {/* Subheadline */}
           <p className="text-base md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed px-4">
-            Creative Code is a digital marketing agency dedicated to scaling your business. From premium website design, to AI chatbots, to killer ad campaigns, Creative Code is here to solve all your digital problems.
+            Creative Code is a digital marketing agency specializing in web design, web development, SEO optimization, and social media marketing. From custom website design and ecommerce solutions to AI chatbots and high-converting ad campaigns, we deliver complete digital marketing services to grow your business.
           </p>
 
           {/* CTA Buttons */}
@@ -459,6 +459,24 @@ const Home: React.FC = () => {
             </div>
 
           </div>
+        </div>
+      </section>
+
+      {/* About Us CTA Section */}
+      <section className="py-20 px-6 relative">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+            Want to Learn More About Us?
+          </h2>
+          <p className="text-lg text-slate-400 mb-8 max-w-2xl mx-auto">
+            Discover our story, mission, and the team behind Creative Code. We're passionate about helping businesses succeed through innovative digital marketing solutions.
+          </p>
+          <Link
+            to="/about"
+            className="inline-block bg-white text-black text-sm font-bold px-8 py-4 rounded-full hover:bg-slate-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:scale-105 interactable"
+          >
+            About Us
+          </Link>
         </div>
       </section>
     </>
