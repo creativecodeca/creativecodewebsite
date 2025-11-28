@@ -100,7 +100,7 @@ const Home: React.FC = () => {
 
           {/* Headline */}
           <h1 className="md:text-8xl leading-tight md:leading-[1.1] text-4xl md:text-5xl font-semibold text-white tracking-tighter mb-8">
-            Scale Your Business.
+            Web Design & <br className="hidden md:block" /> Growth.
           </h1>
 
           {/* Subheadline */}

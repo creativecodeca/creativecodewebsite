@@ -31,6 +31,7 @@ const Navbar: React.FC = () => {
             <img
               src="https://storage.googleapis.com/msgsndr/rpTHZGMl1DRkn0TYGHwe/media/69251cd0b2875758c843f88e.png"
               alt="Creative Code Logo"
+              loading="lazy"
               className="w-full h-full object-contain relative z-10 drop-shadow-md"
             />
           </div>

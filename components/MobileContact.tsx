@@ -28,56 +28,28 @@ const MobileContact: React.FC = () => {
                     <div className="absolute top-0 left-0 w-[60%] h-[60%] bg-gradient-to-br from-white/[0.08] via-white/[0.02] to-transparent opacity-100 pointer-events-none" />
 
                     {/* Subtle Edge Highlight */}
-                    <div className="absolute inset-0 rounded-[20px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),inset_0_-1px_0_0_rgba(0,0,0,0.5)] pointer-events-none" />
-
-                    {/* Logo - Properly Scaled */}
-                    <motion.div
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.4, duration: 0.8 }}
-                        className="relative z-10 w-20 h-20 sm:w-24 sm:h-24 mb-4 sm:mb-6 flex items-center justify-center flex-shrink-0"
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.8, duration: 0.8 }}
+                    className="text-slate-400 text-xs sm:text-sm font-medium tracking-widest uppercase relative z-10"
                     >
-                        <img
-                            src="https://storage.googleapis.com/msgsndr/rpTHZGMl1DRkn0TYGHwe/media/69251cd0b2875758c843f88e.png"
-                            alt="Creative Code Logo"
-                            className="w-full h-full object-contain relative z-10 drop-shadow-[0_4px_12px_rgba(255,255,255,0.15)]"
-                        />
-                    </motion.div>
+                    Digital Agency
+                </motion.p>
 
-                    {/* Company Name */}
-                    <motion.h1
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.6, duration: 0.8 }}
-                        className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-1 relative z-10"
-                    >
-                        Creative Code
-                    </motion.h1>
+                {/* Tap to save hint */}
+                <motion.p
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 1.0, duration: 0.8 }}
+                    className="text-slate-500 text-[10px] sm:text-xs mt-6 italic relative z-10"
+                >
+                    Tap to save contact
+                </motion.p>
 
-                    <motion.p
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.8, duration: 0.8 }}
-                        className="text-slate-400 text-xs sm:text-sm font-medium tracking-widest uppercase relative z-10"
-                    >
-                        Digital Agency
-                    </motion.p>
-
-                    {/* Tap to save hint */}
-                    <motion.p
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 1.0, duration: 0.8 }}
-                        className="text-slate-500 text-[10px] sm:text-xs mt-6 italic relative z-10"
-                    >
-                        Tap to save contact
-                    </motion.p>
-
-                    {/* Subtle Bottom Shine */}
-                    <div className="absolute bottom-0 right-0 w-[40%] h-[30%] bg-gradient-to-tl from-white/[0.03] to-transparent opacity-100 pointer-events-none" />
-                </div>
-            </motion.div>
+                {/* Subtle Bottom Shine */}
+                <div className="absolute bottom-0 right-0 w-[40%] h-[30%] bg-gradient-to-tl from-white/[0.03] to-transparent opacity-100 pointer-events-none" />
         </div>
+            </motion.div >
+        </div >
     );
 };
 
