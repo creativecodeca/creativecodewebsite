@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { Mail, Phone, MapPin } from 'lucide-react';
-import CustomCursor from './components/CustomCursor';
+// import CustomCursor from './components/CustomCursor';
 import Navbar from './components/Navbar';
 // import AIChatWidget from './components/AIChatWidget';
 import Home from './components/Home';
@@ -32,7 +32,7 @@ function AppContent() {
 
   return (
     <div className="relative min-h-screen bg-[#020202] text-slate-200 selection:bg-white/20 selection:text-white overflow-x-hidden font-sans">
-      <CustomCursor />
+      {/* <CustomCursor /> */}
       <Navbar />
       {/* <AIChatWidget /> */}
 
