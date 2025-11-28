@@ -302,6 +302,31 @@ const Products: React.FC = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* SEO Content Block */}
+                <div className="mt-32 max-w-5xl mx-auto border-t border-white/10 pt-20">
+                    <h2 className="text-3xl md:text-5xl font-medium text-white mb-10 text-center">
+                        Comprehensive Digital Solutions for Modern Businesses
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-slate-400 leading-relaxed">
+                        <div className="space-y-6">
+                            <p>
+                                At Creative Code, we understand that a fragmented approach to digital marketing leads to fragmented results. That's why we offer a holistic suite of services designed to work in perfect harmony. Our <strong>custom web development</strong> ensures your foundation is rock-solid, fast, and secure, while our <strong>advanced SEO strategies</strong> drive organic traffic that actually converts.
+                            </p>
+                            <p>
+                                We go beyond basic aesthetics. Our <strong>web design services</strong> focus on user experience (UX) and conversion rate optimization (CRO), ensuring every pixel serves a purpose. By integrating <strong>marketing automation tools</strong> and CRM systems, we help you nurture leads automatically, ensuring no opportunity slips through the cracks.
+                            </p>
+                        </div>
+                        <div className="space-y-6">
+                            <p>
+                                The future of business is automated. Our <strong>AI automation services</strong> allow you to scale your operations without increasing headcount. From <strong>intelligent chatbots</strong> that handle customer inquiries instantly to <strong>voice AI agents</strong> that can manage appointment bookings, we implement technology that gives you a competitive edge.
+                            </p>
+                            <p>
+                                Combined with our precision-targeted <strong>paid advertising campaigns</strong> on platforms like Facebook, Instagram, and Google, we create a predictable revenue engine for your business. Choose Creative Code for a partner who is as invested in your growth as you are.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
     );

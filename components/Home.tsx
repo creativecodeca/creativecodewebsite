@@ -309,6 +309,26 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Why Choose Us - SEO Content Section */}
+      <section className="py-20 px-6 relative border-t border-white/10 bg-[#020202]">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-5xl font-medium tracking-tight text-white mb-8 text-glow">
+            Why Partner with Creative Code?
+          </h2>
+          <div className="space-y-6 text-slate-400 text-lg leading-relaxed text-justify md:text-center">
+            <p>
+              In today's fast-paced digital landscape, having a generic website isn't enough. You need a <strong>high-performance digital ecosystem</strong> that works as hard as you do. At Creative Code, we don't just build websites; we engineer <strong>custom web design solutions</strong> that act as 24/7 sales engines. Our team of expert developers and digital marketers combines cutting-edge technology with proven psychological triggers to convert visitors into loyal customers.
+            </p>
+            <p>
+              Whether you need a <strong>responsive website redesign</strong>, a complex <strong>ecommerce platform</strong>, or an <strong>AI-powered customer support agent</strong>, we deliver results that move the needle. We specialize in <strong>SEO optimization</strong> to ensure your brand dominates search results, and we run data-driven <strong>Meta and Google ad campaigns</strong> that maximize your ROI.
+            </p>
+            <p>
+              Stop settling for agencies that over-promise and under-deliver. Partner with a <strong>digital marketing agency</strong> that prioritizes transparency, speed, and measurable growth. From Toronto to the world, Creative Code is your trusted partner for <strong>scalable business growth</strong> through technology.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Interactive Workflow Engine */}
       <section id="workflows" className="py-32 relative border-y border-white/10 overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(circle_at_center,black_40%,transparent_80%)]"></div>
