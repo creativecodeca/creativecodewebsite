@@ -7,9 +7,10 @@ const Products: React.FC = () => {
     return (
         <div className="min-h-screen bg-[#020202] w-full relative overflow-hidden">
             <SEO
-                title="Our Products & Services | Creative Code"
-                description="Web design, Meta ads, AI automation, and voice agents. Explore our digital marketing solutions to scale your business."
+                title="Web Design Services & Digital Marketing | Creative Code"
+                description="Professional web design, Meta advertising, AI automation, and voice agents. Complete digital marketing solutions for business growth."
                 canonical="https://creativecodeca.com/products"
+                keywords="web design services, website design, Meta advertising, Facebook ads, Google ads, AI automation, chatbot development, voice AI, digital marketing services, CRM automation"
             />
             <section className="py-20 px-6 relative pt-32 min-h-screen">
                 {/* Background */}

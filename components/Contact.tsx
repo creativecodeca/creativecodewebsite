@@ -309,9 +309,10 @@ const Contact: React.FC = () => {
     return (
         <>
             <SEO
-                title="Contact Us | Creative Code - Get Started Today"
-                description="Ready to transform your business? Contact Creative Code for web design, AI chatbots, and digital marketing. Get a response within 24 hours."
+                title="Contact Us - Web Design & Digital Marketing | Creative Code"
+                description="Get professional web design and digital marketing services. Contact Creative Code for custom websites, AI chatbots, and ad campaigns. 24-hour response."
                 canonical="https://creativecodeca.com/contact"
+                keywords="contact web design agency, hire web designer, digital marketing consultation, web design quote, website design services, get started"
             />
             {/* Hero Section */}
             <section className="md:pt-48 md:pb-72 overflow-hidden flex flex-col pt-32 pb-48 relative justify-center">
@@ -332,7 +333,7 @@ const Contact: React.FC = () => {
             </section>
 
             {/* Contact Form Section */}
-            <section className="pb-20 px-6 relative z-20">
+            < section className="pb-20 px-6 relative z-20" >
                 <div className="max-w-3xl mx-auto -mt-24 md:-mt-48">
                     <div ref={formContainerRef} className="relative rounded-3xl bg-[rgba(20,20,20,0.6)] overflow-hidden shadow-2xl min-h-[500px] flex flex-col">
                         <div className="relative h-full rounded-[22px] border border-white/5 bg-[#0a0a0a] overflow-visible p-8 md:p-12 flex-1 flex flex-col">
@@ -688,10 +689,10 @@ const Contact: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* Booking Section */}
-            <section id="booking" ref={bookingSectionRef} className="py-20 px-6 relative bg-[#050505] border-y border-white/10">
+            < section id="booking" ref={bookingSectionRef} className="py-20 px-6 relative bg-[#050505] border-y border-white/10" >
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(circle_at_center,black_40%,transparent_80%)]" />
                 <div className="max-w-5xl mx-auto relative z-10">
                     <div className="text-center mb-12">
@@ -714,10 +715,10 @@ const Contact: React.FC = () => {
                         />
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* Additional Contact Info */}
-            <section className="py-20 px-6 relative">
+            < section className="py-20 px-6 relative" >
                 <div className="max-w-5xl mx-auto">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white mb-4 text-glow">Other Ways to Reach Us</h2>
@@ -761,7 +762,7 @@ const Contact: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
         </>
     );
 };
