@@ -2,10 +2,16 @@ import React from 'react';
 import { ArrowRight, Mail, Phone, MapPin } from 'lucide-react';
 import ParticleCanvas from './ParticleCanvas';
 import SpotlightCard from './SpotlightCard';
+import SEO from './SEO';
 
 const About: React.FC = () => {
     return (
         <>
+            <SEO
+                title="About Us | Creative Code Digital Marketing Agency"
+                description="Learn about Creative Code's mission to make digital growth easy, honest, and affordable for real businesses."
+                canonical="https://creativecodeca.com/about"
+            />
             {/* Ambient Background Light */}
             {/* Ambient Background Light - Removed */}
 

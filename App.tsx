@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import { HelmetProvider } from 'react-helmet-async';
 import { Mail, Phone, MapPin } from 'lucide-react';
 // import CustomCursor from './components/CustomCursor';
 import Navbar from './components/Navbar';
@@ -107,9 +108,11 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </HelmetProvider>
   );
 }
 

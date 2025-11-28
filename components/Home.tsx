@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Monitor, Target, Zap, Users, CheckCircle, Mail, Database, ArrowRight, ArrowLeft } from 'lucide-react';
 import ParticleCanvas from './ParticleCanvas';
 import SpotlightCard from './SpotlightCard';
+import SEO from './SEO';
 
 const Home: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -75,6 +76,12 @@ const Home: React.FC = () => {
 
   return (
     <>
+      <SEO
+        title="Creative Code | Digital Marketing & Web Design Agency"
+        description="Scale your business with Creative Code. Premium web design, AI chatbots, Meta & Google ads, and marketing automation. Fast results."
+        canonical="https://creativecodeca.com/"
+      />
+
       {/* Ambient Background Light - specific to Home */}
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-black blur-[150px] rounded-full pointer-events-none z-0 mix-blend-screen opacity-40"></div>
       <div className="fixed bottom-0 right-0 w-[800px] h-[600px] bg-black blur-[150px] rounded-full pointer-events-none z-0 mix-blend-screen opacity-30"></div>

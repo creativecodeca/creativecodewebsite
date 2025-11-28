@@ -1,10 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SpotlightCard from './SpotlightCard';
+import SEO from './SEO';
 
 const Products: React.FC = () => {
     return (
         <div className="min-h-screen bg-[#020202] w-full relative overflow-hidden">
+            <SEO
+                title="Our Products & Services | Creative Code"
+                description="Web design, Meta ads, AI automation, and voice agents. Explore our digital marketing solutions to scale your business."
+                canonical="https://creativecodeca.com/products"
+            />
             <section className="py-20 px-6 relative pt-32 min-h-screen">
                 {/* Background */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full z-0 pointer-events-none">

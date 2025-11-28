@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ParticleCanvas from './ParticleCanvas';
 import CaptchaGame from './CaptchaGame';
 import BookingCalendar from './BookingCalendar';
+import SEO from './SEO';
 
 const Contact: React.FC = () => {
     // Form state
@@ -307,6 +308,11 @@ const Contact: React.FC = () => {
 
     return (
         <>
+            <SEO
+                title="Contact Us | Creative Code - Get Started Today"
+                description="Ready to transform your business? Contact Creative Code for web design, AI chatbots, and digital marketing. Get a response within 24 hours."
+                canonical="https://creativecodeca.com/contact"
+            />
             {/* Hero Section */}
             <section className="md:pt-48 md:pb-72 overflow-hidden flex flex-col pt-32 pb-48 relative justify-center">
                 <ParticleCanvas />
