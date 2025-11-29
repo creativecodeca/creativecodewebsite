@@ -47,10 +47,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             if (isShareLink) {
                 console.log('Detected share link, resolving to final URL...');
                 try {
-                    // Follow redirects to get the final Maps URL
+                    // For share links, we need to fetch the page to get the redirect
                     const redirectResponse = await fetch(actualGmbUrl, { 
                         method: 'GET', 
-                        redirect: 'follow',
+                        redirect: 'manual', // Don't auto-follow, we'll handle it
                         headers: {
                             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -58,19 +58,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                         }
                     });
                     
-                    finalUrlForPlaceId = redirectResponse.url;
-                    resolvedMapsUrl = finalUrlForPlaceId;
-                    console.log('Resolved share link to:', finalUrlForPlaceId);
-                    
-                    // Sometimes we need to get the URL from the response body if it's a redirect page
-                    if (finalUrlForPlaceId.includes('share.google.com') || finalUrlForPlaceId.includes('accounts.google.com')) {
-                        const body = await redirectResponse.text();
-                        // Look for the actual Maps URL in the redirect page
-                        const mapsUrlMatch = body.match(/https:\/\/www\.google\.com\/maps[^"'\s]+/);
-                        if (mapsUrlMatch) {
-                            finalUrlForPlaceId = mapsUrlMatch[0];
+                    // Check for redirect
+                    if (redirectResponse.status >= 300 && redirectResponse.status < 400) {
+                        const location = redirectResponse.headers.get('location');
+                        if (location) {
+                            finalUrlForPlaceId = location.startsWith('http') ? location : `https://${location}`;
                             resolvedMapsUrl = finalUrlForPlaceId;
-                            console.log('Found Maps URL in redirect page:', finalUrlForPlaceId);
+                            console.log('Resolved share link (redirect header) to:', finalUrlForPlaceId);
+                        }
+                    } else {
+                        // If no redirect header, get the final URL
+                        finalUrlForPlaceId = redirectResponse.url;
+                        resolvedMapsUrl = finalUrlForPlaceId;
+                        console.log('Resolved share link (response URL) to:', finalUrlForPlaceId);
+                        
+                        // Sometimes we need to get the URL from the response body if it's a redirect page
+                        if (finalUrlForPlaceId.includes('share.google.com') || finalUrlForPlaceId.includes('accounts.google.com') || finalUrlForPlaceId.includes('google.com/url')) {
+                            const body = await redirectResponse.text();
+                            // Look for the actual Maps URL in the redirect page
+                            const mapsUrlMatch = body.match(/https?:\/\/[^"'\s]*google\.com\/maps[^"'\s]+/);
+                            if (mapsUrlMatch) {
+                                finalUrlForPlaceId = mapsUrlMatch[0];
+                                resolvedMapsUrl = finalUrlForPlaceId;
+                                console.log('Found Maps URL in redirect page:', finalUrlForPlaceId);
+                            }
                         }
                     }
                 } catch (e) {
@@ -142,8 +153,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         // Log Place ID extraction result
+        console.log('=== PLACES API DIAGNOSTICS ===');
         console.log('Place ID extracted:', placeId || 'NOT FOUND');
         console.log('GOOGLE_PLACES_API_KEY set:', !!GOOGLE_PLACES_API_KEY);
+        console.log('Resolved Maps URL:', resolvedMapsUrl || 'N/A');
+        console.log('=============================');
         
         // If we have Place ID and Google Places API key, use that first
         if (placeId && GOOGLE_PLACES_API_KEY) {
@@ -283,21 +297,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             
             // Try to extract business name from URL for text search
             let searchText = '';
+            let kgmid = '';
+            
             try {
-                const urlObj = new URL(actualGmbUrl);
-                // Try to get business name from path
-                const pathParts = urlObj.pathname.split('/');
-                const placeIndex = pathParts.findIndex(p => p === 'place');
-                if (placeIndex !== -1 && pathParts[placeIndex + 1]) {
-                    searchText = decodeURIComponent(pathParts[placeIndex + 1].replace(/\+/g, ' '));
+                // First, check if we resolved to a search page and extract from query params
+                if (resolvedMapsUrl && resolvedMapsUrl.includes('google.com/search')) {
+                    const searchUrl = new URL(resolvedMapsUrl);
+                    // Extract from q parameter (search query)
+                    const qParam = searchUrl.searchParams.get('q');
+                    if (qParam) {
+                        searchText = decodeURIComponent(qParam);
+                        console.log('Extracted business name from search query:', searchText);
+                    }
+                    // Also try to get kgmid (Knowledge Graph ID)
+                    const kgmidParam = searchUrl.searchParams.get('kgmid');
+                    if (kgmidParam) {
+                        kgmid = kgmidParam;
+                        console.log('Found Knowledge Graph ID:', kgmid);
+                    }
+                } else {
+                    // Try to get business name from path (for Maps URLs)
+                    const urlObj = new URL(actualGmbUrl);
+                    const pathParts = urlObj.pathname.split('/');
+                    const placeIndex = pathParts.findIndex(p => p === 'place');
+                    if (placeIndex !== -1 && pathParts[placeIndex + 1]) {
+                        searchText = decodeURIComponent(pathParts[placeIndex + 1].replace(/\+/g, ' '));
+                    }
                 }
             } catch (e) {
-                // Continue
+                console.warn('Error extracting search text:', e);
             }
             
             if (searchText) {
                 try {
                     // Use Places API Text Search
+                    console.log('Calling Places API Text Search with:', searchText);
                     const textSearchResponse = await fetch(
                         `https://places.googleapis.com/v1/places:searchText`,
                         {
@@ -305,19 +339,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'X-Goog-Api-Key': GOOGLE_PLACES_API_KEY,
-                                'X-Goog-FieldMask': 'places.id,places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.websiteUri,places.types,places.addressComponents'
+                                'X-Goog-FieldMask': 'places.id,places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.websiteUri,places.types,places.addressComponents,places.editorialSummary'
                             },
                             body: JSON.stringify({
-                                textQuery: searchText
+                                textQuery: searchText,
+                                maxResultCount: 5 // Get top 5 results to find the best match
                             })
                         }
                     );
                     
+                    console.log('Text Search API response status:', textSearchResponse.status);
+                    
                     if (textSearchResponse.ok) {
                         const searchData = await textSearchResponse.json();
+                        console.log('Text Search returned', searchData.places?.length || 0, 'results');
+                        
                         if (searchData.places && searchData.places.length > 0) {
-                            // Use the first result
+                            // Use the first result (most relevant)
                             const place = searchData.places[0];
+                            console.log('Using place:', place.displayName?.text);
                             
                             // Extract city
                             let city = '';
@@ -380,15 +420,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                                     companyType: companyType,
                                     colors: '',
                                     brandThemes: '',
-                                    extraDetailedInfo: place.websiteUri ? `Website: ${place.websiteUri}` : ''
+                                    extraDetailedInfo: place.editorialSummary?.text || (place.websiteUri ? `Website: ${place.websiteUri}` : '')
                                 }
                             });
+                        } else {
+                            console.log('Text Search returned no results');
                         }
+                    } else {
+                        const errorText = await textSearchResponse.text();
+                        console.error('Text Search API error:', textSearchResponse.status, errorText);
                     }
                 } catch (textSearchError: any) {
                     console.error('Places API Text Search error:', textSearchError);
                     // Fall through to HTML scraping
                 }
+            } else {
+                console.log('No search text extracted for Text Search API');
             }
         } else {
             // Log why API isn't being used
@@ -787,9 +834,22 @@ CRITICAL RULES:
         // If we only have an invalid name or no real data, return error
         const hasValidData = hasAnyData && cleanedData.companyName && !isInvalidName(cleanedData.companyName);
         if (!hasValidData) {
+            // Provide more specific error message based on what happened
+            let errorMessage = 'Unable to extract valid business information from the provided URL.';
+            
+            if (!GOOGLE_PLACES_API_KEY) {
+                errorMessage += ' GOOGLE_PLACES_API_KEY is not set in environment variables. Please add it to use the Places API.';
+            } else if (!placeId) {
+                errorMessage += ' Could not extract Place ID from the URL. The share link may need to be resolved manually.';
+            } else {
+                errorMessage += ' The Places API was attempted but may have failed. Check server logs for details.';
+            }
+            
+            errorMessage += ' Alternative: Enter the information manually or use the direct Google Maps URL (not a share link).';
+            
             return res.json({
                 success: false,
-                error: 'Unable to extract valid business information from the provided URL. Google Maps pages load content dynamically via JavaScript, which cannot be accessed through simple HTML fetching. Please try: 1) Using the direct Google Maps URL (copy the final URL from your browser after the share link redirects), 2) Entering the information manually, or 3) The system may need to use Google Places API for reliable extraction.',
+                error: errorMessage,
                 data: {
                     companyName: '',
                     phoneNumber: '',
@@ -801,6 +861,11 @@ CRITICAL RULES:
                     colors: '',
                     brandThemes: '',
                     extraDetailedInfo: ''
+                },
+                debug: {
+                    placeIdExtracted: !!placeId,
+                    apiKeySet: !!GOOGLE_PLACES_API_KEY,
+                    resolvedUrl: resolvedMapsUrl || 'N/A'
                 }
             });
         }
