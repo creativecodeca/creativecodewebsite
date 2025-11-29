@@ -1,18 +1,15 @@
 {
-  "redirects": [
+  "rewrites": [
     {
-      "source": "/",
+      "source": "/:path*",
       "has": [
         {
           "type": "host",
           "value": "system.creativecodeca.com"
         }
       ],
-      "destination": "/system/",
-      "permanent": false
-    }
-  ],
-  "rewrites": [
+      "destination": "/system/:path*"
+    },
     {
       "source": "/((?!api|system).*)",
       "destination": "/index.html"
