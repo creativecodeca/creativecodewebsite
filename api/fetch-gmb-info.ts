@@ -98,14 +98,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 }
             }
 
-            // Method 3: Look for data attributes and meta tags
+            // Method 3: Look for data attributes and meta tags (but filter out generic Google elements)
             const nameMatch = webpageContent.match(/<h1[^>]*data-value=["']([^"']+)["']/i) ||
-                             webpageContent.match(/<h1[^>]*>([^<]+)<\/h1>/i) ||
                              webpageContent.match(/data-name=["']([^"']+)["']/i) ||
-                             webpageContent.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i) ||
-                             webpageContent.match(/<title>([^<]+)<\/title>/i);
+                             webpageContent.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i);
+            
+            // Also try to find business name in specific Google Maps patterns
+            const businessNamePatterns = [
+                /"name":\s*"([^"]+)"/i,
+                /data-value=["']([^"']+)["'][^>]*data-field="name"/i,
+                /<span[^>]*data-value=["']([^"']+)["'][^>]*itemprop=["']name["']/i
+            ];
+            
+            let foundName = '';
             if (nameMatch) {
-                extractedInfo.name = nameMatch[1].trim().replace(/ - Google Maps$/, '').trim();
+                foundName = nameMatch[1].trim();
+            } else {
+                for (const pattern of businessNamePatterns) {
+                    const match = webpageContent.match(pattern);
+                    if (match && match[1]) {
+                        foundName = match[1].trim();
+                        break;
+                    }
+                }
+            }
+            
+            // Filter out generic Google page titles
+            if (foundName && 
+                !foundName.toLowerCase().includes('google') && 
+                !foundName.toLowerCase().includes('search') &&
+                foundName.length > 2 &&
+                foundName !== 'Maps') {
+                extractedInfo.name = foundName.replace(/ - Google Maps$/, '').replace(/ \| Google Maps$/, '').trim();
             }
 
             // Method 4: Look for phone in various formats
@@ -308,12 +332,22 @@ CRITICAL RULES:
             extraDetailedInfo: (extractedData.extraDetailedInfo || '').trim()
         };
 
+        // Filter out invalid company names before using fallback
+        const invalidNames = ['google', 'google search', 'google maps', 'maps', 'search', 'directions'];
+        const isInvalidName = (name: string) => {
+            const lower = name.toLowerCase().trim();
+            return invalidNames.some(invalid => lower === invalid || lower.includes(invalid + ' '));
+        };
+
         // Use extracted info as fallback if Gemini didn't extract it
         if ((!cleanedData.companyName || !cleanedData.address || !cleanedData.phoneNumber) && Object.keys(extractedInfo).length > 0) {
             console.log('Using extracted info as fallback');
-            if (extractedInfo.name && !cleanedData.companyName) {
+            
+            // Only use name if it's valid and not a generic Google page element
+            if (extractedInfo.name && !cleanedData.companyName && !isInvalidName(extractedInfo.name)) {
                 cleanedData.companyName = extractedInfo.name;
             }
+            
             if (extractedInfo.telephone && !cleanedData.phoneNumber) {
                 cleanedData.phoneNumber = extractedInfo.telephone;
             }
@@ -328,6 +362,12 @@ CRITICAL RULES:
             if (extractedInfo.description && !cleanedData.extraDetailedInfo) {
                 cleanedData.extraDetailedInfo = extractedInfo.description;
             }
+        }
+
+        // Also filter the Gemini-extracted name
+        if (cleanedData.companyName && isInvalidName(cleanedData.companyName)) {
+            console.log('Filtered out invalid company name:', cleanedData.companyName);
+            cleanedData.companyName = '';
         }
 
         // Also try structured data if still missing
@@ -370,12 +410,24 @@ CRITICAL RULES:
             structuredDataKeys: Object.keys(structuredData)
         });
 
-        // If we still have no data, return a helpful error
-        if (!hasAnyData) {
+        // If we only have an invalid name or no real data, return error
+        const hasValidData = hasAnyData && cleanedData.companyName && !isInvalidName(cleanedData.companyName);
+        if (!hasValidData) {
             return res.json({
                 success: false,
-                error: 'Unable to extract business information from the provided URL. Google Maps pages load content dynamically via JavaScript, which cannot be accessed through simple HTML fetching. Please try: 1) Using the direct Google Maps URL (not a share link), 2) Entering the information manually, or 3) Using the Google Places API for more reliable extraction.',
-                data: cleanedData
+                error: 'Unable to extract valid business information from the provided URL. Google Maps pages load content dynamically via JavaScript, which cannot be accessed through simple HTML fetching. Please try: 1) Using the direct Google Maps URL (copy the final URL from your browser after the share link redirects), 2) Entering the information manually, or 3) The system may need to use Google Places API for reliable extraction.',
+                data: {
+                    companyName: '',
+                    phoneNumber: '',
+                    address: '',
+                    city: '',
+                    email: '',
+                    industry: '',
+                    companyType: '',
+                    colors: '',
+                    brandThemes: '',
+                    extraDetailedInfo: ''
+                }
             });
         }
 
