@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { HelmetProvider } from 'react-helmet-async';
@@ -18,10 +18,20 @@ import BuyStandardWebsite from './components/BuyStandardWebsite';
 import MobileContact from './components/MobileContact';
 import ClientCall from './components/ClientCall';
 import WebsiteOnboardingForm from './components/WebsiteOnboardingForm';
+import System from './components/System';
 import PageWrapper from './components/PageWrapper';
 
 function AppContent() {
   const location = useLocation();
+  const [isSystemSubdomain, setIsSystemSubdomain] = useState(false);
+
+  useEffect(() => {
+    // Check if we're on the system subdomain
+    const hostname = window.location.hostname;
+    if (hostname === 'system.creativecodeca.com' || hostname.startsWith('system.')) {
+      setIsSystemSubdomain(true);
+    }
+  }, []);
 
   useEffect(() => {
     // Only scroll to top if there's no hash in the URL
@@ -30,6 +40,11 @@ function AppContent() {
       window.scrollTo(0, 0);
     }
   }, [location.pathname]);
+
+  // If on system subdomain, show only System component
+  if (isSystemSubdomain) {
+    return <System />;
+  }
 
   return (
     <div className="relative min-h-screen bg-[#020202] text-slate-200 selection:bg-white/20 selection:text-white overflow-x-hidden font-sans">

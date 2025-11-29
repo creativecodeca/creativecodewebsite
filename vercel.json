@@ -1,33 +1,19 @@
 {
   "rewrites": [
     {
-      "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "system.creativecodeca.com"
-        }
-      ],
-      "destination": "/system/index.html"
-    },
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "system.creativecodeca.com"
-        }
-      ],
-      "destination": "/system/:path*"
-    },
-    {
-      "source": "/((?!api|system).*)",
+      "source": "/((?!api|system|_next|assets).*)",
       "destination": "/index.html"
     }
   ],
   "headers": [
     {
-      "source": "/system/(.*)",
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "system.creativecodeca.com"
+        }
+      ],
       "headers": [
         {
           "key": "X-Robots-Tag",
