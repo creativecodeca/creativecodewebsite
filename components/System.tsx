@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Lock, Sparkles, Github, Zap, CheckCircle, XCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
+import WebsiteGeneratorForm from './WebsiteGeneratorForm';
 
 const System: React.FC = () => {
     const [password, setPassword] = useState('');
@@ -215,12 +216,8 @@ const System: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Coming Soon / Placeholder for actual functionality */}
-                <div className="mt-12 text-center">
-                    <p className="text-slate-400">
-                        Website generation interface coming soon...
-                    </p>
-                </div>
+                {/* Website Generation Form */}
+                <WebsiteGeneratorForm />
             </main>
         </div>
         </>

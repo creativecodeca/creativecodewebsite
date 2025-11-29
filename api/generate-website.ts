@@ -1,0 +1,402 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { GoogleGenerativeAI } from '@google/genai';
+import { Octokit } from '@octokit/rest';
+import fetch from 'node-fetch';
+
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.API_KEY;
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    try {
+        const {
+            name,
+            email,
+            phone,
+            companyName,
+            industry,
+            currentWebsite,
+            designPreferences,
+            features,
+            competitors,
+            assetsLink,
+            additionalInfo
+        } = req.body;
+
+        // Validate required fields
+        if (!companyName || !industry || !designPreferences || !features || !assetsLink) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        if (!GEMINI_API_KEY || !GITHUB_TOKEN) {
+            return res.status(500).json({ error: 'Server configuration error: Missing API credentials' });
+        }
+
+        console.log('Starting website generation for:', companyName);
+
+        // Initialize AI client
+        const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+
+        // Prepare sitewide data
+        const sitewide = {
+            companyName,
+            industry,
+            contactInfo: `${name} - ${email} - ${phone}`,
+            location: additionalInfo || 'Not specified',
+            colorScheme: designPreferences,
+            brandValues: features
+        };
+
+        // Extract pages from features (simple parsing - can be improved)
+        const pages = [
+            { title: 'Home', description: 'Main landing page for ' + companyName },
+            { title: 'About', description: 'About page for ' + companyName + ' in ' + industry },
+            { title: 'Services', description: 'Services offered by ' + companyName },
+            { title: 'Contact', description: 'Contact page with form' }
+        ];
+
+        // Step 1: Generate game plan
+        const gamePlan = await generateGamePlan(genAI, sitewide, pages);
+        console.log('Game plan generated');
+
+        // Step 2: Generate website files
+        const websiteFiles = await generateWebsiteFiles(genAI, sitewide, pages, gamePlan);
+        console.log('Website files generated');
+
+        // Step 3: Create GitHub repository
+        const repoName = `${companyName.toLowerCase().replace(/\s+/g, '-')}-website-${Date.now()}`;
+        const repoData = await createGitHubRepo(repoName, websiteFiles, sitewide);
+        console.log('GitHub repository created:', repoData.repoUrl);
+
+        // Step 4: Deploy to Vercel (if token available)
+        // Note: To automatically create a new Vercel project for each website,
+        // you need a VERCEL_TOKEN. Without it, you'll need to manually import
+        // the GitHub repo in the Vercel dashboard each time.
+        let vercelData = null;
+        if (VERCEL_TOKEN) {
+            try {
+                vercelData = await deployToVercel(repoName, repoData.repoFullName, sitewide);
+                console.log('Vercel project created and deployed:', vercelData.url);
+            } catch (vercelError: any) {
+                console.error('Vercel deployment error:', vercelError);
+                // Continue even if Vercel fails - GitHub repo is still created
+            }
+        } else {
+            console.log('VERCEL_TOKEN not set - user will need to manually import repo in Vercel dashboard');
+        }
+
+        return res.json({
+            success: true,
+            repoUrl: repoData.repoUrl,
+            vercelUrl: vercelData?.url || null,
+            projectUrl: vercelData?.projectUrl || 'https://vercel.com/dashboard',
+            message: VERCEL_TOKEN 
+                ? 'Website generated, pushed to GitHub, and automatically deployed to Vercel'
+                : 'Website generated and pushed to GitHub. Import the repo in Vercel dashboard to deploy.',
+            autoDeployed: !!VERCEL_TOKEN,
+            needsManualImport: !VERCEL_TOKEN
+        });
+
+    } catch (error: any) {
+        console.error('Error generating website:', error);
+        return res.status(500).json({
+            error: error.message || 'Failed to generate website',
+            details: error.toString()
+        });
+    }
+}
+
+async function generateGamePlan(genAI: GoogleGenerativeAI, sitewide: any, pages: any[]) {
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+
+    const prompt = `You are a professional web developer creating a game plan for a website.
+
+Company Information:
+- Name: ${sitewide.companyName}
+- Industry: ${sitewide.industry}
+- Contact: ${sitewide.contactInfo}
+- Location: ${sitewide.location}
+- Color Scheme: ${sitewide.colorScheme}
+- Brand Values: ${sitewide.brandValues}
+
+Pages to create:
+${pages.map((p, i) => `${i + 1}. ${p.title}: ${p.description}`).join('\n')}
+
+Create a detailed game plan for building this website. Include:
+1. Overall design approach and layout strategy
+2. Color palette (specific hex codes based on the color scheme)
+3. Typography choices
+4. Key features for each page
+5. Navigation structure
+6. Responsive design considerations
+7. Any special interactive elements needed
+
+Keep it concise but comprehensive. Format as JSON with these keys: designApproach, colorPalette, typography, pageFeatures, navigation, responsiveStrategy, interactiveElements`;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+
+    try {
+        return JSON.parse(text.replace(/```json\n?/g, '').replace(/```\n?/g, ''));
+    } catch {
+        return { rawPlan: text };
+    }
+}
+
+async function generateWebsiteFiles(genAI: GoogleGenerativeAI, sitewide: any, pages: any[], gamePlan: any) {
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+    const files = [];
+
+    // Generate index.html
+    const firstPage = pages[0];
+    const htmlPrompt = `Create a professional, modern HTML file for the main page of a website.
+
+Company: ${sitewide.companyName}
+Industry: ${sitewide.industry}
+Page: ${firstPage.title}
+Description: ${firstPage.description}
+
+Design Guidelines:
+${JSON.stringify(gamePlan, null, 2)}
+
+Requirements:
+- Clean, semantic HTML5
+- Include proper meta tags for SEO
+- Link to styles.css and script.js
+- Mobile-responsive structure
+- Professional, modern design
+- Include navigation to all pages: ${pages.map(p => p.title).join(', ')}
+- Contact info: ${sitewide.contactInfo}
+- Location: ${sitewide.location}
+
+Return ONLY the HTML code, no explanations.`;
+
+    const htmlResult = await model.generateContent(htmlPrompt);
+    const htmlResponse = await htmlResult.response;
+    let htmlContent = htmlResponse.text().replace(/```html\n?/g, '').replace(/```\n?/g, '').trim();
+
+    files.push({
+        name: 'index.html',
+        content: htmlContent
+    });
+
+    // Generate other pages
+    for (let i = 1; i < pages.length; i++) {
+        const page = pages[i];
+        const pageFileName = page.title.toLowerCase().replace(/\s+/g, '-') + '.html';
+
+        const pageHtmlPrompt = `Create a professional HTML file for the "${page.title}" page.
+
+Company: ${sitewide.companyName}
+Page Description: ${page.description}
+
+Design Guidelines:
+${JSON.stringify(gamePlan, null, 2)}
+
+Requirements:
+- Match the style of the main page
+- Include navigation to: ${pages.map(p => p.title).join(', ')}
+- Link to styles.css and script.js
+- Mobile-responsive
+- Contact info: ${sitewide.contactInfo}
+
+Return ONLY the HTML code.`;
+
+        const pageResult = await model.generateContent(pageHtmlPrompt);
+        const pageResponse = await pageResult.response;
+        let pageContent = pageResponse.text().replace(/```html\n?/g, '').replace(/```\n?/g, '').trim();
+
+        files.push({
+            name: pageFileName,
+            content: pageContent
+        });
+    }
+
+    // Generate CSS
+    const cssPrompt = `Create a professional, modern CSS file for this website.
+
+Company: ${sitewide.companyName}
+Industry: ${sitewide.industry}
+Color Scheme: ${sitewide.colorScheme}
+Brand Values: ${sitewide.brandValues}
+
+Design Guidelines:
+${JSON.stringify(gamePlan, null, 2)}
+
+Requirements:
+- Modern, clean design
+- Fully responsive (mobile, tablet, desktop)
+- Smooth animations and transitions
+- Professional typography
+- Use the specified color scheme
+- Include hover effects
+- Accessible design
+- Cross-browser compatible
+
+Return ONLY the CSS code, no explanations.`;
+
+    const cssResult = await model.generateContent(cssPrompt);
+    const cssResponse = await cssResult.response;
+    let cssContent = cssResponse.text().replace(/```css\n?/g, '').replace(/```\n?/g, '').trim();
+
+    files.push({
+        name: 'styles.css',
+        content: cssContent
+    });
+
+    // Generate JavaScript
+    const jsPrompt = `Create JavaScript for this website if needed for interactivity.
+
+Pages: ${pages.map(p => p.title).join(', ')}
+Design Guidelines: ${JSON.stringify(gamePlan, null, 2)}
+
+Include:
+- Mobile menu toggle
+- Smooth scrolling
+- Form validation (if contact forms exist)
+- Any interactive elements from the game plan
+- Modern, vanilla JavaScript (no frameworks)
+
+If no JavaScript is needed, return just: // No JavaScript needed
+
+Return ONLY the JavaScript code.`;
+
+    const jsResult = await model.generateContent(jsPrompt);
+    const jsResponse = await jsResult.response;
+    let jsContent = jsResponse.text().replace(/```javascript\n?/g, '').replace(/```js\n?/g, '').replace(/```\n?/g, '').trim();
+
+    files.push({
+        name: 'script.js',
+        content: jsContent
+    });
+
+    // Generate README
+    const readmeContent = `# ${sitewide.companyName}
+
+${sitewide.industry} company website
+
+## Pages
+${pages.map(p => `- ${p.title}`).join('\n')}
+
+## Contact
+${sitewide.contactInfo}
+
+## Location
+${sitewide.location}
+
+## Generated
+This website was automatically generated by Creative Code's AI Website Generator.
+`;
+
+    files.push({
+        name: 'README.md',
+        content: readmeContent
+    });
+
+    return files;
+}
+
+async function createGitHubRepo(repoName: string, files: any[], sitewide: any) {
+    if (!GITHUB_TOKEN) {
+        throw new Error('GITHUB_TOKEN not found');
+    }
+
+    const octokit = new Octokit({
+        auth: GITHUB_TOKEN
+    });
+
+    try {
+        // Get authenticated user
+        const { data: user } = await octokit.users.getAuthenticated();
+
+        // Create repository
+        const { data: repo } = await octokit.repos.createForAuthenticatedUser({
+            name: repoName,
+            description: `Website for ${sitewide.companyName} - ${sitewide.industry}`,
+            private: false,
+            auto_init: false
+        });
+
+        // Create files in the repository
+        for (const file of files) {
+            await octokit.repos.createOrUpdateFileContents({
+                owner: user.login,
+                repo: repoName,
+                path: file.name,
+                message: `Add ${file.name}`,
+                content: Buffer.from(file.content).toString('base64')
+            });
+        }
+
+        return {
+            repoUrl: repo.html_url,
+            repoFullName: repo.full_name,
+            repoOwner: user.login
+        };
+    } catch (error: any) {
+        if (error.status === 422) {
+            throw new Error(`Repository "${repoName}" already exists. Please try again.`);
+        }
+        throw error;
+    }
+}
+
+async function deployToVercel(projectName: string, repoFullName: string, sitewide: any) {
+    if (!VERCEL_TOKEN) {
+        return {
+            url: 'Vercel deployment pending - VERCEL_TOKEN not configured',
+            projectUrl: 'https://vercel.com/dashboard'
+        };
+    }
+
+    try {
+        // Create Vercel project
+        const createProjectResponse = await fetch('https://api.vercel.com/v9/projects', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${VERCEL_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: projectName,
+                gitRepository: {
+                    type: 'github',
+                    repo: repoFullName
+                },
+                framework: null,
+                buildCommand: null,
+                outputDirectory: null,
+                installCommand: null,
+                devCommand: null,
+                environmentVariables: []
+            })
+        });
+
+        if (!createProjectResponse.ok) {
+            const errorData = await createProjectResponse.json();
+            throw new Error(`Vercel project creation failed: ${errorData.error?.message || 'Unknown error'}`);
+        }
+
+        const projectData = await createProjectResponse.json();
+
+        return {
+            url: `https://${projectName}.vercel.app`,
+            projectUrl: `https://vercel.com/${projectData.accountId}/${projectName}`,
+            projectId: projectData.id
+        };
+
+    } catch (error: any) {
+        console.error('Vercel deployment error:', error);
+        return {
+            url: 'Vercel deployment pending - check Vercel dashboard',
+            projectUrl: 'https://vercel.com/dashboard',
+            error: error.message
+        };
+    }
+}
+
