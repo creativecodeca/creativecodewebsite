@@ -65,17 +65,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         // Try to extract structured data from Google Maps page
-        // Google Maps often has JSON-LD structured data
+        // Google Maps embeds data in various ways
         let structuredData: any = {};
+        let extractedInfo: any = {};
+        
         try {
-            // Look for JSON-LD structured data
+            // Method 1: Look for JSON-LD structured data
             const jsonLdMatches = webpageContent.match(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi);
             if (jsonLdMatches) {
                 for (const match of jsonLdMatches) {
                     try {
-                        const jsonContent = match.replace(/<script[^>]*>/, '').replace(/<\/script>/, '');
+                        const jsonContent = match.replace(/<script[^>]*>/, '').replace(/<\/script>/, '').trim();
                         const parsed = JSON.parse(jsonContent);
-                        if (parsed['@type'] === 'LocalBusiness' || parsed['@type'] === 'Organization') {
+                        if (parsed['@type'] === 'LocalBusiness' || parsed['@type'] === 'Organization' || parsed['@type'] === 'Place') {
                             structuredData = { ...structuredData, ...parsed };
                         }
                     } catch (e) {
@@ -84,29 +86,67 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 }
             }
 
-            // Look for data attributes in the HTML
-            const nameMatch = webpageContent.match(/<h1[^>]*>([^<]+)<\/h1>/i) || 
+            // Method 2: Look for Google Maps embedded JSON data (often in window.APP_INITIALIZATION_STATE or similar)
+            const appInitMatch = webpageContent.match(/window\.APP_INITIALIZATION_STATE\s*=\s*(\[.*?\]);/);
+            if (appInitMatch) {
+                try {
+                    const appData = JSON.parse(appInitMatch[1]);
+                    // This is a complex nested structure, but business info is often in there
+                    console.log('Found APP_INITIALIZATION_STATE data');
+                } catch (e) {
+                    // Continue
+                }
+            }
+
+            // Method 3: Look for data attributes and meta tags
+            const nameMatch = webpageContent.match(/<h1[^>]*data-value=["']([^"']+)["']/i) ||
+                             webpageContent.match(/<h1[^>]*>([^<]+)<\/h1>/i) ||
                              webpageContent.match(/data-name=["']([^"']+)["']/i) ||
-                             webpageContent.match(/aria-label=["']([^"']+)["']/i);
-            if (nameMatch && !structuredData.name) {
-                structuredData.name = nameMatch[1].trim();
+                             webpageContent.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i) ||
+                             webpageContent.match(/<title>([^<]+)<\/title>/i);
+            if (nameMatch) {
+                extractedInfo.name = nameMatch[1].trim().replace(/ - Google Maps$/, '').trim();
             }
 
-            // Look for phone
+            // Method 4: Look for phone in various formats
             const phoneMatch = webpageContent.match(/data-phone-number=["']([^"']+)["']/i) ||
-                              webpageContent.match(/tel:([+\d\s\-()]+)/i);
-            if (phoneMatch && !structuredData.telephone) {
-                structuredData.telephone = phoneMatch[1].trim();
+                              webpageContent.match(/tel:([+\d\s\-().]+)/i) ||
+                              webpageContent.match(/"telephone":\s*"([^"]+)"/i) ||
+                              webpageContent.match(/phone["']?\s*[:=]\s*["']?([+\d\s\-().]+)/i);
+            if (phoneMatch) {
+                extractedInfo.telephone = phoneMatch[1].trim();
             }
 
-            // Look for address
+            // Method 5: Look for address
             const addressMatch = webpageContent.match(/data-address=["']([^"']+)["']/i) ||
-                                webpageContent.match(/itemprop=["']address["'][^>]*>([^<]+)</i);
-            if (addressMatch && !structuredData.address) {
-                structuredData.address = addressMatch[1].trim();
+                                webpageContent.match(/"address":\s*"([^"]+)"/i) ||
+                                webpageContent.match(/itemprop=["']address["'][^>]*>([^<]+)</i) ||
+                                webpageContent.match(/<meta[^>]*property=["']og:street-address["'][^>]*content=["']([^"']+)["']/i);
+            if (addressMatch) {
+                extractedInfo.address = addressMatch[1].trim();
             }
 
-            console.log('Extracted structured data:', Object.keys(structuredData));
+            // Method 6: Extract from meta description or other meta tags
+            const descMatch = webpageContent.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i);
+            if (descMatch) {
+                extractedInfo.description = descMatch[1].trim();
+            }
+
+            // Combine structured data and extracted info
+            if (structuredData.name) extractedInfo.name = structuredData.name;
+            if (structuredData.telephone) extractedInfo.telephone = structuredData.telephone;
+            if (structuredData.address) {
+                extractedInfo.address = typeof structuredData.address === 'string' 
+                    ? structuredData.address 
+                    : `${structuredData.address.streetAddress || ''}, ${structuredData.address.addressLocality || ''}, ${structuredData.address.addressRegion || ''}`.trim().replace(/^,\s*|,\s*$/g, '');
+            }
+
+            console.log('Extracted info:', {
+                hasName: !!extractedInfo.name,
+                hasPhone: !!extractedInfo.telephone,
+                hasAddress: !!extractedInfo.address,
+                structuredDataKeys: Object.keys(structuredData)
+            });
         } catch (parseError) {
             console.warn('Error parsing structured data:', parseError);
         }
@@ -148,11 +188,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Create a prompt to extract GMB information from the actual webpage content
         const prompt = `Extract business information from this Google My Business webpage. The URL is: ${finalUrl}
 
-${Object.keys(structuredData).length > 0 ? `STRUCTURED DATA FOUND:
+${Object.keys(extractedInfo).length > 0 ? `PRELIMINARY EXTRACTION FOUND:
+${JSON.stringify(extractedInfo, null, 2)}
+
+` : ''}${Object.keys(structuredData).length > 0 ? `STRUCTURED DATA FOUND:
 ${JSON.stringify(structuredData, null, 2)}
 
 ` : ''}WEBPAGE TEXT CONTENT:
-${visibleText}
+${visibleText.substring(0, 20000)}
 
 INSTRUCTIONS:
 1. Use the structured data above if available, otherwise parse the text content
@@ -265,7 +308,29 @@ CRITICAL RULES:
             extraDetailedInfo: (extractedData.extraDetailedInfo || '').trim()
         };
 
-        // If we have structured data but Gemini didn't extract it, use structured data as fallback
+        // Use extracted info as fallback if Gemini didn't extract it
+        if ((!cleanedData.companyName || !cleanedData.address || !cleanedData.phoneNumber) && Object.keys(extractedInfo).length > 0) {
+            console.log('Using extracted info as fallback');
+            if (extractedInfo.name && !cleanedData.companyName) {
+                cleanedData.companyName = extractedInfo.name;
+            }
+            if (extractedInfo.telephone && !cleanedData.phoneNumber) {
+                cleanedData.phoneNumber = extractedInfo.telephone;
+            }
+            if (extractedInfo.address && !cleanedData.address) {
+                cleanedData.address = extractedInfo.address;
+                // Extract city from address
+                const addressParts = extractedInfo.address.split(',');
+                if (addressParts.length > 1 && !cleanedData.city) {
+                    cleanedData.city = addressParts[addressParts.length - 2]?.trim() || '';
+                }
+            }
+            if (extractedInfo.description && !cleanedData.extraDetailedInfo) {
+                cleanedData.extraDetailedInfo = extractedInfo.description;
+            }
+        }
+
+        // Also try structured data if still missing
         if ((!cleanedData.companyName || !cleanedData.address) && Object.keys(structuredData).length > 0) {
             console.log('Using structured data as fallback');
             if (structuredData.name && !cleanedData.companyName) {
@@ -277,7 +342,7 @@ CRITICAL RULES:
             if (structuredData.address && !cleanedData.address) {
                 const addr = typeof structuredData.address === 'string' 
                     ? structuredData.address 
-                    : structuredData.address.streetAddress + ', ' + structuredData.address.addressLocality + ', ' + structuredData.address.addressRegion;
+                    : `${structuredData.address.streetAddress || ''}, ${structuredData.address.addressLocality || ''}, ${structuredData.address.addressRegion || ''}`.trim().replace(/^,\s*|,\s*$/g, '');
                 cleanedData.address = addr;
                 if (!cleanedData.city && structuredData.address.addressLocality) {
                     cleanedData.city = structuredData.address.addressLocality;
@@ -285,20 +350,33 @@ CRITICAL RULES:
             }
         }
 
-        // Log what was extracted for debugging
-        console.log('Extracted GMB data:', {
-            companyName: cleanedData.companyName,
-            url: gmbUrl,
-            hasData: !!cleanedData.companyName || !!cleanedData.address || !!cleanedData.phoneNumber,
-            structuredDataKeys: Object.keys(structuredData)
-        });
-
         // Extract city from address if city is empty but address exists
         if (!cleanedData.city && cleanedData.address) {
             const addressParts = cleanedData.address.split(',');
             if (addressParts.length > 1) {
                 cleanedData.city = addressParts[addressParts.length - 2]?.trim() || '';
             }
+        }
+
+        // Log what was extracted for debugging
+        const hasAnyData = !!cleanedData.companyName || !!cleanedData.address || !!cleanedData.phoneNumber;
+        console.log('Final extracted GMB data:', {
+            companyName: cleanedData.companyName,
+            phoneNumber: cleanedData.phoneNumber ? '***' : '',
+            address: cleanedData.address ? '***' : '',
+            url: gmbUrl,
+            hasData: hasAnyData,
+            extractedInfoKeys: Object.keys(extractedInfo),
+            structuredDataKeys: Object.keys(structuredData)
+        });
+
+        // If we still have no data, return a helpful error
+        if (!hasAnyData) {
+            return res.json({
+                success: false,
+                error: 'Unable to extract business information from the provided URL. Google Maps pages load content dynamically via JavaScript, which cannot be accessed through simple HTML fetching. Please try: 1) Using the direct Google Maps URL (not a share link), 2) Entering the information manually, or 3) Using the Google Places API for more reliable extraction.',
+                data: cleanedData
+            });
         }
 
         return res.json({
