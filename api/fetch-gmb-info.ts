@@ -27,27 +27,46 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
         const model = 'gemini-2.5-flash';
 
+        // Extract business name from URL if it's a Google Maps share link
+        let businessNameHint = '';
+        try {
+            // Try to extract business name from the URL
+            const urlObj = new URL(gmbUrl);
+            // Google Maps share links often have the business name in the path or query
+            const pathParts = urlObj.pathname.split('/');
+            const placeIndex = pathParts.findIndex(p => p === 'place');
+            if (placeIndex !== -1 && pathParts[placeIndex + 1]) {
+                // Decode the business name from the URL
+                businessNameHint = decodeURIComponent(pathParts[placeIndex + 1].replace(/\+/g, ' '));
+            }
+        } catch (e) {
+            // If URL parsing fails, continue without hint
+        }
+
         // Create a prompt to extract GMB information
-        const prompt = `Extract business information from this Google My Business listing URL: ${gmbUrl}
+        const prompt = `You need to extract business information from a Google My Business listing.
 
-Use web search to find and extract the following information from the GMB page:
-- Company/Business Name
-- Phone Number  
-- Full Address (street address, city, state/province, postal code)
-- City (extracted from address)
-- Email address (if available)
-- Industry/Business Category
-- Company Type (choose from: Service Location Business, Service Area Business, Online Store, E-commerce, Professional Services, Restaurant/Food Service, Healthcare/Medical, Real Estate, Fitness/Gym, Beauty/Salon, Education/Training, Non-Profit, or Other)
-- Brand colors (if mentioned, format as hex codes or color names)
-- Brand themes/descriptors (e.g., Modern, Professional, Trustworthy, Innovative, etc.)
-- Business description/about information
+STEP 1: Visit this EXACT URL: ${actualGmbUrl}
+${actualGmbUrl.includes('share.google.com') ? '\nNOTE: This is a Google share link. Follow the redirect to get to the actual Google Maps business page, then extract information from that page.' : ''}
 
-IMPORTANT: 
-- Search the web for this GMB URL to get the actual business information
-- Extract real, accurate data from the Google My Business listing
-- If information is not available, use an empty string
-- For companyType, match it to one of the predefined types listed above
-- Return ONLY valid JSON, no markdown, no explanations
+STEP 2: Once you are on the correct business page, extract the following information:
+- Company/Business Name (the exact name shown on the GMB listing)
+- Phone Number (the phone number displayed on the listing)
+- Full Address (complete street address, city, state/province, postal code)
+- City (extract from the address)
+- Email address (if visible on the listing)
+- Industry/Business Category (what type of business it is, e.g., "Landscaping", "Pet Shop", "Restaurant")
+- Company Type (choose the best match: Service Location Business, Service Area Business, Online Store, E-commerce, Professional Services, Restaurant/Food Service, Healthcare/Medical, Real Estate, Fitness/Gym, Beauty/Salon, Education/Training, Non-Profit, or Other)
+- Brand colors (if mentioned, as hex codes or color names)
+- Brand themes (descriptors like Modern, Professional, Trustworthy, etc.)
+- Business description (any "About" or description text from the listing)
+
+CRITICAL: 
+- You MUST visit the EXACT URL provided above
+- Extract information ONLY from the business shown at that URL
+- Do NOT search for similar businesses or return information from a different business
+- If the URL redirects, follow the redirect and extract from the final destination
+- If you cannot access the URL or get the wrong business, return empty strings
 
 Return the information in this exact JSON format:
 {
@@ -61,12 +80,20 @@ Return the information in this exact JSON format:
   "colors": "",
   "brandThemes": "",
   "extraDetailedInfo": ""
-}`;
+}
+
+Return ONLY the JSON object, no markdown, no code blocks, no explanations.`;
 
         const chat = genAI.chats.create({
             model: model,
             config: {
-                systemInstruction: 'You are a data extraction assistant. Use web search to find and extract business information from Google My Business listings. Return only valid JSON with the exact structure requested. Be accurate and extract real data from the GMB listing.'
+                systemInstruction: `You are a data extraction assistant. Your task is to extract business information from a SPECIFIC Google My Business URL. 
+                
+CRITICAL: You must visit the EXACT URL provided and extract information ONLY from that specific business listing. 
+Do NOT search for similar businesses or return information from a different business.
+If you cannot access the exact URL or the business name doesn't match, return empty strings.
+Verify the business name matches the URL context before returning data.
+Return only valid JSON with the exact structure requested.`
             }
         });
 
@@ -113,6 +140,53 @@ Return the information in this exact JSON format:
             brandThemes: (extractedData.brandThemes || '').trim(),
             extraDetailedInfo: (extractedData.extraDetailedInfo || '').trim()
         };
+
+        // Validate the extracted data - check for common issues
+        const companyNameLower = cleanedData.companyName.toLowerCase();
+        
+        // List of known wrong business types that shouldn't appear unless in URL
+        const suspiciousBusinesses = [
+            { keywords: ['pet shop', 'pet store', 'pets', 'animal'], name: 'pet shop' },
+            { keywords: ['restaurant', 'cafe', 'food'], name: 'restaurant' },
+            { keywords: ['gym', 'fitness'], name: 'gym' }
+        ];
+
+        // Check if extracted business seems wrong (appears to be a different business type)
+        const urlLower = gmbUrl.toLowerCase();
+        let isLikelyWrong = false;
+        
+        for (const suspicious of suspiciousBusinesses) {
+            const hasSuspiciousKeywords = suspicious.keywords.some(kw => companyNameLower.includes(kw));
+            const urlHasSuspiciousKeywords = suspicious.keywords.some(kw => urlLower.includes(kw));
+            
+            // If we found suspicious keywords in the result but not in the URL, it's likely wrong
+            if (hasSuspiciousKeywords && !urlHasSuspiciousKeywords) {
+                isLikelyWrong = true;
+                console.warn(`Extracted business "${cleanedData.companyName}" appears to be a ${suspicious.name}, but URL doesn't match.`);
+                break;
+            }
+        }
+
+        // If we got minimal data and it seems wrong, return an error
+        if (isLikelyWrong && (!cleanedData.address || !cleanedData.phoneNumber)) {
+            console.warn('Extracted business information appears incorrect. Returning error.');
+            return res.json({
+                success: false,
+                error: 'The extracted information does not appear to match the GMB URL. Please verify the URL is correct and accessible, or enter the information manually.',
+                data: {
+                    companyName: '',
+                    phoneNumber: '',
+                    address: '',
+                    city: '',
+                    email: '',
+                    industry: '',
+                    companyType: '',
+                    colors: '',
+                    brandThemes: '',
+                    extraDetailedInfo: ''
+                }
+            });
+        }
 
         // Extract city from address if city is empty but address exists
         if (!cleanedData.city && cleanedData.address) {

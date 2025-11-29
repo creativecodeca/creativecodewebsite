@@ -600,12 +600,12 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                         name="companyType"
                                         value={formData.companyType}
                                         onChange={handleChange}
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors [&>option]:bg-[#0a0a0a] [&>option]:text-white [&>option:hover]:bg-[#0a0a0a] [&>option:checked]:bg-[#0a0a0a]"
                                         required
                                     >
-                                        <option value="">Select company type...</option>
+                                        <option value="" className="bg-[#0a0a0a] text-slate-400">Select company type...</option>
                                         {companyTypes.map(type => (
-                                            <option key={type} value={type} className="bg-[#0a0a0a]">{type}</option>
+                                            <option key={type} value={type} className="bg-[#0a0a0a] text-white">{type}</option>
                                         ))}
                                     </select>
                                 </div>
