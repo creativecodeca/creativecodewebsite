@@ -48,56 +48,86 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             if (isShareLink) {
                 console.log('Detected share link, resolving to final URL...');
                 try {
-                    // For share links, try manual redirect first, then follow
-                    let redirectResponse;
-                    try {
-                        // First try manual redirect to catch intermediate URLs
-                        redirectResponse = await fetch(actualGmbUrl, { 
-                            method: 'GET', 
-                            redirect: 'manual',
-                            headers: {
-                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                                'Accept-Language': 'en-US,en;q=0.9'
-                            }
-                        });
+                    // Helper function to recursively follow redirects
+                    const followRedirects = async (url: string, maxRedirects = 10, visited = new Set<string>()): Promise<string> => {
+                        if (visited.has(url) || maxRedirects <= 0) {
+                            return url;
+                        }
+                        visited.add(url);
                         
-                        // Check for redirect header
-                        if (redirectResponse.status >= 300 && redirectResponse.status < 400) {
-                            const location = redirectResponse.headers.get('location');
-                            if (location) {
-                                finalUrlForPlaceId = location.startsWith('http') ? location : `https://${location}`;
-                                resolvedMapsUrl = finalUrlForPlaceId;
-                                console.log('Resolved share link (redirect header) to:', finalUrlForPlaceId);
-                                
-                                // Follow one more redirect if needed
-                                if (finalUrlForPlaceId.includes('google.com/url') || finalUrlForPlaceId.includes('accounts.google.com')) {
-                                    const secondResponse = await fetch(finalUrlForPlaceId, { redirect: 'follow' });
-                                    finalUrlForPlaceId = secondResponse.url;
-                                    resolvedMapsUrl = finalUrlForPlaceId;
-                                    console.log('Followed second redirect to:', finalUrlForPlaceId);
-                                }
-                            }
-                        } else {
-                            // If no redirect, try following redirects automatically
-                            const followResponse = await fetch(actualGmbUrl, { 
-                                method: 'GET', 
-                                redirect: 'follow',
+                        try {
+                            const response = await fetch(url, {
+                                method: 'GET',
+                                redirect: 'manual',
                                 headers: {
                                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                                     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                                     'Accept-Language': 'en-US,en;q=0.9'
                                 }
                             });
-                            finalUrlForPlaceId = followResponse.url;
-                            resolvedMapsUrl = finalUrlForPlaceId;
-                            console.log('Resolved share link (auto-follow) to:', finalUrlForPlaceId);
-                            redirectResponse = followResponse;
+                            
+                            // If redirect, follow it
+                            if (response.status >= 300 && response.status < 400) {
+                                const location = response.headers.get('location');
+                                if (location) {
+                                    const nextUrl = location.startsWith('http') ? location : `https://${location}`;
+                                    console.log(`Following redirect: ${url} -> ${nextUrl}`);
+                                    return followRedirects(nextUrl, maxRedirects - 1, visited);
+                                }
+                            }
+                            
+                            // If we got a page, check if it's a redirect page and extract URL from body
+                            const isRedirectPage = url.includes('share.google.com') || 
+                                                  url.includes('accounts.google.com') || 
+                                                  url.includes('google.com/url') ||
+                                                  url.includes('google.com/search') ||
+                                                  !url.includes('google.com/maps/place');
+                            
+                            if (isRedirectPage) {
+                                try {
+                                    const body = await response.text();
+                                    // Look for Maps URL in the page
+                                    const mapsUrlPatterns = [
+                                        /https?:\/\/[^"'\s<>]*google\.com\/maps\/place\/[^"'\s<>]+/,
+                                        /https?:\/\/[^"'\s<>]*maps\.google\.com\/maps\/[^"'\s<>]+/,
+                                        /window\.location\.href\s*=\s*["']([^"']*google\.com\/maps[^"']+)["']/,
+                                        /href\s*=\s*["']([^"']*google\.com\/maps[^"']+)["']/,
+                                        /url\s*=\s*["']([^"']*google\.com\/maps[^"']+)["']/,
+                                        /"url":\s*"([^"]*google\.com\/maps[^"]+)"/,
+                                        /location\.href\s*=\s*["']([^"']*google\.com\/maps[^"']+)["']/
+                                    ];
+                                    
+                                    for (const pattern of mapsUrlPatterns) {
+                                        const match = body.match(pattern);
+                                        if (match) {
+                                            const foundUrl = (match[1] || match[0]).replace(/\\u002F/g, '/').replace(/\\\//g, '/');
+                                            if (foundUrl.includes('google.com/maps')) {
+                                                console.log('Found Maps URL in redirect page:', foundUrl);
+                                                return followRedirects(foundUrl, maxRedirects - 1, visited);
+                                            }
+                                        }
+                                    }
+                                } catch (bodyError) {
+                                    console.warn('Error reading redirect page body:', bodyError);
+                                }
+                            }
+                            
+                            // If we reached a Maps URL, return it
+                            if (url.includes('google.com/maps/place')) {
+                                return url;
+                            }
+                            
+                            return url;
+                        } catch (fetchError) {
+                            console.warn('Error following redirect:', fetchError);
+                            return url;
                         }
-                    } catch (manualError) {
-                        // Fallback to automatic redirect following
-                        redirectResponse = await fetch(actualGmbUrl, { 
-                            method: 'GET', 
+                    };
+                    
+                    // Use automatic redirect following as primary method
+                    try {
+                        const autoResponse = await fetch(actualGmbUrl, {
+                            method: 'GET',
                             redirect: 'follow',
                             headers: {
                                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -105,42 +135,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                                 'Accept-Language': 'en-US,en;q=0.9'
                             }
                         });
-                        finalUrlForPlaceId = redirectResponse.url;
+                        
+                        finalUrlForPlaceId = autoResponse.url;
                         resolvedMapsUrl = finalUrlForPlaceId;
-                        console.log('Resolved share link (fallback) to:', finalUrlForPlaceId);
-                    }
-                    
-                    // If still a redirect page, try to extract from body
-                    if (finalUrlForPlaceId.includes('share.google.com') || 
-                        finalUrlForPlaceId.includes('accounts.google.com') || 
-                        finalUrlForPlaceId.includes('google.com/url') ||
-                        finalUrlForPlaceId.includes('google.com/search')) {
-                        try {
-                            const body = await redirectResponse.text();
-                            // Look for the actual Maps URL in the redirect page - multiple patterns
-                            const mapsUrlPatterns = [
-                                /https?:\/\/[^"'\s]*google\.com\/maps\/place\/[^"'\s]+/,
-                                /https?:\/\/[^"'\s]*maps\.google\.com\/maps\/[^"'\s]+/,
-                                /window\.location\.href\s*=\s*["']([^"']*google\.com\/maps[^"']+)["']/,
-                                /href\s*=\s*["']([^"']*google\.com\/maps[^"']+)["']/,
-                                /url\s*=\s*["']([^"']*google\.com\/maps[^"']+)["']/
-                            ];
-                            
-                            for (const pattern of mapsUrlPatterns) {
-                                const match = body.match(pattern);
-                                if (match) {
-                                    const foundUrl = match[1] || match[0];
-                                    if (foundUrl.includes('google.com/maps')) {
-                                        finalUrlForPlaceId = foundUrl;
-                                        resolvedMapsUrl = finalUrlForPlaceId;
-                                        console.log('Found Maps URL in redirect page:', finalUrlForPlaceId);
-                                        break;
-                                    }
-                                }
-                            }
-                        } catch (bodyError) {
-                            console.warn('Error reading redirect page body:', bodyError);
+                        console.log('Auto-followed redirects to:', finalUrlForPlaceId);
+                        
+                        // If still not a Maps URL, try manual following
+                        if (!finalUrlForPlaceId.includes('google.com/maps/place')) {
+                            console.log('Not a Maps URL yet, trying manual redirect following...');
+                            finalUrlForPlaceId = await followRedirects(actualGmbUrl);
+                            resolvedMapsUrl = finalUrlForPlaceId;
+                            console.log('Manual redirect following resulted in:', finalUrlForPlaceId);
                         }
+                    } catch (autoError) {
+                        // Fallback to manual redirect following
+                        console.log('Auto-follow failed, using manual redirect following...');
+                        finalUrlForPlaceId = await followRedirects(actualGmbUrl);
+                        resolvedMapsUrl = finalUrlForPlaceId;
+                        console.log('Manual redirect following resulted in:', finalUrlForPlaceId);
                     }
                 } catch (e) {
                     console.warn('Failed to resolve share link:', e);
@@ -512,13 +524,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         // Step 1: Actually fetch the webpage content first
-        console.log('Fetching webpage content from:', actualGmbUrl);
+        // Use the resolved URL if we have one (from share link resolution), otherwise use original
+        const urlToFetch = resolvedMapsUrl || finalUrlForPlaceId || actualGmbUrl;
+        console.log('Fetching webpage content from:', urlToFetch);
         let webpageContent = '';
-        let finalUrl = actualGmbUrl;
+        let finalUrl = urlToFetch;
         
         try {
-            // Follow redirects to get the final URL
-            const response = await fetch(actualGmbUrl, {
+            // Follow redirects to get the final URL (in case we still need to resolve)
+            const response = await fetch(urlToFetch, {
                 method: 'GET',
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -667,8 +681,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Extract business name from URL if it's a Google Maps share link
         let businessNameHint = '';
         try {
-            // Try to extract business name from the URL
-            const urlObj = new URL(gmbUrl);
+            // Try to extract business name from the resolved URL (or original if not resolved)
+            const urlToParse = resolvedMapsUrl || finalUrl || actualGmbUrl;
+            const urlObj = new URL(urlToParse);
             // Google Maps share links often have the business name in the path or query
             const pathParts = urlObj.pathname.split('/');
             const placeIndex = pathParts.findIndex(p => p === 'place');
