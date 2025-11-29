@@ -42,51 +42,109 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             const isShareLink = actualGmbUrl.includes('share.google.com') || 
                                actualGmbUrl.includes('goo.gl') || 
                                actualGmbUrl.includes('maps.app.goo.gl') ||
-                               actualGmbUrl.includes('shorturl.at');
+                               actualGmbUrl.includes('shorturl.at') ||
+                               actualGmbUrl.includes('maps.google.com') && actualGmbUrl.includes('/url?');
             
             if (isShareLink) {
                 console.log('Detected share link, resolving to final URL...');
                 try {
-                    // For share links, we need to fetch the page to get the redirect
-                    const redirectResponse = await fetch(actualGmbUrl, { 
-                        method: 'GET', 
-                        redirect: 'manual', // Don't auto-follow, we'll handle it
-                        headers: {
-                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                            'Accept-Language': 'en-US,en;q=0.9'
-                        }
-                    });
-                    
-                    // Check for redirect
-                    if (redirectResponse.status >= 300 && redirectResponse.status < 400) {
-                        const location = redirectResponse.headers.get('location');
-                        if (location) {
-                            finalUrlForPlaceId = location.startsWith('http') ? location : `https://${location}`;
+                    // For share links, try manual redirect first, then follow
+                    let redirectResponse;
+                    try {
+                        // First try manual redirect to catch intermediate URLs
+                        redirectResponse = await fetch(actualGmbUrl, { 
+                            method: 'GET', 
+                            redirect: 'manual',
+                            headers: {
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                                'Accept-Language': 'en-US,en;q=0.9'
+                            }
+                        });
+                        
+                        // Check for redirect header
+                        if (redirectResponse.status >= 300 && redirectResponse.status < 400) {
+                            const location = redirectResponse.headers.get('location');
+                            if (location) {
+                                finalUrlForPlaceId = location.startsWith('http') ? location : `https://${location}`;
+                                resolvedMapsUrl = finalUrlForPlaceId;
+                                console.log('Resolved share link (redirect header) to:', finalUrlForPlaceId);
+                                
+                                // Follow one more redirect if needed
+                                if (finalUrlForPlaceId.includes('google.com/url') || finalUrlForPlaceId.includes('accounts.google.com')) {
+                                    const secondResponse = await fetch(finalUrlForPlaceId, { redirect: 'follow' });
+                                    finalUrlForPlaceId = secondResponse.url;
+                                    resolvedMapsUrl = finalUrlForPlaceId;
+                                    console.log('Followed second redirect to:', finalUrlForPlaceId);
+                                }
+                            }
+                        } else {
+                            // If no redirect, try following redirects automatically
+                            const followResponse = await fetch(actualGmbUrl, { 
+                                method: 'GET', 
+                                redirect: 'follow',
+                                headers: {
+                                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                                    'Accept-Language': 'en-US,en;q=0.9'
+                                }
+                            });
+                            finalUrlForPlaceId = followResponse.url;
                             resolvedMapsUrl = finalUrlForPlaceId;
-                            console.log('Resolved share link (redirect header) to:', finalUrlForPlaceId);
+                            console.log('Resolved share link (auto-follow) to:', finalUrlForPlaceId);
+                            redirectResponse = followResponse;
                         }
-                    } else {
-                        // If no redirect header, get the final URL
+                    } catch (manualError) {
+                        // Fallback to automatic redirect following
+                        redirectResponse = await fetch(actualGmbUrl, { 
+                            method: 'GET', 
+                            redirect: 'follow',
+                            headers: {
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                                'Accept-Language': 'en-US,en;q=0.9'
+                            }
+                        });
                         finalUrlForPlaceId = redirectResponse.url;
                         resolvedMapsUrl = finalUrlForPlaceId;
-                        console.log('Resolved share link (response URL) to:', finalUrlForPlaceId);
-                        
-                        // Sometimes we need to get the URL from the response body if it's a redirect page
-                        if (finalUrlForPlaceId.includes('share.google.com') || finalUrlForPlaceId.includes('accounts.google.com') || finalUrlForPlaceId.includes('google.com/url')) {
+                        console.log('Resolved share link (fallback) to:', finalUrlForPlaceId);
+                    }
+                    
+                    // If still a redirect page, try to extract from body
+                    if (finalUrlForPlaceId.includes('share.google.com') || 
+                        finalUrlForPlaceId.includes('accounts.google.com') || 
+                        finalUrlForPlaceId.includes('google.com/url') ||
+                        finalUrlForPlaceId.includes('google.com/search')) {
+                        try {
                             const body = await redirectResponse.text();
-                            // Look for the actual Maps URL in the redirect page
-                            const mapsUrlMatch = body.match(/https?:\/\/[^"'\s]*google\.com\/maps[^"'\s]+/);
-                            if (mapsUrlMatch) {
-                                finalUrlForPlaceId = mapsUrlMatch[0];
-                                resolvedMapsUrl = finalUrlForPlaceId;
-                                console.log('Found Maps URL in redirect page:', finalUrlForPlaceId);
+                            // Look for the actual Maps URL in the redirect page - multiple patterns
+                            const mapsUrlPatterns = [
+                                /https?:\/\/[^"'\s]*google\.com\/maps\/place\/[^"'\s]+/,
+                                /https?:\/\/[^"'\s]*maps\.google\.com\/maps\/[^"'\s]+/,
+                                /window\.location\.href\s*=\s*["']([^"']*google\.com\/maps[^"']+)["']/,
+                                /href\s*=\s*["']([^"']*google\.com\/maps[^"']+)["']/,
+                                /url\s*=\s*["']([^"']*google\.com\/maps[^"']+)["']/
+                            ];
+                            
+                            for (const pattern of mapsUrlPatterns) {
+                                const match = body.match(pattern);
+                                if (match) {
+                                    const foundUrl = match[1] || match[0];
+                                    if (foundUrl.includes('google.com/maps')) {
+                                        finalUrlForPlaceId = foundUrl;
+                                        resolvedMapsUrl = finalUrlForPlaceId;
+                                        console.log('Found Maps URL in redirect page:', finalUrlForPlaceId);
+                                        break;
+                                    }
+                                }
                             }
+                        } catch (bodyError) {
+                            console.warn('Error reading redirect page body:', bodyError);
                         }
                     }
                 } catch (e) {
                     console.warn('Failed to resolve share link:', e);
-                    // Continue with original URL
+                    // Continue with original URL - HTML scraping will still work
                 }
             }
 
@@ -95,32 +153,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             // Format 2: /place/PLACE_NAME/@lat,lng,zoom/data=!4m2!3m1!1sPLACE_ID
             // Format 3: /maps/place/PLACE_NAME/@lat,lng/data=!4m2!3m1!1sPLACE_ID
             // Format 4: Place ID in query parameter
+            // Format 5: /place/PLACE_NAME/@lat,lng,zoom/!1sPLACE_ID
+            // Format 6: /maps/place/PLACE_NAME/@lat,lng/!1sPLACE_ID
             
             // Try the most common format first: !1sPLACE_ID (Place IDs are typically 27+ characters)
-            const placeIdMatch = finalUrlForPlaceId.match(/[!&]1s([A-Za-z0-9_-]{27,})/);
-            if (placeIdMatch) {
-                placeId = placeIdMatch[1];
-                console.log('Extracted Place ID (format 1):', placeId);
-            } else {
-                // Try alternative format with full path
-                const altMatch = finalUrlForPlaceId.match(/\/place\/[^/]+\/@[^/]+\/data=!4m[^!]*!3m[^!]*!1s([A-Za-z0-9_-]{27,})/);
-                if (altMatch) {
-                    placeId = altMatch[1];
-                    console.log('Extracted Place ID (format 2):', placeId);
-                } else {
-                    // Try query parameter format
-                    const queryMatch = finalUrlForPlaceId.match(/[?&]place_id=([A-Za-z0-9_-]+)/);
-                    if (queryMatch) {
-                        placeId = queryMatch[1];
-                        console.log('Extracted Place ID (query param):', placeId);
-                    } else {
-                        // Try to find it in the URL path after /place/
-                        const pathMatch = finalUrlForPlaceId.match(/\/place\/([A-Za-z0-9_-]{27,})/);
-                        if (pathMatch && pathMatch[1].length >= 27) {
-                            placeId = pathMatch[1];
-                            console.log('Extracted Place ID (path):', placeId);
-                        }
-                    }
+            const placeIdPatterns = [
+                /[!&]1s([A-Za-z0-9_-]{27,})/,  // Format 1: !1sPLACE_ID
+                /\/place\/[^/]+\/@[^/]+\/data=!4m[^!]*!3m[^!]*!1s([A-Za-z0-9_-]{27,})/,  // Format 2: Full path with data
+                /\/maps\/place\/[^/]+\/@[^/]+\/data=!4m[^!]*!3m[^!]*!1s([A-Za-z0-9_-]{27,})/,  // Format 3: Maps path
+                /[?&]place_id=([A-Za-z0-9_-]+)/,  // Format 4: Query parameter
+                /\/place\/[^/]+\/@[^/]+\/!1s([A-Za-z0-9_-]{27,})/,  // Format 5: Path with !1s
+                /\/maps\/place\/[^/]+\/@[^/]+\/!1s([A-Za-z0-9_-]{27,})/,  // Format 6: Maps path with !1s
+                /\/place\/[^/]+\/@[^/]+\/([A-Za-z0-9_-]{27,})/,  // Format 7: Direct after coordinates
+                /data=!4m[^!]*!3m[^!]*!1s([A-Za-z0-9_-]{27,})/,  // Format 8: Just data parameter
+            ];
+            
+            for (let i = 0; i < placeIdPatterns.length; i++) {
+                const match = finalUrlForPlaceId.match(placeIdPatterns[i]);
+                if (match && match[1]) {
+                    placeId = match[1];
+                    console.log(`Extracted Place ID (format ${i + 1}):`, placeId);
+                    break;
                 }
             }
             
@@ -130,18 +183,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 try {
                     const pageResponse = await fetch(resolvedMapsUrl, {
                         headers: {
-                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
                         }
                     });
                     const pageContent = await pageResponse.text();
                     
                     // Look for Place ID in the page content (often in JavaScript variables or data attributes)
-                    const contentPlaceIdMatch = pageContent.match(/["']place_id["']\s*:\s*["']([A-Za-z0-9_-]{27,})["']/) ||
-                                                pageContent.match(/place_id=([A-Za-z0-9_-]{27,})/) ||
-                                                pageContent.match(/!1s([A-Za-z0-9_-]{27,})/);
-                    if (contentPlaceIdMatch) {
-                        placeId = contentPlaceIdMatch[1];
-                        console.log('Extracted Place ID from page content:', placeId);
+                    const contentPlaceIdPatterns = [
+                        /["']place_id["']\s*:\s*["']([A-Za-z0-9_-]{27,})["']/,
+                        /place_id=([A-Za-z0-9_-]{27,})/,
+                        /!1s([A-Za-z0-9_-]{27,})/,
+                        /data-place-id=["']([A-Za-z0-9_-]{27,})["']/,
+                        /placeId["']?\s*[:=]\s*["']([A-Za-z0-9_-]{27,})["']/,
+                        /"cid":\s*"([A-Za-z0-9_-]{27,})"/,  // Sometimes called cid
+                    ];
+                    
+                    for (const pattern of contentPlaceIdPatterns) {
+                        const match = pageContent.match(pattern);
+                        if (match && match[1]) {
+                            placeId = match[1];
+                            console.log('Extracted Place ID from page content:', placeId);
+                            break;
+                        }
                     }
                 } catch (e) {
                     console.warn('Failed to extract Place ID from page content:', e);
@@ -832,40 +896,43 @@ CRITICAL RULES:
         });
 
         // If we only have an invalid name or no real data, return error
-        const hasValidData = hasAnyData && cleanedData.companyName && !isInvalidName(cleanedData.companyName);
+        // But be more lenient - if we have at least address or phone, consider it valid
+        const hasValidName = cleanedData.companyName && !isInvalidName(cleanedData.companyName);
+        const hasValidData = hasAnyData && (hasValidName || cleanedData.address || cleanedData.phoneNumber);
+        
         if (!hasValidData) {
             // Provide more specific error message based on what happened
             let errorMessage = 'Unable to extract valid business information from the provided URL.';
             
-            if (!GOOGLE_PLACES_API_KEY) {
-                errorMessage += ' GOOGLE_PLACES_API_KEY is not set in environment variables. Please add it to use the Places API.';
-            } else if (!placeId) {
-                errorMessage += ' Could not extract Place ID from the URL. The share link may need to be resolved manually.';
-            } else {
-                errorMessage += ' The Places API was attempted but may have failed. Check server logs for details.';
+            // Check if we have partial data
+            const hasPartialData = cleanedData.companyName || cleanedData.address || cleanedData.phoneNumber;
+            
+            if (hasPartialData && !hasValidName) {
+                errorMessage += ' The extracted business name appears to be invalid.';
+            } else if (!hasPartialData) {
+                if (!GOOGLE_PLACES_API_KEY) {
+                    errorMessage += ' GOOGLE_PLACES_API_KEY is not set in environment variables.';
+                } else if (!placeId) {
+                    errorMessage += ' Could not extract Place ID from the URL. The share link may need to be resolved manually.';
+                } else {
+                    errorMessage += ' The Places API was attempted but may have failed.';
+                }
             }
             
-            errorMessage += ' Alternative: Enter the information manually or use the direct Google Maps URL (not a share link).';
+            errorMessage += ' Please try:';
+            errorMessage += '\n1. Use the direct Google Maps URL (not a share link)';
+            errorMessage += '\n2. Make sure the URL is publicly accessible';
+            errorMessage += '\n3. Enter the information manually';
             
             return res.json({
                 success: false,
                 error: errorMessage,
-                data: {
-                    companyName: '',
-                    phoneNumber: '',
-                    address: '',
-                    city: '',
-                    email: '',
-                    industry: '',
-                    companyType: '',
-                    colors: '',
-                    brandThemes: '',
-                    extraDetailedInfo: ''
-                },
+                data: cleanedData, // Return what we have even if incomplete
                 debug: {
                     placeIdExtracted: !!placeId,
                     apiKeySet: !!GOOGLE_PLACES_API_KEY,
-                    resolvedUrl: resolvedMapsUrl || 'N/A'
+                    resolvedUrl: resolvedMapsUrl || 'N/A',
+                    hasPartialData: hasPartialData
                 }
             });
         }
