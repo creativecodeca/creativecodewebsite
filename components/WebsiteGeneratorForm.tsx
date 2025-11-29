@@ -178,9 +178,17 @@ const WebsiteGeneratorForm: React.FC = () => {
                 body: JSON.stringify(formData),
             });
 
-            const data = await response.json();
+            let data;
+            try {
+                data = await response.json();
+            } catch (jsonError) {
+                // If response isn't JSON, it's likely a server error
+                const text = await response.text();
+                throw new Error('Server error occurred. Please try again.');
+            }
 
             if (!response.ok) {
+                // Use the error message from API, or a generic one
                 throw new Error(data.error || 'Failed to generate website');
             }
 
