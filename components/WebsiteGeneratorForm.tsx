@@ -60,6 +60,15 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
         projectUrl?: string;
         error?: string;
     } | null>(null);
+    const [generationProgress, setGenerationProgress] = useState<{
+        step: number;
+        message: string;
+        percentage: number;
+    }>({
+        step: 0,
+        message: '',
+        percentage: 0
+    });
 
     const [newPageTitle, setNewPageTitle] = useState('');
     const [copied, setCopied] = useState(false);
@@ -271,6 +280,29 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
         setIsSubmitting(true);
         setGenerationResult(null);
         setCopied(false);
+        setIsSubmitted(true); // Show progress screen immediately
+        
+        // Progress steps with timing
+        const progressSteps = [
+            { step: 1, message: 'Generating design plan...', percentage: 15 },
+            { step: 2, message: 'Creating website files...', percentage: 40 },
+            { step: 3, message: 'Pushing to GitHub...', percentage: 70 },
+            { step: 4, message: 'Deploying to Vercel...', percentage: 90 },
+            { step: 5, message: 'Finalizing...', percentage: 95 },
+        ];
+        
+        // Set initial progress
+        setGenerationProgress(progressSteps[0]);
+        
+        // Simulate progress updates with staggered timing
+        const timeouts: NodeJS.Timeout[] = [];
+        progressSteps.slice(1).forEach((step, index) => {
+            const delay = (index + 1) * 6000; // 6s, 12s, 18s, 24s
+            const timeout = setTimeout(() => {
+                setGenerationProgress(step);
+            }, delay);
+            timeouts.push(timeout);
+        });
         
         try {
             const response = await fetch('/api/generate-website', {
@@ -278,6 +310,10 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             });
+
+            // Clear all progress timeouts
+            timeouts.forEach(timeout => clearTimeout(timeout));
+            setGenerationProgress({ step: 5, message: 'Complete!', percentage: 100 });
 
             let data;
             try {
@@ -322,11 +358,12 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                     // Don't block the user if saving fails
                 }
             }
-            
-            setIsSubmitted(true);
         } catch (err: any) {
+            // Clear all progress timeouts
+            timeouts.forEach(timeout => clearTimeout(timeout));
             console.error('Generation failed:', err);
             setGenerationResult({ error: err.message || 'Something went wrong. Please try again.' });
+            setGenerationProgress({ step: 0, message: 'Error occurred', percentage: 0 });
         } finally {
             setIsSubmitting(false);
         }
@@ -335,6 +372,121 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
     };
+
+    // Show progress screen when submitting
+    if (isSubmitting || (isSubmitted && !generationResult?.error && !generationResult?.repoUrl)) {
+        return (
+            <div className="mt-12 bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 md:p-12">
+                <div className="text-center max-w-2xl mx-auto">
+                    <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
+                    </div>
+                    <h3 className="text-3xl font-bold text-white mb-4">Generating Your Website</h3>
+                    <p className="text-slate-400 mb-8">{generationProgress.message || 'Starting generation...'}</p>
+                    
+                    {/* Progress Bar */}
+                    <div className="w-full h-2 bg-white/10 rounded-full mb-6 overflow-hidden">
+                        <motion.div
+                            className="h-full bg-emerald-500"
+                            initial={{ width: 0 }}
+                            animate={{ width: `${generationProgress.percentage}%` }}
+                            transition={{ duration: 0.5, ease: 'easeOut' }}
+                        />
+                    </div>
+                    
+                    <div className="space-y-3 text-left max-w-md mx-auto">
+                        <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
+                            generationProgress.step >= 1 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
+                        }`}>
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                generationProgress.step >= 1 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
+                            }`}>
+                                {generationProgress.step > 1 ? (
+                                    <CheckCircle className="w-5 h-5" />
+                                ) : generationProgress.step === 1 ? (
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                ) : (
+                                    <span className="text-sm font-bold">1</span>
+                                )}
+                            </div>
+                            <div className="flex-1">
+                                <p className={`font-medium ${generationProgress.step >= 1 ? 'text-white' : 'text-slate-400'}`}>
+                                    Generating Design Plan
+                                </p>
+                                <p className="text-xs text-slate-500">Creating the overall design strategy and layout</p>
+                            </div>
+                        </div>
+                        
+                        <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
+                            generationProgress.step >= 2 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
+                        }`}>
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                generationProgress.step >= 2 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
+                            }`}>
+                                {generationProgress.step > 2 ? (
+                                    <CheckCircle className="w-5 h-5" />
+                                ) : generationProgress.step === 2 ? (
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                ) : (
+                                    <span className="text-sm font-bold">2</span>
+                                )}
+                            </div>
+                            <div className="flex-1">
+                                <p className={`font-medium ${generationProgress.step >= 2 ? 'text-white' : 'text-slate-400'}`}>
+                                    Creating Website Files
+                                </p>
+                                <p className="text-xs text-slate-500">Generating HTML, CSS, and JavaScript files</p>
+                            </div>
+                        </div>
+                        
+                        <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
+                            generationProgress.step >= 3 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
+                        }`}>
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                generationProgress.step >= 3 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
+                            }`}>
+                                {generationProgress.step > 3 ? (
+                                    <CheckCircle className="w-5 h-5" />
+                                ) : generationProgress.step === 3 ? (
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                ) : (
+                                    <span className="text-sm font-bold">3</span>
+                                )}
+                            </div>
+                            <div className="flex-1">
+                                <p className={`font-medium ${generationProgress.step >= 3 ? 'text-white' : 'text-slate-400'}`}>
+                                    Pushing to GitHub
+                                </p>
+                                <p className="text-xs text-slate-500">Creating repository and uploading files</p>
+                            </div>
+                        </div>
+                        
+                        <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
+                            generationProgress.step >= 4 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
+                        }`}>
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                generationProgress.step >= 4 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
+                            }`}>
+                                {generationProgress.step > 4 ? (
+                                    <CheckCircle className="w-5 h-5" />
+                                ) : generationProgress.step === 4 ? (
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                ) : (
+                                    <span className="text-sm font-bold">4</span>
+                                )}
+                            </div>
+                            <div className="flex-1">
+                                <p className={`font-medium ${generationProgress.step >= 4 ? 'text-white' : 'text-slate-400'}`}>
+                                    Deploying to Vercel
+                                </p>
+                                <p className="text-xs text-slate-500">Setting up hosting and deployment</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     if (isSubmitted && generationResult) {
         return (
@@ -866,12 +1018,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                         disabled={!isStepValid() || isSubmitting}
                         className="bg-emerald-500 text-white h-12 px-8 rounded-full font-bold hover:bg-emerald-400 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {isSubmitting ? (
-                            <>
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                                Generating...
-                            </>
-                        ) : currentStep === totalSteps - 1 ? (
+                        {currentStep === totalSteps - 1 ? (
                             <>
                                 <Send className="w-4 h-4" />
                                 Generate Website

@@ -89,9 +89,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.log('GitHub repository created:', repoData.repoUrl);
 
         // Step 4: Deploy to Vercel (if token available)
-        // Note: To automatically create a new Vercel project for each website,
-        // you need a VERCEL_TOKEN. Without it, you'll need to manually import
-        // the GitHub repo in the Vercel dashboard each time.
+        // Wait a moment for GitHub to fully process the repository
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
         let vercelData = null;
         if (VERCEL_TOKEN) {
             try {
@@ -204,132 +204,54 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
     try {
         const model = 'gemini-2.5-flash';
         const files = [];
-
-        // Generate index.html
-    const firstPage = pages[0];
     const pageLinks = pages.map((p, idx) => {
         if (idx === 0) return { title: p.title, file: 'index.html' };
         const fileName = p.title.toLowerCase().replace(/\s+/g, '-') + '.html';
         return { title: p.title, file: fileName };
     });
 
-    const htmlPrompt = `Create a professional, modern HTML file for the main page of a website.
-
-Company: ${sitewide.companyName}
-Industry: ${sitewide.industry}
-Company Type: ${sitewide.companyType}
-Page: ${firstPage.title}
-Page Information: ${firstPage.information}
-
-Contact Information:
-- Address: ${sitewide.fullAddress}
-- Phone: ${sitewide.phoneNumber}
-- Email: ${sitewide.email}
-
-Colors: ${sitewide.colors}
-Brand Themes: ${sitewide.brandThemes}
-Extra Details: ${sitewide.extraDetailedInfo || ''}
-
-Design Guidelines:
-${JSON.stringify(gamePlan, null, 2)}
-
-CRITICAL REQUIREMENTS:
-1. MUST include <link rel="stylesheet" href="styles.css"> in the <head> section
-2. MUST include <script src="script.js"></script> before closing </body> tag
-3. Navigation links MUST use correct file paths: ${JSON.stringify(pageLinks)}
-4. Use semantic HTML5 with proper structure
-5. Include proper meta tags for SEO
-6. Mobile-responsive structure with viewport meta tag
-7. Professional, modern design with proper CSS classes
-8. Include navigation menu linking to all pages: ${pages.map(p => p.title).join(', ')}
-9. Display contact information prominently: ${sitewide.fullAddress}, ${sitewide.phoneNumber}, ${sitewide.email}
-10. Use CSS classes for ALL styling - NO inline styles except for critical CSS
-${sitewide.contactForm ? '11. Include a contact form on this page or link to contact page' : ''}
-${sitewide.bookingForm ? '12. Include a booking/appointment form or link to booking page' : ''}
-
-IMPORTANT: The website MUST look professional and modern. Use CSS extensively for styling.
-Navigation links must work correctly. Example: <a href="about.html">About</a> for pages other than index.
-
-Return ONLY the complete HTML code with proper CSS and JS links, no explanations.`;
-
-    const htmlChat = genAI.chats.create({
-        model: model,
-        config: {
-            systemInstruction: 'You are a professional web developer. Generate clean, semantic HTML5 code. ALWAYS include <link rel="stylesheet" href="styles.css"> in the <head> and <script src="script.js"></script> before </body>. Use CSS classes for ALL styling - never use inline styles. Make the website look professional and modern.'
-        }
-    });
-
-    const htmlResult = await htmlChat.sendMessage({ message: htmlPrompt });
-    let htmlContent = htmlResult.text.replace(/```html\n?/g, '').replace(/```\n?/g, '').trim();
-    
-    // Ensure CSS and JS links are present
-    if (!htmlContent.includes('styles.css')) {
-        htmlContent = htmlContent.replace(/<head[^>]*>/i, (match) => match + '\n    <link rel="stylesheet" href="styles.css">');
-    }
-    if (!htmlContent.includes('script.js')) {
-        htmlContent = htmlContent.replace(/<\/body>/i, '    <script src="script.js"></script>\n</body>');
-    }
-
-    files.push({
-        name: 'index.html',
-        content: htmlContent
-    });
-
-    // Generate other pages
-    for (let i = 1; i < pages.length; i++) {
+        // PHASE 1: Generate each page individually with focused prompts
+        console.log('Phase 1: Generating individual pages...');
+        const generatedPages: { name: string; content: string; pageInfo: any }[] = [];
+        const allImageAttributions: Array<{url: string, attribution: string, photographer?: string, photographerUrl?: string}> = [];
+        
+        for (let i = 0; i < pages.length; i++) {
         const page = pages[i];
-        const pageFileName = page.title.toLowerCase().replace(/\s+/g, '-') + '.html';
-        const pageLinks = pages.map((p, idx) => {
-            if (idx === 0) return { title: p.title, file: 'index.html' };
-            const fileName = p.title.toLowerCase().replace(/\s+/g, '-') + '.html';
-            return { title: p.title, file: fileName };
-        });
-
-        const pageHtmlPrompt = `Create a professional HTML file for the "${page.title}" page.
-
-Company: ${sitewide.companyName}
-Industry: ${sitewide.industry}
-Page Information: ${page.information}
-
-Contact Information:
-- Address: ${sitewide.fullAddress}
-- Phone: ${sitewide.phoneNumber}
-- Email: ${sitewide.email}
-
-Colors: ${sitewide.colors}
-Brand Themes: ${sitewide.brandThemes}
-Extra Details: ${sitewide.extraDetailedInfo || ''}
-
-Design Guidelines:
-${JSON.stringify(gamePlan, null, 2)}
-
-CRITICAL REQUIREMENTS:
-1. MUST include <link rel="stylesheet" href="styles.css"> in the <head> section
-2. MUST include <script src="script.js"></script> before closing </body> tag
-3. Navigation links MUST use correct file paths: ${JSON.stringify(pageLinks)}
-4. Match the exact style and structure of the main page (index.html)
-5. Use the SAME navigation menu structure as the main page
-6. Link to styles.css and script.js (same files as main page)
-7. Mobile-responsive with same breakpoints
-8. Display contact information: ${sitewide.fullAddress}, ${sitewide.phoneNumber}, ${sitewide.email}
-9. Use CSS classes for ALL styling - NO inline styles
-${page.title.toLowerCase().includes('contact') && sitewide.contactForm ? '10. Include a functional contact form with proper styling' : ''}
-${page.title.toLowerCase().includes('book') && sitewide.bookingForm ? '10. Include a functional booking/appointment form with proper styling' : ''}
-
-IMPORTANT: This page must look identical in style to the main page. Use the same CSS classes and structure.
-Navigation must work correctly. Home link should be: <a href="index.html">Home</a>
-
-Return ONLY the complete HTML code with proper CSS and JS links, no explanations.`;
+            const pageFileName = i === 0 ? 'index.html' : page.title.toLowerCase().replace(/\s+/g, '-') + '.html';
+            
+            console.log(`Generating ${pageFileName}...`);
+            
+            // Get relevant images for this page
+            const pageImages = await getRelevantImages(sitewide, page, i);
+            
+            // Collect attributions for the attribution page
+            pageImages.forEach(img => {
+                if (img.attribution && !allImageAttributions.find(a => a.url === img.url)) {
+                    allImageAttributions.push({
+                        url: img.url,
+                        attribution: img.attribution,
+                        photographer: img.photographer,
+                        photographerUrl: img.photographerUrl
+                    });
+                }
+            });
+            
+            const pagePrompt = i === 0 
+                ? generateMainPagePrompt(page, sitewide, pages, pageLinks, gamePlan, pageImages)
+                : generateSubPagePrompt(page, sitewide, pages, pageLinks, gamePlan, pageImages);
 
         const pageChat = genAI.chats.create({
             model: model,
             config: {
-                systemInstruction: 'You are a professional web developer. Generate clean, semantic HTML5 code. ALWAYS include <link rel="stylesheet" href="styles.css"> in the <head> and <script src="script.js"></script> before </body>. Use CSS classes for ALL styling - never use inline styles. Match the main page style exactly.'
+                    systemInstruction: 'You are a professional web developer. Generate clean, semantic HTML5 code. Focus on creating a high-quality, modern, professional page that matches the brand and design guidelines.'
             }
         });
 
-        const pageResult = await pageChat.sendMessage({ message: pageHtmlPrompt });
+            const pageResult = await pageChat.sendMessage({ message: pagePrompt });
         let pageContent = pageResult.text.replace(/```html\n?/g, '').replace(/```\n?/g, '').trim();
+            
+            // Clean up common AI generation issues
+            pageContent = cleanHtmlContent(pageContent, sitewide);
         
         // Ensure CSS and JS links are present
         if (!pageContent.includes('styles.css')) {
@@ -339,14 +261,44 @@ Return ONLY the complete HTML code with proper CSS and JS links, no explanations
             pageContent = pageContent.replace(/<\/body>/i, '    <script src="script.js"></script>\n</body>');
         }
 
-        files.push({
+            generatedPages.push({
             name: pageFileName,
-            content: pageContent
-        });
-    }
+                content: pageContent,
+                pageInfo: page
+            });
+        }
 
-    // Generate CSS
-    const cssPrompt = `Create a comprehensive, professional, modern CSS file for this website.
+        // PHASE 2: Refinement pass - improve all pages for consistency and quality
+        console.log('Phase 2: Refining all pages for consistency and quality...');
+        const refinedPages = await refineAllPages(genAI, model, generatedPages, sitewide, pages, pageLinks, gamePlan);
+        
+        // Add refined pages to files
+        for (const page of refinedPages) {
+            files.push({
+                name: page.name,
+                content: page.content
+            });
+        }
+        
+        // Generate attribution page if we have images with attributions
+        if (allImageAttributions.length > 0) {
+            console.log('Generating attribution page...');
+            // Add attributions page to pageLinks for navigation
+            const pageLinksWithAttributions = [...pageLinks, { title: 'Attributions', file: 'attributions.html' }];
+            const attributionPage = generateAttributionPage(sitewide, allImageAttributions, pageLinksWithAttributions);
+            files.push({
+                name: 'attributions.html',
+                content: attributionPage
+            });
+            
+            // Update all existing pages to include attributions link in footer
+            // This will be handled in the refinement phase or we can add it manually
+            console.log('Attribution page created. Remember to add footer link to attributions.html in all pages.');
+        }
+
+        // PHASE 3: Generate CSS
+        console.log('Phase 3: Generating CSS...');
+        const cssPrompt = `Create a comprehensive, professional, modern, high-quality CSS file for this website.
 
 Company: ${sitewide.companyName}
 Industry: ${sitewide.industry}
@@ -359,49 +311,85 @@ Design Guidelines:
 ${JSON.stringify(gamePlan, null, 2)}
 
 CRITICAL REQUIREMENTS:
-1. MUST include CSS Reset/Normalize at the top
-2. MUST include comprehensive styling for ALL HTML elements used
-3. MUST be fully responsive with mobile-first approach (use media queries)
-4. MUST include professional typography (import Google Fonts if needed)
-5. MUST use the specified colors: ${sitewide.colors}
+1. MUST include CSS Reset/Normalize at the top (* { box-sizing: border-box; } and reset margins/padding)
+2. MUST include comprehensive styling for ALL HTML elements used in the HTML
+3. MUST be fully responsive with mobile-first approach (use media queries: @media (min-width: 768px), @media (min-width: 1024px))
+4. MUST include professional typography (import Google Fonts - use fonts like Inter, Poppins, or Roboto)
+5. MUST use the specified colors: ${sitewide.colors} - parse hex codes and use them throughout
 6. MUST reflect brand themes: ${sitewide.brandThemes}
-7. MUST include smooth animations and transitions
-8. MUST include hover effects for interactive elements
-9. MUST style navigation menu (horizontal on desktop, hamburger on mobile)
-10. MUST style forms (contact and booking) if present
-11. MUST include proper spacing, padding, margins
-12. MUST include modern design elements (shadows, gradients, rounded corners where appropriate)
-13. MUST be accessible (proper contrast, focus states)
-14. MUST be cross-browser compatible
-15. MUST style footer, header, sections, buttons, links, etc.
+7. MUST include smooth animations and transitions (transition: all 0.3s ease)
+8. MUST include hover effects for interactive elements (buttons, links, cards)
+9. MUST style navigation menu (horizontal on desktop, hamburger menu on mobile with smooth transitions)
+10. MUST style forms (contact and booking) if present - modern, clean input fields with focus states
+11. MUST include proper spacing system (consistent padding, margins using rem/em units)
+12. MUST include modern design elements:
+    - Subtle box shadows (box-shadow: 0 2px 8px rgba(0,0,0,0.1))
+    - Gradients where appropriate
+    - Rounded corners (border-radius: 8px or 12px)
+    - Smooth transitions
+13. MUST be accessible:
+    - Proper color contrast (WCAG AA minimum)
+    - Focus states for keyboard navigation (outline, border, or background change)
+    - Minimum touch target sizes (44x44px for mobile)
+14. MUST be cross-browser compatible (use vendor prefixes if needed)
+15. MUST style all components:
+    - Header with logo and navigation
+    - Hero section with compelling visual design
+    - Content sections with proper typography
+    - Cards/service items with hover effects
+    - Footer with organized layout
+    - Buttons with multiple states (default, hover, active, disabled)
+    - Links with proper styling
+16. Use CSS Grid and Flexbox for layouts (modern, flexible layouts)
+17. Include smooth scroll behavior (html { scroll-behavior: smooth; })
+18. Style images to be responsive (max-width: 100%, height: auto)
+19. Create a cohesive color scheme using the provided colors
+20. Add visual hierarchy with typography scale (h1 larger than h2, etc.)
 
-Pages to style: ${pages.map(p => p.title).join(', ')}
+Pages to style: ${pages.map(p => p.title).join(', ')}${allImageAttributions.length > 0 ? ', Attributions' : ''}
 
-The website MUST look professional, modern, and polished. Use CSS extensively.
-Include styles for: navigation, hero sections, content areas, buttons, forms, footer, cards, etc.
+DESIGN QUALITY REQUIREMENTS:
+- Create a visually stunning hero section with gradient or solid background
+- Style service cards with hover effects and shadows
+- Make buttons prominent and clickable with clear hover states
+- Create a professional footer with organized columns
+- Ensure proper spacing and breathing room between elements
+- Use consistent border-radius values throughout
+- Apply consistent color scheme from the provided colors
+- Make typography readable and hierarchical
 
-Return ONLY the complete CSS code, no explanations.`;
+The website MUST look professional, modern, polished, and production-ready. Use CSS extensively with modern best practices.
 
-    const cssChat = genAI.chats.create({
-        model: model,
-        config: {
-            systemInstruction: 'You are a professional web developer. Generate modern, responsive CSS code.'
-        }
-    });
+Return ONLY the complete CSS code, no explanations or markdown formatting.`;
 
-    const cssResult = await cssChat.sendMessage({ message: cssPrompt });
-    let cssContent = cssResult.text.replace(/```css\n?/g, '').replace(/```\n?/g, '').trim();
+        const cssChat = genAI.chats.create({
+            model: model,
+            config: {
+                systemInstruction: 'You are a professional web developer. Generate modern, responsive CSS code that creates a stunning, professional website.'
+            }
+        });
 
-    files.push({
-        name: 'styles.css',
-        content: cssContent
-    });
+        const cssResult = await cssChat.sendMessage({ message: cssPrompt });
+        let cssContent = cssResult.text.replace(/```css\n?/g, '').replace(/```\n?/g, '').trim();
+        
+        // Clean up CSS content
+        cssContent = cleanCssContent(cssContent, sitewide);
+        
+        // Refine CSS based on all pages
+        console.log('Refining CSS for consistency...');
+        cssContent = await refineCss(genAI, model, cssContent, refinedPages, sitewide, gamePlan);
 
-    // Generate JavaScript
-    const pageFiles = pages.map((p, idx) => {
-        if (idx === 0) return 'index.html';
-        return p.title.toLowerCase().replace(/\s+/g, '-') + '.html';
-    });
+        files.push({
+            name: 'styles.css',
+            content: cssContent
+        });
+
+        // PHASE 4: Generate JavaScript
+        console.log('Phase 4: Generating JavaScript...');
+        const pageFiles = pages.map((p, idx) => {
+            if (idx === 0) return 'index.html';
+            return p.title.toLowerCase().replace(/\s+/g, '-') + '.html';
+        });
 
     const jsPrompt = `Create comprehensive JavaScript for this website.
 
@@ -435,13 +423,13 @@ Return ONLY the complete JavaScript code, no explanations.`;
         }
     });
 
-    const jsResult = await jsChat.sendMessage({ message: jsPrompt });
-    let jsContent = jsResult.text.replace(/```javascript\n?/g, '').replace(/```js\n?/g, '').replace(/```\n?/g, '').trim();
+        const jsResult = await jsChat.sendMessage({ message: jsPrompt });
+        let jsContent = jsResult.text.replace(/```javascript\n?/g, '').replace(/```js\n?/g, '').replace(/```\n?/g, '').trim();
 
-    files.push({
-        name: 'script.js',
-        content: jsContent
-    });
+        files.push({
+            name: 'script.js',
+            content: jsContent
+        });
 
     // Generate README
     const readmeContent = `# ${sitewide.companyName}
@@ -566,11 +554,37 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
     }
 
     try {
-        // Step 1: Create or get Vercel project
-        let projectData: any;
-        const projectNameSlug = projectName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
+        // Step 1: Get Vercel team/user info
+        const accountResponse = await fetch('https://api.vercel.com/v2/teams', {
+            headers: {
+                'Authorization': `Bearer ${VERCEL_TOKEN}`
+            }
+        });
         
-        // Try to create project
+        let accountId: string | null = null;
+        if (accountResponse.ok) {
+            const teams: any = await accountResponse.json();
+            if (teams.teams && teams.teams.length > 0) {
+                accountId = teams.teams[0].id;
+            }
+        }
+        
+        // Get user info as fallback
+        if (!accountId) {
+            const userResponse = await fetch('https://api.vercel.com/v2/user', {
+                headers: {
+                    'Authorization': `Bearer ${VERCEL_TOKEN}`
+                }
+            });
+            if (userResponse.ok) {
+                const user: any = await userResponse.json();
+                accountId = user.user?.id || null;
+            }
+        }
+
+        const projectNameSlug = projectName.toLowerCase().replace(/[^a-z0-9-]/g, '-').substring(0, 52); // Vercel has 52 char limit
+        
+        // Step 2: Create Vercel project with GitHub integration
         const createProjectResponse = await fetch('https://api.vercel.com/v9/projects', {
             method: 'POST',
             headers: {
@@ -583,23 +597,23 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
                     type: 'github',
                     repo: repoFullName
                 },
-                framework: null,
-                buildCommand: null,
-                outputDirectory: null,
-                installCommand: null,
-                devCommand: null
+                framework: null, // Static site, no build needed
+                publicSource: false,
+                ...(accountId && { teamId: accountId })
             })
         });
 
+        let projectData: any;
         if (createProjectResponse.ok) {
             projectData = await createProjectResponse.json();
             console.log('Vercel project created:', projectData.id);
         } else {
-            // Project might already exist, try to get it
-            const errorData = await createProjectResponse.json().catch(() => ({}));
-            if (errorData.error?.code === 'project_already_exists') {
+            const errorData: any = await createProjectResponse.json().catch(() => ({}));
+            console.error('Vercel project creation response:', createProjectResponse.status, errorData);
+            
+            if (errorData.error?.code === 'project_already_exists' || errorData.error?.message?.includes('already exists')) {
                 // Get existing project
-                const getProjectResponse = await fetch(`https://api.vercel.com/v9/projects/${projectNameSlug}`, {
+                const getProjectResponse = await fetch(`https://api.vercel.com/v9/projects/${projectNameSlug}${accountId ? `?teamId=${accountId}` : ''}`, {
                     headers: {
                         'Authorization': `Bearer ${VERCEL_TOKEN}`
                     }
@@ -611,12 +625,14 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
                     throw new Error('Failed to get existing project');
                 }
             } else {
-                console.error('Vercel project creation failed:', errorData);
-                throw new Error('Failed to create Vercel project');
+                throw new Error(`Failed to create Vercel project: ${errorData.error?.message || 'Unknown error'}`);
             }
         }
 
-        // Step 2: Trigger a new deployment
+        // Step 3: Wait a moment for project to be ready, then trigger deployment
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Step 4: Create deployment from GitHub
         const deploymentResponse = await fetch('https://api.vercel.com/v13/deployments', {
             method: 'POST',
             headers: {
@@ -625,49 +641,568 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
             },
             body: JSON.stringify({
                 name: projectNameSlug,
+                project: projectData.id,
                 gitSource: {
                     type: 'github',
                     repo: repoFullName,
-                    ref: 'main' // or 'master' depending on default branch
+                    ref: 'main', // Default branch
+                    sha: 'HEAD'
                 },
-                projectSettings: {
-                    framework: null,
-                    buildCommand: null,
-                    outputDirectory: null,
-                    installCommand: null,
-                    devCommand: null
-                }
+                target: 'production',
+                ...(accountId && { teamId: accountId })
             })
         });
 
-        if (!deploymentResponse.ok) {
-            const deployError = await deploymentResponse.json().catch(() => ({}));
-            console.error('Vercel deployment trigger failed:', deployError);
-            // Still return project URL even if deployment fails - Vercel will auto-deploy on push
+        let deploymentUrl = `https://${projectNameSlug}.vercel.app`;
+        
+        if (deploymentResponse.ok) {
+            const deploymentData: any = await deploymentResponse.json();
+            console.log('Vercel deployment created:', deploymentData.url || deploymentData.alias?.[0]);
+            if (deploymentData.url) {
+                deploymentUrl = deploymentData.url;
+            } else if (deploymentData.alias && deploymentData.alias.length > 0) {
+                deploymentUrl = `https://${deploymentData.alias[0]}`;
+            }
         } else {
-            const deploymentData = await deploymentResponse.json();
-            console.log('Vercel deployment triggered:', deploymentData.url);
+            const deployError: any = await deploymentResponse.json().catch(() => ({}));
+            console.error('Vercel deployment creation failed:', deployError);
+            // Vercel will auto-deploy when GitHub webhook triggers, so this is okay
+            console.log('Note: Vercel will auto-deploy when GitHub webhook triggers');
         }
 
-        // Return the project URL (Vercel will auto-deploy from GitHub)
-        const projectUrl = projectData.accountId 
-            ? `https://vercel.com/${projectData.accountId}/${projectNameSlug}`
+        // Return the project URL
+        const projectUrl = accountId 
+            ? `https://vercel.com/${accountId}/${projectNameSlug}`
             : `https://vercel.com/dashboard`;
 
         return {
-            url: `https://${projectNameSlug}.vercel.app`,
+            url: deploymentUrl,
             projectUrl: projectUrl,
             projectId: projectData.id
         };
 
     } catch (error: any) {
         console.error('Vercel deployment error:', error);
-        // Don't expose internal error details
+        console.error('Error details:', error.message, error.stack);
+        // Return error but don't fail the whole process
         return {
-            url: 'Vercel deployment pending - check Vercel dashboard',
+            url: null, // Will indicate deployment needs manual setup
             projectUrl: 'https://vercel.com/dashboard',
-            error: 'Deployment failed'
+            error: error.message || 'Deployment failed'
         };
     }
 }
 
+// Helper function to get relevant images from stock photo APIs
+// Returns images with attribution info for proper credit
+async function getRelevantImages(sitewide: any, page: any, pageIndex: number): Promise<Array<{url: string, attribution?: string, photographer?: string, photographerUrl?: string}>> {
+    const images: Array<{url: string, attribution?: string, photographer?: string, photographerUrl?: string}> = [];
+    const pexelsApiKey = process.env.PEXELS_API_KEY; // Recommended: Free, simpler attribution
+    const unsplashAccessKey = process.env.UNSPLASH_ACCESS_KEY; // Alternative: Requires more complex attribution
+    
+    // Generate search terms based on company/industry
+    const searchTerms = [
+        sitewide.industry.toLowerCase(),
+        sitewide.companyType.toLowerCase().replace(/\//g, ' '),
+        page.title.toLowerCase(),
+        ...(sitewide.brandThemes ? sitewide.brandThemes.toLowerCase().split(',').map((t: string) => t.trim()) : [])
+    ].filter(Boolean);
+    
+    // Try Pexels first (simpler attribution, free API)
+    if (pexelsApiKey) {
+        try {
+            for (let i = 0; i < Math.min(3, searchTerms.length); i++) {
+                const term = searchTerms[i];
+                try {
+                    const response = await fetch(
+                        `https://api.pexels.com/v1/search?query=${encodeURIComponent(term)}&per_page=1&orientation=landscape`,
+                        {
+                            headers: {
+                                'Authorization': pexelsApiKey
+                            }
+                        }
+                    );
+                    if (response.ok) {
+                        const data: any = await response.json();
+                        if (data.photos && data.photos.length > 0) {
+                            const photo = data.photos[0];
+                            images.push({
+                                url: photo.src.large,
+                                attribution: `Photo by ${photo.photographer} on Pexels`,
+                                photographer: photo.photographer,
+                                photographerUrl: photo.photographer_url
+                            });
+                        }
+                    }
+                } catch (e) {
+                    console.warn(`Failed to fetch Pexels image for ${term}:`, e);
+                }
+            }
+        } catch (error) {
+            console.warn('Pexels API failed:', error);
+        }
+    }
+    
+    // Fallback to Unsplash if Pexels didn't work or no key
+    if (images.length === 0) {
+        try {
+            if (unsplashAccessKey) {
+                // Use Unsplash API for better results
+                for (let i = 0; i < Math.min(3, searchTerms.length); i++) {
+                    const term = searchTerms[i];
+                    try {
+                        const response = await fetch(
+                            `https://api.unsplash.com/search/photos?query=${encodeURIComponent(term)}&per_page=1&orientation=landscape`,
+                            {
+                                headers: {
+                                    'Authorization': `Client-ID ${unsplashAccessKey}`
+                                }
+                            }
+                        );
+                        if (response.ok) {
+                            const data: any = await response.json();
+                            if (data.results && data.results.length > 0) {
+                                const photo = data.results[0];
+                                images.push({
+                                    url: photo.urls.regular,
+                                    attribution: `Photo by ${photo.user.name} on Unsplash`,
+                                    photographer: photo.user.name,
+                                    photographerUrl: photo.user.links.html
+                                });
+                            }
+                        }
+                    } catch (e) {
+                        console.warn(`Failed to fetch Unsplash image for ${term}:`, e);
+                    }
+                }
+            }
+            
+            // Final fallback: Use Unsplash Source (no API key needed, but less control)
+            if (images.length === 0) {
+                const fallbackTerms = searchTerms.slice(0, 3);
+                for (const term of fallbackTerms) {
+                    // Unsplash Source URLs - random images based on search
+                    images.push({
+                        url: `https://source.unsplash.com/1600x900/?${encodeURIComponent(term)}`,
+                        attribution: 'Photo from Unsplash'
+                    });
+                }
+            }
+        } catch (error) {
+            console.warn('Image fetching failed, will use CSS placeholders:', error);
+        }
+    }
+    
+    return images;
+}
+
+// Helper function to generate main page prompt
+function generateMainPagePrompt(page: any, sitewide: any, pages: any[], pageLinks: any[], gamePlan: any, images: Array<{url: string, attribution?: string, photographer?: string, photographerUrl?: string}>): string {
+    return `Create a professional, modern, high-quality HTML file for the MAIN/HOME page of a website.
+
+Company: ${sitewide.companyName}
+Industry: ${sitewide.industry}
+Company Type: ${sitewide.companyType}
+Page: ${page.title}
+Page Information: ${page.information}
+
+Contact Information:
+- Address: ${sitewide.fullAddress}
+- Phone: ${sitewide.phoneNumber}
+- Email: ${sitewide.email}
+
+Colors: ${sitewide.colors}
+Brand Themes: ${sitewide.brandThemes}
+Extra Details: ${sitewide.extraDetailedInfo || ''}
+
+Design Guidelines:
+${JSON.stringify(gamePlan, null, 2)}
+
+CRITICAL REQUIREMENTS:
+1. MUST include <link rel="stylesheet" href="styles.css"> in the <head> section
+2. MUST include <script src="script.js"></script> before closing </body> tag
+3. Navigation links MUST use correct file paths: ${JSON.stringify(pageLinks)}
+4. Use semantic HTML5 with proper structure (header, nav, main, section, article, footer)
+5. Include comprehensive meta tags for SEO (title, description, keywords, author, Open Graph)
+6. Mobile-responsive structure with viewport meta tag
+7. Professional, modern design with proper CSS classes
+8. Include navigation menu linking to all pages: ${pages.map(p => p.title).join(', ')}
+9. Display contact information prominently in footer and header
+10. Use CSS classes for ALL styling - NO inline styles except for critical CSS
+11. USE REAL IMAGES: Here are relevant stock photos you can use:
+${images.length > 0 ? images.map((img, idx) => `   Image ${idx + 1}: ${img.url}`).join('\n') : '   Use CSS gradients or modern design elements if images are not available'}
+12. NO ATTRIBUTION ON PAGE: Do NOT include photo attribution on this page. Attribution will be handled on a separate attributions.html page.
+13. FOOTER ATTRIBUTION LINK: Include a small, unobtrusive footer link: <a href="attributions.html">Photo Credits</a> or <a href="attributions.html">Attributions</a> - place it in the footer, styled subtly
+14. Use proper semantic HTML elements (h1-h6, p, ul, li, a, img with alt attributes)
+15. Include proper ARIA labels where appropriate
+16. Make sure all text is grammatically correct and professional
+17. Create a visually stunning hero section with compelling headline
+18. Include service highlights or key features section
+19. Add testimonials or social proof section if appropriate
+20. Include clear call-to-action buttons
+${sitewide.contactForm ? '21. Include a contact form on this page or link to contact page' : ''}
+${sitewide.bookingForm ? '22. Include a booking/appointment form or link to booking page' : ''}
+
+Return ONLY the complete, valid HTML5 code with proper CSS and JS links, no explanations or markdown formatting.`;
+}
+
+// Helper function to generate sub-page prompt
+function generateSubPagePrompt(page: any, sitewide: any, pages: any[], pageLinks: any[], gamePlan: any, images: Array<{url: string, attribution?: string, photographer?: string, photographerUrl?: string}>): string {
+    return `Create a professional, modern, high-quality HTML file for the "${page.title}" page.
+
+Company: ${sitewide.companyName}
+Industry: ${sitewide.industry}
+Page Information: ${page.information}
+
+Contact Information:
+- Address: ${sitewide.fullAddress}
+- Phone: ${sitewide.phoneNumber}
+- Email: ${sitewide.email}
+
+Colors: ${sitewide.colors}
+Brand Themes: ${sitewide.brandThemes}
+Extra Details: ${sitewide.extraDetailedInfo || ''}
+
+Design Guidelines:
+${JSON.stringify(gamePlan, null, 2)}
+
+Navigation links MUST use correct file paths: ${JSON.stringify(pageLinks)}
+
+CRITICAL REQUIREMENTS:
+1. MUST include <link rel="stylesheet" href="styles.css"> in the <head> section
+2. MUST include <script src="script.js"></script> before closing </body> tag
+3. Match the exact style and structure of the main page (index.html)
+4. Use the SAME navigation menu structure as the main page
+5. Link to styles.css and script.js (same files as main page)
+6. Mobile-responsive with same breakpoints
+7. Display contact information in footer
+8. Use CSS classes for ALL styling - NO inline styles
+9. Use the same CSS class names as the main page for consistency
+10. Maintain visual consistency with the main page design
+11. USE REAL IMAGES: Here are relevant stock photos you can use:
+${images.length > 0 ? images.map((img, idx) => `   Image ${idx + 1}: ${img.url}`).join('\n') : '   Use CSS gradients or modern design elements if images are not available'}
+12. NO ATTRIBUTION ON PAGE: Do NOT include photo attribution on this page. Attribution will be handled on a separate attributions.html page.
+13. FOOTER ATTRIBUTION LINK: Include a small, unobtrusive footer link: <a href="attributions.html">Photo Credits</a> or <a href="attributions.html">Attributions</a> - place it in the footer, styled subtly
+${page.title.toLowerCase().includes('contact') && sitewide.contactForm ? '14. Include a functional contact form with proper styling' : ''}
+${page.title.toLowerCase().includes('book') && sitewide.bookingForm ? '14. Include a functional booking/appointment form with proper styling' : ''}
+
+IMPORTANT: This page must look identical in style to the main page. Use the same CSS classes and structure.
+Navigation must work correctly. Home link should be: <a href="index.html">Home</a>
+
+Return ONLY the complete HTML code with proper CSS and JS links, no explanations or markdown formatting.`;
+}
+
+// Helper function to refine all pages for consistency
+async function refineAllPages(genAI: GoogleGenAI, model: string, generatedPages: any[], sitewide: any, pages: any[], pageLinks: any[], gamePlan: any): Promise<any[]> {
+    const refinementPrompt = `You are a senior web developer reviewing and refining a complete website. Review all the generated HTML pages and improve them for:
+
+1. CONSISTENCY: Ensure all pages use the same navigation structure, CSS classes, and design patterns
+2. QUALITY: Fix any grammatical errors, improve text quality, ensure professional tone
+3. STRUCTURE: Verify proper HTML5 semantic structure across all pages
+4. ACCESSIBILITY: Ensure proper ARIA labels, alt text, and accessibility features
+5. DESIGN: Ensure visual consistency and modern, professional appearance
+6. FUNCTIONALITY: Verify all links work correctly and forms are properly structured
+
+Generated Pages:
+${generatedPages.map((p, i) => `\n--- Page ${i + 1}: ${p.name} ---\n${p.content.substring(0, 2000)}...`).join('\n')}
+
+Company: ${sitewide.companyName}
+Design Guidelines: ${JSON.stringify(gamePlan, null, 2)}
+Page Links: ${JSON.stringify(pageLinks)}
+
+For each page, return the improved, refined HTML code. Maintain all functionality while improving quality and consistency.
+
+Return a JSON object with this structure:
+{
+  "pages": [
+    {"name": "index.html", "content": "refined HTML here"},
+    {"name": "page2.html", "content": "refined HTML here"}
+  ]
+}
+
+Return ONLY the JSON, no explanations.`;
+
+    const refinementChat = genAI.chats.create({
+        model: model,
+        config: {
+            systemInstruction: 'You are a senior web developer specializing in code review and refinement. Your job is to improve code quality, consistency, and ensure production-ready output.'
+        }
+    });
+
+    try {
+        const refinementResult = await refinementChat.sendMessage({ message: refinementPrompt });
+        const refinementText = refinementResult.text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+        
+        try {
+            const refined: any = JSON.parse(refinementText);
+            if (refined.pages && Array.isArray(refined.pages)) {
+                // Merge with original pages to ensure we have all pages
+                const refinedMap = new Map(refined.pages.map((p: any) => [p.name, p.content]));
+                return generatedPages.map(page => ({
+                    name: page.name,
+                    content: refinedMap.get(page.name) || page.content
+                }));
+            }
+        } catch (parseError) {
+            console.warn('Failed to parse refinement JSON, using original pages');
+        }
+    } catch (error) {
+        console.warn('Refinement failed, using original pages:', error);
+    }
+    
+    // Fallback to original pages if refinement fails
+    return generatedPages;
+}
+
+// Helper function to refine CSS
+async function refineCss(genAI: GoogleGenAI, model: string, cssContent: string, pages: any[], sitewide: any, gamePlan: any): Promise<string> {
+    const cssRefinementPrompt = `You are a senior CSS developer. Review and refine this CSS to ensure:
+
+1. All CSS classes used in the HTML pages are properly styled
+2. Consistent design system (colors, spacing, typography)
+3. Modern, professional appearance
+4. Full responsiveness (mobile, tablet, desktop)
+5. Smooth animations and transitions
+6. Proper hover states and interactive elements
+7. Accessibility (contrast, focus states)
+
+CSS to refine:
+${cssContent.substring(0, 5000)}...
+
+Design Guidelines: ${JSON.stringify(gamePlan, null, 2)}
+Colors: ${sitewide.colors}
+Brand Themes: ${sitewide.brandThemes}
+
+Return the complete, refined CSS code. Return ONLY the CSS code, no explanations or markdown formatting.`;
+
+    const cssRefinementChat = genAI.chats.create({
+        model: model,
+        config: {
+            systemInstruction: 'You are a senior CSS developer. Generate production-ready, modern CSS code.'
+        }
+    });
+
+    try {
+        const cssRefinementResult = await cssRefinementChat.sendMessage({ message: cssRefinementPrompt });
+        const refinedCss = cssRefinementResult.text.replace(/```css\n?/g, '').replace(/```\n?/g, '').trim();
+        return refinedCss || cssContent;
+    } catch (error) {
+        console.warn('CSS refinement failed, using original CSS:', error);
+        return cssContent;
+    }
+}
+
+// Helper function to clean and improve HTML content
+function cleanHtmlContent(html: string, sitewide: any): string {
+    let cleaned = html;
+    
+    // Remove placeholder images and replace with CSS-based alternatives
+    cleaned = cleaned.replace(/<img[^>]*src=["']https?:\/\/via\.placeholder\.com[^"']*["'][^>]*>/gi, (match) => {
+        // Extract alt text if present
+        const altMatch = match.match(/alt=["']([^"']*)["']/i);
+        const altText = altMatch ? altMatch[1] : 'Image';
+        // Replace with a div that can be styled with CSS
+        return `<div class="placeholder-image" aria-label="${altText}"></div>`;
+    });
+    
+    // Fix common text errors
+    cleaned = cleaned.replace(/notbrin/g, 'not only');
+    
+    // Ensure proper HTML structure
+    if (!cleaned.includes('<!DOCTYPE html>')) {
+        cleaned = '<!DOCTYPE html>\n' + cleaned;
+    }
+    
+    // Fix relative paths for assets
+    cleaned = cleaned.replace(/href=["']https?:\/\/[^"']*\/styles\.css["']/gi, 'href="styles.css"');
+    cleaned = cleaned.replace(/src=["']https?:\/\/[^"']*\/script\.js["']/gi, 'src="script.js"');
+    
+    // Ensure proper meta tags
+    if (!cleaned.includes('<meta name="viewport"')) {
+        cleaned = cleaned.replace(/<head[^>]*>/i, (match) => 
+            match + '\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">'
+        );
+    }
+    
+    // Fix contact information if it's a placeholder
+    cleaned = cleaned.replace(/YourLocationLink/g, '#');
+    cleaned = cleaned.replace(/maps\.app\.goo\.gl\/YourLocationLink/g, '#');
+    
+    return cleaned;
+}
+
+// Helper function to clean and improve CSS content
+function cleanCssContent(css: string, sitewide: any): string {
+    let cleaned = css;
+    
+    // Ensure CSS reset is present
+    if (!cleaned.includes('box-sizing') && !cleaned.includes('* {')) {
+        cleaned = `/* CSS Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+\n` + cleaned;
+    }
+    
+    // Add placeholder image styling if not present
+    if (!cleaned.includes('.placeholder-image')) {
+        cleaned += `
+
+/* Placeholder images - styled divs */
+.placeholder-image {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 200px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.placeholder-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" opacity="0.3"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>') center/50px no-repeat;
+}
+`;
+    }
+    
+    // Ensure responsive design
+    if (!cleaned.includes('@media')) {
+        cleaned += `
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    /* Mobile styles */
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    /* Tablet styles */
+}
+
+@media (min-width: 1025px) {
+    /* Desktop styles */
+}
+`;
+    }
+    
+    return cleaned;
+}
+
+// Helper function to generate attribution page
+function generateAttributionPage(sitewide: any, attributions: Array<{url: string, attribution: string, photographer?: string, photographerUrl?: string}>, pageLinks: any[]): string {
+    const attributionLinks = pageLinks.map(link => 
+        link.file === 'index.html' 
+            ? `<li><a href="index.html">${link.title}</a></li>`
+            : `<li><a href="${link.file}">${link.title}</a></li>`
+    ).join('\n                ');
+    
+    const attributionList = attributions.map((attr) => {
+        if (attr.photographer && attr.photographerUrl) {
+            return `            <li>
+                <a href="${attr.photographerUrl}" target="_blank" rel="noopener noreferrer">${attr.attribution}</a>
+            </li>`;
+        } else {
+            return `            <li>${attr.attribution}</li>`;
+        }
+    }).join('\n');
+    
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Photo attributions and credits for ${sitewide.companyName}">
+    <title>Photo Attributions - ${sitewide.companyName}</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="site-logo">
+                <h1>${sitewide.companyName}</h1>
+            </a>
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    ${attributionLinks}
+                    <li class="nav-item"><a href="attributions.html" class="nav-link current-page">Attributions</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="section-padding">
+            <div class="container">
+                <h1 class="section-title">Photo Attributions</h1>
+                <p class="section-description">
+                    We would like to thank the talented photographers who have contributed images to this website. 
+                    All photos are used in accordance with their respective licenses.
+                </p>
+                
+                <div class="attributions-list">
+                    <ul>
+${attributionList}
+                    </ul>
+                </div>
+                
+                <div class="attribution-note">
+                    <p><small>
+                        All images are used under their respective licenses. 
+                        Please visit the photographer's profile for more information about usage rights.
+                    </small></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <p class="footer-tagline">${sitewide.companyName}</p>
+            </div>
+            <nav class="footer-nav">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-nav-list">
+                    ${attributionLinks}
+                    <li><a href="attributions.html" class="footer-nav-link">Attributions</a></li>
+                </ul>
+            </nav>
+            <div class="footer-contact-info">
+                <h3 class="footer-heading">Contact Us</h3>
+                <address class="contact-details">
+                    <p>${sitewide.fullAddress}</p>
+                    <p>Phone: <a href="tel:${sitewide.phoneNumber}" class="contact-link">${sitewide.phoneNumber}</a></p>
+                    <p>Email: <a href="mailto:${sitewide.email}" class="contact-link">${sitewide.email}</a></p>
+                </address>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="copyright">© ${new Date().getFullYear()} ${sitewide.companyName}. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>`;
+}
