@@ -260,7 +260,7 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
         const pageChat = genAI.chats.create({
             model: model,
             config: {
-                    systemInstruction: 'You are a professional web developer. Generate clean, semantic HTML5 code. Focus on creating a high-quality, modern, professional page that matches the brand and design guidelines.'
+                    systemInstruction: 'You are a senior web developer with 10+ years of experience creating award-winning websites. Generate production-ready, semantic HTML5 code. The website must look stunning, modern, and professional - not basic or amateur. Use buttons (not links) for CTAs, proper header structure, and ensure visual hierarchy. Quality is critical - this must look like a $10,000+ website, not a template.'
             }
         });
 
@@ -404,15 +404,77 @@ CRITICAL REQUIREMENTS:
 
 Pages to style: ${pages.map(p => p.title).join(', ')}${allImageAttributions.length > 0 ? ', Attributions' : ''}
 
-DESIGN QUALITY REQUIREMENTS:
-- Create a visually stunning hero section with gradient or solid background
-- Style service cards with hover effects and shadows
-- Make buttons prominent and clickable with clear hover states
-- Create a professional footer with organized columns
-- Ensure proper spacing and breathing room between elements
-- Use consistent border-radius values throughout
+DESIGN QUALITY REQUIREMENTS (CRITICAL):
+
+HEADER STYLING:
+- Header MUST be fixed/sticky at top (position: fixed or sticky)
+- Header background: solid color or semi-transparent with backdrop-filter
+- Logo/company name: left-aligned, prominent, proper font size
+- Navigation menu: horizontal on desktop, hamburger on mobile
+- Nav links: proper spacing, hover effects, active state styling
+- Header height: 60-80px, proper padding
+- Header should have shadow or border for separation
+
+BUTTON STYLING (CRITICAL - MUST LOOK LIKE BUTTONS, NOT LINKS):
+- .btn class: Base button styles
+  * padding: 1rem 2rem (or similar substantial padding)
+  * border-radius: 8px (rounded corners)
+  * font-weight: 600 (bold)
+  * font-size: 1rem
+  * cursor: pointer
+  * border: none (or subtle border)
+  * transition: all 0.3s ease
+  * display: inline-block
+  * text-align: center
+  * text-decoration: none
+
+- .btn-primary: Primary action buttons
+  * background-color: primary brand color (from ${sitewide.colors})
+  * color: white or contrasting text
+  * hover: darker background (background-color: rgba(0,0,0,0.1) darker or use filter: brightness(0.9))
+  * hover: transform: translateY(-2px) (slight lift)
+  * hover: box-shadow: 0 4px 12px rgba(0,0,0,0.15) (stronger shadow)
+  * active: transform: translateY(0) (press down effect)
+
+- .btn-secondary: Secondary buttons
+  * background-color: transparent
+  * border: 2px solid primary color
+  * color: primary color
+  * hover: background-color: primary color, color: white (fill effect)
+
+- Buttons MUST be visually distinct from links - use background colors, padding, borders
+- Links should be subtle, buttons should be prominent
+
+HERO SECTION:
+- Full-width section with compelling background (image or gradient)
+- Large, bold headline (h1): font-size: 3rem+ on desktop, 2rem+ on mobile
+- Subheadline: readable, proper contrast
+- CTA button: prominently placed, large, eye-catching
+- Proper spacing and visual hierarchy
+- Overlay on background image if needed for text readability
+
+CARDS & SECTIONS:
+- Service/feature cards: modern card design
+  * background: white or light color
+  * border-radius: 12px
+  * box-shadow: 0 2px 8px rgba(0,0,0,0.1)
+  * padding: 2rem
+  * hover: transform: translateY(-4px), box-shadow: 0 8px 16px rgba(0,0,0,0.15)
+  * transition: all 0.3s ease
+
+FOOTER:
+- Multi-column layout (3-4 columns on desktop)
+- Organized sections: company info, links, contact
+- Proper spacing and typography
+- Background color distinct from main content
+- Border-top for separation
+
+GENERAL:
+- Ensure proper spacing and breathing room between elements (use margin/padding consistently)
+- Use consistent border-radius values throughout (8px, 12px)
 - Apply consistent color scheme from the provided colors
-- Make typography readable and hierarchical
+- Make typography readable and hierarchical (h1 > h2 > h3)
+- All interactive elements must have clear hover states
 
 The website MUST look professional, modern, polished, and production-ready. Use CSS extensively with modern best practices.
 
@@ -421,7 +483,7 @@ Return ONLY the complete CSS code, no explanations or markdown formatting.`;
         const cssChat = genAI.chats.create({
             model: model,
             config: {
-                systemInstruction: 'You are a professional web developer. Generate modern, responsive CSS code that creates a stunning, professional website.'
+                systemInstruction: 'You are a senior web developer with 10+ years of experience. Generate production-ready, modern, responsive CSS code that creates a stunning, professional, polished website. Focus on visual quality, proper spacing, modern design trends, and ensuring buttons look like buttons (not links). This must look like a premium, high-end website - not basic or template-like.'
             }
         });
 
@@ -792,22 +854,71 @@ async function getRelevantImages(sitewide: any, page: any, pageIndex: number): P
     const pexelsApiKey = process.env.PEXELS_API_KEY; // Recommended: Free, simpler attribution
     const unsplashAccessKey = process.env.UNSPLASH_ACCESS_KEY; // Alternative: Requires more complex attribution
     
-    // Generate search terms based on company/industry
-    const searchTerms = [
-        sitewide.industry.toLowerCase(),
-        sitewide.companyType.toLowerCase().replace(/\//g, ' '),
-        page.title.toLowerCase(),
-        ...(sitewide.brandThemes ? sitewide.brandThemes.toLowerCase().split(',').map((t: string) => t.trim()) : [])
-    ].filter(Boolean);
+    // Generate more specific and relevant search terms
+    // Combine company name, industry, and context for better image matching
+    const companyWords = sitewide.companyName.toLowerCase().split(/\s+/).filter(w => w.length > 3);
+    const industryWords = sitewide.industry.toLowerCase().split(/\s+/);
+    const pageContext = page.title.toLowerCase();
+    const brandWords = sitewide.brandThemes ? sitewide.brandThemes.toLowerCase().split(',').map((t: string) => t.trim().split(/\s+/)).flat() : [];
+    
+    // Create more specific search terms by combining context
+    const searchTerms: string[] = [];
+    
+    // Primary: Industry + company type (most relevant)
+    if (sitewide.industry && sitewide.companyType) {
+        searchTerms.push(`${sitewide.industry} ${sitewide.companyType}`.toLowerCase().replace(/\//g, ' '));
+    }
+    
+    // Secondary: Industry alone
+    if (sitewide.industry) {
+        searchTerms.push(sitewide.industry.toLowerCase());
+    }
+    
+    // Tertiary: Page-specific context
+    if (pageContext) {
+        // Map common page titles to better search terms
+        const pageTermMap: { [key: string]: string } = {
+            'about': 'professional team business',
+            'services': `${sitewide.industry} services`,
+            'contact': 'business office professional',
+            'home': `${sitewide.industry} business`,
+            'portfolio': `${sitewide.industry} work examples`,
+            'gallery': `${sitewide.industry} showcase`
+        };
+        
+        const pageTerm = pageTermMap[pageContext] || `${sitewide.industry} ${pageContext}`;
+        searchTerms.push(pageTerm);
+    }
+    
+    // Add brand themes if they're descriptive
+    brandWords.forEach(word => {
+        if (word.length > 4 && !searchTerms.includes(word)) {
+            searchTerms.push(word);
+        }
+    });
+    
+    // Add company-specific terms if they're meaningful
+    companyWords.forEach(word => {
+        if (word.length > 4 && !['landscaping', 'services', 'company', 'inc', 'llc'].includes(word)) {
+            searchTerms.push(`${word} ${sitewide.industry}`);
+        }
+    });
+    
+    // Remove duplicates and filter
+    const uniqueTerms = [...new Set(searchTerms)].filter(Boolean).slice(0, 5);
+    
+    console.log(`Image search terms for ${page.title}:`, uniqueTerms);
     
     // Try Pexels first (simpler attribution, free API)
     if (pexelsApiKey) {
         try {
-            for (let i = 0; i < Math.min(3, searchTerms.length); i++) {
-                const term = searchTerms[i];
+            // Try each search term, but get multiple results per term and pick the best
+            for (let i = 0; i < Math.min(3, uniqueTerms.length); i++) {
+                const term = uniqueTerms[i];
                 try {
+                    // Get more results per search to have better selection
                     const response = await fetch(
-                        `https://api.pexels.com/v1/search?query=${encodeURIComponent(term)}&per_page=1&orientation=landscape`,
+                        `https://api.pexels.com/v1/search?query=${encodeURIComponent(term)}&per_page=5&orientation=landscape`,
                         {
                             headers: {
                                 'Authorization': pexelsApiKey
@@ -817,13 +928,17 @@ async function getRelevantImages(sitewide: any, page: any, pageIndex: number): P
                     if (response.ok) {
                         const data: any = await response.json();
                         if (data.photos && data.photos.length > 0) {
+                            // Pick the first result (most relevant) for this term
                             const photo = data.photos[0];
-                            images.push({
-                                url: photo.src.large,
-                                attribution: `Photo by ${photo.photographer} on Pexels`,
-                                photographer: photo.photographer,
-                                photographerUrl: photo.photographer_url
-                            });
+                            // Only add if we don't already have this image
+                            if (!images.find(img => img.url === photo.src.large)) {
+                                images.push({
+                                    url: photo.src.large,
+                                    attribution: `Photo by ${photo.photographer} on Pexels`,
+                                    photographer: photo.photographer,
+                                    photographerUrl: photo.photographer_url
+                                });
+                            }
                         }
                     }
                 } catch (e) {
@@ -910,30 +1025,88 @@ Extra Details: ${sitewide.extraDetailedInfo || ''}
 Design Guidelines:
 ${JSON.stringify(gamePlan, null, 2)}
 
-CRITICAL REQUIREMENTS:
+CRITICAL REQUIREMENTS - FOLLOW EXACTLY:
+
+STRUCTURE & SEMANTICS:
 1. MUST include <link rel="stylesheet" href="styles.css"> in the <head> section
 2. MUST include <script src="script.js"></script> before closing </body> tag
 3. Navigation links MUST use correct file paths: ${JSON.stringify(pageLinks)}
-4. Use semantic HTML5 with proper structure (header, nav, main, section, article, footer)
+4. Use semantic HTML5 with proper structure: <header>, <nav>, <main>, <section>, <article>, <footer>
 5. Include comprehensive meta tags for SEO (title, description, keywords, author, Open Graph)
 6. Mobile-responsive structure with viewport meta tag
-7. Professional, modern design with proper CSS classes
-8. Include navigation menu linking to all pages: ${pages.map(p => p.title).join(', ')}
-9. Display contact information prominently in footer and header
-10. Use CSS classes for ALL styling - NO inline styles except for critical CSS
-11. USE REAL IMAGES: Here are relevant stock photos you can use:
-${images.length > 0 ? images.map((img, idx) => `   Image ${idx + 1}: ${img.url}`).join('\n') : '   Use CSS gradients or modern design elements if images are not available'}
-12. NO ATTRIBUTION ON PAGE: Do NOT include photo attribution on this page. Attribution will be handled on a separate attributions.html page.
-13. FOOTER ATTRIBUTION LINK: Include a small, unobtrusive footer link: <a href="attributions.html">Photo Credits</a> or <a href="attributions.html">Attributions</a> - place it in the footer, styled subtly
-14. Use proper semantic HTML elements (h1-h6, p, ul, li, a, img with alt attributes)
-15. Include proper ARIA labels where appropriate
-16. Make sure all text is grammatically correct and professional
-17. Create a visually stunning hero section with compelling headline
-18. Include service highlights or key features section
-19. Add testimonials or social proof section if appropriate
-20. Include clear call-to-action buttons
-${sitewide.contactForm ? '21. Include a contact form on this page or link to contact page' : ''}
-${sitewide.bookingForm ? '22. Include a booking/appointment form or link to booking page' : ''}
+7. Use CSS classes for ALL styling - NO inline styles except for critical CSS
+
+HEADER REQUIREMENTS (CRITICAL):
+8. Header MUST have a clear, professional structure:
+   - Company name/logo on the left (use <h1> or logo image)
+   - Navigation menu on the right (horizontal list of links)
+   - Contact info (phone/email) visible in header if space allows
+   - Sticky/fixed header is preferred for modern look
+   - Header should be visually distinct with background color or border
+
+BUTTONS vs LINKS (CRITICAL - THIS IS IMPORTANT):
+9. USE <button> ELEMENTS for ALL call-to-action buttons, NOT <a> tags:
+   - "Contact Us" buttons → <button class="btn btn-primary">Contact Us</button>
+   - "Get Started" buttons → <button class="btn btn-primary">Get Started</button>
+   - "Book Now" buttons → <button class="btn btn-primary">Book Now</button>
+   - "Learn More" buttons → <button class="btn btn-secondary">Learn More</button>
+   - ONLY use <a> tags for navigation links in the menu and footer
+   - Buttons MUST have proper CSS classes (btn, btn-primary, btn-secondary, etc.)
+   - Buttons should be visually prominent with padding, background colors, and hover effects
+
+NAVIGATION:
+10. Navigation menu MUST be properly structured:
+    - Use <nav> element with <ul> and <li> for menu items
+    - All pages should be linked: ${pages.map(p => p.title).join(', ')}
+    - Active page should be indicated (current-page class)
+    - Mobile hamburger menu structure should be included
+
+IMAGES (BE SELECTIVE - QUALITY OVER QUANTITY):
+11. Available images (use ONLY if contextually relevant):
+${images.length > 0 ? images.map((img, idx) => `   Image ${idx + 1}: ${img.url}`).join('\n') : '   No images available'}
+
+CRITICAL IMAGE RULES:
+- Only use images that make sense for the content and context
+- If an image doesn't fit, use CSS gradients, solid colors, or geometric patterns instead
+- Better to have no image than an irrelevant/out-of-place image
+- Images should enhance the design, not distract
+- Hero section can use background images if relevant, otherwise use gradients
+- Service/feature sections can use icons or patterns instead of photos if images don't fit
+
+12. NO ATTRIBUTION ON PAGE: Do NOT include photo attribution on this page
+13. FOOTER ATTRIBUTION LINK: Include a small footer link: <a href="attributions.html">Photo Credits</a>
+
+CONTENT STRUCTURE:
+14. Hero section MUST be visually stunning:
+    - Large, compelling headline (h1)
+    - Subheadline or description
+    - Primary call-to-action BUTTON (not link)
+    - Background image or gradient
+    - Proper spacing and visual hierarchy
+
+15. Service/Features section:
+    - Use cards or grid layout
+    - Each service/feature in its own card
+    - Icons or images for each item
+    - Clear headings and descriptions
+
+16. Footer MUST include:
+    - Company name and tagline
+    - Contact information (address, phone, email)
+    - Navigation links
+    - Copyright notice
+    - Attribution link if images are used
+
+FORMS:
+${sitewide.contactForm ? '17. Contact form MUST be properly structured with <form>, <input>, <textarea>, <button type="submit"> elements' : ''}
+${sitewide.bookingForm ? '18. Booking form MUST include date/time pickers and proper form structure' : ''}
+
+QUALITY STANDARDS:
+19. All text MUST be grammatically correct and professional
+20. Use proper semantic HTML elements (h1-h6, p, ul, li, img with alt attributes)
+21. Include proper ARIA labels where appropriate
+22. Ensure proper heading hierarchy (one h1 per page, then h2, h3, etc.)
+23. All interactive elements must be properly styled and accessible
 
 Return ONLY the complete, valid HTML5 code with proper CSS and JS links, no explanations or markdown formatting.`;
 }
@@ -960,23 +1133,48 @@ ${JSON.stringify(gamePlan, null, 2)}
 
 Navigation links MUST use correct file paths: ${JSON.stringify(pageLinks)}
 
-CRITICAL REQUIREMENTS:
+CRITICAL REQUIREMENTS - FOLLOW EXACTLY:
+
+STRUCTURE:
 1. MUST include <link rel="stylesheet" href="styles.css"> in the <head> section
 2. MUST include <script src="script.js"></script> before closing </body> tag
-3. Match the exact style and structure of the main page (index.html)
+3. Match the EXACT style and structure of the main page (index.html)
 4. Use the SAME navigation menu structure as the main page
 5. Link to styles.css and script.js (same files as main page)
 6. Mobile-responsive with same breakpoints
-7. Display contact information in footer
-8. Use CSS classes for ALL styling - NO inline styles
-9. Use the same CSS class names as the main page for consistency
-10. Maintain visual consistency with the main page design
+7. Use CSS classes for ALL styling - NO inline styles
+8. Use the SAME CSS class names as the main page for consistency
+
+HEADER (MUST MATCH MAIN PAGE):
+9. Header structure MUST be identical to index.html:
+   - Same logo/company name placement
+   - Same navigation menu structure
+   - Same styling classes
+   - Same contact info placement
+
+BUTTONS vs LINKS (CRITICAL):
+10. USE <button> ELEMENTS for ALL call-to-action buttons, NOT <a> tags:
+    - "Contact Us" → <button class="btn btn-primary">Contact Us</button>
+    - "Submit" → <button type="submit" class="btn btn-primary">Submit</button>
+    - "Book Appointment" → <button class="btn btn-primary">Book Appointment</button>
+    - ONLY use <a> tags for navigation links in menu and footer
+    - Buttons MUST use the same CSS classes as main page (btn, btn-primary, etc.)
+
+CONTENT:
 11. USE REAL IMAGES: Here are relevant stock photos you can use:
 ${images.length > 0 ? images.map((img, idx) => `   Image ${idx + 1}: ${img.url}`).join('\n') : '   Use CSS gradients or modern design elements if images are not available'}
-12. NO ATTRIBUTION ON PAGE: Do NOT include photo attribution on this page. Attribution will be handled on a separate attributions.html page.
-13. FOOTER ATTRIBUTION LINK: Include a small, unobtrusive footer link: <a href="attributions.html">Photo Credits</a> or <a href="attributions.html">Attributions</a> - place it in the footer, styled subtly
-${page.title.toLowerCase().includes('contact') && sitewide.contactForm ? '14. Include a functional contact form with proper styling' : ''}
-${page.title.toLowerCase().includes('book') && sitewide.bookingForm ? '14. Include a functional booking/appointment form with proper styling' : ''}
+12. NO ATTRIBUTION ON PAGE: Do NOT include photo attribution on this page
+13. FOOTER ATTRIBUTION LINK: Include footer link: <a href="attributions.html">Photo Credits</a>
+
+FORMS (if applicable):
+${page.title.toLowerCase().includes('contact') && sitewide.contactForm ? '14. Contact form MUST use proper form structure:\n   - <form> element with action and method\n   - <input> elements with proper types (text, email, tel)\n   - <textarea> for messages\n   - <button type="submit"> for submit button (NOT <a> tag)\n   - Proper labels and placeholders' : ''}
+${page.title.toLowerCase().includes('book') && sitewide.bookingForm ? '14. Booking form MUST include:\n   - <form> element\n   - Date picker input (type="date")\n   - Time picker input (type="time")\n   - <button type="submit"> for submit (NOT <a> tag)\n   - Proper form validation attributes' : ''}
+
+QUALITY:
+15. All text MUST be grammatically correct and professional
+16. Maintain visual consistency with the main page design
+17. Use proper semantic HTML elements
+18. Ensure proper heading hierarchy
 
 IMPORTANT: This page must look identical in style to the main page. Use the same CSS classes and structure.
 Navigation must work correctly. Home link should be: <a href="index.html">Home</a>
