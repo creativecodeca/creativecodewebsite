@@ -33,17 +33,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Try to extract Place ID from URL for Google Places API
         let placeId = '';
         let resolvedMapsUrl = '';
+        let finalUrlForPlaceId = actualGmbUrl; // Initialize outside try block for scope
         
         try {
             // First, resolve share links to get the actual Google Maps URL
-            let finalUrlForPlaceId = actualGmbUrl;
+            finalUrlForPlaceId = actualGmbUrl;
             
             // Check if it's a share link
-            const isShareLink = actualGmbUrl.includes('share.google.com') || 
+            const isShareLink = actualGmbUrl.includes('share.google') ||  // Includes share.google.com and share.google
                                actualGmbUrl.includes('goo.gl') || 
                                actualGmbUrl.includes('maps.app.goo.gl') ||
                                actualGmbUrl.includes('shorturl.at') ||
-                               actualGmbUrl.includes('maps.google.com') && actualGmbUrl.includes('/url?');
+                               (actualGmbUrl.includes('maps.google.com') && actualGmbUrl.includes('/url?'));
             
             if (isShareLink) {
                 console.log('Detected share link, resolving to final URL...');
@@ -77,7 +78,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                             }
                             
                             // If we got a page, check if it's a redirect page and extract URL from body
-                            const isRedirectPage = url.includes('share.google.com') || 
+                            const isRedirectPage = url.includes('share.google') ||  // Includes share.google.com and share.google
                                                   url.includes('accounts.google.com') || 
                                                   url.includes('google.com/url') ||
                                                   url.includes('google.com/search') ||
@@ -682,7 +683,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         let businessNameHint = '';
         try {
             // Try to extract business name from the resolved URL (or original if not resolved)
-            const urlToParse = resolvedMapsUrl || finalUrl || actualGmbUrl;
+            // Use finalUrl if available (from HTML fetch), otherwise use resolved URLs
+            const urlToParse = finalUrl || resolvedMapsUrl || finalUrlForPlaceId || actualGmbUrl;
             const urlObj = new URL(urlToParse);
             // Google Maps share links often have the business name in the path or query
             const pathParts = urlObj.pathname.split('/');
