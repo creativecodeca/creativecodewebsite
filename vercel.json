@@ -1,4 +1,17 @@
 {
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "system.creativecodeca.com"
+        }
+      ],
+      "destination": "/system/",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!api|system).*)",
