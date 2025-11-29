@@ -23,12 +23,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             });
         }
 
+        // Use the provided GMB URL
+        const actualGmbUrl = gmbUrl.trim();
+
+        // Step 1: Actually fetch the webpage content first
+        console.log('Fetching webpage content from:', actualGmbUrl);
+        let webpageContent = '';
+        let finalUrl = actualGmbUrl;
+        
+        try {
+            // Follow redirects to get the final URL
+            const response = await fetch(actualGmbUrl, {
+                method: 'GET',
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                    'Accept-Language': 'en-US,en;q=0.9'
+                },
+                redirect: 'follow'
+            });
+
+            finalUrl = response.url; // Get the final URL after redirects
+            webpageContent = await response.text();
+            console.log('Fetched webpage, length:', webpageContent.length, 'Final URL:', finalUrl);
+        } catch (fetchError: any) {
+            console.error('Error fetching webpage:', fetchError);
+            throw new Error(`Failed to fetch webpage: ${fetchError.message}`);
+        }
+
+        if (!webpageContent || webpageContent.length < 100) {
+            throw new Error('Webpage content is too short or empty. The URL may be inaccessible.');
+        }
+
         // Initialize Gemini
         const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
         const model = 'gemini-2.5-flash';
-
-        // Use the provided GMB URL
-        const actualGmbUrl = gmbUrl.trim();
 
         // Extract business name from URL if it's a Google Maps share link
         let businessNameHint = '';
@@ -46,37 +75,45 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             // If URL parsing fails, continue without hint
         }
 
-        // Create a prompt to extract GMB information
-        const prompt = `Extract business information from this SPECIFIC Google My Business URL: ${actualGmbUrl}
+        // Extract relevant content from HTML (reduce size for Gemini)
+        // Get text content and key data attributes
+        const textContent = webpageContent
+            .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '') // Remove scripts
+            .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '') // Remove styles
+            .replace(/<[^>]+>/g, ' ') // Remove HTML tags
+            .replace(/\s+/g, ' ') // Normalize whitespace
+            .substring(0, 50000); // Limit to 50k chars for Gemini
 
-CRITICAL INSTRUCTIONS:
-1. You MUST visit the EXACT URL above - do NOT search for businesses or use general web search
-2. If this is a share.google.com link, follow the redirect to the actual Google Maps page
-3. Extract information ONLY from the business displayed at that specific URL
-4. If you see a different business than what the URL should show, return empty strings
-5. Do NOT guess or use information from other businesses
+        // Create a prompt to extract GMB information from the actual webpage content
+        const prompt = `Extract business information from this Google My Business webpage content. The URL is: ${finalUrl}
 
-VERIFICATION STEP:
-Before extracting, verify you are on the correct business page. The URL should match the business you're viewing.
+WEBPAGE CONTENT (first 50k characters):
+${textContent}
 
-Extract the following information from the GMB listing at this URL:
-- Company/Business Name (exact name as shown on the page)
-- Phone Number (if displayed)
-- Full Address (street, city, state/province, postal code)
-- City (extracted from address)
-- Email address (if visible)
-- Industry/Business Category (e.g., Landscaping, Tree Service, etc.)
-- Company Type (Service Location Business, Service Area Business, Online Store, E-commerce, Professional Services, Restaurant/Food Service, Healthcare/Medical, Real Estate, Fitness/Gym, Beauty/Salon, Education/Training, Non-Profit, or Other)
-- Brand colors (if mentioned)
-- Brand themes (if mentioned)
-- Business description/about (if available)
+INSTRUCTIONS:
+1. Parse the webpage content above to find the business information
+2. Extract ONLY the information that is actually present in the content
+3. Do NOT make assumptions or guesses
+4. Do NOT use information from your training data - only use what's in the content above
 
-IMPORTANT: 
-- If you cannot access the URL or get information for a different business, return ALL empty strings
-- Do NOT return information for "B&H tree service" or any other business unless it matches the URL
-- Only return data you can confirm is from THIS specific URL
+Extract these fields from the webpage content:
+- companyName: The business name (look for headings, titles, or business name elements)
+- phoneNumber: Phone number if visible in the content
+- address: Complete address (street, city, state, postal code)
+- city: Extract city from the address
+- email: Email address if present
+- industry: Business category/type (e.g., "Landscaping", "Tree Service", "Restaurant")
+- companyType: Choose the best match: Service Location Business, Service Area Business, Online Store, E-commerce, Professional Services, Restaurant/Food Service, Healthcare/Medical, Real Estate, Fitness/Gym, Beauty/Salon, Education/Training, Non-Profit, or Other
+- colors: Brand colors if mentioned
+- brandThemes: Brand themes/descriptors if mentioned
+- extraDetailedInfo: Business description or "About" text if present
 
-Return ONLY this JSON (use empty strings if data unavailable or wrong business):
+CRITICAL: 
+- Extract ONLY information that appears in the webpage content above
+- If information is not in the content, use empty string
+- Return accurate data for the business shown in this specific webpage
+
+Return this JSON format:
 {
   "companyName": "",
   "phoneNumber": "",
@@ -88,20 +125,24 @@ Return ONLY this JSON (use empty strings if data unavailable or wrong business):
   "colors": "",
   "brandThemes": "",
   "extraDetailedInfo": ""
-}
-
-No markdown, no code blocks, no explanations - just the JSON object.`;
+}`;
 
         const chat = genAI.chats.create({
             model: model,
             config: {
-                systemInstruction: `You are a data extraction assistant. Your task is to extract business information from a SPECIFIC Google My Business URL. 
-                
-CRITICAL: You must visit the EXACT URL provided and extract information ONLY from that specific business listing. 
-Do NOT search for similar businesses or return information from a different business.
-If you cannot access the exact URL or the business name doesn't match, return empty strings.
-Verify the business name matches the URL context before returning data.
-Return only valid JSON with the exact structure requested.`
+                systemInstruction: `You are a web scraping assistant. Your ONLY job is to:
+1. Access the EXACT URL provided by the user
+2. Extract the business information that is VISIBLE on that specific page
+3. Return ONLY what you see on that page - nothing else
+
+CRITICAL RULES:
+- Do NOT use web search
+- Do NOT guess or infer information
+- Do NOT return information from other businesses
+- If you cannot access the URL, return all empty strings
+- If the page shows a different business than expected, return all empty strings
+- Extract ONLY the text/content that is actually displayed on the page
+- Return data in the exact JSON format requested`
             }
         });
 
@@ -160,52 +201,12 @@ Return only valid JSON with the exact structure requested.`
             extraDetailedInfo: (extractedData.extraDetailedInfo || '').trim()
         };
 
-        // Validate the extracted data - check for known wrong businesses
-        const companyNameLower = cleanedData.companyName.toLowerCase();
-        const urlLower = gmbUrl.toLowerCase();
-        
-        // List of known wrong businesses that have been extracted incorrectly
-        const knownWrongBusinesses = [
-            'b&h tree service',
-            'b and h tree service',
-            'bh tree service',
-            'pet shop',
-            'pet store'
-        ];
-        
-        // Check if extracted business name matches any known wrong businesses
-        const isKnownWrongBusiness = knownWrongBusinesses.some(wrongBusiness => 
-            companyNameLower.includes(wrongBusiness.toLowerCase())
-        );
-        
-        // Check if URL contains keywords that should match the business
-        // For Faro Landscaping, URL should contain "faro" or "landscaping"
-        const urlKeywords = ['faro', 'landscaping'];
-        const urlHasRelevantKeywords = urlKeywords.some(keyword => urlLower.includes(keyword));
-        const extractedHasRelevantKeywords = urlKeywords.some(keyword => 
-            companyNameLower.includes(keyword) || (cleanedData.industry && cleanedData.industry.toLowerCase().includes(keyword))
-        );
-        
-        // If we got a known wrong business, or URL has keywords but extracted data doesn't match, reject it
-        if (isKnownWrongBusiness || (urlHasRelevantKeywords && !extractedHasRelevantKeywords && cleanedData.companyName)) {
-            console.warn(`Extracted business "${cleanedData.companyName}" does not match URL context. URL: ${gmbUrl}`);
-            return res.json({
-                success: false,
-                error: 'The extracted business information does not match the GMB URL. This may be due to the URL being inaccessible or redirecting to a different business. Please verify the URL is correct and try again, or enter the information manually.',
-                data: {
-                    companyName: '',
-                    phoneNumber: '',
-                    address: '',
-                    city: '',
-                    email: '',
-                    industry: '',
-                    companyType: '',
-                    colors: '',
-                    brandThemes: '',
-                    extraDetailedInfo: ''
-                }
-            });
-        }
+        // Log what was extracted for debugging
+        console.log('Extracted GMB data:', {
+            companyName: cleanedData.companyName,
+            url: gmbUrl,
+            hasData: !!cleanedData.companyName || !!cleanedData.address || !!cleanedData.phoneNumber
+        });
 
         // Extract city from address if city is empty but address exists
         if (!cleanedData.city && cleanedData.address) {
