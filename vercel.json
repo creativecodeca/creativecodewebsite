@@ -1,6 +1,16 @@
 {
   "rewrites": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "system.creativecodeca.com"
+        }
+      ],
+      "destination": "/system/index.html"
+    },
+    {
       "source": "/:path*",
       "has": [
         {
