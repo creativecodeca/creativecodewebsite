@@ -26,6 +26,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         // Use the provided GMB URL
         const actualGmbUrl = gmbUrl.trim();
+        
+        // Log API key status
+        console.log('GOOGLE_PLACES_API_KEY available:', !!GOOGLE_PLACES_API_KEY);
 
         // Try to extract Place ID from URL for Google Places API
         let placeId = '';
@@ -77,6 +80,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             // Continue with HTML scraping if Place ID extraction fails
         }
 
+        // Log Place ID extraction result
+        console.log('Place ID extracted:', placeId || 'NOT FOUND');
+        console.log('GOOGLE_PLACES_API_KEY set:', !!GOOGLE_PLACES_API_KEY);
+        
         // If we have Place ID and Google Places API key, use that first
         if (placeId && GOOGLE_PLACES_API_KEY) {
             console.log('Using Google Places API (New) with Place ID:', placeId);
@@ -171,11 +178,164 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 } else {
                     const errorText = await placesResponse.text();
                     console.error('Google Places API (New) error response:', placesResponse.status, errorText);
-                    // Fall through to HTML scraping method
+                    // Return error instead of falling through
+                    return res.json({
+                        success: false,
+                        error: `Google Places API error: ${placesResponse.status}. ${errorText.substring(0, 200)}`,
+                        data: {
+                            companyName: '',
+                            phoneNumber: '',
+                            address: '',
+                            city: '',
+                            email: '',
+                            industry: '',
+                            companyType: '',
+                            colors: '',
+                            brandThemes: '',
+                            extraDetailedInfo: ''
+                        }
+                    });
                 }
             } catch (placesError: any) {
                 console.error('Google Places API (New) error:', placesError);
-                // Fall through to HTML scraping method
+                // Return error instead of falling through
+                return res.json({
+                    success: false,
+                    error: `Google Places API request failed: ${placesError.message || 'Unknown error'}. Please check your API key and Place ID extraction.`,
+                    data: {
+                        companyName: '',
+                        phoneNumber: '',
+                        address: '',
+                        city: '',
+                        email: '',
+                        industry: '',
+                        companyType: '',
+                        colors: '',
+                        brandThemes: '',
+                        extraDetailedInfo: ''
+                    }
+                });
+            }
+        } else if (GOOGLE_PLACES_API_KEY && !placeId) {
+            // If we have API key but no Place ID, try Text Search as fallback
+            console.log('Place ID not found, attempting Places API Text Search');
+            
+            // Try to extract business name from URL for text search
+            let searchText = '';
+            try {
+                const urlObj = new URL(actualGmbUrl);
+                // Try to get business name from path
+                const pathParts = urlObj.pathname.split('/');
+                const placeIndex = pathParts.findIndex(p => p === 'place');
+                if (placeIndex !== -1 && pathParts[placeIndex + 1]) {
+                    searchText = decodeURIComponent(pathParts[placeIndex + 1].replace(/\+/g, ' '));
+                }
+            } catch (e) {
+                // Continue
+            }
+            
+            if (searchText) {
+                try {
+                    // Use Places API Text Search
+                    const textSearchResponse = await fetch(
+                        `https://places.googleapis.com/v1/places:searchText`,
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Goog-Api-Key': GOOGLE_PLACES_API_KEY,
+                                'X-Goog-FieldMask': 'places.id,places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.websiteUri,places.types,places.addressComponents'
+                            },
+                            body: JSON.stringify({
+                                textQuery: searchText
+                            })
+                        }
+                    );
+                    
+                    if (textSearchResponse.ok) {
+                        const searchData = await textSearchResponse.json();
+                        if (searchData.places && searchData.places.length > 0) {
+                            // Use the first result
+                            const place = searchData.places[0];
+                            
+                            // Extract city
+                            let city = '';
+                            if (place.addressComponents) {
+                                const cityComponent = place.addressComponents.find((comp: any) => 
+                                    comp.types && (comp.types.includes('locality') || comp.types.includes('administrative_area_level_2'))
+                                );
+                                if (cityComponent) {
+                                    city = cityComponent.longText || cityComponent.shortText || '';
+                                }
+                            }
+                            
+                            // Determine industry and company type
+                            let industry = '';
+                            let companyType = '';
+                            if (place.types && place.types.length > 0) {
+                                const businessTypes = place.types.filter((t: string) => 
+                                    !t.startsWith('establishment') && 
+                                    !t.startsWith('point_of_interest') &&
+                                    t !== 'geocode' &&
+                                    t !== 'premise'
+                                );
+                                if (businessTypes.length > 0) {
+                                    industry = businessTypes[0]
+                                        .replace(/_/g, ' ')
+                                        .split(' ')
+                                        .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+                                        .join(' ');
+                                    
+                                    const types = place.types.map((t: string) => t.toLowerCase());
+                                    if (types.some(t => t.includes('restaurant') || t.includes('food'))) {
+                                        companyType = 'Restaurant/Food Service';
+                                    } else if (types.some(t => t.includes('store') || t.includes('shop'))) {
+                                        companyType = 'Online Store';
+                                    } else if (types.some(t => t.includes('health') || t.includes('medical'))) {
+                                        companyType = 'Healthcare/Medical';
+                                    } else if (types.some(t => t.includes('real_estate') || t.includes('real estate'))) {
+                                        companyType = 'Real Estate';
+                                    } else if (types.some(t => t.includes('gym') || t.includes('fitness'))) {
+                                        companyType = 'Fitness/Gym';
+                                    } else if (types.some(t => t.includes('beauty') || t.includes('salon'))) {
+                                        companyType = 'Beauty/Salon';
+                                    } else if (types.some(t => t.includes('school') || t.includes('education'))) {
+                                        companyType = 'Education/Training';
+                                    } else {
+                                        companyType = 'Service Location Business';
+                                    }
+                                }
+                            }
+                            
+                            return res.json({
+                                success: true,
+                                data: {
+                                    companyName: place.displayName?.text || '',
+                                    phoneNumber: place.nationalPhoneNumber || '',
+                                    address: place.formattedAddress || '',
+                                    city: city,
+                                    email: '',
+                                    industry: industry,
+                                    companyType: companyType,
+                                    colors: '',
+                                    brandThemes: '',
+                                    extraDetailedInfo: place.websiteUri ? `Website: ${place.websiteUri}` : ''
+                                }
+                            });
+                        }
+                    }
+                } catch (textSearchError: any) {
+                    console.error('Places API Text Search error:', textSearchError);
+                    // Fall through to HTML scraping
+                }
+            }
+        } else {
+            // Log why API isn't being used
+            if (!placeId) {
+                console.log('Places API not used: Place ID not found in URL');
+            }
+            if (!GOOGLE_PLACES_API_KEY) {
+                console.log('Places API not used: GOOGLE_PLACES_API_KEY not set in environment variables');
             }
         }
 
