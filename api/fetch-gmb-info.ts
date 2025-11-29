@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenAI } from '@google/genai';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.API_KEY;
+const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') {
@@ -25,6 +26,158 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         // Use the provided GMB URL
         const actualGmbUrl = gmbUrl.trim();
+
+        // Try to extract Place ID from URL for Google Places API
+        let placeId = '';
+        try {
+            // First, try to get the final URL after redirects (for share links)
+            let finalUrlForPlaceId = actualGmbUrl;
+            if (actualGmbUrl.includes('share.google.com') || actualGmbUrl.includes('goo.gl') || actualGmbUrl.includes('maps.app.goo.gl')) {
+                try {
+                    const redirectResponse = await fetch(actualGmbUrl, { 
+                        method: 'GET', 
+                        redirect: 'follow',
+                        headers: {
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                        }
+                    });
+                    finalUrlForPlaceId = redirectResponse.url;
+                    console.log('Resolved share link to:', finalUrlForPlaceId);
+                } catch (e) {
+                    console.warn('Failed to resolve share link:', e);
+                    // Continue with original URL
+                }
+            }
+
+            // Extract Place ID from URL - multiple possible formats:
+            // Format 1: data=!4m2!3m1!1sPLACE_ID
+            // Format 2: /place/PLACE_NAME/@lat,lng,zoom/data=!4m2!3m1!1sPLACE_ID
+            // Format 3: /maps/place/PLACE_NAME/@lat,lng/data=!4m2!3m1!1sPLACE_ID
+            const placeIdMatch = finalUrlForPlaceId.match(/[!&]1s([A-Za-z0-9_-]{27,})/);
+            if (placeIdMatch) {
+                placeId = placeIdMatch[1];
+                console.log('Extracted Place ID:', placeId);
+            } else {
+                // Try alternative format with longer pattern
+                const altMatch = finalUrlForPlaceId.match(/\/place\/[^/]+\/@[^/]+\/data=!4m[^!]*!3m[^!]*!1s([A-Za-z0-9_-]{27,})/);
+                if (altMatch) {
+                    placeId = altMatch[1];
+                    console.log('Extracted Place ID (alt format):', placeId);
+                } else {
+                    // Try to find Place ID in the URL path or query params
+                    const pathMatch = finalUrlForPlaceId.match(/place_id=([A-Za-z0-9_-]+)/);
+                    if (pathMatch) {
+                        placeId = pathMatch[1];
+                        console.log('Extracted Place ID from query param:', placeId);
+                    }
+                }
+            }
+        } catch (e) {
+            console.warn('Place ID extraction failed:', e);
+            // Continue with HTML scraping if Place ID extraction fails
+        }
+
+        // If we have Place ID and Google Places API key, use that first
+        if (placeId && GOOGLE_PLACES_API_KEY) {
+            console.log('Using Google Places API (New) with Place ID:', placeId);
+            try {
+                // Use the new Places API (New) endpoint
+                const placesResponse = await fetch(
+                    `https://places.googleapis.com/v1/places/${placeId}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Goog-Api-Key': GOOGLE_PLACES_API_KEY,
+                            'X-Goog-FieldMask': 'id,displayName,formattedAddress,nationalPhoneNumber,websiteUri,types,addressComponents,editorialSummary'
+                        }
+                    }
+                );
+                
+                if (placesResponse.ok) {
+                    const placesData = await placesResponse.json();
+                    
+                    if (placesData) {
+                        // Extract city from addressComponents
+                        let city = '';
+                        if (placesData.addressComponents) {
+                            const cityComponent = placesData.addressComponents.find((comp: any) => 
+                                comp.types && (comp.types.includes('locality') || comp.types.includes('administrative_area_level_2'))
+                            );
+                            if (cityComponent) {
+                                city = cityComponent.longText || cityComponent.shortText || '';
+                            }
+                        }
+
+                        // Determine industry from types
+                        let industry = '';
+                        if (placesData.types && placesData.types.length > 0) {
+                            // Filter out generic types and get the most specific one
+                            const businessTypes = placesData.types.filter((t: string) => 
+                                !t.startsWith('establishment') && 
+                                !t.startsWith('point_of_interest') &&
+                                t !== 'geocode' &&
+                                t !== 'premise'
+                            );
+                            if (businessTypes.length > 0) {
+                                // Use the first specific type and format it nicely
+                                industry = businessTypes[0]
+                                    .replace(/_/g, ' ')
+                                    .split(' ')
+                                    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+                                    .join(' ');
+                            }
+                        }
+
+                        // Map business types to company types
+                        let companyType = '';
+                        if (placesData.types) {
+                            const types = placesData.types.map((t: string) => t.toLowerCase());
+                            if (types.some(t => t.includes('restaurant') || t.includes('food'))) {
+                                companyType = 'Restaurant/Food Service';
+                            } else if (types.some(t => t.includes('store') || t.includes('shop'))) {
+                                companyType = 'Online Store';
+                            } else if (types.some(t => t.includes('health') || t.includes('medical'))) {
+                                companyType = 'Healthcare/Medical';
+                            } else if (types.some(t => t.includes('real_estate') || t.includes('real estate'))) {
+                                companyType = 'Real Estate';
+                            } else if (types.some(t => t.includes('gym') || t.includes('fitness'))) {
+                                companyType = 'Fitness/Gym';
+                            } else if (types.some(t => t.includes('beauty') || t.includes('salon'))) {
+                                companyType = 'Beauty/Salon';
+                            } else if (types.some(t => t.includes('school') || t.includes('education'))) {
+                                companyType = 'Education/Training';
+                            } else {
+                                companyType = 'Service Location Business';
+                            }
+                        }
+
+                        return res.json({
+                            success: true,
+                            data: {
+                                companyName: placesData.displayName?.text || '',
+                                phoneNumber: placesData.nationalPhoneNumber || '',
+                                address: placesData.formattedAddress || '',
+                                city: city,
+                                email: '', // Places API doesn't provide email
+                                industry: industry,
+                                companyType: companyType,
+                                colors: '',
+                                brandThemes: '',
+                                extraDetailedInfo: placesData.editorialSummary?.text || (placesData.websiteUri ? `Website: ${placesData.websiteUri}` : '')
+                            }
+                        });
+                    }
+                } else {
+                    const errorText = await placesResponse.text();
+                    console.error('Google Places API (New) error response:', placesResponse.status, errorText);
+                    // Fall through to HTML scraping method
+                }
+            } catch (placesError: any) {
+                console.error('Google Places API (New) error:', placesError);
+                // Fall through to HTML scraping method
+            }
+        }
 
         // Step 1: Actually fetch the webpage content first
         console.log('Fetching webpage content from:', actualGmbUrl);
