@@ -97,8 +97,19 @@ Return only valid JSON with the exact structure requested.`
             }
         });
 
-        const result = await chat.sendMessage({ message: prompt });
-        const text = result.text;
+        let result;
+        let text;
+        try {
+            result = await chat.sendMessage({ message: prompt });
+            text = result.text;
+        } catch (geminiError: any) {
+            console.error('Gemini API error:', geminiError);
+            throw new Error(`AI service error: ${geminiError.message || 'Failed to process request'}`);
+        }
+
+        if (!text || text.trim().length === 0) {
+            throw new Error('AI service returned empty response');
+        }
 
         // Parse the JSON response
         let extractedData;
@@ -111,7 +122,7 @@ Return only valid JSON with the exact structure requested.`
                 extractedData = JSON.parse(text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
             }
         } catch (parseError) {
-            console.error('Failed to parse AI response:', text, parseError);
+            console.error('Failed to parse AI response:', text.substring(0, 500), parseError);
             // Try to extract information manually from the text
             extractedData = {
                 companyName: extractField(text, 'companyName', 'company name', 'business name'),
@@ -203,9 +214,26 @@ Return only valid JSON with the exact structure requested.`
 
     } catch (error: any) {
         console.error('Error fetching GMB info:', error);
+        console.error('Error stack:', error.stack);
+        console.error('Error details:', {
+            message: error.message,
+            name: error.name,
+            gmbUrl: req.body?.gmbUrl
+        });
+        
+        // Return more specific error messages
+        const errorMessage = error.message || 'Unknown error occurred';
+        const isGeminiError = errorMessage.includes('AI service') || errorMessage.includes('Gemini');
+        const isNetworkError = errorMessage.includes('fetch') || errorMessage.includes('network');
+        
         return res.status(500).json({
-            error: 'Failed to fetch GMB information. Please try again or enter the information manually.',
-            code: 'FETCH_FAILED'
+            error: isGeminiError 
+                ? `AI service error: ${errorMessage}. Please check your API key and try again.`
+                : isNetworkError
+                ? `Network error: ${errorMessage}. Please check your connection and try again.`
+                : `Failed to fetch GMB information: ${errorMessage}. Please verify the URL is correct and try again, or enter the information manually.`,
+            code: 'FETCH_FAILED',
+            details: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }
 }

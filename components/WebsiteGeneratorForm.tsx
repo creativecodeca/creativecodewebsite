@@ -65,6 +65,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
     const [copied, setCopied] = useState(false);
     const [gmbUrl, setGmbUrl] = useState('');
     const [isFetchingGmb, setIsFetchingGmb] = useState(false);
+    const [gmbUrlError, setGmbUrlError] = useState('');
     const formContainerRef = useRef<HTMLDivElement>(null);
 
     const companyTypes = [
@@ -86,6 +87,35 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
     const isValidEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
+    };
+
+    const isValidUrl = (url: string): boolean => {
+        if (!url.trim()) return false;
+        try {
+            const urlObj = new URL(url.trim());
+            // Check if it's http or https
+            return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+        } catch {
+            return false;
+        }
+    };
+
+    const handleGmbUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setGmbUrl(value);
+        
+        // Clear error if field is empty (optional field)
+        if (!value.trim()) {
+            setGmbUrlError('');
+            return;
+        }
+        
+        // Validate URL
+        if (!isValidUrl(value)) {
+            setGmbUrlError('Please enter a valid URL (must start with http:// or https://)');
+        } else {
+            setGmbUrlError('');
+        }
     };
 
     const isStepValid = () => {
@@ -143,8 +173,15 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
 
     const handleFetchGmb = async () => {
         if (!gmbUrl.trim()) return;
+        
+        // Validate URL before fetching
+        if (!isValidUrl(gmbUrl)) {
+            setGmbUrlError('Please enter a valid URL (must start with http:// or https://)');
+            return;
+        }
 
         setIsFetchingGmb(true);
+        setGmbUrlError(''); // Clear any previous errors
         try {
             const response = await fetch('/api/fetch-gmb-info', {
                 method: 'POST',
@@ -152,10 +189,18 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                 body: JSON.stringify({ gmbUrl: gmbUrl.trim() }),
             });
 
-            const data = await response.json();
+            let data;
+            try {
+                data = await response.json();
+            } catch (jsonError) {
+                const text = await response.text();
+                throw new Error(`Server error: ${text || 'Invalid response'}`);
+            }
 
             if (!response.ok) {
-                throw new Error(data.error || 'Failed to fetch GMB information');
+                // Handle API error response
+                const errorMsg = data?.error || `Server returned ${response.status}`;
+                throw new Error(errorMsg);
             }
 
             if (data.success && data.data) {
@@ -174,12 +219,16 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                     extraDetailedInfo: data.data.extraDetailedInfo || prev.extraDetailedInfo,
                 }));
 
-                // Show success message (optional - you could add a toast notification here)
+                // Show success message
                 console.log('GMB information fetched successfully');
+            } else if (data.success === false) {
+                // Handle case where API returns success: false
+                throw new Error(data.error || 'Failed to extract GMB information');
             }
         } catch (error: any) {
             console.error('Error fetching GMB info:', error);
-            alert(`Failed to fetch GMB information: ${error.message || 'Unknown error'}`);
+            const errorMessage = error.message || 'Unknown error occurred';
+            alert(`Failed to fetch GMB information: ${errorMessage}\n\nPlease verify the URL is correct and accessible, or enter the information manually.`);
         } finally {
             setIsFetchingGmb(false);
         }
@@ -490,17 +539,32 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                     GMB Reference Link (Optional - Auto-fill form from Google My Business)
                                 </label>
                                 <div className="flex gap-2">
-                                    <input
-                                        type="url"
-                                        value={gmbUrl}
-                                        onChange={(e) => setGmbUrl(e.target.value)}
-                                        className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
-                                        placeholder="https://www.google.com/maps/place/..."
-                                    />
+                                    <div className="flex-1">
+                                        <input
+                                            type="url"
+                                            value={gmbUrl}
+                                            onChange={handleGmbUrlChange}
+                                            onBlur={(e) => {
+                                                // Validate on blur as well
+                                                if (e.target.value.trim() && !isValidUrl(e.target.value)) {
+                                                    setGmbUrlError('Please enter a valid URL (must start with http:// or https://)');
+                                                }
+                                            }}
+                                            className={`w-full bg-white/5 border rounded-xl px-4 py-3 text-white focus:outline-none transition-colors ${
+                                                gmbUrlError 
+                                                    ? 'border-red-500 focus:border-red-500' 
+                                                    : 'border-white/10 focus:border-emerald-500'
+                                            }`}
+                                            placeholder="https://www.google.com/maps/place/..."
+                                        />
+                                        {gmbUrlError && (
+                                            <p className="text-red-400 text-xs mt-1 ml-1">{gmbUrlError}</p>
+                                        )}
+                                    </div>
                                     <button
                                         type="button"
                                         onClick={handleFetchGmb}
-                                        disabled={!gmbUrl.trim() || isFetchingGmb}
+                                        disabled={!gmbUrl.trim() || isFetchingGmb || !!gmbUrlError}
                                         className="px-6 py-3 bg-emerald-500 text-white rounded-xl font-medium hover:bg-emerald-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                                     >
                                         {isFetchingGmb ? (
