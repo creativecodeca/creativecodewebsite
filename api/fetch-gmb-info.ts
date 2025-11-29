@@ -27,6 +27,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
         const model = 'gemini-2.5-flash';
 
+        // Use the provided GMB URL
+        const actualGmbUrl = gmbUrl.trim();
+
         // Extract business name from URL if it's a Google Maps share link
         let businessNameHint = '';
         try {
