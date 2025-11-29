@@ -106,14 +106,4 @@ function AppContent() {
   );
 }
 
-function App() {
-  return (
-    <HelmetProvider>
-      <Router>
-        <AppContent />
-      </Router>
-    </HelmetProvider>
-  );
-}
-
-export default App;
+export default AppContent;
