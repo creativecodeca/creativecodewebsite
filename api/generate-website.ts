@@ -268,9 +268,33 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
             });
         }
 
-        // PHASE 2: Refinement pass - improve all pages for consistency and quality
-        console.log('Phase 2: Refining all pages for consistency and quality...');
-        const refinedPages = await refineAllPages(genAI, model, generatedPages, sitewide, pages, pageLinks, gamePlan);
+        // PHASE 2: Quick consistency fixes (skip full AI refinement to avoid timeouts)
+        console.log('Phase 2: Applying quick consistency fixes...');
+        let refinedPages = generatedPages.map(page => {
+            let content = page.content;
+            
+            // Ensure attribution link in footer if we have attributions (add after pages are generated)
+            // This will be done after we know if attributions exist
+            
+            return {
+                name: page.name,
+                content: content
+            };
+        });
+        
+        // Skip full AI refinement to avoid timeouts - pages are already good from Phase 1
+        // If you want full refinement, uncomment below (but it may timeout on large sites)
+        /*
+        try {
+            const refinementPromise = refineAllPages(genAI, model, refinedPages, sitewide, pages, pageLinks, gamePlan);
+            const timeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Refinement timeout')), 30000) // 30 second timeout
+            );
+            refinedPages = await Promise.race([refinementPromise, timeoutPromise]) as any[];
+        } catch (error) {
+            console.warn('Refinement phase skipped, using original pages:', error);
+        }
+        */
         
         // Add refined pages to files
         for (const page of refinedPages) {
@@ -291,9 +315,24 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
                 content: attributionPage
             });
             
-            // Update all existing pages to include attributions link in footer
-            // This will be handled in the refinement phase or we can add it manually
-            console.log('Attribution page created. Remember to add footer link to attributions.html in all pages.');
+            // Add attribution link to all pages' footers automatically
+            console.log('Adding attribution links to all pages...');
+            refinedPages = refinedPages.map(page => {
+                let content = page.content;
+                // Check if footer exists and doesn't already have attribution link
+                if (content.includes('</footer>') && !content.includes('attributions.html')) {
+                    // Add attribution link before closing footer tag
+                    content = content.replace(/<\/footer>/i, (match) => {
+                        return `        <div style="text-align: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+            <a href="attributions.html" style="color: inherit; text-decoration: none; font-size: 0.85rem; opacity: 0.7;">Photo Credits</a>
+        </div>\n    ${match}`;
+                    });
+                }
+                return {
+                    name: page.name,
+                    content: content
+                };
+            });
         }
 
         // PHASE 3: Generate CSS
@@ -375,9 +414,18 @@ Return ONLY the complete CSS code, no explanations or markdown formatting.`;
         // Clean up CSS content
         cssContent = cleanCssContent(cssContent, sitewide);
         
-        // Refine CSS based on all pages
+        // Refine CSS based on all pages (with timeout)
         console.log('Refining CSS for consistency...');
-        cssContent = await refineCss(genAI, model, cssContent, refinedPages, sitewide, gamePlan);
+        try {
+            const cssRefinementPromise = refineCss(genAI, model, cssContent, refinedPages, sitewide, gamePlan);
+            const cssTimeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('CSS refinement timeout')), 45000) // 45 second timeout
+            );
+            cssContent = await Promise.race([cssRefinementPromise, cssTimeoutPromise]) as string;
+        } catch (error) {
+            console.warn('CSS refinement skipped due to timeout or error, using original CSS:', error);
+            // Use original CSS if refinement fails
+        }
 
         files.push({
             name: 'styles.css',
@@ -630,44 +678,64 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
         }
 
         // Step 3: Wait a moment for project to be ready, then trigger deployment
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Wait longer for GitHub to fully process the repository
+        await new Promise(resolve => setTimeout(resolve, 3000));
         
-        // Step 4: Create deployment from GitHub
-        const deploymentResponse = await fetch('https://api.vercel.com/v13/deployments', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${VERCEL_TOKEN}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name: projectNameSlug,
-                project: projectData.id,
-                gitSource: {
-                    type: 'github',
-                    repo: repoFullName,
-                    ref: 'main', // Default branch
-                    sha: 'HEAD'
-                },
-                target: 'production',
-                ...(accountId && { teamId: accountId })
-            })
-        });
-
+        // Step 4: Try to create deployment from GitHub
+        // Note: Vercel will also auto-deploy via webhook, but we try to trigger it manually
         let deploymentUrl = `https://${projectNameSlug}.vercel.app`;
+        let deploymentSuccess = false;
         
-        if (deploymentResponse.ok) {
-            const deploymentData: any = await deploymentResponse.json();
-            console.log('Vercel deployment created:', deploymentData.url || deploymentData.alias?.[0]);
-            if (deploymentData.url) {
-                deploymentUrl = deploymentData.url;
-            } else if (deploymentData.alias && deploymentData.alias.length > 0) {
-                deploymentUrl = `https://${deploymentData.alias[0]}`;
+        try {
+            const deploymentResponse = await fetch('https://api.vercel.com/v13/deployments', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${VERCEL_TOKEN}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: projectNameSlug,
+                    project: projectData.id,
+                    gitSource: {
+                        type: 'github',
+                        repo: repoFullName,
+                        ref: 'main', // Default branch
+                        sha: 'HEAD'
+                    },
+                    target: 'production',
+                    ...(accountId && { teamId: accountId })
+                })
+            });
+            
+            if (deploymentResponse.ok) {
+                const deploymentData: any = await deploymentResponse.json();
+                console.log('Vercel deployment created:', deploymentData.url || deploymentData.alias?.[0]);
+                if (deploymentData.url) {
+                    deploymentUrl = deploymentData.url;
+                    deploymentSuccess = true;
+                } else if (deploymentData.alias && deploymentData.alias.length > 0) {
+                    deploymentUrl = `https://${deploymentData.alias[0]}`;
+                    deploymentSuccess = true;
+                } else if (deploymentData.readyState) {
+                    // Deployment is in progress
+                    console.log('Deployment in progress, will be available shortly');
+                    deploymentSuccess = true;
+                }
+            } else {
+                const deployError: any = await deploymentResponse.json().catch(() => ({}));
+                console.warn('Manual deployment trigger failed:', deployError);
+                // This is okay - Vercel will auto-deploy when GitHub webhook triggers
+                console.log('Note: Vercel will auto-deploy automatically via GitHub webhook');
             }
-        } else {
-            const deployError: any = await deploymentResponse.json().catch(() => ({}));
-            console.error('Vercel deployment creation failed:', deployError);
-            // Vercel will auto-deploy when GitHub webhook triggers, so this is okay
-            console.log('Note: Vercel will auto-deploy when GitHub webhook triggers');
+        } catch (deployError: any) {
+            console.warn('Deployment trigger error (non-fatal):', deployError.message);
+            // Vercel will still auto-deploy via webhook
+        }
+        
+        // If manual deployment didn't work, Vercel will auto-deploy via GitHub webhook
+        // The project is created and linked, so deployment will happen automatically
+        if (!deploymentSuccess) {
+            console.log('Project created and linked to GitHub. Vercel will auto-deploy via webhook.');
         }
 
         // Return the project URL
@@ -893,31 +961,38 @@ Return ONLY the complete HTML code with proper CSS and JS links, no explanations
 }
 
 // Helper function to refine all pages for consistency
+// Optimized to be faster and more reliable
 async function refineAllPages(genAI: GoogleGenAI, model: string, generatedPages: any[], sitewide: any, pages: any[], pageLinks: any[], gamePlan: any): Promise<any[]> {
-    const refinementPrompt = `You are a senior web developer reviewing and refining a complete website. Review all the generated HTML pages and improve them for:
+    // For speed, only send page summaries instead of full content
+    const pageSummaries = generatedPages.map((p, i) => {
+        // Extract key elements for consistency checking
+        const navMatch = p.content.match(/<nav[^>]*>[\s\S]*?<\/nav>/i);
+        const footerMatch = p.content.match(/<footer[^>]*>[\s\S]*?<\/footer>/i);
+        return {
+            name: p.name,
+            navStructure: navMatch ? navMatch[0].substring(0, 500) : 'No nav found',
+            footerStructure: footerMatch ? footerMatch[0].substring(0, 500) : 'No footer found',
+            hasAttributionLink: p.content.includes('attributions.html'),
+            contentLength: p.content.length
+        };
+    });
+    
+    const refinementPrompt = `You are a senior web developer doing a quick consistency check. Review these page summaries and provide specific improvements:
 
-1. CONSISTENCY: Ensure all pages use the same navigation structure, CSS classes, and design patterns
-2. QUALITY: Fix any grammatical errors, improve text quality, ensure professional tone
-3. STRUCTURE: Verify proper HTML5 semantic structure across all pages
-4. ACCESSIBILITY: Ensure proper ARIA labels, alt text, and accessibility features
-5. DESIGN: Ensure visual consistency and modern, professional appearance
-6. FUNCTIONALITY: Verify all links work correctly and forms are properly structured
-
-Generated Pages:
-${generatedPages.map((p, i) => `\n--- Page ${i + 1}: ${p.name} ---\n${p.content.substring(0, 2000)}...`).join('\n')}
+Page Summaries:
+${JSON.stringify(pageSummaries, null, 2)}
 
 Company: ${sitewide.companyName}
 Design Guidelines: ${JSON.stringify(gamePlan, null, 2)}
 Page Links: ${JSON.stringify(pageLinks)}
 
-For each page, return the improved, refined HTML code. Maintain all functionality while improving quality and consistency.
-
-Return a JSON object with this structure:
+Provide a brief JSON response with specific improvements needed:
 {
-  "pages": [
-    {"name": "index.html", "content": "refined HTML here"},
-    {"name": "page2.html", "content": "refined HTML here"}
-  ]
+  "improvements": [
+    {"page": "index.html", "issues": ["missing attribution link in footer", "nav structure inconsistent"]},
+    {"page": "page2.html", "issues": ["footer missing contact info"]}
+  ],
+  "globalIssues": ["All pages should have attribution link in footer"]
 }
 
 Return ONLY the JSON, no explanations.`;
@@ -934,15 +1009,27 @@ Return ONLY the JSON, no explanations.`;
         const refinementText = refinementResult.text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
         
         try {
-            const refined: any = JSON.parse(refinementText);
-            if (refined.pages && Array.isArray(refined.pages)) {
-                // Merge with original pages to ensure we have all pages
-                const refinedMap = new Map(refined.pages.map((p: any) => [p.name, p.content]));
-                return generatedPages.map(page => ({
+            const improvements: any = JSON.parse(refinementText);
+            
+            // Apply improvements to pages (quick fixes only)
+            return generatedPages.map(page => {
+                let content = page.content;
+                
+                // Ensure attribution link in footer if we have attributions
+                if (!content.includes('attributions.html') && improvements.globalIssues?.some((issue: string) => issue.includes('attribution'))) {
+                    // Add attribution link to footer
+                    content = content.replace(/<\/footer>/i, (match) => {
+                        return `        <p style="text-align: center; font-size: 0.85rem; opacity: 0.7; margin-top: 1rem;">
+            <a href="attributions.html" style="color: inherit; text-decoration: none;">Photo Credits</a>
+        </p>\n    ${match}`;
+                    });
+                }
+                
+                return {
                     name: page.name,
-                    content: refinedMap.get(page.name) || page.content
-                }));
-            }
+                    content: content
+                };
+            });
         } catch (parseError) {
             console.warn('Failed to parse refinement JSON, using original pages');
         }

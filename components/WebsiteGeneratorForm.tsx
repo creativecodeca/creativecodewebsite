@@ -282,25 +282,30 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
         setCopied(false);
         setIsSubmitted(true); // Show progress screen immediately
         
-        // Progress steps with timing
+        // Set initial progress - will update based on actual backend progress
+        setGenerationProgress({ step: 1, message: 'Generating design plan...', percentage: 10 });
+        
+        // Store timeouts for cleanup
+        const timeouts: NodeJS.Timeout[] = [];
+        
+        // Progressive updates based on estimated timing (will be overridden by actual completion)
+        // These are fallbacks in case the request takes longer than expected
         const progressSteps = [
-            { step: 1, message: 'Generating design plan...', percentage: 15 },
-            { step: 2, message: 'Creating website files...', percentage: 40 },
-            { step: 3, message: 'Pushing to GitHub...', percentage: 70 },
-            { step: 4, message: 'Deploying to Vercel...', percentage: 90 },
-            { step: 5, message: 'Finalizing...', percentage: 95 },
+            { step: 1, message: 'Generating design plan...', percentage: 10, delay: 5000 },
+            { step: 2, message: 'Generating individual pages...', percentage: 30, delay: 15000 },
+            { step: 3, message: 'Applying consistency fixes...', percentage: 40, delay: 20000 },
+            { step: 4, message: 'Generating CSS...', percentage: 55, delay: 30000 },
+            { step: 5, message: 'Refining CSS...', percentage: 65, delay: 40000 },
+            { step: 6, message: 'Generating JavaScript...', percentage: 75, delay: 50000 },
+            { step: 7, message: 'Pushing to GitHub...', percentage: 85, delay: 60000 },
+            { step: 8, message: 'Deploying to Vercel...', percentage: 95, delay: 70000 },
         ];
         
-        // Set initial progress
-        setGenerationProgress(progressSteps[0]);
-        
-        // Simulate progress updates with staggered timing
-        const timeouts: NodeJS.Timeout[] = [];
-        progressSteps.slice(1).forEach((step, index) => {
-            const delay = (index + 1) * 6000; // 6s, 12s, 18s, 24s
+        // Set up fallback progress updates (in case backend is slow)
+        progressSteps.forEach((step) => {
             const timeout = setTimeout(() => {
-                setGenerationProgress(step);
-            }, delay);
+                setGenerationProgress({ step: step.step, message: step.message, percentage: step.percentage });
+            }, step.delay);
             timeouts.push(timeout);
         });
         
@@ -313,7 +318,13 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
 
             // Clear all progress timeouts
             timeouts.forEach(timeout => clearTimeout(timeout));
-            setGenerationProgress({ step: 5, message: 'Complete!', percentage: 100 });
+            
+            // Update progress to show completion
+            if (response.ok) {
+                setGenerationProgress({ step: 8, message: 'Complete!', percentage: 100 });
+            } else {
+                setGenerationProgress({ step: 0, message: 'Error occurred', percentage: 0 });
+            }
 
             let data;
             try {
@@ -423,9 +434,9 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                             <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                                 generationProgress.step >= 2 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
                             }`}>
-                                {generationProgress.step > 2 ? (
+                                {generationProgress.step > 6 ? (
                                     <CheckCircle className="w-5 h-5" />
-                                ) : generationProgress.step === 2 ? (
+                                ) : generationProgress.step >= 2 && generationProgress.step <= 6 ? (
                                     <Loader2 className="w-5 h-5 animate-spin" />
                                 ) : (
                                     <span className="text-sm font-bold">2</span>
@@ -435,26 +446,33 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                 <p className={`font-medium ${generationProgress.step >= 2 ? 'text-white' : 'text-slate-400'}`}>
                                     Creating Website Files
                                 </p>
-                                <p className="text-xs text-slate-500">Generating HTML, CSS, and JavaScript files</p>
+                                <p className="text-xs text-slate-500">
+                                    {generationProgress.step === 2 ? 'Generating individual pages...' :
+                                     generationProgress.step === 3 ? 'Applying consistency fixes...' :
+                                     generationProgress.step === 4 ? 'Generating CSS...' :
+                                     generationProgress.step === 5 ? 'Refining CSS...' :
+                                     generationProgress.step === 6 ? 'Generating JavaScript...' :
+                                     'Generating HTML, CSS, and JavaScript files'}
+                                </p>
                             </div>
                         </div>
                         
                         <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
-                            generationProgress.step >= 3 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
+                            generationProgress.step >= 7 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
                         }`}>
                             <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                generationProgress.step >= 3 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
+                                generationProgress.step >= 7 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
                             }`}>
-                                {generationProgress.step > 3 ? (
+                                {generationProgress.step > 7 ? (
                                     <CheckCircle className="w-5 h-5" />
-                                ) : generationProgress.step === 3 ? (
+                                ) : generationProgress.step === 7 ? (
                                     <Loader2 className="w-5 h-5 animate-spin" />
                                 ) : (
                                     <span className="text-sm font-bold">3</span>
                                 )}
                             </div>
                             <div className="flex-1">
-                                <p className={`font-medium ${generationProgress.step >= 3 ? 'text-white' : 'text-slate-400'}`}>
+                                <p className={`font-medium ${generationProgress.step >= 7 ? 'text-white' : 'text-slate-400'}`}>
                                     Pushing to GitHub
                                 </p>
                                 <p className="text-xs text-slate-500">Creating repository and uploading files</p>
@@ -462,21 +480,21 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                         </div>
                         
                         <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
-                            generationProgress.step >= 4 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
+                            generationProgress.step >= 8 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
                         }`}>
                             <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                generationProgress.step >= 4 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
+                                generationProgress.step >= 8 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
                             }`}>
-                                {generationProgress.step > 4 ? (
+                                {generationProgress.step > 8 ? (
                                     <CheckCircle className="w-5 h-5" />
-                                ) : generationProgress.step === 4 ? (
+                                ) : generationProgress.step === 8 ? (
                                     <Loader2 className="w-5 h-5 animate-spin" />
                                 ) : (
                                     <span className="text-sm font-bold">4</span>
                                 )}
                             </div>
                             <div className="flex-1">
-                                <p className={`font-medium ${generationProgress.step >= 4 ? 'text-white' : 'text-slate-400'}`}>
+                                <p className={`font-medium ${generationProgress.step >= 8 ? 'text-white' : 'text-slate-400'}`}>
                                     Deploying to Vercel
                                 </p>
                                 <p className="text-xs text-slate-500">Setting up hosting and deployment</p>
