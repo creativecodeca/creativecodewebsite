@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, ArrowRight, ArrowLeft, Plus, X, Loader2, CheckCircle, XCircle, Github, ExternalLink, Trash2, Copy, Check } from 'lucide-react';
+import { Send, ArrowRight, ArrowLeft, Plus, X, Loader2, CheckCircle, XCircle, Github, ExternalLink, Trash2, Copy, Check, Search, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Page {
@@ -63,6 +63,8 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
 
     const [newPageTitle, setNewPageTitle] = useState('');
     const [copied, setCopied] = useState(false);
+    const [gmbUrl, setGmbUrl] = useState('');
+    const [isFetchingGmb, setIsFetchingGmb] = useState(false);
     const formContainerRef = useRef<HTMLDivElement>(null);
 
     const companyTypes = [
@@ -136,6 +138,50 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
             setFormData(prev => ({ ...prev, [name]: checked }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
+        }
+    };
+
+    const handleFetchGmb = async () => {
+        if (!gmbUrl.trim()) return;
+
+        setIsFetchingGmb(true);
+        try {
+            const response = await fetch('/api/fetch-gmb-info', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ gmbUrl: gmbUrl.trim() }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to fetch GMB information');
+            }
+
+            if (data.success && data.data) {
+                // Populate form fields with fetched data
+                setFormData(prev => ({
+                    ...prev,
+                    companyName: data.data.companyName || prev.companyName,
+                    industry: data.data.industry || prev.industry,
+                    address: data.data.address || prev.address,
+                    city: data.data.city || prev.city,
+                    phoneNumber: data.data.phoneNumber || prev.phoneNumber,
+                    email: data.data.email || prev.email,
+                    companyType: data.data.companyType || prev.companyType,
+                    colors: data.data.colors || prev.colors,
+                    brandThemes: data.data.brandThemes || prev.brandThemes,
+                    extraDetailedInfo: data.data.extraDetailedInfo || prev.extraDetailedInfo,
+                }));
+
+                // Show success message (optional - you could add a toast notification here)
+                console.log('GMB information fetched successfully');
+            }
+        } catch (error: any) {
+            console.error('Error fetching GMB info:', error);
+            alert(`Failed to fetch GMB information: ${error.message || 'Unknown error'}`);
+        } finally {
+            setIsFetchingGmb(false);
         }
     };
 
@@ -436,6 +482,44 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                             className="space-y-6"
                         >
                             <h4 className="text-2xl font-semibold text-white mb-6">General Information <span className="text-emerald-500">*</span></h4>
+                            
+                            {/* GMB Reference Link */}
+                            <div className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
+                                <label className="block text-sm text-slate-300 mb-3 font-medium">
+                                    <MapPin className="w-4 h-4 inline mr-2" />
+                                    GMB Reference Link (Optional - Auto-fill form from Google My Business)
+                                </label>
+                                <div className="flex gap-2">
+                                    <input
+                                        type="url"
+                                        value={gmbUrl}
+                                        onChange={(e) => setGmbUrl(e.target.value)}
+                                        className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                        placeholder="https://www.google.com/maps/place/..."
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={handleFetchGmb}
+                                        disabled={!gmbUrl.trim() || isFetchingGmb}
+                                        className="px-6 py-3 bg-emerald-500 text-white rounded-xl font-medium hover:bg-emerald-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                                    >
+                                        {isFetchingGmb ? (
+                                            <>
+                                                <Loader2 className="w-4 h-4 animate-spin" />
+                                                Fetching...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Search className="w-4 h-4" />
+                                                Fetch Info
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+                                <p className="text-xs text-slate-400 mt-2">
+                                    Paste a Google My Business URL to automatically populate the form fields below
+                                </p>
+                            </div>
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
