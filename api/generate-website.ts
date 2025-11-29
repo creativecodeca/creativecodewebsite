@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { GoogleGenerativeAI } from '@google/genai';
+import { GoogleGenAI } from '@google/genai';
 import { Octokit } from '@octokit/rest';
 import fetch from 'node-fetch';
 
@@ -52,7 +52,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.log('Starting website generation for:', companyName);
 
         // Initialize AI client
-        const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+        const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
         // Prepare sitewide data
         const sitewide = {
@@ -115,17 +115,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     } catch (error: any) {
         console.error('Error generating website:', error);
+        console.error('Error stack:', error.stack);
+        
+        // Ensure we always return valid JSON
+        const errorMessage = error?.message || error?.toString() || 'Unknown error occurred';
+        const errorDetails = error?.stack || error?.toString() || 'No additional details';
+        
         return res.status(500).json({
-            error: error.message || 'Failed to generate website',
-            details: error.toString()
+            error: errorMessage,
+            details: errorDetails,
+            type: error?.name || 'Error'
         });
     }
 }
 
-async function generateGamePlan(genAI: GoogleGenerativeAI, sitewide: any, pages: any[]) {
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+async function generateGamePlan(genAI: GoogleGenAI, sitewide: any, pages: any[]) {
+    try {
+        const model = 'gemini-2.5-flash';
 
-    const prompt = `You are a professional web developer creating a game plan for a website.
+        const prompt = `You are a professional web developer creating a game plan for a website.
 
 Company Information:
 - Name: ${sitewide.companyName}
@@ -157,22 +165,33 @@ Create a detailed game plan for building this website. Include:
 
 Keep it concise but comprehensive. Format as JSON with these keys: designApproach, colorPalette, typography, pageFeatures, navigation, responsiveStrategy, interactiveElements`;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const chat = genAI.chats.create({
+        model: model,
+        config: {
+            systemInstruction: 'You are a professional web developer creating detailed game plans for websites.'
+        }
+    });
 
-    try {
-        return JSON.parse(text.replace(/```json\n?/g, '').replace(/```\n?/g, ''));
-    } catch {
-        return { rawPlan: text };
+    const result = await chat.sendMessage({ message: prompt });
+    const text = result.text;
+
+        try {
+            return JSON.parse(text.replace(/```json\n?/g, '').replace(/```\n?/g, ''));
+        } catch {
+            return { rawPlan: text };
+        }
+    } catch (error: any) {
+        console.error('Error in generateGamePlan:', error);
+        throw new Error(`Failed to generate game plan: ${error.message || error.toString()}`);
     }
 }
 
-async function generateWebsiteFiles(genAI: GoogleGenerativeAI, sitewide: any, pages: any[], gamePlan: any) {
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
-    const files = [];
+async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: any[], gamePlan: any) {
+    try {
+        const model = 'gemini-2.5-flash';
+        const files = [];
 
-    // Generate index.html
+        // Generate index.html
     const firstPage = pages[0];
     const htmlPrompt = `Create a professional, modern HTML file for the main page of a website.
 
@@ -203,9 +222,15 @@ ${sitewide.bookingForm ? '- Include a booking/appointment form or link to bookin
 
 Return ONLY the HTML code, no explanations.`;
 
-    const htmlResult = await model.generateContent(htmlPrompt);
-    const htmlResponse = await htmlResult.response;
-    let htmlContent = htmlResponse.text().replace(/```html\n?/g, '').replace(/```\n?/g, '').trim();
+    const htmlChat = genAI.chats.create({
+        model: model,
+        config: {
+            systemInstruction: 'You are a professional web developer. Generate clean, semantic HTML5 code.'
+        }
+    });
+
+    const htmlResult = await htmlChat.sendMessage({ message: htmlPrompt });
+    let htmlContent = htmlResult.text.replace(/```html\n?/g, '').replace(/```\n?/g, '').trim();
 
     files.push({
         name: 'index.html',
@@ -242,9 +267,15 @@ ${page.title.toLowerCase().includes('book') && sitewide.bookingForm ? '- Include
 
 Return ONLY the HTML code.`;
 
-        const pageResult = await model.generateContent(pageHtmlPrompt);
-        const pageResponse = await pageResult.response;
-        let pageContent = pageResponse.text().replace(/```html\n?/g, '').replace(/```\n?/g, '').trim();
+        const pageChat = genAI.chats.create({
+            model: model,
+            config: {
+                systemInstruction: 'You are a professional web developer. Generate clean, semantic HTML5 code.'
+            }
+        });
+
+        const pageResult = await pageChat.sendMessage({ message: pageHtmlPrompt });
+        let pageContent = pageResult.text.replace(/```html\n?/g, '').replace(/```\n?/g, '').trim();
 
         files.push({
             name: pageFileName,
@@ -278,9 +309,15 @@ Requirements:
 
 Return ONLY the CSS code, no explanations.`;
 
-    const cssResult = await model.generateContent(cssPrompt);
-    const cssResponse = await cssResult.response;
-    let cssContent = cssResponse.text().replace(/```css\n?/g, '').replace(/```\n?/g, '').trim();
+    const cssChat = genAI.chats.create({
+        model: model,
+        config: {
+            systemInstruction: 'You are a professional web developer. Generate modern, responsive CSS code.'
+        }
+    });
+
+    const cssResult = await cssChat.sendMessage({ message: cssPrompt });
+    let cssContent = cssResult.text.replace(/```css\n?/g, '').replace(/```\n?/g, '').trim();
 
     files.push({
         name: 'styles.css',
@@ -305,9 +342,15 @@ ${sitewide.bookingForm ? '- Booking form validation and date/time picker functio
 
 Return ONLY the JavaScript code.`;
 
-    const jsResult = await model.generateContent(jsPrompt);
-    const jsResponse = await jsResult.response;
-    let jsContent = jsResponse.text().replace(/```javascript\n?/g, '').replace(/```js\n?/g, '').replace(/```\n?/g, '').trim();
+    const jsChat = genAI.chats.create({
+        model: model,
+        config: {
+            systemInstruction: 'You are a professional web developer. Generate clean, modern vanilla JavaScript code.'
+        }
+    });
+
+    const jsResult = await jsChat.sendMessage({ message: jsPrompt });
+    let jsContent = jsResult.text.replace(/```javascript\n?/g, '').replace(/```js\n?/g, '').replace(/```\n?/g, '').trim();
 
     files.push({
         name: 'script.js',
@@ -339,12 +382,16 @@ ${sitewide.bookingForm ? '- Booking Form' : ''}
 This website was automatically generated by Creative Code's AI Website Generator.
 `;
 
-    files.push({
-        name: 'README.md',
-        content: readmeContent
-    });
+        files.push({
+            name: 'README.md',
+            content: readmeContent
+        });
 
-    return files;
+        return files;
+    } catch (error: any) {
+        console.error('Error in generateWebsiteFiles:', error);
+        throw new Error(`Failed to generate website files: ${error.message || error.toString()}`);
+    }
 }
 
 async function createGitHubRepo(repoName: string, files: any[], sitewide: any) {
