@@ -1,8 +1,8 @@
 User-agent: *
 Allow: /
 
-# Disallow admin or private areas (if any)
-# Disallow: /admin/
+# Disallow internal system (private tool)
+Disallow: /system/
 
 # Sitemap location
 Sitemap: https://creativecodeca.com/sitemap.xml
