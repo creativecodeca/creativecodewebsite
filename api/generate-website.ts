@@ -94,15 +94,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         
         let vercelData = null;
         if (VERCEL_TOKEN) {
+            console.log('VERCEL_TOKEN found, attempting automatic deployment...');
             try {
                 vercelData = await deployToVercel(repoName, repoData.repoFullName, sitewide);
-                console.log('Vercel project created and deployed:', vercelData.url);
+                if (vercelData?.url) {
+                    console.log('Vercel project created and deployed:', vercelData.url);
+                } else {
+                    console.warn('Vercel deployment returned but no URL provided:', vercelData);
+                }
             } catch (vercelError: any) {
                 console.error('Vercel deployment error:', vercelError);
+                console.error('Error details:', vercelError?.message, vercelError?.stack);
                 // Continue even if Vercel fails - GitHub repo is still created
+                vercelData = {
+                    url: null,
+                    projectUrl: 'https://vercel.com/dashboard',
+                    error: vercelError?.message || 'Deployment failed'
+                };
             }
         } else {
-            console.log('VERCEL_TOKEN not set - user will need to manually import repo in Vercel dashboard');
+            console.log('VERCEL_TOKEN not set - checking environment...');
+            console.log('VERCEL_TOKEN exists:', !!process.env.VERCEL_TOKEN);
+            console.log('All env vars:', Object.keys(process.env).filter(k => k.includes('VERCEL')));
         }
 
         return res.json({
@@ -110,11 +123,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             repoUrl: repoData.repoUrl,
             vercelUrl: vercelData?.url || null,
             projectUrl: vercelData?.projectUrl || 'https://vercel.com/dashboard',
-            message: VERCEL_TOKEN 
+            message: vercelData?.url 
                 ? 'Website generated, pushed to GitHub, and automatically deployed to Vercel'
+                : VERCEL_TOKEN
+                ? 'Website generated and pushed to GitHub. Vercel deployment attempted but may need manual setup.'
                 : 'Website generated and pushed to GitHub. Import the repo in Vercel dashboard to deploy.',
-            autoDeployed: !!VERCEL_TOKEN,
-            needsManualImport: !VERCEL_TOKEN
+            autoDeployed: !!vercelData?.url,
+            needsManualImport: !vercelData?.url
         });
 
     } catch (error: any) {
@@ -144,7 +159,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 async function generateGamePlan(genAI: GoogleGenAI, sitewide: any, pages: any[]) {
     try {
-        const model = 'gemini-2.5-flash';
+        // Using Gemini 3 Flash - latest and most advanced model
+        const model = 'gemini-3-flash';
 
         const prompt = `You are a professional web developer creating a game plan for a website.
 
@@ -202,7 +218,8 @@ Keep it concise but comprehensive. Format as JSON with these keys: designApproac
 
 async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: any[], gamePlan: any) {
     try {
-        const model = 'gemini-2.5-flash';
+        // Using Gemini 3 Flash - latest and most advanced model
+        const model = 'gemini-3-flash';
         const files = [];
     const pageLinks = pages.map((p, idx) => {
         if (idx === 0) return { title: p.title, file: 'index.html' };
@@ -594,18 +611,23 @@ async function createGitHubRepo(repoName: string, files: any[], sitewide: any) {
 }
 
 async function deployToVercel(projectName: string, repoFullName: string, sitewide: any) {
-    if (!VERCEL_TOKEN) {
+    const token = process.env.VERCEL_TOKEN || VERCEL_TOKEN;
+    if (!token) {
+        console.error('VERCEL_TOKEN not found in deployToVercel function');
         return {
-            url: 'Vercel deployment pending - VERCEL_TOKEN not configured',
-            projectUrl: 'https://vercel.com/dashboard'
+            url: null,
+            projectUrl: 'https://vercel.com/dashboard',
+            error: 'VERCEL_TOKEN not configured'
         };
     }
+    
+    console.log('Starting Vercel deployment for:', projectName, 'Repo:', repoFullName);
 
     try {
         // Step 1: Get Vercel team/user info
         const accountResponse = await fetch('https://api.vercel.com/v2/teams', {
             headers: {
-                'Authorization': `Bearer ${VERCEL_TOKEN}`
+                'Authorization': `Bearer ${token}`
             }
         });
         
@@ -621,7 +643,7 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
         if (!accountId) {
             const userResponse = await fetch('https://api.vercel.com/v2/user', {
                 headers: {
-                    'Authorization': `Bearer ${VERCEL_TOKEN}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
             if (userResponse.ok) {
@@ -633,10 +655,11 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
         const projectNameSlug = projectName.toLowerCase().replace(/[^a-z0-9-]/g, '-').substring(0, 52); // Vercel has 52 char limit
         
         // Step 2: Create Vercel project with GitHub integration
+        console.log('Creating Vercel project:', projectNameSlug);
         const createProjectResponse = await fetch('https://api.vercel.com/v9/projects', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${VERCEL_TOKEN}`,
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -663,7 +686,7 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
                 // Get existing project
                 const getProjectResponse = await fetch(`https://api.vercel.com/v9/projects/${projectNameSlug}${accountId ? `?teamId=${accountId}` : ''}`, {
                     headers: {
-                        'Authorization': `Bearer ${VERCEL_TOKEN}`
+                        'Authorization': `Bearer ${token}`
                     }
                 });
                 if (getProjectResponse.ok) {
@@ -683,6 +706,7 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
         
         // Step 4: Try to create deployment from GitHub
         // Note: Vercel will also auto-deploy via webhook, but we try to trigger it manually
+        console.log('Triggering Vercel deployment...');
         let deploymentUrl = `https://${projectNameSlug}.vercel.app`;
         let deploymentSuccess = false;
         
@@ -690,7 +714,7 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
             const deploymentResponse = await fetch('https://api.vercel.com/v13/deployments', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${VERCEL_TOKEN}`,
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
