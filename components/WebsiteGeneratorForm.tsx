@@ -1,38 +1,53 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, ArrowRight, ArrowLeft, UploadCloud, Loader2, CheckCircle, XCircle, Github, ExternalLink } from 'lucide-react';
+import { Send, ArrowRight, ArrowLeft, Plus, X, Loader2, CheckCircle, XCircle, Github, ExternalLink, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+interface Page {
+    id: string;
+    title: string;
+    information: string;
+}
+
 interface FormData {
-    name: string;
-    email: string;
-    phone: string;
+    // General Information
     companyName: string;
     industry: string;
-    currentWebsite: string;
-    designPreferences: string;
-    features: string;
-    competitors: string;
-    assetsLink: string;
-    additionalInfo: string;
+    address: string;
+    city: string;
+    phoneNumber: string;
+    email: string;
+    companyType: string;
+    colors: string;
+    brandThemes: string;
+    extraDetailedInfo: string;
+    
+    // Pages
+    pages: Page[];
+    
+    // Addons
+    contactForm: boolean;
+    bookingForm: boolean;
 }
 
 const WebsiteGeneratorForm: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
-        name: '',
-        email: '',
-        phone: '',
         companyName: '',
         industry: '',
-        currentWebsite: '',
-        designPreferences: '',
-        features: '',
-        competitors: '',
-        assetsLink: '',
-        additionalInfo: '',
+        address: '',
+        city: '',
+        phoneNumber: '',
+        email: '',
+        companyType: '',
+        colors: '',
+        brandThemes: '',
+        extraDetailedInfo: '',
+        pages: [],
+        contactForm: false,
+        bookingForm: false,
     });
 
     const [currentStep, setCurrentStep] = useState(0);
-    const totalSteps = 7;
+    const totalSteps = 3; // General Info, Pages, Addons
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [generationResult, setGenerationResult] = useState<{
@@ -42,40 +57,48 @@ const WebsiteGeneratorForm: React.FC = () => {
         error?: string;
     } | null>(null);
 
+    const [newPageTitle, setNewPageTitle] = useState('');
     const formContainerRef = useRef<HTMLDivElement>(null);
 
-    const WORD_LIMITS = {
-        designPreferences: 200,
-        features: 200,
-        competitors: 150,
-        additionalInfo: 200,
-    };
+    const companyTypes = [
+        'Service Location Business',
+        'Service Area Business',
+        'Online Store',
+        'E-commerce',
+        'Professional Services',
+        'Restaurant/Food Service',
+        'Healthcare/Medical',
+        'Real Estate',
+        'Fitness/Gym',
+        'Beauty/Salon',
+        'Education/Training',
+        'Non-Profit',
+        'Other'
+    ];
 
     const isValidEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
 
-    const countWords = (text: string) => {
-        return text.trim().split(/\s+/).filter(word => word.length > 0).length;
-    };
-
     const isStepValid = () => {
         switch (currentStep) {
-            case 0:
-                return formData.name.trim() && formData.email.trim() && isValidEmail(formData.email) && formData.phone.trim();
-            case 1:
-                return formData.companyName.trim() && formData.industry.trim();
-            case 2:
-                return formData.designPreferences.trim() && countWords(formData.designPreferences) <= WORD_LIMITS.designPreferences;
-            case 3:
-                return formData.features.trim() && countWords(formData.features) <= WORD_LIMITS.features;
-            case 4:
+            case 0: // General Information
+                return formData.companyName.trim() &&
+                       formData.industry.trim() &&
+                       formData.address.trim() &&
+                       formData.city.trim() &&
+                       formData.phoneNumber.trim() &&
+                       formData.email.trim() &&
+                       isValidEmail(formData.email) &&
+                       formData.companyType.trim() &&
+                       formData.colors.trim() &&
+                       formData.brandThemes.trim();
+            case 1: // Pages
+                return formData.pages.length > 0 && 
+                       formData.pages.every(page => page.title.trim() && page.information.trim());
+            case 2: // Addons (optional, always valid)
                 return true;
-            case 5:
-                return formData.assetsLink.trim();
-            case 6:
-                return countWords(formData.additionalInfo) <= WORD_LIMITS.additionalInfo;
             default:
                 return true;
         }
@@ -101,9 +124,47 @@ const WebsiteGeneratorForm: React.FC = () => {
         }
     }, [currentStep]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value, type } = e.target;
+        if (type === 'checkbox') {
+            const checked = (e.target as HTMLInputElement).checked;
+            setFormData(prev => ({ ...prev, [name]: checked }));
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        }
+    };
+
+    const addPage = () => {
+        if (!newPageTitle.trim()) return;
+        
+        const newPage: Page = {
+            id: Date.now().toString(),
+            title: newPageTitle.trim(),
+            information: ''
+        };
+        
+        setFormData(prev => ({
+            ...prev,
+            pages: [...prev.pages, newPage]
+        }));
+        
+        setNewPageTitle('');
+    };
+
+    const removePage = (pageId: string) => {
+        setFormData(prev => ({
+            ...prev,
+            pages: prev.pages.filter(page => page.id !== pageId)
+        }));
+    };
+
+    const updatePage = (pageId: string, field: 'title' | 'information', value: string) => {
+        setFormData(prev => ({
+            ...prev,
+            pages: prev.pages.map(page =>
+                page.id === pageId ? { ...page, [field]: value } : page
+            )
+        }));
     };
 
     const submitForm = async () => {
@@ -224,17 +285,19 @@ const WebsiteGeneratorForm: React.FC = () => {
                                 setGenerationResult(null);
                                 setCurrentStep(0);
                                 setFormData({
-                                    name: '',
-                                    email: '',
-                                    phone: '',
                                     companyName: '',
                                     industry: '',
-                                    currentWebsite: '',
-                                    designPreferences: '',
-                                    features: '',
-                                    competitors: '',
-                                    assetsLink: '',
-                                    additionalInfo: '',
+                                    address: '',
+                                    city: '',
+                                    phoneNumber: '',
+                                    email: '',
+                                    companyType: '',
+                                    colors: '',
+                                    brandThemes: '',
+                                    extraDetailedInfo: '',
+                                    pages: [],
+                                    contactForm: false,
+                                    bookingForm: false,
                                 });
                             }}
                             className="mt-8 text-slate-400 hover:text-white transition-colors"
@@ -266,7 +329,7 @@ const WebsiteGeneratorForm: React.FC = () => {
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <AnimatePresence mode="wait">
-                    {/* Step 0: Contact Info */}
+                    {/* Step 0: General Information */}
                     {currentStep === 0 && (
                         <motion.div
                             key="step0"
@@ -274,46 +337,140 @@ const WebsiteGeneratorForm: React.FC = () => {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -20 }}
                             transition={{ duration: 0.3 }}
-                            className="space-y-4"
+                            className="space-y-6"
                         >
-                            <h4 className="text-xl font-semibold text-white mb-4">Contact Information <span className="text-emerald-500">*</span></h4>
+                            <h4 className="text-2xl font-semibold text-white mb-6">General Information <span className="text-emerald-500">*</span></h4>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm text-slate-400 mb-2">Company Name <span className="text-emerald-500">*</span></label>
+                                    <input
+                                        type="text"
+                                        name="companyName"
+                                        value={formData.companyName}
+                                        onChange={handleChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                        placeholder="Acme Corp"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm text-slate-400 mb-2">Industry <span className="text-emerald-500">*</span></label>
+                                    <input
+                                        type="text"
+                                        name="industry"
+                                        value={formData.industry}
+                                        onChange={handleChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                        placeholder="e.g. Real Estate, E-commerce"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm text-slate-400 mb-2">Address <span className="text-emerald-500">*</span></label>
+                                    <input
+                                        type="text"
+                                        name="address"
+                                        value={formData.address}
+                                        onChange={handleChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                        placeholder="123 Main Street"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm text-slate-400 mb-2">City <span className="text-emerald-500">*</span></label>
+                                    <input
+                                        type="text"
+                                        name="city"
+                                        value={formData.city}
+                                        onChange={handleChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                        placeholder="Toronto, ON"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm text-slate-400 mb-2">Phone Number <span className="text-emerald-500">*</span></label>
+                                    <input
+                                        type="tel"
+                                        name="phoneNumber"
+                                        value={formData.phoneNumber}
+                                        onChange={handleChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                        placeholder="+1 (555) 000-0000"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm text-slate-400 mb-2">Email <span className="text-emerald-500">*</span></label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                        placeholder="info@company.com"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm text-slate-400 mb-2">Company Type <span className="text-emerald-500">*</span></label>
+                                    <select
+                                        name="companyType"
+                                        value={formData.companyType}
+                                        onChange={handleChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                        required
+                                    >
+                                        <option value="">Select company type...</option>
+                                        {companyTypes.map(type => (
+                                            <option key={type} value={type} className="bg-[#0a0a0a]">{type}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm text-slate-400 mb-2">Colors <span className="text-emerald-500">*</span></label>
+                                    <input
+                                        type="text"
+                                        name="colors"
+                                        value={formData.colors}
+                                        onChange={handleChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                        placeholder="e.g. #000000, #FFFFFF, #00FF00"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            
                             <div>
-                                <label className="block text-sm text-slate-400 mb-2">Your Name</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
+                                <label className="block text-sm text-slate-400 mb-2">Brand Themes <span className="text-emerald-500">*</span></label>
+                                <textarea
+                                    name="brandThemes"
+                                    value={formData.brandThemes}
                                     onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
-                                    placeholder="John Doe"
+                                    rows={3}
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-emerald-500 outline-none transition-colors resize-none"
+                                    placeholder="e.g. Modern, Professional, Trustworthy, Innovative"
+                                    required
                                 />
                             </div>
+                            
                             <div>
-                                <label className="block text-sm text-slate-400 mb-2">Email Address</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
+                                <label className="block text-sm text-slate-400 mb-2">Extra Detailed Company Information</label>
+                                <textarea
+                                    name="extraDetailedInfo"
+                                    value={formData.extraDetailedInfo}
                                     onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
-                                    placeholder="john@example.com"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm text-slate-400 mb-2">Phone Number</label>
-                                <input
-                                    type="tel"
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
-                                    placeholder="+1 (555) 000-0000"
+                                    rows={5}
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-emerald-500 outline-none transition-colors resize-none"
+                                    placeholder="Provide additional details about your company, services, values, history, etc."
                                 />
                             </div>
                         </motion.div>
                     )}
 
-                    {/* Step 1: Business Info */}
+                    {/* Step 1: Page Information */}
                     {currentStep === 1 && (
                         <motion.div
                             key="step1"
@@ -321,46 +478,85 @@ const WebsiteGeneratorForm: React.FC = () => {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -20 }}
                             transition={{ duration: 0.3 }}
-                            className="space-y-4"
+                            className="space-y-6"
                         >
-                            <h4 className="text-xl font-semibold text-white mb-4">Business Information <span className="text-emerald-500">*</span></h4>
-                            <div>
-                                <label className="block text-sm text-slate-400 mb-2">Company Name</label>
+                            <h4 className="text-2xl font-semibold text-white mb-6">Page Information <span className="text-emerald-500">*</span></h4>
+                            
+                            {/* Add Page Input */}
+                            <div className="flex gap-2 mb-6">
                                 <input
                                     type="text"
-                                    name="companyName"
-                                    value={formData.companyName}
-                                    onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
-                                    placeholder="Acme Corp"
+                                    value={newPageTitle}
+                                    onChange={(e) => setNewPageTitle(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addPage())}
+                                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
+                                    placeholder="Enter page title (e.g. Home, About, Services)"
                                 />
+                                <button
+                                    type="button"
+                                    onClick={addPage}
+                                    disabled={!newPageTitle.trim()}
+                                    className="bg-emerald-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-emerald-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                                >
+                                    <Plus className="w-5 h-5" />
+                                    Add Page
+                                </button>
                             </div>
-                            <div>
-                                <label className="block text-sm text-slate-400 mb-2">Industry / Niche</label>
-                                <input
-                                    type="text"
-                                    name="industry"
-                                    value={formData.industry}
-                                    onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
-                                    placeholder="e.g. Real Estate, E-commerce, Healthcare"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm text-slate-400 mb-2">Current Website (if any)</label>
-                                <input
-                                    type="text"
-                                    name="currentWebsite"
-                                    value={formData.currentWebsite}
-                                    onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors"
-                                    placeholder="https://www.example.com"
-                                />
+
+                            {/* Pages List */}
+                            <div className="space-y-4">
+                                <AnimatePresence>
+                                    {formData.pages.map((page, index) => (
+                                        <motion.div
+                                            key={page.id}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -20 }}
+                                            className="bg-white/5 border border-white/10 rounded-xl p-6"
+                                        >
+                                            <div className="flex items-start justify-between mb-4">
+                                                <div className="flex-1">
+                                                    <label className="block text-sm text-slate-400 mb-2">Page Title <span className="text-emerald-500">*</span></label>
+                                                    <input
+                                                        type="text"
+                                                        value={page.title}
+                                                        onChange={(e) => updatePage(page.id, 'title', e.target.value)}
+                                                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-emerald-500 outline-none transition-colors"
+                                                        placeholder="Page title"
+                                                    />
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removePage(page.id)}
+                                                    className="ml-4 p-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors"
+                                                >
+                                                    <Trash2 className="w-5 h-5" />
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm text-slate-400 mb-2">Page Information <span className="text-emerald-500">*</span></label>
+                                                <textarea
+                                                    value={page.information}
+                                                    onChange={(e) => updatePage(page.id, 'information', e.target.value)}
+                                                    rows={4}
+                                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-4 text-white focus:border-emerald-500 outline-none transition-colors resize-none"
+                                                    placeholder="Describe what should be on this page, content, sections, features, etc."
+                                                />
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                                
+                                {formData.pages.length === 0 && (
+                                    <div className="text-center py-12 text-slate-500">
+                                        <p>No pages added yet. Add a page above to get started.</p>
+                                    </div>
+                                )}
                             </div>
                         </motion.div>
                     )}
 
-                    {/* Step 2: Design Preferences */}
+                    {/* Step 2: Addons */}
                     {currentStep === 2 && (
                         <motion.div
                             key="step2"
@@ -368,129 +564,42 @@ const WebsiteGeneratorForm: React.FC = () => {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -20 }}
                             transition={{ duration: 0.3 }}
+                            className="space-y-6"
                         >
-                            <h4 className="text-xl font-semibold text-white mb-4">Design Preferences <span className="text-emerald-500">*</span></h4>
-                            <p className="text-slate-400 mb-4 text-sm">
-                                Describe the look and feel you want. Max {WORD_LIMITS.designPreferences} words.
-                            </p>
-                            <textarea
-                                name="designPreferences"
-                                value={formData.designPreferences}
-                                onChange={handleChange}
-                                rows={6}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-emerald-500 outline-none transition-colors resize-none"
-                                placeholder="I want a sleek, dark-themed website with neon green accents..."
-                            />
-                            <div className="text-sm text-slate-500 mt-2">
-                                {countWords(formData.designPreferences)} / {WORD_LIMITS.designPreferences} words
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {/* Step 3: Features */}
-                    {currentStep === 3 && (
-                        <motion.div
-                            key="step3"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <h4 className="text-xl font-semibold text-white mb-4">Features & Pages <span className="text-emerald-500">*</span></h4>
-                            <p className="text-slate-400 mb-4 text-sm">
-                                List pages and functionality needed. Max {WORD_LIMITS.features} words.
-                            </p>
-                            <textarea
-                                name="features"
-                                value={formData.features}
-                                onChange={handleChange}
-                                rows={6}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-emerald-500 outline-none transition-colors resize-none"
-                                placeholder="We need a Home page, About Us, Services page, and a Contact form..."
-                            />
-                            <div className="text-sm text-slate-500 mt-2">
-                                {countWords(formData.features)} / {WORD_LIMITS.features} words
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {/* Step 4: Competitors */}
-                    {currentStep === 4 && (
-                        <motion.div
-                            key="step4"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <h4 className="text-xl font-semibold text-white mb-4">Competitors / Inspiration</h4>
-                            <p className="text-slate-400 mb-4 text-sm">
-                                Optional. List competitor websites or websites you admire. Max {WORD_LIMITS.competitors} words.
-                            </p>
-                            <textarea
-                                name="competitors"
-                                value={formData.competitors}
-                                onChange={handleChange}
-                                rows={6}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-emerald-500 outline-none transition-colors resize-none"
-                                placeholder="Competitor A (www.comp-a.com) - I like their layout..."
-                            />
-                            <div className="text-sm text-slate-500 mt-2">
-                                {countWords(formData.competitors)} / {WORD_LIMITS.competitors} words
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {/* Step 5: Assets Link */}
-                    {currentStep === 5 && (
-                        <motion.div
-                            key="step5"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <h4 className="text-xl font-semibold text-white mb-4">Brand Assets <span className="text-emerald-500">*</span></h4>
-                            <p className="text-slate-400 mb-4 text-sm">
-                                Provide a link to Google Drive or Dropbox folder with logo, brand guidelines, images, etc.
-                            </p>
-                            <div className="relative">
-                                <UploadCloud className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
-                                <input
-                                    type="text"
-                                    name="assetsLink"
-                                    value={formData.assetsLink}
-                                    onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-4 text-white focus:border-emerald-500 outline-none transition-colors"
-                                    placeholder="https://drive.google.com/drive/folders/..."
-                                />
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {/* Step 6: Additional Info */}
-                    {currentStep === 6 && (
-                        <motion.div
-                            key="step6"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <h4 className="text-xl font-semibold text-white mb-4">Additional Information</h4>
-                            <p className="text-slate-400 mb-4 text-sm">
-                                Optional. Max {WORD_LIMITS.additionalInfo} words.
-                            </p>
-                            <textarea
-                                name="additionalInfo"
-                                value={formData.additionalInfo}
-                                onChange={handleChange}
-                                rows={6}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-emerald-500 outline-none transition-colors resize-none"
-                                placeholder="Any specific deadlines, budget constraints, or other details..."
-                            />
-                            <div className="text-sm text-slate-500 mt-2">
-                                {countWords(formData.additionalInfo)} / {WORD_LIMITS.additionalInfo} words
+                            <h4 className="text-2xl font-semibold text-white mb-6">Addons (Optional)</h4>
+                            
+                            <div className="space-y-4">
+                                <label className="flex items-start gap-4 p-6 bg-white/5 border border-white/10 rounded-xl hover:border-emerald-500/30 transition-colors cursor-pointer group">
+                                    <input
+                                        type="checkbox"
+                                        name="contactForm"
+                                        checked={formData.contactForm}
+                                        onChange={handleChange}
+                                        className="mt-1 w-5 h-5 rounded border-white/20 bg-white/5 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0"
+                                    />
+                                    <div className="flex-1">
+                                        <h5 className="text-lg font-semibold text-white mb-2">Contact Form</h5>
+                                        <p className="text-slate-400 text-sm">
+                                            Add a contact form to your website for visitors to reach out directly.
+                                        </p>
+                                    </div>
+                                </label>
+                                
+                                <label className="flex items-start gap-4 p-6 bg-white/5 border border-white/10 rounded-xl hover:border-emerald-500/30 transition-colors cursor-pointer group">
+                                    <input
+                                        type="checkbox"
+                                        name="bookingForm"
+                                        checked={formData.bookingForm}
+                                        onChange={handleChange}
+                                        className="mt-1 w-5 h-5 rounded border-white/20 bg-white/5 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0"
+                                    />
+                                    <div className="flex-1">
+                                        <h5 className="text-lg font-semibold text-white mb-2">Booking Form</h5>
+                                        <p className="text-slate-400 text-sm">
+                                            Add a booking/appointment scheduling form to your website.
+                                        </p>
+                                    </div>
+                                </label>
                             </div>
                         </motion.div>
                     )}
@@ -537,4 +646,3 @@ const WebsiteGeneratorForm: React.FC = () => {
 };
 
 export default WebsiteGeneratorForm;
-

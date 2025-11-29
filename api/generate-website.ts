@@ -14,22 +14,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     try {
         const {
-            name,
-            email,
-            phone,
             companyName,
             industry,
-            currentWebsite,
-            designPreferences,
-            features,
-            competitors,
-            assetsLink,
-            additionalInfo
+            address,
+            city,
+            phoneNumber,
+            email,
+            companyType,
+            colors,
+            brandThemes,
+            extraDetailedInfo,
+            pages,
+            contactForm,
+            bookingForm
         } = req.body;
 
         // Validate required fields
-        if (!companyName || !industry || !designPreferences || !features || !assetsLink) {
-            return res.status(400).json({ error: 'Missing required fields' });
+        if (!companyName || !industry || !address || !city || !phoneNumber || !email || !companyType || !colors || !brandThemes) {
+            return res.status(400).json({ error: 'Missing required fields in General Information' });
+        }
+
+        if (!pages || !Array.isArray(pages) || pages.length === 0) {
+            return res.status(400).json({ error: 'At least one page is required' });
+        }
+
+        // Validate pages have required fields
+        for (const page of pages) {
+            if (!page.title || !page.information) {
+                return res.status(400).json({ error: `Page "${page.title || 'Untitled'}" is missing required information` });
+            }
         }
 
         if (!GEMINI_API_KEY || !GITHUB_TOKEN) {
@@ -45,19 +58,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const sitewide = {
             companyName,
             industry,
-            contactInfo: `${name} - ${email} - ${phone}`,
-            location: additionalInfo || 'Not specified',
-            colorScheme: designPreferences,
-            brandValues: features
+            address,
+            city,
+            phoneNumber,
+            email,
+            companyType,
+            colors,
+            brandThemes,
+            extraDetailedInfo: extraDetailedInfo || '',
+            contactForm: contactForm || false,
+            bookingForm: bookingForm || false,
+            fullAddress: `${address}, ${city}`
         };
-
-        // Extract pages from features (simple parsing - can be improved)
-        const pages = [
-            { title: 'Home', description: 'Main landing page for ' + companyName },
-            { title: 'About', description: 'About page for ' + companyName + ' in ' + industry },
-            { title: 'Services', description: 'Services offered by ' + companyName },
-            { title: 'Contact', description: 'Contact page with form' }
-        ];
 
         // Step 1: Generate game plan
         const gamePlan = await generateGamePlan(genAI, sitewide, pages);
@@ -118,22 +130,30 @@ async function generateGamePlan(genAI: GoogleGenerativeAI, sitewide: any, pages:
 Company Information:
 - Name: ${sitewide.companyName}
 - Industry: ${sitewide.industry}
-- Contact: ${sitewide.contactInfo}
-- Location: ${sitewide.location}
-- Color Scheme: ${sitewide.colorScheme}
-- Brand Values: ${sitewide.brandValues}
+- Company Type: ${sitewide.companyType}
+- Address: ${sitewide.fullAddress}
+- Phone: ${sitewide.phoneNumber}
+- Email: ${sitewide.email}
+- Colors: ${sitewide.colors}
+- Brand Themes: ${sitewide.brandThemes}
+${sitewide.extraDetailedInfo ? `- Additional Info: ${sitewide.extraDetailedInfo}` : ''}
 
 Pages to create:
-${pages.map((p, i) => `${i + 1}. ${p.title}: ${p.description}`).join('\n')}
+${pages.map((p, i) => `${i + 1}. ${p.title}: ${p.information}`).join('\n')}
+
+Addons:
+- Contact Form: ${sitewide.contactForm ? 'Yes' : 'No'}
+- Booking Form: ${sitewide.bookingForm ? 'Yes' : 'No'}
 
 Create a detailed game plan for building this website. Include:
 1. Overall design approach and layout strategy
-2. Color palette (specific hex codes based on the color scheme)
+2. Color palette (specific hex codes based on the provided colors: ${sitewide.colors})
 3. Typography choices
 4. Key features for each page
 5. Navigation structure
 6. Responsive design considerations
 7. Any special interactive elements needed
+8. How to integrate contact form and booking form if requested
 
 Keep it concise but comprehensive. Format as JSON with these keys: designApproach, colorPalette, typography, pageFeatures, navigation, responsiveStrategy, interactiveElements`;
 
@@ -158,8 +178,14 @@ async function generateWebsiteFiles(genAI: GoogleGenerativeAI, sitewide: any, pa
 
 Company: ${sitewide.companyName}
 Industry: ${sitewide.industry}
+Company Type: ${sitewide.companyType}
 Page: ${firstPage.title}
-Description: ${firstPage.description}
+Page Information: ${firstPage.information}
+
+Contact Information:
+- Address: ${sitewide.fullAddress}
+- Phone: ${sitewide.phoneNumber}
+- Email: ${sitewide.email}
 
 Design Guidelines:
 ${JSON.stringify(gamePlan, null, 2)}
@@ -171,8 +197,9 @@ Requirements:
 - Mobile-responsive structure
 - Professional, modern design
 - Include navigation to all pages: ${pages.map(p => p.title).join(', ')}
-- Contact info: ${sitewide.contactInfo}
-- Location: ${sitewide.location}
+- Display contact information: ${sitewide.fullAddress}, ${sitewide.phoneNumber}, ${sitewide.email}
+${sitewide.contactForm ? '- Include a contact form on this page or link to contact page' : ''}
+${sitewide.bookingForm ? '- Include a booking/appointment form or link to booking page' : ''}
 
 Return ONLY the HTML code, no explanations.`;
 
@@ -193,7 +220,13 @@ Return ONLY the HTML code, no explanations.`;
         const pageHtmlPrompt = `Create a professional HTML file for the "${page.title}" page.
 
 Company: ${sitewide.companyName}
-Page Description: ${page.description}
+Industry: ${sitewide.industry}
+Page Information: ${page.information}
+
+Contact Information:
+- Address: ${sitewide.fullAddress}
+- Phone: ${sitewide.phoneNumber}
+- Email: ${sitewide.email}
 
 Design Guidelines:
 ${JSON.stringify(gamePlan, null, 2)}
@@ -203,7 +236,9 @@ Requirements:
 - Include navigation to: ${pages.map(p => p.title).join(', ')}
 - Link to styles.css and script.js
 - Mobile-responsive
-- Contact info: ${sitewide.contactInfo}
+- Display contact information: ${sitewide.fullAddress}, ${sitewide.phoneNumber}, ${sitewide.email}
+${page.title.toLowerCase().includes('contact') && sitewide.contactForm ? '- Include a functional contact form' : ''}
+${page.title.toLowerCase().includes('book') && sitewide.bookingForm ? '- Include a functional booking/appointment form' : ''}
 
 Return ONLY the HTML code.`;
 
@@ -222,8 +257,9 @@ Return ONLY the HTML code.`;
 
 Company: ${sitewide.companyName}
 Industry: ${sitewide.industry}
-Color Scheme: ${sitewide.colorScheme}
-Brand Values: ${sitewide.brandValues}
+Company Type: ${sitewide.companyType}
+Colors: ${sitewide.colors}
+Brand Themes: ${sitewide.brandThemes}
 
 Design Guidelines:
 ${JSON.stringify(gamePlan, null, 2)}
@@ -233,10 +269,12 @@ Requirements:
 - Fully responsive (mobile, tablet, desktop)
 - Smooth animations and transitions
 - Professional typography
-- Use the specified color scheme
+- Use the specified colors: ${sitewide.colors}
+- Reflect brand themes: ${sitewide.brandThemes}
 - Include hover effects
 - Accessible design
 - Cross-browser compatible
+- Style contact forms and booking forms if present
 
 Return ONLY the CSS code, no explanations.`;
 
@@ -253,16 +291,17 @@ Return ONLY the CSS code, no explanations.`;
     const jsPrompt = `Create JavaScript for this website if needed for interactivity.
 
 Pages: ${pages.map(p => p.title).join(', ')}
+Company Type: ${sitewide.companyType}
 Design Guidelines: ${JSON.stringify(gamePlan, null, 2)}
 
 Include:
 - Mobile menu toggle
 - Smooth scrolling
-- Form validation (if contact forms exist)
+${sitewide.contactForm ? '- Contact form validation and submission handling' : ''}
+${sitewide.bookingForm ? '- Booking form validation and date/time picker functionality' : ''}
 - Any interactive elements from the game plan
 - Modern, vanilla JavaScript (no frameworks)
-
-If no JavaScript is needed, return just: // No JavaScript needed
+- Form handling for contact and booking forms
 
 Return ONLY the JavaScript code.`;
 
@@ -278,16 +317,23 @@ Return ONLY the JavaScript code.`;
     // Generate README
     const readmeContent = `# ${sitewide.companyName}
 
-${sitewide.industry} company website
+${sitewide.industry} - ${sitewide.companyType}
+
+## Contact Information
+- Address: ${sitewide.fullAddress}
+- Phone: ${sitewide.phoneNumber}
+- Email: ${sitewide.email}
 
 ## Pages
 ${pages.map(p => `- ${p.title}`).join('\n')}
 
-## Contact
-${sitewide.contactInfo}
+## Features
+${sitewide.contactForm ? '- Contact Form' : ''}
+${sitewide.bookingForm ? '- Booking Form' : ''}
 
-## Location
-${sitewide.location}
+## Brand
+- Colors: ${sitewide.colors}
+- Brand Themes: ${sitewide.brandThemes}
 
 ## Generated
 This website was automatically generated by Creative Code's AI Website Generator.
