@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, ArrowRight, ArrowLeft, Plus, X, Loader2, CheckCircle, XCircle, Github, ExternalLink, Trash2 } from 'lucide-react';
+import { Send, ArrowRight, ArrowLeft, Plus, X, Loader2, CheckCircle, XCircle, Github, ExternalLink, Trash2, Copy, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Page {
@@ -29,7 +29,11 @@ interface FormData {
     bookingForm: boolean;
 }
 
-const WebsiteGeneratorForm: React.FC = () => {
+interface WebsiteGeneratorFormProps {
+    onSiteGenerated?: () => void;
+}
+
+const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGenerated }) => {
     const [formData, setFormData] = useState<FormData>({
         companyName: '',
         industry: '',
@@ -58,6 +62,7 @@ const WebsiteGeneratorForm: React.FC = () => {
     } | null>(null);
 
     const [newPageTitle, setNewPageTitle] = useState('');
+    const [copied, setCopied] = useState(false);
     const formContainerRef = useRef<HTMLDivElement>(null);
 
     const companyTypes = [
@@ -170,6 +175,7 @@ const WebsiteGeneratorForm: React.FC = () => {
     const submitForm = async () => {
         setIsSubmitting(true);
         setGenerationResult(null);
+        setCopied(false);
         
         try {
             const response = await fetch('/api/generate-website', {
@@ -197,6 +203,31 @@ const WebsiteGeneratorForm: React.FC = () => {
                 vercelUrl: data.vercelUrl,
                 projectUrl: data.projectUrl,
             });
+            
+            // Save to dashboard
+            if (data.repoUrl) {
+                try {
+                    await fetch('/api/save-site', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            companyName: formData.companyName,
+                            repoUrl: data.repoUrl,
+                            vercelUrl: data.vercelUrl,
+                            projectUrl: data.projectUrl,
+                            industry: formData.industry,
+                        }),
+                    });
+                    // Refresh the sites list
+                    if (onSiteGenerated) {
+                        onSiteGenerated();
+                    }
+                } catch (saveError) {
+                    console.error('Failed to save site to dashboard:', saveError);
+                    // Don't block the user if saving fails
+                }
+            }
+            
             setIsSubmitted(true);
         } catch (err: any) {
             console.error('Generation failed:', err);
@@ -249,9 +280,66 @@ const WebsiteGeneratorForm: React.FC = () => {
                             </div>
                         )}
                         {generationResult.vercelUrl && (
-                            <p className="text-slate-400 mb-8">
-                                A new Vercel project has been automatically created and deployed.
-                            </p>
+                            <>
+                                <p className="text-slate-400 mb-6">
+                                    A new Vercel project has been automatically created and deployed.
+                                </p>
+                                
+                                {/* Copy Link Button */}
+                                <div className="mb-6 flex items-center justify-center gap-3">
+                                    <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-4 py-2 max-w-md w-full">
+                                        <input
+                                            type="text"
+                                            value={generationResult.vercelUrl}
+                                            readOnly
+                                            className="flex-1 bg-transparent text-white text-sm outline-none"
+                                        />
+                                        <button
+                                            onClick={async () => {
+                                                if (generationResult.vercelUrl) {
+                                                    await navigator.clipboard.writeText(generationResult.vercelUrl);
+                                                    setCopied(true);
+                                                    setTimeout(() => setCopied(false), 2000);
+                                                }
+                                            }}
+                                            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                                            title="Copy link"
+                                        >
+                                            {copied ? (
+                                                <Check className="w-4 h-4 text-emerald-500" />
+                                            ) : (
+                                                <Copy className="w-4 h-4 text-slate-400" />
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Website Preview Iframe */}
+                                <div className="mb-8 max-w-6xl mx-auto px-4">
+                                    <div className="bg-black/50 border border-white/10 rounded-xl overflow-hidden shadow-2xl">
+                                        <div className="bg-white/5 border-b border-white/10 px-4 py-2.5 flex items-center gap-2">
+                                            <div className="flex gap-1.5">
+                                                <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
+                                                <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                                                <div className="w-3 h-3 rounded-full bg-emerald-500/50"></div>
+                                            </div>
+                                            <div className="flex-1 bg-white/5 rounded px-3 py-1 text-xs text-slate-400 text-center truncate">
+                                                {generationResult.vercelUrl}
+                                            </div>
+                                        </div>
+                                        <div className="relative bg-white" style={{ paddingBottom: '56.25%', height: 0, overflow: 'hidden' }}>
+                                            <iframe
+                                                src={generationResult.vercelUrl}
+                                                className="absolute top-0 left-0 w-full h-full border-0"
+                                                title="Website Preview"
+                                                sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-top-navigation"
+                                                loading="lazy"
+                                                allow="fullscreen"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
                         )}
                         <div className="space-y-4 max-w-md mx-auto">
                             {generationResult.repoUrl && (

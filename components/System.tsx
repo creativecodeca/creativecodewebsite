@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Lock, Sparkles, Github, Zap, CheckCircle, XCircle } from 'lucide-react';
+import { Lock, Sparkles, Github, Zap, CheckCircle, XCircle, ExternalLink, Globe, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import WebsiteGeneratorForm from './WebsiteGeneratorForm';
@@ -9,6 +9,8 @@ const System: React.FC = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [savedSites, setSavedSites] = useState<any[]>([]);
+    const [loadingSites, setLoadingSites] = useState(true);
 
     // Check if already authenticated
     useEffect(() => {
@@ -17,6 +19,31 @@ const System: React.FC = () => {
             setIsAuthenticated(true);
         }
     }, []);
+
+    // Load saved sites when authenticated
+    useEffect(() => {
+        if (isAuthenticated) {
+            loadSavedSites();
+            // Refresh sites every 30 seconds
+            const interval = setInterval(loadSavedSites, 30000);
+            return () => clearInterval(interval);
+        }
+    }, [isAuthenticated]);
+
+    const loadSavedSites = async () => {
+        try {
+            setLoadingSites(true);
+            const response = await fetch('/api/save-site');
+            if (response.ok) {
+                const data = await response.json();
+                setSavedSites(data.sites || []);
+            }
+        } catch (error) {
+            console.error('Failed to load saved sites:', error);
+        } finally {
+            setLoadingSites(false);
+        }
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -188,8 +215,101 @@ const System: React.FC = () => {
                     </div>
                 </div>
 
+                {/* Previously Generated Sites */}
+                <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 mb-12">
+                    <div className="flex items-center justify-between mb-6">
+                        <h3 className="text-2xl font-semibold text-white">Previously Generated Sites</h3>
+                        <button
+                            onClick={loadSavedSites}
+                            disabled={loadingSites}
+                            className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors text-sm disabled:opacity-50"
+                        >
+                            {loadingSites ? 'Loading...' : 'Refresh'}
+                        </button>
+                    </div>
+                    
+                    {loadingSites && savedSites.length === 0 ? (
+                        <div className="text-center py-12">
+                            <div className="w-8 h-8 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin mx-auto mb-4"></div>
+                            <p className="text-slate-400">Loading sites...</p>
+                        </div>
+                    ) : savedSites.length === 0 ? (
+                        <div className="text-center py-12">
+                            <Globe className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+                            <p className="text-slate-400">No sites generated yet. Create your first website below!</p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {savedSites.map((site) => (
+                                <motion.div
+                                    key={site.id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="bg-white/5 border border-white/10 rounded-xl p-5 hover:border-emerald-500/30 transition-colors"
+                                >
+                                    <div className="flex items-start justify-between mb-3">
+                                        <div className="flex-1">
+                                            <h4 className="text-white font-semibold mb-1 truncate">{site.companyName}</h4>
+                                            {site.industry && (
+                                                <p className="text-slate-400 text-xs mb-2">{site.industry}</p>
+                                            )}
+                                            <div className="flex items-center gap-1 text-slate-500 text-xs">
+                                                <Calendar className="w-3 h-3" />
+                                                <span>{new Date(site.createdAt).toLocaleDateString()}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="space-y-2 mt-4">
+                                        {site.vercelUrl ? (
+                                            <a
+                                                href={site.vercelUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-2 w-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 rounded-lg px-3 py-2 text-sm hover:bg-emerald-500/30 transition-colors"
+                                            >
+                                                <Globe className="w-4 h-4" />
+                                                <span className="truncate flex-1">View Live Site</span>
+                                                <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                                            </a>
+                                        ) : (
+                                            <div className="flex items-center gap-2 text-slate-500 text-xs px-3 py-2 bg-white/5 rounded-lg">
+                                                <span>Pending deployment</span>
+                                            </div>
+                                        )}
+                                        
+                                        <a
+                                            href={site.repoUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 w-full bg-white/5 border border-white/10 text-slate-300 rounded-lg px-3 py-2 text-sm hover:bg-white/10 transition-colors"
+                                        >
+                                            <Github className="w-4 h-4" />
+                                            <span className="truncate flex-1">GitHub Repo</span>
+                                            <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                                        </a>
+                                        
+                                        {site.projectUrl && (
+                                            <a
+                                                href={site.projectUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-2 w-full bg-white/5 border border-white/10 text-slate-300 rounded-lg px-3 py-2 text-xs hover:bg-white/10 transition-colors"
+                                            >
+                                                <Zap className="w-3 h-3" />
+                                                <span className="truncate flex-1">Vercel Dashboard</span>
+                                                <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                                            </a>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
                 {/* Status Section */}
-                <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8">
+                <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 mb-12">
                     <h3 className="text-2xl font-semibold text-white mb-6">System Status</h3>
                     <div className="space-y-4">
                         <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
@@ -217,7 +337,7 @@ const System: React.FC = () => {
                 </div>
 
                 {/* Website Generation Form */}
-                <WebsiteGeneratorForm />
+                <WebsiteGeneratorForm onSiteGenerated={loadSavedSites} />
             </main>
         </div>
         </>

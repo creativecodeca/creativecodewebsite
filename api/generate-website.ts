@@ -207,6 +207,12 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
 
         // Generate index.html
     const firstPage = pages[0];
+    const pageLinks = pages.map((p, idx) => {
+        if (idx === 0) return { title: p.title, file: 'index.html' };
+        const fileName = p.title.toLowerCase().replace(/\s+/g, '-') + '.html';
+        return { title: p.title, file: fileName };
+    });
+
     const htmlPrompt = `Create a professional, modern HTML file for the main page of a website.
 
 Company: ${sitewide.companyName}
@@ -220,31 +226,49 @@ Contact Information:
 - Phone: ${sitewide.phoneNumber}
 - Email: ${sitewide.email}
 
+Colors: ${sitewide.colors}
+Brand Themes: ${sitewide.brandThemes}
+Extra Details: ${sitewide.extraDetailedInfo || ''}
+
 Design Guidelines:
 ${JSON.stringify(gamePlan, null, 2)}
 
-Requirements:
-- Clean, semantic HTML5
-- Include proper meta tags for SEO
-- Link to styles.css and script.js
-- Mobile-responsive structure
-- Professional, modern design
-- Include navigation to all pages: ${pages.map(p => p.title).join(', ')}
-- Display contact information: ${sitewide.fullAddress}, ${sitewide.phoneNumber}, ${sitewide.email}
-${sitewide.contactForm ? '- Include a contact form on this page or link to contact page' : ''}
-${sitewide.bookingForm ? '- Include a booking/appointment form or link to booking page' : ''}
+CRITICAL REQUIREMENTS:
+1. MUST include <link rel="stylesheet" href="styles.css"> in the <head> section
+2. MUST include <script src="script.js"></script> before closing </body> tag
+3. Navigation links MUST use correct file paths: ${JSON.stringify(pageLinks)}
+4. Use semantic HTML5 with proper structure
+5. Include proper meta tags for SEO
+6. Mobile-responsive structure with viewport meta tag
+7. Professional, modern design with proper CSS classes
+8. Include navigation menu linking to all pages: ${pages.map(p => p.title).join(', ')}
+9. Display contact information prominently: ${sitewide.fullAddress}, ${sitewide.phoneNumber}, ${sitewide.email}
+10. Use CSS classes for ALL styling - NO inline styles except for critical CSS
+${sitewide.contactForm ? '11. Include a contact form on this page or link to contact page' : ''}
+${sitewide.bookingForm ? '12. Include a booking/appointment form or link to booking page' : ''}
 
-Return ONLY the HTML code, no explanations.`;
+IMPORTANT: The website MUST look professional and modern. Use CSS extensively for styling.
+Navigation links must work correctly. Example: <a href="about.html">About</a> for pages other than index.
+
+Return ONLY the complete HTML code with proper CSS and JS links, no explanations.`;
 
     const htmlChat = genAI.chats.create({
         model: model,
         config: {
-            systemInstruction: 'You are a professional web developer. Generate clean, semantic HTML5 code.'
+            systemInstruction: 'You are a professional web developer. Generate clean, semantic HTML5 code. ALWAYS include <link rel="stylesheet" href="styles.css"> in the <head> and <script src="script.js"></script> before </body>. Use CSS classes for ALL styling - never use inline styles. Make the website look professional and modern.'
         }
     });
 
     const htmlResult = await htmlChat.sendMessage({ message: htmlPrompt });
     let htmlContent = htmlResult.text.replace(/```html\n?/g, '').replace(/```\n?/g, '').trim();
+    
+    // Ensure CSS and JS links are present
+    if (!htmlContent.includes('styles.css')) {
+        htmlContent = htmlContent.replace(/<head[^>]*>/i, (match) => match + '\n    <link rel="stylesheet" href="styles.css">');
+    }
+    if (!htmlContent.includes('script.js')) {
+        htmlContent = htmlContent.replace(/<\/body>/i, '    <script src="script.js"></script>\n</body>');
+    }
 
     files.push({
         name: 'index.html',
@@ -255,6 +279,11 @@ Return ONLY the HTML code, no explanations.`;
     for (let i = 1; i < pages.length; i++) {
         const page = pages[i];
         const pageFileName = page.title.toLowerCase().replace(/\s+/g, '-') + '.html';
+        const pageLinks = pages.map((p, idx) => {
+            if (idx === 0) return { title: p.title, file: 'index.html' };
+            const fileName = p.title.toLowerCase().replace(/\s+/g, '-') + '.html';
+            return { title: p.title, file: fileName };
+        });
 
         const pageHtmlPrompt = `Create a professional HTML file for the "${page.title}" page.
 
@@ -267,29 +296,48 @@ Contact Information:
 - Phone: ${sitewide.phoneNumber}
 - Email: ${sitewide.email}
 
+Colors: ${sitewide.colors}
+Brand Themes: ${sitewide.brandThemes}
+Extra Details: ${sitewide.extraDetailedInfo || ''}
+
 Design Guidelines:
 ${JSON.stringify(gamePlan, null, 2)}
 
-Requirements:
-- Match the style of the main page
-- Include navigation to: ${pages.map(p => p.title).join(', ')}
-- Link to styles.css and script.js
-- Mobile-responsive
-- Display contact information: ${sitewide.fullAddress}, ${sitewide.phoneNumber}, ${sitewide.email}
-${page.title.toLowerCase().includes('contact') && sitewide.contactForm ? '- Include a functional contact form' : ''}
-${page.title.toLowerCase().includes('book') && sitewide.bookingForm ? '- Include a functional booking/appointment form' : ''}
+CRITICAL REQUIREMENTS:
+1. MUST include <link rel="stylesheet" href="styles.css"> in the <head> section
+2. MUST include <script src="script.js"></script> before closing </body> tag
+3. Navigation links MUST use correct file paths: ${JSON.stringify(pageLinks)}
+4. Match the exact style and structure of the main page (index.html)
+5. Use the SAME navigation menu structure as the main page
+6. Link to styles.css and script.js (same files as main page)
+7. Mobile-responsive with same breakpoints
+8. Display contact information: ${sitewide.fullAddress}, ${sitewide.phoneNumber}, ${sitewide.email}
+9. Use CSS classes for ALL styling - NO inline styles
+${page.title.toLowerCase().includes('contact') && sitewide.contactForm ? '10. Include a functional contact form with proper styling' : ''}
+${page.title.toLowerCase().includes('book') && sitewide.bookingForm ? '10. Include a functional booking/appointment form with proper styling' : ''}
 
-Return ONLY the HTML code.`;
+IMPORTANT: This page must look identical in style to the main page. Use the same CSS classes and structure.
+Navigation must work correctly. Home link should be: <a href="index.html">Home</a>
+
+Return ONLY the complete HTML code with proper CSS and JS links, no explanations.`;
 
         const pageChat = genAI.chats.create({
             model: model,
             config: {
-                systemInstruction: 'You are a professional web developer. Generate clean, semantic HTML5 code.'
+                systemInstruction: 'You are a professional web developer. Generate clean, semantic HTML5 code. ALWAYS include <link rel="stylesheet" href="styles.css"> in the <head> and <script src="script.js"></script> before </body>. Use CSS classes for ALL styling - never use inline styles. Match the main page style exactly.'
             }
         });
 
         const pageResult = await pageChat.sendMessage({ message: pageHtmlPrompt });
         let pageContent = pageResult.text.replace(/```html\n?/g, '').replace(/```\n?/g, '').trim();
+        
+        // Ensure CSS and JS links are present
+        if (!pageContent.includes('styles.css')) {
+            pageContent = pageContent.replace(/<head[^>]*>/i, (match) => match + '\n    <link rel="stylesheet" href="styles.css">');
+        }
+        if (!pageContent.includes('script.js')) {
+            pageContent = pageContent.replace(/<\/body>/i, '    <script src="script.js"></script>\n</body>');
+        }
 
         files.push({
             name: pageFileName,
@@ -298,30 +346,41 @@ Return ONLY the HTML code.`;
     }
 
     // Generate CSS
-    const cssPrompt = `Create a professional, modern CSS file for this website.
+    const cssPrompt = `Create a comprehensive, professional, modern CSS file for this website.
 
 Company: ${sitewide.companyName}
 Industry: ${sitewide.industry}
 Company Type: ${sitewide.companyType}
 Colors: ${sitewide.colors}
 Brand Themes: ${sitewide.brandThemes}
+Extra Details: ${sitewide.extraDetailedInfo || ''}
 
 Design Guidelines:
 ${JSON.stringify(gamePlan, null, 2)}
 
-Requirements:
-- Modern, clean design
-- Fully responsive (mobile, tablet, desktop)
-- Smooth animations and transitions
-- Professional typography
-- Use the specified colors: ${sitewide.colors}
-- Reflect brand themes: ${sitewide.brandThemes}
-- Include hover effects
-- Accessible design
-- Cross-browser compatible
-- Style contact forms and booking forms if present
+CRITICAL REQUIREMENTS:
+1. MUST include CSS Reset/Normalize at the top
+2. MUST include comprehensive styling for ALL HTML elements used
+3. MUST be fully responsive with mobile-first approach (use media queries)
+4. MUST include professional typography (import Google Fonts if needed)
+5. MUST use the specified colors: ${sitewide.colors}
+6. MUST reflect brand themes: ${sitewide.brandThemes}
+7. MUST include smooth animations and transitions
+8. MUST include hover effects for interactive elements
+9. MUST style navigation menu (horizontal on desktop, hamburger on mobile)
+10. MUST style forms (contact and booking) if present
+11. MUST include proper spacing, padding, margins
+12. MUST include modern design elements (shadows, gradients, rounded corners where appropriate)
+13. MUST be accessible (proper contrast, focus states)
+14. MUST be cross-browser compatible
+15. MUST style footer, header, sections, buttons, links, etc.
 
-Return ONLY the CSS code, no explanations.`;
+Pages to style: ${pages.map(p => p.title).join(', ')}
+
+The website MUST look professional, modern, and polished. Use CSS extensively.
+Include styles for: navigation, hero sections, content areas, buttons, forms, footer, cards, etc.
+
+Return ONLY the complete CSS code, no explanations.`;
 
     const cssChat = genAI.chats.create({
         model: model,
@@ -339,22 +398,35 @@ Return ONLY the CSS code, no explanations.`;
     });
 
     // Generate JavaScript
-    const jsPrompt = `Create JavaScript for this website if needed for interactivity.
+    const pageFiles = pages.map((p, idx) => {
+        if (idx === 0) return 'index.html';
+        return p.title.toLowerCase().replace(/\s+/g, '-') + '.html';
+    });
+
+    const jsPrompt = `Create comprehensive JavaScript for this website.
 
 Pages: ${pages.map(p => p.title).join(', ')}
+Page Files: ${pageFiles.join(', ')}
 Company Type: ${sitewide.companyType}
 Design Guidelines: ${JSON.stringify(gamePlan, null, 2)}
 
-Include:
-- Mobile menu toggle
-- Smooth scrolling
-${sitewide.contactForm ? '- Contact form validation and submission handling' : ''}
-${sitewide.bookingForm ? '- Booking form validation and date/time picker functionality' : ''}
-- Any interactive elements from the game plan
-- Modern, vanilla JavaScript (no frameworks)
-- Form handling for contact and booking forms
+CRITICAL REQUIREMENTS:
+1. MUST include mobile menu toggle functionality (hamburger menu)
+2. MUST include smooth scrolling for anchor links
+3. MUST ensure navigation links work correctly on all pages
+4. MUST handle form submissions properly
+${sitewide.contactForm ? '5. MUST include contact form validation and submission handling with proper error messages' : ''}
+${sitewide.bookingForm ? '6. MUST include booking form validation and date/time picker functionality' : ''}
+7. MUST include any interactive elements from the design
+8. Use modern, vanilla JavaScript (no frameworks)
+9. Ensure all pages can access the same script.js file
+10. Handle navigation menu active states
+11. Add smooth animations and transitions
+12. Make sure mobile menu works on all pages
 
-Return ONLY the JavaScript code.`;
+The JavaScript should work across all pages: ${pageFiles.join(', ')}.
+
+Return ONLY the complete JavaScript code, no explanations.`;
 
     const jsChat = genAI.chats.create({
         model: model,
@@ -399,6 +471,32 @@ This website was automatically generated by Creative Code's AI Website Generator
         files.push({
             name: 'README.md',
             content: readmeContent
+        });
+
+        // Generate vercel.json for proper routing
+        const vercelJson = {
+            "rewrites": [
+                {
+                    "source": "/(.*)",
+                    "destination": "/index.html"
+                }
+            ],
+            "headers": [
+                {
+                    "source": "/(.*)",
+                    "headers": [
+                        {
+                            "key": "Cache-Control",
+                            "value": "public, max-age=3600"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        files.push({
+            name: 'vercel.json',
+            content: JSON.stringify(vercelJson, null, 2)
         });
 
         return files;
@@ -468,7 +566,11 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
     }
 
     try {
-        // Create Vercel project
+        // Step 1: Create or get Vercel project
+        let projectData: any;
+        const projectNameSlug = projectName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
+        
+        // Try to create project
         const createProjectResponse = await fetch('https://api.vercel.com/v9/projects', {
             method: 'POST',
             headers: {
@@ -476,7 +578,7 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: projectName,
+                name: projectNameSlug,
                 gitRepository: {
                     type: 'github',
                     repo: repoFullName
@@ -485,22 +587,76 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
                 buildCommand: null,
                 outputDirectory: null,
                 installCommand: null,
-                devCommand: null,
-                environmentVariables: []
+                devCommand: null
             })
         });
 
-        if (!createProjectResponse.ok) {
+        if (createProjectResponse.ok) {
+            projectData = await createProjectResponse.json();
+            console.log('Vercel project created:', projectData.id);
+        } else {
+            // Project might already exist, try to get it
             const errorData = await createProjectResponse.json().catch(() => ({}));
-            console.error('Vercel project creation failed:', errorData);
-            throw new Error('Failed to create Vercel project');
+            if (errorData.error?.code === 'project_already_exists') {
+                // Get existing project
+                const getProjectResponse = await fetch(`https://api.vercel.com/v9/projects/${projectNameSlug}`, {
+                    headers: {
+                        'Authorization': `Bearer ${VERCEL_TOKEN}`
+                    }
+                });
+                if (getProjectResponse.ok) {
+                    projectData = await getProjectResponse.json();
+                    console.log('Using existing Vercel project:', projectData.id);
+                } else {
+                    throw new Error('Failed to get existing project');
+                }
+            } else {
+                console.error('Vercel project creation failed:', errorData);
+                throw new Error('Failed to create Vercel project');
+            }
         }
 
-        const projectData: any = await createProjectResponse.json().catch(() => ({}));
+        // Step 2: Trigger a new deployment
+        const deploymentResponse = await fetch('https://api.vercel.com/v13/deployments', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${VERCEL_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: projectNameSlug,
+                gitSource: {
+                    type: 'github',
+                    repo: repoFullName,
+                    ref: 'main' // or 'master' depending on default branch
+                },
+                projectSettings: {
+                    framework: null,
+                    buildCommand: null,
+                    outputDirectory: null,
+                    installCommand: null,
+                    devCommand: null
+                }
+            })
+        });
+
+        if (!deploymentResponse.ok) {
+            const deployError = await deploymentResponse.json().catch(() => ({}));
+            console.error('Vercel deployment trigger failed:', deployError);
+            // Still return project URL even if deployment fails - Vercel will auto-deploy on push
+        } else {
+            const deploymentData = await deploymentResponse.json();
+            console.log('Vercel deployment triggered:', deploymentData.url);
+        }
+
+        // Return the project URL (Vercel will auto-deploy from GitHub)
+        const projectUrl = projectData.accountId 
+            ? `https://vercel.com/${projectData.accountId}/${projectNameSlug}`
+            : `https://vercel.com/dashboard`;
 
         return {
-            url: `https://${projectName}.vercel.app`,
-            projectUrl: projectData.accountId ? `https://vercel.com/${projectData.accountId}/${projectName}` : undefined,
+            url: `https://${projectNameSlug}.vercel.app`,
+            projectUrl: projectUrl,
             projectId: projectData.id
         };
 
