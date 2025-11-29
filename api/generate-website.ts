@@ -221,22 +221,28 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
         // Using Gemini 3 Flash - latest and most advanced model
         const model = 'gemini-3-flash';
         const files = [];
-    const pageLinks = pages.map((p, idx) => {
-        if (idx === 0) return { title: p.title, file: 'index.html' };
-        const fileName = p.title.toLowerCase().replace(/\s+/g, '-') + '.html';
-        return { title: p.title, file: fileName };
-    });
+        
+        // Map pages to routes (for separate HTML files, not SPA)
+        const pageRoutes = pages.map((p, idx) => {
+            if (idx === 0) return { title: p.title, route: '/', file: 'index.html', component: 'Home' };
+            const route = '/' + p.title.toLowerCase().replace(/\s+/g, '-');
+            const fileName = p.title.toLowerCase().replace(/\s+/g, '-') + '/index.html';
+            const component = p.title.replace(/\s+/g, '');
+            return { title: p.title, route, file: fileName, component };
+        });
+        
+        const pageLinks = pageRoutes.map(p => ({ title: p.title, file: p.file, route: p.route }));
 
-        // PHASE 1: Generate each page individually with focused prompts
-        console.log('Phase 1: Generating individual pages...');
-        const generatedPages: { name: string; content: string; pageInfo: any }[] = [];
+        // PHASE 1: Generate React components for each page
+        console.log('Phase 1: Generating React components...');
+        const generatedComponents: { name: string; content: string; route: string; pageInfo: any }[] = [];
         const allImageAttributions: Array<{url: string, attribution: string, photographer?: string, photographerUrl?: string}> = [];
         
         for (let i = 0; i < pages.length; i++) {
-        const page = pages[i];
-            const pageFileName = i === 0 ? 'index.html' : page.title.toLowerCase().replace(/\s+/g, '-') + '.html';
+            const page = pages[i];
+            const pageRoute = pageRoutes[i];
             
-            console.log(`Generating ${pageFileName}...`);
+            console.log(`Generating React component: ${pageRoute.component}...`);
             
             // Get relevant images for this page
             const pageImages = await getRelevantImages(sitewide, page, i);
@@ -253,313 +259,134 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
                 }
             });
             
-            const pagePrompt = i === 0 
-                ? generateMainPagePrompt(page, sitewide, pages, pageLinks, gamePlan, pageImages)
-                : generateSubPagePrompt(page, sitewide, pages, pageLinks, gamePlan, pageImages);
+            const componentPrompt = i === 0 
+                ? generateMainPageReactPrompt(page, sitewide, pages, pageRoutes, gamePlan, pageImages, pageRoute)
+                : generateSubPageReactPrompt(page, sitewide, pages, pageRoutes, gamePlan, pageImages, pageRoute);
 
-        const pageChat = genAI.chats.create({
-            model: model,
-            config: {
-                    systemInstruction: 'You are a senior web developer with 10+ years of experience creating award-winning websites. Generate production-ready, semantic HTML5 code. The website must look stunning, modern, and professional - not basic or amateur. Use buttons (not links) for CTAs, proper header structure, and ensure visual hierarchy. Quality is critical - this must look like a $10,000+ website, not a template.'
-            }
-        });
+            const componentChat = genAI.chats.create({
+                model: model,
+                config: {
+                    systemInstruction: 'You are a senior React developer with 10+ years of experience creating award-winning websites. Generate production-ready React/TypeScript components using Tailwind CSS. The website must look stunning, modern, and professional - matching the quality of premium $10,000+ websites. Use Tailwind utility classes extensively, proper component structure, and ensure visual hierarchy.'
+                }
+            });
 
-            const pageResult = await pageChat.sendMessage({ message: pagePrompt });
-        let pageContent = pageResult.text.replace(/```html\n?/g, '').replace(/```\n?/g, '').trim();
+            const componentResult = await componentChat.sendMessage({ message: componentPrompt });
+            let componentContent = componentResult.text.replace(/```tsx\n?/g, '').replace(/```ts\n?/g, '').replace(/```jsx\n?/g, '').replace(/```javascript\n?/g, '').replace(/```\n?/g, '').trim();
             
-            // Clean up common AI generation issues
-            pageContent = cleanHtmlContent(pageContent, sitewide);
-        
-        // Ensure CSS and JS links are present
-        if (!pageContent.includes('styles.css')) {
-            pageContent = pageContent.replace(/<head[^>]*>/i, (match) => match + '\n    <link rel="stylesheet" href="styles.css">');
-        }
-        if (!pageContent.includes('script.js')) {
-            pageContent = pageContent.replace(/<\/body>/i, '    <script src="script.js"></script>\n</body>');
-        }
+            // Clean up component content
+            componentContent = cleanReactContent(componentContent, sitewide);
 
-            generatedPages.push({
-            name: pageFileName,
-                content: pageContent,
+            generatedComponents.push({
+                name: `${pageRoute.component}.tsx`,
+                content: componentContent,
+                route: pageRoute.route,
                 pageInfo: page
             });
         }
 
-        // PHASE 2: Quick consistency fixes (skip full AI refinement to avoid timeouts)
-        console.log('Phase 2: Applying quick consistency fixes...');
-        let refinedPages = generatedPages.map(page => {
-            let content = page.content;
-            
-            // Ensure attribution link in footer if we have attributions (add after pages are generated)
-            // This will be done after we know if attributions exist
-            
-            return {
-                name: page.name,
-                content: content
-            };
-        });
-        
-        // Skip full AI refinement to avoid timeouts - pages are already good from Phase 1
-        // If you want full refinement, uncomment below (but it may timeout on large sites)
-        /*
-        try {
-            const refinementPromise = refineAllPages(genAI, model, refinedPages, sitewide, pages, pageLinks, gamePlan);
-            const timeoutPromise = new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Refinement timeout')), 30000) // 30 second timeout
-            );
-            refinedPages = await Promise.race([refinementPromise, timeoutPromise]) as any[];
-        } catch (error) {
-            console.warn('Refinement phase skipped, using original pages:', error);
-        }
-        */
-        
-        // Add refined pages to files
-        for (const page of refinedPages) {
-            files.push({
-                name: page.name,
-                content: page.content
-            });
-        }
-        
-        // Generate attribution page if we have images with attributions
+        // PHASE 2: Generate React Attribution component if needed
         if (allImageAttributions.length > 0) {
-            console.log('Generating attribution page...');
-            // Add attributions page to pageLinks for navigation
-            const pageLinksWithAttributions = [...pageLinks, { title: 'Attributions', file: 'attributions.html' }];
-            const attributionPage = generateAttributionPage(sitewide, allImageAttributions, pageLinksWithAttributions);
-            files.push({
-                name: 'attributions.html',
-                content: attributionPage
-            });
+            console.log('Generating Attribution React component...');
+            const attributionsRoute = { title: 'Attributions', route: '/attributions', file: 'attributions/index.html', component: 'Attributions' };
+            pageRoutes.push(attributionsRoute);
             
-            // Add attribution link to all pages' footers automatically
-            console.log('Adding attribution links to all pages...');
-            refinedPages = refinedPages.map(page => {
-                let content = page.content;
-                // Check if footer exists and doesn't already have attribution link
-                if (content.includes('</footer>') && !content.includes('attributions.html')) {
-                    // Add attribution link before closing footer tag
-                    content = content.replace(/<\/footer>/i, (match) => {
-                        return `        <div style="text-align: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
-            <a href="attributions.html" style="color: inherit; text-decoration: none; font-size: 0.85rem; opacity: 0.7;">Photo Credits</a>
-        </div>\n    ${match}`;
-                    });
-                }
-                return {
-                    name: page.name,
-                    content: content
-                };
+            const attributionsComponent = generateAttributionsReactComponent(sitewide, allImageAttributions, pageRoutes);
+            generatedComponents.push({
+                name: 'Attributions.tsx',
+                content: attributionsComponent,
+                route: '/attributions',
+                pageInfo: { title: 'Attributions', information: 'Photo credits and attributions' }
             });
         }
-
-        // PHASE 3: Generate CSS
-        console.log('Phase 3: Generating CSS...');
-        const cssPrompt = `Create a comprehensive, professional, modern, high-quality CSS file for this website.
-
-Company: ${sitewide.companyName}
-Industry: ${sitewide.industry}
-Company Type: ${sitewide.companyType}
-Colors: ${sitewide.colors}
-Brand Themes: ${sitewide.brandThemes}
-Extra Details: ${sitewide.extraDetailedInfo || ''}
-
-Design Guidelines:
-${JSON.stringify(gamePlan, null, 2)}
-
-CRITICAL REQUIREMENTS:
-1. MUST include CSS Reset/Normalize at the top (* { box-sizing: border-box; } and reset margins/padding)
-2. MUST include comprehensive styling for ALL HTML elements used in the HTML
-3. MUST be fully responsive with mobile-first approach (use media queries: @media (min-width: 768px), @media (min-width: 1024px))
-4. MUST include professional typography (import Google Fonts - use fonts like Inter, Poppins, or Roboto)
-5. MUST use the specified colors: ${sitewide.colors} - parse hex codes and use them throughout
-6. MUST reflect brand themes: ${sitewide.brandThemes}
-7. MUST include smooth animations and transitions (transition: all 0.3s ease)
-8. MUST include hover effects for interactive elements (buttons, links, cards)
-9. MUST style navigation menu (horizontal on desktop, hamburger menu on mobile with smooth transitions)
-10. MUST style forms (contact and booking) if present - modern, clean input fields with focus states
-11. MUST include proper spacing system (consistent padding, margins using rem/em units)
-12. MUST include modern design elements:
-    - Subtle box shadows (box-shadow: 0 2px 8px rgba(0,0,0,0.1))
-    - Gradients where appropriate
-    - Rounded corners (border-radius: 8px or 12px)
-    - Smooth transitions
-13. MUST be accessible:
-    - Proper color contrast (WCAG AA minimum)
-    - Focus states for keyboard navigation (outline, border, or background change)
-    - Minimum touch target sizes (44x44px for mobile)
-14. MUST be cross-browser compatible (use vendor prefixes if needed)
-15. MUST style all components:
-    - Header with logo and navigation
-    - Hero section with compelling visual design
-    - Content sections with proper typography
-    - Cards/service items with hover effects
-    - Footer with organized layout
-    - Buttons with multiple states (default, hover, active, disabled)
-    - Links with proper styling
-16. Use CSS Grid and Flexbox for layouts (modern, flexible layouts)
-17. Include smooth scroll behavior (html { scroll-behavior: smooth; })
-18. Style images to be responsive (max-width: 100%, height: auto)
-19. Create a cohesive color scheme using the provided colors
-20. Add visual hierarchy with typography scale (h1 larger than h2, etc.)
-
-Pages to style: ${pages.map(p => p.title).join(', ')}${allImageAttributions.length > 0 ? ', Attributions' : ''}
-
-DESIGN QUALITY REQUIREMENTS (CRITICAL):
-
-HEADER STYLING:
-- Header MUST be fixed/sticky at top (position: fixed or sticky)
-- Header background: solid color or semi-transparent with backdrop-filter
-- Logo/company name: left-aligned, prominent, proper font size
-- Navigation menu: horizontal on desktop, hamburger on mobile
-- Nav links: proper spacing, hover effects, active state styling
-- Header height: 60-80px, proper padding
-- Header should have shadow or border for separation
-
-BUTTON STYLING (CRITICAL - MUST LOOK LIKE BUTTONS, NOT LINKS):
-- .btn class: Base button styles
-  * padding: 1rem 2rem (or similar substantial padding)
-  * border-radius: 8px (rounded corners)
-  * font-weight: 600 (bold)
-  * font-size: 1rem
-  * cursor: pointer
-  * border: none (or subtle border)
-  * transition: all 0.3s ease
-  * display: inline-block
-  * text-align: center
-  * text-decoration: none
-
-- .btn-primary: Primary action buttons
-  * background-color: primary brand color (from ${sitewide.colors})
-  * color: white or contrasting text
-  * hover: darker background (background-color: rgba(0,0,0,0.1) darker or use filter: brightness(0.9))
-  * hover: transform: translateY(-2px) (slight lift)
-  * hover: box-shadow: 0 4px 12px rgba(0,0,0,0.15) (stronger shadow)
-  * active: transform: translateY(0) (press down effect)
-
-- .btn-secondary: Secondary buttons
-  * background-color: transparent
-  * border: 2px solid primary color
-  * color: primary color
-  * hover: background-color: primary color, color: white (fill effect)
-
-- Buttons MUST be visually distinct from links - use background colors, padding, borders
-- Links should be subtle, buttons should be prominent
-
-HERO SECTION:
-- Full-width section with compelling background (image or gradient)
-- Large, bold headline (h1): font-size: 3rem+ on desktop, 2rem+ on mobile
-- Subheadline: readable, proper contrast
-- CTA button: prominently placed, large, eye-catching
-- Proper spacing and visual hierarchy
-- Overlay on background image if needed for text readability
-
-CARDS & SECTIONS:
-- Service/feature cards: modern card design
-  * background: white or light color
-  * border-radius: 12px
-  * box-shadow: 0 2px 8px rgba(0,0,0,0.1)
-  * padding: 2rem
-  * hover: transform: translateY(-4px), box-shadow: 0 8px 16px rgba(0,0,0,0.15)
-  * transition: all 0.3s ease
-
-FOOTER:
-- Multi-column layout (3-4 columns on desktop)
-- Organized sections: company info, links, contact
-- Proper spacing and typography
-- Background color distinct from main content
-- Border-top for separation
-
-GENERAL:
-- Ensure proper spacing and breathing room between elements (use margin/padding consistently)
-- Use consistent border-radius values throughout (8px, 12px)
-- Apply consistent color scheme from the provided colors
-- Make typography readable and hierarchical (h1 > h2 > h3)
-- All interactive elements must have clear hover states
-
-The website MUST look professional, modern, polished, and production-ready. Use CSS extensively with modern best practices.
-
-Return ONLY the complete CSS code, no explanations or markdown formatting.`;
-
-        const cssChat = genAI.chats.create({
-            model: model,
-            config: {
-                systemInstruction: 'You are a senior web developer with 10+ years of experience. Generate production-ready, modern, responsive CSS code that creates a stunning, professional, polished website. Focus on visual quality, proper spacing, modern design trends, and ensuring buttons look like buttons (not links). This must look like a premium, high-end website - not basic or template-like.'
-            }
-        });
-
-        const cssResult = await cssChat.sendMessage({ message: cssPrompt });
-        let cssContent = cssResult.text.replace(/```css\n?/g, '').replace(/```\n?/g, '').trim();
         
-        // Clean up CSS content
-        cssContent = cleanCssContent(cssContent, sitewide);
+        // PHASE 3: Generate React App.tsx with routes
+        console.log('Phase 3: Generating App.tsx with routes...');
+        const appContent = generateAppTsx(generatedComponents, pageRoutes);
+        files.push({
+            name: 'App.tsx',
+            content: appContent
+        });
         
-        // Refine CSS based on all pages (with timeout)
-        console.log('Refining CSS for consistency...');
-        try {
-            const cssRefinementPromise = refineCss(genAI, model, cssContent, refinedPages, sitewide, gamePlan);
-            const cssTimeoutPromise = new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('CSS refinement timeout')), 45000) // 45 second timeout
-            );
-            cssContent = await Promise.race([cssRefinementPromise, cssTimeoutPromise]) as string;
-        } catch (error) {
-            console.warn('CSS refinement skipped due to timeout or error, using original CSS:', error);
-            // Use original CSS if refinement fails
+        // Add React components to files
+        for (const component of generatedComponents) {
+            files.push({
+                name: `components/${component.name}`,
+                content: component.content
+            });
         }
-
+        
+        // PHASE 4: Generate config files
+        console.log('Phase 4: Generating config files...');
+        
+        // Generate package.json
+        const packageJson = generatePackageJson(sitewide);
         files.push({
-            name: 'styles.css',
-            content: cssContent
+            name: 'package.json',
+            content: JSON.stringify(packageJson, null, 2)
         });
-
-        // PHASE 4: Generate JavaScript
-        console.log('Phase 4: Generating JavaScript...');
-        const pageFiles = pages.map((p, idx) => {
-            if (idx === 0) return 'index.html';
-            return p.title.toLowerCase().replace(/\s+/g, '-') + '.html';
-        });
-
-    const jsPrompt = `Create comprehensive JavaScript for this website.
-
-Pages: ${pages.map(p => p.title).join(', ')}
-Page Files: ${pageFiles.join(', ')}
-Company Type: ${sitewide.companyType}
-Design Guidelines: ${JSON.stringify(gamePlan, null, 2)}
-
-CRITICAL REQUIREMENTS:
-1. MUST include mobile menu toggle functionality (hamburger menu)
-2. MUST include smooth scrolling for anchor links
-3. MUST ensure navigation links work correctly on all pages
-4. MUST handle form submissions properly
-${sitewide.contactForm ? '5. MUST include contact form validation and submission handling with proper error messages' : ''}
-${sitewide.bookingForm ? '6. MUST include booking form validation and date/time picker functionality' : ''}
-7. MUST include any interactive elements from the design
-8. Use modern, vanilla JavaScript (no frameworks)
-9. Ensure all pages can access the same script.js file
-10. Handle navigation menu active states
-11. Add smooth animations and transitions
-12. Make sure mobile menu works on all pages
-
-The JavaScript should work across all pages: ${pageFiles.join(', ')}.
-
-Return ONLY the complete JavaScript code, no explanations.`;
-
-    const jsChat = genAI.chats.create({
-        model: model,
-        config: {
-            systemInstruction: 'You are a professional web developer. Generate clean, modern vanilla JavaScript code.'
-        }
-    });
-
-        const jsResult = await jsChat.sendMessage({ message: jsPrompt });
-        let jsContent = jsResult.text.replace(/```javascript\n?/g, '').replace(/```js\n?/g, '').replace(/```\n?/g, '').trim();
-
+        
+        // Generate vite.config.ts
+        const viteConfig = generateViteConfig();
         files.push({
-            name: 'script.js',
-            content: jsContent
+            name: 'vite.config.ts',
+            content: viteConfig
+        });
+        
+        // Generate entry-server.tsx
+        const entryServer = generateEntryServer();
+        files.push({
+            name: 'entry-server.tsx',
+            content: entryServer
+        });
+        
+        // Generate prerender.js
+        const prerenderScript = generatePrerenderScript(pageRoutes);
+        files.push({
+            name: 'prerender.js',
+            content: prerenderScript
+        });
+        
+        // Generate index.tsx
+        const indexTsx = generateIndexTsx();
+        files.push({
+            name: 'index.tsx',
+            content: indexTsx
+        });
+        
+        // Generate index.html template
+        const indexHtml = generateIndexHtml(sitewide);
+        files.push({
+            name: 'index.html',
+            content: indexHtml
+        });
+        
+        // Generate tsconfig.json
+        const tsconfig = generateTsConfig();
+        files.push({
+            name: 'tsconfig.json',
+            content: JSON.stringify(tsconfig, null, 2)
+        });
+        
+        // Generate Navbar component
+        const navbarComponent = generateNavbarComponent(pageRoutes, sitewide);
+        files.push({
+            name: 'components/Navbar.tsx',
+            content: navbarComponent
+        });
+        
+        // Generate Footer component
+        const footerComponent = generateFooterComponent(pageRoutes, sitewide, allImageAttributions.length > 0);
+        files.push({
+            name: 'components/Footer.tsx',
+            content: footerComponent
         });
 
-    // Generate README
-    const readmeContent = `# ${sitewide.companyName}
+        // Note: CSS and JS are not needed - Tailwind CSS is used via CDN
+        // All styling is done with Tailwind utility classes in React components
+        // JavaScript functionality is built into React components
+        
+        // Generate README
+        const readmeContent = `# ${sitewide.companyName}
 
 ${sitewide.industry} - ${sitewide.companyType}
 
@@ -588,8 +415,11 @@ This website was automatically generated by Creative Code's AI Website Generator
             content: readmeContent
         });
 
-        // Generate vercel.json for proper routing
+        // Generate vercel.json for React build
         const vercelJson = {
+            "buildCommand": "npm run build",
+            "outputDirectory": "dist",
+            "framework": null,
             "rewrites": [
                 {
                     "source": "/(.*)",
@@ -1514,4 +1344,622 @@ ${attributionList}
     <script src="script.js"></script>
 </body>
 </html>`;
+}
+
+// ============================================================================
+// REACT + TAILWIND GENERATION FUNCTIONS
+// ============================================================================
+
+// Helper function to generate React component prompt for main page
+function generateMainPageReactPrompt(page: any, sitewide: any, pages: any[], pageRoutes: any[], gamePlan: any, images: Array<{url: string, attribution?: string, photographer?: string, photographerUrl?: string}>, pageRoute: any): string {
+    return `Create a professional, modern, high-quality React/TypeScript component for the MAIN/HOME page using Tailwind CSS.
+
+Company: ${sitewide.companyName}
+Industry: ${sitewide.industry}
+Company Type: ${sitewide.companyType}
+Page: ${page.title}
+Page Information: ${page.information}
+
+Contact Information:
+- Address: ${sitewide.fullAddress}
+- Phone: ${sitewide.phoneNumber}
+- Email: ${sitewide.email}
+
+Colors: ${sitewide.colors}
+Brand Themes: ${sitewide.brandThemes}
+Extra Details: ${sitewide.extraDetailedInfo || ''}
+
+Design Guidelines:
+${JSON.stringify(gamePlan, null, 2)}
+
+CRITICAL REQUIREMENTS:
+
+1. Use React with TypeScript (React.FC)
+2. Use Tailwind CSS utility classes extensively (NO custom CSS files)
+3. Import and use React Helmet for SEO meta tags
+4. Component name: ${pageRoute.component}
+5. Use proper TypeScript types
+
+HEADER (CRITICAL):
+- Fixed/sticky header with backdrop blur: "fixed z-50 w-full top-0 bg-[#020202]/60 backdrop-blur-[20px] border-b border-white/10"
+- Company name/logo on left
+- Navigation menu on right (horizontal, hidden on mobile, hamburger menu)
+- Use Link from react-router-dom for navigation
+- Navigation links: ${pageRoutes.map(p => `${p.title} -> ${p.route}`).join(', ')}
+
+BUTTONS (CRITICAL):
+- Use <button> elements for CTAs, NOT <a> tags
+- Primary buttons: "px-6 py-3 bg-[primary-color] text-white rounded-lg font-semibold hover:bg-[darker-color] transition-all hover:scale-105"
+- Secondary buttons: "px-6 py-3 border-2 border-[primary-color] text-[primary-color] rounded-lg font-semibold hover:bg-[primary-color] hover:text-white transition-all"
+- Buttons MUST look like buttons with padding, background, rounded corners
+
+HERO SECTION:
+- Full-width section with compelling design
+- Large headline: "text-5xl md:text-7xl font-bold text-white"
+- Subheadline: "text-xl md:text-2xl text-slate-300"
+- CTA button prominently placed
+- Background: gradient or image with overlay
+
+IMAGES:
+${images.length > 0 ? `Available images (use ONLY if contextually relevant):
+${images.map((img, idx) => `   Image ${idx + 1}: ${img.url}`).join('\n')}
+If images don't fit, use Tailwind gradients instead.` : 'Use Tailwind gradients or patterns instead of images.'}
+
+CONTENT SECTIONS:
+- Service/feature cards: "bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all"
+- Proper spacing: "py-20 px-6"
+- Max width container: "max-w-7xl mx-auto"
+
+FOOTER:
+- Multi-column layout
+- Contact information
+- Navigation links
+- Copyright notice
+${images.length > 0 ? '- Attribution link: <Link to="/attributions">Photo Credits</Link>' : ''}
+
+FORMS:
+${sitewide.contactForm ? '- Contact form with proper Tailwind styling\n- Input fields: "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-slate-400"\n- Submit button: use button element with primary button classes' : ''}
+${sitewide.bookingForm ? '- Booking form with date/time inputs\n- Same input styling as contact form' : ''}
+
+SEO:
+- Use React Helmet to set:
+  * Title: "${sitewide.companyName} - ${page.title}"
+  * Description: Compelling description based on page information
+  * Open Graph tags
+  * Canonical URL
+
+RESPONSIVE:
+- Mobile-first approach
+- Use Tailwind breakpoints: md:, lg:, xl:
+- Hamburger menu for mobile navigation
+
+Return ONLY the complete React/TypeScript component code, no explanations or markdown formatting.`;
+}
+
+// Helper function to generate React component prompt for sub-pages
+function generateSubPageReactPrompt(page: any, sitewide: any, pages: any[], pageRoutes: any[], gamePlan: any, images: Array<{url: string, attribution?: string, photographer?: string, photographerUrl?: string}>, pageRoute: any): string {
+    return `Create a professional, modern, high-quality React/TypeScript component for the "${page.title}" page using Tailwind CSS.
+
+Company: ${sitewide.companyName}
+Industry: ${sitewide.industry}
+Page Information: ${page.information}
+
+Contact Information:
+- Address: ${sitewide.fullAddress}
+- Phone: ${sitewide.phoneNumber}
+- Email: ${sitewide.email}
+
+Colors: ${sitewide.colors}
+Brand Themes: ${sitewide.brandThemes}
+Extra Details: ${sitewide.extraDetailedInfo || ''}
+
+Design Guidelines:
+${JSON.stringify(gamePlan, null, 2)}
+
+CRITICAL REQUIREMENTS:
+
+1. Use React with TypeScript (React.FC)
+2. Use Tailwind CSS utility classes extensively
+3. Import and use React Helmet for SEO meta tags
+4. Component name: ${pageRoute.component}
+5. Match the style and structure of the Home component
+6. Use the SAME header and footer structure as Home
+
+HEADER:
+- Must match Home component exactly
+- Same navigation structure
+- Same styling classes
+
+BUTTONS:
+- Use <button> elements for CTAs
+- Same button classes as Home component
+
+IMAGES:
+${images.length > 0 ? `Available images (use ONLY if relevant):
+${images.map((img, idx) => `   Image ${idx + 1}: ${img.url}`).join('\n')}` : 'Use Tailwind gradients or patterns.'}
+
+CONTENT:
+- Match Home component's spacing and layout patterns
+- Use same card styles, typography scale, and color scheme
+
+SEO:
+- Use React Helmet with page-specific title and description
+
+Return ONLY the complete React/TypeScript component code, no explanations or markdown formatting.`;
+}
+
+// Helper function to clean React component content
+function cleanReactContent(content: string, sitewide: any): string {
+    let cleaned = content;
+    
+    // Ensure proper imports
+    if (!cleaned.includes("import React")) {
+        cleaned = "import React from 'react';\n" + cleaned;
+    }
+    if (!cleaned.includes("import { Helmet }")) {
+        cleaned = cleaned.replace(/import React[^;]+;/, (match) => match + "\nimport { Helmet } from 'react-helmet-async';");
+    }
+    if (!cleaned.includes("from 'react-router-dom'")) {
+        cleaned = cleaned.replace(/import[^;]+Helmet[^;]+;/, (match) => match + "\nimport { Link } from 'react-router-dom';");
+    }
+    
+    // Fix common issues
+    cleaned = cleaned.replace(/className=/g, 'className=');
+    cleaned = cleaned.replace(/class=/g, 'className=');
+    
+    return cleaned;
+}
+
+// ============================================================================
+// REACT CONFIG FILE GENERATORS
+// ============================================================================
+
+function generatePackageJson(sitewide: any): any {
+    return {
+        name: `${sitewide.companyName.toLowerCase().replace(/\s+/g, '-')}-website`,
+        private: true,
+        version: "1.0.0",
+        type: "module",
+        scripts: {
+            dev: "vite",
+            build: "npm run build:client && npm run build:server && npm run prerender",
+            "build:client": "vite build --outDir dist",
+            "build:server": "vite build --ssr entry-server.tsx --outDir dist-server",
+            prerender: "node prerender.js",
+            preview: "vite preview"
+        },
+        dependencies: {
+            "react": "^19.2.0",
+            "react-dom": "^19.2.0",
+            "react-router-dom": "^6.22.3",
+            "react-helmet-async": "^2.0.5",
+            "framer-motion": "^12.23.24",
+            "lucide-react": "^0.554.0"
+        },
+        devDependencies: {
+            "@types/node": "^22.14.0",
+            "@types/react": "^18.3.0",
+            "@types/react-dom": "^18.3.0",
+            "@vitejs/plugin-react": "^5.0.0",
+            "typescript": "~5.8.2",
+            "vite": "^6.2.0"
+        }
+    };
+}
+
+function generateViteConfig(): string {
+    return `import path from 'path';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig(({ isSsrBuild }) => {
+  return {
+    plugins: [react()],
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, '.'),
+      }
+    },
+    build: {
+      minify: 'esbuild',
+      sourcemap: false,
+      cssMinify: true,
+      rollupOptions: {
+        output: {
+          manualChunks: isSsrBuild ? undefined : {
+            vendor: ['react', 'react-dom', 'react-router-dom', 'framer-motion'],
+            ui: ['lucide-react']
+          }
+        }
+      }
+    },
+    ssr: {
+      noExternal: ['react-helmet-async']
+    }
+  };
+});`;
+}
+
+function generateEntryServer(): string {
+    return `import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import { StaticRouter } from 'react-router-dom/server';
+import { HelmetProvider } from 'react-helmet-async';
+import App from './App';
+
+export function render(url: string, context: any) {
+    const helmetContext = {};
+
+    const html = ReactDOMServer.renderToString(
+        <React.StrictMode>
+            <HelmetProvider context={helmetContext}>
+                <StaticRouter location={url}>
+                    <App />
+                </StaticRouter>
+            </HelmetProvider>
+        </React.StrictMode>
+    );
+
+    return { html, helmet: helmetContext };
+}`;
+}
+
+function generatePrerenderScript(pageRoutes: any[]): string {
+    const routes = pageRoutes.map(p => p.route === '/' ? "'/'" : `'${p.route}'`).join(',\n    ');
+    
+    return `import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { pathToFileURL } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const toAbsolute = (p) => path.resolve(__dirname, p);
+
+const template = fs.readFileSync(toAbsolute('dist/index.html'), 'utf-8');
+let render;
+try {
+    const module = await import(pathToFileURL(toAbsolute('dist-server/entry-server.js')).href);
+    render = module.render;
+} catch (e) {
+    console.error('Error importing server bundle:', e);
+    process.exit(1);
+}
+
+const routesToPrerender = [
+    ${routes}
+];
+
+(async () => {
+    for (const url of routesToPrerender) {
+        const context = {};
+        const appHtml = render(url, context);
+        const { html, helmet } = appHtml;
+
+        const helmetHead = \`
+      \${helmet.helmet.title.toString()}
+      \${helmet.helmet.priority.toString()}
+      \${helmet.helmet.meta.toString()}
+      \${helmet.helmet.link.toString()}
+      \${helmet.helmet.script.toString()}
+    \`;
+
+        const htmlContent = template
+            .replace(\`<!--app-head-->\`, helmetHead)
+            .replace(\`<!--app-html-->\`, html);
+
+        const filePath = \`dist\${url === '/' ? '/index.html' : \`\${url}/index.html\`}\`;
+        const dirPath = path.dirname(filePath);
+
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        }
+
+        fs.writeFileSync(toAbsolute(filePath), htmlContent);
+        console.log('pre-rendered:', filePath);
+    }
+})();`;
+}
+
+function generateIndexTsx(): string {
+    return `import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import App from './App';
+
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error("Could not find root element to mount to");
+}
+
+ReactDOM.hydrateRoot(
+  rootElement,
+  <React.StrictMode>
+    <HelmetProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </HelmetProvider>
+  </React.StrictMode>
+);`;
+}
+
+function generateIndexHtml(sitewide: any): string {
+    const primaryColor = sitewide.colors.split(',')[0]?.trim() || '#020202';
+    
+    return `<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-black">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="${primaryColor}">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #020202;
+    }
+    html { scroll-behavior: smooth; }
+  </style>
+  
+  <!--app-head-->
+</head>
+<body class="text-slate-200 antialiased overflow-x-hidden">
+  <div id="root"><!--app-html--></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>`;
+}
+
+function generateTsConfig(): any {
+    return {
+        compilerOptions: {
+            target: "ES2020",
+            useDefineForClassFields: true,
+            lib: ["ES2020", "DOM", "DOM.Iterable"],
+            module: "ESNext",
+            skipLibCheck: true,
+            moduleResolution: "bundler",
+            allowImportingTsExtensions: true,
+            resolveJsonModule: true,
+            isolatedModules: true,
+            noEmit: true,
+            jsx: "react-jsx",
+            strict: true,
+            noUnusedLocals: true,
+            noUnusedParameters: true,
+            noFallthroughCasesInSwitch: true
+        },
+        include: ["**/*.ts", "**/*.tsx"],
+        references: [{ path: "./tsconfig.node.json" }]
+    };
+}
+
+function generateAppTsx(components: any[], pageRoutes: any[]): string {
+    const imports = components.map(c => {
+        const componentName = c.name.replace('.tsx', '');
+        return `import ${componentName} from './components/${c.name}';`;
+    }).join('\n');
+    
+    const routes = pageRoutes.map((route, idx) => {
+        const componentName = route.component;
+        return `          <Route path="${route.route}" element={<${componentName} />} />`;
+    }).join('\n');
+    
+    return `import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+${imports}
+
+function App() {
+  return (
+    <HelmetProvider>
+      <div className="min-h-screen bg-[#020202] text-slate-200">
+        <Navbar />
+        <main>
+          <Routes>
+            ${routes}
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </HelmetProvider>
+  );
+}
+
+export default App;`;
+}
+
+function generateNavbarComponent(pageRoutes: any[], sitewide: any): string {
+    const navLinks = pageRoutes.map(route => {
+        const isHome = route.route === '/';
+        return `          <Link
+            to="${route.route}"
+            className={\`hover:text-white transition-all \${location.pathname === '${route.route}' ? 'text-white' : 'text-slate-400'}\`}
+          >
+            ${isHome ? 'Home' : route.title}
+          </Link>`;
+    }).join('\n');
+    
+    return `import React, { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+
+const Navbar: React.FC = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  return (
+    <nav className="fixed z-50 w-full top-0 bg-[#020202]/60 backdrop-blur-[20px] border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <Link
+          to="/"
+          className="text-white font-semibold tracking-tighter text-lg flex items-center gap-3"
+        >
+          <span>${sitewide.companyName}</span>
+        </Link>
+
+        <div className="hidden md:flex items-center gap-10 text-sm font-semibold uppercase tracking-wider">
+${navLinks}
+        </div>
+
+        <button
+          className="md:hidden text-white"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-[#020202]/95 backdrop-blur-[20px] border-t border-white/10">
+          <div className="flex flex-col p-6 gap-4">
+${pageRoutes.map(route => `            <Link
+              to="${route.route}"
+              className={\`hover:text-white transition-all \${location.pathname === '${route.route}' ? 'text-white' : 'text-slate-400'}\`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              ${route.route === '/' ? 'Home' : route.title}
+            </Link>`).join('\n')}
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
+
+export default Navbar;`;
+}
+
+function generateFooterComponent(pageRoutes: any[], sitewide: any, hasAttributions: boolean): string {
+    const footerLinks = pageRoutes.map(route => {
+        return `            <Link to="${route.route}" className="text-slate-400 hover:text-white transition-colors">
+              ${route.route === '/' ? 'Home' : route.title}
+            </Link>`;
+    }).join('\n');
+    
+    const attributionLink = hasAttributions ? `
+            <Link to="/attributions" className="text-slate-400 hover:text-white transition-colors">
+              Photo Credits
+            </Link>` : '';
+    
+    return `import React from 'react';
+import { Link } from 'react-router-dom';
+import { Mail, Phone, MapPin } from 'lucide-react';
+
+const Footer: React.FC = () => {
+  return (
+    <footer className="bg-[#0a0a0a] border-t border-white/10 mt-20">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 className="text-white font-semibold text-lg mb-4">${sitewide.companyName}</h3>
+            <p className="text-slate-400 text-sm">${sitewide.industry}</p>
+          </div>
+          
+          <div>
+            <h3 className="text-white font-semibold text-lg mb-4">Quick Links</h3>
+            <div className="flex flex-col gap-2">
+${footerLinks}${attributionLink}
+            </div>
+          </div>
+          
+          <div>
+            <h3 className="text-white font-semibold text-lg mb-4">Contact Us</h3>
+            <div className="flex flex-col gap-2 text-slate-400 text-sm">
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4" />
+                <span>${sitewide.fullAddress}</span>
+              </div>
+              <a href="tel:${sitewide.phoneNumber}" className="flex items-center gap-2 hover:text-white transition-colors">
+                <Phone className="w-4 h-4" />
+                <span>${sitewide.phoneNumber}</span>
+              </a>
+              <a href="mailto:${sitewide.email}" className="flex items-center gap-2 hover:text-white transition-colors">
+                <Mail className="w-4 h-4" />
+                <span>${sitewide.email}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div className="mt-8 pt-8 border-t border-white/10 text-center text-slate-500 text-sm">
+          <p>© ${new Date().getFullYear()} ${sitewide.companyName}. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;`;
+}
+
+function generateAttributionsReactComponent(sitewide: any, attributions: Array<{url: string, attribution: string, photographer?: string, photographerUrl?: string}>, pageRoutes: any[]): string {
+    const attributionList = attributions.map((attr, idx) => {
+        if (attr.photographer && attr.photographerUrl) {
+            return `            <li key={${idx}} className="mb-2">
+              <a 
+                href="${attr.photographerUrl}" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-slate-300 hover:text-white transition-colors"
+              >
+                ${attr.attribution}
+              </a>
+            </li>`;
+        } else {
+            return `            <li key={${idx}} className="mb-2 text-slate-300">
+              ${attr.attribution}
+            </li>`;
+        }
+    }).join('\n');
+    
+    return `import React from 'react';
+import { Helmet } from 'react-helmet-async';
+
+const Attributions: React.FC = () => {
+  return (
+    <>
+      <Helmet>
+        <title>Photo Attributions - ${sitewide.companyName}</title>
+        <meta name="description" content="Photo attributions and credits for ${sitewide.companyName}" />
+      </Helmet>
+      
+      <div className="pt-20 min-h-screen bg-[#020202]">
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Photo Attributions</h1>
+          <p className="text-slate-400 mb-8 text-lg">
+            We would like to thank the talented photographers who have contributed images to this website. 
+            All photos are used in accordance with their respective licenses.
+          </p>
+          
+          <div className="bg-white/5 border border-white/10 rounded-xl p-8">
+            <ul className="space-y-2">
+${attributionList}
+            </ul>
+          </div>
+          
+          <div className="mt-8 text-slate-500 text-sm">
+            <p>
+              All images are used under their respective licenses. 
+              Please visit the photographer's profile for more information about usage rights.
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Attributions;`;
 }
