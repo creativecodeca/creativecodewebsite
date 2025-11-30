@@ -548,7 +548,8 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
         
         // Step 2: Create Vercel project with GitHub integration
         console.log('Creating Vercel project:', projectNameSlug);
-        const createProjectResponse = await fetch('https://api.vercel.com/v9/projects', {
+        const createProjectApiUrl = `https://api.vercel.com/v9/projects${accountId ? `?teamId=${accountId}` : ''}`;
+        const createProjectResponse = await fetch(createProjectApiUrl, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -560,9 +561,8 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
                     type: 'github',
                     repo: repoFullName
                 },
-                framework: null, // Static site, no build needed
-                publicSource: false,
-                ...(accountId && { teamId: accountId })
+                framework: null, // Auto-detect framework
+                publicSource: false
             })
         });
 
@@ -603,7 +603,8 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
         let deploymentSuccess = false;
         
         try {
-        const deploymentResponse = await fetch('https://api.vercel.com/v13/deployments', {
+        const deploymentApiUrl = `https://api.vercel.com/v13/deployments${accountId ? `?teamId=${accountId}` : ''}`;
+        const deploymentResponse = await fetch(deploymentApiUrl, {
             method: 'POST',
             headers: {
                     'Authorization': `Bearer ${token}`,
@@ -618,8 +619,7 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
                         ref: 'main', // Default branch
                         sha: 'HEAD'
                     },
-                    target: 'production',
-                    ...(accountId && { teamId: accountId })
+                    target: 'production'
             })
         });
 
@@ -1529,8 +1529,8 @@ function generatePackageJson(sitewide: any): any {
             preview: "vite preview"
         },
         dependencies: {
-            "react": "^19.2.0",
-            "react-dom": "^19.2.0",
+            "react": "^18.3.1",
+            "react-dom": "^18.3.1",
             "react-router-dom": "^6.22.3",
             "react-helmet-async": "^2.0.5",
             "framer-motion": "^12.23.24",

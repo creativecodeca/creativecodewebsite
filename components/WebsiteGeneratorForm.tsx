@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, ArrowRight, ArrowLeft, Plus, X, Loader2, CheckCircle, XCircle, Github, ExternalLink, Trash2, Copy, Check, Search, MapPin } from 'lucide-react';
+import { Send, ArrowRight, ArrowLeft, Plus, X, Loader2, CheckCircle, XCircle, Github, ExternalLink, Trash2, Copy, Check, Search, MapPin, History, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Page {
@@ -75,7 +75,50 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
     const [gmbUrl, setGmbUrl] = useState('');
     const [isFetchingGmb, setIsFetchingGmb] = useState(false);
     const [gmbUrlError, setGmbUrlError] = useState('');
+    const [showHistory, setShowHistory] = useState(false);
+    const [generationHistory, setGenerationHistory] = useState<Array<{
+        id: string;
+        timestamp: number;
+        companyName: string;
+        status: 'success' | 'failed';
+        error?: string;
+        repoUrl?: string;
+        vercelUrl?: string;
+        projectUrl?: string;
+    }>>([]);
     const formContainerRef = useRef<HTMLDivElement>(null);
+
+    // Load history from localStorage on mount
+    useEffect(() => {
+        const saved = localStorage.getItem('websiteGenerationHistory');
+        if (saved) {
+            try {
+                setGenerationHistory(JSON.parse(saved));
+            } catch (e) {
+                console.error('Failed to load generation history:', e);
+            }
+        }
+    }, []);
+
+    // Save generation to history
+    const saveToHistory = (result: {
+        repoUrl?: string;
+        vercelUrl?: string;
+        projectUrl?: string;
+        error?: string;
+    }) => {
+        const historyItem = {
+            id: Date.now().toString(),
+            timestamp: Date.now(),
+            companyName: formData.companyName,
+            status: result.error ? 'failed' as const : 'success' as const,
+            ...result
+        };
+        
+        const updated = [historyItem, ...generationHistory].slice(0, 50); // Keep last 50
+        setGenerationHistory(updated);
+        localStorage.setItem('websiteGenerationHistory', JSON.stringify(updated));
+    };
 
     const companyTypes = [
         'Service Location Business',
@@ -346,6 +389,13 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                 projectUrl: data.projectUrl,
             });
             
+            // Save to history
+            saveToHistory({
+                repoUrl: data.repoUrl,
+                vercelUrl: data.vercelUrl,
+                projectUrl: data.projectUrl,
+            });
+            
             // Save to dashboard
             if (data.repoUrl) {
                 try {
@@ -373,8 +423,12 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
             // Clear all progress timeouts
             timeouts.forEach(timeout => clearTimeout(timeout));
             console.error('Generation failed:', err);
-            setGenerationResult({ error: err.message || 'Something went wrong. Please try again.' });
+            const errorMessage = err.message || 'Something went wrong. Please try again.';
+            setGenerationResult({ error: errorMessage });
             setGenerationProgress({ step: 0, message: 'Error occurred', percentage: 0 });
+            
+            // Save failed attempt to history
+            saveToHistory({ error: errorMessage });
         } finally {
             setIsSubmitting(false);
         }
@@ -671,11 +725,133 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
         );
     }
 
+    // Show history view
+    if (showHistory) {
+        return (
+            <div className="mt-12 bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 md:p-12">
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-3xl font-bold text-white flex items-center gap-3">
+                        <History className="w-8 h-8 text-emerald-500" />
+                        Generation History
+                    </h2>
+                    <button
+                        onClick={() => setShowHistory(false)}
+                        className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white hover:bg-white/10 transition-colors"
+                    >
+                        <ArrowLeft className="w-4 h-4" />
+                        Back to Form
+                    </button>
+                </div>
+
+                {generationHistory.length === 0 ? (
+                    <div className="text-center py-12">
+                        <History className="w-16 h-16 text-slate-500 mx-auto mb-4" />
+                        <p className="text-slate-400">No generation history yet.</p>
+                        <p className="text-slate-500 text-sm mt-2">Your website generation attempts will appear here.</p>
+                    </div>
+                ) : (
+                    <div className="space-y-4">
+                        {generationHistory.map((item) => (
+                            <div
+                                key={item.id}
+                                className={`p-6 rounded-xl border ${
+                                    item.status === 'success'
+                                        ? 'bg-emerald-500/10 border-emerald-500/20'
+                                        : 'bg-red-500/10 border-red-500/20'
+                                }`}
+                            >
+                                <div className="flex items-start justify-between mb-4">
+                                    <div className="flex-1">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            {item.status === 'success' ? (
+                                                <CheckCircle className="w-5 h-5 text-emerald-500" />
+                                            ) : (
+                                                <XCircle className="w-5 h-5 text-red-500" />
+                                            )}
+                                            <h3 className="text-lg font-semibold text-white">{item.companyName || 'Untitled'}</h3>
+                                            <span className={`px-2 py-1 rounded text-xs font-medium ${
+                                                item.status === 'success'
+                                                    ? 'bg-emerald-500/20 text-emerald-400'
+                                                    : 'bg-red-500/20 text-red-400'
+                                            }`}>
+                                                {item.status === 'success' ? 'Success' : 'Failed'}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-2 text-sm text-slate-400">
+                                            <Clock className="w-4 h-4" />
+                                            <span>{new Date(item.timestamp).toLocaleString()}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {item.status === 'failed' && item.error && (
+                                    <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                                        <p className="text-sm text-red-400">{item.error}</p>
+                                    </div>
+                                )}
+
+                                {item.status === 'success' && (
+                                    <div className="flex flex-wrap gap-3">
+                                        {item.repoUrl && (
+                                            <a
+                                                href={item.repoUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white hover:bg-white/10 transition-colors text-sm"
+                                            >
+                                                <Github className="w-4 h-4" />
+                                                GitHub
+                                                <ExternalLink className="w-3 h-3" />
+                                            </a>
+                                        )}
+                                        {item.vercelUrl && (
+                                            <a
+                                                href={item.vercelUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-500/30 rounded-lg text-emerald-400 hover:bg-emerald-500/30 transition-colors text-sm"
+                                            >
+                                                Live Site
+                                                <ExternalLink className="w-3 h-3" />
+                                            </a>
+                                        )}
+                                        {item.projectUrl && (
+                                            <a
+                                                href={item.projectUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white hover:bg-white/10 transition-colors text-sm"
+                                            >
+                                                Vercel Dashboard
+                                                <ExternalLink className="w-3 h-3" />
+                                            </a>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        );
+    }
+
     return (
         <div ref={formContainerRef} className="mt-12 bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 md:p-12">
-            <div className="mb-8">
-                <h3 className="text-3xl font-bold text-white mb-2">Generate New Website</h3>
-                <p className="text-slate-400">Fill out the form below to generate a website with AI</p>
+            <div className="mb-8 flex items-center justify-between">
+                <div>
+                    <h3 className="text-3xl font-bold text-white mb-2">Generate New Website</h3>
+                    <p className="text-slate-400">Fill out the form below to generate a website with AI</p>
+                </div>
+                {generationHistory.length > 0 && (
+                    <button
+                        onClick={() => setShowHistory(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white hover:bg-white/10 transition-colors"
+                    >
+                        <History className="w-4 h-4" />
+                        History ({generationHistory.length})
+                    </button>
+                )}
             </div>
 
             {/* Progress Bar */}
