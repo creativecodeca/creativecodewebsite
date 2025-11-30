@@ -362,7 +362,7 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
         
         // Generate tsconfig.json
         const tsconfig = generateTsConfig();
-        files.push({
+    files.push({
             name: 'tsconfig.json',
             content: JSON.stringify(tsconfig, null, 2)
         });
@@ -621,7 +621,7 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
         try {
             const deploymentsUrl = `https://api.vercel.com/v6/deployments?projectId=${projectData.id}&limit=1${accountId ? `&teamId=${accountId}` : ''}`;
             const deploymentsResponse = await fetch(deploymentsUrl, {
-                headers: {
+            headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
@@ -1369,9 +1369,10 @@ CRITICAL REQUIREMENTS:
 
 1. Use React with TypeScript (React.FC)
 2. Use Tailwind CSS utility classes extensively (NO custom CSS files)
-3. Import and use React Helmet for SEO meta tags
+3. Import and use React Helmet Async (import { Helmet } from 'react-helmet-async') for SEO meta tags
 4. Component name: ${pageRoute.component}
 5. Use proper TypeScript types
+6. IMPORTANT: Import from 'react-helmet-async', NOT 'react-helmet'
 
 HEADER (CRITICAL):
 - Fixed/sticky header with backdrop blur: "fixed z-50 w-full top-0 bg-[#020202]/60 backdrop-blur-[20px] border-b border-white/10"
@@ -1415,11 +1416,12 @@ ${sitewide.contactForm ? '- Contact form with proper Tailwind styling\n- Input f
 ${sitewide.bookingForm ? '- Booking form with date/time inputs\n- Same input styling as contact form' : ''}
 
 SEO:
-- Use React Helmet to set:
+- Use React Helmet Async (import { Helmet } from 'react-helmet-async') to set:
   * Title: "${sitewide.companyName} - ${page.title}"
   * Description: Compelling description based on page information
   * Open Graph tags
   * Canonical URL
+- IMPORTANT: Import from 'react-helmet-async', NOT 'react-helmet'
 
 RESPONSIVE:
 - Mobile-first approach
@@ -1453,8 +1455,9 @@ CRITICAL REQUIREMENTS:
 
 1. Use React with TypeScript (React.FC)
 2. Use Tailwind CSS utility classes extensively
-3. Import and use React Helmet for SEO meta tags
+3. Import and use React Helmet Async (import { Helmet } from 'react-helmet-async') for SEO meta tags
 4. Component name: ${pageRoute.component}
+5. IMPORTANT: Import from 'react-helmet-async', NOT 'react-helmet'
 5. Match the style and structure of the Home component
 6. Use the SAME header and footer structure as Home
 
@@ -1476,7 +1479,8 @@ CONTENT:
 - Use same card styles, typography scale, and color scheme
 
 SEO:
-- Use React Helmet with page-specific title and description
+- Use React Helmet Async (import { Helmet } from 'react-helmet-async') with page-specific title and description
+- IMPORTANT: Import from 'react-helmet-async', NOT 'react-helmet'
 
 Return ONLY the complete React/TypeScript component code, no explanations or markdown formatting.`;
 }
@@ -1489,11 +1493,16 @@ function cleanReactContent(content: string, sitewide: any): string {
     if (!cleaned.includes("import React")) {
         cleaned = "import React from 'react';\n" + cleaned;
     }
-    if (!cleaned.includes("import { Helmet }")) {
+    
+    // Fix incorrect react-helmet imports to react-helmet-async
+    cleaned = cleaned.replace(/from ['"]react-helmet['"]/g, "from 'react-helmet-async'");
+    cleaned = cleaned.replace(/from ['"]react-helmet\/async['"]/g, "from 'react-helmet-async'");
+    
+    if (!cleaned.includes("import { Helmet }") && cleaned.includes("<Helmet")) {
         cleaned = cleaned.replace(/import React[^;]+;/, (match) => match + "\nimport { Helmet } from 'react-helmet-async';");
     }
-    if (!cleaned.includes("from 'react-router-dom'")) {
-        cleaned = cleaned.replace(/import[^;]+Helmet[^;]+;/, (match) => match + "\nimport { Link } from 'react-router-dom';");
+    if (!cleaned.includes("from 'react-router-dom'") && (cleaned.includes("<Link") || cleaned.includes("useLocation"))) {
+        cleaned = cleaned.replace(/import[^;]+Helmet[^;]+;/, (match) => match + "\nimport { Link, useLocation } from 'react-router-dom';");
     }
     
     // Fix common issues
