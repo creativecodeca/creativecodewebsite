@@ -159,8 +159,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 async function generateGamePlan(genAI: GoogleGenAI, sitewide: any, pages: any[]) {
     try {
-        // Using Gemini 3 Flash - latest and most advanced model
-        const model = 'gemini-3-flash';
+        // Using Gemini 3 Pro - latest and most advanced model
+        const model = 'gemini-3-pro';
 
         const prompt = `You are a professional web developer creating a game plan for a website.
 
@@ -218,8 +218,8 @@ Keep it concise but comprehensive. Format as JSON with these keys: designApproac
 
 async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: any[], gamePlan: any) {
     try {
-        // Using Gemini 3 Flash - latest and most advanced model
-        const model = 'gemini-3-flash';
+        // Using Gemini 3 Pro - latest and most advanced model
+        const model = 'gemini-3-pro';
         const files = [];
         
         // Map pages to routes (for separate HTML files, not SPA)
