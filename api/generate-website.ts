@@ -7,10 +7,24 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.API_KEY;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
 
+// Helper function to send progress update via SSE
+function sendProgress(res: VercelResponse, step: number, message: string, percentage: number) {
+    try {
+        res.write(`data: ${JSON.stringify({ step, message, percentage })}\n\n`);
+    } catch (e) {
+        // Ignore errors if client disconnected
+    }
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
+
+    // Set up Server-Sent Events for progress updates
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
 
     try {
         const {
@@ -54,6 +68,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         console.log('Starting website generation for:', companyName);
+        sendProgress(res, 1, 'Generating design plan...', 10);
 
         // Initialize AI client
         const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
@@ -78,15 +93,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Step 1: Generate game plan
         const gamePlan = await generateGamePlan(genAI, sitewide, pages);
         console.log('Game plan generated');
+        sendProgress(res, 2, 'Creating website files...', 30);
 
         // Step 2: Generate website files
-        const websiteFiles = await generateWebsiteFiles(genAI, sitewide, pages, gamePlan);
+        const websiteFiles = await generateWebsiteFiles(genAI, sitewide, pages, gamePlan, res);
         console.log('Website files generated');
+        sendProgress(res, 3, 'Pushing to GitHub...', 70);
 
         // Step 3: Create GitHub repository
         const repoName = `${companyName.toLowerCase().replace(/\s+/g, '-')}-website-${Date.now()}`;
         const repoData = await createGitHubRepo(repoName, websiteFiles, sitewide);
         console.log('GitHub repository created:', repoData.repoUrl);
+        sendProgress(res, 4, 'Deploying to Vercel...', 85);
 
         // Step 4: Deploy to Vercel (if token available)
         // Wait a moment for GitHub to fully process the repository
@@ -118,7 +136,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             console.log('All env vars:', Object.keys(process.env).filter(k => k.includes('VERCEL')));
         }
 
-        return res.json({
+        sendProgress(res, 4, 'Complete!', 100);
+        
+        // Send final result via SSE
+        res.write(`data: ${JSON.stringify({
             success: true,
             repoUrl: repoData.repoUrl,
             vercelUrl: vercelData?.url || null,
@@ -130,7 +151,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 : 'Website generated and pushed to GitHub. Import the repo in Vercel dashboard to deploy.',
             autoDeployed: !!vercelData?.url,
             needsManualImport: !vercelData?.url
-        });
+        })}\n\n`);
+        
+        res.end();
 
     } catch (error: any) {
         // Log full error details server-side only
@@ -216,7 +239,7 @@ Keep it concise but comprehensive. Format as JSON with these keys: designApproac
     }
 }
 
-async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: any[], gamePlan: any) {
+async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: any[], gamePlan: any, res?: VercelResponse) {
     try {
         // Using Gemini 3 Pro Preview - latest and most advanced model
         const model = 'gemini-3-pro-preview';
@@ -243,9 +266,19 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
             const pageRoute = pageRoutes[i];
             
             console.log(`Generating React component: ${pageRoute.component}...`);
+            if (res) {
+                sendProgress(res, 2, `Creating ${page.title} page...`, 30 + (i * 30 / pages.length));
+            }
             
-            // Get relevant images for this page
-            const pageImages = await getRelevantImages(sitewide, page, i);
+            // OPTIMIZATION: Fetch images with 2-second timeout - don't block component generation
+            // Start image fetch but don't wait more than 2 seconds
+            const imagePromise = getRelevantImages(sitewide, page, i).catch(() => []); // Never fail, just return empty
+            const imageTimeout = new Promise<Array<{url: string, attribution?: string, photographer?: string, photographerUrl?: string}>>((resolve) => {
+                setTimeout(() => resolve([]), 2000); // 2 second max wait
+            });
+            
+            // Race: get images if they come in time, otherwise use empty array
+            const pageImages = await Promise.race([imagePromise, imageTimeout]);
             
             // Collect attributions for the attribution page
             pageImages.forEach(img => {
@@ -726,20 +759,13 @@ async function deployToVercel(projectName: string, repoFullName: string, repoId:
 }
 
 // Helper function to get relevant images from stock photo APIs
-// Returns images with attribution info for proper credit
+// OPTIMIZED: Fast, timeout-protected, minimal API calls
 async function getRelevantImages(sitewide: any, page: any, pageIndex: number): Promise<Array<{url: string, attribution?: string, photographer?: string, photographerUrl?: string}>> {
     const images: Array<{url: string, attribution?: string, photographer?: string, photographerUrl?: string}> = [];
-    const pexelsApiKey = process.env.PEXELS_API_KEY; // Recommended: Free, simpler attribution
-    const unsplashAccessKey = process.env.UNSPLASH_ACCESS_KEY; // Alternative: Requires more complex attribution
+    const pexelsApiKey = process.env.PEXELS_API_KEY;
+    const unsplashAccessKey = process.env.UNSPLASH_ACCESS_KEY;
     
-    // Generate more specific and relevant search terms
-    // Combine company name, industry, and context for better image matching
-    const companyWords = sitewide.companyName.toLowerCase().split(/\s+/).filter(w => w.length > 3);
-    const industryWords = sitewide.industry.toLowerCase().split(/\s+/);
-    const pageContext = page.title.toLowerCase();
-    const brandWords = sitewide.brandThemes ? sitewide.brandThemes.toLowerCase().split(',').map((t: string) => t.trim().split(/\s+/)).flat() : [];
-    
-    // Create more specific search terms by combining context
+    // OPTIMIZATION: Use only 1-2 most relevant search terms, not 5
     const searchTerms: string[] = [];
     
     // Primary: Industry + company type (most relevant)
@@ -747,136 +773,64 @@ async function getRelevantImages(sitewide: any, page: any, pageIndex: number): P
         searchTerms.push(`${sitewide.industry} ${sitewide.companyType}`.toLowerCase().replace(/\//g, ' '));
     }
     
-    // Secondary: Industry alone
-    if (sitewide.industry) {
+    // Secondary: Industry alone (only if we don't have primary)
+    if (sitewide.industry && searchTerms.length === 0) {
         searchTerms.push(sitewide.industry.toLowerCase());
     }
     
-    // Tertiary: Page-specific context
-    if (pageContext) {
-        // Map common page titles to better search terms
-        const pageTermMap: { [key: string]: string } = {
-            'about': 'professional team business',
-            'services': `${sitewide.industry} services`,
-            'contact': 'business office professional',
-            'home': `${sitewide.industry} business`,
-            'portfolio': `${sitewide.industry} work examples`,
-            'gallery': `${sitewide.industry} showcase`
-        };
-        
-        const pageTerm = pageTermMap[pageContext] || `${sitewide.industry} ${pageContext}`;
-        searchTerms.push(pageTerm);
-    }
+    // Limit to 2 search terms max
+    const uniqueTerms = searchTerms.slice(0, 2);
     
-    // Add brand themes if they're descriptive
-    brandWords.forEach(word => {
-        if (word.length > 4 && !searchTerms.includes(word)) {
-            searchTerms.push(word);
-        }
-    });
-    
-    // Add company-specific terms if they're meaningful
-    companyWords.forEach(word => {
-        if (word.length > 4 && !['landscaping', 'services', 'company', 'inc', 'llc'].includes(word)) {
-            searchTerms.push(`${word} ${sitewide.industry}`);
-        }
-    });
-    
-    // Remove duplicates and filter
-    const uniqueTerms = [...new Set(searchTerms)].filter(Boolean).slice(0, 5);
-    
-    console.log(`Image search terms for ${page.title}:`, uniqueTerms);
-    
-    // Try Pexels first (simpler attribution, free API)
-    if (pexelsApiKey) {
+    // OPTIMIZATION: Fetch with timeout and parallel requests
+    const fetchWithTimeout = async (url: string, options: any, timeoutMs: number = 3000): Promise<Response | null> => {
         try {
-            // Try each search term, but get multiple results per term and pick the best
-            for (let i = 0; i < Math.min(3, uniqueTerms.length); i++) {
-                const term = uniqueTerms[i];
-                try {
-                    // Get more results per search to have better selection
-                    const response = await fetch(
-                        `https://api.pexels.com/v1/search?query=${encodeURIComponent(term)}&per_page=5&orientation=landscape`,
-                        {
-                            headers: {
-                                'Authorization': pexelsApiKey
-                            }
-                        }
-                    );
-                    if (response.ok) {
-                        const data: any = await response.json();
-                        if (data.photos && data.photos.length > 0) {
-                            // Pick the first result (most relevant) for this term
-                            const photo = data.photos[0];
-                            // Only add if we don't already have this image
-                            if (!images.find(img => img.url === photo.src.large)) {
-                                images.push({
-                                    url: photo.src.large,
-                                    attribution: `Photo by ${photo.photographer} on Pexels`,
-                                    photographer: photo.photographer,
-                                    photographerUrl: photo.photographer_url
-                                });
-                            }
-                        }
-                    }
-                } catch (e) {
-                    console.warn(`Failed to fetch Pexels image for ${term}:`, e);
-                }
-            }
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+            const response = await fetch(url, { ...options, signal: controller.signal });
+            clearTimeout(timeoutId);
+            return response;
         } catch (error) {
-            console.warn('Pexels API failed:', error);
+            return null;
         }
-    }
+    };
     
-    // Fallback to Unsplash if Pexels didn't work or no key
-    if (images.length === 0) {
+    // Try Pexels first (simpler attribution, free API) - OPTIMIZED: Only 1 search term, 3 second timeout
+    if (pexelsApiKey && uniqueTerms.length > 0) {
         try {
-            if (unsplashAccessKey) {
-                // Use Unsplash API for better results
-                for (let i = 0; i < Math.min(3, searchTerms.length); i++) {
-                    const term = searchTerms[i];
-                    try {
-                        const response = await fetch(
-                            `https://api.unsplash.com/search/photos?query=${encodeURIComponent(term)}&per_page=1&orientation=landscape`,
-                            {
-                                headers: {
-                                    'Authorization': `Client-ID ${unsplashAccessKey}`
-                                }
-                            }
-                        );
-                        if (response.ok) {
-                            const data: any = await response.json();
-                            if (data.results && data.results.length > 0) {
-                                const photo = data.results[0];
-                                images.push({
-                                    url: photo.urls.regular,
-                                    attribution: `Photo by ${photo.user.name} on Unsplash`,
-                                    photographer: photo.user.name,
-                                    photographerUrl: photo.user.links.html
-                                });
-                            }
-                        }
-                    } catch (e) {
-                        console.warn(`Failed to fetch Unsplash image for ${term}:`, e);
+            const term = uniqueTerms[0]; // Only use the best search term
+            const response = await fetchWithTimeout(
+                `https://api.pexels.com/v1/search?query=${encodeURIComponent(term)}&per_page=3&orientation=landscape`,
+                {
+                    headers: {
+                        'Authorization': pexelsApiKey
                     }
-                }
-            }
+                },
+                2000 // 2 second timeout - fast fail
+            );
             
-            // Final fallback: Use Unsplash Source (no API key needed, but less control)
-            if (images.length === 0) {
-                const fallbackTerms = searchTerms.slice(0, 3);
-                for (const term of fallbackTerms) {
-                    // Unsplash Source URLs - random images based on search
+            if (response && response.ok) {
+                const data: any = await response.json();
+                if (data.photos && data.photos.length > 0) {
+                    // Only take the first (most relevant) image
+                    const photo = data.photos[0];
                     images.push({
-                        url: `https://source.unsplash.com/1600x900/?${encodeURIComponent(term)}`,
-                        attribution: 'Photo from Unsplash'
+                        url: photo.src.large,
+                        attribution: `Photo by ${photo.photographer} on Pexels`,
+                        photographer: photo.photographer,
+                        photographerUrl: photo.photographer_url
                     });
+                    // Return early - we got an image, no need to try more
+                    return images;
                 }
             }
         } catch (error) {
-            console.warn('Image fetching failed, will use CSS placeholders:', error);
+            // Silently fail - images are optional
         }
     }
+    
+    // OPTIMIZATION: Skip Unsplash fallback entirely - saves 3-6 seconds per page
+    // Images are optional - components can use CSS gradients/patterns if no images
+    // If Pexels didn't work, just return empty array
     
     return images;
 }

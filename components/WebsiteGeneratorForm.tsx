@@ -328,100 +328,102 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
         // Set initial progress - will update based on actual backend progress
         setGenerationProgress({ step: 1, message: 'Generating design plan...', percentage: 10 });
         
-        // Store timeouts for cleanup
-        const timeouts: NodeJS.Timeout[] = [];
-        
-        // Progressive updates based on estimated timing (will be overridden by actual completion)
-        // These are fallbacks in case the request takes longer than expected
-        const progressSteps = [
-            { step: 1, message: 'Generating design plan...', percentage: 10, delay: 5000 },
-            { step: 2, message: 'Generating individual pages...', percentage: 30, delay: 15000 },
-            { step: 3, message: 'Applying consistency fixes...', percentage: 40, delay: 20000 },
-            { step: 4, message: 'Generating CSS...', percentage: 55, delay: 30000 },
-            { step: 5, message: 'Refining CSS...', percentage: 65, delay: 40000 },
-            { step: 6, message: 'Generating JavaScript...', percentage: 75, delay: 50000 },
-            { step: 7, message: 'Pushing to GitHub...', percentage: 85, delay: 60000 },
-            { step: 8, message: 'Deploying to Vercel...', percentage: 95, delay: 70000 },
-        ];
-        
-        // Set up fallback progress updates (in case backend is slow)
-        progressSteps.forEach((step) => {
-            const timeout = setTimeout(() => {
-                setGenerationProgress({ step: step.step, message: step.message, percentage: step.percentage });
-            }, step.delay);
-            timeouts.push(timeout);
-        });
-        
         try {
+            // Use fetch with streaming to read SSE events
             const response = await fetch('/api/generate-website', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             });
 
-            // Clear all progress timeouts
-            timeouts.forEach(timeout => clearTimeout(timeout));
-            
-            // Update progress to show completion
-            if (response.ok) {
-                setGenerationProgress({ step: 8, message: 'Complete!', percentage: 100 });
-            } else {
-                setGenerationProgress({ step: 0, message: 'Error occurred', percentage: 0 });
-            }
-
-            let data;
-            try {
-                data = await response.json();
-            } catch (jsonError) {
-                // If response isn't JSON, it's likely a server error
-                const text = await response.text();
-                throw new Error('Server error occurred. Please try again.');
-            }
-
             if (!response.ok) {
-                // Use the error message from API, or a generic one
-                throw new Error(data.error || 'Failed to generate website');
+                const errorData = await response.json().catch(() => ({ error: 'Failed to generate website' }));
+                throw new Error(errorData.error || 'Failed to generate website');
             }
 
-            setGenerationResult({
-                repoUrl: data.repoUrl,
-                vercelUrl: data.vercelUrl,
-                projectUrl: data.projectUrl,
-            });
-            
-            // Save to history
-            saveToHistory({
-                repoUrl: data.repoUrl,
-                vercelUrl: data.vercelUrl,
-                projectUrl: data.projectUrl,
-            });
-            
-            // Save to dashboard
-            if (data.repoUrl) {
-                try {
-                    await fetch('/api/save-site', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            companyName: formData.companyName,
-                            repoUrl: data.repoUrl,
-                            vercelUrl: data.vercelUrl,
-                            projectUrl: data.projectUrl,
-                            industry: formData.industry,
-                        }),
-                    });
-                    // Refresh the sites list
-                    if (onSiteGenerated) {
-                        onSiteGenerated();
+            // Read SSE stream
+            const reader = response.body?.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+
+            if (!reader) {
+                throw new Error('Failed to read response stream');
+            }
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split('\n');
+                buffer = lines.pop() || ''; // Keep incomplete line in buffer
+
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        try {
+                            const data = JSON.parse(line.slice(6));
+                            
+                            // Handle progress updates
+                            if (data.step !== undefined && data.message && data.percentage !== undefined) {
+                                setGenerationProgress({
+                                    step: data.step,
+                                    message: data.message,
+                                    percentage: data.percentage
+                                });
+                            }
+                            
+                            // Handle errors
+                            if (data.success === false && data.error) {
+                                setGenerationResult({ error: data.error });
+                                setGenerationProgress({ step: 0, message: 'Error occurred', percentage: 0 });
+                                saveToHistory({ error: data.error });
+                                return;
+                            }
+                            
+                            // Handle final result
+                            if (data.success !== false && data.repoUrl) {
+                                setGenerationResult({
+                                    repoUrl: data.repoUrl,
+                                    vercelUrl: data.vercelUrl,
+                                    projectUrl: data.projectUrl,
+                                });
+                                
+                                // Save to history
+                                saveToHistory({
+                                    repoUrl: data.repoUrl,
+                                    vercelUrl: data.vercelUrl,
+                                    projectUrl: data.projectUrl,
+                                });
+                                
+                                // Save to dashboard
+                                try {
+                                    await fetch('/api/save-site', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            companyName: formData.companyName,
+                                            repoUrl: data.repoUrl,
+                                            vercelUrl: data.vercelUrl,
+                                            projectUrl: data.projectUrl,
+                                            industry: formData.industry,
+                                        }),
+                                    });
+                                    // Refresh the sites list
+                                    if (onSiteGenerated) {
+                                        onSiteGenerated();
+                                    }
+                                } catch (saveError) {
+                                    console.error('Failed to save site to dashboard:', saveError);
+                                    // Don't block the user if saving fails
+                                }
+                            }
+                        } catch (e) {
+                            // Ignore parse errors for malformed SSE messages
+                        }
                     }
-                } catch (saveError) {
-                    console.error('Failed to save site to dashboard:', saveError);
-                    // Don't block the user if saving fails
                 }
             }
         } catch (err: any) {
-            // Clear all progress timeouts
-            timeouts.forEach(timeout => clearTimeout(timeout));
             console.error('Generation failed:', err);
             const errorMessage = err.message || 'Something went wrong. Please try again.';
             setGenerationResult({ error: errorMessage });
