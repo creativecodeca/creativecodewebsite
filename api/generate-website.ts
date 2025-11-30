@@ -98,7 +98,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             try {
                 vercelData = await deployToVercel(repoName, repoData.repoFullName, sitewide);
                 if (vercelData?.url) {
-                    console.log('Vercel project created and deployed:', vercelData.url);
+                console.log('Vercel project created and deployed:', vercelData.url);
                 } else {
                     console.warn('Vercel deployment returned but no URL provided:', vercelData);
                 }
@@ -159,8 +159,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 async function generateGamePlan(genAI: GoogleGenAI, sitewide: any, pages: any[]) {
     try {
-        // Using Gemini 3 Pro - latest and most advanced model
-        const model = 'gemini-3-pro';
+        // Using Gemini 3 Pro Preview - latest and most advanced model
+        const model = 'gemini-3-pro-preview';
 
         const prompt = `You are a professional web developer creating a game plan for a website.
 
@@ -218,10 +218,10 @@ Keep it concise but comprehensive. Format as JSON with these keys: designApproac
 
 async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: any[], gamePlan: any) {
     try {
-        // Using Gemini 3 Pro - latest and most advanced model
-        const model = 'gemini-3-pro';
+        // Using Gemini 3 Pro Preview - latest and most advanced model
+        const model = 'gemini-3-pro-preview';
         const files = [];
-        
+
         // Map pages to routes (for separate HTML files, not SPA)
         const pageRoutes = pages.map((p, idx) => {
             if (idx === 0) return { title: p.title, route: '/', file: 'index.html', component: 'Home' };
@@ -264,8 +264,8 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
                 : generateSubPageReactPrompt(page, sitewide, pages, pageRoutes, gamePlan, pageImages, pageRoute);
 
             const componentChat = genAI.chats.create({
-                model: model,
-                config: {
+        model: model,
+        config: {
                     systemInstruction: 'You are a senior React developer with 10+ years of experience creating award-winning websites. Generate production-ready React/TypeScript components using Tailwind CSS. The website must look stunning, modern, and professional - matching the quality of premium $10,000+ websites. Use Tailwind utility classes extensively, proper component structure, and ensure visual hierarchy.'
                 }
             });
@@ -302,7 +302,7 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
         // PHASE 3: Generate React App.tsx with routes
         console.log('Phase 3: Generating App.tsx with routes...');
         const appContent = generateAppTsx(generatedComponents, pageRoutes);
-        files.push({
+    files.push({
             name: 'App.tsx',
             content: appContent
         });
@@ -355,7 +355,7 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
         
         // Generate index.html template
         const indexHtml = generateIndexHtml(sitewide);
-        files.push({
+    files.push({
             name: 'index.html',
             content: indexHtml
         });
@@ -376,17 +376,17 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
         
         // Generate Footer component
         const footerComponent = generateFooterComponent(pageRoutes, sitewide, allImageAttributions.length > 0);
-        files.push({
+    files.push({
             name: 'components/Footer.tsx',
             content: footerComponent
-        });
+    });
 
         // Note: CSS and JS are not needed - Tailwind CSS is used via CDN
         // All styling is done with Tailwind utility classes in React components
         // JavaScript functionality is built into React components
-        
-        // Generate README
-        const readmeContent = `# ${sitewide.companyName}
+
+    // Generate README
+    const readmeContent = `# ${sitewide.companyName}
 
 ${sitewide.industry} - ${sitewide.companyType}
 
@@ -603,26 +603,26 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
         let deploymentSuccess = false;
         
         try {
-            const deploymentResponse = await fetch('https://api.vercel.com/v13/deployments', {
-                method: 'POST',
-                headers: {
+        const deploymentResponse = await fetch('https://api.vercel.com/v13/deployments', {
+            method: 'POST',
+            headers: {
                     'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: projectNameSlug,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: projectNameSlug,
                     project: projectData.id,
-                    gitSource: {
-                        type: 'github',
-                        repo: repoFullName,
+                gitSource: {
+                    type: 'github',
+                    repo: repoFullName,
                         ref: 'main', // Default branch
                         sha: 'HEAD'
                     },
                     target: 'production',
                     ...(accountId && { teamId: accountId })
-                })
-            });
-            
+            })
+        });
+
             if (deploymentResponse.ok) {
                 const deploymentData: any = await deploymentResponse.json();
                 console.log('Vercel deployment created:', deploymentData.url || deploymentData.alias?.[0]);
@@ -637,7 +637,7 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
                     console.log('Deployment in progress, will be available shortly');
                     deploymentSuccess = true;
                 }
-            } else {
+        } else {
                 const deployError: any = await deploymentResponse.json().catch(() => ({}));
                 console.warn('Manual deployment trigger failed:', deployError);
                 // This is okay - Vercel will auto-deploy when GitHub webhook triggers
