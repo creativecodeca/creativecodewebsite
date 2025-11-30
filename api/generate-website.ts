@@ -367,6 +367,13 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
             content: JSON.stringify(tsconfig, null, 2)
         });
         
+        // Generate tsconfig.node.json (for Vite config files)
+        const tsconfigNode = generateTsConfigNode();
+        files.push({
+            name: 'tsconfig.node.json',
+            content: JSON.stringify(tsconfigNode, null, 2)
+        });
+        
         // Generate Navbar component
         const navbarComponent = generateNavbarComponent(pageRoutes, sitewide);
         files.push({
@@ -592,60 +599,46 @@ async function deployToVercel(projectName: string, repoFullName: string, sitewid
             }
         }
 
-        // Step 3: Wait a moment for project to be ready, then trigger deployment
-        // Wait longer for GitHub to fully process the repository
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        // Step 3: Vercel will automatically deploy via GitHub webhook
+        // When a project is created with gitRepository, Vercel sets up a webhook
+        // that triggers deployment automatically when code is pushed to GitHub
+        console.log('Project created and linked to GitHub. Vercel will auto-deploy via webhook.');
         
-        // Step 4: Try to create deployment from GitHub
-        // Note: Vercel will also auto-deploy via webhook, but we try to trigger it manually
-        console.log('Triggering Vercel deployment...');
+        // The deployment URL will be available after Vercel processes the webhook
+        // This typically happens within a few seconds of the GitHub push
         let deploymentUrl = `https://${projectNameSlug}.vercel.app`;
         let deploymentSuccess = false;
         
+        // Note: We don't manually trigger deployment because:
+        // 1. Vercel requires repoId (numeric GitHub repo ID) which we don't have easily
+        // 2. The project is already linked to GitHub, so webhook will handle it
+        // 3. Manual deployment trigger is not necessary and often fails without repoId
+        
+        // Wait a moment for Vercel to process the project creation
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Try to get the latest deployment from the project
         try {
-        const deploymentApiUrl = `https://api.vercel.com/v13/deployments${accountId ? `?teamId=${accountId}` : ''}`;
-        const deploymentResponse = await fetch(deploymentApiUrl, {
-            method: 'POST',
-            headers: {
-                    'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name: projectNameSlug,
-                    project: projectData.id,
-                gitSource: {
-                    type: 'github',
-                    repo: repoFullName,
-                        ref: 'main', // Default branch
-                        sha: 'HEAD'
-                    },
-                    target: 'production'
-            })
-        });
-
-            if (deploymentResponse.ok) {
-                const deploymentData: any = await deploymentResponse.json();
-                console.log('Vercel deployment created:', deploymentData.url || deploymentData.alias?.[0]);
-                if (deploymentData.url) {
-                    deploymentUrl = deploymentData.url;
-                    deploymentSuccess = true;
-                } else if (deploymentData.alias && deploymentData.alias.length > 0) {
-                    deploymentUrl = `https://${deploymentData.alias[0]}`;
-                    deploymentSuccess = true;
-                } else if (deploymentData.readyState) {
-                    // Deployment is in progress
-                    console.log('Deployment in progress, will be available shortly');
-                    deploymentSuccess = true;
+            const deploymentsUrl = `https://api.vercel.com/v6/deployments?projectId=${projectData.id}&limit=1${accountId ? `&teamId=${accountId}` : ''}`;
+            const deploymentsResponse = await fetch(deploymentsUrl, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 }
-        } else {
-                const deployError: any = await deploymentResponse.json().catch(() => ({}));
-                console.warn('Manual deployment trigger failed:', deployError);
-                // This is okay - Vercel will auto-deploy when GitHub webhook triggers
-                console.log('Note: Vercel will auto-deploy automatically via GitHub webhook');
+            });
+            
+            if (deploymentsResponse.ok) {
+                const deploymentsData: any = await deploymentsResponse.json();
+                if (deploymentsData.deployments && deploymentsData.deployments.length > 0) {
+                    const latestDeployment = deploymentsData.deployments[0];
+                    if (latestDeployment.url) {
+                        deploymentUrl = `https://${latestDeployment.url}`;
+                        deploymentSuccess = true;
+                        console.log('Found existing deployment:', deploymentUrl);
+                    }
+                }
             }
-        } catch (deployError: any) {
-            console.warn('Deployment trigger error (non-fatal):', deployError.message);
-            // Vercel will still auto-deploy via webhook
+        } catch (error) {
+            console.log('Could not fetch existing deployments, webhook will handle deployment');
         }
         
         // If manual deployment didn't work, Vercel will auto-deploy via GitHub webhook
@@ -1738,8 +1731,21 @@ function generateTsConfig(): any {
             noUnusedParameters: true,
             noFallthroughCasesInSwitch: true
         },
-        include: ["**/*.ts", "**/*.tsx"],
-        references: [{ path: "./tsconfig.node.json" }]
+        include: ["**/*.ts", "**/*.tsx"]
+    };
+}
+
+function generateTsConfigNode(): any {
+    return {
+        compilerOptions: {
+            composite: true,
+            skipLibCheck: true,
+            module: "ESNext",
+            moduleResolution: "bundler",
+            allowSyntheticDefaultImports: true,
+            resolveJsonModule: true
+        },
+        include: ["vite.config.ts"]
     };
 }
 
