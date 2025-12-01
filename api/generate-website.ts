@@ -1022,10 +1022,10 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
         
         // Generate Footer component
         const footerComponent = generateFooterComponent(pageRoutes, sitewide, allImageAttributions.length > 0);
-    files.push({
+        files.push({
             name: 'components/Footer.tsx',
             content: footerComponent
-    });
+        });
 
         // Note: CSS and JS are not needed - Tailwind CSS is used via CDN
         // All styling is done with Tailwind utility classes in React components
@@ -2952,52 +2952,62 @@ function generateFooterComponent(pageRoutes: any[], sitewide: any, hasAttributio
     const borderColor = colors.primary || '#D32F2F';
     const accentColor = colors.secondary || '#FFC107';
     
+    // Escape strings for safe template literal insertion
+    const escapedCompanyName = (sitewide.companyName || 'Company').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+    const escapedIndustry = (sitewide.industry || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+    const escapedBrandThemes = (sitewide.brandThemes || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+    const escapedFullAddress = (sitewide.fullAddress || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+    const escapedPhoneNumber = (sitewide.phoneNumber || '').replace(/\s+/g, '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+    const escapedEmail = (sitewide.email || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+    const escapedPrimaryColor = (colors.primary || '#D32F2F').replace(/'/g, "\\'");
+    const escapedAccentColor = (accentColor || '#FFC107').replace(/'/g, "\\'");
+    
     return `import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#0a0a0a] border-t" style={{ borderColor: '${borderColor}40' }}>
+    <footer className="bg-[#0a0a0a] border-t" style={{ borderColor: '${escapedPrimaryColor}40' }}>
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-white font-semibold text-lg mb-4">
-              ${sitewide.companyName}
-              ${colors.primary ? `<span style={{ color: '${colors.primary}' }}> </span>` : ''}
+              ${escapedCompanyName}
+              ${colors.primary ? `<span style={{ color: '${escapedPrimaryColor}' }}> </span>` : ''}
             </h3>
-            <p className="text-slate-400 text-sm">${sitewide.industry}</p>
-            ${sitewide.brandThemes ? `<p className="text-slate-500 text-xs mt-2">${sitewide.brandThemes}</p>` : ''}
+            <p className="text-slate-400 text-sm">${escapedIndustry}</p>
+            ${sitewide.brandThemes ? `<p className="text-slate-500 text-xs mt-2">${escapedBrandThemes}</p>` : ''}
           </div>
           
           <div>
-            <h3 className="text-white font-semibold text-lg mb-4" style={{ color: '${accentColor}' }}>Quick Links</h3>
+            <h3 className="text-white font-semibold text-lg mb-4" style={{ color: '${escapedAccentColor}' }}>Quick Links</h3>
             <div className="flex flex-col gap-2">
 ${footerLinks}${attributionLink}
             </div>
           </div>
           
           <div>
-            <h3 className="text-white font-semibold text-lg mb-4" style={{ color: '${accentColor}' }}>Contact Us</h3>
+            <h3 className="text-white font-semibold text-lg mb-4" style={{ color: '${escapedAccentColor}' }}>Contact Us</h3>
             <div className="flex flex-col gap-2 text-slate-400 text-sm">
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" style={{ color: '${colors.primary}' }} />
-                <span>${sitewide.fullAddress}</span>
+                <MapPin className="w-4 h-4" style={{ color: '${escapedPrimaryColor}' }} />
+                <span>${escapedFullAddress}</span>
               </div>
-              <a href="tel:${sitewide.phoneNumber.replace(/\s+/g, '')}" className="flex items-center gap-2 hover:text-white transition-colors duration-200">
-                <Phone className="w-4 h-4" style={{ color: '${colors.primary}' }} />
-                <span>${sitewide.phoneNumber}</span>
+              <a href="tel:${escapedPhoneNumber}" className="flex items-center gap-2 hover:text-white transition-colors duration-200">
+                <Phone className="w-4 h-4" style={{ color: '${escapedPrimaryColor}' }} />
+                <span>${(sitewide.phoneNumber || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"')}</span>
               </a>
-              <a href="mailto:${sitewide.email}" className="flex items-center gap-2 hover:text-white transition-colors duration-200">
-                <Mail className="w-4 h-4" style={{ color: '${colors.primary}' }} />
-                <span>${sitewide.email}</span>
+              <a href="mailto:${escapedEmail}" className="flex items-center gap-2 hover:text-white transition-colors duration-200">
+                <Mail className="w-4 h-4" style={{ color: '${escapedPrimaryColor}' }} />
+                <span>${escapedEmail}</span>
               </a>
             </div>
           </div>
         </div>
         
         <div className="mt-8 pt-8 border-t border-white/10 text-center text-slate-500 text-sm">
-          <p>© ${new Date().getFullYear()} ${sitewide.companyName}. All rights reserved.</p>
+          <p>© ${new Date().getFullYear()} ${escapedCompanyName}. All rights reserved.</p>
         </div>
       </div>
     </footer>
