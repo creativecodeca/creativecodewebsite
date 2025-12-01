@@ -802,47 +802,86 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
                 ? generateMainPageReactPrompt(page, sitewide, pages, pageRoutes, gamePlan, pageImages, pageRoute)
                 : generateSubPageReactPrompt(page, sitewide, pages, pageRoutes, gamePlan, pageImages, pageRoute);
 
-            const componentChat = genAI.chats.create({
-                model: model,
-                config: {
-                    systemInstruction: 'You are a senior React developer with 10+ years of experience creating award-winning websites. Generate production-ready React/TypeScript components using Tailwind CSS. The website must look stunning, modern, and professional - matching the quality of premium $10,000+ websites. Use Tailwind utility classes extensively, proper component structure, and ensure visual hierarchy.'
-                }
-            });
-
-            // Gemini call with timeout + conservative retries to stay under Vercel 300s limit
+            // Gemini call with extended timeout + aggressive retries to ensure success
             let componentResult;
-            let componentRetries = 1; // 2 attempts max
+            let componentRetries = 5; // 6 attempts total - be very persistent
             let componentLastError: any;
+            let attemptNumber = 0;
+            
             while (componentRetries >= 0) {
+                attemptNumber++;
                 try {
-                    // 45s timeout per attempt – balance between quality and avoiding timeouts
-                    componentResult = await callGeminiWithTimeout(componentChat, componentPrompt, 45000);
-                    break;
+                    // Create fresh chat instance for each retry to avoid state issues
+                    const freshChat = genAI.chats.create({
+                        model: model,
+                        config: {
+                            systemInstruction: 'You are a senior React developer with 10+ years of experience creating award-winning websites. Generate production-ready React/TypeScript components using Tailwind CSS. The website must look stunning, modern, and professional - matching the quality of premium $10,000+ websites. Use Tailwind utility classes extensively, proper component structure, and ensure visual hierarchy.'
+                        }
+                    });
+                    
+                    // Extended timeout: 120 seconds - gemini-3-pro-preview needs time for complex prompts
+                    // Increase timeout on later attempts in case of slow responses
+                    const timeoutMs = 120000 + (attemptNumber * 10000); // 120s, 130s, 140s, etc.
+                    console.log(`Attempt ${attemptNumber} for ${pageRoute.route} with ${timeoutMs/1000}s timeout...`);
+                    componentResult = await callGeminiWithTimeout(freshChat, componentPrompt, timeoutMs);
+                    
+                    // Verify we got a valid response
+                    if (componentResult && componentResult.text && componentResult.text.trim().length > 0) {
+                        console.log(`✓ Successfully generated component for ${pageRoute.route} on attempt ${attemptNumber}`);
+                        break; // Success!
+                    } else {
+                        throw new Error('Empty or invalid response from Gemini API');
+                    }
                 } catch (err: any) {
                     componentLastError = err;
                     componentRetries--;
-                    console.warn(`Component generation failed for route ${pageRoute.route}, retries left: ${componentRetries}`, err?.message || err);
+                    console.warn(`Component generation failed for route ${pageRoute.route}, attempt ${attemptNumber}, retries left: ${componentRetries}`, err?.message || err);
+                    
                     if (componentRetries >= 0) {
-                        // Short backoff for transient issues
-                        await new Promise(resolve => setTimeout(resolve, 1500));
+                        // Exponential backoff: wait longer between retries
+                        const backoffMs = Math.min(2000 * Math.pow(2, attemptNumber - 1), 10000); // 2s, 4s, 8s, max 10s
+                        console.log(`Waiting ${backoffMs}ms before retry...`);
+                        await new Promise(resolve => setTimeout(resolve, backoffMs));
                     }
                 }
             }
 
-            let componentContent: string;
             if (!componentResult) {
-                // As a last resort, fall back to a deterministic, non-AI React component
-                console.error(`Gemini timed out for page ${pageRoute.route}, using fallback React component`, componentLastError);
-                componentContent = generateFallbackReactComponent(page, sitewide, pageRoute.route === '/');
-            } else {
-                componentContent = componentResult.text
-                    .replace(/```tsx\n?/g, '')
-                    .replace(/```ts\n?/g, '')
-                    .replace(/```jsx\n?/g, '')
-                    .replace(/```javascript\n?/g, '')
-                    .replace(/```\n?/g, '')
-                    .trim();
+                // Last resort: try one more time with maximum timeout
+                console.error(`All retries exhausted for ${pageRoute.route}, attempting final generation with 180s timeout...`);
+                try {
+                    const finalChat = genAI.chats.create({
+                        model: model,
+                        config: {
+                            systemInstruction: 'You are a senior React developer. Generate a React/TypeScript component using Tailwind CSS. Be concise but complete.'
+                        }
+                    });
+                    componentResult = await callGeminiWithTimeout(finalChat, componentPrompt, 180000); // 3 minute final attempt
+                    
+                    // Verify final attempt got valid response
+                    if (!componentResult || !componentResult.text || componentResult.text.trim().length === 0) {
+                        throw new Error('Final attempt returned empty or invalid response');
+                    }
+                    
+                    console.log(`✓ Final attempt succeeded for ${pageRoute.route}`);
+                } catch (finalErr: any) {
+                    console.error(`Final attempt also failed for ${pageRoute.route}`, finalErr);
+                    throw new Error(`Failed to generate React component for page ${pageRoute.route} after ${attemptNumber} attempts. Last error: ${componentLastError?.message || finalErr?.message || 'Unknown error'}`);
+                }
             }
+            
+            // Final safety check
+            if (!componentResult || !componentResult.text || componentResult.text.trim().length === 0) {
+                throw new Error(`Failed to generate React component for page ${pageRoute.route} after all attempts. No valid response received.`);
+            }
+            
+            let componentContent = componentResult.text
+                .replace(/```tsx\n?/g, '')
+                .replace(/```ts\n?/g, '')
+                .replace(/```jsx\n?/g, '')
+                .replace(/```javascript\n?/g, '')
+                .replace(/```\n?/g, '')
+                .trim();
             
             // Clean up component content
             componentContent = cleanReactContent(componentContent, sitewide);
