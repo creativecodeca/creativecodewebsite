@@ -282,9 +282,6 @@ Return ONLY the complete modified file content. Do not include explanations or m
         // Step 6: Trigger Vercel redeployment if token is available
         if (VERCEL_TOKEN) {
             try {
-                // Extract project name from repo
-                const projectName = repo.toLowerCase().replace(/[^a-z0-9-]/g, '-');
-                
                 // Get Vercel team/user info
                 const accountResponse = await fetch('https://api.vercel.com/v2/teams', {
                     headers: { 'Authorization': `Bearer ${VERCEL_TOKEN}` }
@@ -308,25 +305,58 @@ Return ONLY the complete modified file content. Do not include explanations or m
                     }
                 }
 
-                // Trigger deployment
-                const deploymentApiUrl = `https://api.vercel.com/v13/deployments${accountId ? `?teamId=${accountId}` : ''}`;
-                await fetch(deploymentApiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${VERCEL_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: projectName,
-                        gitSource: {
-                            type: 'github',
-                            repoId: repoData.id,
-                            ref: repoData.default_branch,
-                            sha: newCommit.sha
-                        },
-                        target: 'production'
-                    })
+                // Find existing Vercel project by repository connection
+                const projectsUrl = `https://api.vercel.com/v9/projects${accountId ? `?teamId=${accountId}` : ''}`;
+                const projectsResponse = await fetch(projectsUrl, {
+                    headers: { 'Authorization': `Bearer ${VERCEL_TOKEN}` }
                 });
+
+                let projectId: string | null = null;
+                if (projectsResponse.ok) {
+                    const projects: any = await projectsResponse.json();
+                    // Find project that's connected to this GitHub repo
+                    const matchingProject = projects.projects?.find((p: any) => 
+                        p.link?.repo === `${owner}/${repo}` || 
+                        p.link?.repoId === repoData.id ||
+                        p.name === repo.toLowerCase().replace(/[^a-z0-9-]/g, '-')
+                    );
+                    if (matchingProject) {
+                        projectId = matchingProject.id;
+                        console.log('Found existing Vercel project:', projectId);
+                    }
+                }
+
+                if (projectId) {
+                    // Trigger redeployment using existing project
+                    const deploymentApiUrl = `https://api.vercel.com/v13/deployments${accountId ? `?teamId=${accountId}` : ''}`;
+                    const deploymentResponse = await fetch(deploymentApiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${VERCEL_TOKEN}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            project: projectId,
+                            gitSource: {
+                                type: 'github',
+                                repoId: repoData.id,
+                                ref: repoData.default_branch,
+                                sha: newCommit.sha
+                            },
+                            target: 'production'
+                        })
+                    });
+
+                    if (deploymentResponse.ok) {
+                        const deploymentData: any = await deploymentResponse.json();
+                        console.log('Vercel redeployment triggered successfully:', deploymentData.url || deploymentData.alias?.[0]);
+                    } else {
+                        const errorText = await deploymentResponse.text();
+                        console.warn('Vercel redeployment failed:', errorText);
+                    }
+                } else {
+                    console.warn('Could not find existing Vercel project for repo. GitHub webhook will trigger deployment.');
+                }
             } catch (vercelError) {
                 console.warn('Vercel redeployment trigger failed:', vercelError);
                 // Continue - GitHub webhook will trigger deployment

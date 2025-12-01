@@ -104,21 +104,38 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
 
     // Load history from localStorage on mount
     useEffect(() => {
-        const saved = localStorage.getItem('websiteGenerationHistory');
-        if (saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                // Ensure all items have proper structure
-                const cleaned = parsed.map((item: any) => ({
-                    ...item,
-                    companyName: item.companyName || 'Untitled Website',
-                    status: item.status || 'failed',
-                    timestamp: item.timestamp || Date.now()
-                }));
-                setGenerationHistory(cleaned);
-            } catch (e) {
-                console.error('Failed to load generation history:', e);
+        try {
+            const saved = localStorage.getItem('websiteGenerationHistory');
+            console.log('Loading history from localStorage:', saved ? 'Found data' : 'No data found');
+            
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    console.log('Parsed history items:', parsed.length);
+                    
+                    // Ensure all items have proper structure
+                    const cleaned = parsed.map((item: any) => ({
+                        ...item,
+                        companyName: item.companyName || 'Untitled Website',
+                        status: item.status || 'failed',
+                        timestamp: item.timestamp || Date.now()
+                    }));
+                    
+                    console.log('Cleaned history items:', cleaned.length);
+                    setGenerationHistory(cleaned);
+                } catch (e) {
+                    console.error('Failed to parse generation history:', e);
+                    // Try to recover by clearing corrupted data
+                    localStorage.removeItem('websiteGenerationHistory');
+                    setGenerationHistory([]);
+                }
+            } else {
+                console.log('No history found in localStorage');
+                setGenerationHistory([]);
             }
+        } catch (e) {
+            console.error('Failed to access localStorage:', e);
+            setGenerationHistory([]);
         }
     }, []);
 
@@ -129,18 +146,47 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
         projectUrl?: string;
         error?: string;
     }) => {
-        const historyItem = {
-            id: Date.now().toString(),
-            timestamp: Date.now(),
-            companyName: formData.companyName,
-            status: result.error ? 'failed' as const : 'success' as const,
-            formData: { ...formData }, // Store full form data for regeneration
-            ...result
-        };
-        
-        const updated = [historyItem, ...generationHistory].slice(0, 50); // Keep last 50
-        setGenerationHistory(updated);
-        localStorage.setItem('websiteGenerationHistory', JSON.stringify(updated));
+        try {
+            const historyItem = {
+                id: Date.now().toString(),
+                timestamp: Date.now(),
+                companyName: formData.companyName,
+                status: result.error ? 'failed' as const : 'success' as const,
+                formData: { ...formData }, // Store full form data for regeneration
+                ...result
+            };
+            
+            // Get current history from state (or localStorage as fallback)
+            const currentHistory = generationHistory.length > 0 
+                ? generationHistory 
+                : (() => {
+                    try {
+                        const saved = localStorage.getItem('websiteGenerationHistory');
+                        return saved ? JSON.parse(saved) : [];
+                    } catch {
+                        return [];
+                    }
+                })();
+            
+            const updated = [historyItem, ...currentHistory].slice(0, 50); // Keep last 50
+            console.log('Saving to history:', { item: historyItem, totalItems: updated.length });
+            
+            setGenerationHistory(updated);
+            localStorage.setItem('websiteGenerationHistory', JSON.stringify(updated));
+            console.log('History saved to localStorage successfully');
+        } catch (e) {
+            console.error('Failed to save generation history:', e);
+            // Still update state even if localStorage fails
+            const historyItem = {
+                id: Date.now().toString(),
+                timestamp: Date.now(),
+                companyName: formData.companyName,
+                status: result.error ? 'failed' as const : 'success' as const,
+                formData: { ...formData },
+                ...result
+            };
+            setGenerationHistory([historyItem, ...generationHistory].slice(0, 50));
+        }
     };
 
     const companyTypes = [
