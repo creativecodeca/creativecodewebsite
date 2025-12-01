@@ -114,22 +114,24 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                     const data = await response.json();
                     const sites = data.sites || [];
                     
-                    // Convert to history format
-                    const historyItems = sites.map((site: any) => ({
-                        id: site.id,
-                        timestamp: new Date(site.createdAt).getTime(),
-                        companyName: site.companyName,
-                        status: site.status || (site.vercelDeployed ? 'success' : 'failed'),
-                        repoUrl: site.repoUrl,
-                        vercelUrl: site.vercelDeployed ? site.vercelUrl : undefined,
-                        projectUrl: site.projectUrl,
-                        error: site.error,
-                        formData: site.formData,
-                        // Add status indicators
-                        githubExists: site.githubExists,
-                        vercelDeployed: site.vercelDeployed,
-                        vercelStatus: site.vercelStatus
-                    }));
+                    // Convert to history format - only show deployed sites
+                    const historyItems = sites
+                        .filter((site: any) => site.vercelDeployed && site.vercelUrl) // Only show live/deployed sites
+                        .map((site: any) => ({
+                            id: site.id,
+                            timestamp: new Date(site.createdAt).getTime(),
+                            companyName: site.companyName,
+                            status: 'success' as const,
+                            repoUrl: site.repoUrl,
+                            vercelUrl: site.vercelUrl,
+                            projectUrl: site.projectUrl,
+                            error: site.error,
+                            formData: site.formData,
+                            // Add status indicators
+                            githubExists: site.githubExists,
+                            vercelDeployed: site.vercelDeployed,
+                            vercelStatus: site.vercelStatus
+                        }));
                     
                     console.log('Loaded sites from server:', historyItems.length);
                     console.log('Sample site data:', historyItems[0]);
@@ -801,7 +803,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-3xl font-bold text-white flex items-center gap-3">
                         <History className="w-8 h-8 text-emerald-500" />
-                        Github sites
+                        Live Websites
                     </h2>
                     <button
                         onClick={() => setShowHistory(false)}
@@ -815,8 +817,8 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                 {generationHistory.length === 0 ? (
                     <div className="text-center py-12">
                         <History className="w-16 h-16 text-slate-500 mx-auto mb-4" />
-                        <p className="text-slate-400">No GitHub sites found yet.</p>
-                        <p className="text-slate-500 text-sm mt-2">Your generated websites from GitHub will appear here.</p>
+                        <p className="text-slate-400">No live websites found yet.</p>
+                        <p className="text-slate-500 text-sm mt-2">Your deployed websites will appear here.</p>
                     </div>
                 ) : (
                     <div className="space-y-4">

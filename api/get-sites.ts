@@ -182,6 +182,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 const nameMatch = repo.name.match(/^(.+)-website-\d+$/);
                 const companyName = nameMatch ? nameMatch[1].replace(/-/g, ' ') : repo.name;
                 
+                // Try to fetch formData from metadata.json
+                let formData: any = null;
+                try {
+                    const metadataResponse = await octokit.repos.getContent({
+                        owner: username,
+                        repo: repo.name,
+                        path: 'metadata.json'
+                    });
+                    
+                    if (metadataResponse.data && 'content' in metadataResponse.data) {
+                        const content = Buffer.from(metadataResponse.data.content, 'base64').toString('utf-8');
+                        const metadata = JSON.parse(content);
+                        formData = metadata.formData || null;
+                    }
+                } catch (error) {
+                    // metadata.json might not exist for older repos - that's okay
+                    console.log(`No metadata.json found for ${repo.name}`);
+                }
+                
                 // Try to find Vercel project for this repo
                 let vercelUrl: string | undefined;
                 let projectUrl: string | undefined;

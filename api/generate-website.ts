@@ -1030,6 +1030,33 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
         // All styling is done with Tailwind utility classes in React components
         // JavaScript functionality is built into React components
 
+    // Generate metadata.json with formData for regeneration
+    const metadataContent = JSON.stringify({
+        formData: {
+            companyName: sitewide.companyName,
+            industry: sitewide.industry,
+            address: sitewide.address,
+            city: sitewide.city,
+            phoneNumber: sitewide.phoneNumber,
+            email: sitewide.email,
+            companyType: sitewide.companyType,
+            colors: sitewide.colors,
+            brandThemes: sitewide.brandThemes,
+            extraDetailedInfo: sitewide.extraDetailedInfo,
+            pages: pages,
+            contactForm: sitewide.contactForm,
+            bookingForm: sitewide.bookingForm,
+            qualityTier: sitewide.qualityTier || 'mockup'
+        },
+        generatedAt: new Date().toISOString(),
+        version: '1.0'
+    }, null, 2);
+    
+    files.push({
+        name: 'metadata.json',
+        content: metadataContent
+    });
+
     // Generate README
     const readmeContent = `# ${sitewide.companyName}
 
