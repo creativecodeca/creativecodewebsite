@@ -2056,60 +2056,14 @@ function cleanReactContent(content: string, sitewide: any): string {
         cleaned = cleaned.replace(/import[^;]+Helmet[^;]+;/, (match) => match + "\nimport { Link, useLocation } from 'react-router-dom';");
     }
     
-    // CRITICAL: Ensure Navbar and Footer imports are present for ALL components
-    // All page components MUST use shared Navbar and Footer components
-    const hasNavbarUsage = cleaned.includes("<Navbar");
-    const hasFooterUsage = cleaned.includes("<Footer");
-    
-    // Always add Navbar import if not present (all pages need it)
-    if (!cleaned.includes("import Navbar from")) {
-        // Find the last import statement and add Navbar import after it
-        const importMatch = cleaned.match(/(import[^;]+;[\s]*\n?)+/);
-        if (importMatch) {
-            // Add Navbar import after the last import
-            const lastImportIndex = cleaned.lastIndexOf(importMatch[0]);
-            const afterImports = cleaned.substring(lastImportIndex + importMatch[0].length);
-            cleaned = cleaned.substring(0, lastImportIndex) + importMatch[0] + "import Navbar from '../components/Navbar';\n" + afterImports;
-        } else {
-            // No imports found, add at the beginning
-            cleaned = "import Navbar from '../components/Navbar';\n" + cleaned;
-        }
-    }
-    
-    // Always add Footer import if not present (all pages need it)
-    if (!cleaned.includes("import Footer from")) {
-        // Add Footer import after Navbar import
-        if (cleaned.includes("import Navbar from")) {
-            cleaned = cleaned.replace(/(import Navbar from[^;]+;)/, "$1\nimport Footer from '../components/Footer';");
-        } else {
-            // If Navbar import doesn't exist (shouldn't happen), add Footer separately
-            const importMatch = cleaned.match(/(import[^;]+;[\s]*\n?)+/);
-            if (importMatch) {
-                const lastImportIndex = cleaned.lastIndexOf(importMatch[0]);
-                const afterImports = cleaned.substring(lastImportIndex + importMatch[0].length);
-                cleaned = cleaned.substring(0, lastImportIndex) + importMatch[0] + "import Footer from '../components/Footer';\n" + afterImports;
-            } else {
-                cleaned = "import Footer from '../components/Footer';\n" + cleaned;
-            }
-        }
-    }
-    
-    // Ensure Navbar is used in the component return
-    if (cleaned.includes("return (") && !hasNavbarUsage) {
-        // Add <Navbar /> at the start of the return statement
-        cleaned = cleaned.replace(/(return\s*\([^<]*)(<)/, "$1<Navbar />\n      $2");
-    }
-    
-    // Ensure Footer is used in the component return
-    if (cleaned.includes("return (") && !hasFooterUsage) {
-        // Add <Footer /> before the closing of return
-        // Find the closing of the main return div/component
-        cleaned = cleaned.replace(/(<\/[^>]+>\s*\)\s*;?\s*$)/m, "<Footer />\n      $1");
-        // If that didn't work, try a different pattern
-        if (!cleaned.includes("<Footer />")) {
-            cleaned = cleaned.replace(/(\s*\)\s*;?\s*$)/m, "\n      <Footer />\n      $1");
-        }
-    }
+    // NOTE: Navbar and Footer are NOT added to page components
+    // They are already included in App.tsx which wraps all routes
+    // Page components should only return their content, not Navbar/Footer
+    // Remove any Navbar/Footer imports or usage that might have been incorrectly added
+    cleaned = cleaned.replace(/import\s+Navbar\s+from[^;]+;\s*/g, '');
+    cleaned = cleaned.replace(/import\s+Footer\s+from[^;]+;\s*/g, '');
+    cleaned = cleaned.replace(/<Navbar\s*\/?>\s*/g, '');
+    cleaned = cleaned.replace(/<Footer\s*\/?>\s*/g, '');
     
     // Fix common issues
     cleaned = cleaned.replace(/className=/g, 'className=');
