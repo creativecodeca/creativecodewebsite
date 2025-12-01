@@ -2087,31 +2087,31 @@ function generateViteConfig(): string {
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig(({ isSsrBuild }) => {
-  return {
-    plugins: [react()],
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, '.'),
-      }
-    },
-    build: {
-      minify: 'esbuild',
-      sourcemap: false,
-      cssMinify: true,
-      rollupOptions: {
-        output: {
-          manualChunks: isSsrBuild ? undefined : {
-            vendor: ['react', 'react-dom', 'react-router-dom', 'framer-motion'],
-            ui: ['lucide-react']
-          }
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '.'),
+    }
+  },
+  build: {
+    outDir: 'dist',
+    minify: 'esbuild',
+    sourcemap: false,
+    cssMinify: true,
+    rollupOptions: {
+      input: path.resolve(__dirname, 'index.html'),
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom', 'framer-motion'],
+          ui: ['lucide-react']
         }
       }
-    },
-    ssr: {
-      noExternal: ['react-helmet-async']
     }
-  };
+  },
+  ssr: {
+    noExternal: ['react-helmet-async']
+  }
 });`;
 }
 
