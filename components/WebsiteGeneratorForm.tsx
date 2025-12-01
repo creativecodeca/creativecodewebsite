@@ -921,8 +921,23 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                         <button
                                             onClick={() => {
                                                 if (item.formData) {
-                                                    // Populate form with saved data
-                                                    setFormData(item.formData);
+                                                    // Populate form with ALL saved data
+                                                    setFormData({
+                                                        companyName: item.formData.companyName || '',
+                                                        industry: item.formData.industry || '',
+                                                        address: item.formData.address || '',
+                                                        city: item.formData.city || '',
+                                                        phoneNumber: item.formData.phoneNumber || '',
+                                                        email: item.formData.email || '',
+                                                        companyType: item.formData.companyType || '',
+                                                        colors: item.formData.colors || '',
+                                                        brandThemes: item.formData.brandThemes || '',
+                                                        extraDetailedInfo: item.formData.extraDetailedInfo || '',
+                                                        pages: item.formData.pages || [],
+                                                        contactForm: item.formData.contactForm || false,
+                                                        bookingForm: item.formData.bookingForm || false,
+                                                        qualityTier: item.formData.qualityTier || 'mockup'
+                                                    });
                                                     setCurrentStep(0);
                                                     setShowHistory(false);
                                                     // Scroll to top of form
@@ -958,8 +973,23 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                         <button
                                             onClick={() => {
                                                 if (item.formData) {
-                                                    // Populate form with saved data
-                                                    setFormData(item.formData);
+                                                    // Populate form with ALL saved data
+                                                    setFormData({
+                                                        companyName: item.formData.companyName || '',
+                                                        industry: item.formData.industry || '',
+                                                        address: item.formData.address || '',
+                                                        city: item.formData.city || '',
+                                                        phoneNumber: item.formData.phoneNumber || '',
+                                                        email: item.formData.email || '',
+                                                        companyType: item.formData.companyType || '',
+                                                        colors: item.formData.colors || '',
+                                                        brandThemes: item.formData.brandThemes || '',
+                                                        extraDetailedInfo: item.formData.extraDetailedInfo || '',
+                                                        pages: item.formData.pages || [],
+                                                        contactForm: item.formData.contactForm || false,
+                                                        bookingForm: item.formData.bookingForm || false,
+                                                        qualityTier: item.formData.qualityTier || 'mockup'
+                                                    });
                                                     setCurrentStep(0);
                                                     setShowHistory(false);
                                                     // Scroll to top of form
