@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{META_TITLE}}</title>
+    <meta name="description" content="{{META_DESCRIPTION}}">
+    <meta name="keywords" content="{{META_KEYWORDS}}">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">{{NAVBAR_LOGO}}</a>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                {{NAVBAR_LINKS}}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>{{HERO_TITLE}}</h1>
+            <p class="hero-subtitle">{{HERO_SUBTITLE}}</p>
+            <a href="{{HERO_CTA_LINK}}" class="btn btn-primary">{{HERO_CTA_TEXT}}</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>{{FEATURES_TITLE}}</h2>
+            <div class="features-grid">
+                {{FEATURES_ITEMS}}
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services">
+        <div class="container">
+            <h2>{{SERVICES_TITLE}}</h2>
+            <div class="services-grid">
+                {{SERVICES_ITEMS}}
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <h2>{{ABOUT_TITLE}}</h2>
+            <div class="about-content">
+                {{ABOUT_CONTENT}}
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>{{CONTACT_TITLE}}</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p><strong>Phone:</strong> <a href="tel:{{PHONE}}">{{PHONE}}</a></p>
+                    <p><strong>Email:</strong> <a href="mailto:{{EMAIL}}">{{EMAIL}}</a></p>
+                    <p><strong>Address:</strong> {{ADDRESS}}</p>
+                </div>
+                {{CONTACT_FORM}}
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>{{FOOTER_COMPANY_NAME}}</h3>
+                    <p>{{FOOTER_DESCRIPTION}}</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        {{FOOTER_LINKS}}
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>{{FOOTER_PHONE}}</p>
+                    <p>{{FOOTER_EMAIL}}</p>
+                    <p>{{FOOTER_ADDRESS}}</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; {{YEAR}} {{FOOTER_COMPANY_NAME}}. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+</body>
+</html>
+

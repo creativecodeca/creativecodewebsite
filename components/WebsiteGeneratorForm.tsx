@@ -411,87 +411,80 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
         setCopied(false);
         setIsSubmitted(true); // Show progress screen immediately
         
-        // Set initial progress - will update based on actual backend progress
-        setGenerationProgress({ step: 1, message: 'Generating design plan...', percentage: 10 });
+        // Set initial progress
+        setGenerationProgress({ step: 1, message: 'Creating generation job...', percentage: 5 });
         
         try {
-            // Use fetch with streaming to read SSE events
-            const response = await fetch('/api/generate-website', {
+            // Create job (returns immediately)
+            const response = await fetch('/api/generate-website-v2', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             });
 
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ error: 'Failed to generate website' }));
-                throw new Error(errorData.error || 'Failed to generate website');
+                const errorData = await response.json().catch(() => ({ error: 'Failed to create generation job' }));
+                throw new Error(errorData.error || 'Failed to create generation job');
             }
 
-            // Read SSE stream
-            const reader = response.body?.getReader();
-            const decoder = new TextDecoder();
-            let buffer = '';
-
-            if (!reader) {
-                throw new Error('Failed to read response stream');
-            }
-
-            while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-
-                buffer += decoder.decode(value, { stream: true });
-                const lines = buffer.split('\n');
-                buffer = lines.pop() || ''; // Keep incomplete line in buffer
-
-                for (const line of lines) {
-                    if (line.startsWith('data: ')) {
-                        try {
-                            const data = JSON.parse(line.slice(6));
-                            
-                            // Handle progress updates
-                            if (data.step !== undefined && data.message && data.percentage !== undefined) {
-                                setGenerationProgress({
-                                    step: data.step,
-                                    message: data.message,
-                                    percentage: data.percentage
-                                });
-                            }
-                            
-                            // Handle errors
-                            if (data.success === false && data.error) {
-                                setGenerationResult({ error: data.error });
-                                setGenerationProgress({ step: 0, message: 'Error occurred', percentage: 0 });
-                                await saveToHistory({ error: data.error });
-                                return;
-                            }
-                            
-                            // Handle final result
-                            if (data.success !== false && data.repoUrl) {
-                                setGenerationResult({
-                                    repoUrl: data.repoUrl,
-                                    vercelUrl: data.vercelUrl,
-                                    projectUrl: data.projectUrl,
-                                });
-                                
-                                // Save to history (server-side)
-                                await saveToHistory({
-                                    repoUrl: data.repoUrl,
-                                    vercelUrl: data.vercelUrl,
-                                    projectUrl: data.projectUrl,
-                                });
-                                
-                                // History is saved via saveToHistory above
-                                if (onSiteGenerated) {
-                                    onSiteGenerated();
-                                }
-                            }
-                        } catch (e) {
-                            // Ignore parse errors for malformed SSE messages
+            const { jobId, statusUrl } = await response.json();
+            
+            // Use EventSource for real-time updates
+            const eventSource = new EventSource(`${statusUrl}&stream=true`);
+            
+            eventSource.onmessage = (event) => {
+                try {
+                    const job = JSON.parse(event.data);
+                    
+                    // Update progress
+                    setGenerationProgress({
+                        step: getStepFromProgress(job.progress),
+                        message: job.message || 'Processing...',
+                        percentage: job.progress
+                    });
+                    
+                    // Handle completion
+                    if (job.status === 'completed' && job.result) {
+                        eventSource.close();
+                        setGenerationResult({
+                            repoUrl: job.result.repoUrl,
+                            vercelUrl: job.result.vercelUrl,
+                            projectUrl: job.result.projectUrl,
+                        });
+                        
+                        // Save to history
+                        saveToHistory({
+                            repoUrl: job.result.repoUrl,
+                            vercelUrl: job.result.vercelUrl,
+                            projectUrl: job.result.projectUrl,
+                        });
+                        
+                        if (onSiteGenerated) {
+                            onSiteGenerated();
                         }
+                        setIsSubmitting(false);
                     }
+                    
+                    // Handle failure
+                    if (job.status === 'failed') {
+                        eventSource.close();
+                        setGenerationResult({ error: job.error || 'Generation failed' });
+                        setGenerationProgress({ step: 0, message: 'Error occurred', percentage: 0 });
+                        saveToHistory({ error: job.error });
+                        setIsSubmitting(false);
+                    }
+                } catch (e) {
+                    console.error('Error parsing job status:', e);
                 }
-            }
+            };
+            
+            eventSource.onerror = (error) => {
+                console.error('EventSource error:', error);
+                eventSource.close();
+                setGenerationResult({ error: 'Connection lost. Please check the status manually.' });
+                setIsSubmitting(false);
+            };
+            
         } catch (err: any) {
             console.error('Generation failed:', err);
             const errorMessage = err.message || 'Something went wrong. Please try again.';
@@ -500,9 +493,17 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
             
             // Save failed attempt to history
             await saveToHistory({ error: errorMessage });
-        } finally {
             setIsSubmitting(false);
         }
+    };
+
+    // Helper to convert progress percentage to step number
+    const getStepFromProgress = (percentage: number): number => {
+        if (percentage < 20) return 1; // Parsing colors, selecting template
+        if (percentage < 60) return 2; // Generating content, building files
+        if (percentage < 90) return 3; // Pushing to GitHub
+        if (percentage < 100) return 4; // Deploying to Vercel
+        return 4; // Complete
     };
 
     const handleSubmit = (e: React.FormEvent) => {

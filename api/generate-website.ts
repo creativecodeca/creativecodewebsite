@@ -118,19 +118,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             console.log('Starting production refinement...');
             sendProgress(res, 2, 'Refining for production quality...', 50);
             
-            // Add overall timeout protection (max 300 seconds for refinement - increased for reliability)
+            // Refinement with smart timeout - don't cut off if components are still processing
+            // Reduced timeout to prevent Vercel 800s timeout
             try {
-                finalComponents = await Promise.race([
-                    refineForProduction(genAI, finalComponents, sitewide, pages, pageRoutes, res),
-                    new Promise<Array<{ name: string; content: string; route: string; pageInfo: any }>>((_, reject) =>
-                        setTimeout(() => reject(new Error('Refinement timed out after 5 minutes')), 300000)
-                    )
-                ]);
-                console.log('Production refinement complete');
+                const refinePromise = refineForProduction(genAI, finalComponents, sitewide, pages, pageRoutes, res);
+                const timeoutPromise = new Promise<Array<{ name: string; content: string; route: string; pageInfo: any }>>((_, reject) =>
+                    setTimeout(() => reject(new Error('Refinement taking too long, using partial results')), 180000) // 3 minutes
+                );
+                
+                try {
+                    finalComponents = await Promise.race([refinePromise, timeoutPromise]);
+                    console.log('Production refinement complete');
+                } catch (raceError: any) {
+                    // If timeout wins, give it a few more seconds to finish current batch
+                    console.warn('Refinement timeout reached, allowing current batch to finish...');
+                    await new Promise(resolve => setTimeout(resolve, 15000)); // 15 seconds grace period
+                    console.log('Continuing with available refinements');
+                }
             } catch (refineError: any) {
-                console.error('Refinement timed out or failed:', refineError);
-                // Continue with original components if refinement fails
-                console.log('Continuing with original components due to timeout');
+                console.error('Refinement error:', refineError);
+                console.log('Continuing with current components');
             }
             
             // Update files with refined components
@@ -148,28 +155,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             console.log('Starting SEO optimization...');
             sendProgress(res, 2, 'Optimizing for SEO...', 60);
             
-            // Add overall timeout protection (max 300 seconds for SEO - increased for reliability)
-            // Use Promise.allSettled to allow partial completion instead of hard timeout
+            // SEO optimization with smart timeout - don't cut off if components are still processing
+            // Reduced timeout to prevent Vercel 800s timeout
             try {
                 const seoPromise = optimizeForSEO(genAI, finalComponents, sitewide, pages, pageRoutes, res);
+                
+                // Set a shorter timeout (3 minutes) to prevent overall function timeout
                 const timeoutPromise = new Promise<Array<{ name: string; content: string; route: string; pageInfo: any }>>((_, reject) =>
-                    setTimeout(() => reject(new Error('SEO optimization timed out after 5 minutes')), 300000)
+                    setTimeout(() => reject(new Error('SEO optimization taking too long, using partial results')), 180000) // 3 minutes
                 );
                 
-                // Race between SEO and timeout, but allow partial results
-                finalComponents = await Promise.race([seoPromise, timeoutPromise]);
-                console.log('SEO optimization complete');
-            } catch (seoError: any) {
-                console.error('SEO optimization timed out or failed:', seoError);
-                // Try to get partial results if available
                 try {
-                    // Wait a bit more for any in-flight requests to complete
-                    await new Promise(resolve => setTimeout(resolve, 5000));
-                    // If we have some optimized components, use them; otherwise continue with current
+                    finalComponents = await Promise.race([seoPromise, timeoutPromise]);
+                    console.log('SEO optimization complete');
+                } catch (raceError: any) {
+                    // If timeout wins, give it a few more seconds to finish current batch
+                    console.warn('SEO optimization timeout reached, allowing current batch to finish...');
+                    await new Promise(resolve => setTimeout(resolve, 15000)); // 15 seconds grace period
                     console.log('Continuing with available SEO optimizations');
-                } catch (e) {
-                    console.log('Continuing without SEO optimization due to timeout');
                 }
+            } catch (seoError: any) {
+                console.error('SEO optimization error:', seoError);
+                console.log('Continuing without SEO optimization');
             }
             
             // Update files with SEO-optimized components
@@ -417,7 +424,7 @@ async function refineForProduction(
     console.log(`Refining ${componentsToRefine.length} components for production...`);
     
     // Process in smaller batches to avoid timeout - reduce batch size
-    const batchSize = 2; // Process 2 at a time for better speed while avoiding overload
+    const batchSize = 3; // Process 3 at a time for better speed
     for (let batchStart = 0; batchStart < componentsToRefine.length; batchStart += batchSize) {
         const batch = componentsToRefine.slice(batchStart, batchStart + batchSize);
         const batchIndex = Math.floor(batchStart / batchSize);
@@ -510,45 +517,40 @@ CRITICAL REFINEMENT CHECKLIST - EVERY ITEM MUST BE PERFECT:
     - Ensure all imports are correct
     - No console errors or warnings
 
-Original Component (truncated for efficiency):
+Original Component (truncated for efficiency - focus on critical fixes only):
 \`\`\`tsx
-${component.content.substring(0, 3000)}${component.content.length > 3000 ? '\n... (component continues)' : ''}
+${component.content.substring(0, 2000)}${component.content.length > 2000 ? '\n... (truncated)' : ''}
 \`\`\`
 
-CRITICAL: The navbar and footer are handled by App.tsx - DO NOT modify or recreate them. Focus ONLY on the page content.
+CRITICAL FIXES ONLY (prioritize these):
+1. Ensure buttons work (onClick handlers, href links)
+2. Remove navbar/footer code (handled by App.tsx)
+3. Fix any broken links
+4. Ensure consistent design and styling
 
-Site Information:
-- Company: ${sitewide.companyName}
-- Industry: ${sitewide.industry}
-- Colors: ${sitewide.colors}
-- Brand Themes: ${sitewide.brandThemes}
+Site: ${sitewide.companyName} - ${sitewide.industry}
+Page: ${component.pageInfo.title}
 
-Page Information: ${component.pageInfo.information}
-
-All Pages: ${pages.map(p => p.title).join(', ')}
-
-CRITICAL: The header/navbar MUST use the shared Navbar component. DO NOT create a custom header. Import and use <Navbar /> component.
-
-Return ONLY the refined React component code. Do not include explanations or markdown formatting. Start directly with the component code. Ensure it's absolutely perfect with zero inconsistencies.`;
+Return ONLY the refined React component code. No explanations. Start with component code.`;
 
                 const chat = genAI.chats.create({
                     model: model,
                     config: {
-                        systemInstruction: 'You are a senior React developer and design expert specializing in production-ready websites. You ensure ABSOLUTE PERFECTION with zero design inconsistencies, perfect headers, and flawless code quality. You are extremely detail-oriented and catch every single error or inconsistency. CRITICAL: ABSOLUTELY FORBIDDEN - Remove ALL backdrop-blur, brightness(), filter: brightness(), and ANY brightness filters from className, inline styles, CSS rules, and <style> tags. These create visual artifacts and weird lines. NEVER create CSS rules with filter: brightness(). Use solid backgrounds or simple gradients only. Ensure every button works, every link works, and every form is functional.'
+                        systemInstruction: 'You are a senior React developer and design expert specializing in production-ready websites. You ensure ABSOLUTE PERFECTION with zero design inconsistencies, perfect headers, and flawless code quality. You are extremely detail-oriented and catch every single error or inconsistency. Ensure every button works, every link works, and every form is functional.'
                     }
                 });
 
                 // Retry logic for Gemini API calls with extended timeout
                 let result;
-                let retries = 3; // More retries for refinement
+                let retries = 2; // Reduced retries for faster processing
                 let lastError: any;
                 let refinementAttempt = 0;
                 
                 while (retries >= 0) {
                     refinementAttempt++;
                     try {
-                        // Optimized timeout for refinement - faster but still reliable
-                        const timeoutMs = 75000 + (refinementAttempt * 5000); // 75s, 80s, 85s, 90s
+                        // Reduced timeout for refinement - faster processing
+                        const timeoutMs = 60000 + (refinementAttempt * 5000); // 60s, 65s, 70s, 75s
                         console.log(`Refinement attempt ${refinementAttempt} for ${component.name} with ${timeoutMs/1000}s timeout...`);
                         result = await callGeminiWithTimeout(chat, refinementPrompt, timeoutMs);
                         
@@ -624,7 +626,7 @@ async function optimizeForSEO(
     console.log(`Optimizing ${componentsToOptimize.length} components for SEO...`);
     
     // Process in smaller batches to avoid timeout - reduce batch size
-    const batchSize = 2; // Process 2 at a time for better speed while avoiding overload
+    const batchSize = 3; // Process 3 at a time for better speed
     for (let batchStart = 0; batchStart < componentsToOptimize.length; batchStart += batchSize) {
         const batch = componentsToOptimize.slice(batchStart, batchStart + batchSize);
         const batchIndex = Math.floor(batchStart / batchSize);
@@ -704,19 +706,22 @@ CRITICAL SEO OPTIMIZATION CHECKLIST:
     - Optimize images (use proper sizing)
     - Lazy load images below the fold
 
-Original Component (truncated for efficiency):
+Original Component (truncated for efficiency - focus on SEO fixes only):
 \`\`\`tsx
-${component.content.substring(0, 3000)}${component.content.length > 3000 ? '\n... (component continues)' : ''}
+${component.content.substring(0, 2000)}${component.content.length > 2000 ? '\n... (truncated)' : ''}
 \`\`\`
 
-Site Information:
-- Company: ${sitewide.companyName}
-- Industry: ${sitewide.industry}
-- Page: ${component.pageInfo.title}
-- Page Content: ${component.pageInfo.information}
-- Route: ${component.route}
+CRITICAL SEO FIXES ONLY (prioritize these):
+1. Add comprehensive Helmet meta tags (title, description, og tags, canonical)
+2. Ensure proper heading hierarchy (h1, h2, h3) - only ONE h1
+3. Add descriptive alt text to all images
+4. Add structured data (JSON-LD) if applicable
 
-Return ONLY the SEO-optimized React component code. Do not include explanations or markdown formatting. Start directly with the component code. Maintain perfect design quality while optimizing for SEO.`;
+Site: ${sitewide.companyName} - ${sitewide.industry}
+Page: ${component.pageInfo.title}
+Route: ${component.route}
+
+Return ONLY the SEO-optimized React component code. No explanations. Start with component code.`;
 
                 const chat = genAI.chats.create({
                     model: model,
@@ -727,15 +732,15 @@ Return ONLY the SEO-optimized React component code. Do not include explanations 
 
                 // Retry logic for Gemini API calls with extended timeout
                 let result;
-                let retries = 3; // More retries for SEO optimization
+                let retries = 2; // Reduced retries for faster processing
                 let lastError: any;
                 let seoAttempt = 0;
                 
                 while (retries >= 0) {
                     seoAttempt++;
                     try {
-                        // Optimized timeout for SEO - faster but still reliable
-                        const timeoutMs = 75000 + (seoAttempt * 5000); // 75s, 80s, 85s, 90s
+                        // Reduced timeout for SEO - faster processing
+                        const timeoutMs = 60000 + (seoAttempt * 5000); // 60s, 65s, 70s, 75s
                         console.log(`SEO optimization attempt ${seoAttempt} for ${component.name} with ${timeoutMs/1000}s timeout...`);
                         result = await callGeminiWithTimeout(chat, seoPrompt, timeoutMs);
                         
@@ -2110,10 +2115,8 @@ HERO SECTION:
 - Large headline: "text-5xl md:text-7xl font-bold text-white"
 - Subheadline: "text-xl md:text-2xl text-slate-300"
 - CTA button prominently placed
-- Background: Use solid color, simple gradient, or image with SOLID rgba() overlay (NOT backdrop-blur or brightness filters)
+- Background: Use solid color, simple gradient, or image with rgba() overlay as needed
 - IMPORTANT: The navbar is fixed with height 80px. Your hero section MUST start with padding-top: "pt-20" or "pt-24" on the first element to prevent content from being hidden behind the fixed navbar
-- ABSOLUTELY FORBIDDEN: backdrop-blur, brightness(), filter: brightness(), or ANY brightness filters - they create visual artifacts and weird lines
-- DO NOT create any CSS rules with filter: brightness() - this is strictly forbidden
 
 IMAGES:
 ${images.length > 0 ? `Available images (use ONLY if contextually relevant):
@@ -2129,19 +2132,11 @@ CONTENT SECTIONS:
 - Content in each section must be relevant and specific to ${sitewide.companyName}
 - No sections that don't add value or make sense in context
 
-VISUAL CONSISTENCY (CRITICAL - ABSOLUTELY NO BRIGHTNESS FILTERS):
-- ABSOLUTELY FORBIDDEN: backdrop-blur, brightness(), filter: brightness(), or ANY brightness filters
-- ABSOLUTELY FORBIDDEN: brightness() CSS function - NOT in className, NOT in style, NOT in <style> tags, NOT anywhere
-- ABSOLUTELY FORBIDDEN: brightness utilities like brightness-50, brightness-75, brightness-100, etc.
-- ABSOLUTELY FORBIDDEN: CSS rules with filter: brightness() - DO NOT create any CSS that modifies brightness
-- ABSOLUTELY FORBIDDEN: Any CSS selector that includes brightness filters
-- NEVER change opacity between sections in ways that create visual artifacts
-- Use solid backgrounds or simple gradients only
-- Maintain consistent visual styling throughout - no sudden brightness/opacity changes
-- If you need overlays, use solid rgba() backgrounds with opacity 1.0, NOT backdrop-blur or brightness filters
-- All sections should have consistent visual weight - no jarring transitions
-- NO filters of any kind that affect brightness - NO filter property with brightness, NO CSS rules with brightness
-- If you see brightness in your generated code, REMOVE IT IMMEDIATELY - it will cause visual artifacts
+VISUAL CONSISTENCY:
+- Maintain consistent visual styling throughout
+- Use appropriate backgrounds, gradients, and overlays as needed
+- All sections should have consistent visual weight
+- Smooth transitions between sections
 
 FOOTER (CRITICAL - MUST USE SHARED COMPONENT):
 - DO NOT create a custom footer - the shared Footer component is already included in App.tsx
@@ -2328,45 +2323,7 @@ function cleanReactContent(content: string, sitewide: any): string {
     cleaned = cleaned.replace(/<Navbar\s*\/?>\s*/g, '');
     cleaned = cleaned.replace(/<Footer\s*\/?>\s*/g, '');
     
-    // Remove backdrop-blur and brightness filters that cause visual artifacts
-    // CRITICAL: Remove from ALL sources - className, inline styles, CSS rules, style tags
-    
-    // Remove from className attributes
-    cleaned = cleaned.replace(/backdrop-blur-\[?[^\s"'`)]+\]?/g, '');
-    cleaned = cleaned.replace(/backdrop-blur/g, '');
-    cleaned = cleaned.replace(/brightness-\[?[^\s"'`)]+\]?/g, '');
-    cleaned = cleaned.replace(/brightness-/g, '');
-    
-    // Remove from inline style objects
-    cleaned = cleaned.replace(/style=\{\{[^}]*brightness[^}]*\}\}/g, (match) => {
-        return match.replace(/brightness\([^)]+\)/g, '').replace(/filter:\s*brightness\([^)]+\)/g, '').replace(/,\s*,/g, ',').replace(/,\s*\}/g, '}');
-    });
-    
-    // CRITICAL: Remove brightness filters from CSS rules in <style> tags
-    // Match CSS rules like: .selector { filter: brightness(1); } or filter: brightness(1);
-    cleaned = cleaned.replace(/filter:\s*brightness\([^)]*\)[^;]*;?/g, '');
-    
-    // Remove entire CSS rules that contain brightness filters (more aggressive)
-    // Match: selector { ... filter: brightness(...) ... } or any rule with brightness
-    cleaned = cleaned.replace(/[^{}]*\{[^}]*filter[^}]*brightness[^}]*\}[^;]*;?/g, '');
-    cleaned = cleaned.replace(/[^{}]*\{[^}]*brightness[^}]*\}[^;]*;?/g, '');
-    
-    // Remove brightness() function calls anywhere (catch-all)
-    cleaned = cleaned.replace(/brightness\([^)]*\)/g, '');
-    
-    // Remove filter utilities that might contain brightness
-    cleaned = cleaned.replace(/filter\s+brightness/g, '');
-    
-    // Remove brightness from any filter property in CSS
-    cleaned = cleaned.replace(/filter:\s*['"]?[^'"]*brightness[^'"]*['"]?/g, '');
-    
-    // Remove any remaining filter: brightness() patterns
-    cleaned = cleaned.replace(/filter:\s*brightness\([^)]*\)/g, '');
-    
-    // Remove backdrop-blur from CSS rules too
-    cleaned = cleaned.replace(/backdrop-filter:\s*blur\([^)]+\)/g, '');
-    
-    // Ensure navbar and footer are NOT translucent - remove opacity from backgrounds
+    // Clean up any navbar/footer code that shouldn't be in page components
     cleaned = cleaned.replace(/backgroundColor:\s*['"]rgba\([^)]+,\s*0\.\d+\)['"]/g, (match) => {
         // Convert rgba with opacity < 1.0 to solid rgb
         const rgbaMatch = match.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/);
