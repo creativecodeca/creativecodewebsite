@@ -2341,9 +2341,18 @@ function generateTsConfigNode(): any {
 }
 
 function generateAppTsx(components: any[], pageRoutes: any[]): string {
-    const imports = components.map(c => {
+    // Filter out Navbar and Footer since they're imported separately
+    const pageComponents = components.filter(c => 
+        c.name !== 'Navbar.tsx' && 
+        c.name !== 'Footer.tsx' && 
+        c.name !== 'Attributions.tsx'
+    );
+    
+    // Generate imports without .tsx extension (TypeScript convention)
+    const imports = pageComponents.map(c => {
         const componentName = c.name.replace('.tsx', '');
-        return `import ${componentName} from './components/${c.name}';`;
+        const importPath = c.name.replace('.tsx', ''); // Remove .tsx from path
+        return `import ${componentName} from './components/${importPath}';`;
     }).join('\n');
     
     const routes = pageRoutes.map((route, idx) => {
