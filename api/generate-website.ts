@@ -116,8 +116,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (qualityTier === 'production' || qualityTier === 'production-seo') {
             console.log('Starting production refinement...');
             sendProgress(res, 2, 'Refining for production quality...', 50);
-            finalComponents = await refineForProduction(genAI, finalComponents, sitewide, pages, pageRoutes, res);
-            console.log('Production refinement complete');
+            
+            // Add overall timeout protection (max 180 seconds for refinement)
+            try {
+                finalComponents = await Promise.race([
+                    refineForProduction(genAI, finalComponents, sitewide, pages, pageRoutes, res),
+                    new Promise<Array<{ name: string; content: string; route: string; pageInfo: any }>>((_, reject) =>
+                        setTimeout(() => reject(new Error('Refinement timed out after 3 minutes')), 180000)
+                    )
+                ]);
+                console.log('Production refinement complete');
+            } catch (refineError: any) {
+                console.error('Refinement timed out or failed:', refineError);
+                // Continue with original components if refinement fails
+                console.log('Continuing with original components due to timeout');
+            }
             
             // Update files with refined components
             finalFiles = finalFiles.map(file => {
@@ -133,8 +146,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (qualityTier === 'production-seo') {
             console.log('Starting SEO optimization...');
             sendProgress(res, 2, 'Optimizing for SEO...', 60);
-            finalComponents = await optimizeForSEO(genAI, finalComponents, sitewide, pages, pageRoutes, res);
-            console.log('SEO optimization complete');
+            
+            // Add overall timeout protection (max 120 seconds for SEO)
+            try {
+                finalComponents = await Promise.race([
+                    optimizeForSEO(genAI, finalComponents, sitewide, pages, pageRoutes, res),
+                    new Promise<Array<{ name: string; content: string; route: string; pageInfo: any }>>((_, reject) =>
+                        setTimeout(() => reject(new Error('SEO optimization timed out after 2 minutes')), 120000)
+                    )
+                ]);
+                console.log('SEO optimization complete');
+            } catch (seoError: any) {
+                console.error('SEO optimization timed out or failed:', seoError);
+                // Continue with current components if SEO fails
+                console.log('Continuing without SEO optimization due to timeout');
+            }
             
             // Update files with SEO-optimized components
             finalFiles = finalFiles.map(file => {
@@ -331,6 +357,20 @@ Keep it concise but comprehensive. Format as JSON with these keys: designApproac
     }
 }
 
+// Helper function to add timeout to Gemini API calls
+async function callGeminiWithTimeout(
+    chat: any,
+    message: string,
+    timeoutMs: number = 45000 // 45 second timeout per call
+): Promise<any> {
+    return Promise.race([
+        chat.sendMessage({ message }),
+        new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Gemini API call timed out')), timeoutMs)
+        )
+    ]);
+}
+
 // Refine all components for production quality with strict consistency checks
 async function refineForProduction(
     genAI: GoogleGenAI, 
@@ -340,7 +380,8 @@ async function refineForProduction(
     pageRoutes: any[],
     res?: VercelResponse
 ): Promise<Array<{ name: string; content: string; route: string; pageInfo: any }>> {
-    const model = 'gemini-3-pro-preview';
+    // Use faster model for refinement to avoid timeouts
+    const model = 'gemini-1.5-flash'; // Faster than gemini-3-pro-preview
     const refinedComponents = [];
     
     // First, get the Navbar component to ensure consistency
@@ -365,8 +406,8 @@ async function refineForProduction(
     
     console.log(`Refining ${componentsToRefine.length} components for production...`);
     
-    // Process in parallel batches of 3 to speed up
-    const batchSize = 3;
+    // Process in parallel batches of 4 to speed up (increased from 3)
+    const batchSize = 4;
     for (let batchStart = 0; batchStart < componentsToRefine.length; batchStart += batchSize) {
         const batch = componentsToRefine.slice(batchStart, batchStart + batchSize);
         const batchIndex = Math.floor(batchStart / batchSize);
@@ -490,21 +531,21 @@ Return ONLY the refined React component code. Do not include explanations or mar
                     }
                 });
 
-                // Retry logic for Gemini API calls
+                // Retry logic for Gemini API calls with timeout
                 let result;
-                let retries = 2;
+                let retries = 1; // Reduced retries to save time
                 let lastError: any;
                 
-                while (retries > 0) {
+                while (retries >= 0) {
                     try {
-                        result = await chat.sendMessage({ message: refinementPrompt });
+                        result = await callGeminiWithTimeout(chat, refinementPrompt, 40000); // 40 second timeout
                         break;
                     } catch (error: any) {
                         lastError = error;
                         retries--;
-                        if (retries > 0) {
+                        if (retries >= 0) {
                             console.warn(`Refinement failed for ${component.name}, retrying...`);
-                            await new Promise(resolve => setTimeout(resolve, 1000));
+                            await new Promise(resolve => setTimeout(resolve, 500)); // Shorter retry delay
                         }
                     }
                 }
@@ -561,8 +602,8 @@ async function optimizeForSEO(
     
     console.log(`Optimizing ${componentsToOptimize.length} components for SEO...`);
     
-    // Process in parallel batches of 3 to speed up
-    const batchSize = 3;
+    // Process in parallel batches of 4 to speed up (increased from 3)
+    const batchSize = 4;
     for (let batchStart = 0; batchStart < componentsToOptimize.length; batchStart += batchSize) {
         const batch = componentsToOptimize.slice(batchStart, batchStart + batchSize);
         const batchIndex = Math.floor(batchStart / batchSize);
@@ -663,21 +704,21 @@ Return ONLY the SEO-optimized React component code. Do not include explanations 
                     }
                 });
 
-                // Retry logic for Gemini API calls
+                // Retry logic for Gemini API calls with timeout
                 let result;
-                let retries = 2;
+                let retries = 1; // Reduced retries to save time
                 let lastError: any;
                 
-                while (retries > 0) {
+                while (retries >= 0) {
                     try {
-                        result = await chat.sendMessage({ message: seoPrompt });
+                        result = await callGeminiWithTimeout(chat, seoPrompt, 40000); // 40 second timeout
                         break;
                     } catch (error: any) {
                         lastError = error;
                         retries--;
-                        if (retries > 0) {
+                        if (retries >= 0) {
                             console.warn(`SEO optimization failed for ${component.name}, retrying...`);
-                            await new Promise(resolve => setTimeout(resolve, 1000));
+                            await new Promise(resolve => setTimeout(resolve, 500)); // Shorter retry delay
                         }
                     }
                 }
