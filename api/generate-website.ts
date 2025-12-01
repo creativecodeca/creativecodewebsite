@@ -380,8 +380,8 @@ async function refineForProduction(
     pageRoutes: any[],
     res?: VercelResponse
 ): Promise<Array<{ name: string; content: string; route: string; pageInfo: any }>> {
-    // Use faster model for refinement to avoid timeouts
-    const model = 'gemini-1.5-flash'; // Faster than gemini-3-pro-preview
+    // Use the same model as generation for consistency
+    const model = 'gemini-3-pro-preview';
     const refinedComponents = [];
     
     // First, get the Navbar component to ensure consistency
@@ -531,21 +531,35 @@ Return ONLY the refined React component code. Do not include explanations or mar
                     }
                 });
 
-                // Retry logic for Gemini API calls with timeout
+                // Retry logic for Gemini API calls with extended timeout
                 let result;
-                let retries = 1; // Reduced retries to save time
+                let retries = 3; // More retries for refinement
                 let lastError: any;
+                let refinementAttempt = 0;
                 
                 while (retries >= 0) {
+                    refinementAttempt++;
                     try {
-                        result = await callGeminiWithTimeout(chat, refinementPrompt, 40000); // 40 second timeout
-                        break;
+                        // Extended timeout for refinement - needs time to analyze and improve
+                        const timeoutMs = 90000 + (refinementAttempt * 10000); // 90s, 100s, 110s, 120s
+                        console.log(`Refinement attempt ${refinementAttempt} for ${component.name} with ${timeoutMs/1000}s timeout...`);
+                        result = await callGeminiWithTimeout(chat, refinementPrompt, timeoutMs);
+                        
+                        // Verify we got a valid response
+                        if (result && result.text && result.text.trim().length > 0) {
+                            console.log(`✓ Successfully refined ${component.name} on attempt ${refinementAttempt}`);
+                            break;
+                        } else {
+                            throw new Error('Empty or invalid response from Gemini API');
+                        }
                     } catch (error: any) {
                         lastError = error;
                         retries--;
                         if (retries >= 0) {
-                            console.warn(`Refinement failed for ${component.name}, retrying...`);
-                            await new Promise(resolve => setTimeout(resolve, 500)); // Shorter retry delay
+                            console.warn(`Refinement failed for ${component.name}, retrying... (${retries} attempts left)`, error?.message || error);
+                            // Exponential backoff
+                            const backoffMs = Math.min(1000 * Math.pow(2, refinementAttempt - 1), 5000);
+                            await new Promise(resolve => setTimeout(resolve, backoffMs));
                         }
                     }
                 }
@@ -704,21 +718,35 @@ Return ONLY the SEO-optimized React component code. Do not include explanations 
                     }
                 });
 
-                // Retry logic for Gemini API calls with timeout
+                // Retry logic for Gemini API calls with extended timeout
                 let result;
-                let retries = 1; // Reduced retries to save time
+                let retries = 3; // More retries for SEO optimization
                 let lastError: any;
+                let seoAttempt = 0;
                 
                 while (retries >= 0) {
+                    seoAttempt++;
                     try {
-                        result = await callGeminiWithTimeout(chat, seoPrompt, 40000); // 40 second timeout
-                        break;
+                        // Extended timeout for SEO optimization
+                        const timeoutMs = 90000 + (seoAttempt * 10000); // 90s, 100s, 110s, 120s
+                        console.log(`SEO optimization attempt ${seoAttempt} for ${component.name} with ${timeoutMs/1000}s timeout...`);
+                        result = await callGeminiWithTimeout(chat, seoPrompt, timeoutMs);
+                        
+                        // Verify we got a valid response
+                        if (result && result.text && result.text.trim().length > 0) {
+                            console.log(`✓ Successfully optimized ${component.name} for SEO on attempt ${seoAttempt}`);
+                            break;
+                        } else {
+                            throw new Error('Empty or invalid response from Gemini API');
+                        }
                     } catch (error: any) {
                         lastError = error;
                         retries--;
                         if (retries >= 0) {
-                            console.warn(`SEO optimization failed for ${component.name}, retrying...`);
-                            await new Promise(resolve => setTimeout(resolve, 500)); // Shorter retry delay
+                            console.warn(`SEO optimization failed for ${component.name}, retrying... (${retries} attempts left)`, error?.message || error);
+                            // Exponential backoff
+                            const backoffMs = Math.min(1000 * Math.pow(2, seoAttempt - 1), 5000);
+                            await new Promise(resolve => setTimeout(resolve, backoffMs));
                         }
                     }
                 }
@@ -1975,6 +2003,10 @@ BUTTONS (CRITICAL):
 - Primary buttons: "px-6 py-3 bg-[primary-color] text-white rounded-lg font-semibold hover:bg-[darker-color] transition-all hover:scale-105"
 - Secondary buttons: "px-6 py-3 border-2 border-[primary-color] text-[primary-color] rounded-lg font-semibold hover:bg-[primary-color] hover:text-white transition-all"
 - Buttons MUST look like buttons with padding, background, rounded corners
+- ALL buttons MUST have proper functionality:
+  * "Learn More" buttons MUST link to relevant sections using href="#section-id" or onClick handlers
+  * CTA buttons MUST have proper onClick handlers or href attributes
+  * NO placeholder buttons that don't do anything - every button must have a purpose
 
 HERO SECTION:
 - Full-width section with compelling design
@@ -1982,6 +2014,7 @@ HERO SECTION:
 - Subheadline: "text-xl md:text-2xl text-slate-300"
 - CTA button prominently placed
 - Background: gradient or image with overlay
+- IMPORTANT: The navbar is fixed with height 80px. Your hero section MUST start with padding-top: "pt-20" or "pt-24" on the first element to prevent content from being hidden behind the fixed navbar
 
 IMAGES:
 ${images.length > 0 ? `Available images (use ONLY if contextually relevant):
@@ -1994,10 +2027,11 @@ CONTENT SECTIONS:
 - Max width container: "max-w-7xl mx-auto"
 
 FOOTER (CRITICAL - MUST USE SHARED COMPONENT):
-- DO NOT create a custom footer
-- MUST import and use the shared Footer component: import Footer from '../components/Footer';
-- Use <Footer /> at the bottom of your component
-- The Footer component handles all footer content, links, and styling
+- DO NOT create a custom footer - the shared Footer component is already included in App.tsx
+- DO NOT import or use Footer component in your page component
+- DO NOT create any <footer> elements or footer content
+- The Footer component is automatically rendered by App.tsx and wraps all pages
+- Your component should end with your content sections, NOT a footer
 ${images.length > 0 ? '- Footer includes attribution link automatically' : ''}
 
 FORMS:
@@ -2051,14 +2085,20 @@ CRITICAL REQUIREMENTS:
 6. Use the SAME header and footer structure as Home
 
 HEADER (CRITICAL - MUST USE SHARED COMPONENT):
-- DO NOT create a custom header/navbar
-- MUST import and use the shared Navbar component: import Navbar from '../components/Navbar';
-- Use <Navbar /> at the top of your component
-- This ensures perfect consistency across all pages
+- DO NOT create a custom header/navbar - the shared Navbar component is already included in App.tsx
+- DO NOT import or use Navbar component in your page component
+- DO NOT create any <header> or <nav> elements
+- The Navbar component is automatically rendered by App.tsx and wraps all pages
+- Your component should start with your content (hero section, etc.), NOT a header/navbar
+- IMPORTANT: The navbar is fixed with height 80px. Your first element MUST have padding-top: "pt-20" or "pt-24" to prevent content from being hidden behind the fixed navbar
 
 BUTTONS:
 - Use <button> elements for CTAs
 - Same button classes as Home component
+- ALL buttons MUST have proper functionality:
+  * "Learn More" buttons MUST link to relevant sections using onClick handlers that scroll to sections
+  * CTA buttons MUST have proper onClick handlers
+  * NO placeholder buttons - every button must work
 
 IMAGES:
 ${images.length > 0 ? `Available images (use ONLY if relevant):
@@ -2067,6 +2107,7 @@ ${images.map((img, idx) => `   Image ${idx + 1}: ${img.url}`).join('\n')}` : 'Us
 CONTENT:
 - Match Home component's spacing and layout patterns
 - Use same card styles, typography scale, and color scheme
+- IMPORTANT: The navbar is fixed with height 80px. Your first element MUST have padding-top: "pt-20" or "pt-24" to prevent content from being hidden behind the fixed navbar
 
 SEO:
 - Use React Helmet Async (import { Helmet } from 'react-helmet-async') with page-specific title and description
@@ -2571,7 +2612,7 @@ function App() {
     <HelmetProvider>
       <div className="min-h-screen bg-[#020202] text-slate-200">
         <Navbar />
-        <main>
+        <main className="pt-20">
           <Routes>
             ${routes}
           </Routes>
@@ -2583,6 +2624,26 @@ function App() {
 }
 
 export default App;`;
+}
+
+// Helper function to parse colors from sitewide.colors string
+function parseColors(colorsString: string): { primary: string; secondary: string; accent: string } {
+    const colors = colorsString.split(',').map(c => c.trim()).filter(c => c);
+    const primary = colors[0] || '#D32F2F'; // Default vibrant red
+    const secondary = colors[1] || '#FFC107'; // Default yellow/gold
+    const accent = colors[2] || '#263238'; // Default dark gray
+    
+    // Extract hex codes if they exist
+    const hexMatch = (color: string) => {
+        const hex = color.match(/#[0-9A-Fa-f]{6}/)?.[0];
+        return hex || color;
+    };
+    
+    return {
+        primary: hexMatch(primary),
+        secondary: hexMatch(secondary),
+        accent: hexMatch(accent)
+    };
 }
 
 function generateNavbarComponent(pageRoutes: any[], sitewide: any): string {
@@ -2605,33 +2666,34 @@ const Navbar: React.FC = () => {
   const location = useLocation();
 
   return (
-    <nav className="fixed z-50 w-full top-0 bg-[#020202]/60 backdrop-blur-[20px] border-b border-white/10">
+    <nav className="fixed z-50 w-full top-0 bg-[#020202] border-b border-white/10 shadow-lg" style={{ willChange: 'transform' }}>
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <Link
           to="/"
-          className="text-white font-semibold tracking-tighter text-lg flex items-center gap-3"
+          className="text-white font-semibold tracking-tighter text-lg flex items-center gap-3 hover:opacity-80 transition-opacity"
         >
           <span>${sitewide.companyName}</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-10 text-sm font-semibold uppercase tracking-wider">
+        <div className="hidden md:flex items-center gap-10 text-sm font-semibold uppercase tracking-wider transition-opacity duration-200">
 ${navLinks}
         </div>
 
         <button
-          className="md:hidden text-white"
+          className="md:hidden text-white hover:opacity-80 transition-opacity"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#020202]/95 backdrop-blur-[20px] border-t border-white/10">
+        <div className="md:hidden bg-[#020202] border-t border-white/10">
           <div className="flex flex-col p-6 gap-4">
 ${pageRoutes.map(route => `            <Link
               to="${route.route}"
-              className={\`hover:text-white transition-all \${location.pathname === '${route.route}' ? 'text-white' : 'text-slate-400'}\`}
+              className={\`hover:text-white transition-all duration-200 \${location.pathname === '${route.route}' ? 'text-white' : 'text-slate-400'}\`}
               onClick={() => setMobileMenuOpen(false)}
             >
               ${route.route === '/' ? 'Home' : route.title}
@@ -2647,16 +2709,21 @@ export default Navbar;`;
 }
 
 function generateFooterComponent(pageRoutes: any[], sitewide: any, hasAttributions: boolean): string {
+    const colors = parseColors(sitewide.colors || '');
     const footerLinks = pageRoutes.map(route => {
-        return `            <Link to="${route.route}" className="text-slate-400 hover:text-white transition-colors">
+        return `            <Link to="${route.route}" className="text-slate-400 hover:text-white transition-colors duration-200">
               ${route.route === '/' ? 'Home' : route.title}
             </Link>`;
     }).join('\n');
     
     const attributionLink = hasAttributions ? `
-            <Link to="/attributions" className="text-slate-400 hover:text-white transition-colors">
+            <Link to="/attributions" className="text-slate-400 hover:text-white transition-colors duration-200">
               Photo Credits
             </Link>` : '';
+    
+    // Use brand colors for accents
+    const borderColor = colors.primary || '#D32F2F';
+    const accentColor = colors.secondary || '#FFC107';
     
     return `import React from 'react';
 import { Link } from 'react-router-dom';
@@ -2664,34 +2731,38 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#0a0a0a] border-t border-white/10 mt-20">
+    <footer className="bg-[#0a0a0a] border-t" style={{ borderColor: '${borderColor}40' }}>
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-white font-semibold text-lg mb-4">${sitewide.companyName}</h3>
+            <h3 className="text-white font-semibold text-lg mb-4">
+              ${sitewide.companyName}
+              ${colors.primary ? `<span style={{ color: '${colors.primary}' }}> </span>` : ''}
+            </h3>
             <p className="text-slate-400 text-sm">${sitewide.industry}</p>
+            ${sitewide.brandThemes ? `<p className="text-slate-500 text-xs mt-2">${sitewide.brandThemes}</p>` : ''}
           </div>
           
           <div>
-            <h3 className="text-white font-semibold text-lg mb-4">Quick Links</h3>
+            <h3 className="text-white font-semibold text-lg mb-4" style={{ color: '${accentColor}' }}>Quick Links</h3>
             <div className="flex flex-col gap-2">
 ${footerLinks}${attributionLink}
             </div>
           </div>
           
           <div>
-            <h3 className="text-white font-semibold text-lg mb-4">Contact Us</h3>
+            <h3 className="text-white font-semibold text-lg mb-4" style={{ color: '${accentColor}' }}>Contact Us</h3>
             <div className="flex flex-col gap-2 text-slate-400 text-sm">
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" />
+                <MapPin className="w-4 h-4" style={{ color: '${colors.primary}' }} />
                 <span>${sitewide.fullAddress}</span>
               </div>
-              <a href="tel:${sitewide.phoneNumber}" className="flex items-center gap-2 hover:text-white transition-colors">
-                <Phone className="w-4 h-4" />
+              <a href="tel:${sitewide.phoneNumber.replace(/\s+/g, '')}" className="flex items-center gap-2 hover:text-white transition-colors duration-200">
+                <Phone className="w-4 h-4" style={{ color: '${colors.primary}' }} />
                 <span>${sitewide.phoneNumber}</span>
               </a>
-              <a href="mailto:${sitewide.email}" className="flex items-center gap-2 hover:text-white transition-colors">
-                <Mail className="w-4 h-4" />
+              <a href="mailto:${sitewide.email}" className="flex items-center gap-2 hover:text-white transition-colors duration-200">
+                <Mail className="w-4 h-4" style={{ color: '${colors.primary}' }} />
                 <span>${sitewide.email}</span>
               </a>
             </div>

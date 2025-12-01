@@ -759,7 +759,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-3xl font-bold text-white flex items-center gap-3">
                         <History className="w-8 h-8 text-emerald-500" />
-                        Generation History
+                        Previously Generated Sites
                     </h2>
                     <button
                         onClick={() => setShowHistory(false)}
@@ -773,8 +773,8 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                 {generationHistory.length === 0 ? (
                     <div className="text-center py-12">
                         <History className="w-16 h-16 text-slate-500 mx-auto mb-4" />
-                        <p className="text-slate-400">No generation history yet.</p>
-                        <p className="text-slate-500 text-sm mt-2">Your website generation attempts will appear here.</p>
+                        <p className="text-slate-400">No previously generated sites yet.</p>
+                        <p className="text-slate-500 text-sm mt-2">Your successfully generated websites will appear here.</p>
                     </div>
                 ) : (
                     <div className="space-y-4">
@@ -819,6 +819,33 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
 
                                 {item.status === 'success' && (
                                     <div className="flex flex-wrap gap-3">
+                                        {item.vercelUrl && (
+                                            <>
+                                                <a
+                                                    href={item.vercelUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-500/30 rounded-lg text-emerald-400 hover:bg-emerald-500/30 transition-colors text-sm"
+                                                >
+                                                    View Live Site
+                                                    <ExternalLink className="w-3 h-3" />
+                                                </a>
+                                                {item.repoUrl && (
+                                                    <button
+                                                        onClick={() => setEditingSite({
+                                                            id: item.id,
+                                                            repoUrl: item.repoUrl!,
+                                                            vercelUrl: item.vercelUrl,
+                                                            companyName: item.companyName
+                                                        })}
+                                                        className="flex items-center gap-2 px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-lg text-purple-400 hover:bg-purple-500/30 transition-colors text-sm"
+                                                    >
+                                                        <Sparkles className="w-4 h-4" />
+                                                        AI Edit
+                                                    </button>
+                                                )}
+                                            </>
+                                        )}
                                         {item.repoUrl && (
                                             <a
                                                 href={item.repoUrl}
@@ -828,17 +855,6 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                             >
                                                 <Github className="w-4 h-4" />
                                                 GitHub
-                                                <ExternalLink className="w-3 h-3" />
-                                            </a>
-                                        )}
-                                        {item.vercelUrl && (
-                                            <a
-                                                href={item.vercelUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-500/30 rounded-lg text-emerald-400 hover:bg-emerald-500/30 transition-colors text-sm"
-                                            >
-                                                Live Site
                                                 <ExternalLink className="w-3 h-3" />
                                             </a>
                                         )}
@@ -871,18 +887,6 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                                 Regenerate
                                             </button>
                                         )}
-                                        <button
-                                            onClick={() => setEditingSite({
-                                                id: item.id,
-                                                repoUrl: item.repoUrl!,
-                                                vercelUrl: item.vercelUrl,
-                                                companyName: item.companyName
-                                            })}
-                                            className="flex items-center gap-2 px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-lg text-purple-400 hover:bg-purple-500/30 transition-colors text-sm"
-                                        >
-                                            <Sparkles className="w-4 h-4" />
-                                            AI Edit
-                                        </button>
                                     </div>
                                 )}
                                 
