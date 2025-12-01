@@ -479,12 +479,8 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                 });
                                 
                                 // History is saved via saveToHistory above
-                                    if (onSiteGenerated) {
-                                        onSiteGenerated();
-                                    }
-                                } catch (saveError) {
-                                    console.error('Failed to save site to dashboard:', saveError);
-                                    // Don't block the user if saving fails
+                                if (onSiteGenerated) {
+                                    onSiteGenerated();
                                 }
                             }
                         } catch (e) {
