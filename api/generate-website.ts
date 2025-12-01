@@ -114,8 +114,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         // Step 2.5: Refine for production if needed
         if (qualityTier === 'production' || qualityTier === 'production-seo') {
+            console.log('Starting production refinement...');
             sendProgress(res, 2, 'Refining for production quality...', 50);
             finalComponents = await refineForProduction(genAI, finalComponents, sitewide, pages, pageRoutes, res);
+            console.log('Production refinement complete');
             
             // Update files with refined components
             finalFiles = finalFiles.map(file => {
@@ -129,8 +131,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         // Step 2.6: Optimize for SEO if needed
         if (qualityTier === 'production-seo') {
+            console.log('Starting SEO optimization...');
             sendProgress(res, 2, 'Optimizing for SEO...', 60);
             finalComponents = await optimizeForSEO(genAI, finalComponents, sitewide, pages, pageRoutes, res);
+            console.log('SEO optimization complete');
             
             // Update files with SEO-optimized components
             finalFiles = finalFiles.map(file => {
@@ -343,20 +347,42 @@ async function refineForProduction(
     const navbarComponent = components.find(c => c.name === 'Navbar.tsx');
     const navbarContent = navbarComponent?.content || '';
     
-    for (let i = 0; i < components.length; i++) {
-        const component = components[i];
-        
-        // Skip Navbar and Footer - they're shared components
-        if (component.name === 'Navbar.tsx' || component.name === 'Footer.tsx' || component.name === 'Attributions.tsx') {
-            refinedComponents.push(component);
-            continue;
-        }
+    // Process components in parallel batches for speed
+    const componentsToRefine = components.filter(c => 
+        c.name !== 'Navbar.tsx' && 
+        c.name !== 'Footer.tsx' && 
+        c.name !== 'Attributions.tsx'
+    );
+    
+    const sharedComponents = components.filter(c => 
+        c.name === 'Navbar.tsx' || 
+        c.name === 'Footer.tsx' || 
+        c.name === 'Attributions.tsx'
+    );
+    
+    // Add shared components first
+    refinedComponents.push(...sharedComponents);
+    
+    console.log(`Refining ${componentsToRefine.length} components for production...`);
+    
+    // Process in parallel batches of 3 to speed up
+    const batchSize = 3;
+    for (let batchStart = 0; batchStart < componentsToRefine.length; batchStart += batchSize) {
+        const batch = componentsToRefine.slice(batchStart, batchStart + batchSize);
+        const batchIndex = Math.floor(batchStart / batchSize);
+        const totalBatches = Math.ceil(componentsToRefine.length / batchSize);
         
         if (res) {
-            sendProgress(res, 2, `Refining ${component.pageInfo.title} for production...`, 50 + (i * 10 / components.length));
+            sendProgress(res, 2, `Refining components (${batchStart + 1}-${Math.min(batchStart + batchSize, componentsToRefine.length)}/${componentsToRefine.length})...`, 
+                50 + (batchIndex * 30 / totalBatches));
         }
         
-        const refinementPrompt = `You are a senior web developer and design expert. Review and refine this React component to ensure ABSOLUTELY PERFECT production-ready quality.
+        // Process batch in parallel
+        const batchResults = await Promise.all(
+            batch.map(async (component) => {
+                console.log(`Refining component: ${component.name}`);
+
+                const refinementPrompt = `You are a senior web developer and design expert. Review and refine this React component to ensure ABSOLUTELY PERFECT production-ready quality.
 
 CRITICAL REFINEMENT CHECKLIST - EVERY ITEM MUST BE PERFECT:
 
@@ -457,21 +483,49 @@ CRITICAL: The header/navbar MUST use the shared Navbar component. DO NOT create 
 
 Return ONLY the refined React component code. Do not include explanations or markdown formatting. Start directly with the component code. Ensure it's absolutely perfect with zero inconsistencies.`;
 
-        const chat = genAI.chats.create({
-            model: model,
-            config: {
-                systemInstruction: 'You are a senior React developer and design expert specializing in production-ready websites. You ensure ABSOLUTE PERFECTION with zero design inconsistencies, perfect headers, and flawless code quality. You are extremely detail-oriented and catch every single error or inconsistency.'
-            }
-        });
+                const chat = genAI.chats.create({
+                    model: model,
+                    config: {
+                        systemInstruction: 'You are a senior React developer and design expert specializing in production-ready websites. You ensure ABSOLUTE PERFECTION with zero design inconsistencies, perfect headers, and flawless code quality. You are extremely detail-oriented and catch every single error or inconsistency.'
+                    }
+                });
 
-        const result = await chat.sendMessage({ message: refinementPrompt });
-        let refinedContent = result.text.replace(/```tsx\n?/g, '').replace(/```ts\n?/g, '').replace(/```jsx\n?/g, '').replace(/```javascript\n?/g, '').replace(/```\n?/g, '').trim();
-        refinedContent = cleanReactContent(refinedContent, sitewide);
+                // Retry logic for Gemini API calls
+                let result;
+                let retries = 2;
+                let lastError: any;
+                
+                while (retries > 0) {
+                    try {
+                        result = await chat.sendMessage({ message: refinementPrompt });
+                        break;
+                    } catch (error: any) {
+                        lastError = error;
+                        retries--;
+                        if (retries > 0) {
+                            console.warn(`Refinement failed for ${component.name}, retrying...`);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
+                    }
+                }
+                
+                if (!result) {
+                    console.error(`Failed to refine ${component.name} after retries, using original`);
+                    return component; // Return original if refinement fails
+                }
+                
+                let refinedContent = result.text.replace(/```tsx\n?/g, '').replace(/```ts\n?/g, '').replace(/```jsx\n?/g, '').replace(/```javascript\n?/g, '').replace(/```\n?/g, '').trim();
+                refinedContent = cleanReactContent(refinedContent, sitewide);
+                
+                return {
+                    ...component,
+                    content: refinedContent
+                };
+            })
+        );
         
-        refinedComponents.push({
-            ...component,
-            content: refinedContent
-        });
+        refinedComponents.push(...batchResults);
+        console.log(`Completed batch ${batchIndex + 1}/${totalBatches}`);
     }
     
     return refinedComponents;
@@ -489,20 +543,42 @@ async function optimizeForSEO(
     const model = 'gemini-3-pro-preview';
     const seoOptimizedComponents = [];
     
-    for (let i = 0; i < components.length; i++) {
-        const component = components[i];
-        
-        // Skip shared components
-        if (component.name === 'Navbar.tsx' || component.name === 'Footer.tsx' || component.name === 'Attributions.tsx') {
-            seoOptimizedComponents.push(component);
-            continue;
-        }
+    // Process components in parallel batches for speed
+    const componentsToOptimize = components.filter(c => 
+        c.name !== 'Navbar.tsx' && 
+        c.name !== 'Footer.tsx' && 
+        c.name !== 'Attributions.tsx'
+    );
+    
+    const sharedComponents = components.filter(c => 
+        c.name === 'Navbar.tsx' || 
+        c.name === 'Footer.tsx' || 
+        c.name === 'Attributions.tsx'
+    );
+    
+    // Add shared components first
+    seoOptimizedComponents.push(...sharedComponents);
+    
+    console.log(`Optimizing ${componentsToOptimize.length} components for SEO...`);
+    
+    // Process in parallel batches of 3 to speed up
+    const batchSize = 3;
+    for (let batchStart = 0; batchStart < componentsToOptimize.length; batchStart += batchSize) {
+        const batch = componentsToOptimize.slice(batchStart, batchStart + batchSize);
+        const batchIndex = Math.floor(batchStart / batchSize);
+        const totalBatches = Math.ceil(componentsToOptimize.length / batchSize);
         
         if (res) {
-            sendProgress(res, 2, `Optimizing ${component.pageInfo.title} for SEO...`, 60 + (i * 10 / components.length));
+            sendProgress(res, 2, `Optimizing for SEO (${batchStart + 1}-${Math.min(batchStart + batchSize, componentsToOptimize.length)}/${componentsToOptimize.length})...`, 
+                60 + (batchIndex * 20 / totalBatches));
         }
         
-        const seoPrompt = `You are an SEO expert. Optimize this React component for maximum search engine visibility while maintaining perfect design quality.
+        // Process batch in parallel
+        const batchResults = await Promise.all(
+            batch.map(async (component) => {
+                console.log(`SEO optimizing component: ${component.name}`);
+
+                const seoPrompt = `You are an SEO expert. Optimize this React component for maximum search engine visibility while maintaining perfect design quality.
 
 CRITICAL SEO OPTIMIZATION CHECKLIST:
 
@@ -580,21 +656,49 @@ Site Information:
 
 Return ONLY the SEO-optimized React component code. Do not include explanations or markdown formatting. Start directly with the component code. Maintain perfect design quality while optimizing for SEO.`;
 
-        const chat = genAI.chats.create({
-            model: model,
-            config: {
-                systemInstruction: 'You are an SEO expert specializing in React/Next.js optimization. You optimize components for maximum search engine visibility while maintaining perfect design quality and zero inconsistencies.'
-            }
-        });
+                const chat = genAI.chats.create({
+                    model: model,
+                    config: {
+                        systemInstruction: 'You are an SEO expert specializing in React/Next.js optimization. You optimize components for maximum search engine visibility while maintaining perfect design quality and zero inconsistencies.'
+                    }
+                });
 
-        const result = await chat.sendMessage({ message: seoPrompt });
-        let seoContent = result.text.replace(/```tsx\n?/g, '').replace(/```ts\n?/g, '').replace(/```jsx\n?/g, '').replace(/```javascript\n?/g, '').replace(/```\n?/g, '').trim();
-        seoContent = cleanReactContent(seoContent, sitewide);
+                // Retry logic for Gemini API calls
+                let result;
+                let retries = 2;
+                let lastError: any;
+                
+                while (retries > 0) {
+                    try {
+                        result = await chat.sendMessage({ message: seoPrompt });
+                        break;
+                    } catch (error: any) {
+                        lastError = error;
+                        retries--;
+                        if (retries > 0) {
+                            console.warn(`SEO optimization failed for ${component.name}, retrying...`);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
+                    }
+                }
+                
+                if (!result) {
+                    console.error(`Failed to optimize ${component.name} for SEO after retries, using original`);
+                    return component; // Return original if optimization fails
+                }
+                
+                let seoContent = result.text.replace(/```tsx\n?/g, '').replace(/```ts\n?/g, '').replace(/```jsx\n?/g, '').replace(/```javascript\n?/g, '').replace(/```\n?/g, '').trim();
+                seoContent = cleanReactContent(seoContent, sitewide);
+                
+                return {
+                    ...component,
+                    content: seoContent
+                };
+            })
+        );
         
-        seoOptimizedComponents.push({
-            ...component,
-            content: seoContent
-        });
+        seoOptimizedComponents.push(...batchResults);
+        console.log(`Completed SEO batch ${batchIndex + 1}/${totalBatches}`);
     }
     
     return seoOptimizedComponents;
