@@ -830,8 +830,8 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                                 GitHub
                                                 <ExternalLink className="w-3 h-3" />
                                             </a>
-                                        ) : null}
-                                        {item.vercelUrl ? (
+                                        )}
+                                        {item.vercelUrl && (
                                             <a
                                                 href={item.vercelUrl}
                                                 target="_blank"
@@ -841,8 +841,8 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                                 Live Site
                                                 <ExternalLink className="w-3 h-3" />
                                             </a>
-                                        ) : null}
-                                        {item.projectUrl ? (
+                                        )}
+                                        {item.projectUrl && (
                                             <a
                                                 href={item.projectUrl}
                                                 target="_blank"
