@@ -2798,16 +2798,22 @@ function generateNavbarComponent(pageRoutes: any[], sitewide: any): string {
     const bgColor = sitewide.colors ? primaryColor : '#020202';
     // Create a darker version of primary color for navbar (if it's too bright)
     const isLightColor = (color: string) => {
-        const hex = color.replace('#', '');
-        const r = parseInt(hex.substr(0, 2), 16);
-        const g = parseInt(hex.substr(2, 2), 16);
-        const b = parseInt(hex.substr(4, 2), 16);
-        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-        return brightness > 128;
+        if (!color || !color.startsWith('#')) return false;
+        try {
+            const hex = color.replace('#', '');
+            if (hex.length !== 6) return false;
+            const r = parseInt(hex.substr(0, 2), 16);
+            const g = parseInt(hex.substr(2, 2), 16);
+            const b = parseInt(hex.substr(4, 2), 16);
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+            return brightness > 128;
+        } catch {
+            return false;
+        }
     };
-    const navbarBgColor = sitewide.colors && isLightColor(primaryColor) 
+    const navbarBgColor = sitewide.colors && primaryColor && isLightColor(primaryColor) 
         ? `rgba(${parseInt(primaryColor.slice(1, 3), 16)}, ${parseInt(primaryColor.slice(3, 5), 16)}, ${parseInt(primaryColor.slice(5, 7), 16)}, 0.95)`
-        : bgColor;
+        : (sitewide.colors ? primaryColor : '#020202');
     const logoUrl = sitewide.logoUrl || sitewide.companyLogo || '';
     const companyName = sitewide.companyName || 'Company';
     const brandThemes = sitewide.brandThemes || '';
@@ -2826,7 +2832,25 @@ function generateNavbarComponent(pageRoutes: any[], sitewide: any): string {
         ? 'refined, sophisticated, elegant shadow'
         : 'professional, balanced';
     
-    const borderColor = sitewide.colors ? `rgba(${parseInt(primaryColor.slice(1, 3), 16)}, ${parseInt(primaryColor.slice(3, 5), 16)}, ${parseInt(primaryColor.slice(5, 7), 16)}, 0.2)` : 'rgba(255, 255, 255, 0.1)';
+    // Calculate border color from primary color
+    let borderColor = 'rgba(255, 255, 255, 0.1)';
+    if (sitewide.colors && primaryColor && primaryColor.startsWith('#')) {
+        try {
+            const r = parseInt(primaryColor.slice(1, 3), 16);
+            const g = parseInt(primaryColor.slice(3, 5), 16);
+            const b = parseInt(primaryColor.slice(5, 7), 16);
+            borderColor = `rgba(${r}, ${g}, ${b}, 0.2)`;
+        } catch {
+            borderColor = 'rgba(255, 255, 255, 0.1)';
+        }
+    }
+    
+    // Escape strings for use in template literal
+    const escapedLogoUrl = logoUrl.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+    const escapedCompanyName = companyName.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+    const escapedBgColor = navbarBgColor.replace(/'/g, "\\'");
+    const escapedPrimaryColor = primaryColor.replace(/'/g, "\\'");
+    const escapedBorderColor = borderColor.replace(/'/g, "\\'");
     
     return `import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
@@ -2836,11 +2860,11 @@ const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   
-  const bgColor = '${navbarBgColor}';
-  const logoUrl = '${logoUrl}';
-  const primaryColor = '${primaryColor}';
-  const borderColor = '${borderColor}';
-  const companyName = '${companyName}';
+  const bgColor = '${escapedBgColor}';
+  const logoUrl = '${escapedLogoUrl}';
+  const primaryColor = '${escapedPrimaryColor}';
+  const borderColor = '${escapedBorderColor}';
+  const companyName = '${escapedCompanyName}';
 
   return (
     <nav 
@@ -2907,8 +2931,6 @@ ${pageRoutes
     </nav>
   );
 };
-
-export default Navbar;
 
 export default Navbar;`;
 }
