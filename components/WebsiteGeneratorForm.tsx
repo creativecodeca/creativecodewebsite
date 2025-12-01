@@ -90,6 +90,9 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
         vercelUrl?: string;
         projectUrl?: string;
         formData?: FormData; // Store full form data for regeneration
+        githubExists?: boolean;
+        vercelDeployed?: boolean;
+        vercelStatus?: string;
     }>>([]);
     const [editingSite, setEditingSite] = useState<{
         id: string;
@@ -102,90 +105,99 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
     const [editProgress, setEditProgress] = useState<{ message: string; percentage: number }>({ message: '', percentage: 0 });
     const formContainerRef = useRef<HTMLDivElement>(null);
 
-    // Load history from localStorage on mount
+    // Load history from server API on mount
     useEffect(() => {
-        try {
-            const saved = localStorage.getItem('websiteGenerationHistory');
-            console.log('Loading history from localStorage:', saved ? 'Found data' : 'No data found');
-            
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    console.log('Parsed history items:', parsed.length);
+        const loadHistory = async () => {
+            try {
+                const response = await fetch('/api/get-sites');
+                if (response.ok) {
+                    const data = await response.json();
+                    const sites = data.sites || [];
                     
-                    // Ensure all items have proper structure
-                    const cleaned = parsed.map((item: any) => ({
-                        ...item,
-                        companyName: item.companyName || 'Untitled Website',
-                        status: item.status || 'failed',
-                        timestamp: item.timestamp || Date.now()
+                    // Convert to history format
+                    const historyItems = sites.map((site: any) => ({
+                        id: site.id,
+                        timestamp: new Date(site.createdAt).getTime(),
+                        companyName: site.companyName,
+                        status: site.status || (site.vercelDeployed ? 'success' : 'failed'),
+                        repoUrl: site.repoUrl,
+                        vercelUrl: site.vercelDeployed ? site.vercelUrl : undefined,
+                        projectUrl: site.projectUrl,
+                        error: site.error,
+                        formData: site.formData,
+                        // Add status indicators
+                        githubExists: site.githubExists,
+                        vercelDeployed: site.vercelDeployed,
+                        vercelStatus: site.vercelStatus
                     }));
                     
-                    console.log('Cleaned history items:', cleaned.length);
-                    setGenerationHistory(cleaned);
-                } catch (e) {
-                    console.error('Failed to parse generation history:', e);
-                    // Try to recover by clearing corrupted data
-                    localStorage.removeItem('websiteGenerationHistory');
+                    console.log('Loaded sites from server:', historyItems.length);
+                    setGenerationHistory(historyItems);
+                } else {
+                    console.error('Failed to load sites from server');
                     setGenerationHistory([]);
                 }
-            } else {
-                console.log('No history found in localStorage');
+            } catch (e) {
+                console.error('Error loading sites:', e);
                 setGenerationHistory([]);
             }
-        } catch (e) {
-            console.error('Failed to access localStorage:', e);
-            setGenerationHistory([]);
-        }
+        };
+        
+        loadHistory();
     }, []);
 
-    // Save generation to history
-    const saveToHistory = (result: {
+    // Save generation to history (server-side)
+    const saveToHistory = async (result: {
         repoUrl?: string;
         vercelUrl?: string;
         projectUrl?: string;
         error?: string;
     }) => {
         try {
-            const historyItem = {
-                id: Date.now().toString(),
-                timestamp: Date.now(),
-                companyName: formData.companyName,
-                status: result.error ? 'failed' as const : 'success' as const,
-                formData: { ...formData }, // Store full form data for regeneration
-                ...result
-            };
-            
-            // Get current history from state (or localStorage as fallback)
-            const currentHistory = generationHistory.length > 0 
-                ? generationHistory 
-                : (() => {
-                    try {
-                        const saved = localStorage.getItem('websiteGenerationHistory');
-                        return saved ? JSON.parse(saved) : [];
-                    } catch {
-                        return [];
-                    }
-                })();
-            
-            const updated = [historyItem, ...currentHistory].slice(0, 50); // Keep last 50
-            console.log('Saving to history:', { item: historyItem, totalItems: updated.length });
-            
-            setGenerationHistory(updated);
-            localStorage.setItem('websiteGenerationHistory', JSON.stringify(updated));
-            console.log('History saved to localStorage successfully');
+            // Save to server
+            const response = await fetch('/api/save-site', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    companyName: formData.companyName,
+                    repoUrl: result.repoUrl,
+                    vercelUrl: result.vercelUrl,
+                    projectUrl: result.projectUrl,
+                    industry: formData.industry,
+                    status: result.error ? 'failed' : 'success',
+                    error: result.error,
+                    formData: { ...formData }
+                })
+            });
+
+            if (response.ok) {
+                console.log('Site saved to server successfully');
+                // Reload history from server to get updated status
+                const historyResponse = await fetch('/api/get-sites');
+                if (historyResponse.ok) {
+                    const data = await historyResponse.json();
+                    const sites = data.sites || [];
+                    const historyItems = sites.map((site: any) => ({
+                        id: site.id,
+                        timestamp: new Date(site.createdAt).getTime(),
+                        companyName: site.companyName,
+                        status: site.status || (site.vercelDeployed ? 'success' : 'failed'),
+                        repoUrl: site.repoUrl,
+                        vercelUrl: site.vercelDeployed ? site.vercelUrl : undefined,
+                        projectUrl: site.projectUrl,
+                        error: site.error,
+                        formData: site.formData,
+                        githubExists: site.githubExists,
+                        vercelDeployed: site.vercelDeployed,
+                        vercelStatus: site.vercelStatus
+                    }));
+                    setGenerationHistory(historyItems);
+                }
+            } else {
+                console.error('Failed to save site to server');
+            }
         } catch (e) {
-            console.error('Failed to save generation history:', e);
-            // Still update state even if localStorage fails
-            const historyItem = {
-                id: Date.now().toString(),
-                timestamp: Date.now(),
-                companyName: formData.companyName,
-                status: result.error ? 'failed' as const : 'success' as const,
-                formData: { ...formData },
-                ...result
-            };
-            setGenerationHistory([historyItem, ...generationHistory].slice(0, 50));
+            console.error('Error saving site to server:', e);
         }
     };
 
@@ -447,7 +459,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                             if (data.success === false && data.error) {
                                 setGenerationResult({ error: data.error });
                                 setGenerationProgress({ step: 0, message: 'Error occurred', percentage: 0 });
-                                saveToHistory({ error: data.error });
+                                await saveToHistory({ error: data.error });
                                 return;
                             }
                             
@@ -459,27 +471,14 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                     projectUrl: data.projectUrl,
                                 });
                                 
-                                // Save to history
-                                saveToHistory({
+                                // Save to history (server-side)
+                                await saveToHistory({
                                     repoUrl: data.repoUrl,
                                     vercelUrl: data.vercelUrl,
                                     projectUrl: data.projectUrl,
                                 });
                                 
-                                // Save to dashboard
-                                try {
-                                    await fetch('/api/save-site', {
-                                        method: 'POST',
-                                        headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify({
-                                            companyName: formData.companyName,
-                                            repoUrl: data.repoUrl,
-                                            vercelUrl: data.vercelUrl,
-                                            projectUrl: data.projectUrl,
-                                            industry: formData.industry,
-                                        }),
-                                    });
-                                    // Refresh the sites list
+                                // History is saved via saveToHistory above
                                     if (onSiteGenerated) {
                                         onSiteGenerated();
                                     }
@@ -501,7 +500,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
             setGenerationProgress({ step: 0, message: 'Error occurred', percentage: 0 });
             
             // Save failed attempt to history
-            saveToHistory({ error: errorMessage });
+            await saveToHistory({ error: errorMessage });
         } finally {
             setIsSubmitting(false);
         }
@@ -865,7 +864,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
 
                                 {item.status === 'success' && (
                                     <div className="flex flex-wrap gap-3">
-                                        {item.vercelUrl && (
+                                        {item.vercelDeployed && item.vercelUrl ? (
                                             <>
                                                 <a
                                                     href={item.vercelUrl}
@@ -891,6 +890,11 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                                     </button>
                                                 )}
                                             </>
+                                        ) : (
+                                            <div className="flex items-center gap-2 px-4 py-2 bg-amber-500/20 border border-amber-500/30 rounded-lg text-amber-400 text-sm">
+                                                <Clock className="w-4 h-4" />
+                                                {item.vercelStatus === 'building' ? 'Deployment in progress...' : 'Not currently deployed'}
+                                            </div>
                                         )}
                                         {item.repoUrl && (
                                             <a

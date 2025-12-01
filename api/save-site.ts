@@ -23,6 +23,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 return res.status(400).json({ error: 'Missing required fields' });
             }
 
+            const { status, error, formData } = req.body;
+            
             const newSite: SavedSite = {
                 id: Date.now().toString(),
                 companyName,
@@ -31,12 +33,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 projectUrl,
                 createdAt: new Date().toISOString(),
                 industry,
+                status: status || (error ? 'failed' : 'success'),
+                error,
+                formData,
             };
 
-            savedSites.unshift(newSite); // Add to beginning
+            // Check if site already exists (by repoUrl) and update it, otherwise add new
+            const existingIndex = savedSites.findIndex(s => s.repoUrl === repoUrl);
+            if (existingIndex >= 0) {
+                savedSites[existingIndex] = newSite; // Update existing
+            } else {
+                savedSites.unshift(newSite); // Add to beginning
+            }
+            
             // Keep only last 100 sites
             if (savedSites.length > 100) {
-                savedSites = savedSites.slice(0, 100);
+                savedSites.splice(100);
             }
 
             return res.json({ success: true, site: newSite });
