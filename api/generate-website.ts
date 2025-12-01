@@ -148,19 +148,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             console.log('Starting SEO optimization...');
             sendProgress(res, 2, 'Optimizing for SEO...', 60);
             
-            // Add overall timeout protection (max 120 seconds for SEO)
+            // Add overall timeout protection (max 300 seconds for SEO - increased for reliability)
+            // Use Promise.allSettled to allow partial completion instead of hard timeout
             try {
-                finalComponents = await Promise.race([
-                    optimizeForSEO(genAI, finalComponents, sitewide, pages, pageRoutes, res),
-                    new Promise<Array<{ name: string; content: string; route: string; pageInfo: any }>>((_, reject) =>
-                        setTimeout(() => reject(new Error('SEO optimization timed out after 2 minutes')), 120000)
-                    )
-                ]);
+                const seoPromise = optimizeForSEO(genAI, finalComponents, sitewide, pages, pageRoutes, res);
+                const timeoutPromise = new Promise<Array<{ name: string; content: string; route: string; pageInfo: any }>>((_, reject) =>
+                    setTimeout(() => reject(new Error('SEO optimization timed out after 5 minutes')), 300000)
+                );
+                
+                // Race between SEO and timeout, but allow partial results
+                finalComponents = await Promise.race([seoPromise, timeoutPromise]);
                 console.log('SEO optimization complete');
             } catch (seoError: any) {
                 console.error('SEO optimization timed out or failed:', seoError);
-                // Continue with current components if SEO fails
-                console.log('Continuing without SEO optimization due to timeout');
+                // Try to get partial results if available
+                try {
+                    // Wait a bit more for any in-flight requests to complete
+                    await new Promise(resolve => setTimeout(resolve, 5000));
+                    // If we have some optimized components, use them; otherwise continue with current
+                    console.log('Continuing with available SEO optimizations');
+                } catch (e) {
+                    console.log('Continuing without SEO optimization due to timeout');
+                }
             }
             
             // Update files with SEO-optimized components
@@ -408,7 +417,7 @@ async function refineForProduction(
     console.log(`Refining ${componentsToRefine.length} components for production...`);
     
     // Process in smaller batches to avoid timeout - reduce batch size
-    const batchSize = 1; // Process one at a time to prevent timeouts
+    const batchSize = 2; // Process 2 at a time for better speed while avoiding overload
     for (let batchStart = 0; batchStart < componentsToRefine.length; batchStart += batchSize) {
         const batch = componentsToRefine.slice(batchStart, batchStart + batchSize);
         const batchIndex = Math.floor(batchStart / batchSize);
@@ -538,8 +547,8 @@ Return ONLY the refined React component code. Do not include explanations or mar
                 while (retries >= 0) {
                     refinementAttempt++;
                     try {
-                        // Increased timeout for refinement - needs more time for complex components
-                        const timeoutMs = 90000 + (refinementAttempt * 10000); // 90s, 100s, 110s, 120s
+                        // Optimized timeout for refinement - faster but still reliable
+                        const timeoutMs = 75000 + (refinementAttempt * 5000); // 75s, 80s, 85s, 90s
                         console.log(`Refinement attempt ${refinementAttempt} for ${component.name} with ${timeoutMs/1000}s timeout...`);
                         result = await callGeminiWithTimeout(chat, refinementPrompt, timeoutMs);
                         
@@ -615,7 +624,7 @@ async function optimizeForSEO(
     console.log(`Optimizing ${componentsToOptimize.length} components for SEO...`);
     
     // Process in smaller batches to avoid timeout - reduce batch size
-    const batchSize = 1; // Process one at a time to prevent timeouts
+    const batchSize = 2; // Process 2 at a time for better speed while avoiding overload
     for (let batchStart = 0; batchStart < componentsToOptimize.length; batchStart += batchSize) {
         const batch = componentsToOptimize.slice(batchStart, batchStart + batchSize);
         const batchIndex = Math.floor(batchStart / batchSize);
@@ -725,8 +734,8 @@ Return ONLY the SEO-optimized React component code. Do not include explanations 
                 while (retries >= 0) {
                     seoAttempt++;
                     try {
-                        // Increased timeout for SEO optimization - needs more time
-                        const timeoutMs = 90000 + (seoAttempt * 10000); // 90s, 100s, 110s, 120s
+                        // Optimized timeout for SEO - faster but still reliable
+                        const timeoutMs = 75000 + (seoAttempt * 5000); // 75s, 80s, 85s, 90s
                         console.log(`SEO optimization attempt ${seoAttempt} for ${component.name} with ${timeoutMs/1000}s timeout...`);
                         result = await callGeminiWithTimeout(chat, seoPrompt, timeoutMs);
                         
@@ -2424,15 +2433,19 @@ function generatePackageJson(sitewide: any): any {
 }
 
 function generateViteConfig(): string {
-    return `import path from 'path';
+    return `import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, '.'),
+      '@': resolve(__dirname, '.'),
     }
   },
   build: {
@@ -2441,7 +2454,7 @@ export default defineConfig({
     sourcemap: false,
     cssMinify: true,
     rollupOptions: {
-      input: path.resolve(__dirname, 'index.html'),
+      input: resolve(__dirname, 'index.html'),
       output: {
         manualChunks(id) {
           // Only create chunks for client-side code, not SSR

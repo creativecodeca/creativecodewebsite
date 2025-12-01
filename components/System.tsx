@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Lock, Sparkles, Github, Zap, CheckCircle, XCircle, ExternalLink, Globe, Calendar } from 'lucide-react';
+import { Lock, Sparkles, Github, Zap, CheckCircle, XCircle, ExternalLink, Globe, Calendar, RefreshCw, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import WebsiteGeneratorForm from './WebsiteGeneratorForm';
@@ -33,7 +33,7 @@ const System: React.FC = () => {
     const loadSavedSites = async () => {
         try {
             setLoadingSites(true);
-            const response = await fetch('/api/save-site');
+            const response = await fetch('/api/get-sites');
             if (response.ok) {
                 const data = await response.json();
                 setSavedSites(data.sites || []);
@@ -174,170 +174,133 @@ const System: React.FC = () => {
             </header>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-6 py-12">
-                <div className="mb-12">
-                    <h2 className="text-4xl font-bold text-white mb-4">Welcome to System</h2>
-                    <p className="text-slate-400 text-lg">
-                        Generate websites with AI, deploy to GitHub, and publish to Vercel.
-                    </p>
-                </div>
-
-                {/* Feature Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                    <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 hover:border-emerald-500/30 transition-colors">
-                        <div className="w-12 h-12 bg-emerald-500/20 border border-emerald-500/30 rounded-xl flex items-center justify-center mb-4">
-                            <Sparkles className="w-6 h-6 text-emerald-500" />
+            <main className="max-w-7xl mx-auto px-6 py-8">
+                {/* Quick Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div className="bg-[#0a0a0a] border border-white/10 rounded-xl p-4">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-slate-400 text-sm mb-1">Total Sites</p>
+                                <p className="text-2xl font-bold text-white">{savedSites.length}</p>
+                            </div>
+                            <Globe className="w-8 h-8 text-emerald-500/50" />
                         </div>
-                        <h3 className="text-xl font-semibold text-white mb-2">AI Generation</h3>
-                        <p className="text-slate-400 text-sm">
-                            Generate complete websites using AI. Describe your vision and watch it come to life.
-                        </p>
                     </div>
-
-                    <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 hover:border-emerald-500/30 transition-colors">
-                        <div className="w-12 h-12 bg-blue-500/20 border border-blue-500/30 rounded-xl flex items-center justify-center mb-4">
-                            <Github className="w-6 h-6 text-blue-500" />
+                    <div className="bg-[#0a0a0a] border border-white/10 rounded-xl p-4">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-slate-400 text-sm mb-1">Live Sites</p>
+                                <p className="text-2xl font-bold text-white">
+                                    {savedSites.filter(s => s.vercelUrl).length}
+                                </p>
+                            </div>
+                            <CheckCircle className="w-8 h-8 text-emerald-500/50" />
                         </div>
-                        <h3 className="text-xl font-semibold text-white mb-2">GitHub Integration</h3>
-                        <p className="text-slate-400 text-sm">
-                            Automatically push generated code to GitHub repositories for version control.
-                        </p>
                     </div>
-
-                    <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 hover:border-emerald-500/30 transition-colors">
-                        <div className="w-12 h-12 bg-purple-500/20 border border-purple-500/30 rounded-xl flex items-center justify-center mb-4">
-                            <Zap className="w-6 h-6 text-purple-500" />
+                    <div className="bg-[#0a0a0a] border border-white/10 rounded-xl p-4">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-slate-400 text-sm mb-1">Pending</p>
+                                <p className="text-2xl font-bold text-white">
+                                    {savedSites.filter(s => !s.vercelUrl).length}
+                                </p>
+                            </div>
+                            <Clock className="w-8 h-8 text-slate-500/50" />
                         </div>
-                        <h3 className="text-xl font-semibold text-white mb-2">Vercel Deployment</h3>
-                        <p className="text-slate-400 text-sm">
-                            Instantly deploy to Vercel with automatic builds and global CDN distribution.
-                        </p>
                     </div>
                 </div>
 
-                {/* Previously Generated Sites */}
-                <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 mb-12">
-                    <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-2xl font-semibold text-white">Previously Generated Sites</h3>
-                        <button
-                            onClick={loadSavedSites}
-                            disabled={loadingSites}
-                            className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors text-sm disabled:opacity-50"
-                        >
-                            {loadingSites ? 'Loading...' : 'Refresh'}
-                        </button>
+                {/* Two Column Layout */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Left: Website Generator Form (2/3 width) */}
+                    <div className="lg:col-span-2">
+                        <div className="mb-6">
+                            <h2 className="text-3xl font-bold text-white mb-2">Generate New Website</h2>
+                            <p className="text-slate-400">
+                                Create a professional website with AI-powered generation
+                            </p>
+                        </div>
+                        <WebsiteGeneratorForm onSiteGenerated={loadSavedSites} />
                     </div>
-                    
-                    {loadingSites && savedSites.length === 0 ? (
-                        <div className="text-center py-12">
-                            <div className="w-8 h-8 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin mx-auto mb-4"></div>
-                            <p className="text-slate-400">Loading sites...</p>
-                        </div>
-                    ) : savedSites.length === 0 ? (
-                        <div className="text-center py-12">
-                            <Globe className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-                            <p className="text-slate-400">No sites generated yet. Create your first website below!</p>
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {savedSites.map((site) => (
-                                <motion.div
-                                    key={site.id}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    className="bg-white/5 border border-white/10 rounded-xl p-5 hover:border-emerald-500/30 transition-colors"
+
+                    {/* Right: Live Websites (1/3 width) */}
+                    <div className="lg:col-span-1">
+                        <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 sticky top-24">
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-xl font-semibold text-white">Live Websites</h3>
+                                <button
+                                    onClick={loadSavedSites}
+                                    disabled={loadingSites}
+                                    className="p-2 bg-white/5 border border-white/10 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50"
+                                    title="Refresh"
                                 >
-                                    <div className="flex items-start justify-between mb-3">
-                                        <div className="flex-1">
-                                            <h4 className="text-white font-semibold mb-1 truncate">{site.companyName}</h4>
-                                            {site.industry && (
-                                                <p className="text-slate-400 text-xs mb-2">{site.industry}</p>
-                                            )}
-                                            <div className="flex items-center gap-1 text-slate-500 text-xs">
-                                                <Calendar className="w-3 h-3" />
-                                                <span>{new Date(site.createdAt).toLocaleDateString()}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="space-y-2 mt-4">
-                                        {site.vercelUrl ? (
-                                            <a
-                                                href={site.vercelUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex items-center gap-2 w-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 rounded-lg px-3 py-2 text-sm hover:bg-emerald-500/30 transition-colors"
-                                            >
-                                                <Globe className="w-4 h-4" />
-                                                <span className="truncate flex-1">View Live Site</span>
-                                                <ExternalLink className="w-3 h-3 flex-shrink-0" />
-                                            </a>
-                                        ) : (
-                                            <div className="flex items-center gap-2 text-slate-500 text-xs px-3 py-2 bg-white/5 rounded-lg">
-                                                <span>Pending deployment</span>
-                                            </div>
-                                        )}
-                                        
-                                        <a
-                                            href={site.repoUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-2 w-full bg-white/5 border border-white/10 text-slate-300 rounded-lg px-3 py-2 text-sm hover:bg-white/10 transition-colors"
+                                    <RefreshCw className={`w-4 h-4 ${loadingSites ? 'animate-spin' : ''}`} />
+                                </button>
+                            </div>
+                            
+                            {loadingSites && savedSites.length === 0 ? (
+                                <div className="text-center py-8">
+                                    <div className="w-6 h-6 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin mx-auto mb-3"></div>
+                                    <p className="text-slate-400 text-sm">Loading...</p>
+                                </div>
+                            ) : savedSites.length === 0 ? (
+                                <div className="text-center py-8">
+                                    <Globe className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+                                    <p className="text-slate-400 text-sm">No sites yet</p>
+                                </div>
+                            ) : (
+                                <div className="space-y-3 max-h-[calc(100vh-300px)] overflow-y-auto">
+                                    {savedSites.map((site) => (
+                                        <motion.div
+                                            key={site.id}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="bg-white/5 border border-white/10 rounded-lg p-4 hover:border-emerald-500/30 transition-colors"
                                         >
-                                            <Github className="w-4 h-4" />
-                                            <span className="truncate flex-1">GitHub Repo</span>
-                                            <ExternalLink className="w-3 h-3 flex-shrink-0" />
-                                        </a>
-                                        
-                                        {site.projectUrl && (
-                                            <a
-                                                href={site.projectUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex items-center gap-2 w-full bg-white/5 border border-white/10 text-slate-300 rounded-lg px-3 py-2 text-xs hover:bg-white/10 transition-colors"
-                                            >
-                                                <Zap className="w-3 h-3" />
-                                                <span className="truncate flex-1">Vercel Dashboard</span>
-                                                <ExternalLink className="w-3 h-3 flex-shrink-0" />
-                                            </a>
-                                        )}
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-
-                {/* Status Section */}
-                <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 mb-12">
-                    <h3 className="text-2xl font-semibold text-white mb-6">System Status</h3>
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-                            <div className="flex items-center gap-3">
-                                <CheckCircle className="w-5 h-5 text-emerald-500" />
-                                <span className="text-white">AI Generation Service</span>
-                            </div>
-                            <span className="text-emerald-500 text-sm font-medium">Online</span>
-                        </div>
-                        <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-                            <div className="flex items-center gap-3">
-                                <CheckCircle className="w-5 h-5 text-emerald-500" />
-                                <span className="text-white">GitHub API</span>
-                            </div>
-                            <span className="text-emerald-500 text-sm font-medium">Connected</span>
-                        </div>
-                        <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-                            <div className="flex items-center gap-3">
-                                <CheckCircle className="w-5 h-5 text-emerald-500" />
-                                <span className="text-white">Vercel Integration</span>
-                            </div>
-                            <span className="text-emerald-500 text-sm font-medium">Active</span>
+                                            <div className="mb-3">
+                                                <h4 className="text-white font-semibold text-sm mb-1 truncate">{site.companyName}</h4>
+                                                {site.industry && (
+                                                    <p className="text-slate-500 text-xs truncate">{site.industry}</p>
+                                                )}
+                                            </div>
+                                            
+                                            <div className="space-y-2">
+                                                {site.vercelUrl ? (
+                                                    <a
+                                                        href={site.vercelUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="flex items-center gap-2 w-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 rounded-lg px-3 py-2 text-xs hover:bg-emerald-500/30 transition-colors"
+                                                    >
+                                                        <Globe className="w-3 h-3 flex-shrink-0" />
+                                                        <span className="truncate flex-1">Live Site</span>
+                                                        <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                                                    </a>
+                                                ) : (
+                                                    <div className="flex items-center gap-2 text-slate-500 text-xs px-3 py-2 bg-white/5 rounded-lg">
+                                                        <Clock className="w-3 h-3" />
+                                                        <span>Pending</span>
+                                                    </div>
+                                                )}
+                                                
+                                                <a
+                                                    href={site.repoUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex items-center gap-2 w-full bg-white/5 border border-white/10 text-slate-300 rounded-lg px-3 py-2 text-xs hover:bg-white/10 transition-colors"
+                                                >
+                                                    <Github className="w-3 h-3 flex-shrink-0" />
+                                                    <span className="truncate flex-1">GitHub</span>
+                                                    <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                                                </a>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
-
-                {/* Website Generation Form */}
-                <WebsiteGeneratorForm onSiteGenerated={loadSavedSites} />
             </main>
         </div>
         </>
