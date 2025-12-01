@@ -2103,7 +2103,8 @@ HERO SECTION:
 - CTA button prominently placed
 - Background: Use solid color, simple gradient, or image with SOLID rgba() overlay (NOT backdrop-blur or brightness filters)
 - IMPORTANT: The navbar is fixed with height 80px. Your hero section MUST start with padding-top: "pt-20" or "pt-24" on the first element to prevent content from being hidden behind the fixed navbar
-- NEVER use backdrop-blur or brightness() filters - they create visual artifacts
+- ABSOLUTELY FORBIDDEN: backdrop-blur, brightness(), filter: brightness(), or ANY brightness filters - they create visual artifacts and weird lines
+- DO NOT create any CSS rules with filter: brightness() - this is strictly forbidden
 
 IMAGES:
 ${images.length > 0 ? `Available images (use ONLY if contextually relevant):
@@ -2119,16 +2120,19 @@ CONTENT SECTIONS:
 - Content in each section must be relevant and specific to ${sitewide.companyName}
 - No sections that don't add value or make sense in context
 
-VISUAL CONSISTENCY (CRITICAL - NO BRIGHTNESS CHANGES):
-- NEVER use backdrop-blur, brightness(), filter: brightness(), or any brightness filters - these create visual artifacts and weird lines
-- NEVER use brightness() CSS function anywhere - not in className, not in style, not anywhere
+VISUAL CONSISTENCY (CRITICAL - ABSOLUTELY NO BRIGHTNESS FILTERS):
+- ABSOLUTELY FORBIDDEN: backdrop-blur, brightness(), filter: brightness(), or ANY brightness filters
+- ABSOLUTELY FORBIDDEN: brightness() CSS function - NOT in className, NOT in style, NOT in <style> tags, NOT anywhere
+- ABSOLUTELY FORBIDDEN: brightness utilities like brightness-50, brightness-75, brightness-100, etc.
+- ABSOLUTELY FORBIDDEN: CSS rules with filter: brightness() - DO NOT create any CSS that modifies brightness
+- ABSOLUTELY FORBIDDEN: Any CSS selector that includes brightness filters
 - NEVER change opacity between sections in ways that create visual artifacts
-- NEVER use brightness utilities like brightness-50, brightness-75, etc.
 - Use solid backgrounds or simple gradients only
 - Maintain consistent visual styling throughout - no sudden brightness/opacity changes
 - If you need overlays, use solid rgba() backgrounds with opacity 1.0, NOT backdrop-blur or brightness filters
 - All sections should have consistent visual weight - no jarring transitions
-- NO filters of any kind that affect brightness
+- NO filters of any kind that affect brightness - NO filter property with brightness, NO CSS rules with brightness
+- If you see brightness in your generated code, REMOVE IT IMMEDIATELY - it will cause visual artifacts
 
 FOOTER (CRITICAL - MUST USE SHARED COMPONENT):
 - DO NOT create a custom footer - the shared Footer component is already included in App.tsx
@@ -2316,23 +2320,42 @@ function cleanReactContent(content: string, sitewide: any): string {
     cleaned = cleaned.replace(/<Footer\s*\/?>\s*/g, '');
     
     // Remove backdrop-blur and brightness filters that cause visual artifacts
+    // CRITICAL: Remove from ALL sources - className, inline styles, CSS rules, style tags
+    
+    // Remove from className attributes
     cleaned = cleaned.replace(/backdrop-blur-\[?[^\s"'`)]+\]?/g, '');
     cleaned = cleaned.replace(/backdrop-blur/g, '');
-    cleaned = cleaned.replace(/filter:\s*brightness\([^)]+\)/g, '');
-    cleaned = cleaned.replace(/brightness\([^)]+\)/g, '');
-    cleaned = cleaned.replace(/style=\{\{[^}]*brightness[^}]*\}\}/g, (match) => {
-        return match.replace(/brightness\([^)]+\)/g, '').replace(/,\s*,/g, ',').replace(/,\s*\}/g, '}');
-    });
-    
-    // Remove ALL brightness filters from className attributes
     cleaned = cleaned.replace(/brightness-\[?[^\s"'`)]+\]?/g, '');
     cleaned = cleaned.replace(/brightness-/g, '');
+    
+    // Remove from inline style objects
+    cleaned = cleaned.replace(/style=\{\{[^}]*brightness[^}]*\}\}/g, (match) => {
+        return match.replace(/brightness\([^)]+\)/g, '').replace(/filter:\s*brightness\([^)]+\)/g, '').replace(/,\s*,/g, ',').replace(/,\s*\}/g, '}');
+    });
+    
+    // CRITICAL: Remove brightness filters from CSS rules in <style> tags
+    // Match CSS rules like: .selector { filter: brightness(1); } or filter: brightness(1);
+    cleaned = cleaned.replace(/filter:\s*brightness\([^)]*\)[^;]*;?/g, '');
+    
+    // Remove entire CSS rules that contain brightness filters (more aggressive)
+    // Match: selector { ... filter: brightness(...) ... } or any rule with brightness
+    cleaned = cleaned.replace(/[^{}]*\{[^}]*filter[^}]*brightness[^}]*\}[^;]*;?/g, '');
+    cleaned = cleaned.replace(/[^{}]*\{[^}]*brightness[^}]*\}[^;]*;?/g, '');
+    
+    // Remove brightness() function calls anywhere (catch-all)
+    cleaned = cleaned.replace(/brightness\([^)]*\)/g, '');
     
     // Remove filter utilities that might contain brightness
     cleaned = cleaned.replace(/filter\s+brightness/g, '');
     
-    // Remove brightness from any filter property
+    // Remove brightness from any filter property in CSS
     cleaned = cleaned.replace(/filter:\s*['"]?[^'"]*brightness[^'"]*['"]?/g, '');
+    
+    // Remove any remaining filter: brightness() patterns
+    cleaned = cleaned.replace(/filter:\s*brightness\([^)]*\)/g, '');
+    
+    // Remove backdrop-blur from CSS rules too
+    cleaned = cleaned.replace(/backdrop-filter:\s*blur\([^)]+\)/g, '');
     
     // Ensure navbar and footer are NOT translucent - remove opacity from backgrounds
     cleaned = cleaned.replace(/backgroundColor:\s*['"]rgba\([^)]+,\s*0\.\d+\)['"]/g, (match) => {
