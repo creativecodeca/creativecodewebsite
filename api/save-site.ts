@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { savedSites } from './get-sites';
 
 interface SavedSite {
     id: string;
@@ -8,11 +9,10 @@ interface SavedSite {
     projectUrl?: string;
     createdAt: string;
     industry?: string;
+    formData?: any;
+    status: 'success' | 'failed';
+    error?: string;
 }
-
-// In-memory storage (for demo - in production, use a database or Vercel KV)
-// Note: This will reset on serverless function cold starts
-let savedSites: SavedSite[] = [];
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method === 'POST') {
