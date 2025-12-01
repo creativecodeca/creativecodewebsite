@@ -27,6 +27,9 @@ interface FormData {
     // Addons
     contactForm: boolean;
     bookingForm: boolean;
+    
+    // Quality Tier
+    qualityTier: 'mockup' | 'production' | 'production-seo';
 }
 
 interface WebsiteGeneratorFormProps {
@@ -48,10 +51,11 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
         pages: [],
         contactForm: false,
         bookingForm: false,
+        qualityTier: 'mockup',
     });
 
     const [currentStep, setCurrentStep] = useState(0);
-    const totalSteps = 3; // General Info, Pages, Addons
+    const totalSteps = 4; // General Info, Pages, Addons, Quality Tier
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [generationResult, setGenerationResult] = useState<{
@@ -188,6 +192,8 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                        formData.pages.every(page => page.title.trim() && page.information.trim());
             case 2: // Addons (optional, always valid)
                 return true;
+            case 3: // Quality Tier (required)
+                return formData.qualityTier !== undefined;
             default:
                 return true;
         }
@@ -1189,6 +1195,85 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                         <h5 className="text-lg font-semibold text-white mb-2">Booking Form</h5>
                                         <p className="text-slate-400 text-sm">
                                             Add a booking/appointment scheduling form to your website.
+                                        </p>
+                                    </div>
+                                </label>
+                            </div>
+                        </motion.div>
+                    )}
+
+                    {/* Step 3: Quality Tier */}
+                    {currentStep === 3 && (
+                        <motion.div
+                            key="step3"
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            transition={{ duration: 0.3 }}
+                            className="space-y-6"
+                        >
+                            <h4 className="text-2xl font-semibold text-white mb-6">Select Quality Tier</h4>
+                            
+                            <div className="space-y-4">
+                                <label className={`flex items-start gap-4 p-6 bg-white/5 border rounded-xl transition-all cursor-pointer group ${
+                                    formData.qualityTier === 'mockup' 
+                                        ? 'border-emerald-500 bg-emerald-500/10' 
+                                        : 'border-white/10 hover:border-emerald-500/30'
+                                }`}>
+                                    <input
+                                        type="radio"
+                                        name="qualityTier"
+                                        value="mockup"
+                                        checked={formData.qualityTier === 'mockup'}
+                                        onChange={(e) => setFormData({ ...formData, qualityTier: e.target.value as any })}
+                                        className="mt-1 w-5 h-5 text-emerald-500 focus:ring-emerald-500"
+                                    />
+                                    <div className="flex-1">
+                                        <h5 className="text-lg font-semibold text-white mb-2">Mock Up</h5>
+                                        <p className="text-slate-400 text-sm">
+                                            Quick generation for preview and testing. Basic design and functionality.
+                                        </p>
+                                    </div>
+                                </label>
+                                
+                                <label className={`flex items-start gap-4 p-6 bg-white/5 border rounded-xl transition-all cursor-pointer group ${
+                                    formData.qualityTier === 'production' 
+                                        ? 'border-emerald-500 bg-emerald-500/10' 
+                                        : 'border-white/10 hover:border-emerald-500/30'
+                                }`}>
+                                    <input
+                                        type="radio"
+                                        name="qualityTier"
+                                        value="production"
+                                        checked={formData.qualityTier === 'production'}
+                                        onChange={(e) => setFormData({ ...formData, qualityTier: e.target.value as any })}
+                                        className="mt-1 w-5 h-5 text-emerald-500 focus:ring-emerald-500"
+                                    />
+                                    <div className="flex-1">
+                                        <h5 className="text-lg font-semibold text-white mb-2">Production Ready</h5>
+                                        <p className="text-slate-400 text-sm">
+                                            Professional quality with AI refinement for design, imagery, copywriting, consistency, and functionality.
+                                        </p>
+                                    </div>
+                                </label>
+                                
+                                <label className={`flex items-start gap-4 p-6 bg-white/5 border rounded-xl transition-all cursor-pointer group ${
+                                    formData.qualityTier === 'production-seo' 
+                                        ? 'border-emerald-500 bg-emerald-500/10' 
+                                        : 'border-white/10 hover:border-emerald-500/30'
+                                }`}>
+                                    <input
+                                        type="radio"
+                                        name="qualityTier"
+                                        value="production-seo"
+                                        checked={formData.qualityTier === 'production-seo'}
+                                        onChange={(e) => setFormData({ ...formData, qualityTier: e.target.value as any })}
+                                        className="mt-1 w-5 h-5 text-emerald-500 focus:ring-emerald-500"
+                                    />
+                                    <div className="flex-1">
+                                        <h5 className="text-lg font-semibold text-white mb-2">Production Ready + SEO</h5>
+                                        <p className="text-slate-400 text-sm">
+                                            Everything in Production Ready, plus rigorous SEO optimization for maximum search engine visibility.
                                         </p>
                                     </div>
                                 </label>

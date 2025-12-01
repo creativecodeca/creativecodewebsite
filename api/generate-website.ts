@@ -40,7 +40,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             extraDetailedInfo,
             pages,
             contactForm,
-            bookingForm
+            bookingForm,
+            qualityTier = 'mockup' // Default to mockup if not provided
         } = req.body;
 
         // Validate required fields
@@ -96,13 +97,54 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         sendProgress(res, 2, 'Creating website files...', 30);
 
         // Step 2: Generate website files
-        const websiteFiles = await generateWebsiteFiles(genAI, sitewide, pages, gamePlan, res);
+        const websiteResult = await generateWebsiteFiles(genAI, sitewide, pages, gamePlan, res);
         console.log('Website files generated');
+        
+        let finalFiles = websiteResult.files;
+        let finalComponents = websiteResult.components;
+        const pageRoutes = pages.map((p, idx) => {
+            if (idx === 0) return { title: p.title, route: '/', file: 'index.html', component: 'Home' };
+            const route = '/' + p.title.toLowerCase().replace(/\s+/g, '-');
+            const fileName = p.title.toLowerCase().replace(/\s+/g, '-') + '/index.html';
+            const component = p.title.replace(/\s+/g, '');
+            return { title: p.title, route, file: fileName, component };
+        });
+
+        // Step 2.5: Refine for production if needed
+        if (qualityTier === 'production' || qualityTier === 'production-seo') {
+            sendProgress(res, 2, 'Refining for production quality...', 50);
+            finalComponents = await refineForProduction(genAI, finalComponents, sitewide, pages, pageRoutes, res);
+            
+            // Update files with refined components
+            finalFiles = finalFiles.map(file => {
+                const refinedComponent = finalComponents.find(c => `components/${c.name}` === file.name);
+                if (refinedComponent) {
+                    return { ...file, content: refinedComponent.content };
+                }
+                return file;
+            });
+        }
+
+        // Step 2.6: Optimize for SEO if needed
+        if (qualityTier === 'production-seo') {
+            sendProgress(res, 2, 'Optimizing for SEO...', 60);
+            finalComponents = await optimizeForSEO(genAI, finalComponents, sitewide, pages, pageRoutes, res);
+            
+            // Update files with SEO-optimized components
+            finalFiles = finalFiles.map(file => {
+                const seoComponent = finalComponents.find(c => `components/${c.name}` === file.name);
+                if (seoComponent) {
+                    return { ...file, content: seoComponent.content };
+                }
+                return file;
+            });
+        }
+
         sendProgress(res, 3, 'Pushing to GitHub...', 70);
 
         // Step 3: Create GitHub repository
         const repoName = `${companyName.toLowerCase().replace(/\s+/g, '-')}-website-${Date.now()}`;
-        const repoData = await createGitHubRepo(repoName, websiteFiles, sitewide);
+        const repoData = await createGitHubRepo(repoName, finalFiles, sitewide);
         console.log('GitHub repository created:', repoData.repoUrl);
         sendProgress(res, 4, 'Deploying to Vercel...', 85);
 
@@ -237,6 +279,279 @@ Keep it concise but comprehensive. Format as JSON with these keys: designApproac
         // Don't expose internal error details
         throw new Error('Failed to generate website design plan');
     }
+}
+
+// Refine all components for production quality with strict consistency checks
+async function refineForProduction(
+    genAI: GoogleGenAI, 
+    components: Array<{ name: string; content: string; route: string; pageInfo: any }>,
+    sitewide: any,
+    pages: any[],
+    pageRoutes: any[],
+    res?: VercelResponse
+): Promise<Array<{ name: string; content: string; route: string; pageInfo: any }>> {
+    const model = 'gemini-3-pro-preview';
+    const refinedComponents = [];
+    
+    // First, get the Navbar component to ensure consistency
+    const navbarComponent = components.find(c => c.name === 'Navbar.tsx');
+    const navbarContent = navbarComponent?.content || '';
+    
+    for (let i = 0; i < components.length; i++) {
+        const component = components[i];
+        
+        // Skip Navbar and Footer - they're shared components
+        if (component.name === 'Navbar.tsx' || component.name === 'Footer.tsx' || component.name === 'Attributions.tsx') {
+            refinedComponents.push(component);
+            continue;
+        }
+        
+        if (res) {
+            sendProgress(res, 2, `Refining ${component.pageInfo.title} for production...`, 50 + (i * 10 / components.length));
+        }
+        
+        const refinementPrompt = `You are a senior web developer and design expert. Review and refine this React component to ensure ABSOLUTELY PERFECT production-ready quality.
+
+CRITICAL REFINEMENT CHECKLIST - EVERY ITEM MUST BE PERFECT:
+
+1. **CONSISTENT HEADER/NAVBAR**: 
+   - Header structure MUST match exactly across all pages
+   - Use the shared Navbar component - DO NOT create custom headers
+   - Navigation links must be consistent
+   - Logo/company name positioning must be identical
+   - Header styling (colors, padding, height) must be EXACTLY the same
+
+2. **Beautiful Design**: 
+   - Modern, professional, visually stunning design
+   - Proper spacing, typography, and visual hierarchy
+   - No wonky layouts or misaligned elements
+   - Smooth transitions and hover effects
+
+3. **Appropriate Imagery**: 
+   - All images must be contextually relevant
+   - Images should enhance, not distract
+   - Proper image sizing and aspect ratios
+   - All images must have descriptive alt text
+
+4. **Excellent Copywriting**: 
+   - All text must be clear, professional, and engaging
+   - Fix any awkward phrasing, typos, or grammatical errors
+   - Content should be compelling and well-written
+   - Headings should be descriptive and hierarchy-appropriate
+
+5. **Perfect Consistency**: 
+   - Design elements (colors, fonts, spacing) must be consistent
+   - Button styles must match across pages
+   - Section layouts must follow the same patterns
+   - Footer must be identical on all pages (use shared Footer component)
+   - No design inconsistencies whatsoever
+
+6. **Professionalism**: 
+   - Remove ALL placeholder text
+   - Ensure all content is polished and professional
+   - No lorem ipsum or placeholder content
+   - All links and buttons must work correctly
+
+7. **Working Links**: 
+   - All navigation links must work correctly
+   - Internal links must use proper routes
+   - External links must have proper attributes
+   - Buttons must have proper onClick handlers
+
+8. **Component Structure**: 
+   - Proper React/TypeScript structure
+   - Clean, maintainable code
+   - Proper imports and exports
+   - No unused code or variables
+
+9. **Tailwind Classes**: 
+   - Optimize Tailwind utility classes
+   - Use consistent spacing scale
+   - Proper responsive breakpoints
+   - No conflicting or redundant classes
+
+10. **Accessibility**: 
+    - Proper semantic HTML
+    - Accessibility attributes (aria-labels, roles)
+    - Keyboard navigation support
+    - Screen reader friendly
+
+11. **Mobile Responsiveness**: 
+    - Verify responsive design works on all screen sizes
+    - Test mobile, tablet, and desktop layouts
+    - Proper breakpoint usage
+
+12. **NO ERRORS**: 
+    - Fix any TypeScript errors
+    - Fix any React warnings
+    - Ensure all imports are correct
+    - No console errors or warnings
+
+SHARED NAVBAR COMPONENT (for reference - use this, don't recreate):
+\`\`\`tsx
+${navbarContent.substring(0, 1000)}
+\`\`\`
+
+Original Component:
+\`\`\`tsx
+${component.content}
+\`\`\`
+
+Site Information:
+- Company: ${sitewide.companyName}
+- Industry: ${sitewide.industry}
+- Colors: ${sitewide.colors}
+- Brand Themes: ${sitewide.brandThemes}
+
+Page Information: ${component.pageInfo.information}
+
+All Pages: ${pages.map(p => p.title).join(', ')}
+
+CRITICAL: The header/navbar MUST use the shared Navbar component. DO NOT create a custom header. Import and use <Navbar /> component.
+
+Return ONLY the refined React component code. Do not include explanations or markdown formatting. Start directly with the component code. Ensure it's absolutely perfect with zero inconsistencies.`;
+
+        const chat = genAI.chats.create({
+            model: model,
+            config: {
+                systemInstruction: 'You are a senior React developer and design expert specializing in production-ready websites. You ensure ABSOLUTE PERFECTION with zero design inconsistencies, perfect headers, and flawless code quality. You are extremely detail-oriented and catch every single error or inconsistency.'
+            }
+        });
+
+        const result = await chat.sendMessage({ message: refinementPrompt });
+        let refinedContent = result.text.replace(/```tsx\n?/g, '').replace(/```ts\n?/g, '').replace(/```jsx\n?/g, '').replace(/```javascript\n?/g, '').replace(/```\n?/g, '').trim();
+        refinedContent = cleanReactContent(refinedContent, sitewide);
+        
+        refinedComponents.push({
+            ...component,
+            content: refinedContent
+        });
+    }
+    
+    return refinedComponents;
+}
+
+// Optimize for SEO
+async function optimizeForSEO(
+    genAI: GoogleGenAI,
+    components: Array<{ name: string; content: string; route: string; pageInfo: any }>,
+    sitewide: any,
+    pages: any[],
+    pageRoutes: any[],
+    res?: VercelResponse
+): Promise<Array<{ name: string; content: string; route: string; pageInfo: any }>> {
+    const model = 'gemini-3-pro-preview';
+    const seoOptimizedComponents = [];
+    
+    for (let i = 0; i < components.length; i++) {
+        const component = components[i];
+        
+        // Skip shared components
+        if (component.name === 'Navbar.tsx' || component.name === 'Footer.tsx' || component.name === 'Attributions.tsx') {
+            seoOptimizedComponents.push(component);
+            continue;
+        }
+        
+        if (res) {
+            sendProgress(res, 2, `Optimizing ${component.pageInfo.title} for SEO...`, 60 + (i * 10 / components.length));
+        }
+        
+        const seoPrompt = `You are an SEO expert. Optimize this React component for maximum search engine visibility while maintaining perfect design quality.
+
+CRITICAL SEO OPTIMIZATION CHECKLIST:
+
+1. **Meta Tags**: 
+   - Helmet must include comprehensive meta tags
+   - Title tag: 50-60 characters, keyword-rich, unique per page
+   - Meta description: 150-160 characters, compelling, keyword-rich
+   - Keywords meta tag (if appropriate)
+   - Open Graph tags (og:title, og:description, og:image, og:url)
+   - Twitter Card tags
+   - Canonical URL
+
+2. **Semantic HTML**: 
+   - Proper heading hierarchy (h1, h2, h3)
+   - Only ONE h1 per page
+   - Headings must include relevant keywords naturally
+   - Proper use of semantic elements (article, section, aside, etc.)
+
+3. **Alt Text**: 
+   - All images must have descriptive, keyword-rich alt text
+   - Alt text should be natural and descriptive (not keyword-stuffed)
+   - Include relevant keywords when appropriate
+
+4. **Content Optimization**: 
+   - Include relevant keywords naturally in headings and content
+   - Keyword density should be natural (1-2%)
+   - Use related keywords and synonyms
+   - Content should be comprehensive and valuable
+   - Minimum 300 words of quality content per page
+
+5. **Structured Data**: 
+   - Add appropriate schema.org structured data
+   - LocalBusiness schema if applicable
+   - Organization schema
+   - BreadcrumbList schema
+   - Use JSON-LD format in Helmet
+
+6. **URL Structure**: 
+   - Ensure routes are SEO-friendly
+   - Use descriptive, keyword-rich URLs
+   - Avoid deep nesting
+
+7. **Internal Linking**: 
+   - Add relevant internal links with descriptive anchor text
+   - Link to related pages naturally
+   - Use proper Link components from react-router-dom
+
+8. **Content Quality**: 
+   - Content must be valuable, comprehensive, and keyword-optimized
+   - No thin content
+   - Include FAQs if relevant
+   - Use bullet points and lists for readability
+
+9. **Mobile-First**: 
+   - Ensure mobile optimization (already handled by Tailwind)
+   - Fast loading times
+   - No render-blocking resources
+
+10. **Performance**: 
+    - Minimize unnecessary code
+    - Optimize images (use proper sizing)
+    - Lazy load images below the fold
+
+Original Component:
+\`\`\`tsx
+${component.content}
+\`\`\`
+
+Site Information:
+- Company: ${sitewide.companyName}
+- Industry: ${sitewide.industry}
+- Page: ${component.pageInfo.title}
+- Page Content: ${component.pageInfo.information}
+- Route: ${component.route}
+
+Return ONLY the SEO-optimized React component code. Do not include explanations or markdown formatting. Start directly with the component code. Maintain perfect design quality while optimizing for SEO.`;
+
+        const chat = genAI.chats.create({
+            model: model,
+            config: {
+                systemInstruction: 'You are an SEO expert specializing in React/Next.js optimization. You optimize components for maximum search engine visibility while maintaining perfect design quality and zero inconsistencies.'
+            }
+        });
+
+        const result = await chat.sendMessage({ message: seoPrompt });
+        let seoContent = result.text.replace(/```tsx\n?/g, '').replace(/```ts\n?/g, '').replace(/```jsx\n?/g, '').replace(/```javascript\n?/g, '').replace(/```\n?/g, '').trim();
+        seoContent = cleanReactContent(seoContent, sitewide);
+        
+        seoOptimizedComponents.push({
+            ...component,
+            content: seoContent
+        });
+    }
+    
+    return seoOptimizedComponents;
 }
 
 async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: any[], gamePlan: any, res?: VercelResponse) {
@@ -484,7 +799,10 @@ This website was automatically generated by Creative Code's AI Website Generator
             content: JSON.stringify(vercelJson, null, 2)
         });
 
-        return files;
+        return {
+            files,
+            components: generatedComponents
+        };
     } catch (error: any) {
         console.error('Error in generateWebsiteFiles:', error);
         // Don't expose internal error details
@@ -1383,11 +1701,11 @@ CRITICAL REQUIREMENTS:
 5. Use proper TypeScript types
 6. IMPORTANT: Import from 'react-helmet-async', NOT 'react-helmet'
 
-HEADER (CRITICAL):
-- Fixed/sticky header with backdrop blur: "fixed z-50 w-full top-0 bg-[#020202]/60 backdrop-blur-[20px] border-b border-white/10"
-- Company name/logo on left
-- Navigation menu on right (horizontal, hidden on mobile, hamburger menu)
-- Use Link from react-router-dom for navigation
+HEADER (CRITICAL - MUST USE SHARED COMPONENT):
+- DO NOT create a custom header/navbar
+- MUST import and use the shared Navbar component: import Navbar from '../components/Navbar';
+- Use <Navbar /> at the top of your component
+- The Navbar component handles all navigation, styling, and responsive behavior
 - Navigation links: ${pageRoutes.map(p => `${p.title} -> ${p.route}`).join(', ')}
 
 BUTTONS (CRITICAL):
@@ -1413,12 +1731,12 @@ CONTENT SECTIONS:
 - Proper spacing: "py-20 px-6"
 - Max width container: "max-w-7xl mx-auto"
 
-FOOTER:
-- Multi-column layout
-- Contact information
-- Navigation links
-- Copyright notice
-${images.length > 0 ? '- Attribution link: <Link to="/attributions">Photo Credits</Link>' : ''}
+FOOTER (CRITICAL - MUST USE SHARED COMPONENT):
+- DO NOT create a custom footer
+- MUST import and use the shared Footer component: import Footer from '../components/Footer';
+- Use <Footer /> at the bottom of your component
+- The Footer component handles all footer content, links, and styling
+${images.length > 0 ? '- Footer includes attribution link automatically' : ''}
 
 FORMS:
 ${sitewide.contactForm ? '- Contact form with proper Tailwind styling\n- Input fields: "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-slate-400"\n- Submit button: use button element with primary button classes' : ''}
@@ -1470,10 +1788,11 @@ CRITICAL REQUIREMENTS:
 5. Match the style and structure of the Home component
 6. Use the SAME header and footer structure as Home
 
-HEADER:
-- Must match Home component exactly
-- Same navigation structure
-- Same styling classes
+HEADER (CRITICAL - MUST USE SHARED COMPONENT):
+- DO NOT create a custom header/navbar
+- MUST import and use the shared Navbar component: import Navbar from '../components/Navbar';
+- Use <Navbar /> at the top of your component
+- This ensures perfect consistency across all pages
 
 BUTTONS:
 - Use <button> elements for CTAs
@@ -1512,6 +1831,61 @@ function cleanReactContent(content: string, sitewide: any): string {
     }
     if (!cleaned.includes("from 'react-router-dom'") && (cleaned.includes("<Link") || cleaned.includes("useLocation"))) {
         cleaned = cleaned.replace(/import[^;]+Helmet[^;]+;/, (match) => match + "\nimport { Link, useLocation } from 'react-router-dom';");
+    }
+    
+    // CRITICAL: Ensure Navbar and Footer imports are present for ALL components
+    // All page components MUST use shared Navbar and Footer components
+    const hasNavbarUsage = cleaned.includes("<Navbar");
+    const hasFooterUsage = cleaned.includes("<Footer");
+    
+    // Always add Navbar import if not present (all pages need it)
+    if (!cleaned.includes("import Navbar from")) {
+        // Find the last import statement and add Navbar import after it
+        const importMatch = cleaned.match(/(import[^;]+;[\s]*\n?)+/);
+        if (importMatch) {
+            // Add Navbar import after the last import
+            const lastImportIndex = cleaned.lastIndexOf(importMatch[0]);
+            const afterImports = cleaned.substring(lastImportIndex + importMatch[0].length);
+            cleaned = cleaned.substring(0, lastImportIndex) + importMatch[0] + "import Navbar from '../components/Navbar';\n" + afterImports;
+        } else {
+            // No imports found, add at the beginning
+            cleaned = "import Navbar from '../components/Navbar';\n" + cleaned;
+        }
+    }
+    
+    // Always add Footer import if not present (all pages need it)
+    if (!cleaned.includes("import Footer from")) {
+        // Add Footer import after Navbar import
+        if (cleaned.includes("import Navbar from")) {
+            cleaned = cleaned.replace(/(import Navbar from[^;]+;)/, "$1\nimport Footer from '../components/Footer';");
+        } else {
+            // If Navbar import doesn't exist (shouldn't happen), add Footer separately
+            const importMatch = cleaned.match(/(import[^;]+;[\s]*\n?)+/);
+            if (importMatch) {
+                const lastImportIndex = cleaned.lastIndexOf(importMatch[0]);
+                const afterImports = cleaned.substring(lastImportIndex + importMatch[0].length);
+                cleaned = cleaned.substring(0, lastImportIndex) + importMatch[0] + "import Footer from '../components/Footer';\n" + afterImports;
+            } else {
+                cleaned = "import Footer from '../components/Footer';\n" + cleaned;
+            }
+        }
+    }
+    
+    // Ensure Navbar is used in the component return
+    if (cleaned.includes("return (") && !hasNavbarUsage) {
+        // Add <Navbar /> at the start of the return statement
+        cleaned = cleaned.replace(/(return\s*\([^<]*)(<)/, "$1<Navbar />\n      $2");
+    }
+    
+    // Ensure Footer is used in the component return
+    if (cleaned.includes("return (") && !hasFooterUsage) {
+        // Add <Footer /> before the closing of return
+        // Find the closing of the main return div/component
+        cleaned = cleaned.replace(/(<\/[^>]+>\s*\)\s*;?\s*$)/m, "<Footer />\n      $1");
+        // If that didn't work, try a different pattern
+        if (!cleaned.includes("<Footer />")) {
+            cleaned = cleaned.replace(/(\s*\)\s*;?\s*$)/m, "\n      <Footer />\n      $1");
+        }
     }
     
     // Fix common issues
