@@ -747,8 +747,9 @@ Return ONLY the SEO-optimized React component code. Do not include explanations 
 
 async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: any[], gamePlan: any, res?: VercelResponse) {
     try {
-        // Using Gemini 3 Pro Preview - latest and most advanced model
-        const model = 'gemini-3-pro-preview';
+        // Using faster model for initial generation to avoid timeouts
+        // Refinement will use gemini-3-pro-preview for higher quality
+        const model = 'gemini-1.5-flash';
         const files = [];
 
         // Map pages to routes (for separate HTML files, not SPA)
@@ -809,27 +810,29 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
                 }
             });
 
-            // Gemini call with timeout + minimal retries to avoid network flakiness
+            // Gemini call with timeout + retries
             let componentResult;
-            let componentRetries = 1;
+            let componentRetries = 2; // Increased retries
             let componentLastError: any;
             while (componentRetries >= 0) {
                 try {
-                    componentResult = await callGeminiWithTimeout(componentChat, componentPrompt, 45000); // 45s timeout
+                    // Increased timeout to 90 seconds for component generation (main pages can be complex)
+                    componentResult = await callGeminiWithTimeout(componentChat, componentPrompt, 90000); // 90s timeout
                     break;
                 } catch (err: any) {
                     componentLastError = err;
                     componentRetries--;
                     console.warn(`Component generation failed for route ${pageRoute.route}, retries left: ${componentRetries}`, err?.message || err);
                     if (componentRetries >= 0) {
-                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        // Wait longer between retries for network issues
+                        await new Promise(resolve => setTimeout(resolve, 2000));
                     }
                 }
             }
 
             if (!componentResult) {
                 console.error(`Failed to generate React component for page ${pageRoute.route} after retries`, componentLastError);
-                throw new Error(`Failed to generate React component for page ${pageRoute.route}`);
+                throw new Error(`Failed to generate React component for page ${pageRoute.route} after ${2 - componentRetries} attempts: ${componentLastError?.message || 'Unknown error'}`);
             }
             let componentContent = componentResult.text.replace(/```tsx\n?/g, '').replace(/```ts\n?/g, '').replace(/```jsx\n?/g, '').replace(/```javascript\n?/g, '').replace(/```\n?/g, '').trim();
             
