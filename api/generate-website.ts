@@ -815,8 +815,8 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
             let componentLastError: any;
             while (componentRetries >= 0) {
                 try {
-                    // 60s timeout per attempt – good balance between quality and avoiding timeouts
-                    componentResult = await callGeminiWithTimeout(componentChat, componentPrompt, 60000);
+                    // 45s timeout per attempt – balance between quality and avoiding timeouts
+                    componentResult = await callGeminiWithTimeout(componentChat, componentPrompt, 45000);
                     break;
                 } catch (err: any) {
                     componentLastError = err;
@@ -829,11 +829,20 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
                 }
             }
 
+            let componentContent: string;
             if (!componentResult) {
-                console.error(`Failed to generate React component for page ${pageRoute.route} after retries`, componentLastError);
-                throw new Error(`Failed to generate React component for page ${pageRoute.route} after ${2 - componentRetries} attempts: ${componentLastError?.message || 'Unknown error'}`);
+                // As a last resort, fall back to a deterministic, non-AI React component
+                console.error(`Gemini timed out for page ${pageRoute.route}, using fallback React component`, componentLastError);
+                componentContent = generateFallbackReactComponent(page, sitewide, pageRoute.route === '/');
+            } else {
+                componentContent = componentResult.text
+                    .replace(/```tsx\n?/g, '')
+                    .replace(/```ts\n?/g, '')
+                    .replace(/```jsx\n?/g, '')
+                    .replace(/```javascript\n?/g, '')
+                    .replace(/```\n?/g, '')
+                    .trim();
             }
-            let componentContent = componentResult.text.replace(/```tsx\n?/g, '').replace(/```ts\n?/g, '').replace(/```jsx\n?/g, '').replace(/```javascript\n?/g, '').replace(/```\n?/g, '').trim();
             
             // Clean up component content
             componentContent = cleanReactContent(componentContent, sitewide);
@@ -2163,7 +2172,7 @@ export default defineConfig({
     minify: 'esbuild',
     sourcemap: false,
     cssMinify: true,
-      rollupOptions: {
+    rollupOptions: {
       input: path.resolve(__dirname, 'index.html'),
       output: {
         manualChunks(id) {
@@ -2185,6 +2194,174 @@ export default defineConfig({
     noExternal: ['react-helmet-async']
   }
 });`;
+}
+
+// Fallback React component generator used when Gemini times out
+function generateFallbackReactComponent(page: any, sitewide: any, isHome: boolean): string {
+    const title = page?.title || (isHome ? sitewide.companyName || 'Home' : 'Page');
+    const description = page?.description || sitewide.description || `${sitewide.companyName || ''} website`;
+    const heroHeading = isHome ? `${sitewide.companyName || title}` : title;
+    const componentName = isHome ? 'Home' : title.replace(/\s+/g, '');
+
+    return `import React from 'react';
+import { Helmet } from 'react-helmet-async';
+
+const ${componentName}: React.FC = () => {
+  return (
+    <>
+      <Helmet>
+        <title>${title} - ${sitewide.companyName || ''}</title>
+        <meta name="description" content="${description}" />
+      </Helmet>
+      <div className="pt-24 pb-16 min-h-screen bg-[#020202] text-slate-200">
+        <section className="max-w-6xl mx-auto px-6">
+          <div className="grid gap-10 md:grid-cols-2 items-center">
+            <div>
+              <p className="text-xs font-semibold tracking-[0.25em] text-emerald-400 uppercase mb-4">
+                ${sitewide.industry || 'Premium Services'}
+              </p>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                ${heroHeading}
+              </h1>
+              <p className="text-base md:text-lg text-slate-400 mb-8 max-w-xl">
+                ${description}
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href="#contact"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-emerald-500 text-slate-950 font-semibold text-sm tracking-wide hover:bg-emerald-400 transition-colors"
+                >
+                  Get a Free Quote
+                </a>
+                <a
+                  href="#services"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-slate-600 text-slate-100 font-semibold text-sm tracking-wide hover:border-emerald-400 hover:text-emerald-300 transition-colors"
+                >
+                  View Services
+                </a>
+              </div>
+              <div className="mt-10 grid grid-cols-3 gap-6 text-sm text-slate-400">
+                <div>
+                  <p className="text-2xl font-semibold text-white mb-1">10+</p>
+                  <p>Years of experience</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-semibold text-white mb-1">100+</p>
+                  <p>Projects completed</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-semibold text-white mb-1">5.0</p>
+                  <p>Average rating</p>
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute inset-0 bg-emerald-500/20 blur-3xl rounded-full" />
+              <div className="relative rounded-3xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 p-6 shadow-xl">
+                <div className="aspect-[4/3] rounded-2xl bg-gradient-to-tr from-emerald-500/20 via-slate-800 to-emerald-400/10 border border-slate-700/80 flex items-center justify-center">
+                  <p className="text-slate-300 text-center max-w-xs text-sm md:text-base">
+                    This page was generated using a fast fallback template because the AI model took too long to respond.
+                    You can refine it later using the AI Edit feature.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="services" className="max-w-6xl mx-auto px-6 mt-20">
+          <div className="flex items-center justify-between gap-4 mb-8">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-semibold text-white mb-2">
+                Our core services
+              </h2>
+              <p className="text-slate-400 text-sm md:text-base max-w-xl">
+                High-quality, professional services tailored to your needs. This section is a starting point and can be fully customized.
+              </p>
+            </div>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
+              <h3 className="text-lg font-semibold text-white mb-2">Consultation</h3>
+              <p className="text-sm text-slate-400 mb-4">
+                We discuss your goals, preferences, and requirements to craft the perfect solution.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
+              <h3 className="text-lg font-semibold text-white mb-2">Design & Planning</h3>
+              <p className="text-sm text-slate-400 mb-4">
+                A clear, professional plan that aligns with your brand and delivers real results.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
+              <h3 className="text-lg font-semibold text-white mb-2">Implementation</h3>
+              <p className="text-sm text-slate-400 mb-4">
+                Meticulous execution with attention to detail, quality, and long-term performance.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" className="max-w-3xl mx-auto px-6 mt-20">
+          <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-8">
+            <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4">
+              Ready to get started?
+            </h2>
+            <p className="text-slate-400 text-sm md:text-base mb-6">
+              Share a few details about your project and we&apos;ll get back to you with tailored next steps.
+            </p>
+            <form className="grid gap-4 md:grid-cols-2 text-sm">
+              <div className="md:col-span-1">
+                <label className="block text-slate-300 mb-1" htmlFor="name">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  className="w-full rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400"
+                  placeholder="John Doe"
+                />
+              </div>
+              <div className="md:col-span-1">
+                <label className="block text-slate-300 mb-1" htmlFor="email">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  className="w-full rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400"
+                  placeholder="you@example.com"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-slate-300 mb-1" htmlFor="message">
+                  Project details
+                </label>
+                <textarea
+                  id="message"
+                  rows={4}
+                  className="w-full rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400 resize-none"
+                  placeholder="Tell us what you&apos;re looking to achieve..."
+                />
+              </div>
+              <div className="md:col-span-2 flex justify-end">
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-emerald-500 text-slate-950 font-semibold text-sm tracking-wide hover:bg-emerald-400 transition-colors"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
+    </>
+  );
+};
+
+export default ${componentName};
+`;
 }
 
 function generateEntryServer(): string {
