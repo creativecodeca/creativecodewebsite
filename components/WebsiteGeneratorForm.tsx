@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, ArrowRight, ArrowLeft, Plus, X, Loader2, CheckCircle, XCircle, Github, ExternalLink, Trash2, Copy, Check, Search, MapPin, History, Clock } from 'lucide-react';
+import { Send, ArrowRight, ArrowLeft, Plus, X, Loader2, CheckCircle, XCircle, Github, ExternalLink, Trash2, Copy, Check, Search, MapPin, History, Clock, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Page {
@@ -90,6 +90,15 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
         vercelUrl?: string;
         projectUrl?: string;
     }>>([]);
+    const [editingSite, setEditingSite] = useState<{
+        id: string;
+        repoUrl: string;
+        vercelUrl?: string;
+        companyName: string;
+    } | null>(null);
+    const [editPrompt, setEditPrompt] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
+    const [editProgress, setEditProgress] = useState<{ message: string; percentage: number }>({ message: '', percentage: 0 });
     const formContainerRef = useRef<HTMLDivElement>(null);
 
     // Load history from localStorage on mount
@@ -834,6 +843,18 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                                 <ExternalLink className="w-3 h-3" />
                                             </a>
                                         )}
+                                        <button
+                                            onClick={() => setEditingSite({
+                                                id: item.id,
+                                                repoUrl: item.repoUrl!,
+                                                vercelUrl: item.vercelUrl,
+                                                companyName: item.companyName
+                                            })}
+                                            className="flex items-center gap-2 px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-lg text-purple-400 hover:bg-purple-500/30 transition-colors text-sm"
+                                        >
+                                            <Sparkles className="w-4 h-4" />
+                                            AI Edit
+                                        </button>
                                     </div>
                                 )}
                             </div>
