@@ -2756,15 +2756,23 @@ import { Link, useLocation } from 'react-router-dom';
 const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  ${(() => {
+    const colors = parseColors(sitewide.colors || '');
+    const primaryColor = colors.primary || '#D32F2F';
+    const bgColor = sitewide.colors ? primaryColor : '#020202';
+    const logoUrl = sitewide.logoUrl || sitewide.companyLogo || '';
+    return `const bgColor = '${bgColor}';
+  const logoUrl = '${logoUrl}';`;
+  })()}
 
   return (
-    <nav className="fixed z-50 w-full top-0 border-b border-white/10 shadow-lg" style={{ willChange: 'transform', backgroundColor: '${bgColor}' }}>
+    <nav className="fixed z-50 w-full top-0 border-b border-white/10 shadow-lg" style={{ willChange: 'transform', backgroundColor: bgColor }}>
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <Link
           to="/"
           className="text-white font-semibold tracking-tighter text-lg flex items-center gap-3 hover:opacity-80 transition-opacity"
         >
-          ${logoJsx}
+          {logoUrl ? <img src={logoUrl} alt="${sitewide.companyName}" className="h-10 w-auto object-contain" /> : <span>${sitewide.companyName}</span>}
         </Link>
 
         <div className="hidden md:flex items-center gap-10 text-sm font-semibold uppercase tracking-wider transition-opacity duration-200">
@@ -2781,7 +2789,7 @@ ${navLinks}
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-white/10" style={{ backgroundColor: '${bgColor}' }}>
+        <div className="md:hidden border-t border-white/10" style={{ backgroundColor: bgColor }}>
           <div className="flex flex-col p-6 gap-4">
 ${pageRoutes
         .filter(route => route.route !== '/attributions' && route.title !== 'Attributions')
