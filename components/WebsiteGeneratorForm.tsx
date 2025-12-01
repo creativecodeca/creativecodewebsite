@@ -132,6 +132,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                     }));
                     
                     console.log('Loaded sites from server:', historyItems.length);
+                    console.log('Sample site data:', historyItems[0]);
                     setGenerationHistory(historyItems);
                 } else {
                     console.error('Failed to load sites from server');
@@ -915,42 +916,70 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                                 <ExternalLink className="w-3 h-3" />
                                             </a>
                                         )}
-                                        {item.formData && (
-                                            <button
-                                                onClick={() => {
+                                        <button
+                                            onClick={() => {
+                                                if (item.formData) {
                                                     // Populate form with saved data
-                                                    setFormData(item.formData!);
+                                                    setFormData(item.formData);
                                                     setCurrentStep(0);
                                                     setShowHistory(false);
                                                     // Scroll to top of form
                                                     setTimeout(() => {
                                                         formContainerRef.current?.scrollIntoView({ behavior: 'smooth' });
                                                     }, 100);
-                                                }}
-                                                className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-lg text-blue-400 hover:bg-blue-500/30 transition-colors text-sm"
-                                            >
-                                                <RefreshCw className="w-4 h-4" />
-                                                Regenerate
-                                            </button>
-                                        )}
+                                                } else {
+                                                    // If no formData, at least copy the basic info
+                                                    setFormData(prev => ({
+                                                        ...prev,
+                                                        companyName: item.companyName,
+                                                        industry: item.industry || prev.industry
+                                                    }));
+                                                    setCurrentStep(0);
+                                                    setShowHistory(false);
+                                                    setTimeout(() => {
+                                                        formContainerRef.current?.scrollIntoView({ behavior: 'smooth' });
+                                                    }, 100);
+                                                }
+                                            }}
+                                            className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-lg text-blue-400 hover:bg-blue-500/30 transition-colors text-sm"
+                                            title={item.formData ? "Regenerate with saved form data" : "Regenerate (limited data available)"}
+                                        >
+                                            <RefreshCw className="w-4 h-4" />
+                                            Regenerate
+                                        </button>
                                     </div>
                                 )}
                                 
                                 {/* Show regenerate button for failed attempts too */}
-                                {item.status === 'failed' && item.formData && (
+                                {item.status === 'failed' && (
                                     <div className="flex flex-wrap gap-3 mt-4">
                                         <button
                                             onClick={() => {
-                                                // Populate form with saved data
-                                                setFormData(item.formData!);
-                                                setCurrentStep(0);
-                                                setShowHistory(false);
-                                                // Scroll to top of form
-                                                setTimeout(() => {
-                                                    formContainerRef.current?.scrollIntoView({ behavior: 'smooth' });
-                                                }, 100);
+                                                if (item.formData) {
+                                                    // Populate form with saved data
+                                                    setFormData(item.formData);
+                                                    setCurrentStep(0);
+                                                    setShowHistory(false);
+                                                    // Scroll to top of form
+                                                    setTimeout(() => {
+                                                        formContainerRef.current?.scrollIntoView({ behavior: 'smooth' });
+                                                    }, 100);
+                                                } else {
+                                                    // If no formData, at least copy the basic info
+                                                    setFormData(prev => ({
+                                                        ...prev,
+                                                        companyName: item.companyName,
+                                                        industry: item.industry || prev.industry
+                                                    }));
+                                                    setCurrentStep(0);
+                                                    setShowHistory(false);
+                                                    setTimeout(() => {
+                                                        formContainerRef.current?.scrollIntoView({ behavior: 'smooth' });
+                                                    }, 100);
+                                                }
                                             }}
                                             className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-lg text-blue-400 hover:bg-blue-500/30 transition-colors text-sm"
+                                            title={item.formData ? "Regenerate with saved form data" : "Regenerate (limited data available)"}
                                         >
                                             <RefreshCw className="w-4 h-4" />
                                             Regenerate
