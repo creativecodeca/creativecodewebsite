@@ -21,52 +21,54 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    // Set up Server-Sent Events for progress updates
+    // Validate before setting SSE headers
+    const {
+        companyName,
+        industry,
+        address,
+        city,
+        phoneNumber,
+        email,
+        companyType,
+        colors,
+        brandThemes,
+        extraDetailedInfo,
+        pages,
+        contactForm,
+        bookingForm,
+        qualityTier = 'mockup' // Default to mockup if not provided
+    } = req.body;
+
+    // Validate required fields (before SSE)
+    if (!companyName || !industry || !address || !city || !phoneNumber || !email || !companyType || !colors || !brandThemes) {
+        return res.status(400).json({ error: 'Missing required fields in General Information' });
+    }
+
+    if (!pages || !Array.isArray(pages) || pages.length === 0) {
+        return res.status(400).json({ error: 'At least one page is required' });
+    }
+
+    // Validate pages have required fields
+    for (const page of pages) {
+        if (!page.title || !page.information) {
+            return res.status(400).json({ error: `Page "${page.title || 'Untitled'}" is missing required information` });
+        }
+    }
+
+    if (!GEMINI_API_KEY || !GITHUB_TOKEN) {
+        console.error('Missing API credentials - GEMINI_API_KEY:', !!GEMINI_API_KEY, 'GITHUB_TOKEN:', !!GITHUB_TOKEN);
+        return res.status(500).json({ 
+            error: 'Website generation service is temporarily unavailable. Please contact support.',
+            code: 'SERVICE_UNAVAILABLE'
+        });
+    }
+
+    // Set up Server-Sent Events for progress updates (after validation)
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
 
     try {
-        const {
-            companyName,
-            industry,
-            address,
-            city,
-            phoneNumber,
-            email,
-            companyType,
-            colors,
-            brandThemes,
-            extraDetailedInfo,
-            pages,
-            contactForm,
-            bookingForm,
-            qualityTier = 'mockup' // Default to mockup if not provided
-        } = req.body;
-
-        // Validate required fields
-        if (!companyName || !industry || !address || !city || !phoneNumber || !email || !companyType || !colors || !brandThemes) {
-            return res.status(400).json({ error: 'Missing required fields in General Information' });
-        }
-
-        if (!pages || !Array.isArray(pages) || pages.length === 0) {
-            return res.status(400).json({ error: 'At least one page is required' });
-        }
-
-        // Validate pages have required fields
-        for (const page of pages) {
-            if (!page.title || !page.information) {
-                return res.status(400).json({ error: `Page "${page.title || 'Untitled'}" is missing required information` });
-            }
-        }
-
-        if (!GEMINI_API_KEY || !GITHUB_TOKEN) {
-            console.error('Missing API credentials - GEMINI_API_KEY:', !!GEMINI_API_KEY, 'GITHUB_TOKEN:', !!GITHUB_TOKEN);
-            return res.status(500).json({ 
-                error: 'Website generation service is temporarily unavailable. Please contact support.',
-                code: 'SERVICE_UNAVAILABLE'
-            });
-        }
 
         console.log('Starting website generation for:', companyName);
         sendProgress(res, 1, 'Generating design plan...', 10);
@@ -202,23 +204,45 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.error('Error generating website:', error);
         console.error('Error stack:', error.stack);
         
-        // Return user-friendly error without exposing backend details
-        const isConfigError = error?.message?.includes('API credentials') || 
-                             error?.message?.includes('GITHUB_TOKEN') ||
-                             error?.message?.includes('GEMINI_API_KEY');
-        
-        if (isConfigError) {
-            return res.status(500).json({
-                error: 'Website generation service is temporarily unavailable. Please contact support.',
-                code: 'SERVICE_UNAVAILABLE'
-            });
+        // Send error via SSE (headers already set)
+        try {
+            const isConfigError = error?.message?.includes('API credentials') || 
+                                 error?.message?.includes('GITHUB_TOKEN') ||
+                                 error?.message?.includes('GEMINI_API_KEY');
+            
+            const errorMessage = isConfigError
+                ? 'Website generation service is temporarily unavailable. Please contact support.'
+                : error.message || 'Failed to generate website. Please try again or contact support if the issue persists.';
+            
+            res.write(`data: ${JSON.stringify({
+                success: false,
+                error: errorMessage,
+                code: isConfigError ? 'SERVICE_UNAVAILABLE' : 'GENERATION_ERROR'
+            })}\n\n`);
+            res.end();
+        } catch (e) {
+            // If SSE fails, try to send JSON (but this might fail if headers already sent)
+            try {
+                const isConfigError = error?.message?.includes('API credentials') || 
+                                     error?.message?.includes('GITHUB_TOKEN') ||
+                                     error?.message?.includes('GEMINI_API_KEY');
+                
+                if (isConfigError) {
+                    return res.status(500).json({
+                        error: 'Website generation service is temporarily unavailable. Please contact support.',
+                        code: 'SERVICE_UNAVAILABLE'
+                    });
+                }
+                
+                return res.status(500).json({
+                    error: error.message || 'Failed to generate website. Please try again or contact support if the issue persists.',
+                    code: 'GENERATION_ERROR'
+                });
+            } catch (jsonError) {
+                // Headers already sent, can't send response
+                console.error('Cannot send error response - headers already sent');
+            }
         }
-        
-        // For other errors, return generic message
-        return res.status(500).json({
-            error: 'Failed to generate website. Please try again or contact support if the issue persists.',
-            code: 'GENERATION_FAILED'
-        });
     }
 }
 
@@ -266,7 +290,29 @@ Keep it concise but comprehensive. Format as JSON with these keys: designApproac
         }
     });
 
-    const result = await chat.sendMessage({ message: prompt });
+    // Retry logic for Gemini API calls
+    let result;
+    let retries = 3;
+    let lastError: any;
+    
+    while (retries > 0) {
+        try {
+            result = await chat.sendMessage({ message: prompt });
+            break; // Success, exit retry loop
+        } catch (error: any) {
+            lastError = error;
+            retries--;
+            if (retries > 0) {
+                console.warn(`Gemini API call failed, retrying... (${retries} attempts left)`);
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds before retry
+            }
+        }
+    }
+    
+    if (!result) {
+        throw new Error(`Failed to generate game plan after retries: ${lastError?.message || 'Unknown error'}`);
+    }
+    
     const text = result.text;
 
         try {
