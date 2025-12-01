@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, ArrowRight, ArrowLeft, Plus, X, Loader2, CheckCircle, XCircle, Github, ExternalLink, Trash2, Copy, Check, Search, MapPin, History, Clock, Sparkles } from 'lucide-react';
+import { Send, ArrowRight, ArrowLeft, Plus, X, Loader2, CheckCircle, XCircle, Github, ExternalLink, Trash2, Copy, Check, Search, MapPin, History, Clock, Sparkles, RefreshCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Page {
@@ -89,6 +89,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
         repoUrl?: string;
         vercelUrl?: string;
         projectUrl?: string;
+        formData?: FormData; // Store full form data for regeneration
     }>>([]);
     const [editingSite, setEditingSite] = useState<{
         id: string;
@@ -106,7 +107,15 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
         const saved = localStorage.getItem('websiteGenerationHistory');
         if (saved) {
             try {
-                setGenerationHistory(JSON.parse(saved));
+                const parsed = JSON.parse(saved);
+                // Ensure all items have proper structure
+                const cleaned = parsed.map((item: any) => ({
+                    ...item,
+                    companyName: item.companyName || 'Untitled Website',
+                    status: item.status || 'failed',
+                    timestamp: item.timestamp || Date.now()
+                }));
+                setGenerationHistory(cleaned);
             } catch (e) {
                 console.error('Failed to load generation history:', e);
             }
@@ -125,6 +134,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
             timestamp: Date.now(),
             companyName: formData.companyName,
             status: result.error ? 'failed' as const : 'success' as const,
+            formData: { ...formData }, // Store full form data for regeneration
             ...result
         };
         
@@ -785,7 +795,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                             ) : (
                                                 <XCircle className="w-5 h-5 text-red-500" />
                                             )}
-                                            <h3 className="text-lg font-semibold text-white">{item.companyName || 'Untitled'}</h3>
+                                            <h3 className="text-lg font-semibold text-white">{item.companyName || 'Untitled Website'}</h3>
                                             <span className={`px-2 py-1 rounded text-xs font-medium ${
                                                 item.status === 'success'
                                                     ? 'bg-emerald-500/20 text-emerald-400'
@@ -796,7 +806,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                         </div>
                                         <div className="flex items-center gap-2 text-sm text-slate-400">
                                             <Clock className="w-4 h-4" />
-                                            <span>{new Date(item.timestamp).toLocaleString()}</span>
+                                            <span>{item.timestamp ? new Date(item.timestamp).toLocaleString() : 'Unknown date'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -820,8 +830,8 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                                 GitHub
                                                 <ExternalLink className="w-3 h-3" />
                                             </a>
-                                        )}
-                                        {item.vercelUrl && (
+                                        ) : null}
+                                        {item.vercelUrl ? (
                                             <a
                                                 href={item.vercelUrl}
                                                 target="_blank"
@@ -831,8 +841,8 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                                 Live Site
                                                 <ExternalLink className="w-3 h-3" />
                                             </a>
-                                        )}
-                                        {item.projectUrl && (
+                                        ) : null}
+                                        {item.projectUrl ? (
                                             <a
                                                 href={item.projectUrl}
                                                 target="_blank"
@@ -842,6 +852,24 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                                 Vercel Dashboard
                                                 <ExternalLink className="w-3 h-3" />
                                             </a>
+                                        )}
+                                        {item.formData && (
+                                            <button
+                                                onClick={() => {
+                                                    // Populate form with saved data
+                                                    setFormData(item.formData!);
+                                                    setCurrentStep(0);
+                                                    setShowHistory(false);
+                                                    // Scroll to top of form
+                                                    setTimeout(() => {
+                                                        formContainerRef.current?.scrollIntoView({ behavior: 'smooth' });
+                                                    }, 100);
+                                                }}
+                                                className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-lg text-blue-400 hover:bg-blue-500/30 transition-colors text-sm"
+                                            >
+                                                <RefreshCw className="w-4 h-4" />
+                                                Regenerate
+                                            </button>
                                         )}
                                         <button
                                             onClick={() => setEditingSite({
@@ -854,6 +882,28 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                         >
                                             <Sparkles className="w-4 h-4" />
                                             AI Edit
+                                        </button>
+                                    </div>
+                                )}
+                                
+                                {/* Show regenerate button for failed attempts too */}
+                                {item.status === 'failed' && item.formData && (
+                                    <div className="flex flex-wrap gap-3 mt-4">
+                                        <button
+                                            onClick={() => {
+                                                // Populate form with saved data
+                                                setFormData(item.formData!);
+                                                setCurrentStep(0);
+                                                setShowHistory(false);
+                                                // Scroll to top of form
+                                                setTimeout(() => {
+                                                    formContainerRef.current?.scrollIntoView({ behavior: 'smooth' });
+                                                }, 100);
+                                            }}
+                                            className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-lg text-blue-400 hover:bg-blue-500/30 transition-colors text-sm"
+                                        >
+                                            <RefreshCw className="w-4 h-4" />
+                                            Regenerate
                                         </button>
                                     </div>
                                 )}
