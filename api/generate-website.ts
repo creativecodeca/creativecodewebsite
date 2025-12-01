@@ -2076,10 +2076,12 @@ CRITICAL REQUIREMENTS:
 6. IMPORTANT: Import from 'react-helmet-async', NOT 'react-helmet'
 
 HEADER (CRITICAL - MUST USE SHARED COMPONENT):
-- DO NOT create a custom header/navbar
-- MUST import and use the shared Navbar component: import Navbar from '../components/Navbar';
-- Use <Navbar /> at the top of your component
-- The Navbar component handles all navigation, styling, and responsive behavior
+- DO NOT create a custom header/navbar - the shared Navbar component is already included in App.tsx
+- DO NOT import or use Navbar component in your page component
+- DO NOT create any <header> or <nav> elements
+- DO NOT create any navbar/header code at all
+- The Navbar component is automatically rendered by App.tsx and wraps all pages
+- Your component should start with your content (hero section, etc.), NOT a header/navbar
 - Navigation links: ${pageRoutes.map(p => `${p.title} -> ${p.route}`).join(', ')}
 
 BUTTONS (CRITICAL):
@@ -2121,19 +2123,24 @@ CONTENT SECTIONS:
 - No sections that don't add value or make sense in context
 
 VISUAL CONSISTENCY (CRITICAL - NO BRIGHTNESS CHANGES):
-- NEVER use backdrop-blur, brightness(), or filter: brightness() - these create visual artifacts and weird lines
+- NEVER use backdrop-blur, brightness(), filter: brightness(), or any brightness filters - these create visual artifacts and weird lines
+- NEVER use brightness() CSS function anywhere - not in className, not in style, not anywhere
 - NEVER change opacity between sections in ways that create visual artifacts
+- NEVER use brightness utilities like brightness-50, brightness-75, etc.
 - Use solid backgrounds or simple gradients only
 - Maintain consistent visual styling throughout - no sudden brightness/opacity changes
-- If you need overlays, use solid rgba() backgrounds, NOT backdrop-blur or brightness filters
+- If you need overlays, use solid rgba() backgrounds with opacity 1.0, NOT backdrop-blur or brightness filters
 - All sections should have consistent visual weight - no jarring transitions
+- NO filters of any kind that affect brightness
 
 FOOTER (CRITICAL - MUST USE SHARED COMPONENT):
 - DO NOT create a custom footer - the shared Footer component is already included in App.tsx
 - DO NOT import or use Footer component in your page component
 - DO NOT create any <footer> elements or footer content
+- DO NOT create any footer code at all
 - The Footer component is automatically rendered by App.tsx and wraps all pages
 - Your component should end with your content sections, NOT a footer
+- If you see any footer-related code in your output, REMOVE IT - the footer is handled by App.tsx
 ${images.length > 0 ? '- Footer includes attribution link automatically' : ''}
 
 FORMS:
@@ -2208,9 +2215,11 @@ HEADER (CRITICAL - MUST USE SHARED COMPONENT):
 - DO NOT create a custom header/navbar - the shared Navbar component is already included in App.tsx
 - DO NOT import or use Navbar component in your page component
 - DO NOT create any <header> or <nav> elements
+- DO NOT create any navbar/header code at all
 - The Navbar component is automatically rendered by App.tsx and wraps all pages
 - Your component should start with your content (hero section, etc.), NOT a header/navbar
 - IMPORTANT: The navbar is fixed with height 80px. Your first element MUST have padding-top: "pt-20" or "pt-24" to prevent content from being hidden behind the fixed navbar
+- If you see any header/navbar-related code in your output, REMOVE IT - the navbar is handled by App.tsx
 
 BUTTONS:
 - Use <button> elements for CTAs
@@ -2275,6 +2284,38 @@ function cleanReactContent(content: string, sitewide: any): string {
     cleaned = cleaned.replace(/style=\{\{[^}]*brightness[^}]*\}\}/g, (match) => {
         return match.replace(/brightness\([^)]+\)/g, '').replace(/,\s*,/g, ',').replace(/,\s*\}/g, '}');
     });
+    
+    // Remove ALL brightness filters from className attributes
+    cleaned = cleaned.replace(/brightness-\[?[^\s"'`)]+\]?/g, '');
+    cleaned = cleaned.replace(/brightness-/g, '');
+    
+    // Remove filter utilities that might contain brightness
+    cleaned = cleaned.replace(/filter\s+brightness/g, '');
+    
+    // Remove brightness from any filter property
+    cleaned = cleaned.replace(/filter:\s*['"]?[^'"]*brightness[^'"]*['"]?/g, '');
+    
+    // Ensure navbar and footer are NOT translucent - remove opacity from backgrounds
+    cleaned = cleaned.replace(/backgroundColor:\s*['"]rgba\([^)]+,\s*0\.\d+\)['"]/g, (match) => {
+        // Convert rgba with opacity < 1.0 to solid rgb
+        const rgbaMatch = match.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/);
+        if (rgbaMatch) {
+            const r = rgbaMatch[1];
+            const g = rgbaMatch[2];
+            const b = rgbaMatch[3];
+            return `backgroundColor: 'rgb(${r}, ${g}, ${b})'`;
+        }
+        return match;
+    });
+    
+    // Remove opacity classes from navbar/footer elements
+    cleaned = cleaned.replace(/(<nav[^>]*className="[^"]*)\bopacity-\d+\b([^"]*")/g, '$1$2');
+    cleaned = cleaned.replace(/(<footer[^>]*className="[^"]*)\bopacity-\d+\b([^"]*")/g, '$1$2');
+    
+    // Remove any navbar or footer elements that might have been generated
+    cleaned = cleaned.replace(/<nav[^>]*>[\s\S]*?<\/nav>/gi, '');
+    cleaned = cleaned.replace(/<header[^>]*>[\s\S]*?<\/header>/gi, '');
+    cleaned = cleaned.replace(/<footer[^>]*>[\s\S]*?<\/footer>/gi, '');
     
     // Fix common issues
     cleaned = cleaned.replace(/className=/g, 'className=');
@@ -2811,9 +2852,13 @@ function generateNavbarComponent(pageRoutes: any[], sitewide: any): string {
             return false;
         }
     };
-    const navbarBgColor = sitewide.colors && primaryColor && isLightColor(primaryColor) 
-        ? `rgba(${parseInt(primaryColor.slice(1, 3), 16)}, ${parseInt(primaryColor.slice(3, 5), 16)}, ${parseInt(primaryColor.slice(5, 7), 16)}, 0.95)`
-        : (sitewide.colors ? primaryColor : '#020202');
+    // Make navbar background completely solid - NO translucency
+    // If color is too light, darken it instead of making it translucent
+    const navbarBgColor = sitewide.colors && primaryColor 
+        ? (isLightColor(primaryColor) 
+            ? `rgb(${Math.max(0, parseInt(primaryColor.slice(1, 3), 16) - 30)}, ${Math.max(0, parseInt(primaryColor.slice(3, 5), 16) - 30)}, ${Math.max(0, parseInt(primaryColor.slice(5, 7), 16) - 30)})`
+            : primaryColor)
+        : '#020202';
     const logoUrl = sitewide.logoUrl || sitewide.companyLogo || '';
     const companyName = sitewide.companyName || 'Company';
     const brandThemes = sitewide.brandThemes || '';
@@ -2968,7 +3013,7 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#0a0a0a] border-t" style={{ borderColor: '${escapedPrimaryColor}40' }}>
+    <footer className="bg-[#0a0a0a] border-t" style={{ borderColor: '${escapedPrimaryColor}40', backgroundColor: '#0a0a0a' }}>
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
