@@ -2341,12 +2341,15 @@ function generateTsConfigNode(): any {
 }
 
 function generateAppTsx(components: any[], pageRoutes: any[]): string {
-    // Filter out Navbar and Footer since they're imported separately
+    // Filter out Navbar, Footer, and Attributions since they're imported separately
     const pageComponents = components.filter(c => 
         c.name !== 'Navbar.tsx' && 
         c.name !== 'Footer.tsx' && 
         c.name !== 'Attributions.tsx'
     );
+    
+    // Check if Attributions component exists
+    const hasAttributions = components.some(c => c.name === 'Attributions.tsx');
     
     // Generate imports without .tsx extension (TypeScript convention)
     const imports = pageComponents.map(c => {
@@ -2360,12 +2363,15 @@ function generateAppTsx(components: any[], pageRoutes: any[]): string {
         return `          <Route path="${route.route}" element={<${componentName} />} />`;
     }).join('\n');
     
+    // Add Attributions import if it exists
+    const attributionsImport = hasAttributions ? 'import Attributions from \'./components/Attributions\';\n' : '';
+    
     return `import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-${imports}
+${attributionsImport}${imports}
 
 function App() {
   return (
