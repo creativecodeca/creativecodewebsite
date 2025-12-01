@@ -525,7 +525,7 @@ Return ONLY the refined React component code. Do not include explanations or mar
                 const chat = genAI.chats.create({
                     model: model,
                     config: {
-                        systemInstruction: 'You are a senior React developer and design expert specializing in production-ready websites. You ensure ABSOLUTE PERFECTION with zero design inconsistencies, perfect headers, and flawless code quality. You are extremely detail-oriented and catch every single error or inconsistency. CRITICAL: Remove ALL backdrop-blur, brightness() filters, and opacity changes that create visual artifacts. Use solid backgrounds or simple gradients only. Ensure every button works, every link works, and every form is functional.'
+                        systemInstruction: 'You are a senior React developer and design expert specializing in production-ready websites. You ensure ABSOLUTE PERFECTION with zero design inconsistencies, perfect headers, and flawless code quality. You are extremely detail-oriented and catch every single error or inconsistency. CRITICAL: ABSOLUTELY FORBIDDEN - Remove ALL backdrop-blur, brightness(), filter: brightness(), and ANY brightness filters from className, inline styles, CSS rules, and <style> tags. These create visual artifacts and weird lines. NEVER create CSS rules with filter: brightness(). Use solid backgrounds or simple gradients only. Ensure every button works, every link works, and every form is functional.'
                     }
                 });
 
@@ -712,7 +712,7 @@ Return ONLY the SEO-optimized React component code. Do not include explanations 
                 const chat = genAI.chats.create({
                     model: model,
                     config: {
-                        systemInstruction: 'You are an SEO expert specializing in React/Next.js optimization. You optimize components for maximum search engine visibility while maintaining perfect design quality and zero inconsistencies.'
+                        systemInstruction: 'You are an SEO expert specializing in React/Next.js optimization. You optimize components for maximum search engine visibility while maintaining perfect design quality and zero inconsistencies. CRITICAL: ABSOLUTELY FORBIDDEN - Do NOT use backdrop-blur, brightness(), filter: brightness(), or ANY brightness filters in CSS rules or anywhere else. These create visual artifacts.'
                     }
                 });
 
