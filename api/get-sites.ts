@@ -278,9 +278,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     vercelUrl: vercelUrl,
                     projectUrl: projectUrl,
                     createdAt: createdAt,
-                    industry: undefined,
-                    formData: null,
-                    status: 'success' as const,
+                    industry: formData?.industry || 'Unknown',
+                    formData: formData,
+                    status: vercelDeployed ? 'success' as const : 'failed' as const,
                     githubExists: true,
                     vercelDeployed: vercelDeployed,
                     vercelStatus: vercelStatus as any

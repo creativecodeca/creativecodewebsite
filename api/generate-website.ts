@@ -90,6 +90,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             extraDetailedInfo: extraDetailedInfo || '',
             contactForm: contactForm || false,
             bookingForm: bookingForm || false,
+            qualityTier: qualityTier || 'mockup',
             fullAddress: `${address}, ${city}`
         };
 
@@ -527,7 +528,7 @@ Return ONLY the refined React component code. Do not include explanations or mar
                 const chat = genAI.chats.create({
                     model: model,
                     config: {
-                        systemInstruction: 'You are a senior React developer and design expert specializing in production-ready websites. You ensure ABSOLUTE PERFECTION with zero design inconsistencies, perfect headers, and flawless code quality. You are extremely detail-oriented and catch every single error or inconsistency.'
+                        systemInstruction: 'You are a senior React developer and design expert specializing in production-ready websites. You ensure ABSOLUTE PERFECTION with zero design inconsistencies, perfect headers, and flawless code quality. You are extremely detail-oriented and catch every single error or inconsistency. CRITICAL: Remove ALL backdrop-blur, brightness() filters, and opacity changes that create visual artifacts. Use solid backgrounds or simple gradients only. Ensure every button works, every link works, and every form is functional.'
                     }
                 });
 
@@ -843,7 +844,7 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
                     const freshChat = genAI.chats.create({
                         model: model,
                         config: {
-                            systemInstruction: 'You are a senior React developer with 10+ years of experience creating award-winning websites. Generate production-ready React/TypeScript components using Tailwind CSS. The website must look stunning, modern, and professional - matching the quality of premium $10,000+ websites. Use Tailwind utility classes extensively, proper component structure, and ensure visual hierarchy.'
+                            systemInstruction: 'You are a senior React developer with 10+ years of experience creating award-winning websites. Generate production-ready React/TypeScript components using Tailwind CSS. The website must look stunning, modern, and professional - matching the quality of premium $10,000+ websites. Use Tailwind utility classes extensively, proper component structure, and ensure visual hierarchy. CRITICAL: NEVER use backdrop-blur, brightness() filters, or opacity changes that create visual artifacts. Use solid backgrounds or simple gradients only. Every button must work. Every link must work. Every form must be functional. The code must be perfect with zero errors. All content must make logical sense and be specific to the business. No generic placeholder text. Every element must have a purpose and work correctly.'
                         }
                     });
                     
@@ -2101,8 +2102,9 @@ HERO SECTION:
 - Large headline: "text-5xl md:text-7xl font-bold text-white"
 - Subheadline: "text-xl md:text-2xl text-slate-300"
 - CTA button prominently placed
-- Background: gradient or image with overlay
+- Background: Use solid color, simple gradient, or image with SOLID rgba() overlay (NOT backdrop-blur or brightness filters)
 - IMPORTANT: The navbar is fixed with height 80px. Your hero section MUST start with padding-top: "pt-20" or "pt-24" on the first element to prevent content from being hidden behind the fixed navbar
+- NEVER use backdrop-blur or brightness() filters - they create visual artifacts
 
 IMAGES:
 ${images.length > 0 ? `Available images (use ONLY if contextually relevant):
@@ -2113,6 +2115,18 @@ CONTENT SECTIONS:
 - Service/feature cards: "bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all"
 - Proper spacing: "py-20 px-6"
 - Max width container: "max-w-7xl mx-auto"
+- Each section must have a clear purpose and make logical sense
+- Sections should flow naturally from one to the next
+- Content in each section must be relevant and specific to ${sitewide.companyName}
+- No sections that don't add value or make sense in context
+
+VISUAL CONSISTENCY (CRITICAL - NO BRIGHTNESS CHANGES):
+- NEVER use backdrop-blur, brightness(), or filter: brightness() - these create visual artifacts and weird lines
+- NEVER change opacity between sections in ways that create visual artifacts
+- Use solid backgrounds or simple gradients only
+- Maintain consistent visual styling throughout - no sudden brightness/opacity changes
+- If you need overlays, use solid rgba() backgrounds, NOT backdrop-blur or brightness filters
+- All sections should have consistent visual weight - no jarring transitions
 
 FOOTER (CRITICAL - MUST USE SHARED COMPONENT):
 - DO NOT create a custom footer - the shared Footer component is already included in App.tsx
@@ -2123,8 +2137,8 @@ FOOTER (CRITICAL - MUST USE SHARED COMPONENT):
 ${images.length > 0 ? '- Footer includes attribution link automatically' : ''}
 
 FORMS:
-${sitewide.contactForm ? '- Contact form with proper Tailwind styling\n- Input fields: "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-slate-400"\n- Submit button: use button element with primary button classes' : ''}
-${sitewide.bookingForm ? '- Booking form with date/time inputs\n- Same input styling as contact form' : ''}
+${sitewide.contactForm ? '- Contact form with proper Tailwind styling\n- Input fields: "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-slate-400"\n- Submit button: use button element with primary button classes\n- Form must have proper validation (required fields, email format, etc.)\n- Form must have proper labels for accessibility\n- Form must have a working submit handler (can use onSubmit with preventDefault)\n- Show success/error messages appropriately' : ''}
+${sitewide.bookingForm ? '- Booking form with date/time inputs\n- Same input styling as contact form\n- Date picker and time selection must work\n- Form validation for all required fields\n- Proper labels and accessibility' : ''}
 
 SEO:
 - Use React Helmet Async (import { Helmet } from 'react-helmet-async') to set:
@@ -2252,6 +2266,15 @@ function cleanReactContent(content: string, sitewide: any): string {
     cleaned = cleaned.replace(/import\s+Footer\s+from[^;]+;\s*/g, '');
     cleaned = cleaned.replace(/<Navbar\s*\/?>\s*/g, '');
     cleaned = cleaned.replace(/<Footer\s*\/?>\s*/g, '');
+    
+    // Remove backdrop-blur and brightness filters that cause visual artifacts
+    cleaned = cleaned.replace(/backdrop-blur-\[?[^\s"'`)]+\]?/g, '');
+    cleaned = cleaned.replace(/backdrop-blur/g, '');
+    cleaned = cleaned.replace(/filter:\s*brightness\([^)]+\)/g, '');
+    cleaned = cleaned.replace(/brightness\([^)]+\)/g, '');
+    cleaned = cleaned.replace(/style=\{\{[^}]*brightness[^}]*\}\}/g, (match) => {
+        return match.replace(/brightness\([^)]+\)/g, '').replace(/,\s*,/g, ',').replace(/,\s*\}/g, '}');
+    });
     
     // Fix common issues
     cleaned = cleaned.replace(/className=/g, 'className=');
@@ -2770,11 +2793,40 @@ function generateNavbarComponent(pageRoutes: any[], sitewide: any): string {
     
     const colors = parseColors(sitewide.colors || '');
     const primaryColor = colors.primary || '#D32F2F';
+    const secondaryColor = colors.secondary || '#FFC107';
+    // Use primary color for navbar background, but make it darker/more subtle
     const bgColor = sitewide.colors ? primaryColor : '#020202';
+    // Create a darker version of primary color for navbar (if it's too bright)
+    const isLightColor = (color: string) => {
+        const hex = color.replace('#', '');
+        const r = parseInt(hex.substr(0, 2), 16);
+        const g = parseInt(hex.substr(2, 2), 16);
+        const b = parseInt(hex.substr(4, 2), 16);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        return brightness > 128;
+    };
+    const navbarBgColor = sitewide.colors && isLightColor(primaryColor) 
+        ? `rgba(${parseInt(primaryColor.slice(1, 3), 16)}, ${parseInt(primaryColor.slice(3, 5), 16)}, ${parseInt(primaryColor.slice(5, 7), 16)}, 0.95)`
+        : bgColor;
     const logoUrl = sitewide.logoUrl || sitewide.companyLogo || '';
-    const logoJsx = logoUrl 
-        ? `<img src="${logoUrl}" alt="${sitewide.companyName}" className="h-10 w-auto object-contain" />`
-        : `<span>${sitewide.companyName}</span>`;
+    const companyName = sitewide.companyName || 'Company';
+    const brandThemes = sitewide.brandThemes || '';
+    
+    // Customize navbar style based on brand themes
+    const isModern = brandThemes.toLowerCase().includes('modern') || brandThemes.toLowerCase().includes('minimal');
+    const isBold = brandThemes.toLowerCase().includes('bold') || brandThemes.toLowerCase().includes('vibrant');
+    const isElegant = brandThemes.toLowerCase().includes('elegant') || brandThemes.toLowerCase().includes('luxury');
+    
+    // Adjust navbar styling based on brand
+    const navStyle = isModern 
+        ? 'minimal, clean lines, subtle shadow'
+        : isBold 
+        ? 'vibrant, strong presence, prominent shadow'
+        : isElegant
+        ? 'refined, sophisticated, elegant shadow'
+        : 'professional, balanced';
+    
+    const borderColor = sitewide.colors ? `rgba(${parseInt(primaryColor.slice(1, 3), 16)}, ${parseInt(primaryColor.slice(3, 5), 16)}, ${parseInt(primaryColor.slice(5, 7), 16)}, 0.2)` : 'rgba(255, 255, 255, 0.1)';
     
     return `import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
@@ -2783,23 +2835,37 @@ import { Link, useLocation } from 'react-router-dom';
 const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-  ${(() => {
-    const colors = parseColors(sitewide.colors || '');
-    const primaryColor = colors.primary || '#D32F2F';
-    const bgColor = sitewide.colors ? primaryColor : '#020202';
-    const logoUrl = sitewide.logoUrl || sitewide.companyLogo || '';
-    return `const bgColor = '${bgColor}';
-  const logoUrl = '${logoUrl}';`;
-  })()}
+  
+  const bgColor = '${navbarBgColor}';
+  const logoUrl = '${logoUrl}';
+  const primaryColor = '${primaryColor}';
+  const borderColor = '${borderColor}';
+  const companyName = '${companyName}';
 
   return (
-    <nav className="fixed z-50 w-full top-0 border-b border-white/10 shadow-lg" style={{ willChange: 'transform', backgroundColor: bgColor }}>
+    <nav 
+      className="fixed z-50 w-full top-0 shadow-lg" 
+      style={{ 
+        willChange: 'transform', 
+        backgroundColor: bgColor,
+        borderBottom: \`1px solid \${borderColor}\`
+      }}
+    >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <Link
           to="/"
           className="text-white font-semibold tracking-tighter text-lg flex items-center gap-3 hover:opacity-80 transition-opacity"
+          style={{ color: 'white' }}
         >
-          {logoUrl ? <img src={logoUrl} alt="${sitewide.companyName}" className="h-10 w-auto object-contain" /> : <span>${sitewide.companyName}</span>}
+          {logoUrl ? (
+            <img 
+              src={logoUrl} 
+              alt={companyName} 
+              className="h-10 w-auto object-contain" 
+            />
+          ) : (
+            <span style={{ color: 'white' }}>{companyName}</span>
+          )}
         </Link>
 
         <div className="hidden md:flex items-center gap-10 text-sm font-semibold uppercase tracking-wider transition-opacity duration-200">
@@ -2810,13 +2876,20 @@ ${navLinks}
           className="md:hidden text-white hover:opacity-80 transition-opacity"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
+          style={{ color: 'white' }}
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-white/10" style={{ backgroundColor: bgColor }}>
+        <div 
+          className="md:hidden border-t" 
+          style={{ 
+            backgroundColor: bgColor,
+            borderTopColor: borderColor
+          }}
+        >
           <div className="flex flex-col p-6 gap-4">
 ${pageRoutes
         .filter(route => route.route !== '/attributions' && route.title !== 'Attributions')
@@ -2824,6 +2897,7 @@ ${pageRoutes
               to="${route.route}"
               className={\`hover:text-white transition-all duration-200 \${location.pathname === '${route.route}' ? 'text-white' : 'text-slate-400'}\`}
               onClick={() => setMobileMenuOpen(false)}
+              style={{ color: location.pathname === '${route.route}' ? 'white' : 'rgb(148, 163, 184)' }}
             >
               ${route.route === '/' ? 'Home' : route.title}
             </Link>`).join('\n')}
@@ -2833,6 +2907,8 @@ ${pageRoutes
     </nav>
   );
 };
+
+export default Navbar;
 
 export default Navbar;`;
 }

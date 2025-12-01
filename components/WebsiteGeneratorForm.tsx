@@ -1038,7 +1038,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                     className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white hover:bg-white/10 transition-colors"
                 >
                     <History className="w-4 h-4" />
-                    Previously Generated Sites
+                    Live Websites
                     {generationHistory.length > 0 && (
                         <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-xs font-medium">
                             {generationHistory.length}
