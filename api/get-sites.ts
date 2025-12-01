@@ -21,9 +21,7 @@ interface SiteStatus {
     vercelStatus?: 'ready' | 'building' | 'error' | 'canceled' | 'unknown';
 }
 
-// In-memory storage (in production, use Vercel KV or a database)
-// This will reset on cold starts, so we need persistent storage
-let savedSites: Array<{
+interface SavedSite {
     id: string;
     companyName: string;
     repoUrl: string;
@@ -34,7 +32,13 @@ let savedSites: Array<{
     formData?: any;
     status: 'success' | 'failed';
     error?: string;
-}> = [];
+}
+
+// In-memory storage (in production, use Vercel KV or a database)
+// Note: This will reset on serverless function cold starts
+// Each API route has its own instance, so we can't share state between routes
+// TODO: Implement persistent storage (Vercel KV, database, etc.)
+let savedSites: SavedSite[] = [];
 
 // Helper to check if GitHub repo exists
 async function checkGitHubRepo(repoUrl: string): Promise<boolean> {
@@ -143,39 +147,135 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-        // In production, fetch from persistent storage (Vercel KV, database, etc.)
-        // For now, we'll use the in-memory array which gets populated by save-site.ts
-        // TODO: Replace with persistent storage
+        if (!GITHUB_TOKEN) {
+            return res.json({ sites: [] });
+        }
+
+        const octokit = new Octokit({ auth: GITHUB_TOKEN });
         
-        // Check status for each site
-        const sitesWithStatus: SiteStatus[] = await Promise.all(
-            savedSites.map(async (site) => {
-                const githubExists = await checkGitHubRepo(site.repoUrl);
-                const vercelCheck = await checkVercelDeployment(site.vercelUrl, site.projectUrl);
+        // Get authenticated user
+        const { data: user } = await octokit.users.getAuthenticated();
+        const username = user.login;
+
+        // Fetch all repos for the user
+        // Repos created by this system follow pattern: {company-name}-website-{timestamp}
+        const { data: repos } = await octokit.repos.listForAuthenticatedUser({
+            per_page: 100,
+            sort: 'updated',
+            direction: 'desc'
+        });
+
+        // Filter repos that match the generated website pattern
+        const websiteRepos = repos.filter(repo => 
+            repo.name.includes('-website-') && 
+            repo.owner.login === username
+        );
+
+        // Build sites from GitHub repos
+        const sites: SiteStatus[] = await Promise.all(
+            websiteRepos.map(async (repo) => {
+                const repoUrl = repo.html_url;
+                const createdAt = repo.created_at;
+                
+                // Try to extract company name from repo name
+                // Pattern: {company-name}-website-{timestamp}
+                const nameMatch = repo.name.match(/^(.+)-website-\d+$/);
+                const companyName = nameMatch ? nameMatch[1].replace(/-/g, ' ') : repo.name;
+                
+                // Try to find Vercel project for this repo
+                let vercelUrl: string | undefined;
+                let projectUrl: string | undefined;
+                let vercelDeployed = false;
+                let vercelStatus = 'unknown';
+                
+                if (VERCEL_TOKEN) {
+                    try {
+                        // Get Vercel team/user info
+                        const accountResponse = await fetch('https://api.vercel.com/v2/teams', {
+                            headers: { 'Authorization': `Bearer ${VERCEL_TOKEN}` }
+                        });
+
+                        let accountId: string | null = null;
+                        if (accountResponse.ok) {
+                            const teams: any = await accountResponse.json();
+                            if (teams.teams && teams.teams.length > 0) {
+                                accountId = teams.teams[0].id;
+                            }
+                        }
+
+                        if (!accountId) {
+                            const userResponse = await fetch('https://api.vercel.com/v2/user', {
+                                headers: { 'Authorization': `Bearer ${VERCEL_TOKEN}` }
+                            });
+                            if (userResponse.ok) {
+                                const user: any = await userResponse.json();
+                                accountId = user.user?.id || null;
+                            }
+                        }
+
+                        // Search for Vercel project linked to this repo
+                        const projectsUrl = `https://api.vercel.com/v9/projects${accountId ? `?teamId=${accountId}` : ''}`;
+                        const projectsResponse = await fetch(projectsUrl, {
+                            headers: { 'Authorization': `Bearer ${VERCEL_TOKEN}` }
+                        });
+
+                        if (projectsResponse.ok) {
+                            const projects: any = await projectsResponse.json();
+                            const matchingProject = projects.projects?.find((p: any) => 
+                                p.link?.repo === repo.full_name || 
+                                p.link?.repoId === repo.id ||
+                                p.name === repo.name
+                            );
+                            
+                            if (matchingProject) {
+                                projectUrl = `https://vercel.com/${accountId ? `team/${accountId}/` : ''}${matchingProject.name}`;
+                                
+                                // Get latest deployment
+                                const deploymentsUrl = `https://api.vercel.com/v6/deployments${accountId ? `?teamId=${accountId}` : ''}&projectId=${matchingProject.id}&limit=1`;
+                                const deploymentsResponse = await fetch(deploymentsUrl, {
+                                    headers: { 'Authorization': `Bearer ${VERCEL_TOKEN}` }
+                                });
+
+                                if (deploymentsResponse.ok) {
+                                    const deployments: any = await deploymentsResponse.json();
+                                    if (deployments.deployments && deployments.deployments.length > 0) {
+                                        const latestDeployment = deployments.deployments[0];
+                                        vercelUrl = `https://${latestDeployment.url}`;
+                                        vercelStatus = (latestDeployment.state || 'unknown').toLowerCase();
+                                        vercelDeployed = latestDeployment.state === 'READY';
+                                    }
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('Error checking Vercel for repo:', repo.name, e);
+                    }
+                }
                 
                 return {
-                    ...site,
-                    githubExists,
-                    vercelDeployed: vercelCheck.deployed,
-                    vercelStatus: vercelCheck.status as any
+                    id: repo.id.toString(),
+                    companyName: companyName,
+                    repoUrl: repoUrl,
+                    vercelUrl: vercelUrl,
+                    projectUrl: projectUrl,
+                    createdAt: createdAt,
+                    industry: undefined,
+                    formData: null,
+                    status: 'success' as const,
+                    githubExists: true,
+                    vercelDeployed: vercelDeployed,
+                    vercelStatus: vercelStatus as any
                 };
             })
         );
 
-        // Filter out sites where GitHub repo doesn't exist
-        const validSites = sitesWithStatus.filter(site => site.githubExists);
-
         // Sort by most recent first
-        validSites.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        sites.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
-        return res.json({ sites: validSites });
+        return res.json({ sites });
     } catch (error: any) {
-        console.error('Error fetching sites:', error);
-        return res.status(500).json({ error: 'Failed to fetch sites' });
+        console.error('Error fetching sites from GitHub:', error);
+        return res.status(500).json({ error: 'Failed to fetch sites from GitHub' });
     }
 }
-
-// Export the savedSites array so save-site.ts can access it
-// In production, this should be a shared database/KV store
-export { savedSites };
 

@@ -1,5 +1,4 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { savedSites } from './get-sites';
 
 interface SavedSite {
     id: string;
@@ -13,6 +12,11 @@ interface SavedSite {
     status: 'success' | 'failed';
     error?: string;
 }
+
+// In-memory storage (in production, use Vercel KV or a database)
+// Note: This will reset on serverless function cold starts
+// Each API route has its own instance, so we can't share state between routes
+let savedSites: SavedSite[] = [];
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method === 'POST') {

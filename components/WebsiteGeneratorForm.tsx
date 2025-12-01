@@ -801,7 +801,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-3xl font-bold text-white flex items-center gap-3">
                         <History className="w-8 h-8 text-emerald-500" />
-                        Previously Generated Sites
+                        Github sites
                     </h2>
                     <button
                         onClick={() => setShowHistory(false)}
@@ -815,8 +815,8 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                 {generationHistory.length === 0 ? (
                     <div className="text-center py-12">
                         <History className="w-16 h-16 text-slate-500 mx-auto mb-4" />
-                        <p className="text-slate-400">No previously generated sites yet.</p>
-                        <p className="text-slate-500 text-sm mt-2">Your successfully generated websites will appear here.</p>
+                        <p className="text-slate-400">No GitHub sites found yet.</p>
+                        <p className="text-slate-500 text-sm mt-2">Your generated websites from GitHub will appear here.</p>
                     </div>
                 ) : (
                     <div className="space-y-4">

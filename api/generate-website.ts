@@ -1373,21 +1373,59 @@ async function getRelevantImages(sitewide: any, page: any, pageIndex: number): P
     const pexelsApiKey = process.env.PEXELS_API_KEY;
     const unsplashAccessKey = process.env.UNSPLASH_ACCESS_KEY;
     
-    // OPTIMIZATION: Use only 1-2 most relevant search terms, not 5
+    // IMPROVED: Build contextually relevant search terms based on page content
     const searchTerms: string[] = [];
     
-    // Primary: Industry + company type (most relevant)
-    if (sitewide.industry && sitewide.companyType) {
-        searchTerms.push(`${sitewide.industry} ${sitewide.companyType}`.toLowerCase().replace(/\//g, ' '));
+    // Priority 1: Page-specific content (most relevant to what the page is about)
+    if (page.title && page.information) {
+        // Extract key nouns/phrases from page title and information
+        const pageText = `${page.title} ${page.information}`.toLowerCase();
+        
+        // Remove common stop words and extract meaningful terms
+        const stopWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'from', 'as', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'should', 'could', 'may', 'might', 'must', 'can', 'this', 'that', 'these', 'those', 'i', 'you', 'he', 'she', 'it', 'we', 'they', 'what', 'which', 'who', 'whom', 'whose', 'where', 'when', 'why', 'how', 'all', 'each', 'every', 'both', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 'just', 'about', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'up', 'down', 'out', 'off', 'over', 'under', 'again', 'further', 'then', 'once'];
+        
+        // Extract meaningful words (3+ characters, not stop words)
+        const words = pageText.split(/\s+/).filter(w => w.length >= 3 && !stopWords.includes(w));
+        
+        // Create search terms from page content
+        if (words.length > 0) {
+            // Use page title as primary search term
+            const titleWords = page.title.toLowerCase().split(/\s+/).filter(w => w.length >= 3 && !stopWords.includes(w));
+            if (titleWords.length > 0) {
+                searchTerms.push(titleWords.slice(0, 3).join(' ')); // First 3 meaningful words from title
+            }
+            
+            // Add industry context if relevant
+            if (sitewide.industry && !pageText.includes(sitewide.industry.toLowerCase())) {
+                searchTerms.push(`${titleWords[0] || words[0]} ${sitewide.industry}`.toLowerCase());
+            }
+        }
     }
     
-    // Secondary: Industry alone (only if we don't have primary)
-    if (sitewide.industry && searchTerms.length === 0) {
-        searchTerms.push(sitewide.industry.toLowerCase());
+    // Priority 2: Industry + company type (fallback if page content doesn't yield good terms)
+    if (searchTerms.length === 0) {
+        if (sitewide.industry && sitewide.companyType) {
+            searchTerms.push(`${sitewide.industry} ${sitewide.companyType}`.toLowerCase().replace(/\//g, ' '));
+        } else if (sitewide.industry) {
+            searchTerms.push(sitewide.industry.toLowerCase());
+        }
     }
     
-    // Limit to 2 search terms max
-    const uniqueTerms = searchTerms.slice(0, 2);
+    // Priority 3: Company name if it's descriptive (e.g., "Faro Landscaping" -> "landscaping")
+    if (searchTerms.length < 2 && sitewide.companyName) {
+        const companyWords = sitewide.companyName.toLowerCase().split(/\s+/).filter(w => w.length >= 4);
+        if (companyWords.length > 1) {
+            // Use descriptive words from company name (skip common business words)
+            const businessWords = ['inc', 'llc', 'corp', 'ltd', 'company', 'co', 'group', 'services', 'solutions'];
+            const descriptiveWords = companyWords.filter(w => !businessWords.includes(w));
+            if (descriptiveWords.length > 0) {
+                searchTerms.push(descriptiveWords[0]);
+            }
+        }
+    }
+    
+    // Limit to 2 most relevant search terms
+    const uniqueTerms = [...new Set(searchTerms)].slice(0, 2);
     
     // OPTIMIZATION: Fetch with timeout and parallel requests
     const fetchWithTimeout = async (url: string, options: any, timeoutMs: number = 3000): Promise<Response | null> => {
@@ -1962,6 +2000,10 @@ ${attributionList}
 
 // Helper function to generate React component prompt for main page
 function generateMainPageReactPrompt(page: any, sitewide: any, pages: any[], pageRoutes: any[], gamePlan: any, images: Array<{url: string, attribution?: string, photographer?: string, photographerUrl?: string}>, pageRoute: any): string {
+    const colors = parseColors(sitewide.colors || '');
+    const primaryColor = colors.primary || '#D32F2F';
+    const secondaryColor = colors.secondary || '#FFC107';
+    
     return `Create a professional, modern, high-quality React/TypeScript component for the MAIN/HOME page using Tailwind CSS.
 
 Company: ${sitewide.companyName}
@@ -1975,12 +2017,26 @@ Contact Information:
 - Phone: ${sitewide.phoneNumber}
 - Email: ${sitewide.email}
 
-Colors: ${sitewide.colors}
+COLORS (USE THESE EXACT VALUES):
+- Primary Color: ${primaryColor}
+- Secondary Color: ${secondaryColor}
+- IMPORTANT: Replace ALL instances of [primary-color] with ${primaryColor} and [secondary-color] with ${secondaryColor} in your Tailwind classes
+- Example: Use "bg-[${primaryColor}]" or style={{ backgroundColor: '${primaryColor}' }} instead of "bg-[primary-color]"
+
 Brand Themes: ${sitewide.brandThemes}
 Extra Details: ${sitewide.extraDetailedInfo || ''}
 
 Design Guidelines:
 ${JSON.stringify(gamePlan, null, 2)}
+
+CONTENT QUALITY REQUIREMENTS (CRITICAL):
+- ALL content must be SPECIFIC to ${sitewide.companyName} - NO generic placeholder text
+- Use the provided "Page Information: ${page.information}" to create relevant, business-specific content
+- DO NOT generate fake statistics, metrics, or numbers (e.g., "10+ years", "100+ clients", "500+ projects") unless explicitly provided in the company information
+- DO NOT use placeholder text like "Lorem ipsum" or generic descriptions
+- Every section should reflect the ACTUAL business: ${sitewide.companyName} in ${sitewide.industry}
+- Make content compelling and specific to this company's unique value proposition
+- If you need to mention experience or achievements, base them ONLY on information provided, or use qualitative descriptions like "experienced team" rather than fake numbers
 
 CRITICAL REQUIREMENTS:
 
@@ -2000,13 +2056,18 @@ HEADER (CRITICAL - MUST USE SHARED COMPONENT):
 
 BUTTONS (CRITICAL):
 - Use <button> elements for CTAs, NOT <a> tags
-- Primary buttons: "px-6 py-3 bg-[primary-color] text-white rounded-lg font-semibold hover:bg-[darker-color] transition-all hover:scale-105"
-- Secondary buttons: "px-6 py-3 border-2 border-[primary-color] text-[primary-color] rounded-lg font-semibold hover:bg-[primary-color] hover:text-white transition-all"
+${(() => {
+    const colors = parseColors(sitewide.colors || '');
+    const primary = colors.primary || '#D32F2F';
+    return `- Primary buttons: "px-6 py-3 text-white rounded-lg font-semibold transition-all hover:scale-105" with style={{ backgroundColor: '${primary}' }} or className="bg-[${primary}]"
+- Secondary buttons: "px-6 py-3 border-2 rounded-lg font-semibold transition-all" with style={{ borderColor: '${primary}', color: '${primary}' }} or className="border-[${primary}] text-[${primary}]"`;
+})()}
 - Buttons MUST look like buttons with padding, background, rounded corners
 - ALL buttons MUST have proper functionality:
-  * "Learn More" buttons MUST link to relevant sections using href="#section-id" or onClick handlers
+  * "Learn More" buttons MUST link to relevant sections using onClick handlers: onClick={() => document.getElementById('section-id')?.scrollIntoView({ behavior: 'smooth' })}
+  * "Contact Us" buttons MUST scroll to contact section or link to /contact: onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} or href="/contact"
   * CTA buttons MUST have proper onClick handlers or href attributes
-  * NO placeholder buttons that don't do anything - every button must have a purpose
+  * NO placeholder buttons that don't do anything - every button must have a purpose and WORK
 
 HERO SECTION:
 - Full-width section with compelling design
@@ -2056,6 +2117,10 @@ Return ONLY the complete React/TypeScript component code, no explanations or mar
 
 // Helper function to generate React component prompt for sub-pages
 function generateSubPageReactPrompt(page: any, sitewide: any, pages: any[], pageRoutes: any[], gamePlan: any, images: Array<{url: string, attribution?: string, photographer?: string, photographerUrl?: string}>, pageRoute: any): string {
+    const colors = parseColors(sitewide.colors || '');
+    const primaryColor = colors.primary || '#D32F2F';
+    const secondaryColor = colors.secondary || '#FFC107';
+    
     return `Create a professional, modern, high-quality React/TypeScript component for the "${page.title}" page using Tailwind CSS.
 
 Company: ${sitewide.companyName}
@@ -2067,12 +2132,26 @@ Contact Information:
 - Phone: ${sitewide.phoneNumber}
 - Email: ${sitewide.email}
 
-Colors: ${sitewide.colors}
+COLORS (USE THESE EXACT VALUES):
+- Primary Color: ${primaryColor}
+- Secondary Color: ${secondaryColor}
+- IMPORTANT: Replace ALL instances of [primary-color] with ${primaryColor} and [secondary-color] with ${secondaryColor} in your Tailwind classes
+- Example: Use "bg-[${primaryColor}]" or style={{ backgroundColor: '${primaryColor}' }} instead of "bg-[primary-color]"
+
 Brand Themes: ${sitewide.brandThemes}
 Extra Details: ${sitewide.extraDetailedInfo || ''}
 
 Design Guidelines:
 ${JSON.stringify(gamePlan, null, 2)}
+
+CONTENT QUALITY REQUIREMENTS (CRITICAL):
+- ALL content must be SPECIFIC to ${sitewide.companyName} - NO generic placeholder text
+- Use the provided "Page Information: ${page.information}" to create relevant, business-specific content
+- DO NOT generate fake statistics, metrics, or numbers (e.g., "10+ years", "100+ clients", "500+ projects") unless explicitly provided in the company information
+- DO NOT use placeholder text like "Lorem ipsum" or generic descriptions
+- Every section should reflect the ACTUAL business: ${sitewide.companyName} in ${sitewide.industry}
+- Make content compelling and specific to this company's unique value proposition
+- If you need to mention experience or achievements, base them ONLY on information provided, or use qualitative descriptions like "experienced team" rather than fake numbers
 
 CRITICAL REQUIREMENTS:
 
@@ -2094,9 +2173,11 @@ HEADER (CRITICAL - MUST USE SHARED COMPONENT):
 
 BUTTONS:
 - Use <button> elements for CTAs
-- Same button classes as Home component
+- Primary buttons: Use "px-6 py-3 text-white rounded-lg font-semibold transition-all hover:scale-105" with style={{ backgroundColor: '${primaryColor}' }} or className="bg-[${primaryColor}]"
+- Secondary buttons: Use "px-6 py-3 border-2 rounded-lg font-semibold transition-all" with style={{ borderColor: '${primaryColor}', color: '${primaryColor}' }} or className="border-[${primaryColor}] text-[${primaryColor}]"
 - ALL buttons MUST have proper functionality:
-  * "Learn More" buttons MUST link to relevant sections using onClick handlers that scroll to sections
+  * "Learn More" buttons MUST scroll to relevant sections: onClick={() => document.getElementById('section-id')?.scrollIntoView({ behavior: 'smooth' })}
+  * "Contact Us" buttons MUST scroll to contact section: onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} or link to /contact
   * CTA buttons MUST have proper onClick handlers
   * NO placeholder buttons - every button must work
 
@@ -2647,15 +2728,26 @@ function parseColors(colorsString: string): { primary: string; secondary: string
 }
 
 function generateNavbarComponent(pageRoutes: any[], sitewide: any): string {
-    const navLinks = pageRoutes.map(route => {
-        const isHome = route.route === '/';
-        return `          <Link
+    // Filter out Attributions from navbar - it should only be in footer
+    const navLinks = pageRoutes
+        .filter(route => route.route !== '/attributions' && route.title !== 'Attributions')
+        .map(route => {
+            const isHome = route.route === '/';
+            return `          <Link
             to="${route.route}"
-            className={\`hover:text-white transition-all \${location.pathname === '${route.route}' ? 'text-white' : 'text-slate-400'}\`}
+            className={\`hover:text-white transition-all duration-200 \${location.pathname === '${route.route}' ? 'text-white' : 'text-slate-400'}\`}
           >
             ${isHome ? 'Home' : route.title}
           </Link>`;
-    }).join('\n');
+        }).join('\n');
+    
+    const colors = parseColors(sitewide.colors || '');
+    const primaryColor = colors.primary || '#D32F2F';
+    const bgColor = sitewide.colors ? primaryColor : '#020202';
+    const logoUrl = sitewide.logoUrl || sitewide.companyLogo || '';
+    const logoJsx = logoUrl 
+        ? `<img src="${logoUrl}" alt="${sitewide.companyName}" className="h-10 w-auto object-contain" />`
+        : `<span>${sitewide.companyName}</span>`;
     
     return `import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
@@ -2666,13 +2758,13 @@ const Navbar: React.FC = () => {
   const location = useLocation();
 
   return (
-    <nav className="fixed z-50 w-full top-0 bg-[#020202] border-b border-white/10 shadow-lg" style={{ willChange: 'transform' }}>
+    <nav className="fixed z-50 w-full top-0 border-b border-white/10 shadow-lg" style={{ willChange: 'transform', backgroundColor: '${bgColor}' }}>
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <Link
           to="/"
           className="text-white font-semibold tracking-tighter text-lg flex items-center gap-3 hover:opacity-80 transition-opacity"
         >
-          <span>${sitewide.companyName}</span>
+          ${logoJsx}
         </Link>
 
         <div className="hidden md:flex items-center gap-10 text-sm font-semibold uppercase tracking-wider transition-opacity duration-200">
@@ -2689,9 +2781,11 @@ ${navLinks}
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#020202] border-t border-white/10">
+        <div className="md:hidden border-t border-white/10" style={{ backgroundColor: '${bgColor}' }}>
           <div className="flex flex-col p-6 gap-4">
-${pageRoutes.map(route => `            <Link
+${pageRoutes
+        .filter(route => route.route !== '/attributions' && route.title !== 'Attributions')
+        .map(route => `            <Link
               to="${route.route}"
               className={\`hover:text-white transition-all duration-200 \${location.pathname === '${route.route}' ? 'text-white' : 'text-slate-400'}\`}
               onClick={() => setMobileMenuOpen(false)}
