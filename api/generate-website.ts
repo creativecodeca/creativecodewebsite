@@ -803,13 +803,34 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
                 : generateSubPageReactPrompt(page, sitewide, pages, pageRoutes, gamePlan, pageImages, pageRoute);
 
             const componentChat = genAI.chats.create({
-        model: model,
-        config: {
+                model: model,
+                config: {
                     systemInstruction: 'You are a senior React developer with 10+ years of experience creating award-winning websites. Generate production-ready React/TypeScript components using Tailwind CSS. The website must look stunning, modern, and professional - matching the quality of premium $10,000+ websites. Use Tailwind utility classes extensively, proper component structure, and ensure visual hierarchy.'
                 }
             });
 
-            const componentResult = await componentChat.sendMessage({ message: componentPrompt });
+            // Gemini call with timeout + minimal retries to avoid network flakiness
+            let componentResult;
+            let componentRetries = 1;
+            let componentLastError: any;
+            while (componentRetries >= 0) {
+                try {
+                    componentResult = await callGeminiWithTimeout(componentChat, componentPrompt, 45000); // 45s timeout
+                    break;
+                } catch (err: any) {
+                    componentLastError = err;
+                    componentRetries--;
+                    console.warn(`Component generation failed for route ${pageRoute.route}, retries left: ${componentRetries}`, err?.message || err);
+                    if (componentRetries >= 0) {
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                }
+            }
+
+            if (!componentResult) {
+                console.error(`Failed to generate React component for page ${pageRoute.route} after retries`, componentLastError);
+                throw new Error(`Failed to generate React component for page ${pageRoute.route}`);
+            }
             let componentContent = componentResult.text.replace(/```tsx\n?/g, '').replace(/```ts\n?/g, '').replace(/```jsx\n?/g, '').replace(/```javascript\n?/g, '').replace(/```\n?/g, '').trim();
             
             // Clean up component content
