@@ -118,12 +118,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             console.log('Starting production refinement...');
             sendProgress(res, 2, 'Refining for production quality...', 50);
             
-            // Add overall timeout protection (max 180 seconds for refinement)
+            // Add overall timeout protection (max 240 seconds for refinement - increased for parallel processing)
             try {
                 finalComponents = await Promise.race([
                     refineForProduction(genAI, finalComponents, sitewide, pages, pageRoutes, res),
                     new Promise<Array<{ name: string; content: string; route: string; pageInfo: any }>>((_, reject) =>
-                        setTimeout(() => reject(new Error('Refinement timed out after 3 minutes')), 180000)
+                        setTimeout(() => reject(new Error('Refinement timed out after 4 minutes')), 240000)
                     )
                 ]);
                 console.log('Production refinement complete');
@@ -407,8 +407,8 @@ async function refineForProduction(
     
     console.log(`Refining ${componentsToRefine.length} components for production...`);
     
-    // Process in parallel batches of 4 to speed up (increased from 3)
-    const batchSize = 4;
+    // Process in smaller batches to avoid timeout - reduce batch size
+    const batchSize = 2; // Reduced from 4 to 2 to prevent timeouts
     for (let batchStart = 0; batchStart < componentsToRefine.length; batchStart += batchSize) {
         const batch = componentsToRefine.slice(batchStart, batchStart + batchSize);
         const batchIndex = Math.floor(batchStart / batchSize);
@@ -501,15 +501,12 @@ CRITICAL REFINEMENT CHECKLIST - EVERY ITEM MUST BE PERFECT:
     - Ensure all imports are correct
     - No console errors or warnings
 
-SHARED NAVBAR COMPONENT (for reference - use this, don't recreate):
+Original Component (truncated for efficiency):
 \`\`\`tsx
-${navbarContent.substring(0, 1000)}
+${component.content.substring(0, 3000)}${component.content.length > 3000 ? '\n... (component continues)' : ''}
 \`\`\`
 
-Original Component:
-\`\`\`tsx
-${component.content}
-\`\`\`
+CRITICAL: The navbar and footer are handled by App.tsx - DO NOT modify or recreate them. Focus ONLY on the page content.
 
 Site Information:
 - Company: ${sitewide.companyName}
@@ -541,8 +538,8 @@ Return ONLY the refined React component code. Do not include explanations or mar
                 while (retries >= 0) {
                     refinementAttempt++;
                     try {
-                        // Extended timeout for refinement - needs time to analyze and improve
-                        const timeoutMs = 90000 + (refinementAttempt * 10000); // 90s, 100s, 110s, 120s
+                        // Reduced timeout for refinement - make it faster and more focused
+                        const timeoutMs = 60000 + (refinementAttempt * 5000); // 60s, 65s, 70s, 75s
                         console.log(`Refinement attempt ${refinementAttempt} for ${component.name} with ${timeoutMs/1000}s timeout...`);
                         result = await callGeminiWithTimeout(chat, refinementPrompt, timeoutMs);
                         
@@ -617,8 +614,8 @@ async function optimizeForSEO(
     
     console.log(`Optimizing ${componentsToOptimize.length} components for SEO...`);
     
-    // Process in parallel batches of 4 to speed up (increased from 3)
-    const batchSize = 4;
+    // Process in smaller batches to avoid timeout - reduce batch size
+    const batchSize = 2; // Reduced from 4 to 2 to prevent timeouts
     for (let batchStart = 0; batchStart < componentsToOptimize.length; batchStart += batchSize) {
         const batch = componentsToOptimize.slice(batchStart, batchStart + batchSize);
         const batchIndex = Math.floor(batchStart / batchSize);
@@ -698,9 +695,9 @@ CRITICAL SEO OPTIMIZATION CHECKLIST:
     - Optimize images (use proper sizing)
     - Lazy load images below the fold
 
-Original Component:
+Original Component (truncated for efficiency):
 \`\`\`tsx
-${component.content}
+${component.content.substring(0, 3000)}${component.content.length > 3000 ? '\n... (component continues)' : ''}
 \`\`\`
 
 Site Information:
@@ -728,8 +725,8 @@ Return ONLY the SEO-optimized React component code. Do not include explanations 
                 while (retries >= 0) {
                     seoAttempt++;
                     try {
-                        // Extended timeout for SEO optimization
-                        const timeoutMs = 90000 + (seoAttempt * 10000); // 90s, 100s, 110s, 120s
+                        // Reduced timeout for SEO optimization - make it faster and more focused
+                        const timeoutMs = 60000 + (seoAttempt * 5000); // 60s, 65s, 70s, 75s
                         console.log(`SEO optimization attempt ${seoAttempt} for ${component.name} with ${timeoutMs/1000}s timeout...`);
                         result = await callGeminiWithTimeout(chat, seoPrompt, timeoutMs);
                         
@@ -2265,6 +2262,48 @@ function cleanReactContent(content: string, sitewide: any): string {
     }
     if (!cleaned.includes("from 'react-router-dom'") && (cleaned.includes("<Link") || cleaned.includes("useLocation"))) {
         cleaned = cleaned.replace(/import[^;]+Helmet[^;]+;/, (match) => match + "\nimport { Link, useLocation } from 'react-router-dom';");
+    }
+    
+    // Fix lucide-react icon imports - detect used icons and ensure they're imported
+    const lucideIcons = [
+        'CheckCircle', 'Mail', 'Phone', 'MapPin', 'Menu', 'X', 'Send', 'ArrowRight', 'ArrowLeft',
+        'Target', 'Monitor', 'Zap', 'Users', 'Database', 'Calendar', 'MessageSquare', 'Loader2', 'Bot', 'User',
+        'Check', 'Circle', 'Star', 'Heart', 'ThumbsUp', 'ThumbsDown', 'Share', 'Download', 'Upload',
+        'Search', 'Filter', 'Settings', 'Edit', 'Trash', 'Plus', 'Minus', 'Close', 'ChevronRight', 'ChevronLeft',
+        'ChevronUp', 'ChevronDown', 'ArrowUp', 'ArrowDown', 'ExternalLink', 'Info', 'AlertCircle', 'AlertTriangle'
+    ];
+    const usedIcons: string[] = [];
+    for (const icon of lucideIcons) {
+        // Check if icon is used in JSX (e.g., <CheckCircle, <CheckCircle />, CheckCircle className, CheckCircle.xyz)
+        // Also check for destructured usage in imports
+        const iconRegex = new RegExp(`<${icon}[\\s/>]|\\b${icon}\\s*className|\\b${icon}\\.|\\b${icon}\\s*from|\\{${icon}\\}`, 'g');
+        if (iconRegex.test(cleaned)) {
+            usedIcons.push(icon);
+        }
+    }
+    
+    if (usedIcons.length > 0) {
+        const importStatement = `import { ${usedIcons.join(', ')} } from 'lucide-react';`;
+        // Check if lucide-react is already imported
+        const existingLucideImport = cleaned.match(/import\s+.*\s+from\s+['"]lucide-react['"];?/);
+        if (existingLucideImport) {
+            // Merge with existing import - extract existing icons
+            const existingIconsMatch = existingLucideImport[0].match(/\{([^}]+)\}/);
+            if (existingIconsMatch) {
+                const existingIcons = existingIconsMatch[1].split(',').map(i => i.trim()).filter(Boolean);
+                const allIcons = [...new Set([...existingIcons, ...usedIcons])];
+                cleaned = cleaned.replace(existingLucideImport[0], `import { ${allIcons.join(', ')} } from 'lucide-react';`);
+            }
+        } else {
+            // Add new import after React import
+            const reactImportMatch = cleaned.match(/import\s+.*\s+from\s+['"]react['"];?/);
+            if (reactImportMatch) {
+                cleaned = cleaned.replace(reactImportMatch[0], reactImportMatch[0] + '\n' + importStatement);
+            } else {
+                // Add at the top if no React import found
+                cleaned = importStatement + '\n' + cleaned;
+            }
+        }
     }
     
     // NOTE: Navbar and Footer are NOT added to page components
