@@ -118,12 +118,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             console.log('Starting production refinement...');
             sendProgress(res, 2, 'Refining for production quality...', 50);
             
-            // Add overall timeout protection (max 240 seconds for refinement - increased for parallel processing)
+            // Add overall timeout protection (max 300 seconds for refinement - increased for reliability)
             try {
                 finalComponents = await Promise.race([
                     refineForProduction(genAI, finalComponents, sitewide, pages, pageRoutes, res),
                     new Promise<Array<{ name: string; content: string; route: string; pageInfo: any }>>((_, reject) =>
-                        setTimeout(() => reject(new Error('Refinement timed out after 4 minutes')), 240000)
+                        setTimeout(() => reject(new Error('Refinement timed out after 5 minutes')), 300000)
                     )
                 ]);
                 console.log('Production refinement complete');
@@ -408,7 +408,7 @@ async function refineForProduction(
     console.log(`Refining ${componentsToRefine.length} components for production...`);
     
     // Process in smaller batches to avoid timeout - reduce batch size
-    const batchSize = 2; // Reduced from 4 to 2 to prevent timeouts
+    const batchSize = 1; // Process one at a time to prevent timeouts
     for (let batchStart = 0; batchStart < componentsToRefine.length; batchStart += batchSize) {
         const batch = componentsToRefine.slice(batchStart, batchStart + batchSize);
         const batchIndex = Math.floor(batchStart / batchSize);
@@ -538,8 +538,8 @@ Return ONLY the refined React component code. Do not include explanations or mar
                 while (retries >= 0) {
                     refinementAttempt++;
                     try {
-                        // Reduced timeout for refinement - make it faster and more focused
-                        const timeoutMs = 60000 + (refinementAttempt * 5000); // 60s, 65s, 70s, 75s
+                        // Increased timeout for refinement - needs more time for complex components
+                        const timeoutMs = 90000 + (refinementAttempt * 10000); // 90s, 100s, 110s, 120s
                         console.log(`Refinement attempt ${refinementAttempt} for ${component.name} with ${timeoutMs/1000}s timeout...`);
                         result = await callGeminiWithTimeout(chat, refinementPrompt, timeoutMs);
                         
@@ -615,7 +615,7 @@ async function optimizeForSEO(
     console.log(`Optimizing ${componentsToOptimize.length} components for SEO...`);
     
     // Process in smaller batches to avoid timeout - reduce batch size
-    const batchSize = 2; // Reduced from 4 to 2 to prevent timeouts
+    const batchSize = 1; // Process one at a time to prevent timeouts
     for (let batchStart = 0; batchStart < componentsToOptimize.length; batchStart += batchSize) {
         const batch = componentsToOptimize.slice(batchStart, batchStart + batchSize);
         const batchIndex = Math.floor(batchStart / batchSize);
@@ -725,8 +725,8 @@ Return ONLY the SEO-optimized React component code. Do not include explanations 
                 while (retries >= 0) {
                     seoAttempt++;
                     try {
-                        // Reduced timeout for SEO optimization - make it faster and more focused
-                        const timeoutMs = 60000 + (seoAttempt * 5000); // 60s, 65s, 70s, 75s
+                        // Increased timeout for SEO optimization - needs more time
+                        const timeoutMs = 90000 + (seoAttempt * 10000); // 90s, 100s, 110s, 120s
                         console.log(`SEO optimization attempt ${seoAttempt} for ${component.name} with ${timeoutMs/1000}s timeout...`);
                         result = await callGeminiWithTimeout(chat, seoPrompt, timeoutMs);
                         
@@ -935,6 +935,20 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
             });
         }
         
+        // Generate Navbar component (BEFORE App.tsx so it can be imported)
+        const navbarComponent = generateNavbarComponent(pageRoutes, sitewide);
+        files.push({
+            name: 'components/Navbar.tsx',
+            content: navbarComponent
+        });
+        
+        // Generate Footer component (BEFORE App.tsx so it can be imported)
+        const footerComponent = generateFooterComponent(pageRoutes, sitewide, allImageAttributions.length > 0);
+        files.push({
+            name: 'components/Footer.tsx',
+            content: footerComponent
+        });
+        
         // PHASE 3: Generate React App.tsx with routes
         console.log('Phase 3: Generating App.tsx with routes...');
         const appContent = generateAppTsx(generatedComponents, pageRoutes);
@@ -1010,20 +1024,6 @@ async function generateWebsiteFiles(genAI: GoogleGenAI, sitewide: any, pages: an
             content: JSON.stringify(tsconfigNode, null, 2)
         });
         
-        // Generate Navbar component
-        const navbarComponent = generateNavbarComponent(pageRoutes, sitewide);
-        files.push({
-            name: 'components/Navbar.tsx',
-            content: navbarComponent
-        });
-        
-        // Generate Footer component
-        const footerComponent = generateFooterComponent(pageRoutes, sitewide, allImageAttributions.length > 0);
-        files.push({
-            name: 'components/Footer.tsx',
-            content: footerComponent
-        });
-
         // Note: CSS and JS are not needed - Tailwind CSS is used via CDN
         // All styling is done with Tailwind utility classes in React components
         // JavaScript functionality is built into React components
