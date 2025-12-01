@@ -2099,12 +2099,20 @@ export default defineConfig({
     minify: 'esbuild',
     sourcemap: false,
     cssMinify: true,
-    rollupOptions: {
+      rollupOptions: {
       input: path.resolve(__dirname, 'index.html'),
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom', 'framer-motion'],
-          ui: ['lucide-react']
+        manualChunks(id) {
+          // Only create chunks for client-side code, not SSR
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom') || id.includes('framer-motion')) {
+              return 'vendor';
+            }
+            if (id.includes('lucide-react')) {
+              return 'ui';
+            }
+            return 'vendor'; // Other node_modules
+          }
         }
       }
     }
