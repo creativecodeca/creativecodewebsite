@@ -2,7 +2,19 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { jobStorage } from './job-storage.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  console.log('[generate-website-v2-status] Request received:', req.method, req.url);
+  
+  // Handle CORS preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   const { jobId } = req.query;
+  console.log('[generate-website-v2-status] jobId:', jobId);
 
   if (!jobId || typeof jobId !== 'string') {
     return res.status(400).json({ error: 'jobId query parameter is required' });

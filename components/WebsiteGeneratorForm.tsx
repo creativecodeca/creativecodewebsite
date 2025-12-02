@@ -495,6 +495,18 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
             eventSource.onerror = (error) => {
                 console.error('EventSource error:', error);
                 eventSource.close();
+                
+                // If connection fails, show error message
+                setGenerationResult({ 
+                    error: 'Connection lost. Please check the status manually or try again.' 
+                });
+                setGenerationProgress({ 
+                    step: 0, 
+                    message: 'Connection error', 
+                    percentage: 0 
+                });
+                setIsSubmitting(false);
+                eventSource.close();
                 setGenerationResult({ error: 'Connection lost. Please check the status manually.' });
                 setIsSubmitting(false);
             };

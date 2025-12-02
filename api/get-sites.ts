@@ -196,9 +196,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                         const metadata = JSON.parse(content);
                         formData = metadata.formData || null;
                     }
-                } catch (error) {
+                } catch (error: any) {
                     // metadata.json might not exist for older repos - that's okay
-                    console.log(`No metadata.json found for ${repo.name}`);
+                    // Only log if it's not a 404 (file not found is expected)
+                    if (error.status !== 404) {
+                        console.warn(`Error fetching metadata.json for ${repo.name}:`, error.message);
+                    }
                 }
                 
                 // Try to find Vercel project for this repo
