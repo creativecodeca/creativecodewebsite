@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Lock, Sparkles, Github, Zap, CheckCircle, XCircle, ExternalLink, Globe, Calendar, RefreshCw, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
@@ -220,7 +220,9 @@ const System: React.FC = () => {
                                 Create a professional website with AI-powered generation
                             </p>
                         </div>
-                        <WebsiteGeneratorForm onSiteGenerated={loadSavedSites} />
+                        <WebsiteGeneratorForm 
+                            onSiteGenerated={loadSavedSites}
+                        />
                     </div>
 
                     {/* Right: Live Websites (1/3 width) */}
@@ -266,16 +268,35 @@ const System: React.FC = () => {
                                             
                                             <div className="space-y-2">
                                                 {site.vercelUrl ? (
-                                                    <a
-                                                        href={site.vercelUrl}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="flex items-center gap-2 w-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 rounded-lg px-3 py-2 text-xs hover:bg-emerald-500/30 transition-colors"
-                                                    >
-                                                        <Globe className="w-3 h-3 flex-shrink-0" />
-                                                        <span className="truncate flex-1">Live Site</span>
-                                                        <ExternalLink className="w-3 h-3 flex-shrink-0" />
-                                                    </a>
+                                                    <>
+                                                        <a
+                                                            href={site.vercelUrl}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="flex items-center gap-2 w-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 rounded-lg px-3 py-2 text-xs hover:bg-emerald-500/30 transition-colors"
+                                                        >
+                                                            <Globe className="w-3 h-3 flex-shrink-0" />
+                                                            <span className="truncate flex-1">Live Site</span>
+                                                            <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                                                        </a>
+                                                        <button
+                                                            onClick={() => {
+                                                                // Trigger AI Edit from WebsiteGeneratorForm
+                                                                const event = new CustomEvent('openAIEdit', {
+                                                                    detail: {
+                                                                        repoUrl: site.repoUrl,
+                                                                        vercelUrl: site.vercelUrl,
+                                                                        companyName: site.companyName
+                                                                    }
+                                                                });
+                                                                window.dispatchEvent(event);
+                                                            }}
+                                                            className="flex items-center gap-2 w-full bg-purple-500/20 border border-purple-500/30 text-purple-400 rounded-lg px-3 py-2 text-xs hover:bg-purple-500/30 transition-colors"
+                                                        >
+                                                            <Sparkles className="w-3 h-3 flex-shrink-0" />
+                                                            <span className="truncate flex-1">AI Edit</span>
+                                                        </button>
+                                                    </>
                                                 ) : (
                                                     <div className="flex items-center gap-2 text-slate-500 text-xs px-3 py-2 bg-white/5 rounded-lg">
                                                         <Clock className="w-3 h-3" />

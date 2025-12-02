@@ -7,6 +7,7 @@ import { selectTemplateWithAI } from './ai-template-selector';
 import { generateSiteContentWithAI } from './ai-content-generator';
 import { generateStaticSiteFiles } from './static-site-generator';
 import { createGitHubRepo, deployToVercel } from './deployment';
+import { getRelevantImage } from './image-fetcher';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.API_KEY;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;

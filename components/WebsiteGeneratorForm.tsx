@@ -105,6 +105,20 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
     const [editProgress, setEditProgress] = useState<{ message: string; percentage: number }>({ message: '', percentage: 0 });
     const formContainerRef = useRef<HTMLDivElement>(null);
 
+    // Listen for AI Edit events from System.tsx sidebar
+    useEffect(() => {
+        const handleOpenAIEdit = ((e: CustomEvent) => {
+            setEditingSite({
+                repoUrl: e.detail.repoUrl,
+                vercelUrl: e.detail.vercelUrl,
+                companyName: e.detail.companyName
+            });
+        }) as EventListener;
+        
+        window.addEventListener('openAIEdit', handleOpenAIEdit);
+        return () => window.removeEventListener('openAIEdit', handleOpenAIEdit);
+    }, []);
+
     // Load history from server API on mount
     useEffect(() => {
         const loadHistory = async () => {
@@ -497,13 +511,17 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
         }
     };
 
-    // Helper to convert progress percentage to step number
+    // Helper to convert progress percentage to step number (more granular)
     const getStepFromProgress = (percentage: number): number => {
-        if (percentage < 20) return 1; // Parsing colors, selecting template
-        if (percentage < 60) return 2; // Generating content, building files
-        if (percentage < 90) return 3; // Pushing to GitHub
-        if (percentage < 100) return 4; // Deploying to Vercel
-        return 4; // Complete
+        if (percentage < 10) return 0; // Initializing
+        if (percentage < 20) return 1; // Parsing colors
+        if (percentage < 30) return 2; // Selecting template
+        if (percentage < 45) return 3; // Generating content
+        if (percentage < 60) return 4; // Fetching images
+        if (percentage < 80) return 5; // Building files
+        if (percentage < 90) return 6; // Pushing to GitHub
+        if (percentage < 100) return 7; // Deploying to Vercel
+        return 8; // Complete
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -532,6 +550,7 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                     </div>
                     
                     <div className="space-y-3 text-left max-w-md mx-auto">
+                        {/* Step 1: Parsing Colors */}
                         <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
                             generationProgress.step >= 1 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
                         }`}>
@@ -548,21 +567,22 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                             </div>
                             <div className="flex-1">
                                 <p className={`font-medium ${generationProgress.step >= 1 ? 'text-white' : 'text-slate-400'}`}>
-                                    Generating Design Plan
+                                    Parsing Color Scheme
                                 </p>
-                                <p className="text-xs text-slate-500">Creating the overall design strategy and layout</p>
+                                <p className="text-xs text-slate-500">Converting colors to hex codes</p>
                             </div>
                         </div>
                         
+                        {/* Step 2: Selecting Template */}
                         <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
                             generationProgress.step >= 2 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
                         }`}>
                             <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                                 generationProgress.step >= 2 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
                             }`}>
-                                {generationProgress.step > 6 ? (
+                                {generationProgress.step > 2 ? (
                                     <CheckCircle className="w-5 h-5" />
-                                ) : generationProgress.step >= 2 && generationProgress.step <= 6 ? (
+                                ) : generationProgress.step === 2 ? (
                                     <Loader2 className="w-5 h-5 animate-spin" />
                                 ) : (
                                     <span className="text-sm font-bold">2</span>
@@ -570,19 +590,105 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                             </div>
                             <div className="flex-1">
                                 <p className={`font-medium ${generationProgress.step >= 2 ? 'text-white' : 'text-slate-400'}`}>
-                                    Creating Website Files
+                                    Selecting Template
                                 </p>
-                                <p className="text-xs text-slate-500">
-                                    {generationProgress.step === 2 ? 'Generating individual pages...' :
-                                     generationProgress.step === 3 ? 'Applying consistency fixes...' :
-                                     generationProgress.step === 4 ? 'Generating CSS...' :
-                                     generationProgress.step === 5 ? 'Refining CSS...' :
-                                     generationProgress.step === 6 ? 'Generating JavaScript...' :
-                                     'Generating HTML, CSS, and JavaScript files'}
-                                </p>
+                                <p className="text-xs text-slate-500">Choosing the best design template</p>
                             </div>
                         </div>
                         
+                        {/* Step 3: Generating Content */}
+                        <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
+                            generationProgress.step >= 3 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
+                        }`}>
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                generationProgress.step >= 3 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
+                            }`}>
+                                {generationProgress.step > 3 ? (
+                                    <CheckCircle className="w-5 h-5" />
+                                ) : generationProgress.step === 3 ? (
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                ) : (
+                                    <span className="text-sm font-bold">3</span>
+                                )}
+                            </div>
+                            <div className="flex-1">
+                                <p className={`font-medium ${generationProgress.step >= 3 ? 'text-white' : 'text-slate-400'}`}>
+                                    Generating Content
+                                </p>
+                                <p className="text-xs text-slate-500">Creating website copy and structure</p>
+                            </div>
+                        </div>
+                        
+                        {/* Step 4: Fetching Images */}
+                        <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
+                            generationProgress.step >= 4 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
+                        }`}>
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                generationProgress.step >= 4 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
+                            }`}>
+                                {generationProgress.step > 4 ? (
+                                    <CheckCircle className="w-5 h-5" />
+                                ) : generationProgress.step === 4 ? (
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                ) : (
+                                    <span className="text-sm font-bold">4</span>
+                                )}
+                            </div>
+                            <div className="flex-1">
+                                <p className={`font-medium ${generationProgress.step >= 4 ? 'text-white' : 'text-slate-400'}`}>
+                                    Fetching Images
+                                </p>
+                                <p className="text-xs text-slate-500">Finding relevant stock photos</p>
+                            </div>
+                        </div>
+                        
+                        {/* Step 5: Building Files */}
+                        <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
+                            generationProgress.step >= 5 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
+                        }`}>
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                generationProgress.step >= 5 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
+                            }`}>
+                                {generationProgress.step > 5 ? (
+                                    <CheckCircle className="w-5 h-5" />
+                                ) : generationProgress.step === 5 ? (
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                ) : (
+                                    <span className="text-sm font-bold">5</span>
+                                )}
+                            </div>
+                            <div className="flex-1">
+                                <p className={`font-medium ${generationProgress.step >= 5 ? 'text-white' : 'text-slate-400'}`}>
+                                    Building Website Files
+                                </p>
+                                <p className="text-xs text-slate-500">Generating HTML, CSS, and JavaScript</p>
+                            </div>
+                        </div>
+                        
+                        {/* Step 6: Pushing to GitHub */}
+                        <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
+                            generationProgress.step >= 6 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
+                        }`}>
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                generationProgress.step >= 6 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
+                            }`}>
+                                {generationProgress.step > 6 ? (
+                                    <CheckCircle className="w-5 h-5" />
+                                ) : generationProgress.step === 6 ? (
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                ) : (
+                                    <span className="text-sm font-bold">6</span>
+                                )}
+                            </div>
+                            <div className="flex-1">
+                                <p className={`font-medium ${generationProgress.step >= 6 ? 'text-white' : 'text-slate-400'}`}>
+                                    Pushing to GitHub
+                                </p>
+                                <p className="text-xs text-slate-500">Creating repository and uploading files</p>
+                            </div>
+                        </div>
+                        
+                        {/* Step 7: Deploying to Vercel */}
                         <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
                             generationProgress.step >= 7 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
                         }`}>
@@ -594,33 +700,11 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                                 ) : generationProgress.step === 7 ? (
                                     <Loader2 className="w-5 h-5 animate-spin" />
                                 ) : (
-                                    <span className="text-sm font-bold">3</span>
+                                    <span className="text-sm font-bold">7</span>
                                 )}
                             </div>
                             <div className="flex-1">
                                 <p className={`font-medium ${generationProgress.step >= 7 ? 'text-white' : 'text-slate-400'}`}>
-                                    Pushing to GitHub
-                                </p>
-                                <p className="text-xs text-slate-500">Creating repository and uploading files</p>
-                            </div>
-                        </div>
-                        
-                        <div className={`flex items-center gap-3 p-4 rounded-xl transition-colors ${
-                            generationProgress.step >= 8 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5 border border-white/10'
-                        }`}>
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                generationProgress.step >= 8 ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'
-                            }`}>
-                                {generationProgress.step > 8 ? (
-                                    <CheckCircle className="w-5 h-5" />
-                                ) : generationProgress.step === 8 ? (
-                                    <Loader2 className="w-5 h-5 animate-spin" />
-                                ) : (
-                                    <span className="text-sm font-bold">4</span>
-                                )}
-                            </div>
-                            <div className="flex-1">
-                                <p className={`font-medium ${generationProgress.step >= 8 ? 'text-white' : 'text-slate-400'}`}>
                                     Deploying to Vercel
                                 </p>
                                 <p className="text-xs text-slate-500">Setting up hosting and deployment</p>
@@ -1499,8 +1583,173 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
                     </button>
                 </div>
             </form>
+
+            {/* AI Edit Modal */}
+            {editingSite && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 md:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+                    >
+                        <div className="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 className="text-2xl font-bold text-white">AI Edit Website</h3>
+                                <p className="text-slate-400 text-sm mt-1">{editingSite.companyName}</p>
+                            </div>
+                            <button
+                                onClick={() => {
+                                    setEditingSite(null);
+                                    setEditPrompt('');
+                                    setIsEditing(false);
+                                    setEditProgress({ message: '', percentage: 0 });
+                                }}
+                                className="text-slate-400 hover:text-white transition-colors"
+                            >
+                                <X className="w-6 h-6" />
+                            </button>
+                        </div>
+
+                        {!isEditing ? (
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm text-slate-400 mb-2">
+                                        What would you like to change?
+                                    </label>
+                                    <textarea
+                                        value={editPrompt}
+                                        onChange={(e) => setEditPrompt(e.target.value)}
+                                        placeholder="e.g., Change the hero section background to blue, Update the contact form styling, Add a testimonials section..."
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:border-emerald-500 outline-none transition-colors min-h-[120px] resize-none"
+                                        rows={5}
+                                    />
+                                </div>
+                                <div className="flex gap-3">
+                                    <button
+                                        onClick={async () => {
+                                            if (!editPrompt.trim()) return;
+                                            setIsEditing(true);
+                                            setEditProgress({ message: 'Starting edit...', percentage: 0 });
+
+                                            try {
+                                                const response = await fetch('/api/edit-website', {
+                                                    method: 'POST',
+                                                    headers: { 'Content-Type': 'application/json' },
+                                                    body: JSON.stringify({
+                                                        repoUrl: editingSite.repoUrl,
+                                                        editPrompt: editPrompt.trim(),
+                                                        companyName: editingSite.companyName
+                                                    })
+                                                });
+
+                                                if (!response.ok) {
+                                                    throw new Error('Failed to start edit');
+                                                }
+
+                                                // Read SSE stream
+                                                const reader = response.body?.getReader();
+                                                const decoder = new TextDecoder();
+                                                let buffer = '';
+
+                                                if (!reader) {
+                                                    throw new Error('Failed to read response stream');
+                                                }
+
+                                                while (true) {
+                                                    const { done, value } = await reader.read();
+                                                    if (done) break;
+
+                                                    buffer += decoder.decode(value, { stream: true });
+                                                    const lines = buffer.split('\n');
+                                                    buffer = lines.pop() || '';
+
+                                                    for (const line of lines) {
+                                                        if (line.startsWith('data: ')) {
+                                                            try {
+                                                                const data = JSON.parse(line.slice(6));
+                                                                if (data.message && data.percentage !== undefined) {
+                                                                    setEditProgress({
+                                                                        message: data.message,
+                                                                        percentage: data.percentage
+                                                                    });
+                                                                }
+                                                                if (data.success === true) {
+                                                                    setEditProgress({
+                                                                        message: data.message || 'Edit complete!',
+                                                                        percentage: data.percentage !== undefined ? data.percentage : 100
+                                                                    });
+                                                                    setTimeout(() => {
+                                                                        setEditingSite(null);
+                                                                        setEditPrompt('');
+                                                                        setIsEditing(false);
+                                                                        setEditProgress({ message: '', percentage: 0 });
+                                                                        if (onSiteGenerated) {
+                                                                            onSiteGenerated();
+                                                                        }
+                                                                    }, 2000);
+                                                                }
+                                                                if (data.success === false) {
+                                                                    setEditProgress({
+                                                                        message: `Error: ${data.error || 'Unknown error'}`,
+                                                                        percentage: 0
+                                                                    });
+                                                                    setTimeout(() => {
+                                                                        setIsEditing(false);
+                                                                    }, 3000);
+                                                                }
+                                                            } catch (e) {
+                                                                // Ignore parse errors
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            } catch (err: any) {
+                                                alert(`Error: ${err.message || 'Failed to edit website'}`);
+                                                setIsEditing(false);
+                                            }
+                                        }}
+                                        disabled={!editPrompt.trim()}
+                                        className="flex-1 bg-emerald-500 text-white font-semibold py-3 rounded-xl hover:bg-emerald-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                    >
+                                        <Sparkles className="w-4 h-4" />
+                                        Apply Changes
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setEditingSite(null);
+                                            setEditPrompt('');
+                                        }}
+                                        className="px-6 py-3 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 transition-colors"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="space-y-4">
+                                <div className="text-center py-8">
+                                    <Loader2 className="w-12 h-12 text-emerald-500 animate-spin mx-auto mb-4" />
+                                    <p className="text-white font-medium mb-2">{editProgress.message || 'Processing...'}</p>
+                                    <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden mt-4">
+                                        <motion.div
+                                            className="h-full bg-emerald-500"
+                                            initial={{ width: 0 }}
+                                            animate={{ width: `${editProgress.percentage}%` }}
+                                            transition={{ duration: 0.3 }}
+                                        />
+                                    </div>
+                                    <p className="text-slate-400 text-sm mt-2">{editProgress.percentage}%</p>
+                                </div>
+                            </div>
+                        )}
+                    </motion.div>
+                </div>
+            )}
         </div>
     );
-};
+});
+
+// Expose setEditingSite method via ref
+WebsiteGeneratorForm.displayName = 'WebsiteGeneratorForm';
 
 export default WebsiteGeneratorForm;

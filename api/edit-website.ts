@@ -72,15 +72,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             recursive: '1'
         });
 
-        // Filter for relevant files (components, config files, etc.)
+        // Filter for relevant files (support both React and static HTML)
         const relevantFiles = treeData.tree.filter((item: any) => 
             item.type === 'blob' && (
                 item.path.endsWith('.tsx') ||
                 item.path.endsWith('.ts') ||
                 item.path.endsWith('.json') ||
                 item.path.endsWith('.jsx') ||
+                item.path.endsWith('.html') ||
+                item.path.endsWith('.css') ||
+                item.path.endsWith('.js') ||
                 item.path === 'package.json' ||
-                item.path === 'vite.config.ts'
+                item.path === 'vite.config.ts' ||
+                item.path === 'vercel.json'
             )
         );
 
@@ -177,7 +181,75 @@ Be specific about what needs to change. Only include files that actually need mo
 
             sendProgress(res, `Editing ${fileMod.path}...`, 60 + (modifiedFiles.length * 20 / (analysis.filesToModify?.length || 1)));
 
-            const editPromptForFile = `You are editing a React/TypeScript component file. Make the following changes:
+            // Determine file type and create appropriate prompt
+            const isHTML = originalFile.path.endsWith('.html');
+            const isCSS = originalFile.path.endsWith('.css');
+            const isJS = originalFile.path.endsWith('.js') && !originalFile.path.endsWith('.tsx') && !originalFile.path.endsWith('.jsx');
+            const isReact = originalFile.path.endsWith('.tsx') || originalFile.path.endsWith('.jsx');
+            
+            let editPromptForFile: string;
+            
+            if (isHTML) {
+                editPromptForFile = `You are editing an HTML file. Make the following changes:
+
+User's Request: "${editPrompt}"
+Specific Changes Needed: ${fileMod.changes || fileMod.reason}
+
+Original File Content:
+\`\`\`html
+${originalFile.content}
+\`\`\`
+
+CRITICAL REQUIREMENTS:
+1. Maintain the existing HTML structure and semantic elements
+2. Keep all existing links, navigation, and footer intact unless specifically requested to change
+3. Only modify what's necessary based on the user's request
+4. Ensure valid HTML5 syntax
+5. Maintain consistency with the rest of the site
+6. Do not break existing functionality or remove important elements
+
+Return ONLY the complete modified HTML content. Do not include explanations or markdown formatting. Start directly with the HTML.`;
+            } else if (isCSS) {
+                editPromptForFile = `You are editing a CSS file. Make the following changes:
+
+User's Request: "${editPrompt}"
+Specific Changes Needed: ${fileMod.changes || fileMod.reason}
+
+Original File Content:
+\`\`\`css
+${originalFile.content}
+\`\`\`
+
+CRITICAL REQUIREMENTS:
+1. Maintain existing CSS structure and organization
+2. Only modify what's necessary based on the user's request
+3. Ensure valid CSS syntax
+4. Maintain consistency with the design system
+5. Do not break existing styles
+
+Return ONLY the complete modified CSS content. Do not include explanations or markdown formatting. Start directly with the CSS.`;
+            } else if (isJS) {
+                editPromptForFile = `You are editing a JavaScript file. Make the following changes:
+
+User's Request: "${editPrompt}"
+Specific Changes Needed: ${fileMod.changes || fileMod.reason}
+
+Original File Content:
+\`\`\`javascript
+${originalFile.content}
+\`\`\`
+
+CRITICAL REQUIREMENTS:
+1. Maintain existing JavaScript structure and functionality
+2. Only modify what's necessary based on the user's request
+3. Ensure valid JavaScript syntax
+4. Maintain consistency with the codebase
+5. Do not break existing functionality
+
+Return ONLY the complete modified JavaScript content. Do not include explanations or markdown formatting. Start directly with the code.`;
+            } else {
+                // React/TypeScript component
+                editPromptForFile = `You are editing a React/TypeScript component file. Make the following changes:
 
 User's Request: "${editPrompt}"
 Specific Changes Needed: ${fileMod.changes || fileMod.reason}
@@ -196,6 +268,7 @@ CRITICAL REQUIREMENTS:
 6. Do not break existing functionality
 
 Return ONLY the complete modified file content. Do not include explanations or markdown formatting. Start directly with the code.`;
+            }
 
             const editChat = genAI.chats.create({
                 model: model,
@@ -205,7 +278,17 @@ Return ONLY the complete modified file content. Do not include explanations or m
             });
 
             const editResult = await editChat.sendMessage({ message: editPromptForFile });
-            let editedContent = editResult.text.replace(/```tsx\n?/g, '').replace(/```ts\n?/g, '').replace(/```jsx\n?/g, '').replace(/```javascript\n?/g, '').replace(/```\n?/g, '').trim();
+            // Remove code block markers for all languages
+            let editedContent = editResult.text
+                .replace(/```html\n?/g, '')
+                .replace(/```css\n?/g, '')
+                .replace(/```javascript\n?/g, '')
+                .replace(/```js\n?/g, '')
+                .replace(/```tsx\n?/g, '')
+                .replace(/```ts\n?/g, '')
+                .replace(/```jsx\n?/g, '')
+                .replace(/```\n?/g, '')
+                .trim();
             
             modifiedFiles.push({
                 path: originalFile.path,
@@ -350,26 +433,30 @@ Return ONLY the complete modified file content. Do not include explanations or m
                     if (deploymentResponse.ok) {
                         const deploymentData: any = await deploymentResponse.json();
                         console.log('Vercel redeployment triggered successfully:', deploymentData.url || deploymentData.alias?.[0]);
+                        sendProgress(res, 'Redeployment triggered successfully!', 100);
                     } else {
                         const errorText = await deploymentResponse.text();
                         console.warn('Vercel redeployment failed:', errorText);
+                        sendProgress(res, 'Changes committed. Vercel will auto-deploy via webhook.', 100);
                     }
                 } else {
                     console.warn('Could not find existing Vercel project for repo. GitHub webhook will trigger deployment.');
+                    sendProgress(res, 'Changes committed. Vercel will auto-deploy via webhook.', 100);
                 }
             } catch (vercelError) {
                 console.warn('Vercel redeployment trigger failed:', vercelError);
-                // Continue - GitHub webhook will trigger deployment
+                sendProgress(res, 'Changes committed. Vercel will auto-deploy via webhook.', 100);
             }
+        } else {
+            sendProgress(res, 'Changes committed. Vercel will auto-deploy via webhook.', 100);
         }
 
-        sendProgress(res, 'Edit complete!', 100);
-        
         // Send final result
         res.write(`data: ${JSON.stringify({
             success: true,
             message: 'Website edited and redeployed successfully',
-            commitSha: newCommit.sha
+            commitSha: newCommit.sha,
+            percentage: 100
         })}\n\n`);
         
         res.end();
