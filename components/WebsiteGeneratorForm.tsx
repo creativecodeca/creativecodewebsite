@@ -1747,9 +1747,6 @@ const WebsiteGeneratorForm: React.FC<WebsiteGeneratorFormProps> = ({ onSiteGener
             )}
         </div>
     );
-});
-
-// Expose setEditingSite method via ref
-WebsiteGeneratorForm.displayName = 'WebsiteGeneratorForm';
+};
 
 export default WebsiteGeneratorForm;
