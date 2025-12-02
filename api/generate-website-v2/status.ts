@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { jobStorage } from '../job-storage';
+import { jobStorage } from '../job-storage.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { jobId } = req.query;

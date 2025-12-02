@@ -1,6 +1,6 @@
 import { Octokit } from '@octokit/rest';
 import fetch from 'node-fetch';
-import type { GeneratedFile } from './static-site-generator';
+import type { GeneratedFile } from './static-site-generator.js';
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN;

@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
-import type { ColorPalette } from './ai-color-parser';
+import type { ColorPalette } from './ai-color-parser.js';
 
 const AVAILABLE_TEMPLATES = [
   'service-business',      // General service businesses

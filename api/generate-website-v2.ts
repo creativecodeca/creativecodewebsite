@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { jobStorage, type Job } from './job-storage';
-import { processWebsiteJob } from './website-processor';
+import { jobStorage, type Job } from './job-storage.js';
+import { processWebsiteJob } from './website-processor.js';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.API_KEY;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;

@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
-import type { ColorPalette } from './ai-color-parser';
+import type { ColorPalette } from './ai-color-parser.js';
 
 export interface SiteContent {
   meta: {

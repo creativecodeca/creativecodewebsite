@@ -1,5 +1,5 @@
-import type { SiteContent } from './ai-content-generator';
-import type { ColorPalette } from './ai-color-parser';
+import type { SiteContent } from './ai-content-generator.js';
+import type { ColorPalette } from './ai-color-parser.js';
 
 // Helper to escape HTML
 function escapeHtml(text: string): string {

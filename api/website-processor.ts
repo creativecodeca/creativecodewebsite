@@ -1,13 +1,13 @@
 import { GoogleGenAI } from '@google/genai';
 import { Octokit } from '@octokit/rest';
 import fetch from 'node-fetch';
-import { jobStorage } from './job-storage';
-import { parseColorsWithAI } from './ai-color-parser';
-import { selectTemplateWithAI } from './ai-template-selector';
-import { generateSiteContentWithAI } from './ai-content-generator';
-import { generateStaticSiteFiles } from './static-site-generator';
-import { createGitHubRepo, deployToVercel } from './deployment';
-import { getRelevantImage } from './image-fetcher';
+import { jobStorage } from './job-storage.js';
+import { parseColorsWithAI } from './ai-color-parser.js';
+import { selectTemplateWithAI } from './ai-template-selector.js';
+import { generateSiteContentWithAI } from './ai-content-generator.js';
+import { generateStaticSiteFiles } from './static-site-generator.js';
+import { createGitHubRepo, deployToVercel } from './deployment.js';
+import { getRelevantImage } from './image-fetcher.js';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.API_KEY;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
