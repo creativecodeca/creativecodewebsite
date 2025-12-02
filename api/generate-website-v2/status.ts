@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { jobStorage } from './job-storage.js';
+import { jobStorage } from '../job-storage.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   console.log('[generate-website-v2-status] Request received:', req.method, req.url);
