@@ -83,7 +83,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.json({
       success: true,
       jobId: job.id,
-      statusUrl: `/api/generate-website-v2/status?jobId=${job.id}`,
+      statusUrl: `/api/generate-website-v2-status?jobId=${job.id}`,
       message: 'Website generation started'
     });
 
