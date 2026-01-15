@@ -1,26 +1,11 @@
 {
   "rewrites": [
     {
-      "source": "/((?!api|system|_next|assets).*)",
+      "source": "/((?!api|_next|assets).*)",
       "destination": "/index.html"
     }
   ],
   "headers": [
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "system.creativecodeca.com"
-        }
-      ],
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
-      ]
-    },
     {
       "source": "/assets/(.*)",
       "headers": [

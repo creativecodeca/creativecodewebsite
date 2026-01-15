@@ -28,9 +28,6 @@ app.use('/api', ghlSlotsRouter);
 app.use('/api', ghlBookRouter);
 app.use('/api', generateWebsiteRouter);
 
-// Serve system subdomain static files
-app.use('/system', express.static('system'));
-
 app.listen(PORT, () => {
     console.log(`🚀 Backend server listening on http://localhost:${PORT}`);
 });
