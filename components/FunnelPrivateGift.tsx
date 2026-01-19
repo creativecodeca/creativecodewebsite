@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import funnelLeadsData from '../data/funnelLeads.json';
 
 interface LeadData {
@@ -103,8 +104,15 @@ const FunnelPrivateGift: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
-      {/* Video Section */}
+    <>
+      <Helmet>
+        {/* Prevent search engines from indexing these private funnel pages */}
+        <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+        <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet" />
+        <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet" />
+      </Helmet>
+      <div className="min-h-screen bg-black text-white flex flex-col">
+        {/* Video Section */}
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-md mx-auto">
           <h1 className="text-3xl font-bold text-center mb-8">
@@ -227,7 +235,8 @@ const FunnelPrivateGift: React.FC = () => {
           <div>© 2025 CREATIVE CODE INC.</div>
         </div>
       </footer>
-    </div>
+      </div>
+    </>
   );
 };
 

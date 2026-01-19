@@ -4,6 +4,9 @@ Allow: /
 # Disallow internal system (private tool)
 Disallow: /system/
 
+# Disallow private funnel pages
+Disallow: /funnel/
+
 # Sitemap location
 Sitemap: https://creativecodeca.com/sitemap.xml
 
