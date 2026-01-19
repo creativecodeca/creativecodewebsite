@@ -71,37 +71,39 @@ const getLayoutedElements = (
 
   dagre.layout(dagreGraph);
 
-  // Calculate center offset based on root position
-  let centerOffsetX = 0;
-  let centerOffsetY = 0;
+  // Calculate center offset based on root position to keep root at (0,0)
+  let offsetX = 0;
+  let offsetY = 0;
   
-  try {
-    const rootNodePosition = dagreGraph.node('root');
-    if (rootNodePosition) {
-      centerOffsetX = -rootNodePosition.x + nodeWidth / 2;
-      centerOffsetY = -rootNodePosition.y + nodeHeight / 2;
-    }
-  } catch (e) {
-    console.error('Error getting root node position:', e);
+  const rootPos = dagreGraph.node('root');
+  if (rootPos) {
+    offsetX = -rootPos.x + nodeWidth / 2;
+    offsetY = -rootPos.y + nodeHeight / 2;
   }
   
-  const layoutedNodes = visibleNodes.map((node) => {
-    const nodeWithPosition = dagreGraph.node(node.id);
-    const xPosition = nodeWithPosition.x - nodeWidth / 2 + centerOffsetX;
-    const yPosition = nodeWithPosition.y - nodeHeight / 2 + centerOffsetY;
+  const layoutedNodes = [];
+  
+  for (let i = 0; i < visibleNodes.length; i++) {
+    const node = visibleNodes[i];
+    const nodePos = dagreGraph.node(node.id);
     
-    const layoutedNode = {
-      ...node,
+    const finalX = nodePos.x - nodeWidth / 2 + offsetX;
+    const finalY = nodePos.y - nodeHeight / 2 + offsetY;
+    
+    const newNode = {
+      id: node.id,
+      type: node.type,
+      data: node.data,
       position: {
-        x: xPosition,
-        y: yPosition,
+        x: finalX,
+        y: finalY,
       },
       sourcePosition: Position.Bottom,
       targetPosition: Position.Top,
     };
     
-    return layoutedNode;
-  });
+    layoutedNodes.push(newNode);
+  }
 
   return { nodes: layoutedNodes, edges: visibleEdges };
 };
