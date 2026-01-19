@@ -29,9 +29,10 @@ const Navbar: React.FC = () => {
           <div className="w-8 h-8 relative flex items-center justify-center">
             <div className="absolute inset-0 bg-white/20 blur-md rounded-full group-hover:bg-white/30 transition-all opacity-40"></div>
             <img
-              src="https://storage.googleapis.com/msgsndr/rpTHZGMl1DRkn0TYGHwe/media/69251cd0b2875758c843f88e.png"
+              src="/logo.png"
               alt="Creative Code Logo"
-              loading="lazy"
+              loading="eager"
+              fetchPriority="high"
               className="w-full h-full object-contain relative z-10 drop-shadow-md"
             />
           </div>

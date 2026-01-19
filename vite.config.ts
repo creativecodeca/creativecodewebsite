@@ -26,8 +26,9 @@ export default defineConfig(({ mode, isSsrBuild }) => {
       rollupOptions: {
         output: {
           manualChunks: isSsrBuild ? undefined : {
-            vendor: ['react', 'react-dom', 'react-router-dom', 'framer-motion'],
-            ui: ['lucide-react']
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+            'framer-motion': ['framer-motion'],
+            'ui': ['lucide-react']
           }
         }
       }

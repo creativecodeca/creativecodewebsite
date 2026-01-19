@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { Monitor, Target, Zap, Users, CheckCircle, Mail, Database, ArrowRight, ArrowLeft } from 'lucide-react';
-import ParticleCanvas from './ParticleCanvas';
+const ParticleCanvas = lazy(() => import('./ParticleCanvas'));
 import SpotlightCard from './SpotlightCard';
 import SEO from './SEO';
 
 const Home: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [lastInteraction, setLastInteraction] = useState(Date.now());
+  const [showParticleCanvas, setShowParticleCanvas] = useState(false);
 
   const steps = [
     {
@@ -60,6 +61,16 @@ const Home: React.FC = () => {
     return () => clearInterval(interval);
   }, [lastInteraction, steps.length]);
 
+  // Defer ParticleCanvas until after first paint
+  useEffect(() => {
+    // Use requestAnimationFrame to ensure it runs after first paint
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        setShowParticleCanvas(true);
+      }, 100);
+    });
+  }, []);
+
   const handleNext = useCallback(() => {
     setActiveStep((prev) => (prev + 1) % steps.length);
     setLastInteraction(Date.now());
@@ -88,7 +99,11 @@ const Home: React.FC = () => {
 
       {/* Hero Section */}
       <section className="md:pt-48 md:pb-32 overflow-hidden flex flex-col pt-32 pb-20 relative justify-center">
-        <ParticleCanvas />
+        {showParticleCanvas && (
+          <Suspense fallback={null}>
+            <ParticleCanvas />
+          </Suspense>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-transparent to-[#020202]/80 z-0 pointer-events-none"></div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">

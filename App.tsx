@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { HelmetProvider } from 'react-helmet-async';
@@ -6,19 +6,29 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 // import CustomCursor from './components/CustomCursor';
 import Navbar from './components/Navbar';
 // import AIChatWidget from './components/AIChatWidget';
-import Home from './components/Home';
-import Products from './components/Products';
-import About from './components/About';
-import Contact from './components/Contact';
-import PrivacyPolicy from './components/PrivacyPolicy';
-import TermsConditions from './components/TermsConditions';
-import WebsiteServices from './components/WebsiteServices';
-import BuyPopupWebsite from './components/BuyPopupWebsite';
-import BuyStandardWebsite from './components/BuyStandardWebsite';
-import MobileContact from './components/MobileContact';
-import ClientCall from './components/ClientCall';
-import WebsiteOnboardingForm from './components/WebsiteOnboardingForm';
 import PageWrapper from './components/PageWrapper';
+
+// Lazy load all route components
+const Home = lazy(() => import('./components/Home'));
+const Products = lazy(() => import('./components/Products'));
+const About = lazy(() => import('./components/About'));
+const Contact = lazy(() => import('./components/Contact'));
+const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
+const TermsConditions = lazy(() => import('./components/TermsConditions'));
+const WebsiteServices = lazy(() => import('./components/WebsiteServices'));
+const BuyPopupWebsite = lazy(() => import('./components/BuyPopupWebsite'));
+const BuyStandardWebsite = lazy(() => import('./components/BuyStandardWebsite'));
+const MobileContact = lazy(() => import('./components/MobileContact'));
+const ClientCall = lazy(() => import('./components/ClientCall'));
+const WebsiteOnboardingForm = lazy(() => import('./components/WebsiteOnboardingForm'));
+const FunnelPrivateGift = lazy(() => import('./components/FunnelPrivateGift'));
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center min-h-screen bg-[#020202]">
+    <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+  </div>
+);
 
 function AppContent() {
   const location = useLocation();
@@ -31,33 +41,40 @@ function AppContent() {
     }
   }, [location.pathname]);
 
+  // Don't show navbar or footer on funnel pages
+  const isFunnelPage = location.pathname.startsWith('/funnel/');
+
   return (
     <div className="relative min-h-screen bg-[#020202] text-slate-200 selection:bg-white/20 selection:text-white overflow-x-hidden font-sans">
       {/* <CustomCursor /> */}
-      <Navbar />
+      {!isFunnelPage && <Navbar />}
       {/* <AIChatWidget /> */}
 
-      <AnimatePresence mode="wait">
-        {/* @ts-ignore */}
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-          <Route path="/products" element={<PageWrapper><Products /></PageWrapper>} />
-          <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
-          <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
-          <Route path="/mobilecontact" element={<PageWrapper><MobileContact /></PageWrapper>} />
-          <Route path="/clientcall" element={<PageWrapper><ClientCall /></PageWrapper>} />
-          <Route path="/onboarding/websiteform" element={<PageWrapper><WebsiteOnboardingForm /></PageWrapper>} />
-          <Route path="/services/website" element={<PageWrapper><WebsiteServices /></PageWrapper>} />
-          <Route path="/services/website/buy-popup" element={<PageWrapper><BuyPopupWebsite /></PageWrapper>} />
-          <Route path="/services/website/buy-standard" element={<PageWrapper><BuyStandardWebsite /></PageWrapper>} />
-          <Route path="/privacy" element={<PageWrapper><PrivacyPolicy /></PageWrapper>} />
-          <Route path="/terms" element={<PageWrapper><TermsConditions /></PageWrapper>} />
-          {/* Catch-all route - redirect to home for any undefined paths */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </AnimatePresence>
+      <Suspense fallback={<LoadingFallback />}>
+        <AnimatePresence mode="wait">
+          {/* @ts-ignore */}
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+            <Route path="/products" element={<PageWrapper><Products /></PageWrapper>} />
+            <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
+            <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+            <Route path="/mobilecontact" element={<PageWrapper><MobileContact /></PageWrapper>} />
+            <Route path="/clientcall" element={<PageWrapper><ClientCall /></PageWrapper>} />
+            <Route path="/onboarding/websiteform" element={<PageWrapper><WebsiteOnboardingForm /></PageWrapper>} />
+            <Route path="/services/website" element={<PageWrapper><WebsiteServices /></PageWrapper>} />
+            <Route path="/services/website/buy-popup" element={<PageWrapper><BuyPopupWebsite /></PageWrapper>} />
+            <Route path="/services/website/buy-standard" element={<PageWrapper><BuyStandardWebsite /></PageWrapper>} />
+            <Route path="/privacy" element={<PageWrapper><PrivacyPolicy /></PageWrapper>} />
+            <Route path="/terms" element={<PageWrapper><TermsConditions /></PageWrapper>} />
+            <Route path="/funnel/privategift/r1/:name" element={<FunnelPrivateGift />} />
+            {/* Catch-all route - redirect to home for any undefined paths */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </AnimatePresence>
+      </Suspense>
 
-      {/* Footer */}
+      {/* Footer - hidden on funnel pages */}
+      {!isFunnelPage && (
       <footer id="contact" className="border-t border-white/10 bg-black pt-20 pb-10 px-6 relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
           <div className="max-w-md">
@@ -102,6 +119,7 @@ function AppContent() {
           <div>© 2025 CREATIVE CODE INC.</div>
         </div>
       </footer>
+      )}
     </div>
   );
 }
