@@ -234,35 +234,30 @@ textarea:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
 }
 
-/* Funnel video iframe scaling - prevents Google Drive from pre-shrinking */
+/* Funnel video iframe - shorter on mobile to prevent squishing */
 .video-container {
   position: relative;
-}
-
-.video-iframe {
-  transform-origin: center center;
-  /* Force Google Drive to render at full size, then we'll scale it */
-  min-width: 360px;
+  width: 100%;
+  max-width: 384px;
+  margin: 0 auto;
+  /* Desktop: full vertical 9:16 aspect ratio */
+  aspect-ratio: 9/16;
   min-height: 640px;
 }
 
-/* Scale down the iframe on smaller screens while maintaining aspect ratio */
-@media (max-width: 384px) {
-  .video-container {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  
-  .video-container .video-iframe {
-    /* Scale based on container width, maintaining 9:16 aspect ratio */
-    transform: scale(calc(100vw / 360));
-    transform-origin: center center;
-  }
+.video-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
-@media (min-width: 385px) {
-  .video-container .video-iframe {
-    transform: scale(1);
+/* Mobile: shorter aspect ratio to prevent squishing */
+@media (max-width: 768px) {
+  .video-container {
+    /* Use 3:4 aspect ratio on mobile (shorter than 9:16) */
+    aspect-ratio: 3/4;
+    min-height: auto;
+    max-height: 60vh;
   }
 }
 
