@@ -1,5 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
+import funnelLeadsData from '../data/funnelLeads.json';
+
+interface LeadData {
+  videoLink: string;
+  fullName: string;
+  clinicName: string;
+}
 
 const FunnelPrivateGift: React.FC = () => {
   const { name } = useParams<{ name: string }>();
@@ -19,31 +26,38 @@ const FunnelPrivateGift: React.FC = () => {
 
   const isFormValid = isValidPhoneNumber(phoneNumber);
 
-  // Extract first name from URL param or use default
-  // Handle camelCase names like "drewsmith" -> "Drew"
-  const getFirstName = (nameParam: string | undefined): string => {
-    if (!nameParam) return 'Drew';
-    
-    const lowerName = nameParam.toLowerCase();
-    
-    // Check if it starts with "drew" first (most common case)
-    if (lowerName.startsWith('drew')) {
-      return 'Drew';
+  // Get lead data from JSON based on slug
+  const leadData: LeadData | null = useMemo(() => {
+    if (!name) return null;
+    const slug = name.toLowerCase();
+    return (funnelLeadsData as Record<string, LeadData>)[slug] || null;
+  }, [name]);
+
+  // Extract first name from full name (e.g., "Dr. Drew Smith" -> "Drew")
+  const getFirstName = (fullName: string | undefined): string => {
+    if (!fullName) {
+      // Fallback: try to extract from slug
+      if (!name) return 'Guest';
+      const slug = name.toLowerCase();
+      // Try to split camelCase slug
+      const words = name.replace(/([A-Z])/g, ' $1').trim().split(/\s+/);
+      const firstWord = words[0] || name;
+      return firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
     }
     
-    // Try to split on capital letters (camelCase)
-    const words = nameParam.replace(/([A-Z])/g, ' $1').trim().split(/\s+/);
-    const firstWord = words[0] || nameParam;
-    
-    // Capitalize first letter
-    return firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
+    // Remove "Dr." prefix if present
+    const cleaned = fullName.replace(/^Dr\.\s*/i, '').trim();
+    // Split by space and take first name
+    const parts = cleaned.split(/\s+/);
+    return parts[0] || fullName;
   };
   
-  const firstName = getFirstName(name);
+  const firstName = getFirstName(leadData?.fullName);
 
-  // Hidden values - these would typically come from URL params or be hardcoded per route
-  const hiddenName = 'Drew Smith';
-  const hiddenClinicName = 'Smith Orthodontics';
+  // Use lead data or fallback to defaults
+  const videoLink = leadData?.videoLink || 'https://drive.google.com/file/d/1NgpN0mPMBtVRstH6bq6yIxoPC4r0C4dr/preview';
+  const hiddenName = leadData?.fullName || 'Drew Smith';
+  const hiddenClinicName = leadData?.clinicName || 'Smith Orthodontics';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,7 +113,7 @@ const FunnelPrivateGift: React.FC = () => {
           
           <div className="relative w-full aspect-[9/16] bg-gray-900 rounded-lg overflow-hidden mb-8">
             <iframe
-              src="https://drive.google.com/file/d/1NgpN0mPMBtVRstH6bq6yIxoPC4r0C4dr/preview"
+              src={videoLink}
               className="w-full h-full"
               allow="autoplay"
               allowFullScreen
