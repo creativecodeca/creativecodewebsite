@@ -109,7 +109,7 @@ const DiagnosisSearch: React.FC<DiagnosisSearchProps> = ({ onNavigate }) => {
           <button
             onClick={handleSearch}
             disabled={isLoading || !query.trim()}
-            className="flex-1 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+            className="flex-1 px-4 py-2 bg-black text-white text-sm font-semibold rounded-lg border border-white hover:bg-white/10 disabled:border-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>

@@ -151,13 +151,18 @@ const DiagnosisMap: React.FC = () => {
     setCollapsedNodes(allNodeIds);
     
     // Fit view after a short delay to allow nodes to collapse
-    setTimeout(() => {
-      reactFlowInstance.fitView({ duration: 800, padding: 0.2 });
-      // Stop spinning after the full animation completes
+    requestAnimationFrame(() => {
       setTimeout(() => {
-        setIsSpinning(false);
-      }, 800);
-    }, 100);
+        reactFlowInstance.fitView({ 
+          duration: 1000, // Longer for recenter
+          padding: 0.25 
+        });
+        // Stop spinning after the full animation completes
+        setTimeout(() => {
+          setIsSpinning(false);
+        }, 1000);
+      }, 100);
+    });
   }, [reactFlowInstance]);
 
   // Toggle node collapse/expand with auto-collapse siblings
@@ -217,12 +222,17 @@ const DiagnosisMap: React.FC = () => {
     
     // Zoom to the entire visible tree to keep context
     if (reactFlowInstance) {
-      setTimeout(() => {
-        reactFlowInstance.fitView({
-          duration: 500,
-          padding: 0.3,
-        });
-      }, 100);
+      // Use requestAnimationFrame to ensure the fitView happens AFTER the next render cycle
+      // this prevents the "overshoot" jitter where camera and nodes move at once
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          reactFlowInstance.fitView({
+            duration: 800, // Slightly longer for a more "expensive" feel
+            padding: 0.35, // More generous padding
+            includeHiddenNodes: false,
+          });
+        }, 50);
+      });
     }
   }, [reactFlowInstance]); // Removed 'nodes' dependency to break circular reference
 
@@ -319,7 +329,6 @@ const DiagnosisMap: React.FC = () => {
         nodesDraggable={false}
         nodesConnectable={false}
         elementsSelectable={true}
-        fitView
         minZoom={0.3}
         maxZoom={2}
         defaultViewport={{ x: 0, y: 0, zoom: 0.8 }}
@@ -339,20 +348,15 @@ const DiagnosisMap: React.FC = () => {
       {/* Search Overlay */}
       <DiagnosisSearch onNavigate={handleNavigateToNode} />
 
-      {/* Compass Recenter Button - to the right of search */}
-      <motion.button
+      {/* Compass Recenter Button - to the right of search, vertically centered */}
+      <button
         onClick={handleRecenter}
-        className="absolute top-8 left-[26rem] transition-all group"
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        className="absolute top-[1.5rem] left-[27.5rem] transition-all group z-50 h-[52px] flex items-center justify-center"
       >
         <Compass 
-          className={`w-8 h-8 text-white transition-transform ${isSpinning ? 'animate-spin' : ''}`}
+          className={`w-10 h-10 text-white transition-transform ${isSpinning ? 'animate-spin' : ''} group-hover:scale-110 active:scale-95`}
         />
-      </motion.button>
+      </button>
 
       {/* Legend */}
       <motion.div
