@@ -71,39 +71,18 @@ const getLayoutedElements = (
 
   dagre.layout(dagreGraph);
 
-  // Calculate center offset based on root position to keep root at (0,0)
-  let offsetX = 0;
-  let offsetY = 0;
-  
-  const rootPos = dagreGraph.node('root');
-  if (rootPos) {
-    offsetX = -rootPos.x + nodeWidth / 2;
-    offsetY = -rootPos.y + nodeHeight / 2;
-  }
-  
-  const layoutedNodes = [];
-  
-  for (let i = 0; i < visibleNodes.length; i++) {
-    const node = visibleNodes[i];
-    const nodePos = dagreGraph.node(node.id);
-    
-    const finalX = nodePos.x - nodeWidth / 2 + offsetX;
-    const finalY = nodePos.y - nodeHeight / 2 + offsetY;
-    
-    const newNode = {
-      id: node.id,
-      type: node.type,
-      data: node.data,
+  const layoutedNodes = visibleNodes.map((node) => {
+    const nodeWithPosition = dagreGraph.node(node.id);
+    return {
+      ...node,
       position: {
-        x: finalX,
-        y: finalY,
+        x: nodeWithPosition.x - nodeWidth / 2,
+        y: nodeWithPosition.y - nodeHeight / 2,
       },
       sourcePosition: Position.Bottom,
       targetPosition: Position.Top,
     };
-    
-    layoutedNodes.push(newNode);
-  }
+  });
 
   return { nodes: layoutedNodes, edges: visibleEdges };
 };
@@ -230,19 +209,13 @@ const DiagnosisMap: React.FC = () => {
       return newSet;
     });
     
-    // Zoom to the clicked node after state updates
+    // Zoom to the entire visible tree to keep context, not just the clicked node
     if (reactFlowInstance) {
       setTimeout(() => {
-        const node = nodes.find(n => n.id === nodeId);
-        if (node) {
-          reactFlowInstance.fitView({
-            nodes: [node],
-            duration: 600,
-            padding: 0.5,
-            minZoom: 0.5,
-            maxZoom: 1.2,
-          });
-        }
+        reactFlowInstance.fitView({
+          duration: 500,
+          padding: 0.3,
+        });
       }, 100);
     }
   }, [reactFlowInstance, nodes]);
