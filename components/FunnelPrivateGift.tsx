@@ -8,8 +8,30 @@ const FunnelPrivateGift: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState('');
 
+  // Validate phone number format
+  const isValidPhoneNumber = (phone: string): boolean => {
+    if (!phone.trim()) return false;
+    // Remove common formatting characters for validation
+    const cleaned = phone.replace(/[\s\-\(\)\+]/g, '');
+    // Check if it has at least 10 digits (US/Canada format)
+    return /^\d{10,}$/.test(cleaned);
+  };
+
+  const isFormValid = isValidPhoneNumber(phoneNumber);
+
   // Extract first name from URL param or use default
-  const firstName = name ? name.charAt(0).toUpperCase() + name.slice(1).toLowerCase() : 'Drew';
+  // Handle camelCase names like "drewsmith" -> "Drew"
+  const getFirstName = (nameParam: string | undefined): string => {
+    if (!nameParam) return 'Drew';
+    
+    // Convert camelCase to separate words and take first word
+    // e.g., "drewsmith" -> "Drew Smith" -> "Drew"
+    const words = nameParam.replace(/([A-Z])/g, ' $1').trim().split(/\s+/);
+    const firstWord = words[0] || nameParam;
+    return firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
+  };
+  
+  const firstName = getFirstName(name);
   
   // Hidden values - these would typically come from URL params or be hardcoded per route
   const hiddenName = 'Drew Smith';
@@ -23,9 +45,8 @@ const FunnelPrivateGift: React.FC = () => {
       return;
     }
 
-    // Basic phone number validation
-    const phoneRegex = /^[\d\s\-\+\(\)]+$/;
-    if (!phoneRegex.test(phoneNumber)) {
+    // Validate phone number
+    if (!isValidPhoneNumber(phoneNumber)) {
       setError('Please enter a valid phone number');
       return;
     }
@@ -75,16 +96,21 @@ const FunnelPrivateGift: React.FC = () => {
               playsInline
               muted={false}
               autoPlay={false}
+              preload="metadata"
             >
               <source
-                src="https://creativecodeca.com/funnel/privategift/r1/drewsmith/video.mp4"
+                src={`https://creativecodeca.com/funnel/privategift/r1/${name || 'drewsmith'}/video.mp4`}
                 type="video/mp4"
               />
               <source
-                src="https://creativecodeca.com/funnel/privategift/r1/drewsmith/video.webm"
+                src={`https://creativecodeca.com/funnel/privategift/r1/${name || 'drewsmith'}/video.webm`}
                 type="video/webm"
               />
-              Your browser does not support the video tag.
+              <source
+                src={`https://creativecodeca.com/funnel/privategift/r1/${name || 'drewsmith'}/video.mov`}
+                type="video/quicktime"
+              />
+              <p className="text-white p-4">Your browser does not support the video tag. Please check that the video file exists at the specified path.</p>
             </video>
           </div>
 
@@ -95,8 +121,13 @@ const FunnelPrivateGift: React.FC = () => {
                 <input
                   type="tel"
                   value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  onChange={(e) => {
+                    setPhoneNumber(e.target.value);
+                    setError(''); // Clear error when user types
+                  }}
                   placeholder="Enter your phone number"
+                  autoComplete="tel"
+                  inputMode="tel"
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all"
                   disabled={isSubmitting}
                 />
@@ -107,8 +138,8 @@ const FunnelPrivateGift: React.FC = () => {
 
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isSubmitting || !isFormValid}
+                className="w-full px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-white/20 disabled:text-white/50"
               >
                 {isSubmitting ? 'Confirming...' : 'Confirm'}
               </button>
