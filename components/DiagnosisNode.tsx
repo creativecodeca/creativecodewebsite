@@ -20,6 +20,7 @@ export interface DiagnosisNodeData {
   collapsed: boolean;
   childCount: number;
   onToggle: (id: string) => void;
+  onContextMenu?: (id: string, event: React.MouseEvent) => void;
 }
 
 // Icon selection based on level
@@ -117,6 +118,13 @@ const DiagnosisNode: React.FC<NodeProps<DiagnosisNodeData>> = ({ id, data }) => 
         ${hasChildren ? 'hover:scale-105' : ''}
       `}
       onClick={() => hasChildren && data.onToggle(id)}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (data.onContextMenu) {
+          data.onContextMenu(id, e);
+        }
+      }}
     >
       {/* Top Handle - Hidden */}
       <Handle

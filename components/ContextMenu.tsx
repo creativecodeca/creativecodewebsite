@@ -1,0 +1,88 @@
+import React, { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, Lightbulb } from 'lucide-react';
+
+interface ContextMenuProps {
+  x: number;
+  y: number;
+  onExplain: () => void;
+  onSolve: () => void;
+  onClose: () => void;
+}
+
+const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, onExplain, onSolve, onClose }) => {
+  useEffect(() => {
+    const handleClick = () => onClose();
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+
+    document.addEventListener('click', handleClick);
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [onClose]);
+
+  return (
+    <>
+      {/* Backdrop blur */}
+      <motion.div
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+      />
+
+      {/* Context Menu */}
+      <motion.div
+        className="fixed z-[101] bg-black/95 backdrop-blur-md border border-white/20 rounded-lg shadow-2xl overflow-hidden min-w-[200px]"
+        style={{
+          left: x,
+          top: y,
+        }}
+        initial={{ opacity: 0, scale: 0.9, y: -10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.9, y: -10 }}
+        transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onExplain();
+          }}
+          className="w-full px-4 py-3 flex items-center gap-3 text-left text-white hover:bg-white/10 transition-colors group"
+        >
+          <Search className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform" />
+          <div>
+            <div className="font-semibold text-sm">Explain Problem</div>
+            <div className="text-xs text-gray-400">Get AI analysis</div>
+          </div>
+        </button>
+
+        <div className="h-px bg-white/10" />
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onSolve();
+          }}
+          className="w-full px-4 py-3 flex items-center gap-3 text-left text-white hover:bg-white/10 transition-colors group"
+        >
+          <Lightbulb className="w-5 h-5 text-yellow-400 group-hover:scale-110 transition-transform" />
+          <div>
+            <div className="font-semibold text-sm">Solve Problem</div>
+            <div className="text-xs text-gray-400">Get AI solutions</div>
+          </div>
+        </button>
+      </motion.div>
+    </>
+  );
+};
+
+export default ContextMenu;
+
