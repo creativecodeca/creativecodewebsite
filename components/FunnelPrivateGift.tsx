@@ -127,18 +127,14 @@ const FunnelPrivateGift: React.FC = () => {
               Welcome, {firstName}.
             </h1>
           
-          <div className="relative w-full max-w-sm mx-auto bg-gray-900 rounded-lg overflow-hidden mb-8 video-container">
-            <div className="absolute inset-0 flex items-center justify-center" style={{ width: '100%', height: '100%' }}>
+          <div className="w-full max-w-sm mx-auto bg-gray-900 rounded-lg overflow-hidden mb-8">
+            <div className="relative video-container-mobile" style={{ paddingBottom: '177.78%', height: 0, overflow: 'hidden' }}>
               <iframe
                 src={videoLink}
                 allow="autoplay"
                 allowFullScreen
-                className="video-iframe"
-                style={{ 
-                  width: '100%', 
-                  height: '100%',
-                  border: 'none'
-                }}
+                className="absolute top-0 left-0 w-full h-full border-0"
+                style={{ border: 'none' }}
               ></iframe>
             </div>
           </div>
