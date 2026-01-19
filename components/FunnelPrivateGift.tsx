@@ -15,6 +15,7 @@ const FunnelPrivateGift: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const [showVideoOverlay, setShowVideoOverlay] = useState(true);
 
   // Validate phone number format
   const isValidPhoneNumber = (phone: string): boolean => {
@@ -127,7 +128,7 @@ const FunnelPrivateGift: React.FC = () => {
               Welcome, {firstName}.
             </h1>
           
-          <div className="w-full max-w-sm mx-auto bg-gray-900 rounded-lg overflow-hidden mb-8">
+          <div className="w-full max-w-sm mx-auto bg-gray-900 rounded-lg overflow-hidden mb-8 relative">
             <div className="relative video-container-mobile" style={{ paddingBottom: '177.78%', height: 0, overflow: 'hidden' }}>
               <iframe
                 src={videoLink}
@@ -137,6 +138,25 @@ const FunnelPrivateGift: React.FC = () => {
                 style={{ border: 'none' }}
               ></iframe>
             </div>
+            
+            {/* Black overlay with play button - disappears on click */}
+            {showVideoOverlay && (
+              <div 
+                className="absolute inset-0 bg-black flex items-center justify-center cursor-pointer z-10 rounded-lg"
+                onClick={() => setShowVideoOverlay(false)}
+                style={{ pointerEvents: 'auto' }}
+              >
+                <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors backdrop-blur-sm">
+                  <svg 
+                    className="w-10 h-10 text-white ml-1" 
+                    fill="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Phone Number Form */}
