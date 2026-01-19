@@ -27,11 +27,12 @@ const nodeTypes = {
   diagnosisNode: DiagnosisNode,
 };
 
-// Create dagre graph for layout - now layouts everything once to prevent shifting
+// Create dagre graph for layout - only layouts visible nodes
 const getLayoutedElements = (
   nodes: Node[],
   edges: Edge[],
-  direction = 'TB'
+  direction = 'TB',
+  collapsedNodes: Set<string>
 ) => {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -41,24 +42,40 @@ const getLayoutedElements = (
   
   dagreGraph.setGraph({ 
     rankdir: direction,
-    nodesep: 40,
-    ranksep: 60,
+    nodesep: 50,
+    ranksep: 80,
     marginx: 50,
     marginy: 50,
   });
 
-  // Add ALL nodes to graph for fixed layout
-  nodes.forEach((node) => {
+  // Filter to only visible nodes based on collapse state
+  const visibleNodeIds = new Set<string>();
+  const addVisibleNodes = (nodeId: string) => {
+    visibleNodeIds.add(nodeId);
+    if (!collapsedNodes.has(nodeId)) {
+      const children = getChildrenIds(nodeId);
+      children.forEach(childId => addVisibleNodes(childId));
+    }
+  };
+  addVisibleNodes('root');
+
+  // Only add visible nodes to layout
+  const visibleNodes = nodes.filter(node => visibleNodeIds.has(node.id));
+  const visibleEdges = edges.filter(
+    edge => visibleNodeIds.has(edge.source) && visibleNodeIds.has(edge.target)
+  );
+
+  visibleNodes.forEach((node) => {
     dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
   });
 
-  edges.forEach((edge) => {
+  visibleEdges.forEach((edge) => {
     dagreGraph.setEdge(edge.source, edge.target);
   });
 
   dagre.layout(dagreGraph);
 
-  const layoutedNodes = nodes.map((node) => {
+  const layoutedNodes = visibleNodes.map((node) => {
     const dagreNode = dagreGraph.node(node.id);
     return {
       ...node,
@@ -71,7 +88,7 @@ const getLayoutedElements = (
     };
   });
 
-  return { nodes: layoutedNodes, edges };
+  return { nodes: layoutedNodes, edges: visibleEdges };
 };
 
 // Convert tree data to React Flow nodes and edges
@@ -173,6 +190,7 @@ const DiagnosisMapContent: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          nodeId: contextMenu.nodeId,
           nodeLabel: contextMenu.nodeLabel,
           mode: 'explain',
         }),
@@ -216,6 +234,7 @@ const DiagnosisMapContent: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          nodeId: contextMenu.nodeId,
           nodeLabel: contextMenu.nodeLabel,
           mode: 'solve',
         }),
@@ -347,38 +366,20 @@ const DiagnosisMapContent: React.FC = () => {
     [collapsedNodes, handleToggle, handleContextMenu]
   );
 
-  // master layout - only depends on tree structure, never changes unless tree data does
-  const masterLayout = useMemo(
-    () => getLayoutedElements(initialNodes, initialEdges, 'TB'),
-    [initialNodes, initialEdges]
+  // Layout based on visible nodes only
+  const { nodes: layoutedNodes, edges: layoutedEdges } = useMemo(
+    () => getLayoutedElements(initialNodes, initialEdges, 'TB', collapsedNodes),
+    [initialNodes, initialEdges, collapsedNodes]
   );
 
-  // Filter visible nodes/edges based on collapse state
-  const { nodes: filteredNodes, edges: filteredEdges } = useMemo(() => {
-    const visibleIds = new Set<string>();
-    const addVisible = (id: string) => {
-      visibleIds.add(id);
-      if (!collapsedNodes.has(id)) {
-        const childIds = getChildrenIds(id);
-        childIds.forEach(addVisible);
-      }
-    };
-    addVisible('root');
+  const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
 
-    return {
-      nodes: masterLayout.nodes.filter(n => visibleIds.has(n.id)),
-      edges: masterLayout.edges.filter(e => visibleIds.has(e.source) && visibleIds.has(e.target))
-    };
-  }, [masterLayout, collapsedNodes]);
-
-  const [nodes, setNodes, onNodesChange] = useNodesState(filteredNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(filteredEdges);
-
-  // Update nodes when filtered layout changes
+  // Update nodes when layout changes
   useEffect(() => {
-    setNodes(filteredNodes);
-    setEdges(filteredEdges);
-  }, [filteredNodes, filteredEdges, setNodes, setEdges]);
+    setNodes(layoutedNodes);
+    setEdges(layoutedEdges);
+  }, [layoutedNodes, layoutedEdges, setNodes, setEdges]);
 
   // Navigate to node from search
   const handleNavigateToNode = useCallback((nodeId: string) => {

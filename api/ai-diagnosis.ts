@@ -1,7 +1,22 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getNodeById, TreeNode } from '../data/diagnosticTree';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.API_KEY;
+
+// Helper to build hierarchical context of a node and its children
+function buildNodeContext(node: TreeNode, depth = 0): string {
+  const indent = '  '.repeat(depth);
+  let context = `${indent}- ${node.label}\n`;
+  
+  if (node.children && node.children.length > 0) {
+    node.children.forEach(child => {
+      context += buildNodeContext(child, depth + 1);
+    });
+  }
+  
+  return context;
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS headers
@@ -19,10 +34,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { nodeLabel, mode } = req.body; // mode: 'explain' or 'solve'
+    const { nodeId, nodeLabel, mode } = req.body; // mode: 'explain' or 'solve'
 
-    if (!nodeLabel || !mode) {
-      return res.status(400).json({ error: 'Node label and mode are required' });
+    if ((!nodeId && !nodeLabel) || !mode) {
+      return res.status(400).json({ error: 'Node ID/label and mode are required' });
     }
 
     if (!GEMINI_API_KEY) {
@@ -33,6 +48,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
+    // Get full node context if nodeId is provided
+    let fullContext = nodeLabel || '';
+    if (nodeId) {
+      const node = getNodeById(nodeId);
+      if (node) {
+        fullContext = buildNodeContext(node);
+      }
+    }
+
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
 
@@ -41,26 +65,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (mode === 'explain') {
       prompt = `You are a business consultant analyzing a specific business problem.
 
-Problem: "${nodeLabel}"
+Problem: "${nodeLabel || 'Unknown Problem'}"
+
+${nodeId ? `Full problem breakdown (including sub-issues):\n${fullContext}\n` : ''}
 
 Provide a clear, concise explanation of this business problem:
 - What does this problem actually mean in practical terms?
 - Why does this problem occur?
 - What are the common symptoms?
 - What is the typical impact on the business?
+${nodeId && fullContext.includes('-') ? '- Consider the sub-problems listed above in your explanation' : ''}
 
 Keep it practical and actionable. Write 2-3 paragraphs maximum.`;
     } else if (mode === 'solve') {
       prompt = `You are an innovative business consultant specializing in automation, AI, and modern solutions.
 
-Problem: "${nodeLabel}"
+Problem: "${nodeLabel || 'Unknown Problem'}"
+
+${nodeId ? `Full problem breakdown (including sub-issues):\n${fullContext}\n` : ''}
 
 Provide 3-5 specific, actionable solutions to solve this problem:
 - Focus on automation, AI tools, and modern technology where applicable
-- Include specific tool recommendations when relevant
+- Include specific tool recommendations when relevant (e.g., Zapier, Make.com, ChatGPT, Claude, specific SaaS tools)
 - Be creative and forward-thinking
 - Each solution should be practical and implementable
 - Format as a numbered list with brief explanations
+${nodeId && fullContext.includes('-') ? '- Address the sub-problems listed above where relevant' : ''}
 
 Think like a modern, tech-savvy consultant who leverages AI and automation first.`;
     }
