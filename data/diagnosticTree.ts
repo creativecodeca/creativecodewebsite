@@ -12,7 +12,7 @@ export interface TreeNode {
 // Raw diagnostic tree data
 const rawTreeData: TreeNode = {
   id: 'root',
-  label: "DON'T HAVE ENOUGH MONEY",
+  label: "DON\\'T HAVE ENOUGH MONEY",
   level: 1,
   children: [
     {
@@ -299,12 +299,12 @@ const rawTreeData: TreeNode = {
               children: [
                 {
                   id: 'cant-find-prospects',
-                  label: "CAN'T FIND ENOUGH PROSPECTS",
+                  label: "CAN\\'T FIND ENOUGH PROSPECTS",
                   level: 5,
                   children: [
                     {
                       id: 'dont-know-where-market',
-                      label: "DON'T KNOW WHERE TARGET MARKET IS",
+                      label: "DON\\'T KNOW WHERE TARGET MARKET IS",
                       level: 6,
                       children: [
                         { id: 'no-research', label: 'No customer research done', level: 7, children: [] },
@@ -354,7 +354,7 @@ const rawTreeData: TreeNode = {
                 },
                 {
                   id: 'prospects-dont-know',
-                  label: "PROSPECTS DON'T KNOW WE EXIST",
+                  label: "PROSPECTS DON\\'T KNOW WE EXIST",
                   level: 5,
                   children: [
                     {
@@ -421,7 +421,7 @@ const rawTreeData: TreeNode = {
                 },
                 {
                   id: 'prospects-aware-dont-engage',
-                  label: "PROSPECTS AWARE BUT DON'T ENGAGE",
+                  label: "PROSPECTS AWARE BUT DON\\'T ENGAGE",
                   level: 5,
                   children: [
                     {
@@ -498,12 +498,12 @@ const rawTreeData: TreeNode = {
                 },
                 {
                   id: 'prospects-engage-dont-buy',
-                  label: "PROSPECTS ENGAGE BUT DON'T BUY",
+                  label: "PROSPECTS ENGAGE BUT DON\\'T BUY",
                   level: 5,
                   children: [
                     {
                       id: 'dont-trust',
-                      label: "DON'T TRUST US",
+                      label: "DON\\'T TRUST US",
                       level: 6,
                       children: [
                         { id: 'no-testimonials', label: 'No social proof or testimonials', level: 7, children: [] },
@@ -518,7 +518,7 @@ const rawTreeData: TreeNode = {
                     },
                     {
                       id: 'dont-understand-offer',
-                      label: "DON'T UNDERSTAND OFFER",
+                      label: "DON\\'T UNDERSTAND OFFER",
                       level: 6,
                       children: [
                         { id: 'explanation-complicated', label: 'Explanation too complicated or technical', level: 7, children: [] },
@@ -531,7 +531,7 @@ const rawTreeData: TreeNode = {
                     },
                     {
                       id: 'dont-believe-solves',
-                      label: "DON'T BELIEVE IT SOLVES THEIR PROBLEM",
+                      label: "DON\\'T BELIEVE IT SOLVES THEIR PROBLEM",
                       level: 6,
                       children: [
                         { id: 'weak-case-studies', label: 'Weak or irrelevant case studies', level: 7, children: [] },
@@ -615,11 +615,11 @@ const rawTreeData: TreeNode = {
             },
           ],
         },
-        {
-          id: 'bought-cant-deliver',
-          label: 'CLIENTS BOUGHT BUT CAN'T DELIVER',
-          level: 3,
-          children: [
+          {
+            id: 'bought-cant-deliver',
+            label: "CLIENTS BOUGHT BUT CAN'T DELIVER",
+            level: 3,
+            children: [
             {
               id: 'not-enough-capacity',
               label: 'NOT ENOUGH CAPACITY TO FULFILL',
@@ -639,7 +639,7 @@ const rawTreeData: TreeNode = {
                 },
                 {
                   id: 'cant-hire-fast',
-                  label: "CAN'T HIRE FAST ENOUGH",
+                  label: "CAN\\'T HIRE FAST ENOUGH",
                   level: 5,
                   children: [
                     { id: 'cant-find-qualified', label: "Can't find qualified people", level: 6, children: [] },
@@ -652,7 +652,7 @@ const rawTreeData: TreeNode = {
                 },
                 {
                   id: 'cant-afford-hire',
-                  label: "CAN'T AFFORD TO HIRE",
+                  label: "CAN\\'T AFFORD TO HIRE",
                   level: 5,
                   children: [
                     { id: 'no-cash-payroll', label: 'No cash for payroll', level: 6, children: [] },
@@ -967,7 +967,7 @@ const rawTreeData: TreeNode = {
             },
             {
               id: 'cant-delegate-founder',
-              label: "CAN'T DELEGATE",
+              label: "CAN\\'T DELEGATE",
               level: 4,
               children: [
                 { id: 'dont-trust-others', label: "Don't trust others to do it right", level: 5, children: [] },
