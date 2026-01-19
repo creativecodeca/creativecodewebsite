@@ -91,31 +91,31 @@ const DiagnosisSearch: React.FC<DiagnosisSearchProps> = ({ onNavigate }) => {
               exit={{ opacity: 0, scale: 0.9, y: 10 }}
               className={`
                 max-w-sm p-4 rounded-lg shadow-lg backdrop-blur-sm border
-                ${result ? 'bg-green-50/95 border-green-200' : 'bg-red-50/95 border-red-200'}
+                ${result ? 'bg-green-950/95 border-green-500/30' : 'bg-red-950/95 border-red-500/30'}
               `}
             >
               {result && (
                 <div>
                   <div className="flex items-start justify-between gap-3 mb-2">
                     <div>
-                      <p className="text-sm font-semibold text-green-900">Found:</p>
-                      <p className="text-sm text-green-800 mt-1">{result.label}</p>
+                      <p className="text-sm font-semibold text-green-200">Found:</p>
+                      <p className="text-sm text-green-300 mt-1">{result.label}</p>
                     </div>
                     <button
                       onClick={handleClear}
-                      className="text-green-600 hover:text-green-800 transition-colors"
+                      className="text-green-400 hover:text-green-200 transition-colors"
                     >
                       <X className="w-4 h-4" />
                     </button>
                   </div>
                   {result.confidence > 0 && (
                     <div className="mb-3">
-                      <p className="text-xs text-green-600">
+                      <p className="text-xs text-green-400">
                         Confidence: {Math.round(result.confidence * 100)}%
                       </p>
-                      <div className="w-full bg-green-200 rounded-full h-1.5 mt-1">
+                      <div className="w-full bg-green-900/50 rounded-full h-1.5 mt-1">
                         <div
-                          className="bg-green-600 h-1.5 rounded-full transition-all duration-300"
+                          className="bg-green-500 h-1.5 rounded-full transition-all duration-300"
                           style={{ width: `${result.confidence * 100}%` }}
                         ></div>
                       </div>
@@ -131,10 +131,10 @@ const DiagnosisSearch: React.FC<DiagnosisSearchProps> = ({ onNavigate }) => {
               )}
               {error && (
                 <div className="flex items-start justify-between gap-3">
-                  <p className="text-sm text-red-800">{error}</p>
+                  <p className="text-sm text-red-300">{error}</p>
                   <button
                     onClick={handleClear}
-                    className="text-red-600 hover:text-red-800 transition-colors"
+                    className="text-red-400 hover:text-red-200 transition-colors"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -145,7 +145,7 @@ const DiagnosisSearch: React.FC<DiagnosisSearchProps> = ({ onNavigate }) => {
         </AnimatePresence>
 
         {/* Search Input */}
-        <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 p-3 w-96">
+        <div className="bg-black/95 backdrop-blur-sm rounded-lg shadow-lg border border-white/10 p-3 w-96">
           <div className="flex items-center gap-2 mb-2">
             <Search className="w-5 h-5 text-gray-400 flex-shrink-0" />
             <input
@@ -154,13 +154,13 @@ const DiagnosisSearch: React.FC<DiagnosisSearchProps> = ({ onNavigate }) => {
               onChange={(e) => setQuery(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Describe your business problem..."
-              className="flex-1 text-sm bg-transparent border-none outline-none text-gray-900 placeholder-gray-400"
+              className="flex-1 text-sm bg-transparent border-none outline-none text-white placeholder-gray-500"
               disabled={isLoading}
             />
             {query && !isLoading && (
               <button
                 onClick={handleClear}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-200 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -171,7 +171,7 @@ const DiagnosisSearch: React.FC<DiagnosisSearchProps> = ({ onNavigate }) => {
             <button
               onClick={handleSearch}
               disabled={isLoading || !query.trim()}
-              className="flex-1 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
@@ -184,7 +184,7 @@ const DiagnosisSearch: React.FC<DiagnosisSearchProps> = ({ onNavigate }) => {
             </button>
           </div>
 
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-gray-400 mt-2">
             Use AI to find the most relevant business issue
           </p>
         </div>

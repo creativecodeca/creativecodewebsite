@@ -41,62 +41,62 @@ const getIcon = (level: number, label: string) => {
   return <CheckCircle {...iconProps} />;
 };
 
-// Color scheme based on level
+// Color scheme based on level - Dark Theme
 const getColorClasses = (level: number) => {
   switch (level) {
     case 1:
       return {
-        bg: 'bg-red-50',
+        bg: 'bg-red-950/50',
         border: 'border-red-500',
-        text: 'text-red-700',
-        icon: 'text-red-600',
-        hoverBg: 'hover:bg-red-100',
-        shadow: 'shadow-red-200',
+        text: 'text-red-200',
+        icon: 'text-red-400',
+        hoverBg: 'hover:bg-red-900/60',
+        shadow: 'shadow-red-900/50',
       };
     case 2:
       return {
-        bg: 'bg-orange-50',
+        bg: 'bg-orange-950/50',
         border: 'border-orange-500',
-        text: 'text-orange-700',
-        icon: 'text-orange-600',
-        hoverBg: 'hover:bg-orange-100',
-        shadow: 'shadow-orange-200',
+        text: 'text-orange-200',
+        icon: 'text-orange-400',
+        hoverBg: 'hover:bg-orange-900/60',
+        shadow: 'shadow-orange-900/50',
       };
     case 3:
       return {
-        bg: 'bg-yellow-50',
+        bg: 'bg-yellow-950/50',
         border: 'border-yellow-500',
-        text: 'text-yellow-800',
-        icon: 'text-yellow-700',
-        hoverBg: 'hover:bg-yellow-100',
-        shadow: 'shadow-yellow-200',
+        text: 'text-yellow-200',
+        icon: 'text-yellow-400',
+        hoverBg: 'hover:bg-yellow-900/60',
+        shadow: 'shadow-yellow-900/50',
       };
     case 4:
       return {
-        bg: 'bg-blue-50',
+        bg: 'bg-blue-950/50',
         border: 'border-blue-500',
-        text: 'text-blue-700',
-        icon: 'text-blue-600',
-        hoverBg: 'hover:bg-blue-100',
-        shadow: 'shadow-blue-200',
+        text: 'text-blue-200',
+        icon: 'text-blue-400',
+        hoverBg: 'hover:bg-blue-900/60',
+        shadow: 'shadow-blue-900/50',
       };
     case 5:
       return {
-        bg: 'bg-green-50',
+        bg: 'bg-green-950/50',
         border: 'border-green-500',
-        text: 'text-green-700',
-        icon: 'text-green-600',
-        hoverBg: 'hover:bg-green-100',
-        shadow: 'shadow-green-200',
+        text: 'text-green-200',
+        icon: 'text-green-400',
+        hoverBg: 'hover:bg-green-900/60',
+        shadow: 'shadow-green-900/50',
       };
     default:
       return {
-        bg: 'bg-gray-50',
-        border: 'border-gray-400',
-        text: 'text-gray-700',
-        icon: 'text-gray-600',
-        hoverBg: 'hover:bg-gray-100',
-        shadow: 'shadow-gray-200',
+        bg: 'bg-gray-950/50',
+        border: 'border-gray-500',
+        text: 'text-gray-200',
+        icon: 'text-gray-400',
+        hoverBg: 'hover:bg-gray-900/60',
+        shadow: 'shadow-gray-900/50',
       };
   }
 };
@@ -122,7 +122,7 @@ const DiagnosisNode: React.FC<NodeProps<DiagnosisNodeData>> = ({ id, data }) => 
       <Handle
         type="target"
         position={Position.Top}
-        className="w-3 h-3 !bg-gray-400 !border-2 !border-white"
+        className="w-3 h-3 !bg-gray-600 !border-2 !border-gray-800"
       />
 
       {/* Content */}
@@ -138,7 +138,7 @@ const DiagnosisNode: React.FC<NodeProps<DiagnosisNodeData>> = ({ id, data }) => 
             {data.label}
           </p>
           {hasChildren && (
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-gray-400 mt-1">
               {data.childCount} {data.childCount === 1 ? 'item' : 'items'}
             </p>
           )}
@@ -161,7 +161,7 @@ const DiagnosisNode: React.FC<NodeProps<DiagnosisNodeData>> = ({ id, data }) => 
         <Handle
           type="source"
           position={Position.Bottom}
-          className="w-3 h-3 !bg-gray-400 !border-2 !border-white"
+          className="w-3 h-3 !bg-gray-600 !border-2 !border-gray-800"
         />
       )}
     </div>

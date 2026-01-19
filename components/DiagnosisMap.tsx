@@ -12,6 +12,7 @@ import ReactFlow, {
 } from 'reactflow';
 import dagre from 'dagre';
 import { motion } from 'framer-motion';
+import { Compass } from 'lucide-react';
 import 'reactflow/dist/style.css';
 import DiagnosisNode, { DiagnosisNodeData } from './DiagnosisNode';
 import DiagnosisSearch from './DiagnosisSearch';
@@ -32,15 +33,15 @@ const getLayoutedElements = (
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
   
-  const nodeWidth = 250;
-  const nodeHeight = 80;
+  const nodeWidth = 280;
+  const nodeHeight = 90;
   
   dagreGraph.setGraph({ 
     rankdir: direction,
-    nodesep: 100,
-    ranksep: 150,
-    marginx: 50,
-    marginy: 50,
+    nodesep: 80,
+    ranksep: 120,
+    marginx: 100,
+    marginy: 100,
   });
 
   // Filter out collapsed nodes and their descendants
@@ -129,16 +130,77 @@ const convertTreeToFlow = (
 const DiagnosisMap: React.FC = () => {
   const [collapsedNodes, setCollapsedNodes] = useState<Set<string>>(new Set());
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   
-  // Toggle node collapse/expand
+  // Recenter map and collapse all nodes
+  const handleRecenter = useCallback(() => {
+    if (!reactFlowInstance) return;
+    
+    setIsSpinning(true);
+    
+    // Collapse all nodes
+    const allNodesData = getAllNodes(rawTreeData);
+    const allNodeIds = new Set(allNodesData.map(n => n.id).filter(id => id !== 'root'));
+    setCollapsedNodes(allNodeIds);
+    
+    // Fit view after a short delay to allow nodes to collapse
+    setTimeout(() => {
+      reactFlowInstance.fitView({ duration: 800, padding: 0.2 });
+      setIsSpinning(false);
+    }, 100);
+  }, [reactFlowInstance]);
+
+  // Toggle node collapse/expand with auto-collapse siblings
   const handleToggle = useCallback((nodeId: string) => {
     setCollapsedNodes((prev) => {
       const newSet = new Set(prev);
+      const allNodesData = getAllNodes(rawTreeData);
+      const clickedNode = allNodesData.find(n => n.id === nodeId);
+      
       if (newSet.has(nodeId)) {
+        // Expanding this node
         newSet.delete(nodeId);
       } else {
+        // Collapsing this node
         newSet.add(nodeId);
+        
+        // Also collapse all descendants
+        const collapseDescendants = (id: string) => {
+          const node = allNodesData.find(n => n.id === id);
+          if (node) {
+            node.children.forEach(child => {
+              newSet.add(child.id);
+              collapseDescendants(child.id);
+            });
+          }
+        };
+        collapseDescendants(nodeId);
       }
+      
+      // Auto-collapse siblings when expanding
+      if (!newSet.has(nodeId) && clickedNode?.parent) {
+        const parent = allNodesData.find(n => n.id === clickedNode.parent);
+        if (parent) {
+          parent.children.forEach(sibling => {
+            if (sibling.id !== nodeId) {
+              newSet.add(sibling.id);
+              // Also collapse all descendants of siblings
+              const collapseDescendants = (id: string) => {
+                const node = allNodesData.find(n => n.id === id);
+                if (node) {
+                  node.children.forEach(child => {
+                    newSet.add(child.id);
+                    collapseDescendants(child.id);
+                  });
+                }
+              };
+              collapseDescendants(sibling.id);
+            }
+          });
+        }
+      }
+      
       return newSet;
     });
   }, []);
@@ -232,80 +294,78 @@ const DiagnosisMap: React.FC = () => {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
+        onInit={setReactFlowInstance}
         fitView
-        minZoom={0.1}
-        maxZoom={1.5}
-        defaultViewport={{ x: 0, y: 0, zoom: 0.5 }}
+        minZoom={0.3}
+        maxZoom={2}
+        defaultViewport={{ x: 0, y: 0, zoom: 0.8 }}
         proOptions={{ hideAttribution: true }}
       >
         <Background 
           variant={BackgroundVariant.Dots}
           gap={20}
           size={1}
-          color="#e5e7eb"
+          color="#1f1f1f"
         />
         <Controls 
-          className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
           showInteractive={false}
         />
         <MiniMap 
-          className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg"
           nodeColor={(node) => {
             const level = (node.data as DiagnosisNodeData).level;
             const colors = ['#ef4444', '#f97316', '#eab308', '#3b82f6', '#10b981', '#6b7280'];
             return colors[Math.min(level - 1, colors.length - 1)];
           }}
-          maskColor="rgba(0, 0, 0, 0.05)"
+          maskColor="rgba(255, 255, 255, 0.05)"
         />
       </ReactFlow>
 
       {/* Search Overlay */}
       <DiagnosisSearch onNavigate={handleNavigateToNode} />
 
-      {/* Instructions */}
-      <motion.div
-        className="absolute top-6 left-6 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-4 max-w-sm border border-gray-200"
+      {/* Compass Recenter Button */}
+      <motion.button
+        onClick={handleRecenter}
+        className="absolute top-6 left-6 bg-black/95 backdrop-blur-sm rounded-lg shadow-lg p-4 border border-white/10 hover:bg-black/100 hover:border-white/20 transition-all group"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.5, duration: 0.5 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
-        <h3 className="text-sm font-bold text-gray-900 mb-2">How to Use</h3>
-        <ul className="text-xs text-gray-600 space-y-1">
-          <li>• Click nodes to expand/collapse branches</li>
-          <li>• Drag to pan, scroll to zoom</li>
-          <li>• Use search (bottom right) to find specific issues</li>
-          <li>• Colors indicate problem severity/level</li>
-        </ul>
-      </motion.div>
+        <Compass 
+          className={`w-8 h-8 text-blue-400 transition-transform duration-500 ${isSpinning ? 'animate-spin' : ''}`}
+        />
+      </motion.button>
 
       {/* Legend */}
       <motion.div
-        className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-4 border border-gray-200"
+        className="absolute bottom-6 left-6 bg-black/95 backdrop-blur-sm rounded-lg shadow-lg p-4 border border-white/10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, duration: 0.5 }}
       >
-        <h3 className="text-sm font-bold text-gray-900 mb-2">Problem Levels</h3>
+        <h3 className="text-sm font-bold text-white mb-2">Problem Levels</h3>
         <div className="space-y-1 text-xs">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-red-500 rounded"></div>
-            <span className="text-gray-700">Level 1: Critical</span>
+            <span className="text-gray-200">Level 1: Critical</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-orange-500 rounded"></div>
-            <span className="text-gray-700">Level 2: Major</span>
+            <span className="text-gray-200">Level 2: Major</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-yellow-500 rounded"></div>
-            <span className="text-gray-700">Level 3: Moderate</span>
+            <span className="text-gray-200">Level 3: Moderate</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-blue-500 rounded"></div>
-            <span className="text-gray-700">Level 4: Minor</span>
+            <span className="text-gray-200">Level 4: Minor</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-green-500 rounded"></div>
-            <span className="text-gray-700">Level 5: Specific</span>
+            <span className="text-gray-200">Level 5: Specific</span>
           </div>
         </div>
       </motion.div>

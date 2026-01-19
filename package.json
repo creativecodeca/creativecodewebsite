@@ -12,7 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@google/genai": "^1.30.0",
+    "@google/generative-ai": "^0.21.0",
     "@octokit/rest": "^20.1.2",
     "cors": "^2.8.5",
     "dagre": "^0.8.5",

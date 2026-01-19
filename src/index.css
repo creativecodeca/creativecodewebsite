@@ -243,12 +243,26 @@ textarea:-webkit-autofill:active {
   }
 }
 
-/* Diagnosis Map - White Dot Grid Background */
+/* Diagnosis Map - Dark Dot Grid Background */
 .dot-grid-white {
-  background-color: #ffffff;
-  background-image: radial-gradient(circle, #e5e7eb 1px, transparent 1px);
+  background-color: #020202;
+  background-image: radial-gradient(circle, #1f1f1f 1px, transparent 1px);
   background-size: 20px 20px;
   background-position: 0 0, 10px 10px;
+}
+
+/* Compass spin animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 
 /* React Flow Overrides for Diagnosis Map */
@@ -261,7 +275,7 @@ textarea:-webkit-autofill:active {
 }
 
 .react-flow__edge-path {
-  stroke: #94a3b8;
+  stroke: #52525b;
   stroke-width: 2px;
 }
 
@@ -275,25 +289,38 @@ textarea:-webkit-autofill:active {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Diagnosis Map Controls Styling */
+/* Diagnosis Map Controls Styling - Dark Theme */
 .react-flow__controls {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  background: rgba(10, 10, 10, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
 }
 
 .react-flow__controls-button {
-  background: white;
-  border-bottom: 1px solid #e5e7eb;
+  background: rgba(20, 20, 20, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.2s;
+  color: #e5e7eb;
 }
 
 .react-flow__controls-button:hover {
-  background: #f3f4f6;
+  background: rgba(40, 40, 40, 0.9);
   transform: scale(1.05);
 }
 
-/* Diagnosis Map MiniMap Styling */
+.react-flow__controls-button svg {
+  fill: #e5e7eb;
+}
+
+/* Diagnosis Map MiniMap Styling - Dark Theme */
 .react-flow__minimap {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  background: rgba(10, 10, 10, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+}
+
+.react-flow__minimap-mask {
+  fill: rgba(10, 10, 10, 0.8);
 }
 
 .react-flow__minimap-node {

@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.API_KEY;
 
@@ -142,7 +142,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
     const prompt = `${treeContext}
 
@@ -151,7 +151,11 @@ User's problem description: "${query}"
 Analyze this and return the JSON response.`;
 
     const model = genAI.getGenerativeModel({ 
-      model: 'gemini-2.0-flash-exp',
+      model: 'gemini-1.5-flash',
+    });
+
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
       generationConfig: {
         temperature: 0.3,
         topP: 0.8,
@@ -159,8 +163,6 @@ Analyze this and return the JSON response.`;
         maxOutputTokens: 500,
       }
     });
-
-    const result = await model.generateContent(prompt);
     const response = result.response;
     const text = response.text();
 
