@@ -71,27 +71,19 @@ const getLayoutedElements = (
 
   dagre.layout(dagreGraph);
 
+  // Calculate center offset based on root position
+  const rootNode = dagreGraph.node('root');
+  const centerOffsetX = rootNode ? -rootNode.x + nodeWidth / 2 : 0;
+  const centerOffsetY = rootNode ? -rootNode.y + nodeHeight / 2 : 0;
+  
   const layoutedNodes = visibleNodes.map((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
-    
-    // Fix root node position to prevent shifting
-    if (node.id === 'root') {
-      return {
-        ...node,
-        position: {
-          x: 0,
-          y: 0,
-        },
-        sourcePosition: Position.Bottom,
-        targetPosition: Position.Top,
-      };
-    }
     
     return {
       ...node,
       position: {
-        x: nodeWithPosition.x - nodeWidth / 2,
-        y: nodeWithPosition.y - nodeHeight / 2,
+        x: nodeWithPosition.x - nodeWidth / 2 + centerOffsetX,
+        y: nodeWithPosition.y - nodeHeight / 2 + centerOffsetY,
       },
       sourcePosition: Position.Bottom,
       targetPosition: Position.Top,
