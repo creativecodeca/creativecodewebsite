@@ -128,7 +128,16 @@ const FunnelPrivateGift: React.FC = () => {
               Welcome, {firstName}.
             </h1>
           
-          <div className="w-full max-w-sm mx-auto bg-gray-900 rounded-lg overflow-hidden mb-8 relative">
+          <div 
+            className="w-full max-w-sm mx-auto bg-gray-900 rounded-lg overflow-hidden mb-8 relative"
+            onMouseDown={() => {
+              // Hide overlay on mousedown - this fires before click
+              // The click event will then reach the iframe
+              if (showVideoOverlay) {
+                setShowVideoOverlay(false);
+              }
+            }}
+          >
             <div className="relative video-container-mobile" style={{ paddingBottom: '177.78%', height: 0, overflow: 'hidden' }}>
               <iframe
                 src={videoLink}
@@ -155,15 +164,6 @@ const FunnelPrivateGift: React.FC = () => {
                   </svg>
                 </div>
               </div>
-            )}
-            
-            {/* Invisible click detector to hide overlay when video is clicked */}
-            {showVideoOverlay && (
-              <div 
-                className="absolute inset-0 z-20"
-                onClick={() => setShowVideoOverlay(false)}
-                style={{ cursor: 'pointer' }}
-              />
             )}
           </div>
 
