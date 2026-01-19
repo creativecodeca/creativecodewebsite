@@ -118,11 +118,11 @@ const DiagnosisNode: React.FC<NodeProps<DiagnosisNodeData>> = ({ id, data }) => 
       `}
       onClick={() => hasChildren && data.onToggle(id)}
     >
-      {/* Top Handle */}
+      {/* Top Handle - Hidden */}
       <Handle
         type="target"
         position={Position.Top}
-        className="w-3 h-3 !bg-gray-600 !border-2 !border-gray-800"
+        className="w-3 h-3 !bg-gray-600 !border-2 !border-gray-800 opacity-0 pointer-events-none"
       />
 
       {/* Content */}
@@ -147,21 +147,21 @@ const DiagnosisNode: React.FC<NodeProps<DiagnosisNodeData>> = ({ id, data }) => 
         {/* Collapse/Expand Icon */}
         {hasChildren && (
           <div className={`flex-shrink-0 ${colors.icon}`}>
-            {data.collapsed ? (
-              <ChevronRight className="w-4 h-4" />
-            ) : (
-              <ChevronDown className="w-4 h-4" />
-            )}
+            <ChevronDown
+              className={`w-4 h-4 transition-transform duration-200 ${
+                data.collapsed ? 'rotate-0' : '-rotate-90'
+              }`}
+            />
           </div>
         )}
       </div>
 
-      {/* Bottom Handle */}
+      {/* Bottom Handle - Hidden */}
       {hasChildren && (
         <Handle
           type="source"
           position={Position.Bottom}
-          className="w-3 h-3 !bg-gray-600 !border-2 !border-gray-800"
+          className="w-3 h-3 !bg-gray-600 !border-2 !border-gray-800 opacity-0 pointer-events-none"
         />
       )}
     </div>

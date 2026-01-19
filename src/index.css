@@ -251,7 +251,7 @@ textarea:-webkit-autofill:active {
   background-position: 0 0, 10px 10px;
 }
 
-/* Compass spin animation */
+/* Compass spin animation - continuous during recenter */
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -262,7 +262,7 @@ textarea:-webkit-autofill:active {
 }
 
 .animate-spin {
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
 /* React Flow Overrides for Diagnosis Map */

@@ -73,6 +73,20 @@ const getLayoutedElements = (
 
   const layoutedNodes = visibleNodes.map((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
+    
+    // Fix root node position to prevent shifting
+    if (node.id === 'root') {
+      return {
+        ...node,
+        position: {
+          x: 0,
+          y: 0,
+        },
+        sourcePosition: Position.Bottom,
+        targetPosition: Position.Top,
+      };
+    }
+    
     return {
       ...node,
       position: {
@@ -147,7 +161,10 @@ const DiagnosisMap: React.FC = () => {
     // Fit view after a short delay to allow nodes to collapse
     setTimeout(() => {
       reactFlowInstance.fitView({ duration: 800, padding: 0.2 });
-      setIsSpinning(false);
+      // Stop spinning after the full animation completes
+      setTimeout(() => {
+        setIsSpinning(false);
+      }, 800);
     }, 100);
   }, [reactFlowInstance]);
 
@@ -158,7 +175,9 @@ const DiagnosisMap: React.FC = () => {
       const allNodesData = getAllNodes(rawTreeData);
       const clickedNode = allNodesData.find(n => n.id === nodeId);
       
-      if (newSet.has(nodeId)) {
+      const wasCollapsed = newSet.has(nodeId);
+      
+      if (wasCollapsed) {
         // Expanding this node
         newSet.delete(nodeId);
       } else {
@@ -179,7 +198,7 @@ const DiagnosisMap: React.FC = () => {
       }
       
       // Auto-collapse siblings when expanding
-      if (!newSet.has(nodeId) && clickedNode?.parent) {
+      if (wasCollapsed && clickedNode?.parent) {
         const parent = allNodesData.find(n => n.id === clickedNode.parent);
         if (parent) {
           parent.children.forEach(sibling => {
@@ -203,7 +222,23 @@ const DiagnosisMap: React.FC = () => {
       
       return newSet;
     });
-  }, []);
+    
+    // Zoom to the clicked node after state updates
+    if (reactFlowInstance) {
+      setTimeout(() => {
+        const node = nodes.find(n => n.id === nodeId);
+        if (node) {
+          reactFlowInstance.fitView({
+            nodes: [node],
+            duration: 600,
+            padding: 0.5,
+            minZoom: 0.5,
+            maxZoom: 1.2,
+          });
+        }
+      }, 100);
+    }
+  }, [reactFlowInstance, nodes]);
 
   // Convert tree to flow format
   const { nodes: initialNodes, edges: initialEdges } = useMemo(
@@ -295,6 +330,9 @@ const DiagnosisMap: React.FC = () => {
         onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
         onInit={setReactFlowInstance}
+        nodesDraggable={false}
+        nodesConnectable={false}
+        elementsSelectable={false}
         fitView
         minZoom={0.3}
         maxZoom={2}
@@ -310,23 +348,15 @@ const DiagnosisMap: React.FC = () => {
         <Controls 
           showInteractive={false}
         />
-        <MiniMap 
-          nodeColor={(node) => {
-            const level = (node.data as DiagnosisNodeData).level;
-            const colors = ['#ef4444', '#f97316', '#eab308', '#3b82f6', '#10b981', '#6b7280'];
-            return colors[Math.min(level - 1, colors.length - 1)];
-          }}
-          maskColor="rgba(255, 255, 255, 0.05)"
-        />
       </ReactFlow>
 
       {/* Search Overlay */}
       <DiagnosisSearch onNavigate={handleNavigateToNode} />
 
-      {/* Compass Recenter Button */}
+      {/* Compass Recenter Button - to the right of search */}
       <motion.button
         onClick={handleRecenter}
-        className="absolute top-6 left-6 bg-black/95 backdrop-blur-sm rounded-lg shadow-lg p-4 border border-white/10 hover:bg-black/100 hover:border-white/20 transition-all group"
+        className="absolute top-6 left-[25.5rem] bg-black/95 backdrop-blur-sm rounded-lg shadow-lg p-4 border border-white/10 hover:bg-black/100 hover:border-white/20 transition-all group"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.5, duration: 0.5 }}
@@ -334,7 +364,7 @@ const DiagnosisMap: React.FC = () => {
         whileTap={{ scale: 0.95 }}
       >
         <Compass 
-          className={`w-8 h-8 text-blue-400 transition-transform duration-500 ${isSpinning ? 'animate-spin' : ''}`}
+          className={`w-8 h-8 text-white transition-transform ${isSpinning ? 'animate-spin' : ''}`}
         />
       </motion.button>
 
