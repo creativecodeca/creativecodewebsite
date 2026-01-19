@@ -9,6 +9,8 @@ import ReactFlow, {
   BackgroundVariant,
   MiniMap,
   Position,
+  useReactFlow,
+  ReactFlowProvider,
 } from 'reactflow';
 import dagre from 'dagre';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -114,14 +116,14 @@ const convertTreeToFlow = (
   return { nodes, edges };
 };
 
-const DiagnosisMap: React.FC = () => {
+const DiagnosisMapContent: React.FC = () => {
+  const { fitView } = useReactFlow();
   const [collapsedNodes, setCollapsedNodes] = useState<Set<string>>(() => {
     const allNodesData = getAllNodes(rawTreeData);
     return new Set(allNodesData.map(n => n.id).filter(id => id !== 'root'));
   });
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
-  const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   
   // Context menu state
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; nodeId: string; nodeLabel: string } | null>(null);
@@ -249,8 +251,6 @@ const DiagnosisMap: React.FC = () => {
 
   // Recenter map and collapse all nodes
   const handleRecenter = useCallback(() => {
-    if (!reactFlowInstance) return;
-    
     setIsSpinning(true);
     
     // Collapse all nodes
@@ -261,7 +261,7 @@ const DiagnosisMap: React.FC = () => {
     // Fit view after a short delay to allow nodes to collapse
     requestAnimationFrame(() => {
       setTimeout(() => {
-        reactFlowInstance.fitView({ 
+        fitView({ 
           duration: 1000, // Longer for recenter
           padding: 0.25 
         });
@@ -271,7 +271,7 @@ const DiagnosisMap: React.FC = () => {
         }, 1000);
       }, 100);
     });
-  }, [reactFlowInstance]);
+  }, [fitView]);
 
   // Toggle node collapse/expand with auto-collapse siblings
   const handleToggle = useCallback((nodeId: string) => {
@@ -329,20 +329,17 @@ const DiagnosisMap: React.FC = () => {
     });
     
     // Zoom to the entire visible tree to keep context
-    if (reactFlowInstance) {
-      // Use requestAnimationFrame to ensure the fitView happens AFTER the next render cycle
-      // this prevents the "overshoot" jitter where camera and nodes move at once
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          reactFlowInstance.fitView({
-            duration: 800, // Slightly longer for a more "expensive" feel
-            padding: 0.35, // More generous padding
-            includeHiddenNodes: false,
-          });
-        }, 50);
-      });
-    }
-  }, [reactFlowInstance]); // Removed 'nodes' dependency to break circular reference
+    // Use requestAnimationFrame to ensure the fitView happens AFTER the next render cycle
+    // this prevents the "overshoot" jitter where camera and nodes move at once
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        fitView({
+          duration: 800, // Slightly longer for a more "expensive" feel
+          padding: 0.35, // More generous padding
+        });
+      }, 50);
+    });
+  }, [fitView]); // Fixed dependency
 
   // Convert tree to flow format
   const { nodes: initialNodes, edges: initialEdges } = useMemo(
@@ -409,17 +406,21 @@ const DiagnosisMap: React.FC = () => {
     }
 
     // Scroll to node (React Flow will handle this with fitView)
-    setTimeout(() => {
-      const node = nodes.find(n => n.id === nodeId);
-      if (node) {
-        // Focus on the node
-        window.dispatchEvent(new CustomEvent('focus-node', { detail: { nodeId } }));
-      }
-    }, 500);
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        fitView({
+          nodes: [{ id: nodeId }],
+          duration: 800,
+          padding: 0.5,
+          minZoom: 0.5,
+          maxZoom: 1.2,
+        });
+      }, 100);
+    });
 
     // Clear highlight after 3 seconds
     setTimeout(() => setHighlightedNode(null), 3000);
-  }, [nodes]);
+  }, [fitView]);
 
   // Highlight effect for nodes
   const highlightedNodes = useMemo(() => {
@@ -451,10 +452,16 @@ const DiagnosisMap: React.FC = () => {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
-        onInit={setReactFlowInstance}
+        onInit={(instance) => {
+          // Initial fit view after React Flow is ready
+          instance.fitView({ padding: 0.2, duration: 0 });
+        }}
         nodesDraggable={false}
         nodesConnectable={false}
         elementsSelectable={true}
+        fitView={false}
+        panOnDrag={true}
+        zoomOnScroll={true}
         minZoom={0.3}
         maxZoom={2}
         defaultViewport={{ x: 0, y: 0, zoom: 0.8 }}
@@ -482,7 +489,7 @@ const DiagnosisMap: React.FC = () => {
         whileTap={{ scale: 0.9 }}
       >
         <Compass 
-          className={`w-10 h-10 text-white transition-transform ${isSpinning ? 'animate-spin' : ''} group-hover:scale-110 active:scale-95`}
+          className={`w-10 h-10 text-white transition-transform ${isSpinning ? 'animate-spin-custom' : ''} group-hover:scale-110 active:scale-95`}
         />
       </motion.button>
 
@@ -543,6 +550,29 @@ const DiagnosisMap: React.FC = () => {
         )}
       </AnimatePresence>
     </motion.div>
+  );
+};
+
+// Main wrapper component with client-side mounting guard
+const DiagnosisMap: React.FC = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return (
+      <div className="w-screen h-screen bg-[#020202] flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  return (
+    <ReactFlowProvider>
+      <DiagnosisMapContent />
+    </ReactFlowProvider>
   );
 };
 

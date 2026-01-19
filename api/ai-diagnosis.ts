@@ -34,7 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
 
     let prompt = '';
 
@@ -65,15 +65,7 @@ Provide 3-5 specific, actionable solutions to solve this problem:
 Think like a modern, tech-savvy consultant who leverages AI and automation first.`;
     }
 
-    const result = await model.generateContent({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.7,
-        topP: 0.9,
-        topK: 40,
-        maxOutputTokens: 1000,
-      }
-    });
+    const result = await model.generateContent(prompt);
 
     const response = result.response;
     const text = response.text();

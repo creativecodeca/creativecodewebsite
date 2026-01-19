@@ -151,18 +151,10 @@ User's problem description: "${query}"
 Analyze this and return the JSON response.`;
 
     const model = genAI.getGenerativeModel({ 
-      model: 'gemini-1.5-flash',
+      model: 'gemini-pro',
     });
 
-    const result = await model.generateContent({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.3,
-        topP: 0.8,
-        topK: 40,
-        maxOutputTokens: 500,
-      }
-    });
+    const result = await model.generateContent(prompt);
     const response = result.response;
     const text = response.text();
 
