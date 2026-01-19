@@ -99,7 +99,7 @@ const FunnelPrivateGift: React.FC = () => {
               preload="metadata"
             >
               <source
-                src="https://drive.google.com/uc?export=download&id=1NgpN0mPMBtVRstH6bq6yIxoPC4r0C4dr"
+                src="https://drive.google.com/uc?id=1NgpN0mPMBtVRstH6bq6yIxoPC4r0C4dr"
                 type="video/webm"
               />
               <p className="text-white p-4">Your browser does not support the video tag. Please check that the video file exists at the specified path.</p>
