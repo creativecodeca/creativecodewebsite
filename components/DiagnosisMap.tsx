@@ -71,16 +71,19 @@ const getLayoutedElements = (
 
   dagre.layout(dagreGraph);
 
-  const layoutedNodes = visibleNodes.map((node) => {
-    const nodeWithPosition = dagreGraph.node(node.id);
+  const layoutedNodes = visibleNodes.map((vNode) => {
+    const dagreNode = dagreGraph.node(vNode.id);
+    const xPos = dagreNode.x - (nodeWidth / 2);
+    const yPos = dagreNode.y - (nodeHeight / 2);
+    
     return {
-      ...node,
+      ...vNode,
       position: {
-        x: nodeWithPosition.x - nodeWidth / 2,
-        y: nodeWithPosition.y - nodeHeight / 2,
+        x: xPos,
+        y: yPos,
       },
-      sourcePosition: Position.Bottom,
-      targetPosition: Position.Top,
+      sourcePosition: 'bottom',
+      targetPosition: 'top',
     };
   });
 
@@ -128,16 +131,14 @@ const convertTreeToFlow = (
 };
 
 const DiagnosisMap: React.FC = () => {
-  const [isMounted, setIsMounted] = useState(false);
-  const [collapsedNodes, setCollapsedNodes] = useState<Set<string>>(new Set());
+  const [collapsedNodes, setCollapsedNodes] = useState<Set<string>>(() => {
+    const allNodesData = getAllNodes(rawTreeData);
+    return new Set(allNodesData.map(n => n.id).filter(id => id !== 'root'));
+  });
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-  
   // Recenter map and collapse all nodes
   const handleRecenter = useCallback(() => {
     if (!reactFlowInstance) return;
@@ -301,14 +302,6 @@ const DiagnosisMap: React.FC = () => {
     }));
   }, [nodes, highlightedNode]);
 
-  if (!isMounted) {
-    return (
-      <div className="w-screen h-screen bg-black flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
-      </div>
-    );
-  }
-
   return (
     <motion.div 
       className="w-screen h-screen dot-grid-white"
@@ -325,7 +318,7 @@ const DiagnosisMap: React.FC = () => {
         onInit={setReactFlowInstance}
         nodesDraggable={false}
         nodesConnectable={false}
-        elementsSelectable={false}
+        elementsSelectable={true}
         fitView
         minZoom={0.3}
         maxZoom={2}
@@ -349,12 +342,12 @@ const DiagnosisMap: React.FC = () => {
       {/* Compass Recenter Button - to the right of search */}
       <motion.button
         onClick={handleRecenter}
-        className="absolute top-6 left-[25.5rem] bg-black/95 backdrop-blur-sm rounded-lg shadow-lg p-4 border border-white/10 hover:bg-black/100 hover:border-white/20 transition-all group"
+        className="absolute top-8 left-[26rem] transition-all group"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.5, duration: 0.5 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
       >
         <Compass 
           className={`w-8 h-8 text-white transition-transform ${isSpinning ? 'animate-spin' : ''}`}
