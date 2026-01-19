@@ -234,3 +234,35 @@ textarea:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
 }
 
+/* Funnel video iframe scaling - prevents Google Drive from pre-shrinking */
+.video-container {
+  position: relative;
+}
+
+.video-iframe {
+  transform-origin: center center;
+  /* Force Google Drive to render at full size, then we'll scale it */
+  min-width: 360px;
+  min-height: 640px;
+}
+
+/* Scale down the iframe on smaller screens while maintaining aspect ratio */
+@media (max-width: 384px) {
+  .video-container {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .video-container .video-iframe {
+    /* Scale based on container width, maintaining 9:16 aspect ratio */
+    transform: scale(calc(100vw / 360));
+    transform-origin: center center;
+  }
+}
+
+@media (min-width: 385px) {
+  .video-container .video-iframe {
+    transform: scale(1);
+  }
+}
+
