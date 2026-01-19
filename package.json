@@ -15,6 +15,7 @@
     "@google/genai": "^1.30.0",
     "@octokit/rest": "^20.1.2",
     "cors": "^2.8.5",
+    "dagre": "^0.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-rate-limit": "^7.4.0",
@@ -25,7 +26,8 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-helmet-async": "^2.0.5",
-    "react-router-dom": "^6.22.3"
+    "react-router-dom": "^6.22.3",
+    "reactflow": "^11.11.4"
   },
   "scripts2": {
     "dev": "vite",
@@ -34,6 +36,7 @@
     "server": "node server.js"
   },
   "devDependencies": {
+    "@types/dagre": "^0.7.52",
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
     "autoprefixer": "^10.4.20",

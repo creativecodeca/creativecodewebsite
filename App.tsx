@@ -22,6 +22,7 @@ const MobileContact = lazy(() => import('./components/MobileContact'));
 const ClientCall = lazy(() => import('./components/ClientCall'));
 const WebsiteOnboardingForm = lazy(() => import('./components/WebsiteOnboardingForm'));
 const FunnelPrivateGift = lazy(() => import('./components/FunnelPrivateGift'));
+const DiagnosisMap = lazy(() => import('./components/DiagnosisMap'));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -41,13 +42,14 @@ function AppContent() {
     }
   }, [location.pathname]);
 
-  // Don't show navbar or footer on funnel pages
+  // Don't show navbar or footer on funnel pages or diagnosis map
   const isFunnelPage = location.pathname.startsWith('/funnel/');
+  const isDiagnosisMap = location.pathname === '/tools/diagnosismap';
 
   return (
     <div className="relative min-h-screen bg-[#020202] text-slate-200 selection:bg-white/20 selection:text-white overflow-x-hidden font-sans">
       {/* <CustomCursor /> */}
-      {!isFunnelPage && <Navbar />}
+      {!isFunnelPage && !isDiagnosisMap && <Navbar />}
       {/* <AIChatWidget /> */}
 
       <Suspense fallback={<LoadingFallback />}>
@@ -67,14 +69,15 @@ function AppContent() {
             <Route path="/privacy" element={<PageWrapper><PrivacyPolicy /></PageWrapper>} />
             <Route path="/terms" element={<PageWrapper><TermsConditions /></PageWrapper>} />
             <Route path="/funnel/privategift/r1/:name" element={<FunnelPrivateGift />} />
+            <Route path="/tools/diagnosismap" element={<DiagnosisMap />} />
             {/* Catch-all route - redirect to home for any undefined paths */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </AnimatePresence>
       </Suspense>
 
-      {/* Footer - hidden on funnel pages */}
-      {!isFunnelPage && (
+      {/* Footer - hidden on funnel pages and diagnosis map */}
+      {!isFunnelPage && !isDiagnosisMap && (
       <footer id="contact" className="border-t border-white/10 bg-black pt-20 pb-10 px-6 relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
           <div className="max-w-md">
