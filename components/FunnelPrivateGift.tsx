@@ -113,18 +113,27 @@ const FunnelPrivateGift: React.FC = () => {
       </Helmet>
       <div className="min-h-screen bg-black text-white flex flex-col">
         {/* Video Section */}
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md mx-auto">
-          <h1 className="text-3xl font-bold text-center mb-8">
-            Welcome, {firstName}.
-          </h1>
+        <div className="flex-1 flex items-center justify-center p-6">
+          <div className="w-full max-w-md mx-auto">
+            {/* Logo above welcome text */}
+            <div className="flex justify-center mb-6">
+              <img
+                src="/logo.png"
+                alt="Creative Code Logo"
+                className="w-24 h-24 object-contain"
+              />
+            </div>
+            <h1 className="text-3xl font-bold text-center mb-8">
+              Welcome, {firstName}.
+            </h1>
           
-          <div className="relative w-full aspect-[9/16] bg-gray-900 rounded-lg overflow-hidden mb-8">
+          <div className="relative w-full max-w-sm mx-auto aspect-[9/16] bg-gray-900 rounded-lg overflow-hidden mb-8">
             <iframe
               src={videoLink}
-              className="w-full h-full"
+              className="w-full h-full min-w-[280px]"
               allow="autoplay"
               allowFullScreen
+              style={{ minHeight: '500px' }}
             ></iframe>
           </div>
 
