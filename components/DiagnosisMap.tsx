@@ -128,10 +128,15 @@ const convertTreeToFlow = (
 };
 
 const DiagnosisMap: React.FC = () => {
+  const [isMounted, setIsMounted] = useState(false);
   const [collapsedNodes, setCollapsedNodes] = useState<Set<string>>(new Set());
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   // Recenter map and collapse all nodes
   const handleRecenter = useCallback(() => {
@@ -209,7 +214,7 @@ const DiagnosisMap: React.FC = () => {
       return newSet;
     });
     
-    // Zoom to the entire visible tree to keep context, not just the clicked node
+    // Zoom to the entire visible tree to keep context
     if (reactFlowInstance) {
       setTimeout(() => {
         reactFlowInstance.fitView({
@@ -218,7 +223,7 @@ const DiagnosisMap: React.FC = () => {
         });
       }, 100);
     }
-  }, [reactFlowInstance, nodes]);
+  }, [reactFlowInstance]); // Removed 'nodes' dependency to break circular reference
 
   // Convert tree to flow format
   const { nodes: initialNodes, edges: initialEdges } = useMemo(
@@ -295,6 +300,14 @@ const DiagnosisMap: React.FC = () => {
       } : node.style,
     }));
   }, [nodes, highlightedNode]);
+
+  if (!isMounted) {
+    return (
+      <div className="w-screen h-screen bg-black flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <motion.div 
