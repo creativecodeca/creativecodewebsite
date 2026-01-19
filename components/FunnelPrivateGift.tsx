@@ -24,15 +24,23 @@ const FunnelPrivateGift: React.FC = () => {
   const getFirstName = (nameParam: string | undefined): string => {
     if (!nameParam) return 'Drew';
     
-    // Convert camelCase to separate words and take first word
-    // e.g., "drewsmith" -> "Drew Smith" -> "Drew"
+    const lowerName = nameParam.toLowerCase();
+    
+    // Check if it starts with "drew" first (most common case)
+    if (lowerName.startsWith('drew')) {
+      return 'Drew';
+    }
+    
+    // Try to split on capital letters (camelCase)
     const words = nameParam.replace(/([A-Z])/g, ' $1').trim().split(/\s+/);
     const firstWord = words[0] || nameParam;
+    
+    // Capitalize first letter
     return firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
   };
   
   const firstName = getFirstName(name);
-  
+
   // Hidden values - these would typically come from URL params or be hardcoded per route
   const hiddenName = 'Drew Smith';
   const hiddenClinicName = 'Smith Orthodontics';
@@ -90,20 +98,12 @@ const FunnelPrivateGift: React.FC = () => {
           </h1>
           
           <div className="relative w-full aspect-[9/16] bg-gray-900 rounded-lg overflow-hidden mb-8">
-            <video
-              className="w-full h-full object-cover"
-              controls
-              playsInline
-              muted={false}
-              autoPlay={false}
-              preload="metadata"
-            >
-              <source
-                src="https://drive.google.com/uc?id=1NgpN0mPMBtVRstH6bq6yIxoPC4r0C4dr"
-                type="video/webm"
-              />
-              <p className="text-white p-4">Your browser does not support the video tag. Please check that the video file exists at the specified path.</p>
-            </video>
+            <iframe
+              src="https://drive.google.com/file/d/1NgpN0mPMBtVRstH6bq6yIxoPC4r0C4dr/preview"
+              className="w-full h-full"
+              allow="autoplay"
+              allowFullScreen
+            ></iframe>
           </div>
 
           {/* Phone Number Form */}
@@ -218,4 +218,3 @@ const FunnelPrivateGift: React.FC = () => {
 };
 
 export default FunnelPrivateGift;
-
