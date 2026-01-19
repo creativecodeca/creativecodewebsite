@@ -151,7 +151,7 @@ User's problem description: "${query}"
 Analyze this and return the JSON response.`;
 
     const model = genAI.getGenerativeModel({ 
-      model: 'gemini-pro',
+      model: 'gemini-2.0-flash-exp',
     });
 
     const result = await model.generateContent(prompt);

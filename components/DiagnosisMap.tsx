@@ -41,10 +41,10 @@ const getLayoutedElements = (
   
   dagreGraph.setGraph({ 
     rankdir: direction,
-    nodesep: 80,
-    ranksep: 120,
-    marginx: 100,
-    marginy: 100,
+    nodesep: 40,
+    ranksep: 60,
+    marginx: 50,
+    marginy: 50,
   });
 
   // Add ALL nodes to graph for fixed layout
@@ -454,7 +454,7 @@ const DiagnosisMapContent: React.FC = () => {
         nodeTypes={nodeTypes}
         onInit={(instance) => {
           // Initial fit view after React Flow is ready
-          instance.fitView({ padding: 0.2, duration: 0 });
+          instance.fitView({ padding: 0.15, duration: 0, minZoom: 0.5 });
         }}
         nodesDraggable={false}
         nodesConnectable={false}
