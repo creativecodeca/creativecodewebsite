@@ -99,16 +99,8 @@ const FunnelPrivateGift: React.FC = () => {
               preload="metadata"
             >
               <source
-                src={`https://creativecodeca.com/funnel/privategift/r1/${name || 'drewsmith'}/video.mp4`}
-                type="video/mp4"
-              />
-              <source
-                src={`https://creativecodeca.com/funnel/privategift/r1/${name || 'drewsmith'}/video.webm`}
+                src="https://drive.google.com/uc?export=download&id=1NgpN0mPMBtVRstH6bq6yIxoPC4r0C4dr"
                 type="video/webm"
-              />
-              <source
-                src={`https://creativecodeca.com/funnel/privategift/r1/${name || 'drewsmith'}/video.mov`}
-                type="video/quicktime"
               />
               <p className="text-white p-4">Your browser does not support the video tag. Please check that the video file exists at the specified path.</p>
             </video>
