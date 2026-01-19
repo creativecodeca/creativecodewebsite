@@ -139,14 +139,13 @@ const FunnelPrivateGift: React.FC = () => {
               ></iframe>
             </div>
             
-            {/* Black overlay with play button - disappears on click */}
+            {/* Black overlay with play button - clicks pass through to iframe */}
             {showVideoOverlay && (
               <div 
-                className="absolute inset-0 bg-black flex items-center justify-center cursor-pointer z-10 rounded-lg"
-                onClick={() => setShowVideoOverlay(false)}
-                style={{ pointerEvents: 'auto' }}
+                className="absolute inset-0 bg-black flex items-center justify-center z-10 rounded-lg"
+                style={{ pointerEvents: 'none' }}
               >
-                <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors backdrop-blur-sm">
+                <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm pointer-events-none">
                   <svg 
                     className="w-10 h-10 text-white ml-1" 
                     fill="currentColor" 
@@ -156,6 +155,15 @@ const FunnelPrivateGift: React.FC = () => {
                   </svg>
                 </div>
               </div>
+            )}
+            
+            {/* Invisible click detector to hide overlay when video is clicked */}
+            {showVideoOverlay && (
+              <div 
+                className="absolute inset-0 z-20"
+                onClick={() => setShowVideoOverlay(false)}
+                style={{ cursor: 'pointer' }}
+              />
             )}
           </div>
 
