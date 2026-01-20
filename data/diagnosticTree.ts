@@ -36,7 +36,7 @@ const rawTreeData: TreeNode = {
           label: 'CLIENTS PAY LATE',
           level: 3,
           children: [
-            { id: 'no-followup', label: 'No invoice follow-up system', level: 4, children: [] },
+            { id: 'no-followup-late', label: 'No follow-up sequence', level: 4, children: [] },
             { id: 'invoices-unclear', label: 'Invoices unclear, incorrect, or incomplete', level: 4, children: [] },
             { id: 'no-penalties', label: 'No late payment penalties or interest', level: 4, children: [] },
             { id: 'payment-friction', label: 'Payment process has too much friction', level: 4, children: [] },
@@ -203,6 +203,43 @@ const rawTreeData: TreeNode = {
       label: 'NOT ENOUGH REVENUE COMING IN',
       level: 2,
       children: [
+        {
+          id: 'pricing-value-issues',
+          label: "CLIENTS AREN'T PAYING ENOUGH",
+          level: 3,
+          children: [
+            {
+              id: 'value-conveyance',
+              label: 'VALUE NOT CONVEYED EFFECTIVELY',
+              level: 4,
+              children: [
+                { id: 'look-too-small', label: 'Look "too small" / Lack of authority', level: 5, children: [] },
+                { id: 'weak-messaging', label: 'Messaging doesn\'t speak to high-level pain', level: 5, children: [] },
+                { id: 'no-roi-proof', label: 'Cannot prove financial return to client', level: 5, children: [] },
+              ],
+            },
+            {
+              id: 'value-creation',
+              label: 'NOT PROVIDING ENOUGH REAL VALUE',
+              level: 4,
+              children: [
+                { id: 'commoditized-service', label: 'Service is seen as a commodity', level: 5, children: [] },
+                { id: 'product-market-mismatch', label: 'Product doesn\'t solve a "burning" problem', level: 5, children: [] },
+                { id: 'results-mediocre', label: 'Results are "okay" but not "game-changing"', level: 5, children: [] },
+              ],
+            },
+            {
+              id: 'pricing-model-revenue',
+              label: 'PRICING STRUCTURE IS WRONG',
+              level: 4,
+              children: [
+                { id: 'flat-fees-low', label: 'Flat fees are too low for effort', level: 5, children: [] },
+                { id: 'no-performance-upside', label: 'No performance-based or value-based pricing', level: 5, children: [] },
+                { id: 'no-recurring-revenue', label: 'Missing recurring/subscription elements', level: 5, children: [] },
+              ],
+            },
+          ],
+        },
         {
           id: 'not-enough-clients',
           label: 'NOT ENOUGH CLIENTS TOTAL',

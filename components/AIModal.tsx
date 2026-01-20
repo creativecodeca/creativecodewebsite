@@ -23,7 +23,7 @@ const AIModal: React.FC<AIModalProps> = ({ title, content, isLoading, onClose })
 
       {/* Modal */}
       <motion.div
-        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[111] w-full max-w-2xl max-h-[80vh] bg-black/95 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl overflow-hidden"
+        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[111] w-full max-w-2xl h-[600px] max-h-[85vh] bg-black/95 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl overflow-hidden flex flex-col"
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -31,7 +31,7 @@ const AIModal: React.FC<AIModalProps> = ({ title, content, isLoading, onClose })
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10">
+        <div className="flex items-center justify-between p-6 border-b border-white/10 flex-shrink-0">
           <h2 className="text-xl font-bold text-white">{title}</h2>
           <button
             onClick={onClose}
@@ -42,9 +42,9 @@ const AIModal: React.FC<AIModalProps> = ({ title, content, isLoading, onClose })
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(80vh-120px)]">
+        <div className="p-6 overflow-y-auto flex-1 custom-scrollbar">
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-12 gap-4">
+            <div className="flex flex-col items-center justify-center h-full gap-4">
               <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
               <p className="text-gray-400 text-sm">Generating AI response...</p>
             </div>
@@ -58,7 +58,7 @@ const AIModal: React.FC<AIModalProps> = ({ title, content, isLoading, onClose })
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end p-6 border-t border-white/10">
+        <div className="flex justify-end p-6 border-t border-white/10 flex-shrink-0">
           <button
             onClick={onClose}
             className="px-6 py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors"

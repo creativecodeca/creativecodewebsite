@@ -78,7 +78,7 @@ Provide a clear, concise explanation of this business problem:
 - What is the typical impact on the business?
 ${nodeContext ? '- Consider the sub-problems listed above in your explanation' : ''}
 
-Keep it practical and actionable. Write 2-3 paragraphs maximum.`;
+Keep it very concise. Maximum 2 paragraphs. If the user provides sub-issues, incorporate them into a single coherent explanation.`;
     } else if (mode === 'solve') {
       prompt = `You are an innovative business consultant specializing in automation, AI, and modern solutions.
 
@@ -86,15 +86,16 @@ Problem: "${nodeLabel || 'Unknown Problem'}"
 
 ${nodeContext ? `Full problem breakdown (including sub-issues):\n${nodeContext}\n` : ''}
 
-Provide 3-5 specific, actionable solutions to solve this problem:
-- Focus on automation, AI tools, and modern technology where applicable
-- Include specific tool recommendations when relevant (e.g., Zapier, Make.com, ChatGPT, Claude, specific SaaS tools)
-- Be creative and forward-thinking
-- Each solution should be practical and implementable
-- Format as a numbered list with brief explanations
-${nodeContext ? '- Address the sub-problems listed above where relevant' : ''}
+Provide exactly 3 creative "ideas" (not rigid plans) to solve this problem, categorized by difficulty:
 
-Think like a modern, tech-savvy consultant who leverages AI and automation first.`;
+1. **Easy Idea** (Low resource, quick implementation, often using basic automation/tools)
+2. **Medium Idea** (Moderate effort, higher impact, potentially involving AI integrations)
+3. **Hard Idea** (High effort/complexity, long-term strategic shift, significant system build)
+
+After the 3 ideas, provide a final section:
+**The "Most Worth It" Choice**: Analyze which of these is most valuable considering all resources are available but you want to prevent overengineering. Why is this the most efficient path forward?
+
+Think like a modern, tech-savvy consultant who leverages AI and automation first. Keep descriptions brief and focused on the concept.`;
     }
 
     const result = await model.generateContent(prompt);

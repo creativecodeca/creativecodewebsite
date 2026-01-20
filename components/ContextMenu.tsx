@@ -7,10 +7,7 @@ interface ContextMenuProps {
   y: number;
   onExplain: () => void;
   onSolve: () => void;
-  onRelatedProblems: () => void;
   onImpactAnalysis: () => void;
-  onTimeToSolve: () => void;
-  onRootCause: () => void;
   onClose: () => void;
 }
 
@@ -19,10 +16,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
   y, 
   onExplain, 
   onSolve, 
-  onRelatedProblems,
   onImpactAnalysis,
-  onTimeToSolve,
-  onRootCause,
   onClose 
 }) => {
   useEffect(() => {
@@ -99,22 +93,6 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
         <button
           onClick={(e) => {
             e.stopPropagation();
-            onRelatedProblems();
-          }}
-          className="w-full px-4 py-3 flex items-center gap-3 text-left text-white hover:bg-white/10 transition-colors group"
-        >
-          <GitBranch className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform" />
-          <div>
-            <div className="font-semibold text-sm">Related Problems</div>
-            <div className="text-xs text-gray-400">Common connections</div>
-          </div>
-        </button>
-
-        <div className="h-px bg-white/10" />
-
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
             onImpactAnalysis();
           }}
           className="w-full px-4 py-3 flex items-center gap-3 text-left text-white hover:bg-white/10 transition-colors group"
@@ -123,38 +101,6 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
           <div>
             <div className="font-semibold text-sm">Impact Analysis</div>
             <div className="text-xs text-gray-400">Cost & severity</div>
-          </div>
-        </button>
-
-        <div className="h-px bg-white/10" />
-
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onTimeToSolve();
-          }}
-          className="w-full px-4 py-3 flex items-center gap-3 text-left text-white hover:bg-white/10 transition-colors group"
-        >
-          <Clock className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform" />
-          <div>
-            <div className="font-semibold text-sm">Time to Solve</div>
-            <div className="text-xs text-gray-400">Effort estimate</div>
-          </div>
-        </button>
-
-        <div className="h-px bg-white/10" />
-
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onRootCause();
-          }}
-          className="w-full px-4 py-3 flex items-center gap-3 text-left text-white hover:bg-white/10 transition-colors group"
-        >
-          <Target className="w-5 h-5 text-red-400 group-hover:scale-110 transition-transform" />
-          <div>
-            <div className="font-semibold text-sm">Root Cause Analysis</div>
-            <div className="text-xs text-gray-400">Trace to origin</div>
           </div>
         </button>
       </motion.div>

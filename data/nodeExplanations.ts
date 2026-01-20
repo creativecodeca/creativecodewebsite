@@ -594,6 +594,98 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       pathToRoot: "Low Margins → Money Out Fast → Not Enough Money (Root)"
     }
   },
+  'pricing-value-issues': {
+    explanation: "Even if you have clients, the revenue generated per client is too low to sustain a healthy business. This is often a combination of 'pricing too low' and 'not being perceived as high-value.' You are working hard but the financial output doesn't match the effort.",
+    relatedProblems: ['prices-low', 'value-conveyance', 'pricing-model-revenue'],
+    impactAnalysis: {
+      financialImpact: "Low Average Order Value (AOV); thin margins; high pressure to acquire volume.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Team Quality', 'Sustainability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Medium',
+      quickWins: ["Raise prices for next 3 leads", "Stop offering the 'basic' package", "Introduce a high-ticket 'VIP' tier"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Commoditization", "Fear of rejection", "Lack of clear ROI"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated value-tracking dashboards to show clients the results you're getting them."
+      },
+      pathToRoot: "Low Revenue Per Client → Not Enough Revenue → Not Enough Money (Root)"
+    }
+  },
+  'look-too-small': {
+    explanation: "Perception is reality in business. If you look like a 'one-person shop' or an amateur operation, high-value clients will be afraid to trust you with large budgets. Your branding, website, and communication lack the authority needed to command premium prices.",
+    relatedProblems: ['trust-signals-missing', 'design-amateur', 'anonymous-brand'],
+    impactAnalysis: {
+      financialImpact: "Loss of high-ticket deals; relegated to 'budget' clients.",
+      severity: "Moderate",
+      affectedAreas: ['Sales', 'Brand Authority', 'Market Positioning'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-2 months",
+      difficulty: 'Easy',
+      quickWins: ["Professionalize your email signature and LinkedIn", "Clean up website design", "Use 'we' instead of 'I' in communication"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of brand investment", "Founder-centric identity", "Inconsistent messaging"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI-powered content engines to maintain a consistent, high-authority brand presence."
+      },
+      pathToRoot: "Poor Perception → Value Not Conveyed → Clients Don't Pay Enough → Not Enough Revenue (Root)"
+    }
+  },
+  'value-conveyance': {
+    explanation: "You might be doing great work, but the client doesn't perceive it as valuable. This is a messaging and translation gap. You are talking about 'features' while the client cares about 'outcomes' and 'ROI.'",
+    relatedProblems: ['weak-messaging', 'no-roi-proof', 'look-too-small'],
+    impactAnalysis: {
+      financialImpact: "High price sensitivity; constant negotiation/haggling.",
+      severity: "Major",
+      affectedAreas: ['Sales Conversion', 'Client Satisfaction', 'Pricing Power'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Rewrite your proposal to focus on client ROI", "Create 3 'Success Stories' or Case Studies", "Ask clients: 'What would happen if you didn't solve this?'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Technical jargon", "Lack of sales training", "Inability to quantify results"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated ROI calculators or 'Savings' reports delivered monthly to clients."
+      },
+      pathToRoot: "Value Gap → Clients Don't Pay Enough → Not Enough Revenue (Root)"
+    }
+  },
+  'pricing-model-revenue': {
+    explanation: "The way you charge is fundamentally limiting your revenue. Relying solely on flat fees or hourly rates caps your upside and keeps you on a treadmill. You lack recurring revenue or value-based tiers that capture the true worth of your work.",
+    relatedProblems: ['no-recurring-revenue', 'flat-fees-low', 'no-performance-upside'],
+    impactAnalysis: {
+      financialImpact: "Unpredictable revenue; inability to scale without more labor.",
+      severity: "Major",
+      affectedAreas: ['Business Valuation', 'Cash Flow', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Switch one project to a monthly retainer", "Add a 'Setup Fee' + 'Maintenance' model", "Bundle software/tools with your service"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Trading time for money", "Lack of scalable productized services", "Fear of long-term commitment"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated subscription billing and usage-based invoicing."
+      },
+      pathToRoot: "Broken Model → Clients Don't Pay Enough → Not Enough Revenue (Root)"
+    }
+  },
   'not-enough-clients': {
     explanation: "Your total client base is too small to sustain the business. This can be due to high churn, existing clients not buying more, or failing to acquire new clients.",
     relatedProblems: ['clients-churned', 'clients-not-buying-more', 'not-getting-new'],

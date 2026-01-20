@@ -19,6 +19,8 @@ export interface DiagnosisNodeData {
   level: number;
   collapsed: boolean;
   childCount: number;
+  highlighted?: boolean;
+  inactive?: boolean; // New prop
   onToggle: (id: string) => void;
   onContextMenu?: (id: string, event: React.MouseEvent) => void;
 }
@@ -90,6 +92,24 @@ const getColorClasses = (level: number) => {
         hoverBg: 'hover:bg-green-900/60',
         shadow: 'shadow-green-900/50',
       };
+    case 6:
+      return {
+        bg: 'bg-purple-950/50',
+        border: 'border-purple-500',
+        text: 'text-purple-200',
+        icon: 'text-purple-400',
+        hoverBg: 'hover:bg-purple-900/60',
+        shadow: 'shadow-purple-900/50',
+      };
+    case 7:
+      return {
+        bg: 'bg-cyan-950/50',
+        border: 'border-cyan-500',
+        text: 'text-cyan-200',
+        icon: 'text-cyan-400',
+        hoverBg: 'hover:bg-cyan-900/60',
+        shadow: 'shadow-cyan-900/50',
+      };
     default:
       return {
         bg: 'bg-gray-950/50',
@@ -111,11 +131,12 @@ const DiagnosisNode: React.FC<NodeProps<DiagnosisNodeData>> = ({ id, data }) => 
       className={`
         relative px-4 py-3 rounded-lg border-2 
         ${colors.bg} ${colors.border} ${colors.hoverBg}
-        transition-all duration-200 ease-in-out
+        transition-all duration-300 ease-in-out
         cursor-pointer select-none
         shadow-md hover:shadow-lg ${colors.shadow}
         min-w-[200px] max-w-[300px]
         ${hasChildren ? 'hover:scale-105' : ''}
+        ${data.inactive ? 'opacity-40 hover:opacity-100 scale-[0.98]' : 'opacity-100 scale-100'}
       `}
       onClick={() => hasChildren && data.onToggle(id)}
       onContextMenu={(e) => {

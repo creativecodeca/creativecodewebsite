@@ -96,6 +96,7 @@ const getLayoutedElements = (
 const convertTreeToFlow = (
   tree: TreeNode,
   collapsedNodes: Set<string>,
+  activePathIds: Set<string>,
   onToggle: (id: string) => void,
   handleContextMenu: (id: string, event: React.MouseEvent) => void
 ): { nodes: Node<DiagnosisNodeData>[]; edges: Edge[] } => {
@@ -113,6 +114,7 @@ const convertTreeToFlow = (
         level: treeNode.level,
         collapsed: collapsedNodes.has(treeNode.id),
         childCount: treeNode.children.length,
+        inactive: !activePathIds.has(treeNode.id),
         onToggle,
         onContextMenu: handleContextMenu,
       },
@@ -141,7 +143,36 @@ const DiagnosisMapContent: React.FC = () => {
     return new Set(allNodesData.map(n => n.id).filter(id => id !== 'root'));
   });
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
+  const [activePathIds, setActivePathIds] = useState<Set<string>>(new Set(['root']));
   const [isSpinning, setIsSpinning] = useState(false);
+
+  // Helper to get all parent IDs up to root
+  const getPathToRoot = useCallback((nodeId: string): string[] => {
+    const path: string[] = [nodeId];
+    const allNodesData = getAllNodes(rawTreeData);
+    let current = allNodesData.find(n => n.id === nodeId);
+    
+    while (current?.parent) {
+      path.push(current.parent);
+      current = allNodesData.find(n => n.id === current.parent);
+    }
+    
+    return path;
+  }, []);
+
+  // Update active path
+  const updateActivePath = useCallback((nodeId: string) => {
+    const path = getPathToRoot(nodeId);
+    const newActiveSet = new Set(path);
+    
+    // Also add immediate children of the target node to make them "active"
+    const node = getNodeById(nodeId);
+    if (node) {
+      node.children.forEach(child => newActiveSet.add(child.id));
+    }
+    
+    setActivePathIds(newActiveSet);
+  }, [getPathToRoot]);
   
   // Context menu state
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; nodeId: string; nodeLabel: string } | null>(null);
@@ -236,28 +267,6 @@ const DiagnosisMapContent: React.FC = () => {
     }
   }, [contextMenu, closeContextMenu]);
 
-  // Handle Related Problems
-  const handleRelatedProblems = useCallback(() => {
-    if (!contextMenu) return;
-    
-    closeContextMenu();
-    
-    const explanation = getNodeExplanation(contextMenu.nodeId);
-    const relatedList = explanation.relatedProblems.length > 0
-      ? explanation.relatedProblems.map(id => {
-          const node = getNodeById(id);
-          return node ? `• ${node.label}` : '';
-        }).filter(Boolean).join('\n')
-      : 'No directly related problems identified. This issue may be isolated or part of a unique pattern.';
-    
-    setAiModal({
-      isOpen: true,
-      title: `Related Problems: ${contextMenu.nodeLabel}`,
-      content: `These problems often occur together or influence each other:\n\n${relatedList}\n\nSolving one may help resolve others, or they may share common root causes.`,
-      isLoading: false,
-    });
-  }, [contextMenu, closeContextMenu]);
-
   // Handle Impact Analysis
   const handleImpactAnalysis = useCallback(() => {
     if (!contextMenu) return;
@@ -272,48 +281,6 @@ const DiagnosisMapContent: React.FC = () => {
     setAiModal({
       isOpen: true,
       title: `Impact Analysis: ${contextMenu.nodeLabel}`,
-      content,
-      isLoading: false,
-    });
-  }, [contextMenu, closeContextMenu]);
-
-  // Handle Time to Solve
-  const handleTimeToSolve = useCallback(() => {
-    if (!contextMenu) return;
-    
-    closeContextMenu();
-    
-    const explanation = getNodeExplanation(contextMenu.nodeId);
-    const time = explanation.timeToSolve;
-    
-    const prereqList = time.prerequisites.map(p => `• ${p}`).join('\n');
-    const content = `**Estimated Timeline:**\n${time.estimate}\n\n**Difficulty Level:**\n${time.difficulty}\n\n**Prerequisites:**\n${prereqList}\n\nThese estimates assume proper diagnosis and dedicated effort. Your specific situation may vary.`;
-    
-    setAiModal({
-      isOpen: true,
-      title: `Time to Solve: ${contextMenu.nodeLabel}`,
-      content,
-      isLoading: false,
-    });
-  }, [contextMenu, closeContextMenu]);
-
-  // Handle Root Cause Analysis
-  const handleRootCause = useCallback(() => {
-    if (!contextMenu) return;
-    
-    closeContextMenu();
-    
-    const explanation = getNodeExplanation(contextMenu.nodeId);
-    const rootCause = explanation.rootCauseAnalysis;
-    
-    const causesList = rootCause.likelyCauses.map(c => `• ${c}`).join('\n');
-    const triggersList = rootCause.commonTriggers.map(t => `• ${t}`).join('\n');
-    
-    const content = `**Likely Root Causes:**\n${causesList}\n\n**Common Triggers:**\n${triggersList}\n\n**Path to Root:**\n${rootCause.pathToRoot}\n\nTracing problems to their root cause helps ensure you're solving the real issue, not just symptoms.`;
-    
-    setAiModal({
-      isOpen: true,
-      title: `Root Cause: ${contextMenu.nodeLabel}`,
       content,
       isLoading: false,
     });
@@ -357,6 +324,7 @@ const DiagnosisMapContent: React.FC = () => {
     const allNodesData = getAllNodes(rawTreeData);
     const allNodeIds = new Set(allNodesData.map(n => n.id).filter(id => id !== 'root'));
     setCollapsedNodes(allNodeIds);
+    setActivePathIds(new Set(['root', ...allNodesData.filter(n => n.parent === 'root').map(n => n.id)]));
     
     // Fit view after a short delay to allow nodes to collapse
     requestAnimationFrame(() => {
@@ -375,6 +343,8 @@ const DiagnosisMapContent: React.FC = () => {
 
   // Toggle node collapse/expand with auto-collapse siblings
   const handleToggle = useCallback((nodeId: string) => {
+    updateActivePath(nodeId);
+    
     setCollapsedNodes((prev) => {
       const newSet = new Set(prev);
       const allNodesData = getAllNodes(rawTreeData);
@@ -443,8 +413,8 @@ const DiagnosisMapContent: React.FC = () => {
 
   // Convert tree to flow format
   const { nodes: initialNodes, edges: initialEdges } = useMemo(
-    () => convertTreeToFlow(rawTreeData, collapsedNodes, handleToggle, handleContextMenu),
-    [collapsedNodes, handleToggle, handleContextMenu]
+    () => convertTreeToFlow(rawTreeData, collapsedNodes, activePathIds, handleToggle, handleContextMenu),
+    [collapsedNodes, activePathIds, handleToggle, handleContextMenu]
   );
 
   // Layout based on visible nodes only
@@ -465,6 +435,7 @@ const DiagnosisMapContent: React.FC = () => {
   // Navigate to node from search
   const handleNavigateToNode = useCallback((nodeId: string) => {
     setHighlightedNode(nodeId);
+    updateActivePath(nodeId);
     
     // Expand all parent nodes
     const allNodesData = getAllNodes(rawTreeData);
@@ -512,6 +483,7 @@ const DiagnosisMapContent: React.FC = () => {
       data: {
         ...node.data,
         highlighted: node.id === highlightedNode,
+        inactive: node.id === highlightedNode ? false : node.data.inactive,
       },
       style: node.id === highlightedNode ? {
         ...node.style,
@@ -620,10 +592,7 @@ const DiagnosisMapContent: React.FC = () => {
             y={contextMenu.y}
             onExplain={handleExplain}
             onSolve={handleSolve}
-            onRelatedProblems={handleRelatedProblems}
             onImpactAnalysis={handleImpactAnalysis}
-            onTimeToSolve={handleTimeToSolve}
-            onRootCause={handleRootCause}
             onClose={closeContextMenu}
           />
         )}
