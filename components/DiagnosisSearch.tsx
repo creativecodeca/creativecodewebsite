@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Loader2, X } from 'lucide-react';
+import { Send, Loader2, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface DiagnosisSearchProps {
@@ -77,47 +77,46 @@ const DiagnosisSearch: React.FC<DiagnosisSearchProps> = ({ onNavigate }) => {
 
   return (
     <div className="fixed top-6 left-6 z-50 flex flex-col max-w-md">
-      {/* Search Input */}
+      {/* Search Input with embedded send button */}
       <motion.div 
         className="bg-black/95 backdrop-blur-sm rounded-lg shadow-lg border border-white/10 p-3 w-96"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.5 }}
       >
-        <div className="flex items-center gap-2 mb-2">
-          <Search className="w-5 h-5 text-gray-400 flex-shrink-0" />
+        <div className="flex items-center gap-2">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Describe your business problem..."
-            className="flex-1 text-sm bg-transparent border-none outline-none text-white placeholder-gray-500"
+            className="flex-1 text-sm bg-transparent border-none outline-none text-white placeholder-gray-500 py-2"
             disabled={isLoading}
           />
+          
+          {/* Clear button (when there's text and not loading) */}
           {query && !isLoading && (
             <button
               onClick={handleClear}
-              className="text-gray-400 hover:text-gray-200 transition-colors"
+              className="text-gray-400 hover:text-gray-200 transition-colors p-1"
+              aria-label="Clear search"
             >
               <X className="w-4 h-4" />
             </button>
           )}
-        </div>
-        
-        <div className="flex items-center gap-2">
+          
+          {/* Send button / Loading spinner */}
           <button
             onClick={handleSearch}
             disabled={isLoading || !query.trim()}
-            className="flex-1 px-4 py-2 bg-black text-white text-sm font-semibold rounded-lg border border-white hover:bg-white/10 disabled:border-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+            className="p-2 rounded-md text-white hover:bg-white/10 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+            aria-label="Search"
           >
             {isLoading ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Searching...
-              </>
+              <Loader2 className="w-5 h-5 animate-spin" />
             ) : (
-              'Search'
+              <Send className="w-5 h-5" />
             )}
           </button>
         </div>
