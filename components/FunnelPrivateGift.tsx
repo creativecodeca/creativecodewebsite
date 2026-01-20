@@ -141,7 +141,7 @@ const FunnelPrivateGift: React.FC = () => {
             <div className="relative video-container-mobile" style={{ paddingBottom: '177.78%', height: 0, overflow: 'hidden' }}>
               <iframe
                 src={videoLink}
-                allow="autoplay"
+                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
                 allowFullScreen
                 className="absolute top-0 left-0 w-full h-full border-0"
                 style={{ border: 'none' }}

@@ -14,12 +14,13 @@ import ReactFlow, {
 } from 'reactflow';
 import dagre from 'dagre';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass } from 'lucide-react';
+import { Compass, Settings as SettingsIcon } from 'lucide-react';
 import 'reactflow/dist/style.css';
 import DiagnosisNode, { DiagnosisNodeData } from './DiagnosisNode';
 import DiagnosisSearch from './DiagnosisSearch';
 import ContextMenu from './ContextMenu';
 import AIModal from './AIModal';
+import SettingsModal from './SettingsModal';
 import { rawTreeData, TreeNode, getAllNodes, getChildrenIds, getNodeById } from '../data/diagnosticTree';
 import { getNodeExplanation } from '../data/nodeExplanations';
 
@@ -149,6 +150,13 @@ const DiagnosisMapContent: React.FC = () => {
   });
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [businessInfo, setBusinessInfo] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('diagnosis_business_info') || '';
+    }
+    return '';
+  });
 
   // Context menu state
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; nodeId: string; nodeLabel: string } | null>(null);
@@ -211,18 +219,19 @@ const DiagnosisMapContent: React.FC = () => {
       // Build full context including children
       const nodeContext = buildNodeContext(contextMenu.nodeId);
       
-      const response = await fetch('/api/ai-diagnosis', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nodeId: contextMenu.nodeId,
-          nodeLabel: contextMenu.nodeLabel,
-          nodeContext: nodeContext,
-          mode: 'solve',
-        }),
-      });
+          const response = await fetch('/api/ai-diagnosis', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              nodeId: contextMenu.nodeId,
+              nodeLabel: contextMenu.nodeLabel,
+              nodeContext: nodeContext,
+              mode: 'solve',
+              businessInfo: businessInfo, // Pass business info for tailored solutions
+            }),
+          });
 
       const data = await response.json();
       
@@ -519,6 +528,19 @@ const DiagnosisMapContent: React.FC = () => {
         />
       </motion.button>
 
+      {/* Settings Button - Top Right */}
+      <motion.button
+        onClick={() => setIsSettingsOpen(true)}
+        className="absolute top-6 right-6 z-50 p-3 bg-black/90 backdrop-blur-sm border border-white/10 rounded-full text-white hover:bg-white/10 transition-all shadow-lg group"
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        <SettingsIcon className="w-6 h-6 group-hover:rotate-90 transition-transform duration-500" />
+      </motion.button>
+
       {/* Legend */}
       <motion.div
         className="absolute bottom-6 left-6 bg-black/95 backdrop-blur-sm rounded-lg shadow-lg p-4 border border-white/10"
@@ -581,6 +603,17 @@ const DiagnosisMapContent: React.FC = () => {
           />
         )}
       </AnimatePresence>
+
+      {/* Settings Modal */}
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        onSave={(info) => {
+          setBusinessInfo(info);
+          localStorage.setItem('diagnosis_business_info', info);
+        }}
+        initialValue={businessInfo}
+      />
     </motion.div>
   );
 };

@@ -42,7 +42,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { nodeId, nodeLabel, mode, nodeContext } = req.body; // mode: 'explain' or 'solve', nodeContext: optional pre-built context
+    const { nodeId, nodeLabel, mode, nodeContext, businessInfo } = req.body; // mode: 'explain' or 'solve', nodeContext: optional pre-built context, businessInfo: custom context from user
 
     if ((!nodeId && !nodeLabel) || !mode) {
       return res.status(400).json({ error: 'Node ID/label and mode are required' });
@@ -81,6 +81,8 @@ ${nodeContext ? '- Consider the sub-problems listed above in your explanation' :
 Keep it very concise. Maximum 2 paragraphs. If the user provides sub-issues, incorporate them into a single coherent explanation.`;
     } else if (mode === 'solve') {
       prompt = `You are an innovative business consultant specializing in automation, AI, and modern solutions.
+
+${businessInfo ? `Here is some specific context about the user's business:\n${businessInfo}\n` : ''}
 
 Problem: "${nodeLabel || 'Unknown Problem'}"
 

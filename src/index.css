@@ -239,7 +239,7 @@ textarea:-webkit-autofill:active {
 /* Mobile: 3:4 aspect ratio = 4/3 = 1.3333 = 133.33% padding-bottom */
 @media (max-width: 768px) {
   .video-container-mobile {
-    padding-bottom: 133.33% !important; /* 3:4 aspect ratio on mobile */
+    padding-bottom: 177.78% !important; /* Force 9:16 aspect ratio on mobile for vertical videos */
   }
 }
 
