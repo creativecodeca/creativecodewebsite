@@ -136,7 +136,7 @@ const DiagnosisNode: React.FC<NodeProps<DiagnosisNodeData>> = ({ id, data }) => 
         shadow-md hover:shadow-lg ${colors.shadow}
         min-w-[200px] max-w-[300px]
         ${hasChildren ? 'hover:scale-105' : ''}
-        ${data.inactive ? 'opacity-40 hover:opacity-100 scale-[0.98]' : 'opacity-100 scale-100'}
+        ${data.inactive ? 'opacity-[0.15] hover:opacity-100 scale-[0.98]' : 'opacity-100 scale-100'}
       `}
       onClick={() => hasChildren && data.onToggle(id)}
       onContextMenu={(e) => {

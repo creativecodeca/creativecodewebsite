@@ -96,7 +96,6 @@ const getLayoutedElements = (
 const convertTreeToFlow = (
   tree: TreeNode,
   collapsedNodes: Set<string>,
-  activePathIds: Set<string>,
   onToggle: (id: string) => void,
   handleContextMenu: (id: string, event: React.MouseEvent) => void
 ): { nodes: Node<DiagnosisNodeData>[]; edges: Edge[] } => {
@@ -105,6 +104,12 @@ const convertTreeToFlow = (
   const edges: Edge[] = [];
 
   allNodes.forEach((treeNode) => {
+    // A node is inactive if one of its siblings is expanded (not collapsed)
+    // but the expanded node itself remains active.
+    const siblings = allNodes.filter(n => n.parent === treeNode.parent && n.id !== 'root');
+    const isAnySiblingExpanded = siblings.some(s => !collapsedNodes.has(s.id));
+    const isInactive = treeNode.parent && isAnySiblingExpanded && collapsedNodes.has(treeNode.id);
+
     nodes.push({
       id: treeNode.id,
       type: 'diagnosisNode',
@@ -114,7 +119,7 @@ const convertTreeToFlow = (
         level: treeNode.level,
         collapsed: collapsedNodes.has(treeNode.id),
         childCount: treeNode.children.length,
-        inactive: !activePathIds.has(treeNode.id),
+        inactive: !!isInactive,
         onToggle,
         onContextMenu: handleContextMenu,
       },
@@ -143,37 +148,8 @@ const DiagnosisMapContent: React.FC = () => {
     return new Set(allNodesData.map(n => n.id).filter(id => id !== 'root'));
   });
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
-  const [activePathIds, setActivePathIds] = useState<Set<string>>(new Set(['root']));
   const [isSpinning, setIsSpinning] = useState(false);
 
-  // Helper to get all parent IDs up to root
-  const getPathToRoot = useCallback((nodeId: string): string[] => {
-    const path: string[] = [nodeId];
-    const allNodesData = getAllNodes(rawTreeData);
-    let current = allNodesData.find(n => n.id === nodeId);
-    
-    while (current?.parent) {
-      path.push(current.parent);
-      current = allNodesData.find(n => n.id === current.parent);
-    }
-    
-    return path;
-  }, []);
-
-  // Update active path
-  const updateActivePath = useCallback((nodeId: string) => {
-    const path = getPathToRoot(nodeId);
-    const newActiveSet = new Set(path);
-    
-    // Also add immediate children of the target node to make them "active"
-    const node = getNodeById(nodeId);
-    if (node) {
-      node.children.forEach(child => newActiveSet.add(child.id));
-    }
-    
-    setActivePathIds(newActiveSet);
-  }, [getPathToRoot]);
-  
   // Context menu state
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; nodeId: string; nodeLabel: string } | null>(null);
   
@@ -324,7 +300,6 @@ const DiagnosisMapContent: React.FC = () => {
     const allNodesData = getAllNodes(rawTreeData);
     const allNodeIds = new Set(allNodesData.map(n => n.id).filter(id => id !== 'root'));
     setCollapsedNodes(allNodeIds);
-    setActivePathIds(new Set(['root', ...allNodesData.filter(n => n.parent === 'root').map(n => n.id)]));
     
     // Fit view after a short delay to allow nodes to collapse
     requestAnimationFrame(() => {
@@ -343,8 +318,6 @@ const DiagnosisMapContent: React.FC = () => {
 
   // Toggle node collapse/expand with auto-collapse siblings
   const handleToggle = useCallback((nodeId: string) => {
-    updateActivePath(nodeId);
-    
     setCollapsedNodes((prev) => {
       const newSet = new Set(prev);
       const allNodesData = getAllNodes(rawTreeData);
@@ -413,8 +386,8 @@ const DiagnosisMapContent: React.FC = () => {
 
   // Convert tree to flow format
   const { nodes: initialNodes, edges: initialEdges } = useMemo(
-    () => convertTreeToFlow(rawTreeData, collapsedNodes, activePathIds, handleToggle, handleContextMenu),
-    [collapsedNodes, activePathIds, handleToggle, handleContextMenu]
+    () => convertTreeToFlow(rawTreeData, collapsedNodes, handleToggle, handleContextMenu),
+    [collapsedNodes, handleToggle, handleContextMenu]
   );
 
   // Layout based on visible nodes only
@@ -435,7 +408,6 @@ const DiagnosisMapContent: React.FC = () => {
   // Navigate to node from search
   const handleNavigateToNode = useCallback((nodeId: string) => {
     setHighlightedNode(nodeId);
-    updateActivePath(nodeId);
     
     // Expand all parent nodes
     const allNodesData = getAllNodes(rawTreeData);
