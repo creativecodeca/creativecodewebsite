@@ -20,7 +20,7 @@ import DiagnosisNode, { DiagnosisNodeData } from './DiagnosisNode';
 import DiagnosisSearch from './DiagnosisSearch';
 import ContextMenu from './ContextMenu';
 import AIModal from './AIModal';
-import { rawTreeData, TreeNode, getAllNodes, getChildrenIds } from '../data/diagnosticTree';
+import { rawTreeData, TreeNode, getAllNodes, getChildrenIds, getNodeById } from '../data/diagnosticTree';
 
 // Node types for React Flow
 const nodeTypes = {
@@ -184,6 +184,9 @@ const DiagnosisMapContent: React.FC = () => {
     });
 
     try {
+      // Build full context including children
+      const nodeContext = buildNodeContext(contextMenu.nodeId);
+      
       const response = await fetch('/api/ai-diagnosis', {
         method: 'POST',
         headers: {
@@ -192,6 +195,7 @@ const DiagnosisMapContent: React.FC = () => {
         body: JSON.stringify({
           nodeId: contextMenu.nodeId,
           nodeLabel: contextMenu.nodeLabel,
+          nodeContext: nodeContext,
           mode: 'explain',
         }),
       });
@@ -228,6 +232,9 @@ const DiagnosisMapContent: React.FC = () => {
     });
 
     try {
+      // Build full context including children
+      const nodeContext = buildNodeContext(contextMenu.nodeId);
+      
       const response = await fetch('/api/ai-diagnosis', {
         method: 'POST',
         headers: {
@@ -236,6 +243,7 @@ const DiagnosisMapContent: React.FC = () => {
         body: JSON.stringify({
           nodeId: contextMenu.nodeId,
           nodeLabel: contextMenu.nodeLabel,
+          nodeContext: nodeContext,
           mode: 'solve',
         }),
       });
@@ -266,6 +274,27 @@ const DiagnosisMapContent: React.FC = () => {
       content: '',
       isLoading: false,
     });
+  }, []);
+
+  // Helper to build node context including children
+  const buildNodeContext = useCallback((nodeId: string): string => {
+    const node = getNodeById(nodeId);
+    if (!node) return '';
+    
+    const buildHierarchy = (n: TreeNode, depth = 0): string => {
+      const indent = '  '.repeat(depth);
+      let result = `${indent}- ${n.label}\n`;
+      
+      if (n.children && n.children.length > 0) {
+        n.children.forEach(child => {
+          result += buildHierarchy(child, depth + 1);
+        });
+      }
+      
+      return result;
+    };
+    
+    return buildHierarchy(node);
   }, []);
 
   // Recenter map and collapse all nodes

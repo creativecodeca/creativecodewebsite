@@ -1,8 +1,16 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { getNodeById, TreeNode } from '../data/diagnosticTree';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.API_KEY;
+
+// Simplified TreeNode interface for API use
+interface TreeNode {
+  id: string;
+  label: string;
+  level: number;
+  children: TreeNode[];
+  parent?: string;
+}
 
 // Helper to build hierarchical context of a node and its children
 function buildNodeContext(node: TreeNode, depth = 0): string {
@@ -34,7 +42,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { nodeId, nodeLabel, mode } = req.body; // mode: 'explain' or 'solve'
+    const { nodeId, nodeLabel, mode, nodeContext } = req.body; // mode: 'explain' or 'solve', nodeContext: optional pre-built context
 
     if ((!nodeId && !nodeLabel) || !mode) {
       return res.status(400).json({ error: 'Node ID/label and mode are required' });
@@ -48,14 +56,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    // Get full node context if nodeId is provided
-    let fullContext = nodeLabel || '';
-    if (nodeId) {
-      const node = getNodeById(nodeId);
-      if (node) {
-        fullContext = buildNodeContext(node);
-      }
-    }
+    // Use provided context or just the label
+    const fullContext = nodeContext || nodeLabel || '';
 
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
@@ -67,14 +69,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 Problem: "${nodeLabel || 'Unknown Problem'}"
 
-${nodeId ? `Full problem breakdown (including sub-issues):\n${fullContext}\n` : ''}
+${nodeContext ? `Full problem breakdown (including sub-issues):\n${nodeContext}\n` : ''}
 
 Provide a clear, concise explanation of this business problem:
 - What does this problem actually mean in practical terms?
 - Why does this problem occur?
 - What are the common symptoms?
 - What is the typical impact on the business?
-${nodeId && fullContext.includes('-') ? '- Consider the sub-problems listed above in your explanation' : ''}
+${nodeContext ? '- Consider the sub-problems listed above in your explanation' : ''}
 
 Keep it practical and actionable. Write 2-3 paragraphs maximum.`;
     } else if (mode === 'solve') {
@@ -82,7 +84,7 @@ Keep it practical and actionable. Write 2-3 paragraphs maximum.`;
 
 Problem: "${nodeLabel || 'Unknown Problem'}"
 
-${nodeId ? `Full problem breakdown (including sub-issues):\n${fullContext}\n` : ''}
+${nodeContext ? `Full problem breakdown (including sub-issues):\n${nodeContext}\n` : ''}
 
 Provide 3-5 specific, actionable solutions to solve this problem:
 - Focus on automation, AI tools, and modern technology where applicable
@@ -90,7 +92,7 @@ Provide 3-5 specific, actionable solutions to solve this problem:
 - Be creative and forward-thinking
 - Each solution should be practical and implementable
 - Format as a numbered list with brief explanations
-${nodeId && fullContext.includes('-') ? '- Address the sub-problems listed above where relevant' : ''}
+${nodeContext ? '- Address the sub-problems listed above where relevant' : ''}
 
 Think like a modern, tech-savvy consultant who leverages AI and automation first.`;
     }
