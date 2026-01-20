@@ -1,16 +1,30 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Lightbulb } from 'lucide-react';
+import { FileText, Lightbulb, GitBranch, DollarSign, Clock, Target } from 'lucide-react';
 
 interface ContextMenuProps {
   x: number;
   y: number;
   onExplain: () => void;
   onSolve: () => void;
+  onRelatedProblems: () => void;
+  onImpactAnalysis: () => void;
+  onTimeToSolve: () => void;
+  onRootCause: () => void;
   onClose: () => void;
 }
 
-const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, onExplain, onSolve, onClose }) => {
+const ContextMenu: React.FC<ContextMenuProps> = ({ 
+  x, 
+  y, 
+  onExplain, 
+  onSolve, 
+  onRelatedProblems,
+  onImpactAnalysis,
+  onTimeToSolve,
+  onRootCause,
+  onClose 
+}) => {
   useEffect(() => {
     const handleClick = () => onClose();
     const handleEscape = (e: KeyboardEvent) => {
@@ -39,7 +53,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, onExplain, onSolve, onC
 
       {/* Context Menu */}
       <motion.div
-        className="fixed z-[101] bg-black/95 backdrop-blur-md border border-white/20 rounded-lg shadow-2xl overflow-hidden min-w-[200px]"
+        className="fixed z-[101] bg-black/95 backdrop-blur-md border border-white/20 rounded-lg shadow-2xl overflow-hidden min-w-[220px]"
         style={{
           left: x,
           top: y,
@@ -57,10 +71,10 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, onExplain, onSolve, onC
           }}
           className="w-full px-4 py-3 flex items-center gap-3 text-left text-white hover:bg-white/10 transition-colors group"
         >
-          <Search className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform" />
+          <FileText className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform" />
           <div>
             <div className="font-semibold text-sm">Explain Problem</div>
-            <div className="text-xs text-gray-400">Get AI analysis</div>
+            <div className="text-xs text-gray-400">What this means</div>
           </div>
         </button>
 
@@ -75,8 +89,72 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, onExplain, onSolve, onC
         >
           <Lightbulb className="w-5 h-5 text-yellow-400 group-hover:scale-110 transition-transform" />
           <div>
-            <div className="font-semibold text-sm">Solve Problem</div>
-            <div className="text-xs text-gray-400">Get AI solutions</div>
+            <div className="font-semibold text-sm">Get Solutions</div>
+            <div className="text-xs text-gray-400">AI-powered fixes</div>
+          </div>
+        </button>
+
+        <div className="h-px bg-white/10" />
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onRelatedProblems();
+          }}
+          className="w-full px-4 py-3 flex items-center gap-3 text-left text-white hover:bg-white/10 transition-colors group"
+        >
+          <GitBranch className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform" />
+          <div>
+            <div className="font-semibold text-sm">Related Problems</div>
+            <div className="text-xs text-gray-400">Common connections</div>
+          </div>
+        </button>
+
+        <div className="h-px bg-white/10" />
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onImpactAnalysis();
+          }}
+          className="w-full px-4 py-3 flex items-center gap-3 text-left text-white hover:bg-white/10 transition-colors group"
+        >
+          <DollarSign className="w-5 h-5 text-green-400 group-hover:scale-110 transition-transform" />
+          <div>
+            <div className="font-semibold text-sm">Impact Analysis</div>
+            <div className="text-xs text-gray-400">Cost & severity</div>
+          </div>
+        </button>
+
+        <div className="h-px bg-white/10" />
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onTimeToSolve();
+          }}
+          className="w-full px-4 py-3 flex items-center gap-3 text-left text-white hover:bg-white/10 transition-colors group"
+        >
+          <Clock className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform" />
+          <div>
+            <div className="font-semibold text-sm">Time to Solve</div>
+            <div className="text-xs text-gray-400">Effort estimate</div>
+          </div>
+        </button>
+
+        <div className="h-px bg-white/10" />
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onRootCause();
+          }}
+          className="w-full px-4 py-3 flex items-center gap-3 text-left text-white hover:bg-white/10 transition-colors group"
+        >
+          <Target className="w-5 h-5 text-red-400 group-hover:scale-110 transition-transform" />
+          <div>
+            <div className="font-semibold text-sm">Root Cause Analysis</div>
+            <div className="text-xs text-gray-400">Trace to origin</div>
           </div>
         </button>
       </motion.div>

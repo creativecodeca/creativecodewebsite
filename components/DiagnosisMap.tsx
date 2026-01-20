@@ -21,6 +21,7 @@ import DiagnosisSearch from './DiagnosisSearch';
 import ContextMenu from './ContextMenu';
 import AIModal from './AIModal';
 import { rawTreeData, TreeNode, getAllNodes, getChildrenIds, getNodeById } from '../data/diagnosticTree';
+import { getNodeExplanation } from '../data/nodeExplanations';
 
 // Node types for React Flow
 const nodeTypes = {
@@ -171,52 +172,20 @@ const DiagnosisMapContent: React.FC = () => {
     setContextMenu(null);
   }, []);
 
-  // Handle AI Explain
-  const handleExplain = useCallback(async () => {
+  // Handle Explain - using static content
+  const handleExplain = useCallback(() => {
     if (!contextMenu) return;
     
     closeContextMenu();
+    
+    const explanation = getNodeExplanation(contextMenu.nodeId);
+    
     setAiModal({
       isOpen: true,
       title: `Explaining: ${contextMenu.nodeLabel}`,
-      content: '',
-      isLoading: true,
+      content: explanation.explanation,
+      isLoading: false,
     });
-
-    try {
-      // Build full context including children
-      const nodeContext = buildNodeContext(contextMenu.nodeId);
-      
-      const response = await fetch('/api/ai-diagnosis', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nodeId: contextMenu.nodeId,
-          nodeLabel: contextMenu.nodeLabel,
-          nodeContext: nodeContext,
-          mode: 'explain',
-        }),
-      });
-
-      const data = await response.json();
-      
-      setAiModal({
-        isOpen: true,
-        title: `Explaining: ${contextMenu.nodeLabel}`,
-        content: data.content || 'Unable to generate explanation.',
-        isLoading: false,
-      });
-    } catch (error) {
-      console.error('Error fetching explanation:', error);
-      setAiModal({
-        isOpen: true,
-        title: `Explaining: ${contextMenu.nodeLabel}`,
-        content: 'Failed to generate explanation. Please try again.',
-        isLoading: false,
-      });
-    }
   }, [contextMenu, closeContextMenu]);
 
   // Handle AI Solve
@@ -265,6 +234,89 @@ const DiagnosisMapContent: React.FC = () => {
         isLoading: false,
       });
     }
+  }, [contextMenu, closeContextMenu]);
+
+  // Handle Related Problems
+  const handleRelatedProblems = useCallback(() => {
+    if (!contextMenu) return;
+    
+    closeContextMenu();
+    
+    const explanation = getNodeExplanation(contextMenu.nodeId);
+    const relatedList = explanation.relatedProblems.length > 0
+      ? explanation.relatedProblems.map(id => {
+          const node = getNodeById(id);
+          return node ? `• ${node.label}` : '';
+        }).filter(Boolean).join('\n')
+      : 'No directly related problems identified. This issue may be isolated or part of a unique pattern.';
+    
+    setAiModal({
+      isOpen: true,
+      title: `Related Problems: ${contextMenu.nodeLabel}`,
+      content: `These problems often occur together or influence each other:\n\n${relatedList}\n\nSolving one may help resolve others, or they may share common root causes.`,
+      isLoading: false,
+    });
+  }, [contextMenu, closeContextMenu]);
+
+  // Handle Impact Analysis
+  const handleImpactAnalysis = useCallback(() => {
+    if (!contextMenu) return;
+    
+    closeContextMenu();
+    
+    const explanation = getNodeExplanation(contextMenu.nodeId);
+    const impact = explanation.impactAnalysis;
+    
+    const content = `**Financial Impact:**\n${impact.financialImpact}\n\n**Severity Level:**\n${impact.severity}\n\n**Affected Business Areas:**\n${impact.affectedAreas.map(area => `• ${area}`).join('\n')}\n\nUnderstanding the full impact helps prioritize which problems to solve first and allocate appropriate resources.`;
+    
+    setAiModal({
+      isOpen: true,
+      title: `Impact Analysis: ${contextMenu.nodeLabel}`,
+      content,
+      isLoading: false,
+    });
+  }, [contextMenu, closeContextMenu]);
+
+  // Handle Time to Solve
+  const handleTimeToSolve = useCallback(() => {
+    if (!contextMenu) return;
+    
+    closeContextMenu();
+    
+    const explanation = getNodeExplanation(contextMenu.nodeId);
+    const time = explanation.timeToSolve;
+    
+    const prereqList = time.prerequisites.map(p => `• ${p}`).join('\n');
+    const content = `**Estimated Timeline:**\n${time.estimate}\n\n**Difficulty Level:**\n${time.difficulty}\n\n**Prerequisites:**\n${prereqList}\n\nThese estimates assume proper diagnosis and dedicated effort. Your specific situation may vary.`;
+    
+    setAiModal({
+      isOpen: true,
+      title: `Time to Solve: ${contextMenu.nodeLabel}`,
+      content,
+      isLoading: false,
+    });
+  }, [contextMenu, closeContextMenu]);
+
+  // Handle Root Cause Analysis
+  const handleRootCause = useCallback(() => {
+    if (!contextMenu) return;
+    
+    closeContextMenu();
+    
+    const explanation = getNodeExplanation(contextMenu.nodeId);
+    const rootCause = explanation.rootCauseAnalysis;
+    
+    const causesList = rootCause.likelyCauses.map(c => `• ${c}`).join('\n');
+    const triggersList = rootCause.commonTriggers.map(t => `• ${t}`).join('\n');
+    
+    const content = `**Likely Root Causes:**\n${causesList}\n\n**Common Triggers:**\n${triggersList}\n\n**Path to Root:**\n${rootCause.pathToRoot}\n\nTracing problems to their root cause helps ensure you're solving the real issue, not just symptoms.`;
+    
+    setAiModal({
+      isOpen: true,
+      title: `Root Cause: ${contextMenu.nodeLabel}`,
+      content,
+      isLoading: false,
+    });
   }, [contextMenu, closeContextMenu]);
 
   const closeAiModal = useCallback(() => {
@@ -535,22 +587,27 @@ const DiagnosisMapContent: React.FC = () => {
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-red-500 rounded"></div>
             <span className="text-gray-200">Level 1: Critical</span>
+            <span className="text-red-400 font-bold ml-auto">$$$$$</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-orange-500 rounded"></div>
             <span className="text-gray-200">Level 2: Major</span>
+            <span className="text-orange-400 font-bold ml-auto">$$$$</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-yellow-500 rounded"></div>
             <span className="text-gray-200">Level 3: Moderate</span>
+            <span className="text-yellow-400 font-bold ml-auto">$$$</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-blue-500 rounded"></div>
             <span className="text-gray-200">Level 4: Minor</span>
+            <span className="text-blue-400 font-bold ml-auto">$$</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-green-500 rounded"></div>
             <span className="text-gray-200">Level 5: Specific</span>
+            <span className="text-green-400 font-bold ml-auto">$</span>
           </div>
         </div>
       </motion.div>
@@ -563,6 +620,10 @@ const DiagnosisMapContent: React.FC = () => {
             y={contextMenu.y}
             onExplain={handleExplain}
             onSolve={handleSolve}
+            onRelatedProblems={handleRelatedProblems}
+            onImpactAnalysis={handleImpactAnalysis}
+            onTimeToSolve={handleTimeToSolve}
+            onRootCause={handleRootCause}
             onClose={closeContextMenu}
           />
         )}
