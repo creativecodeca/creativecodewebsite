@@ -2771,7 +2771,7 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       quickWins: ["Change your 'Call to Action' to something low-friction (e.g., 'Get a 5-min audit' vs 'Book a 1-hour call')", "Rewrite your main headline to be more provocative", "Test a 'Lead Magnet' (free value) to capture email"]
     },
     rootCauseAnalysis: {
-      likelyCauses: ["Weak offer', 'Boring messaging', 'Too much friction"],
+      likelyCauses: ["Weak offer", "Boring messaging", "Too much friction"],
       automationPotential: {
         rating: 'High',
         example: "A/B testing software to automatically find the highest-engaging messages."
@@ -2794,7 +2794,7 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       quickWins: ["Send a 'Pre-meeting' video showing your expertise", "Create a 'Case Study' deck to show during the call", "Simplify your pricing options to avoid 'Analysis Paralysis'"]
     },
     rootCauseAnalysis: {
-      likelyCauses: ["Poor sales skills', 'Weak social proof', 'Complex offer"],
+      likelyCauses: ["Poor sales skills", "Weak social proof", "Complex offer"],
       automationPotential: {
         rating: 'High',
         example: "Automated 'Pre-sale' nurture sequences that build trust before the first call."
@@ -2840,7 +2840,7 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       quickWins: ["Audit your time for 3 days and find the 'Bottom 20%' of tasks", "Hire a VA for just 5 hours/week to handle inbox/scheduling", "Record a Loom video for every recurring task you do today"]
     },
     rootCauseAnalysis: {
-      likelyCauses: ["Hero complex', 'Lack of delegation skills', 'No SOPs"],
+      likelyCauses: ["Hero complex", "Lack of delegation skills", "No SOPs"],
       automationPotential: {
         rating: 'High',
         example: "Using AI to triage your email and draft replies, saving 10+ hours a week."
@@ -2863,7 +2863,7 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       quickWins: ["Spend one full day organizing your digital files (GDrive/Dropbox)", "Choose ONE source of truth for tasks", "Clean your physical workspace"]
     },
     rootCauseAnalysis: {
-      likelyCauses: ["Rapid growth without cleanup', 'Personal habit of founder'],
+      likelyCauses: ["Rapid growth without cleanup", "Personal habit of founder"],
       automationPotential: {
         rating: 'High',
         example: "Automated file naming and organization tools."
@@ -3279,7 +3279,7 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       quickWins: ["Get 3 video testimonials from happy clients", "Showcase logos of recognizable brands you've worked with", "Publish a detailed 'Deep Dive' case study showing your process"]
     },
     rootCauseAnalysis: {
-      likelyCauses: ["New business/offer', 'Invisible results', 'Poor branding"],
+      likelyCauses: ["New business/offer", "Invisible results", "Poor branding"],
       automationPotential: {
         rating: 'Medium',
         example: "Automated testimonial gathering and display widgets (Senja, TrustPulse)."
