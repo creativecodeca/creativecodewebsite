@@ -10648,6 +10648,3115 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       },
       pathToRoot: "Wrong Clients → Client Management Issues → Bought Cant Deliver"
     }
+  },
+  // LEVEL 7 NODES - DON'T KNOW WHERE TARGET MARKET IS
+  'no-research': {
+    explanation: "You are making business decisions without data. Your understanding of your customer is based on assumptions rather than research, leading to wasted marketing spend and ineffective messaging.",
+    relatedProblems: ['guessing-demographics', 'assumptions-hangout', 'not-where-looking'],
+    impactAnalysis: {
+      financialImpact: "Wasted marketing budget on wrong channels; low conversion rates; high CAC.",
+      severity: "Major",
+      affectedAreas: ['Marketing', 'Product-Market Fit', 'Sales'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2-4 weeks",
+      difficulty: 'Easy',
+      quickWins: ["Interview 5 recent customers this week", "Send a survey to your email list", "Join 3 communities where your customers hang out and lurk"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Assuming you already know the answer", "Too busy to research", "Fear of what you might find"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to analyze customer support tickets and reviews for common pain points and language patterns."
+      },
+      pathToRoot: "No Research → Don't Know Where Market Is → Can't Find Prospects → Not Getting New Clients"
+    }
+  },
+  'guessing-demographics': {
+    explanation: "Your ideal customer profile is a guess based on intuition rather than data. You are marketing to a phantom customer that might not actually exist or be reachable.",
+    relatedProblems: ['no-research', 'assumptions-hangout', 'wrong-channels'],
+    impactAnalysis: {
+      financialImpact: "High ad spend waste; poor targeting; low ROAS.",
+      severity: "Major",
+      affectedAreas: ['Marketing Efficiency', 'Customer Acquisition'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 weeks",
+      difficulty: 'Easy',
+      quickWins: ["Audit your last 20 customers: age, location, job title, income", "Check Google Analytics demographics data", "Run a Facebook Pixel analysis"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Launched product before validating market", "Marketing to 'Everyone'", "Using outdated personas"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated customer data enrichment via HubSpot, Clearbit, or similar to reveal actual demographics."
+      },
+      pathToRoot: "Guessing Demographics → Don't Know Where Market Is → Can't Find Prospects"
+    }
+  },
+  'assumptions-hangout': {
+    explanation: "You think you know where your customers are online or offline, but you have never actually validated this. You are fishing in the wrong pond.",
+    relatedProblems: ['no-research', 'marketing-not-audience', 'wrong-channels'],
+    impactAnalysis: {
+      financialImpact: "Complete marketing budget waste if assumption is wrong.",
+      severity: "Major",
+      affectedAreas: ['Marketing Channels', 'Lead Generation'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 weeks",
+      difficulty: 'Easy',
+      quickWins: ["Ask your best customers: 'Where do you get business advice?'", "Check where competitors are active", "Test 3 different channels with small budgets"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Following industry 'Best practices' blindly", "Confirmation bias", "Not tracking channel data"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using social listening tools like SparkToro or Brandwatch to find where your target keywords appear most."
+      },
+      pathToRoot: "Assumptions About Hangout → Don't Know Where Market Is → Can't Find Prospects"
+    }
+  },
+  'not-where-looking': {
+    explanation: "Your ideal customers exist, but they are not in the places you are currently marketing. This is a simple misalignment between your effort and the reality of customer behavior.",
+    relatedProblems: ['wrong-channels', 'marketing-not-audience', 'no-research'],
+    impactAnalysis: {
+      financialImpact: "Zero ROI on current marketing; opportunity cost of not being where they are.",
+      severity: "Major",
+      affectedAreas: ['Marketing Effectiveness', 'Growth Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Medium',
+      quickWins: ["Survey customers: 'Where did you first hear about us?'", "Analyze traffic sources in GA4", "Ask 'Where were you before this?' in sales calls"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Marketing strategy based on your preferences not theirs", "Industry echo chamber", "Stale data"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated tracking of referral sources and first-touch attribution."
+      },
+      pathToRoot: "Not Where Looking → Don't Know Where Market Is → Can't Find Prospects"
+    }
+  },
+  'market-shifted': {
+    explanation: "Your customers used to be in one place (e.g., Facebook groups), but they have migrated (e.g., to Discord or private Slack communities), and you didn't notice. Your strategy is outdated.",
+    relatedProblems: ['tactics-stopped-working', 'sources-dried', 'not-where-looking'],
+    impactAnalysis: {
+      financialImpact: "Declining lead quality and volume; eroding market presence.",
+      severity: "Major",
+      affectedAreas: ['Customer Acquisition', 'Market Position'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Interview recent customers about their media habits", "Check trending platforms in your niche", "Join new communities and observe"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Not staying current with trends", "Set-it-and-forget-it marketing", "Lack of customer feedback loops"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Social listening tools can detect emerging platforms, but human judgment is key."
+      },
+      pathToRoot: "Market Shifted → Don't Know Where Market Is → Can't Find Prospects"
+    }
+  },
+  // TARGET MARKET TOO SMALL
+  'niche-narrow': {
+    explanation: "Your total addressable market is too small to sustain your revenue goals. You have over-niched, and there simply aren't enough customers to build a scalable business.",
+    relatedProblems: ['market-too-small', 'geographic-limits', 'addressable-market'],
+    impactAnalysis: {
+      financialImpact: "Hard revenue ceiling; inability to scale beyond current market size.",
+      severity: "Critical",
+      affectedAreas: ['Growth Potential', 'Valuation', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Calculate your TAM (Total Addressable Market) honestly", "Identify adjacent markets you could serve", "Survey customers: 'Who else has this problem?'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-specialization", "Geographic constraints self-imposed", "Misunderstanding of 'Niche down' advice"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Market sizing tools like Gartner or Statista can provide TAM data, but strategy requires human insight."
+      },
+      pathToRoot: "Niche Too Narrow → Target Market Too Small → Can't Find Prospects"
+    }
+  },
+  'geographic-limits': {
+    explanation: "You have artificially limited yourself to a specific city, state, or region when your service could be delivered remotely or expanded. This is a self-imposed constraint.",
+    relatedProblems: ['niche-narrow', 'market-too-small', 'addressable-market'],
+    impactAnalysis: {
+      financialImpact: "10-100x smaller market than necessary; limiting growth trajectory.",
+      severity: "Major",
+      affectedAreas: ['Scalability', 'Revenue Ceiling'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Offer one 'Remote' pilot project to a customer outside your area", "Build a self-serve or online component", "Partner with providers in other regions"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Legacy business model", "Fear of logistics", "Licensing or legal constraints"],
+      automationPotential: {
+        rating: 'High',
+        example: "Remote delivery via Zoom, recorded trainings, or project management software removes geographic limits."
+      },
+      pathToRoot: "Geographic Limits → Target Market Too Small → Can't Find Prospects"
+    }
+  },
+  'industry-specialized': {
+    explanation: "You serve such a specialized industry vertical that there are only a handful of potential customers. This might be fine for enterprise deals, but deadly for SMB models.",
+    relatedProblems: ['niche-narrow', 'market-too-small'],
+    impactAnalysis: {
+      financialImpact: "Low lead volume; high dependence on few accounts; vulnerability to industry downturns.",
+      severity: "Major",
+      affectedAreas: ['Risk', 'Growth Potential', 'Diversification'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Identify 2 adjacent industries with similar problems", "Reframe your value prop as a problem (not industry)", "Test messaging in new vertical"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Founder's previous career shaped niche", "Early clients were all in one industry", "Vertical-specific product"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Industry expansion is strategic, but AI can help identify adjacent markets via keyword analysis."
+      },
+      pathToRoot: "Industry Too Specialized → Target Market Too Small → Can't Find Prospects"
+    }
+  },
+  'addressable-market': {
+    explanation: "Even if the total market is large, the segment you can actually reach and serve (your SAM - Serviceable Addressable Market) is too small due to constraints like budget, tech requirements, or awareness.",
+    relatedProblems: ['niche-narrow', 'market-too-small', 'targeting-specific'],
+    impactAnalysis: {
+      financialImpact: "Revenue cap at low level; difficulty raising capital or selling business.",
+      severity: "Major",
+      affectedAreas: ['Scalability', 'Valuation'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Map your TAM → SAM → SOM", "Identify barriers preventing you from serving more of the market", "Create a 'Budget-friendly' tier to expand reach"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["High price point excludes most of market", "Tech or skill barriers", "Awareness gap"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Creating self-serve or AI-assisted versions of your service can expand your SAM."
+      },
+      pathToRoot: "Addressable Market Too Small → Target Market Too Small → Can't Find Prospects"
+    }
+  },
+  'targeting-specific': {
+    explanation: "Your Ideal Customer Profile is so specific (e.g., '45-year-old female dentist in Ohio with 2+ locations') that it excludes 99% of potential customers who could benefit from your service.",
+    relatedProblems: ['niche-narrow', 'market-too-small'],
+    impactAnalysis: {
+      financialImpact: "Artificially small pipeline; high cost to find each lead.",
+      severity: "Moderate",
+      affectedAreas: ['Lead Volume', 'Marketing Efficiency'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Broaden ICP by one dimension (e.g., all states, not just Ohio)", "Focus on problem not demographics", "Test broader targeting in ads"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Misapplied 'Niche down' advice", "Early success with specific type", "Over-optimization"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Lookalike audiences in Facebook/LinkedIn Ads can find similar but broader profiles."
+      },
+      pathToRoot: "Targeting Too Specific → Target Market Too Small → Can't Find Prospects"
+    }
+  },
+  // TARGET MARKET TOO COMPETITIVE
+  'market-saturated': {
+    explanation: "Your market has too many providers chasing too few customers. This drives prices down, makes differentiation nearly impossible, and forces you to compete on price alone.",
+    relatedProblems: ['big-players-dominate', 'race-bottom-price', 'differentiation-unclear'],
+    impactAnalysis: {
+      financialImpact: "Razor-thin margins; constant price pressure; high customer churn to cheaper alternatives.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Pricing Power', 'Market Position'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Identify one unique capability competitors don't have", "Niche down to a sub-segment", "Bundle to create differentiation"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Entered a 'Gold rush' market too late", "Low barriers to entry", "Commoditized service"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Automation itself can become differentiation (e.g., faster delivery via AI)."
+      },
+      pathToRoot: "Market Saturated → Target Market Too Competitive → Can't Find Prospects"
+    }
+  },
+  'big-players-dominate': {
+    explanation: "Large incumbents (enterprise companies, franchises, or platforms) have such dominant market share, brand recognition, and resources that small players like you are invisible to customers.",
+    relatedProblems: ['market-saturated', 'incumbent-advantage', 'competitor-better-reputation'],
+    impactAnalysis: {
+      financialImpact: "Difficulty acquiring customers; high CAC due to trust gap; pricing disadvantage.",
+      severity: "Major",
+      affectedAreas: ['Market Share', 'Brand Trust', 'Growth Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "12+ months",
+      difficulty: 'Hard',
+      quickWins: ["Compete on speed, not size ('We respond in 1 hour, they take 3 days')", "Target customers big players ignore", "Position as 'Boutique alternative'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Network effects or economies of scale favor large players", "Brand legacy", "Capital-intensive industry"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to match or exceed big-player capabilities (e.g., 24/7 chatbot support)."
+      },
+      pathToRoot: "Big Players Dominate → Target Market Too Competitive → Can't Find Prospects"
+    }
+  },
+  'race-bottom-price': {
+    explanation: "Competitors keep undercutting each other on price, creating a death spiral where no one makes money. This is common in markets with low differentiation and desperate sellers.",
+    relatedProblems: ['market-saturated', 'competing-price', 'lost-on-price'],
+    impactAnalysis: {
+      financialImpact: "Negative or near-zero margins; unsustainable business model; eventual market exit.",
+      severity: "Critical",
+      affectedAreas: ['Profitability', 'Business Viability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6 months",
+      difficulty: 'Hard',
+      quickWins: ["Refuse to compete on price ('Premium positioning')", "Add value that can't be commoditized", "Exit this market segment"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Commoditized offering", "No clear value differentiation", "Desperate competitors willing to lose money"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automation reduces your costs so you can maintain margins even at lower prices."
+      },
+      pathToRoot: "Race to Bottom → Target Market Too Competitive → Can't Find Prospects"
+    }
+  },
+  'differentiation-unclear': {
+    explanation: "Even if you are different, prospects can't tell how. Your messaging, positioning, and visual identity all look like everyone else's, making you forgettable.",
+    relatedProblems: ['generic-positioning', 'looks-like-everyone', 'no-differentiation'],
+    impactAnalysis: {
+      financialImpact: "High CAC due to lack of preference; price becomes the only decision factor.",
+      severity: "Major",
+      affectedAreas: ['Brand', 'Conversion Rate', 'Pricing Power'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Identify your 'Unfair advantage'", "Rewrite homepage to focus on unique benefit", "Create a 'Comparison table' showing your edge"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Generic messaging ('We help businesses grow')", "Fear of being too niche", "Copying competitors"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to analyze competitor messaging and identify gaps you can own."
+      },
+      pathToRoot: "Differentiation Unclear → Target Market Too Competitive → Can't Find Prospects"
+    }
+  },
+  'barriers-low': {
+    explanation: "Anyone can start doing what you do with minimal capital, skill, or certification. This floods the market with low-quality competitors and makes it hard to establish authority.",
+    relatedProblems: ['market-saturated', 'race-bottom-price'],
+    impactAnalysis: {
+      financialImpact: "Constant new competition; downward price pressure; difficulty standing out.",
+      severity: "Moderate",
+      affectedAreas: ['Market Positioning', 'Pricing Power'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Hard',
+      quickWins: ["Build a 'Moat' through brand, expertise, or tech", "Create proprietary methodology or IP", "Invest in certifications or credentials"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Service-based or digital business model", "No regulatory barriers", "Low startup costs"],
+      automationPotential: {
+        rating: 'High',
+        example: "Building proprietary AI tools or systems that competitors can't easily replicate."
+      },
+      pathToRoot: "Barriers Low → Target Market Too Competitive → Can't Find Prospects"
+    }
+  },
+  // LEAD GENERATION INSUFFICIENT
+  'not-enough-activity': {
+    explanation: "You are simply not doing enough outreach, content creation, or marketing activity. The volume is too low to generate meaningful results, even if your conversion rate is good.",
+    relatedProblems: ['inconsistent-effort', 'not-trying-channels', 'sources-dried'],
+    impactAnalysis: {
+      financialImpact: "Directly proportional to growth; low activity = low revenue.",
+      severity: "Major",
+      affectedAreas: ['Pipeline', 'Revenue Growth'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Set a daily lead gen goal (e.g., 10 outreaches/day)", "Block 2 hours every morning for lead gen", "Hire a VA to help with volume"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Founder doing everything", "Fear of rejection", "No accountability or tracking"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated email sequences, social media scheduling, and lead scraping tools can 10x your activity."
+      },
+      pathToRoot: "Not Enough Activity → Lead Gen Insufficient → Can't Find Prospects"
+    }
+  },
+  'tactics-stopped-working': {
+    explanation: "What used to bring in leads (e.g., cold email, Facebook ads, SEO) has become saturated, outdated, or algorithmically penalized. Your lead flow has dried up.",
+    relatedProblems: ['sources-dried', 'market-shifted', 'not-trying-channels'],
+    impactAnalysis: {
+      financialImpact: "Sudden revenue drop; scrambling to find new channels; loss of predictability.",
+      severity: "Major",
+      affectedAreas: ['Lead Generation', 'Revenue Predictability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Test 3 new channels this month", "Ask customers how they found you", "Study what's working for competitors now"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Platform algorithm changes", "Market saturation of tactic", "Customer behavior shifts"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI-powered ad testing and multi-channel automation to quickly identify what's working."
+      },
+      pathToRoot: "Tactics Stopped Working → Lead Gen Insufficient → Can't Find Prospects"
+    }
+  },
+  'not-trying-channels': {
+    explanation: "You are stuck in one or two marketing channels (e.g., only Instagram, only referrals) and haven't tested others. This limits your reach and makes you vulnerable to channel risk.",
+    relatedProblems: ['not-enough-activity', 'inconsistent-effort', 'wrong-channels'],
+    impactAnalysis: {
+      financialImpact: "Missed opportunities; vulnerable to single-channel failure; slower growth.",
+      severity: "Moderate",
+      affectedAreas: ['Lead Diversity', 'Risk Management'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Easy',
+      quickWins: ["Test one new channel this week with $100 or 5 hours", "Ask peers what's working for them", "Use a 'Channel Matrix' to identify untested options"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of the unknown", "Comfort with current method", "Resource constraints"],
+      automationPotential: {
+        rating: 'High',
+        example: "Multi-channel marketing automation platforms (e.g., HubSpot, Marketo) make it easy to test new channels."
+      },
+      pathToRoot: "Not Trying Channels → Lead Gen Insufficient → Can't Find Prospects"
+    }
+  },
+  'inconsistent-effort': {
+    explanation: "You do marketing in bursts when desperate for leads, then stop when busy. This creates a feast-or-famine cycle where your pipeline is either empty or overflowing.",
+    relatedProblems: ['not-enough-activity', 'lumpy-revenue', 'cash-flow-gaps'],
+    impactAnalysis: {
+      financialImpact: "Unpredictable revenue; inability to plan or scale; constant stress.",
+      severity: "Major",
+      affectedAreas: ['Revenue Predictability', 'Scalability', 'Founder Stress'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Block recurring time on calendar for lead gen", "Hire someone to keep it consistent", "Set up evergreen automated campaigns"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Reactive business management", "No systems or delegation", "Founder doing delivery and sales"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated drip campaigns, SEO, and content marketing run 24/7 whether you are busy or not."
+      },
+      pathToRoot: "Inconsistent Effort → Lead Gen Insufficient → Can't Find Prospects"
+    }
+  },
+  // NO VISIBILITY
+  'no-website': {
+    explanation: "You have no website or a broken/outdated one. Prospects who search for you online find nothing, or find something that makes you look unprofessional or out of business.",
+    relatedProblems: ['no-visibility', 'seo-nonexistent', 'website-unprofessional'],
+    impactAnalysis: {
+      financialImpact: "Lost inbound leads; damaged credibility; inability to scale marketing.",
+      severity: "Major",
+      affectedAreas: ['Lead Generation', 'Brand Trust', 'Marketing Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 weeks",
+      difficulty: 'Easy',
+      quickWins: ["Launch a simple 1-page site today (Carrd, Webflow, Wix)", "Get a professional domain", "Add basic SEO (title, description, keywords)"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Relying solely on referrals", "Thinking 'I don't need a website'", "Perfectionism preventing launch"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI website builders (e.g., 10Web, Durable) can create a professional site in minutes."
+      },
+      pathToRoot: "No Website → No Visibility → Prospects Don't Know We Exist"
+    }
+  },
+  'not-on-platforms': {
+    explanation: "You are absent from the platforms where your audience is actively searching, discussing, and making buying decisions (e.g., LinkedIn, Reddit, industry forums).",
+    relatedProblems: ['no-visibility', 'social-inactive', 'wrong-channels'],
+    impactAnalysis: {
+      financialImpact: "Invisible to a large segment of potential customers; competitors capture mindshare.",
+      severity: "Major",
+      affectedAreas: ['Brand Awareness', 'Lead Generation'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Create profiles on top 3 platforms for your niche", "Engage (comment, share) before selling", "Post valuable content consistently"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Don't know where audience is", "Fear of social media", "Too busy"],
+      automationPotential: {
+        rating: 'High',
+        example: "Social media scheduling tools (Buffer, Hootsuite) and AI content generators make this easy."
+      },
+      pathToRoot: "Not On Platforms → No Visibility → Prospects Don't Know We Exist"
+    }
+  },
+  'seo-nonexistent': {
+    explanation: "Your website doesn't rank for any relevant keywords. When prospects search for solutions to their problems, you don't appear in results—even on page 10.",
+    relatedProblems: ['not-showing-search', 'no-visibility', 'no-website'],
+    impactAnalysis: {
+      financialImpact: "Zero organic traffic; reliance on expensive paid ads; missed long-term compounding.",
+      severity: "Major",
+      affectedAreas: ['Inbound Leads', 'CAC', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Medium',
+      quickWins: ["Fix basic on-page SEO (titles, headers, alt tags)", "Create 10 blog posts targeting long-tail keywords", "Get 5 backlinks from relevant sites"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["New website", "No content strategy", "Technical SEO issues", "No backlink profile"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI SEO tools (e.g., Surfer SEO, Clearscope) guide optimization; AI content tools scale production."
+      },
+      pathToRoot: "SEO Non-Existent → No Visibility → Prospects Don't Know We Exist"
+    }
+  },
+  'not-showing-search': {
+    explanation: "Even if you have a website, it's not appearing in Google/Bing for the keywords your prospects are searching. This could be technical (de-indexed) or competitive (outranked).",
+    relatedProblems: ['seo-nonexistent', 'no-visibility'],
+    impactAnalysis: {
+      financialImpact: "Lost organic lead flow; higher reliance on paid channels.",
+      severity: "Major",
+      affectedAreas: ['Organic Traffic', 'CAC'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Check Google Search Console for indexing issues", "Submit sitemap", "Fix any crawl errors", "Target less competitive keywords"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Technical SEO issues (robots.txt blocking crawlers)", "Google penalty", "Zero backlinks", "Weak content"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated SEO audits (Screaming Frog, Ahrefs) identify technical issues."
+      },
+      pathToRoot: "Not Showing in Search → No Visibility → Prospects Don't Know We Exist"
+    }
+  },
+  'social-inactive': {
+    explanation: "Your social media profiles exist but are dormant (last post was 6 months ago). This signals to prospects that your business might be dead or unprofessional.",
+    relatedProblems: ['no-visibility', 'not-on-platforms', 'not-publishing'],
+    impactAnalysis: {
+      financialImpact: "Lost trust and credibility; missed networking and referral opportunities.",
+      severity: "Moderate",
+      affectedAreas: ['Brand Perception', 'Lead Generation'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Post 3x/week minimum", "Share valuable content, not just promotional", "Engage with others' posts daily"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Don't see ROI", "Too busy", "Don't know what to post"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI content generators and scheduling tools (Buffer, Later) automate social presence."
+      },
+      pathToRoot: "Social Inactive → No Visibility → Prospects Don't Know We Exist"
+    }
+  },
+  'not-publishing': {
+    explanation: "You create no content—no blog posts, videos, podcasts, or case studies. You have no way to demonstrate expertise, attract organic traffic, or nurture leads.",
+    relatedProblems: ['no-visibility', 'seo-nonexistent', 'social-inactive'],
+    impactAnalysis: {
+      financialImpact: "No inbound marketing engine; high CAC; no compounding growth.",
+      severity: "Major",
+      affectedAreas: ['Lead Generation', 'Authority Building', 'SEO'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Publish one piece of content this week", "Repurpose existing knowledge (FAQs, client questions)", "Commit to weekly publishing schedule"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Perfectionism", "Don't know what to write", "Too busy", "Fear of judgment"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI writing tools (ChatGPT, Jasper) can draft content in minutes; video tools auto-transcribe and repurpose."
+      },
+      pathToRoot: "Not Publishing → No Visibility → Prospects Don't Know We Exist"
+    }
+  },
+  // NO REFERRALS COMING IN
+  'dont-know-how-refer': {
+    explanation: "Your customers want to refer you but don't know how. There's no clear process, link, or incentive structure guiding them.",
+    relatedProblems: ['no-referrals', 'not-asking-referrals', 'dont-make-easy'],
+    impactAnalysis: {
+      financialImpact: "Lost low-CAC leads; untapped word-of-mouth growth.",
+      severity: "Moderate",
+      affectedAreas: ['Lead Generation', 'Customer Lifetime Value'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Create a simple referral landing page", "Send an email explaining how to refer", "Add a 'Refer a Friend' button to invoices/emails"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Assumed it was obvious", "No formal referral program", "No incentive offered"],
+      automationPotential: {
+        rating: 'High',
+        example: "Referral software (ReferralCandy, Viral Loops) automates tracking and rewards."
+      },
+      pathToRoot: "Don't Know How to Refer → No Referrals → Prospects Don't Know We Exist"
+    }
+  },
+  'no-incentive-referrals': {
+    explanation: "You ask for referrals but offer nothing in return. Most people need a nudge—either financial (commission, discount) or social (recognition).",
+    relatedProblems: ['no-referrals', 'not-asking-referrals'],
+    impactAnalysis: {
+      financialImpact: "Referral rate stays at baseline (<5%); missed compounding growth.",
+      severity: "Moderate",
+      affectedAreas: ['Growth Rate', 'CAC'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Offer 10-20% discount for referrals", "Give both referrer and referee a bonus", "Publicly thank top referrers"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Cheapness", "Fear of 'Paying for referrals'", "Didn't think it was necessary"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated referral tracking and reward distribution via platforms like Rewardful."
+      },
+      pathToRoot: "No Incentive → No Referrals → Prospects Don't Know We Exist"
+    }
+  },
+  'service-not-remarkable': {
+    explanation: "Your service is fine but not exceptional. There's nothing 'Wow' about it that compels customers to tell their friends. It's forgettable.",
+    relatedProblems: ['no-referrals', 'no-word-mouth', 'not-memorable'],
+    impactAnalysis: {
+      financialImpact: "Low organic growth; high dependence on paid marketing; limited viral potential.",
+      severity: "Major",
+      affectedAreas: ['Growth Rate', 'Brand Advocacy'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Add one 'Surprise and delight' element", "Ask customers what would make it referral-worthy", "Over-deliver on one specific aspect"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Commoditized service", "Low service standards", "No unique process or experience"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI-powered personalization or instant results can create 'Wow' moments."
+      },
+      pathToRoot: "Service Not Remarkable → No Referrals → Prospects Don't Know We Exist"
+    }
+  },
+  'dont-make-easy': {
+    explanation: "Even motivated customers struggle to refer you because the process is clunky—no link, no template, no form. Friction kills referrals.",
+    relatedProblems: ['no-referrals', 'dont-know-how-refer'],
+    impactAnalysis: {
+      financialImpact: "Referral rate cut in half by friction alone.",
+      severity: "Moderate",
+      affectedAreas: ['Lead Generation', 'Growth Efficiency'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Create a one-click referral link", "Provide a pre-written email template", "Add 'Share' buttons to confirmation emails"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Never thought about the UX of referring", "No dedicated landing page", "Manual process"],
+      automationPotential: {
+        rating: 'High',
+        example: "Referral platforms (ReferralCandy, GrowSurf) make sharing one-click simple."
+      },
+      pathToRoot: "Don't Make It Easy → No Referrals → Prospects Don't Know We Exist"
+    }
+  },
+  'forget-ask': {
+    explanation: "You intend to ask for referrals but always forget—after project completion, after great results, after positive feedback. The moment passes.",
+    relatedProblems: ['not-asking-referrals', 'no-referrals'],
+    impactAnalysis: {
+      financialImpact: "Massive missed opportunity; lost low-CAC leads at peak satisfaction.",
+      severity: "Moderate",
+      affectedAreas: ['Lead Generation', 'Growth Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Add referral ask to project completion email", "Set calendar reminder 1 week post-delivery", "Train team to ask during final call"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["No system or reminder", "Awkwardness or fear of asking", "Too busy"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated post-delivery email sequences with referral CTA."
+      },
+      pathToRoot: "Forget to Ask → No Referrals → Prospects Don't Know We Exist"
+    }
+  },
+  // NO WORD OF MOUTH
+  'not-talk-worthy': {
+    explanation: "Your service doesn't generate stories or emotions strong enough for people to naturally bring it up in conversation. It's transactional, not memorable.",
+    relatedProblems: ['no-word-mouth', 'service-not-remarkable', 'not-memorable'],
+    impactAnalysis: {
+      financialImpact: "No viral coefficient; reliance on paid/outbound only; slow growth.",
+      severity: "Moderate",
+      affectedAreas: ['Growth Rate', 'Brand Advocacy'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Create one 'Shareworthy' moment in delivery", "Use unexpected packaging or communication", "Ask 'What would make this worth talking about?'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Generic service delivery", "No emotional connection", "Purely functional value"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated personalized video messages or AI-generated custom insights can create 'Wow' moments."
+      },
+      pathToRoot: "Not Talk-Worthy → No Word of Mouth → Prospects Don't Know We Exist"
+    }
+  },
+  'no-community': {
+    explanation: "You have no community, group, or network where customers can connect with each other. This kills network effects and organic word-of-mouth.",
+    relatedProblems: ['no-word-mouth', 'not-talk-worthy'],
+    impactAnalysis: {
+      financialImpact: "Low retention; no viral loops; missed upsell opportunities.",
+      severity: "Moderate",
+      affectedAreas: ['Customer Retention', 'LTV', 'Organic Growth'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Create a private Facebook/Slack group for customers", "Host monthly Q&A or networking calls", "Feature customer wins publicly"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Transactional business model", "No thought given to post-sale engagement", "Fear of moderation burden"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Community platforms (Circle, Skool) have built-in automation and AI moderation."
+      },
+      pathToRoot: "No Community → No Word of Mouth → Prospects Don't Know We Exist"
+    }
+  },
+  'not-memorable': {
+    explanation: "Your brand, service, and experience are so bland that customers forget about you the moment they finish working with you. No top-of-mind awareness.",
+    relatedProblems: ['not-talk-worthy', 'no-word-mouth', 'service-not-remarkable'],
+    impactAnalysis: {
+      financialImpact: "No repeat business; no referrals; constant need to reintroduce yourself.",
+      severity: "Moderate",
+      affectedAreas: ['Brand Recall', 'Repeat Revenue', 'Referrals'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Medium',
+      quickWins: ["Develop a unique brand voice or visual identity", "Create a signature process or framework", "Use storytelling in all communications"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Generic branding", "No personality", "Purely functional service"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Brand identity is human-driven, but AI can help with consistent messaging."
+      },
+      pathToRoot: "Not Memorable → No Word of Mouth → Prospects Don't Know We Exist"
+    }
+  },
+  'clients-dont-understand': {
+    explanation: "Your service is so complex or technical that even satisfied customers can't explain what you do to their peers. 'It's complicated' kills referrals.",
+    relatedProblems: ['no-word-mouth', 'explanation-complicated'],
+    impactAnalysis: {
+      financialImpact: "Low referral rate despite satisfaction; longer sales cycles (re-explaining every time).",
+      severity: "Moderate",
+      affectedAreas: ['Referrals', 'Sales Efficiency'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-2 months",
+      difficulty: 'Medium',
+      quickWins: ["Create a simple 1-sentence description", "Develop a visual explainer or analogy", "Test it: 'Can a 10-year-old understand it?'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Industry jargon", "Technical service", "No clear value prop"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI-generated explainer videos or infographics simplify complex concepts."
+      },
+      pathToRoot: "Clients Don't Understand → No Word of Mouth → Prospects Don't Know We Exist"
+    }
+  },
+  // WRONG CHANNELS
+  'marketing-not-audience': {
+    explanation: "You are marketing where you prefer to be, not where your customers actually are. Classic mismatch between your behavior and theirs.",
+    relatedProblems: ['wrong-channels', 'not-on-platforms', 'assumptions-hangout'],
+    impactAnalysis: {
+      financialImpact: "100% wasted marketing budget on wrong channels.",
+      severity: "Critical",
+      affectedAreas: ['Marketing ROI', 'Lead Generation'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Survey customers: 'Where do you spend time online?'", "Audit where competitors are active", "Test new channel this week"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Founder comfort over customer research", "Following generic advice", "Assumptions not validated"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Social listening tools (SparkToro) reveal where your audience actually hangs out."
+      },
+      pathToRoot: "Marketing Not Where Audience Is → Wrong Channels → Prospects Don't Know We Exist"
+    }
+  },
+  'message-wrong-platforms': {
+    explanation: "Your message might be right, but you're saying it on the wrong platform. LinkedIn content on TikTok, or vice versa, falls flat.",
+    relatedProblems: ['wrong-channels', 'tactics-dont-match'],
+    impactAnalysis: {
+      financialImpact: "Low engagement; wasted content production effort.",
+      severity: "Moderate",
+      affectedAreas: ['Marketing Efficiency', 'Content ROI'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Match content format to platform norms", "Study top performers on each platform", "Repurpose don't copy-paste"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Cross-posting same content everywhere", "Not understanding platform culture"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI tools (Repurpose.io) adapt content format to each platform automatically."
+      },
+      pathToRoot: "Message on Wrong Platforms → Wrong Channels → Prospects Don't Know We Exist"
+    }
+  },
+  'tactics-dont-match': {
+    explanation: "You're using outbound tactics (cold email) for an inbound audience (they want to discover you), or vice versa. The approach doesn't fit customer buying behavior.",
+    relatedProblems: ['wrong-channels', 'message-wrong-platforms'],
+    impactAnalysis: {
+      financialImpact: "High effort, low conversion; wasted time and resources.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'CAC'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Map customer buying journey", "Identify whether they 'Search' or need to be 'Interrupted'", "Align tactics accordingly"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Copying other industries", "Not understanding customer journey", "Using what's comfortable not what works"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Marketing automation platforms help align tactics to journey stage."
+      },
+      pathToRoot: "Tactics Don't Match Behavior → Wrong Channels → Prospects Don't Know We Exist"
+    }
+  },
+  'budget-wrong-activities': {
+    explanation: "You're spending money on low-ROI activities (e.g., expensive trade shows) while neglecting high-ROI ones (e.g., SEO, email).",
+    relatedProblems: ['wrong-channels', 'events-no-roi', 'ads-expensive'],
+    impactAnalysis: {
+      financialImpact: "Direct waste of marketing budget; missed opportunities in better channels.",
+      severity: "Major",
+      affectedAreas: ['Marketing ROI', 'Profitability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Medium',
+      quickWins: ["Calculate ROI of each channel", "Cut bottom 20%", "Reallocate to top performers"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Not tracking ROI", "Emotional attachment to certain tactics", "Sunk cost fallacy"],
+      automationPotential: {
+        rating: 'High',
+        example: "Marketing attribution software (HubSpot, Google Analytics 4) shows exact ROI per channel."
+      },
+      pathToRoot: "Budget on Wrong Activities → Wrong Channels → Prospects Don't Know We Exist"
+    }
+  },
+  // OUTREACH ISSUES (LEVEL 7)
+  'lists-outdated': {
+    explanation: "You're emailing or calling prospects from old, bought, or scraped lists. Most contacts are invalid, irrelevant, or already annoyed by spam.",
+    relatedProblems: ['outreach-issues', 'getting-ignored', 'outbound-spammy'],
+    impactAnalysis: {
+      financialImpact: "Wasted labor and tools; domain reputation damage; potential legal issues (GDPR/CAN-SPAM).",
+      severity: "Moderate",
+      affectedAreas: ['Outbound Effectiveness', 'Brand Reputation'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Clean list (remove bounces, unsubscribes)", "Use real-time data providers (Apollo, ZoomInfo)", "Verify emails before sending"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Bought cheap list", "Haven't updated in months/years", "No data hygiene process"],
+      automationPotential: {
+        rating: 'High',
+        example: "Email verification tools (NeverBounce, ZeroBounce) auto-clean lists."
+      },
+      pathToRoot: "Lists Outdated → Outreach Issues → Prospects Don't Know We Exist"
+    }
+  },
+  // MESSAGE DOESN'T RESONATE (LEVEL 7)
+  'talking-us-not-problems': {
+    explanation: "Your marketing talks about you—your features, your company, your awards—not their problems, desires, or transformation. It's all 'We' and no 'You'.",
+    relatedProblems: ['message-no-resonate', 'benefits-unclear', 'generic-messaging'],
+    impactAnalysis: {
+      financialImpact: "Low engagement; high bounce rate; prospects tune out.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'Engagement'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Rewrite homepage to start with their problem", "Count 'You' vs 'We' ratio (should be 3:1)", "Lead with pain not features"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Ego-driven marketing", "Copywriting 101 not learned", "Internal focus"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI copywriting tools (Jasper, Copy.ai) can reframe features as benefits."
+      },
+      pathToRoot: "Talking About Us → Message Doesn't Resonate → Prospects Aware But Don't Engage"
+    }
+  },
+  'wrong-language': {
+    explanation: "You're either using too much jargon (confusing) or not enough industry terminology (not credible). The language doesn't match how your audience talks.",
+    relatedProblems: ['message-no-resonate', 'doesnt-speak-pain', 'explanation-complicated'],
+    impactAnalysis: {
+      financialImpact: "Low trust; high friction; prospects don't 'Get it'.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'Trust'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 weeks",
+      difficulty: 'Easy',
+      quickWins: ["Mine customer reviews for exact phrases they use", "Interview 5 customers about how they describe their problem", "Mirror their language back"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Assuming your vocabulary is theirs", "Technical background showing through", "No customer research"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI text analysis of customer support tickets and reviews reveals their exact language."
+      },
+      pathToRoot: "Wrong Language → Message Doesn't Resonate → Prospects Aware But Don't Engage"
+    }
+  },
+  'benefits-unclear': {
+    explanation: "You list features but don't translate them into benefits. Prospects think 'So what?' because you haven't connected the dots for them.",
+    relatedProblems: ['message-no-resonate', 'unclear-value-prop', 'talking-us-not-problems'],
+    impactAnalysis: {
+      financialImpact: "Low conversion; prospects don't see value; price becomes only differentiator.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'Perceived Value'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["For every feature, add 'Which means...' and state the benefit", "Focus on outcomes not inputs", "Show before/after transformation"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Inside-out thinking", "Feature-focused product development", "Poor copywriting"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI can convert feature lists to benefit statements using frameworks like PAS (Problem-Agitate-Solution)."
+      },
+      pathToRoot: "Benefits Unclear → Message Doesn't Resonate → Prospects Aware But Don't Engage"
+    }
+  },
+  'doesnt-speak-pain': {
+    explanation: "Your messaging focuses on aspirational outcomes but doesn't acknowledge or amplify the current pain. Pain is a stronger motivator than gain for most buyers.",
+    relatedProblems: ['message-no-resonate', 'talking-us-not-problems'],
+    impactAnalysis: {
+      financialImpact: "Low urgency; prospects delay; 'Maybe later' becomes 'Never'.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'Deal Velocity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Open with the pain point", "Use emotional language around current struggle", "Make the cost of inaction clear"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Accentuate the positive' mindset", "Not understanding emotional triggers", "Fear of being 'Negative'"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI sentiment analysis can identify high-pain keywords and phrases from reviews."
+      },
+      pathToRoot: "Doesn't Speak to Pain → Message Doesn't Resonate → Prospects Aware But Don't Engage"
+    }
+  },
+  'generic-messaging': {
+    explanation: "Your message could apply to anyone. 'We help businesses grow' or 'Quality service, affordable prices.' Nothing specific, memorable, or differentiated.",
+    relatedProblems: ['message-no-resonate', 'generic-positioning', 'looks-like-everyone'],
+    impactAnalysis: {
+      financialImpact: "Invisible in market; no recall; confused prospects; price competition.",
+      severity: "Major",
+      affectedAreas: ['Brand Differentiation', 'Conversion Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Add specific numbers or niche", "State WHO you serve and the TRANSFORMATION you create", "Avoid platitudes ('Best quality', 'Customer-first')"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of being too niche", "Copying competitors", "No clear positioning"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI competitor analysis tools identify overused phrases to avoid."
+      },
+      pathToRoot: "Generic Messaging → Message Doesn't Resonate → Prospects Aware But Don't Engage"
+    }
+  },
+  // OFFER NOT COMPELLING (LEVEL 7)
+  'looks-like-everyone': {
+    explanation: "Your service offering, pricing, packaging, and presentation are indistinguishable from competitors. There's no clear reason to choose you over them.",
+    relatedProblems: ['offer-not-compelling', 'no-differentiation', 'generic-positioning'],
+    impactAnalysis: {
+      financialImpact: "Price becomes the only decision factor; low margins; high churn.",
+      severity: "Critical",
+      affectedAreas: ['Differentiation', 'Pricing Power', 'Win Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Hard',
+      quickWins: ["Add one unique element to your offer", "Change packaging or delivery format", "Identify your 'Unfair advantage'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Copying industry standards", "Fear of being different", "No strategic positioning"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Strategic differentiation is human-driven, but AI can analyze competitor positioning gaps."
+      },
+      pathToRoot: "Looks Like Everyone → Offer Not Compelling → Prospects Aware But Don't Engage"
+    }
+  },
+  'no-differentiation': {
+    explanation: "You have not clearly articulated what makes you different. Even if differences exist, they are invisible to prospects because you haven't communicated them.",
+    relatedProblems: ['offer-not-compelling', 'differentiation-unclear', 'looks-like-everyone'],
+    impactAnalysis: {
+      financialImpact: "Commoditization; price competition; low brand value.",
+      severity: "Major",
+      affectedAreas: ['Pricing Power', 'Brand Equity', 'Win Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 months",
+      difficulty: 'Medium',
+      quickWins: ["Complete a positioning canvas (target, problem, solution, alternatives, differentiation)", "Ask customers why they chose you", "Make your USP prominent"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Never did positioning work", "Assumed differences were obvious", "Internal vs external perspective gap"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI-powered competitive analysis identifies white space opportunities."
+      },
+      pathToRoot: "No Differentiation → Offer Not Compelling → Prospects Aware But Don't Engage"
+    }
+  },
+  'generic-positioning': {
+    explanation: "Your positioning is broad and vague. You serve 'Everyone' with 'Everything,' which means you are memorable to no one.",
+    relatedProblems: ['offer-not-compelling', 'generic-messaging', 'no-differentiation'],
+    impactAnalysis: {
+      financialImpact: "High CAC; low conversion; difficult to scale marketing.",
+      severity: "Major",
+      affectedAreas: ['Marketing Efficiency', 'Brand Strength'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 months",
+      difficulty: 'Medium',
+      quickWins: ["Choose one niche to dominate first", "Rewrite positioning statement with specificity", "Say no to projects outside your niche"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of turning away business", "No strategic clarity", "Generalist background"],
+      automationPotential: {
+        rating: 'Low',
+        example: "AI can help analyze market segments, but strategic positioning is a human decision."
+      },
+      pathToRoot: "Generic Positioning → Offer Not Compelling → Prospects Aware But Don't Engage"
+    }
+  },
+  'nothing-unique': {
+    explanation: "There is genuinely nothing unique about your service. You are a pure commodity, and the only way to compete is on price or availability.",
+    relatedProblems: ['offer-not-compelling', 'commoditized-service', 'looks-like-everyone'],
+    impactAnalysis: {
+      financialImpact: "Race to bottom on price; zero brand value; unsustainable margins.",
+      severity: "Critical",
+      affectedAreas: ['Profitability', 'Business Sustainability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Create a proprietary process or framework", "Bundle services uniquely", "Add a unique guarantee or delivery model"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Never innovated beyond industry standard", "Lack of strategic thinking", "Survival mode (reactive business)"],
+      automationPotential: {
+        rating: 'High',
+        example: "Building proprietary AI or automation into your service creates instant differentiation."
+      },
+      pathToRoot: "Nothing Unique → Offer Not Compelling → Prospects Aware But Don't Engage"
+    }
+  },
+  'doesnt-stand-out': {
+    explanation: "Your offer might be good, but it's visually, verbally, and experientially bland. Nothing catches the eye or ear. You blend into the background.",
+    relatedProblems: ['offer-not-compelling', 'design-amateur', 'not-memorable'],
+    impactAnalysis: {
+      financialImpact: "Low attention capture; poor recall; high prospect drop-off.",
+      severity: "Moderate",
+      affectedAreas: ['Brand Recognition', 'Conversion Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-2 months",
+      difficulty: 'Medium',
+      quickWins: ["Redesign key brand elements for boldness", "Use contrarian or provocative messaging", "Add visual/experiential 'Wow' factor"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Playing it safe", "No design/brand investment", "Risk aversion"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI design tools (Canva, Looka) can create standout visuals quickly."
+      },
+      pathToRoot: "Doesn't Stand Out → Offer Not Compelling → Prospects Aware But Don't Engage"
+    }
+  },
+  // WRONG TIMING (LEVEL 7)
+  'not-buying-mode': {
+    explanation: "You're reaching prospects when they are not actively looking for a solution. They might have the problem but no urgency to solve it right now.",
+    relatedProblems: ['wrong-timing', 'not-nurturing', 'problem-not-urgent'],
+    impactAnalysis: {
+      financialImpact: "Low conversion despite interest; long sales cycles; high follow-up burden.",
+      severity: "Moderate",
+      affectedAreas: ['Conversion Rate', 'Deal Velocity'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Build a nurture sequence for 'Not now'", "Ask 'When would be a better time?'", "Stay top-of-mind via content"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Outbound to cold lists", "No trigger-based outreach", "No long-term nurture"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated drip campaigns keep you top-of-mind until buying mode activates."
+      },
+      pathToRoot: "Not in Buying Mode → Wrong Timing → Prospects Aware But Don't Engage"
+    }
+  },
+  'not-nurturing': {
+    explanation: "You contact prospects once, they say 'Not now,' and you give up. No follow-up, no nurturing, no staying in touch. You let them go cold.",
+    relatedProblems: ['wrong-timing', 'no-followup', 'one-and-done'],
+    impactAnalysis: {
+      financialImpact: "Massive lost opportunity; 80% of sales happen after 5+ touches.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'Pipeline Efficiency'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Build a 6-month email nurture sequence", "Follow up at 1 week, 1 month, 3 months", "Provide value in each touch (not just 'Checking in')"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of CRM or follow-up system", "Impatience", "Fear of being annoying"],
+      automationPotential: {
+        rating: 'High',
+        example: "Marketing automation (HubSpot, ActiveCampaign) handles nurturing automatically."
+      },
+      pathToRoot: "Not Nurturing → Wrong Timing → Prospects Aware But Don't Engage"
+    }
+  },
+  'no-followup': {
+    explanation: "You send one message or have one conversation, then wait for them to come back to you. Most won't. No follow-up means no sales.",
+    relatedProblems: ['not-nurturing', 'one-and-done', 'following-up-inconsistently'],
+    impactAnalysis: {
+      financialImpact: "Conversion rate drops by 50-80% without follow-up.",
+      severity: "Critical",
+      affectedAreas: ['Sales Conversion', 'Pipeline Efficiency'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Set reminders to follow up 2, 7, and 14 days after initial contact", "Use CRM to track follow-ups", "Create follow-up templates"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Forgetting", "Assuming they'll reach out if interested", "Fear of rejection"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated follow-up sequences trigger based on prospect behavior."
+      },
+      pathToRoot: "No Follow-Up → Wrong Timing → Prospects Aware But Don't Engage"
+    }
+  },
+  'one-and-done': {
+    explanation: "You give up after the first attempt. One email, one call, one message. This is the most common sales mistake and kills 80% of potential deals.",
+    relatedProblems: ['no-followup', 'not-nurturing', 'inconsistent-effort'],
+    impactAnalysis: {
+      financialImpact: "Leaving 80% of revenue on the table; massive opportunity cost.",
+      severity: "Critical",
+      affectedAreas: ['Sales Effectiveness', 'Revenue Growth'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Commit to minimum 5 touches per prospect", "Space them out over weeks/months", "Vary the medium (email, call, LinkedIn)"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of being pushy", "Lack of persistence", "No system"],
+      automationPotential: {
+        rating: 'High',
+        example: "Sales engagement platforms (Outreach, SalesLoft) automate multi-touch sequences."
+      },
+      pathToRoot: "One-and-Done → Wrong Timing → Prospects Aware But Don't Engage"
+    }
+  },
+  // NO CLEAR NEXT STEP (LEVEL 7)
+  'no-cta': {
+    explanation: "Your marketing or sales conversation ends with no call-to-action. Prospects are interested but don't know what to do next, so they do nothing.",
+    relatedProblems: ['no-clear-next-step', 'cta-unclear'],
+    impactAnalysis: {
+      financialImpact: "Huge drop-off at conversion point; lost qualified leads.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'Sales Effectiveness'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Add a clear CTA to every page, email, and conversation", "Make it one specific action", "Tell them exactly what happens next"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Assumption that prospects will figure it out", "Passive selling", "Fear of being pushy"],
+      automationPotential: {
+        rating: 'Low',
+        example: "This is a human/design fix, but A/B testing tools can optimize CTA wording."
+      },
+      pathToRoot: "No CTA → No Clear Next Step → Prospects Aware But Don't Engage"
+    }
+  },
+  'cta-unclear': {
+    explanation: "Your CTA exists but is vague or confusing. 'Learn more,' 'Get started,' 'Contact us'—these don't tell prospects what will actually happen or why they should click.",
+    relatedProblems: ['no-clear-next-step', 'no-cta', 'too-much-friction'],
+    impactAnalysis: {
+      financialImpact: "Lower click-through and conversion rates; confused prospects bounce.",
+      severity: "Moderate",
+      affectedAreas: ['Conversion Rate', 'User Experience'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Make CTA specific ('Book a 15-min demo')", "Add value ('Get instant pricing')", "Reduce ambiguity"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Generic templates", "Not thinking from prospect's perspective", "Fear of commitment"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "A/B testing tools (Optimizely, VWO) identify best-performing CTA wording."
+      },
+      pathToRoot: "CTA Unclear → No Clear Next Step → Prospects Aware But Don't Engage"
+    }
+  },
+  'too-much-friction': {
+    explanation: "The next step requires too much effort, information, or commitment. Long forms, scheduling hassles, or unclear processes kill momentum.",
+    relatedProblems: ['no-clear-next-step', 'cta-unclear', 'ask-too-big'],
+    impactAnalysis: {
+      financialImpact: "Massive drop-off at conversion point; qualified leads lost due to process friction.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'User Experience'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Reduce form fields to 3 max", "Add one-click scheduling (Calendly)", "Remove unnecessary steps"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Internal process requirements overriding UX", "No funnel optimization", "Lack of awareness"],
+      automationPotential: {
+        rating: 'High',
+        example: "Form builders and scheduling tools (Calendly, Typeform) eliminate friction."
+      },
+      pathToRoot: "Too Much Friction → No Clear Next Step → Prospects Aware But Don't Engage"
+    }
+  },
+  'ask-too-big': {
+    explanation: "Your first ask is too large. 'Sign a 12-month contract' or 'Pay $10k upfront.' You haven't built enough trust or demonstrated value yet.",
+    relatedProblems: ['no-clear-next-step', 'too-much-friction', 'risk-too-high'],
+    impactAnalysis: {
+      financialImpact: "High abandonment rate; long sales cycles; low close rate.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'Deal Velocity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Create a micro-commitment first step ('Free consultation', '7-day trial')", "Build a value ladder", "Reduce risk perception"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["No low-commitment offer", "Impatience to close", "Not understanding buyer psychology"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated lead magnets and trials lower the first commitment threshold."
+      },
+      pathToRoot: "Ask Too Big → No Clear Next Step → Prospects Aware But Don't Engage"
+    }
+  },
+  'multiple-conflicting-cta': {
+    explanation: "Your page or pitch has too many CTAs (Book a demo, Download whitepaper, Subscribe, Call us). Paradox of choice leads to no action.",
+    relatedProblems: ['no-clear-next-step', 'too-many-options', 'cta-unclear'],
+    impactAnalysis: {
+      financialImpact: "Conversion rate drops significantly; confused prospects leave.",
+      severity: "Moderate",
+      affectedAreas: ['Conversion Rate', 'Clarity'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Choose ONE primary CTA per page", "Make it prominent", "Remove or hide secondary options"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Trying to please everyone", "No prioritization", "Internal politics (everyone wants their CTA)"],
+      automationPotential: {
+        rating: 'Low',
+        example: "A/B testing can determine which single CTA performs best."
+      },
+      pathToRoot: "Multiple Conflicting CTAs → No Clear Next Step → Prospects Aware But Don't Engage"
+    }
+  },
+  // CONTENT/CREATIVE WEAK (LEVEL 7)
+  'design-amateur': {
+    explanation: "Your website, ads, or materials look unprofessional—bad fonts, low-quality images, poor layout. This signals 'Amateur' and kills trust before they even read your message.",
+    relatedProblems: ['content-weak', 'website-unprofessional', 'doesnt-stand-out'],
+    impactAnalysis: {
+      financialImpact: "High bounce rate; low trust; inability to charge premium prices.",
+      severity: "Major",
+      affectedAreas: ['Brand Perception', 'Trust', 'Conversion Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 weeks",
+      difficulty: 'Easy',
+      quickWins: ["Hire a designer on Fiverr/Upwork for quick fixes", "Use professional templates (Webflow, Framer)", "Invest in brand photography"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["DIY everything", "No budget for design", "Undervaluing importance of aesthetics"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI design tools (Canva, Looka, Uizard) create professional-looking assets quickly."
+      },
+      pathToRoot: "Design Looks Amateur → Content/Creative Weak → Prospects Aware But Don't Engage"
+    }
+  },
+  'copy-boring': {
+    explanation: "Your copy is technically correct but lifeless. No personality, no emotion, no storytelling. Prospects read it and feel nothing, remember nothing.",
+    relatedProblems: ['content-weak', 'no-hook', 'not-memorable'],
+    impactAnalysis: {
+      financialImpact: "Low engagement; high bounce rate; no emotional connection.",
+      severity: "Moderate",
+      affectedAreas: ['Engagement', 'Brand Connection'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-2 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Hire a copywriter", "Study great copy (examples from your niche)", "Add storytelling, metaphors, and emotion"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Engineering/technical background", "Fear of being too bold", "No copywriting skill"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI copywriting tools (Jasper, Copy.ai) can punch up bland copy."
+      },
+      pathToRoot: "Copy Boring → Content/Creative Weak → Prospects Aware But Don't Engage"
+    }
+  },
+  'no-hook': {
+    explanation: "Your content doesn't grab attention in the first 3 seconds. No compelling headline, no pattern interrupt, no curiosity gap. Prospects scroll right past.",
+    relatedProblems: ['content-weak', 'copy-boring', 'doesnt-stand-out'],
+    impactAnalysis: {
+      financialImpact: "Zero engagement despite ad spend; wasted content production.",
+      severity: "Major",
+      affectedAreas: ['Attention Capture', 'Engagement Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Study viral content in your niche", "Use proven hook formulas ('How to X without Y')", "Lead with surprising stat or bold claim"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Burying the lede", "No copywriting training", "Playing it too safe"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI tools analyze high-performing hooks and suggest variations."
+      },
+      pathToRoot: "No Hook → Content/Creative Weak → Prospects Aware But Don't Engage"
+    }
+  },
+  'too-much-text': {
+    explanation: "Your page or ad is a wall of text. No one reads anymore—they scan. Dense paragraphs with no visuals or breaks get ignored.",
+    relatedProblems: ['content-weak', 'design-amateur', 'explanation-complicated'],
+    impactAnalysis: {
+      financialImpact: "High bounce rate; key messages never seen; low conversion.",
+      severity: "Moderate",
+      affectedAreas: ['Engagement', 'Conversion Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Break text into short paragraphs (2-3 lines max)", "Add bullet points, subheadings, and images", "Use white space liberally"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Academic or technical writing background", "Trying to explain everything", "No design awareness"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI editing tools (Hemingway, Grammarly) suggest readability improvements."
+      },
+      pathToRoot: "Too Much Text → Content/Creative Weak → Prospects Aware But Don't Engage"
+    }
+  },
+  'unclear-value-prop': {
+    explanation: "After visiting your site or reading your message, prospects still don't understand what you do, who it's for, or why it matters. Confusion kills conversion.",
+    relatedProblems: ['content-weak', 'benefits-unclear', 'explanation-complicated'],
+    impactAnalysis: {
+      financialImpact: "High bounce rate; low conversion; confused prospects leave.",
+      severity: "Critical",
+      affectedAreas: ['Clarity', 'Conversion Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Medium',
+      quickWins: ["Use the formula: 'We help [WHO] achieve [WHAT] without [PAIN]'", "Test with 5 strangers: 'What do we do?'", "Make it your homepage headline"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Inside-out thinking", "Trying to serve everyone", "No clear positioning"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI can test value prop clarity with simulated audiences."
+      },
+      pathToRoot: "Unclear Value Prop → Content/Creative Weak → Prospects Aware But Don't Engage"
+    }
+  },
+  // TRUST SIGNALS MISSING (LEVEL 7)
+  'no-social-proof': {
+    explanation: "You have no visible testimonials, reviews, ratings, or client logos. Prospects have no external validation that you're legit or effective.",
+    relatedProblems: ['trust-signals-missing', 'no-testimonials', 'no-recognizable-clients'],
+    impactAnalysis: {
+      financialImpact: "Low trust; high skepticism; prospects choose competitors with proof.",
+      severity: "Major",
+      affectedAreas: ['Trust', 'Conversion Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Ask 5 happy customers for testimonials this week", "Add star ratings or review widgets", "Display client logos"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Never asked for testimonials", "Forgot to add them to site", "No social proof strategy"],
+      automationPotential: {
+        rating: 'High',
+        example: "Review collection tools (Trustpilot, Birdeye) automate gathering and displaying social proof."
+      },
+      pathToRoot: "No Social Proof → Trust Signals Missing → Prospects Aware But Don't Engage"
+    }
+  },
+  'no-credentials': {
+    explanation: "You have no visible credentials, certifications, awards, or recognitions. Prospects can't assess your authority or expertise.",
+    relatedProblems: ['trust-signals-missing', 'anonymous-brand', 'look-too-small'],
+    impactAnalysis: {
+      financialImpact: "Lower trust; inability to command premium pricing; longer sales cycles.",
+      severity: "Moderate",
+      affectedAreas: ['Authority', 'Trust', 'Pricing Power'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Display any existing certifications prominently", "Join industry associations", "Pursue relevant certifications", "Publish thought leadership"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["New business", "Haven't pursued credentials", "Undervaluing importance of authority signals"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Authority building is human-driven, but AI can help publish thought leadership content."
+      },
+      pathToRoot: "No Credentials → Trust Signals Missing → Prospects Aware But Don't Engage"
+    }
+  },
+  'anonymous-brand': {
+    explanation: "Your brand has no face, name, or personality. It's a faceless entity. People buy from people, not corporations.",
+    relatedProblems: ['trust-signals-missing', 'no-credentials', 'new-unknown'],
+    impactAnalysis: {
+      financialImpact: "Low trust; difficulty building relationships; harder to differentiate.",
+      severity: "Moderate",
+      affectedAreas: ['Trust', 'Brand Connection'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Put founder photo and bio on About page", "Show your face in content", "Use personal stories"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Hiding behind brand", "Shyness or privacy concerns", "Corporate mindset"],
+      automationPotential: {
+        rating: 'Low',
+        example: "AI-generated avatars and voices can add personality, but real humans build more trust."
+      },
+      pathToRoot: "Anonymous Brand → Trust Signals Missing → Prospects Aware But Don't Engage"
+    }
+  },
+  'new-unknown': {
+    explanation: "Your brand is new with no track record. Prospects are risk-averse and prefer established players. You haven't built any brand equity yet.",
+    relatedProblems: ['trust-signals-missing', 'too-new-unproven', 'no-track-record'],
+    impactAnalysis: {
+      financialImpact: "High skepticism; need to offer more proof or lower prices; longer sales cycles.",
+      severity: "Major",
+      affectedAreas: ['Trust', 'Pricing Power', 'Win Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Leverage founder's previous experience", "Offer guarantees or trials", "Build case studies ASAP"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["New business", "No prior track record to transfer"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Trust building is human and time-based, but AI-powered content can accelerate thought leadership."
+      },
+      pathToRoot: "New/Unknown Brand → Trust Signals Missing → Prospects Aware But Don't Engage"
+    }
+  },
+  // DON'T TRUST US (LEVEL 7)
+  'no-testimonials': {
+    explanation: "You have no customer testimonials displayed anywhere. Prospects can't hear from real people who have used and benefited from your service.",
+    relatedProblems: ['dont-trust', 'no-social-proof', 'no-track-record'],
+    impactAnalysis: {
+      financialImpact: "Significantly reduced conversion rate; prospects choose competitors with testimonials.",
+      severity: "Major",
+      affectedAreas: ['Trust', 'Conversion Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Email 10 happy customers asking for a testimonial", "Record video testimonials (even selfie-style)", "Add testimonials to homepage, pricing, and checkout"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Never asked", "Afraid of rejection", "Don't know where to put them"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated review request emails after project completion (via Trustpilot, Boast)."
+      },
+      pathToRoot: "No Testimonials → Don't Trust Us → Prospects Engage But Don't Buy"
+    }
+  },
+  'no-track-record': {
+    explanation: "You have no visible history of success. No case studies, no portfolio, no results shown. Prospects see you as unproven and risky.",
+    relatedProblems: ['dont-trust', 'no-case-studies', 'too-new-unproven'],
+    impactAnalysis: {
+      financialImpact: "Low close rate; inability to charge premium; only price-sensitive customers buy.",
+      severity: "Major",
+      affectedAreas: ['Trust', 'Pricing Power', 'Win Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Build 3 detailed case studies from best clients", "Show before/after results with numbers", "Offer first clients a discount in exchange for case study rights"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["New business", "Haven't documented results", "Client confidentiality concerns (get permission)"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI case study templates can speed up creation, but stories must be real."
+      },
+      pathToRoot: "No Track Record → Don't Trust Us → Prospects Engage But Don't Buy"
+    }
+  },
+  'website-unprofessional': {
+    explanation: "Your website looks outdated, broken, or cheap. Poor design, slow load times, or missing information signal that your service quality might be similarly poor.",
+    relatedProblems: ['dont-trust', 'design-amateur', 'no-website'],
+    impactAnalysis: {
+      financialImpact: "High bounce rate; lost credibility; prospects don't even engage.",
+      severity: "Critical",
+      affectedAreas: ['Brand Perception', 'Trust', 'Conversion Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Redesign with a professional template (Webflow, Framer)", "Hire a freelancer", "Fix broken links and speed issues immediately"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Built it yourself years ago", "No budget allocated", "Underestimating impact of web presence"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI website builders (10Web, Durable) create professional sites in minutes."
+      },
+      pathToRoot: "Website Unprofessional → Don't Trust Us → Prospects Engage But Don't Buy"
+    }
+  },
+  'no-case-studies': {
+    explanation: "You have no documented success stories. Prospects can't visualize how you've solved similar problems or what results to expect.",
+    relatedProblems: ['dont-trust', 'no-track-record', 'no-testimonials'],
+    impactAnalysis: {
+      financialImpact: "Longer sales cycles; lower close rates; inability to prove ROI.",
+      severity: "Major",
+      affectedAreas: ['Sales Conversion', 'Trust'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2-4 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Document 3 wins with specific numbers", "Use Problem-Solution-Results format", "Get client permission and publish"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Never took time to document", "Confidentiality fears", "Don't know how to write them"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI can draft case studies from interview transcripts or project summaries."
+      },
+      pathToRoot: "No Case Studies → Don't Trust Us → Prospects Engage But Don't Buy"
+    }
+  },
+  'cant-find-reviews': {
+    explanation: "When prospects Google you or search review sites, they find nothing—or worse, bad reviews. No reviews = no trust in modern buying.",
+    relatedProblems: ['dont-trust', 'no-social-proof', 'no-testimonials'],
+    impactAnalysis: {
+      financialImpact: "Lost deals to competitors with reviews; prospects ghost after research phase.",
+      severity: "Major",
+      affectedAreas: ['Trust', 'Conversion Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 months",
+      difficulty: 'Easy',
+      quickWins: ["Claim Google Business Profile", "Ask happy clients to leave Google/Trustpilot reviews", "Respond to all reviews (good and bad)"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Never actively solicited reviews", "Don't have review profiles set up", "Afraid of bad reviews"],
+      automationPotential: {
+        rating: 'High',
+        example: "Review request automation (Birdeye, Podium) asks for reviews automatically post-service."
+      },
+      pathToRoot: "Can't Find Reviews → Don't Trust Us → Prospects Engage But Don't Buy"
+    }
+  },
+  'no-recognizable-clients': {
+    explanation: "You have no well-known brands or logos to display. Prospects can't use social proof shortcuts ('If X trusts them, I can too').",
+    relatedProblems: ['dont-trust', 'no-social-proof', 'too-new-unproven'],
+    impactAnalysis: {
+      financialImpact: "Harder to close enterprise or premium clients; lack of brand association.",
+      severity: "Moderate",
+      affectedAreas: ['Trust', 'Brand Perception'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "3-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Target one recognizable brand as a case study client (discount if needed)", "Display any known brands you've worked with", "Use industry recognition instead if no big logos"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["New business", "Serve SMBs not enterprises", "Haven't prioritized 'Trophy clients'"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Client acquisition is human-driven, but CRM can help target and track enterprise prospects."
+      },
+      pathToRoot: "No Recognizable Clients → Don't Trust Us → Prospects Engage But Don't Buy"
+    }
+  },
+  'too-new-unproven': {
+    explanation: "You just launched, have few or no clients, and no reputation. You're asking prospects to be guinea pigs. Most won't take that risk.",
+    relatedProblems: ['dont-trust', 'new-unknown', 'no-track-record'],
+    impactAnalysis: {
+      financialImpact: "Very high skepticism; need to discount or over-deliver to win early clients.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Pricing Power'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Offer first 5 clients a steep discount for testimonials/case studies", "Leverage founder's prior experience", "Offer money-back guarantee"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["New business", "No transferable reputation"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Trust is built over time with real results, but AI content can accelerate thought leadership."
+      },
+      pathToRoot: "Too New/Unproven → Don't Trust Us → Prospects Engage But Don't Buy"
+    }
+  },
+  'promises-too-good': {
+    explanation: "Your marketing promises seem unrealistic or exaggerated ('10X your revenue in 30 days!'). This triggers skepticism and 'Too good to be true' alarm bells.",
+    relatedProblems: ['dont-trust', 'results-unrealistic', 'cant-articulate-roi'],
+    impactAnalysis: {
+      financialImpact: "High skepticism; prospects assume scam; brand damage.",
+      severity: "Major",
+      affectedAreas: ['Trust', 'Brand Reputation'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Tone down hyperbolic claims", "Add caveats and realistic timelines", "Show proof for every claim"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Copying 'Guru' marketing", "Desperation", "Lack of ethical marketing standards"],
+      automationPotential: {
+        rating: 'Low',
+        example: "This is a messaging and ethics issue, not an automation opportunity."
+      },
+      pathToRoot: "Promises Too Good → Don't Trust Us → Prospects Engage But Don't Buy"
+    }
+  },
+  // DON'T UNDERSTAND OFFER (LEVEL 7)
+  'explanation-complicated': {
+    explanation: "Your service description is full of jargon, technical terms, or convoluted explanations. Prospects can't grasp what you actually do or how it helps them.",
+    relatedProblems: ['dont-understand-offer', 'process-unclear', 'wrong-language'],
+    impactAnalysis: {
+      financialImpact: "High drop-off; confused prospects don't buy; longer sales cycles re-explaining.",
+      severity: "Major",
+      affectedAreas: ['Clarity', 'Conversion Rate', 'Sales Efficiency'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Medium',
+      quickWins: ["Rewrite with 5th-grade reading level", "Use analogies and examples", "Test with someone outside your industry"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Technical background", "Trying to sound smart", "Inside-out thinking"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI readability tools (Hemingway, Grammarly) simplify language; AI can convert jargon to plain English."
+      },
+      pathToRoot: "Explanation Complicated → Don't Understand Offer → Prospects Engage But Don't Buy"
+    }
+  },
+  'too-many-options': {
+    explanation: "You offer too many packages, tiers, or add-ons. Paradox of choice overwhelms prospects, and they freeze rather than decide.",
+    relatedProblems: ['dont-understand-offer', 'pricing-structure-confusing', 'multiple-conflicting-cta'],
+    impactAnalysis: {
+      financialImpact: "Lower conversion; analysis paralysis; prospects delay or abandon.",
+      severity: "Moderate",
+      affectedAreas: ['Conversion Rate', 'Decision Speed'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Simplify to 3 clear options max", "Add a 'Most popular' recommendation", "Offer a quiz to guide choice"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Trying to serve everyone", "Adding options without removing old ones", "Fear of missing a sale"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI recommendation engines guide customers to the right option based on their answers."
+      },
+      pathToRoot: "Too Many Options → Don't Understand Offer → Prospects Engage But Don't Buy"
+    }
+  },
+  'unclear-included': {
+    explanation: "Prospects don't know exactly what they're getting. What's included? What's extra? Ambiguity creates anxiety and blocks purchase decisions.",
+    relatedProblems: ['dont-understand-offer', 'process-unclear', 'pricing-structure-confusing'],
+    impactAnalysis: {
+      financialImpact: "Low trust; high pre-sale support burden; lost deals due to uncertainty.",
+      severity: "Moderate",
+      affectedAreas: ['Clarity', 'Conversion Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Create a clear 'What's Included' list", "Add FAQs addressing scope questions", "Use checkmarks and bullets for clarity"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Assumed it was obvious", "Custom scopes make it hard to define", "Fear of being too specific"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Interactive scope builders let prospects see what's included as they configure."
+      },
+      pathToRoot: "Unclear What's Included → Don't Understand Offer → Prospects Engage But Don't Buy"
+    }
+  },
+  'process-unclear': {
+    explanation: "Prospects don't understand what happens after they buy. How does onboarding work? What are the steps? How long does it take? Mystery creates friction.",
+    relatedProblems: ['dont-understand-offer', 'unclear-included', 'explanation-complicated'],
+    impactAnalysis: {
+      financialImpact: "Hesitation at purchase; longer sales cycles; lost deals to clearer competitors.",
+      severity: "Moderate",
+      affectedAreas: ['Conversion Rate', 'Sales Efficiency'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Create a visual 'How It Works' section (1. You do X, 2. We do Y, 3. You get Z)", "Add a timeline", "Show sample deliverables"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Internal focus", "Assumed prospects know the process", "No documented process to show"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Interactive process walkthroughs or explainer videos can clarify."
+      },
+      pathToRoot: "Process Unclear → Don't Understand Offer → Prospects Engage But Don't Buy"
+    }
+  },
+  'pricing-structure-confusing': {
+    explanation: "Your pricing is complex, hard to calculate, or full of caveats. Prospects can't figure out what they'll actually pay, so they don't commit.",
+    relatedProblems: ['dont-understand-offer', 'unclear-included', 'payment-terms-dont-work'],
+    impactAnalysis: {
+      financialImpact: "Lost deals; high pre-sale support; sticker shock surprises kill trust.",
+      severity: "Major",
+      affectedAreas: ['Clarity', 'Trust', 'Conversion Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Medium',
+      quickWins: ["Simplify to flat pricing if possible", "Add a pricing calculator", "Show total cost upfront with no hidden fees"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Complex variable pricing", "Trying to hide true cost", "No pricing strategy"],
+      automationPotential: {
+        rating: 'High',
+        example: "Pricing calculators and configurators make costs transparent and instant."
+      },
+      pathToRoot: "Pricing Structure Confusing → Don't Understand Offer → Prospects Engage But Don't Buy"
+    }
+  },
+  'terms-unclear': {
+    explanation: "Your contract terms, refund policy, or commitments are vague or buried in fine print. Prospects fear hidden traps.",
+    relatedProblems: ['dont-understand-offer', 'risk-too-high', 'no-trial-guarantee'],
+    impactAnalysis: {
+      financialImpact: "Hesitation at purchase; legal friction; prospects choose clearer alternatives.",
+      severity: "Moderate",
+      affectedAreas: ['Trust', 'Conversion Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Create a simple 'Terms Summary' page", "Highlight key terms on pricing page", "Make cancellation/refund policy prominent"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Legal-first thinking", "Hiding unfavorable terms", "No thought given to clarity"],
+      automationPotential: {
+        rating: 'Low',
+        example: "This is a legal/clarity issue, but AI can simplify legal language into plain terms."
+      },
+      pathToRoot: "Terms Unclear → Don't Understand Offer → Prospects Engage But Don't Buy"
+    }
+  },
+  // DON'T BELIEVE IT SOLVES THEIR PROBLEM (LEVEL 7)
+  'weak-case-studies': {
+    explanation: "Your case studies are vague, generic, or irrelevant to the prospect's situation. They don't see themselves in the stories you tell.",
+    relatedProblems: ['dont-believe-solves', 'no-proof-situation', 'situation-different'],
+    impactAnalysis: {
+      financialImpact: "Low credibility; prospects don't believe you can help them; longer sales cycles.",
+      severity: "Moderate",
+      affectedAreas: ['Trust', 'Conversion Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "2-4 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Rewrite case studies with specific numbers and context", "Match case studies to prospect's industry/problem", "Use Problem-Solution-Results format"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Generic templates", "No storytelling skill", "Protecting client confidentiality too much"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI can draft case studies from interview transcripts, but specificity requires real data."
+      },
+      pathToRoot: "Weak Case Studies → Don't Believe It Solves → Prospects Engage But Don't Buy"
+    }
+  },
+  'cant-articulate-roi': {
+    explanation: "You can't clearly explain the financial return prospects will get. No numbers, no payback period, no value quantification. Just vague promises.",
+    relatedProblems: ['dont-believe-solves', 'benefits-unclear', 'no-roi-proof'],
+    impactAnalysis: {
+      financialImpact: "Low conversion on high-ticket offers; budget objections; lost enterprise deals.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'Deal Size', 'Win Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Build an ROI calculator", "Show average client results in dollars/time saved", "Create before/after financial snapshots"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Never tracked client outcomes", "Fear of overpromising", "Soft outcomes (hard to quantify)"],
+      automationPotential: {
+        rating: 'High',
+        example: "Interactive ROI calculators automate value demonstration."
+      },
+      pathToRoot: "Can't Articulate ROI → Don't Believe It Solves → Prospects Engage But Don't Buy"
+    }
+  },
+  'no-proof-situation': {
+    explanation: "You have general proof, but nothing specific to their industry, size, or unique situation. They don't believe it will work for them.",
+    relatedProblems: ['dont-believe-solves', 'situation-different', 'weak-case-studies'],
+    impactAnalysis: {
+      financialImpact: "Lost deals to specialists; need to discount to overcome skepticism.",
+      severity: "Moderate",
+      affectedAreas: ['Win Rate', 'Pricing Power'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Hard',
+      quickWins: ["Build case studies for each major customer segment", "Offer a pilot or proof-of-concept", "Show process adaptability"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Generic marketing", "Haven't segmented case studies", "New to this type of client"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Dynamic case study displays can show the most relevant proof based on prospect profile."
+      },
+      pathToRoot: "No Proof for Their Situation → Don't Believe It Solves → Prospects Engage But Don't Buy"
+    }
+  },
+  'results-unrealistic': {
+    explanation: "Your promised results seem too big, too fast, or too good. This triggers skepticism rather than excitement.",
+    relatedProblems: ['dont-believe-solves', 'promises-too-good', 'cant-articulate-roi'],
+    impactAnalysis: {
+      financialImpact: "High skepticism; prospects assume exaggeration; brand damage.",
+      severity: "Major",
+      affectedAreas: ['Trust', 'Conversion Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Add realistic timelines and caveats", "Show range of outcomes (not just best case)", "Explain the process that creates results"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Hyperbolic marketing", "Cherry-picking best results", "Copying 'Guru' tactics"],
+      automationPotential: {
+        rating: 'Low',
+        example: "This is an ethics and messaging issue, not automation."
+      },
+      pathToRoot: "Results Seem Unrealistic → Don't Believe It Solves → Prospects Engage But Don't Buy"
+    }
+  },
+  'situation-different': {
+    explanation: "Prospects believe their situation is uniquely different or complex, so your solution won't work for them. Classic objection requiring empathy and proof.",
+    relatedProblems: ['dont-believe-solves', 'no-proof-situation', 'weak-case-studies'],
+    impactAnalysis: {
+      financialImpact: "Lost deals despite qualification; longer sales cycles overcoming objection.",
+      severity: "Moderate",
+      affectedAreas: ['Win Rate', 'Sales Efficiency'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Acknowledge their uniqueness, then show pattern similarities", "Offer customization or pilot", "Show diverse case studies"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Prospect rationalization", "Lack of relevant case studies", "Generic positioning"],
+      automationPotential: {
+        rating: 'Low',
+        example: "This is a sales objection requiring human empathy, but AI can suggest relevant case studies."
+      },
+      pathToRoot: "Situation Feels Different → Don't Believe It Solves → Prospects Engage But Don't Buy"
+    }
+  },
+  'missing-key-features': {
+    explanation: "Your solution is close but lacks one or two critical features the prospect needs. This deal-breaker prevents purchase.",
+    relatedProblems: ['dont-believe-solves', 'bad-fit-services'],
+    impactAnalysis: {
+      financialImpact: "Lost qualified deals; opportunity cost of not expanding offering.",
+      severity: "Moderate",
+      affectedAreas: ['Product-Market Fit', 'Win Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-6 months (depends on feature)",
+      difficulty: 'Hard',
+      quickWins: ["Track most-requested missing features", "Partner with another provider", "Build the feature if demand is high"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Product/service not fully developed", "Targeting wrong segment", "Not listening to customer needs"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Feature request tracking and prioritization tools guide product roadmap."
+      },
+      pathToRoot: "Missing Key Features → Don't Believe It Solves → Prospects Engage But Don't Buy"
+    }
+  },
+  // PRICE OBJECTION (LEVEL 7)
+  'sticker-shock': {
+    explanation: "Your price is higher than prospects expected. The surprise creates resistance, even if the value is there. Anchoring matters.",
+    relatedProblems: ['price-objection', 'cant-see-value', 'comparing-cheaper'],
+    impactAnalysis: {
+      financialImpact: "Lost deals at pricing reveal; need to justify or discount.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Pricing Integrity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Medium',
+      quickWins: ["Preview pricing range earlier in sales process", "Frame value before revealing price", "Anchor with higher option first"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Hiding price too long", "Market mispricing", "Weak value demonstration"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Pricing reveal sequences that build value first can reduce sticker shock."
+      },
+      pathToRoot: "Sticker Shock → Price Objection → Prospects Engage But Don't Buy"
+    }
+  },
+  'cant-see-value': {
+    explanation: "Prospects understand the price but don't see enough value to justify it. The value-to-price ratio feels off.",
+    relatedProblems: ['price-objection', 'benefits-unclear', 'cant-articulate-roi'],
+    impactAnalysis: {
+      financialImpact: "Forced discounting; inability to charge premium; commoditization.",
+      severity: "Major",
+      affectedAreas: ['Pricing Power', 'Margins'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Quantify ROI in dollar terms", "Show opportunity cost of not buying", "Add bonuses or guarantees to boost perceived value"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Weak value proposition", "Poor sales presentation", "Wrong target market (can't afford)"],
+      automationPotential: {
+        rating: 'High',
+        example: "Interactive ROI calculators and value demonstration tools show worth."
+      },
+      pathToRoot: "Can't See Value vs Cost → Price Objection → Prospects Engage But Don't Buy"
+    }
+  },
+  'payment-terms-dont-work': {
+    explanation: "Your payment structure doesn't fit their cash flow, budget cycle, or procurement process. They want to buy but can't with current terms.",
+    relatedProblems: ['price-objection', 'budget-not-available', 'timing-not-right-sales'],
+    impactAnalysis: {
+      financialImpact: "Lost qualified deals due to payment inflexibility; opportunity cost.",
+      severity: "Moderate",
+      affectedAreas: ['Win Rate', 'Revenue'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Offer payment plans or financing", "Accept POs for enterprise", "Allow quarterly vs annual billing"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Inflexible payment policy", "Not understanding customer needs", "Cash flow concerns on your side"],
+      automationPotential: {
+        rating: 'High',
+        example: "Financing integrations (Affirm, Klarna) or automated payment plans remove barriers."
+      },
+      pathToRoot: "Payment Terms Don't Work → Price Objection → Prospects Engage But Don't Buy"
+    }
+  },
+  'comparing-cheaper': {
+    explanation: "Prospects are comparing you to lower-priced competitors. Unless you've differentiated, price becomes the deciding factor.",
+    relatedProblems: ['price-objection', 'no-differentiation', 'competing-price'],
+    impactAnalysis: {
+      financialImpact: "Pressure to discount; margin erosion; lost deals to cheaper options.",
+      severity: "Major",
+      affectedAreas: ['Pricing Power', 'Win Rate', 'Margins'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Hard',
+      quickWins: ["Create a comparison table showing your advantages", "Quantify cost of cheap option (risks, quality)", "Refuse to compete on price alone"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Weak differentiation", "Commoditized service", "Wrong target market (price-sensitive)"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Differentiation is strategic, but AI can identify competitor weaknesses to highlight."
+      },
+      pathToRoot: "Comparing to Cheaper Alternatives → Price Objection → Prospects Engage But Don't Buy"
+    }
+  },
+  'budget-not-available': {
+    explanation: "Prospect has no budget allocated for your solution. They might want it, but the money isn't there (or isn't approved yet).",
+    relatedProblems: ['price-objection', 'not-decision-maker-budget', 'timing-not-right-sales'],
+    impactAnalysis: {
+      financialImpact: "Long sales cycles; lost deals to budget constraints.",
+      severity: "Major",
+      affectedAreas: ['Deal Velocity', 'Win Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Ask about budget early in discovery", "Help them build a business case", "Offer a smaller entry point"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Selling to unqualified prospects", "Budget timing misalignment", "Lack of urgency"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "CRM qualification questions filter out prospects without budget authority."
+      },
+      pathToRoot: "Budget Not Available → Price Objection → Prospects Engage But Don't Buy"
+    }
+  },
+  'not-decision-maker-budget': {
+    explanation: "You're talking to someone who likes your solution but has no authority to approve the budget. You need to reach the economic buyer.",
+    relatedProblems: ['price-objection', 'budget-not-available', 'not-qualifying'],
+    impactAnalysis: {
+      financialImpact: "Wasted sales effort; long cycles; deals stall or die.",
+      severity: "Major",
+      affectedAreas: ['Sales Efficiency', 'Win Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Ask upfront: 'Who makes budget decisions?'", "Request introduction to economic buyer", "Provide materials they can use to sell internally"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Poor qualification", "Not asking about decision-making process", "Avoiding difficult questions"],
+      automationPotential: {
+        rating: 'Low',
+        example: "This is a sales qualification and process issue requiring human intervention."
+      },
+      pathToRoot: "Not Decision Maker on Budget → Price Objection → Prospects Engage But Don't Buy"
+    }
+  },
+  'cost-benefit-unclear': {
+    explanation: "Prospects can't do the mental math on whether your price is worth it. The cost is clear, but the benefit isn't quantified.",
+    relatedProblems: ['price-objection', 'cant-articulate-roi', 'benefits-unclear'],
+    impactAnalysis: {
+      financialImpact: "Hesitation and lost deals; need to over-explain in every sale.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'Sales Efficiency'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Build a simple ROI calculator", "Show payback period clearly", "Use before/after dollar comparisons"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["No value quantification", "Soft benefits only", "Weak sales presentation"],
+      automationPotential: {
+        rating: 'High',
+        example: "Interactive ROI calculators automate cost-benefit demonstration."
+      },
+      pathToRoot: "Cost vs Benefit Unclear → Price Objection → Prospects Engage But Don't Buy"
+    }
+  },
+  // TIMING NOT RIGHT (SALES) - LEVEL 7
+  'problem-not-urgent': {
+    explanation: "The prospect acknowledges the problem but doesn't feel urgency to solve it now. It's on their 'Someday' list, not 'This quarter.'",
+    relatedProblems: ['timing-not-right-sales', 'other-priorities', 'want-think-about'],
+    impactAnalysis: {
+      financialImpact: "Pipeline full of stalled deals; low conversion; wasted nurture effort.",
+      severity: "Major",
+      affectedAreas: ['Deal Velocity', 'Conversion Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Agitate the pain (cost of inaction)", "Create urgency with limited-time offers", "Qualify for urgency upfront"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Problem isn't painful enough yet", "No triggering event", "Competing priorities"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated nurture sequences stay top-of-mind until urgency increases."
+      },
+      pathToRoot: "Problem Not Urgent → Timing Not Right → Prospects Engage But Don't Buy"
+    }
+  },
+  'budget-not-now': {
+    explanation: "Budget exists but isn't available right now due to fiscal year, seasonal constraints, or recent spending. They want to buy later.",
+    relatedProblems: ['timing-not-right-sales', 'budget-not-available', 'waiting-approval'],
+    impactAnalysis: {
+      financialImpact: "Delayed revenue; risk of losing deal to forgetfulness or competitor.",
+      severity: "Moderate",
+      affectedAreas: ['Revenue Timing', 'Pipeline Predictability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Easy',
+      quickWins: ["Ask when budget resets", "Set follow-up for that date", "Offer a small pilot now to reserve budget later"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Budget cycle misalignment", "Recent spending exhausted budget", "Unexpected expenses"],
+      automationPotential: {
+        rating: 'High',
+        example: "CRM reminders and automated follow-ups at the right time keep deals alive."
+      },
+      pathToRoot: "Budget Not Available Now → Timing Not Right → Prospects Engage But Don't Buy"
+    }
+  },
+  'other-priorities': {
+    explanation: "Prospect is interested but has other more urgent initiatives taking precedence. Your solution is important, but not #1.",
+    relatedProblems: ['timing-not-right-sales', 'problem-not-urgent', 'want-think-about'],
+    impactAnalysis: {
+      financialImpact: "Deals pushed to 'Later' often die; lost to competitors who create urgency.",
+      severity: "Moderate",
+      affectedAreas: ['Win Rate', 'Deal Velocity'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Understand their priorities", "Show how your solution supports their top priority", "Offer a phased approach"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Your solution isn't critical enough", "Poor timing", "Weak value positioning"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated check-ins keep you top-of-mind when priorities shift."
+      },
+      pathToRoot: "Other Priorities → Timing Not Right → Prospects Engage But Don't Buy"
+    }
+  },
+  'waiting-approval': {
+    explanation: "Prospect wants to move forward but needs internal approvals, legal review, or committee sign-off. They're stuck in internal process.",
+    relatedProblems: ['timing-not-right-sales', 'many-decision-makers', 'procurement-bottleneck'],
+    impactAnalysis: {
+      financialImpact: "Long sales cycles; deals stall; risk of losing to status quo.",
+      severity: "Moderate",
+      affectedAreas: ['Deal Velocity', 'Predictability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Ask about approval process upfront", "Provide materials to support internal selling", "Offer to join approval meetings"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Enterprise/complex org structures", "High-risk purchase requires multiple approvals", "Political dynamics"],
+      automationPotential: {
+        rating: 'Low',
+        example: "This is a human/political issue, but CRM can track approval stages."
+      },
+      pathToRoot: "Waiting on Approval → Timing Not Right → Prospects Engage But Don't Buy"
+    }
+  },
+  'want-think-about': {
+    explanation: "The classic stall. Prospect says they need time to think, often a polite way of saying 'No' or hiding another objection.",
+    relatedProblems: ['timing-not-right-sales', 'problem-not-urgent', 'other-priorities'],
+    impactAnalysis: {
+      financialImpact: "Most 'Think about it' deals die; lost time and effort.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Sales Efficiency'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Medium',
+      quickWins: ["Ask 'What specifically do you need to think about?'", "Uncover real objection", "Set specific next step"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Hidden objection", "Conflict avoidance", "Lack of urgency"],
+      automationPotential: {
+        rating: 'Low',
+        example: "This is a sales skill issue requiring human objection handling."
+      },
+      pathToRoot: "Want to Think About It → Timing Not Right → Prospects Engage But Don't Buy"
+    }
+  },
+  'need-finish-current': {
+    explanation: "Prospect is locked into a current provider or solution and needs to finish that contract, project, or commitment before considering yours.",
+    relatedProblems: ['timing-not-right-sales', 'switching-costs-high', 'incumbent-advantage'],
+    impactAnalysis: {
+      financialImpact: "Long wait times; risk competitor locks them in first.",
+      severity: "Moderate",
+      affectedAreas: ['Deal Timing', 'Win Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Easy',
+      quickWins: ["Ask when current contract/project ends", "Set calendar reminder", "Position as 'Next solution' now to build relationship"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Contract lock-in", "Mid-project disruption risk", "Switching costs"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated reminders and nurture sequences keep you top-of-mind until they're ready."
+      },
+      pathToRoot: "Need to Finish Current Solution → Timing Not Right → Prospects Engage But Don't Buy"
+    }
+  },
+  // SALES PROCESS WEAK (LEVEL 7)
+  'not-qualifying': {
+    explanation: "You're talking to anyone who shows interest instead of pre-qualifying for budget, authority, need, and timeline. This fills your pipeline with junk.",
+    relatedProblems: ['sales-process-weak', 'wrong-prospects', 'not-decision-maker-budget'],
+    impactAnalysis: {
+      financialImpact: "Wasted sales effort on unqualified leads; low close rate; burnout.",
+      severity: "Major",
+      affectedAreas: ['Sales Efficiency', 'Win Rate', 'Morale'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Implement BANT (Budget, Authority, Need, Timeline)", "Ask qualifying questions early", "Disqualify fast and move on"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Desperate for leads", "No sales process", "Fear of rejection"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated qualification forms and chatbots filter leads before sales involvement."
+      },
+      pathToRoot: "Not Qualifying → Sales Process Weak → Prospects Engage But Don't Buy"
+    }
+  },
+  'not-asking-discovery': {
+    explanation: "You jump straight to pitching without understanding the prospect's situation, pain, or goals. Generic pitches don't convert.",
+    relatedProblems: ['sales-process-weak', 'proposal-misses-mark', 'not-qualifying'],
+    impactAnalysis: {
+      financialImpact: "Low close rate; proposals that miss the mark; wasted effort.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Sales Effectiveness'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Create a discovery question checklist", "Listen 80%, talk 20%", "Understand before pitching"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Eagerness to sell", "No sales training", "Product-focused mindset"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "CRM prompts can guide discovery, but listening is a human skill."
+      },
+      pathToRoot: "Not Asking Good Discovery Questions → Sales Process Weak → Prospects Engage But Don't Buy"
+    }
+  },
+  'not-handling-objections': {
+    explanation: "When prospects raise objections, you either avoid them or become defensive instead of addressing them confidently and empathetically.",
+    relatedProblems: ['sales-process-weak', 'not-closing', 'too-pushy-not-assertive'],
+    impactAnalysis: {
+      financialImpact: "Lost deals at objection stage; weak negotiation position.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Deal Progress'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Study common objections and prepare responses", "Use framework: Acknowledge → Clarify → Respond → Confirm", "Role-play objection handling"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of sales training", "Fear of conflict", "Weak product confidence"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Objection handling is a human skill, but AI can suggest responses based on best practices."
+      },
+      pathToRoot: "Not Handling Objections → Sales Process Weak → Prospects Engage But Don't Buy"
+    }
+  },
+  'not-closing': {
+    explanation: "You never ask for the sale. You present, answer questions, then wait for them to decide. Most won't without a clear ask.",
+    relatedProblems: ['sales-process-weak', 'following-up-inconsistently', 'too-pushy-not-assertive'],
+    impactAnalysis: {
+      financialImpact: "Leaving 30-50% of potential deals on the table; low conversion.",
+      severity: "Critical",
+      affectedAreas: ['Win Rate', 'Revenue'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["End every sales call with 'Are you ready to move forward?'", "Use assumptive close ('When should we start?')", "Practice asking directly"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of rejection", "Passive sales style", "No training on closing techniques"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Closing is a human skill requiring confidence and timing."
+      },
+      pathToRoot: "Not Closing/Asking for Sale → Sales Process Weak → Prospects Engage But Don't Buy"
+    }
+  },
+  'following-up-inconsistently': {
+    explanation: "You follow up sometimes but not systematically. Some prospects get 10 touches, others get 1. No consistency = lost deals.",
+    relatedProblems: ['sales-process-weak', 'not-closing', 'no-followup'],
+    impactAnalysis: {
+      financialImpact: "Random win rate; unpredictable revenue; missed opportunities.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Revenue Predictability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Create a standard follow-up cadence (Day 1, 3, 7, 14)", "Use CRM reminders", "Automate where possible"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["No system", "Forgetting", "Too busy"],
+      automationPotential: {
+        rating: 'High',
+        example: "Sales engagement platforms (Outreach, SalesLoft) automate consistent follow-up."
+      },
+      pathToRoot: "Following Up Inconsistently → Sales Process Weak → Prospects Engage But Don't Buy"
+    }
+  },
+  'too-pushy-not-assertive': {
+    explanation: "You're either too aggressive (turning prospects off) or too passive (not driving the sale forward). Finding the balance is key.",
+    relatedProblems: ['sales-process-weak', 'not-closing', 'not-handling-objections'],
+    impactAnalysis: {
+      financialImpact: "Lost deals either way; damaged relationships or stalled pipeline.",
+      severity: "Moderate",
+      affectedAreas: ['Win Rate', 'Brand Perception'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Hard',
+      quickWins: ["Get sales training or coaching", "Ask prospects for feedback", "Practice assertive without aggressive"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["No sales training", "Personality extremes", "Desperation or passivity"],
+      automationPotential: {
+        rating: 'Low',
+        example: "This is a human skill and personality issue requiring training and self-awareness."
+      },
+      pathToRoot: "Too Pushy or Not Assertive Enough → Sales Process Weak → Prospects Engage But Don't Buy"
+    }
+  },
+  'taking-long-respond': {
+    explanation: "You take hours or days to respond to prospect questions. Slow response kills momentum and signals you'll be slow to deliver too.",
+    relatedProblems: ['sales-process-weak', 'poor-communication-client'],
+    impactAnalysis: {
+      financialImpact: "Lost deals to faster competitors; damaged trust; slower sales cycles.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Deal Velocity', 'Trust'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Set goal: Respond within 1 hour during business hours", "Use canned responses for common questions", "Enable mobile notifications"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Too busy", "No urgency culture", "Disorganization"],
+      automationPotential: {
+        rating: 'High',
+        example: "Chatbots and auto-responders provide instant answers to common questions."
+      },
+      pathToRoot: "Taking Too Long to Respond → Sales Process Weak → Prospects Engage But Don't Buy"
+    }
+  },
+  'proposal-misses-mark': {
+    explanation: "Your proposals don't address the specific needs, pain, or goals discovered in sales conversations. They're generic templates that miss the point.",
+    relatedProblems: ['sales-process-weak', 'not-asking-discovery', 'expectations-misaligned'],
+    impactAnalysis: {
+      financialImpact: "Low proposal acceptance rate; need to redo work; lost deals.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Sales Efficiency'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Medium',
+      quickWins: ["Customize every proposal to prospect's stated needs", "Mirror their language back", "Include specific pain points and ROI"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Poor discovery", "Template laziness", "Rushed proposal creation"],
+      automationPotential: {
+        rating: 'High',
+        example: "Proposal software (PandaDoc, Proposify) with dynamic fields pulls from CRM for customization."
+      },
+      pathToRoot: "Proposal Misses the Mark → Sales Process Weak → Prospects Engage But Don't Buy"
+    }
+  },
+  // COMPETITION BEATS US (LEVEL 7)
+  'competitor-better-offer': {
+    explanation: "Competitor has a better product, price, terms, or value proposition. You're simply outgunned on the fundamentals.",
+    relatedProblems: ['competition-beats', 'lost-on-price', 'nothing-unique'],
+    impactAnalysis: {
+      financialImpact: "Systematic losing to specific competitor; market share erosion.",
+      severity: "Critical",
+      affectedAreas: ['Win Rate', 'Market Position'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Study competitor's offer in detail", "Identify and exploit their weakness", "Differentiate or improve offer"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Product/service gap", "Pricing strategy", "Better positioning"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Competitive intelligence tools track competitor moves, but strategy is human."
+      },
+      pathToRoot: "Competitor Better Offer → Competition Beats Us → Prospects Engage But Don't Buy"
+    }
+  },
+  'competitor-stronger-relationship': {
+    explanation: "Competitor has an existing relationship, referral, or network advantage. They have trust you don't.",
+    relatedProblems: ['competition-beats', 'incumbent-advantage', 'dont-trust'],
+    impactAnalysis: {
+      financialImpact: "High CAC; low win rate on competitive deals; relationship disadvantage.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Sales Efficiency'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Hard',
+      quickWins: ["Build your own network and referral engine", "Leverage your existing relationships", "Differentiate so strongly relationships matter less"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["New market entrant", "Weak network", "Referral disadvantage"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Relationships are human-built, but CRM helps nurture and track them."
+      },
+      pathToRoot: "Competitor Stronger Relationship → Competition Beats Us → Prospects Engage But Don't Buy"
+    }
+  },
+  'competitor-moved-faster': {
+    explanation: "Competitor responded quicker, proposed faster, or closed before you could. Speed wins in competitive sales.",
+    relatedProblems: ['competition-beats', 'taking-long-respond', 'proposal-drags'],
+    impactAnalysis: {
+      financialImpact: "Lost deals to speed; first-mover advantage goes to competitor.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Deal Velocity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Respond same-day to all inquiries", "Streamline proposal process", "Create urgency to move fast"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Slow internal processes", "Disorganization", "Undervaluing speed"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated proposal generation and instant quotes speed up response times."
+      },
+      pathToRoot: "Competitor Moved Faster → Competition Beats Us → Prospects Engage But Don't Buy"
+    }
+  },
+  'competitor-better-reputation': {
+    explanation: "Competitor is a known brand with strong reputation. You're unknown or have less brand equity. Prospects default to the safer choice.",
+    relatedProblems: ['competition-beats', 'new-unknown', 'no-social-proof'],
+    impactAnalysis: {
+      financialImpact: "Need to offer more proof, lower prices, or stronger guarantees to compete.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Pricing Power'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Build case studies and testimonials fast", "Leverage founder reputation", "Niche down where you can become known"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["New business", "Competing with established players", "Weak marketing"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI-powered content marketing can accelerate thought leadership and brand building."
+      },
+      pathToRoot: "Competitor Better Reputation → Competition Beats Us → Prospects Engage But Don't Buy"
+    }
+  },
+  'incumbent-advantage': {
+    explanation: "Competitor is already the incumbent provider. Switching costs, familiarity, and inertia work in their favor.",
+    relatedProblems: ['competition-beats', 'switching-costs-high', 'need-finish-current'],
+    impactAnalysis: {
+      financialImpact: "Very low win rate on replacement deals; need to 10X better to switch.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Market Penetration'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Hard',
+      quickWins: ["Target dissatisfied customers", "Make switching easy (migration support)", "Offer trial alongside incumbent"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Status quo bias", "Switching costs", "Incumbent lock-in tactics"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated migration tools and onboarding reduce switching friction."
+      },
+      pathToRoot: "Incumbent Advantage → Competition Beats Us → Prospects Engage But Don't Buy"
+    }
+  },
+  'lost-on-price': {
+    explanation: "Competitor undercut you on price. If you can't differentiate enough to justify premium, price becomes the deciding factor.",
+    relatedProblems: ['competition-beats', 'comparing-cheaper', 'no-differentiation'],
+    impactAnalysis: {
+      financialImpact: "Margin pressure; race to bottom; commoditization.",
+      severity: "Major",
+      affectedAreas: ['Margins', 'Win Rate', 'Brand Value'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Hard',
+      quickWins: ["Refuse to compete on price alone", "Quantify your superior ROI", "Target less price-sensitive customers"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Weak differentiation", "Commoditized offering", "Wrong target market"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Pricing strategy is human, but ROI calculators help justify premium pricing."
+      },
+      pathToRoot: "Lost on Price → Competition Beats Us → Prospects Engage But Don't Buy"
+    }
+  },
+  // RISK FEELS TOO HIGH (LEVEL 7)
+  'big-commitment': {
+    explanation: "Your offer requires a large commitment (time, money, or resources) with a provider they don't know well. That's a scary ask.",
+    relatedProblems: ['risk-too-high', 'fear-wrong-decision', 'no-trial-guarantee'],
+    impactAnalysis: {
+      financialImpact: "Low close rate on first deals; long sales cycles; need to over-prove.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Deal Velocity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Create a smaller entry offer", "Offer trial or pilot", "Add money-back guarantee"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["No low-risk entry point", "High-ticket offer only", "New/unknown provider"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Trial and pilot programs can be automated for easy onboarding."
+      },
+      pathToRoot: "Big Commitment with Unknown → Risk Too High → Prospects Engage But Don't Buy"
+    }
+  },
+  'fear-wrong-decision': {
+    explanation: "Prospect fears making the wrong choice and looking bad internally or wasting money. Paralysis by analysis sets in.",
+    relatedProblems: ['risk-too-high', 'political-risk', 'want-think-about'],
+    impactAnalysis: {
+      financialImpact: "Deals stall indefinitely; prospects choose inaction over risk.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Deal Progress'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Provide social proof (others like them chose you)", "Offer guarantee to reduce risk", "Position as reversible decision"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["High-stakes decision", "Lack of trust or proof", "Organizational culture of risk aversion"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Risk reduction is psychological; requires human reassurance and proof."
+      },
+      pathToRoot: "Fear of Wrong Decision → Risk Too High → Prospects Engage But Don't Buy"
+    }
+  },
+  'no-trial-guarantee': {
+    explanation: "You offer no way to try before buying or get money back if unsatisfied. Prospects carry all the risk.",
+    relatedProblems: ['risk-too-high', 'big-commitment', 'switching-costs-high'],
+    impactAnalysis: {
+      financialImpact: "Significantly lower conversion; lose deals to competitors with trials.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'Win Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Add 30-day money-back guarantee", "Offer 7-14 day trial", "Create pilot program"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of refund abuse", "Complex delivery model", "Never considered it"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated trial management and guarantee policies are standard in SaaS."
+      },
+      pathToRoot: "No Trial or Guarantee → Risk Too High → Prospects Engage But Don't Buy"
+    }
+  },
+  'switching-costs-high': {
+    explanation: "Switching to you requires significant effort, migration pain, or disruption. Prospects prefer to stick with the devil they know.",
+    relatedProblems: ['risk-too-high', 'incumbent-advantage', 'big-commitment'],
+    impactAnalysis: {
+      financialImpact: "Very low win rate on replacement deals; need to be 10X better to justify switch.",
+      severity: "Major",
+      affectedAreas: ['Win Rate', 'Market Penetration'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Hard',
+      quickWins: ["Offer white-glove migration support", "Create transition plan/timeline", "Run alongside existing solution during transition"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Complex integration", "Data migration required", "Change management resistance"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated migration tools, onboarding, and training reduce switching friction."
+      },
+      pathToRoot: "Switching Costs High → Risk Too High → Prospects Engage But Don't Buy"
+    }
+  },
+  'political-risk': {
+    explanation: "Internal politics make this a risky decision for your champion. If it fails, they look bad. If another faction opposes it, it creates conflict.",
+    relatedProblems: ['risk-too-high', 'fear-wrong-decision', 'waiting-approval'],
+    impactAnalysis: {
+      financialImpact: "Deals stall or die in committee; need executive sponsorship to overcome.",
+      severity: "Moderate",
+      affectedAreas: ['Enterprise Win Rate', 'Deal Velocity'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Hard',
+      quickWins: ["Identify and align with power players", "Provide cover (data, case studies) for champion", "Offer pilot to reduce political risk"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Organizational complexity", "Turf wars", "Change-resistant culture"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Politics are human dynamics; requires relationship building and stakeholder management."
+      },
+      pathToRoot: "Political Risk Internally → Risk Too High → Prospects Engage But Don't Buy"
+    }
+  },
+  // CLIENTS NOT BUYING MORE - LEVEL 6
+  'dont-know-offer': {
+    explanation: "Your existing customers don't know about your other services. You've never told them, and they assume you only do what they hired you for.",
+    relatedProblems: ['lack-awareness', 'assume-one-thing', 'never-told'],
+    impactAnalysis: {
+      financialImpact: "Massive missed upsell opportunity; customers buy from competitors what you could provide.",
+      severity: "Major",
+      affectedAreas: ['Revenue per Customer', 'LTV'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Email existing customers about your full service menu", "Add services section to invoices", "Mention other services in every interaction"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Assumed they'd ask", "No cross-sell process", "Focus on new customers only"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated email campaigns educate customers on full service offering."
+      },
+      pathToRoot: "Don't Know We Offer → Lack of Awareness → Not Buying More"
+    }
+  },
+  'dont-know-what-else': {
+    explanation: "Customers know you offer more, but don't understand what those other services are or how they could help.",
+    relatedProblems: ['lack-awareness', 'dont-know-offer', 'dont-see-connection'],
+    impactAnalysis: {
+      financialImpact: "Low upsell rate; customers don't see connection between services.",
+      severity: "Moderate",
+      affectedAreas: ['Cross-sell Rate', 'LTV'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Create simple service descriptions", "Show how services complement each other", "Share case studies of customers using multiple services"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Unclear service descriptions", "No education process", "Siloed service delivery"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated content series educating customers on complementary services."
+      },
+      pathToRoot: "Don't Know What Else We Can Do → Lack of Awareness → Not Buying More"
+    }
+  },
+  'never-told': {
+    explanation: "You have never proactively communicated your other offerings to existing customers. Out of sight, out of mind.",
+    relatedProblems: ['lack-awareness', 'dont-know-offer', 'not-proactively-offering'],
+    impactAnalysis: {
+      financialImpact: "Zero cross-sell; leaving money on the table.",
+      severity: "Major",
+      affectedAreas: ['Revenue Growth', 'Customer LTV'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Send a 'Did you know we also...' email", "Add to email signatures", "Mention in status calls"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of seeming pushy", "No cross-sell strategy", "Siloed teams"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated cross-sell campaigns triggered by customer milestones or service completion."
+      },
+      pathToRoot: "Never Told About Other Options → Lack of Awareness → Not Buying More"
+    }
+  },
+  'assume-one-thing': {
+    explanation: "Customers have pigeonholed you as 'The X company' and don't realize you do A, B, C, and D as well. Brand perception is too narrow.",
+    relatedProblems: ['lack-awareness', 'dont-know-offer'],
+    impactAnalysis: {
+      financialImpact: "Lost cross-sell opportunities; narrow market perception limits growth.",
+      severity: "Moderate",
+      affectedAreas: ['Cross-sell Rate', 'Market Position'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Rebrand as 'Full-service X'", "Show breadth in marketing", "Cross-sell actively to change perception"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Strong initial positioning in one area", "No marketing of other services", "Historical focus"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Marketing automation can systematically educate customers on full offering."
+      },
+      pathToRoot: "Assume We Only Do One Thing → Lack of Awareness → Not Buying More"
+    }
+  },
+  // LACK OF NEED (PERCEIVED) - LEVEL 6
+  'dont-need-else': {
+    explanation: "Customers are satisfied with what they're currently getting and genuinely don't see a need for your other services right now.",
+    relatedProblems: ['lack-need-perceived', 'satisfied-current'],
+    impactAnalysis: {
+      financialImpact: "Low cross-sell until you create/reveal need.",
+      severity: "Moderate",
+      affectedAreas: ['Revenue per Customer', 'Growth Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Educate on 'What you're missing'", "Show results others get with full suite", "Create bundled offerings"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Genuine lack of need", "Not seeing connection", "Happy with current scope"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated educational content and use-case demonstrations reveal hidden needs."
+      },
+      pathToRoot: "Don't Need Anything Else → Lack of Need → Not Buying More"
+    }
+  },
+  'dont-see-connection': {
+    explanation: "Customers don't see how your other services relate to or support what they're already doing with you. The connection isn't obvious.",
+    relatedProblems: ['lack-need-perceived', 'dont-need-else'],
+    impactAnalysis: {
+      financialImpact: "Low cross-sell; customers buy complementary services elsewhere.",
+      severity: "Moderate",
+      affectedAreas: ['Cross-sell Rate', 'Market Share of Wallet'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-2 weeks",
+      difficulty: 'Easy',
+      quickWins: ["Show how services work together", "Create 'Better together' bundles", "Use customer success stories demonstrating multi-service value"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Unclear value proposition connection", "Siloed service presentation", "No education"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated journey mapping shows customers how services complement each other."
+      },
+      pathToRoot: "Don't See Connection to Other Services → Lack of Need → Not Buying More"
+    }
+  },
+  'satisfied-current': {
+    explanation: "Customers are happy with what they have and see no reason to expand. They're not experiencing pain that would drive them to buy more.",
+    relatedProblems: ['lack-need-perceived', 'dont-need-else'],
+    impactAnalysis: {
+      financialImpact: "Flat revenue per customer; reliance on new customer acquisition for growth.",
+      severity: "Moderate",
+      affectedAreas: ['LTV', 'Growth Efficiency'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Hard',
+      quickWins: ["Introduce 'What's next' conversations", "Show what they're leaving on the table", "Create aspirational positioning"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Comfortable with status quo", "No urgency for more", "Already getting value"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated benchmarking reports show customers what similar clients achieve with expanded services."
+      },
+      pathToRoot: "Satisfied with Current Scope → Lack of Need → Not Buying More"
+    }
+  },
+  // BARRIERS TO EXPANSION - LEVEL 6
+  'budget-constraints': {
+    explanation: "Customers want more but genuinely can't afford it right now. Budget is allocated elsewhere or constrained.",
+    relatedProblems: ['barriers-expansion', 'cant-afford-pricing'],
+    impactAnalysis: {
+      financialImpact: "Lost expansion revenue until budget frees up.",
+      severity: "Moderate",
+      affectedAreas: ['Revenue Growth', 'Cross-sell Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Offer payment plans", "Create lower-priced entry versions", "Time offers to budget cycles"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Economic conditions", "Customer cash flow issues", "Budget allocation to other priorities"],
+      automationPotential: {
+        rating: 'High',
+        example: "Financing options or payment plans make expansion affordable."
+      },
+      pathToRoot: "Budget Constraints → Barriers to Expansion → Not Buying More"
+    }
+  },
+  'bad-experience-first': {
+    explanation: "Customers had a negative experience with the first service, so they're not eager to try more from you. Trust is damaged.",
+    relatedProblems: ['barriers-expansion', 'client-dissatisfaction'],
+    impactAnalysis: {
+      financialImpact: "Zero cross-sell; potential churn; negative word-of-mouth.",
+      severity: "Major",
+      affectedAreas: ['Cross-sell Rate', 'Churn Risk', 'Reputation'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Hard',
+      quickWins: ["Fix the original issue", "Over-deliver to rebuild trust", "Offer a 'Make it right' discount on next service"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Quality issues", "Miscommunication", "Unmet expectations"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated satisfaction monitoring can catch issues before they kill cross-sell opportunities."
+      },
+      pathToRoot: "Bad Experience with First Service → Barriers to Expansion → Not Buying More"
+    }
+  },
+  'buying-elsewhere': {
+    explanation: "Customer already has a provider for that service and is satisfied with them. You'd need to displace an incumbent.",
+    relatedProblems: ['barriers-expansion', 'incumbent-advantage'],
+    impactAnalysis: {
+      financialImpact: "Lost cross-sell; customer relationship not maximized.",
+      severity: "Moderate",
+      affectedAreas: ['Share of Wallet', 'Cross-sell Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Hard',
+      quickWins: ["Offer to run alongside for comparison", "Show integration benefits of single provider", "Wait for their contract renewal"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Existing relationships", "Timing (you came second)", "They don't know you offer it"],
+      automationPotential: {
+        rating: 'Low',
+        example: "Relationship-based; requires human persuasion and differentiation."
+      },
+      pathToRoot: "Buying That Service Elsewhere → Barriers to Expansion → Not Buying More"
+    }
+  },
+  'decision-maker-changed': {
+    explanation: "Your original contact left or lost authority. The new decision-maker doesn't know you, trust you, or prioritize expansion.",
+    relatedProblems: ['barriers-expansion', 'contact-left', 'relationship-deteriorated'],
+    impactAnalysis: {
+      financialImpact: "Cross-sell opportunities stall; need to re-establish relationship.",
+      severity: "Moderate",
+      affectedAreas: ['Account Growth', 'Relationship Risk'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Quickly build relationship with new contact", "Re-establish value", "Provide easy wins to earn trust"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Personnel turnover", "Organizational restructuring", "Relying on single contact"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "CRM alerts when key contacts change; automated intro sequences help onboard new stakeholders."
+      },
+      pathToRoot: "Decision Maker Changed → Barriers to Expansion → Not Buying More"
+    }
+  },
+  'timing-not-right': {
+    explanation: "Customer is interested in expanding but not right now. Other priorities, seasonality, or internal factors create timing mismatch.",
+    relatedProblems: ['barriers-expansion', 'other-priorities', 'budget-not-now'],
+    impactAnalysis: {
+      financialImpact: "Delayed expansion revenue; risk of losing opportunity to competitor or forgetfulness.",
+      severity: "Moderate",
+      affectedAreas: ['Revenue Timing', 'Growth Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Easy',
+      quickWins: ["Ask when timing would be right", "Set follow-up reminder", "Offer pilot or phased approach to start sooner"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Seasonal business cycles", "Internal capacity constraints", "Competing priorities"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated nurture and reminder sequences keep expansion top-of-mind until timing aligns."
+      },
+      pathToRoot: "Timing Not Right → Barriers to Expansion → Not Buying More"
+    }
+  },
+  // NO UPSELL PROCESS - LEVEL 6
+  'not-proactively-offering': {
+    explanation: "You never proactively suggest additional services to existing customers. You wait for them to ask, and most never will.",
+    relatedProblems: ['no-upsell-process', 'waiting-ask', 'not-identifying-opportunities'],
+    impactAnalysis: {
+      financialImpact: "Zero proactive upsell; massive missed revenue.",
+      severity: "Critical",
+      affectedAreas: ['Revenue per Customer', 'Growth Efficiency'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Create an upsell script", "Train team to suggest relevant services", "Build upsell into service reviews"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of seeming pushy", "No process", "Focus on new customer acquisition"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated upsell prompts triggered by milestones, usage, or service completion."
+      },
+      pathToRoot: "Not Proactively Offering → No Upsell Process → Not Buying More"
+    }
+  },
+  'not-identifying-opportunities': {
+    explanation: "You're not watching for signals that customers could benefit from additional services. You miss the moment when need emerges.",
+    relatedProblems: ['no-upsell-process', 'not-proactively-offering', 'waiting-ask'],
+    impactAnalysis: {
+      financialImpact: "Lost upsell opportunities; customers buy from competitors.",
+      severity: "Major",
+      affectedAreas: ['Cross-sell Rate', 'Revenue per Customer'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Create trigger list (when to offer what)", "Train team to spot signals", "Regular account reviews"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["No process for monitoring accounts", "Reactive not proactive", "No tracking"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI-powered account monitoring identifies expansion opportunities based on usage patterns, industry trends, or life-cycle stage."
+      },
+      pathToRoot: "Not Identifying Opportunities → No Upsell Process → Not Buying More"
+    }
+  },
+  'waiting-ask': {
+    explanation: "You assume customers will ask when they need something. They won't. You need to educate and suggest proactively.",
+    relatedProblems: ['no-upsell-process', 'not-proactively-offering', 'never-told'],
+    impactAnalysis: {
+      financialImpact: "Passive approach leaves most upsell revenue on the table.",
+      severity: "Major",
+      affectedAreas: ['Revenue Growth', 'Customer LTV'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Shift mindset to proactive", "Create prompts to suggest services", "Build upsell into regular touchpoints"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Passive sales culture", "Fear of rejection", "Assumed they'd ask if interested"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated upsell campaigns and suggestions remove reliance on customers asking."
+      },
+      pathToRoot: "Waiting for Them to Ask → No Upsell Process → Not Buying More"
+    }
   }
 };
 
