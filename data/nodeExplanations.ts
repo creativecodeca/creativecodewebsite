@@ -7467,7 +7467,7 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       quickWins: ["Appoint a 'Single Person Responsible' (DRI) for every client", "Tie performance bonuses to *Client Results* not just *Task Completion*", "Address 'Not my job' comments immediately"]
     },
     rootCauseAnalysis: {
-      likelyCauses: ["Passive leadership', 'Vague goals', 'Fear of accountability'],
+      likelyCauses: ["Passive leadership", "Vague goals", "Fear of accountability"],
       automationPotential: {
         rating: 'Low',
         example: "N/A - ownership is a leadership and psychological trait."
