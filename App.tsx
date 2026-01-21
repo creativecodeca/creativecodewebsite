@@ -8,22 +8,65 @@ import Navbar from './components/Navbar';
 // import AIChatWidget from './components/AIChatWidget';
 import PageWrapper from './components/PageWrapper';
 
-// Lazy load all route components
-const Home = lazy(() => import('./components/Home'));
-const Products = lazy(() => import('./components/Products'));
-const About = lazy(() => import('./components/About'));
-const Contact = lazy(() => import('./components/Contact'));
-const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
-const TermsConditions = lazy(() => import('./components/TermsConditions'));
-const WebsiteServices = lazy(() => import('./components/WebsiteServices'));
-const BuyPopupWebsite = lazy(() => import('./components/BuyPopupWebsite'));
-const BuyStandardWebsite = lazy(() => import('./components/BuyStandardWebsite'));
-const MobileContact = lazy(() => import('./components/MobileContact'));
-const ClientCall = lazy(() => import('./components/ClientCall'));
-const WebsiteOnboardingForm = lazy(() => import('./components/WebsiteOnboardingForm'));
-const FunnelPrivateGift = lazy(() => import('./components/FunnelPrivateGift'));
-const Tools = lazy(() => import('./components/Tools'));
-const DiagnosisMap = lazy(() => import('./components/DiagnosisMap'));
+// Handle chunk loading errors by reloading the page
+const handleChunkError = () => {
+  const chunkFailedMessage = /Loading chunk \d+ failed|Failed to fetch dynamically imported module/i;
+  
+  window.addEventListener('error', (event) => {
+    if (chunkFailedMessage.test(event.message)) {
+      console.log('Chunk load error detected, reloading...');
+      // Only reload once to prevent infinite loops
+      if (!sessionStorage.getItem('chunk-error-reload')) {
+        sessionStorage.setItem('chunk-error-reload', 'true');
+        window.location.reload();
+      }
+    }
+  });
+  
+  window.addEventListener('load', () => {
+    // Clear the reload flag after successful load
+    sessionStorage.removeItem('chunk-error-reload');
+  });
+};
+
+// Initialize chunk error handling
+handleChunkError();
+
+// Retry lazy loading with exponential backoff
+const retryImport = (importFn: () => Promise<any>, retries = 3, delay = 1000): Promise<any> => {
+  return importFn().catch((error) => {
+    if (retries === 0) {
+      // If all retries failed, force reload the page to get fresh chunks
+      if (!sessionStorage.getItem('chunk-error-reload')) {
+        sessionStorage.setItem('chunk-error-reload', 'true');
+        window.location.reload();
+      }
+      throw error;
+    }
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(retryImport(importFn, retries - 1, delay * 2));
+      }, delay);
+    });
+  });
+};
+
+// Lazy load all route components with retry logic
+const Home = lazy(() => retryImport(() => import('./components/Home')));
+const Products = lazy(() => retryImport(() => import('./components/Products')));
+const About = lazy(() => retryImport(() => import('./components/About')));
+const Contact = lazy(() => retryImport(() => import('./components/Contact')));
+const PrivacyPolicy = lazy(() => retryImport(() => import('./components/PrivacyPolicy')));
+const TermsConditions = lazy(() => retryImport(() => import('./components/TermsConditions')));
+const WebsiteServices = lazy(() => retryImport(() => import('./components/WebsiteServices')));
+const BuyPopupWebsite = lazy(() => retryImport(() => import('./components/BuyPopupWebsite')));
+const BuyStandardWebsite = lazy(() => retryImport(() => import('./components/BuyStandardWebsite')));
+const MobileContact = lazy(() => retryImport(() => import('./components/MobileContact')));
+const ClientCall = lazy(() => retryImport(() => import('./components/ClientCall')));
+const WebsiteOnboardingForm = lazy(() => retryImport(() => import('./components/WebsiteOnboardingForm')));
+const FunnelPrivateGift = lazy(() => retryImport(() => import('./components/FunnelPrivateGift')));
+const Tools = lazy(() => retryImport(() => import('./components/Tools')));
+const DiagnosisMap = lazy(() => retryImport(() => import('./components/DiagnosisMap')));
 
 // Loading fallback component
 const LoadingFallback = () => (
