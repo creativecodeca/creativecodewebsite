@@ -95,27 +95,556 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       pathToRoot: "Money Out Fast → Not Enough Money (Root)"
     }
   },
-  'not-enough-revenue': {
-    explanation: "The 'Growth' problem. The top-line numbers aren't high enough to support the infrastructure you've built. This is typically a Sales, Marketing, or Product-Market Fit issue.",
-    relatedProblems: ['not-enough-clients', 'bought-cant-deliver'],
+  'expenses-high': {
+    explanation: "Your total cash outflow is simply too high relative to your revenue. This can be due to bloated overhead, expensive acquisition, or inefficient fulfillment. It's not just about spending less, but about spending effectively on the right things.",
+    relatedProblems: ['overhead-high', 'delivery-costs-high', 'acquisition-costs-high'],
     impactAnalysis: {
-      financialImpact: "Stagnation; inability to cover fixed overhead costs.",
+      financialImpact: "Reduced net profit; inability to build cash reserves or reinvest in growth.",
       severity: "Major",
-      affectedAreas: ['Sales', 'Marketing', 'Founder Morale'],
+      affectedAreas: ['Profitability', 'Cash Flow', 'Business Sustainability'],
       strategicPriority: 'High'
     },
     timeToSolve: {
-      estimate: "3-9 months",
-      difficulty: 'Hard',
-      quickWins: ["Re-engage past clients with a new offer", "Ask for referrals from happy clients", "Run a limited-time promotion"]
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Audit every single recurring expense today", "Negotiate better rates with top 3 vendors", "Eliminate any expense that doesn't directly contribute to revenue or fulfillment"]
     },
     rootCauseAnalysis: {
-      likelyCauses: ["Poor lead generation", "Weak conversion rates", "Market saturation", "High churn"],
+      likelyCauses: ["Lack of budgetary discipline", "Lifestyle/ego creep in business", "Inefficient sales or delivery models"],
       automationPotential: {
         rating: 'High',
-        example: "Automated outbound prospecting or lead nurturing system."
+        example: "Automated expense tracking and alerting when categories exceed budget."
       },
-      pathToRoot: "Not Enough Revenue → Not Enough Money (Root)"
+      pathToRoot: "Expenses Too High → Money Out Fast → Not Enough Money (Root)"
+    }
+  },
+  'not-enough-capacity': {
+    explanation: "Your sales team is winning, but your delivery team is drowning. You lack the human or technical resources to fulfill the promises you've made without massive delays or quality drops.",
+    relatedProblems: ['founder-everything', 'cant-hire-fast', 'scaling-constraints'],
+    impactAnalysis: {
+      financialImpact: "High churn risk; inability to scale revenue; team burnout.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Team Health', 'Customer Retention'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Temporarily increase prices to slow lead flow", "Hire 1099 contractors for immediate relief", "Audit the most time-consuming step in fulfillment"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Sudden sales spike", "Under-hiring", "Inefficient fulfillment model"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated workload balancing and capacity planning dashboards."
+      },
+      pathToRoot: "Capacity Issues → Bought Cant Deliver → Not Enough Revenue (Root)"
+    }
+  },
+  'cant-hire-fast': {
+    explanation: "You need more people, but your hiring process is too slow or you can't find qualified candidates. The business is stalling because the 'Seat' is empty.",
+    relatedProblems: ['not-enough-capacity', 'training-long'],
+    impactAnalysis: {
+      financialImpact: "Delayed project starts; missed revenue targets; existing team burnout.",
+      severity: "Moderate",
+      affectedAreas: ['Recruitment', 'Growth Speed'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Medium',
+      quickWins: ["Implement an 'Employee Referral' bonus", "Outsource initial screening to a VA or agency", "Use skills-based assessments instead of 5 rounds of interviews"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Broken hiring funnel", "Unrealistic job requirements", "Poor employer brand"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated applicant tracking and screening using AI."
+      },
+      pathToRoot: "Hiring Bottleneck → Capacity Issues → Bought Cant Deliver"
+    }
+  },
+  'cant-afford-hire': {
+    explanation: "You need more help, but you don't have the cash flow or margins to pay for it. You are trapped in the 'Value Valley' where you're too big to do it alone but too small to afford a team.",
+    relatedProblems: ['margins-low', 'no-buffer'],
+    impactAnalysis: {
+      financialImpact: "Growth ceiling; founder exhaustion; inability to scale.",
+      severity: "Major",
+      affectedAreas: ['Financial Stability', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Raise prices to create a 'Hiring Fund'", "Hire part-time/offshore initially", "Automate one entire role instead of hiring for it"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Low margins", "Inefficient delivery model", "High overhead"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to perform the work of 1-2 junior employees."
+      },
+      pathToRoot: "Affordability Issues → Capacity Issues → Bought Cant Deliver"
+    }
+  },
+  'training-long': {
+    explanation: "New hires take too long to become 'Revenue Positive.' You are spending weeks or months training them, during which they are a net cost to the business.",
+    relatedProblems: ['no-processes-documented', 'team-unreliable'],
+    impactAnalysis: {
+      financialImpact: "High cost of onboarding; delayed capacity scaling.",
+      severity: "Moderate",
+      affectedAreas: ['Onboarding Efficiency', 'Profitability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Create a 'New Hire Playbook' today", "Use screen recordings (Loom) for 80% of training", "Implement a 'Buddy System' to offload the founder"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of SOPs", "Complex service model", "Founder-led training only"],
+      automationPotential: {
+        rating: 'High',
+        example: "Interactive AI training modules and internal knowledge bases."
+      },
+      pathToRoot: "Slow Onboarding → Capacity Issues → Bought Cant Deliver"
+    }
+  },
+  'team-unreliable': {
+    explanation: "You have the seats filled, but the work isn't getting done correctly or on time. You spend more time managing 'people problems' than growing the business.",
+    relatedProblems: ['management-issues', 'quality-problems'],
+    impactAnalysis: {
+      financialImpact: "High turnover costs; rework costs; missed deadlines.",
+      severity: "Major",
+      affectedAreas: ['Team Culture', 'Operational Reliability', 'Customer Satisfaction'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Implement a weekly 'KPI Review' for every role", "Set clear 'Red Lines' for performance", "Hold one-on-one 'Stay Interviews' with your best people"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Poor hiring vetting", "Lack of clear expectations/KPIs", "Weak culture"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated performance tracking and status reporting."
+      },
+      pathToRoot: "Reliability Issues → Capacity Issues → Bought Cant Deliver"
+    }
+  },
+  'scaling-constraints': {
+    explanation: "Your business model has a physical or logical limit. You can't just 'add more' without hitting a wall (e.g., floor space, specialized equipment, or regulatory caps).",
+    relatedProblems: ['physical-limitations', 'technology-cant-handle'],
+    impactAnalysis: {
+      financialImpact: "Capped revenue; decreasing ROI on additional efforts.",
+      severity: "Major",
+      affectedAreas: ['Strategic Growth', 'Profitability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Audit utilization of current assets", "Switch to a digital/scalable add-on service", "Optimize current space/tech for 20% more efficiency"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Asset-heavy model", "Outgrown infrastructure", "Legacy technology"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using IoT or advanced scheduling to maximize asset utilization."
+      },
+      pathToRoot: "Scaling Limits → Capacity Issues → Bought Cant Deliver"
+    }
+  },
+  'process-bottlenecks': {
+    explanation: "Your delivery pipeline has 'narrow' points where work gets stuck. Even if the rest of the team is fast, everything slows down to the speed of the bottleneck.",
+    relatedProblems: ['manual-processes', 'no-systems', 'coordination-issues'],
+    impactAnalysis: {
+      financialImpact: "Lost revenue due to delays; high team frustration; inefficient resource use.",
+      severity: "Major",
+      affectedAreas: ['Efficiency', 'Throughput', 'Profitability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Identify the single point where 80% of work stalls", "Hire a specialist for that one step", "Automate the handoff to and from the bottleneck"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of horizontal scaling", "Single-point-of-failure roles", "Manual data handoffs"],
+      automationPotential: {
+        rating: 'High',
+        example: "Workflow automation to route tasks and data instantly between departments."
+      },
+      pathToRoot: "Process Bottleneck → Bought Cant Deliver → Not Enough Revenue"
+    }
+  },
+  'manual-processes': {
+    explanation: "You are performing tasks by hand that should be handled by code or systems. This is the biggest 'hidden tax' on your team's time.",
+    relatedProblems: ['inefficient-processes', 'copy-paste-hell'],
+    impactAnalysis: {
+      financialImpact: "High cost-per-fulfillment; human error risk; low scalability.",
+      severity: "Major",
+      affectedAreas: ['Team Capacity', 'Profitability', 'Speed'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 months",
+      difficulty: 'Medium',
+      quickWins: ["Identify the top 3 'Copy-Paste' tasks and automate them", "Use Zapier/Make to connect your tools", "Implement templates for all repetitive documents"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["'How we've always done it' mindset", "Technical debt", "Lack of automation knowledge"],
+      automationPotential: {
+        rating: 'High',
+        example: "Custom scripts or AI agents to perform routine data processing."
+      },
+      pathToRoot: "Manual Work → Process Bottleneck → Bought Cant Deliver"
+    }
+  },
+  'no-systems': {
+    explanation: "You have no standardized 'Way' of doing things. Every project is an invention, leading to massive variability in quality and time.",
+    relatedProblems: ['tribal-knowledge', 'no-sops', 'inconsistent-methods'],
+    impactAnalysis: {
+      financialImpact: "Unpredictable delivery costs; impossible to scale; high rework.",
+      severity: "Critical",
+      affectedAreas: ['Scalability', 'Quality', 'Asset Value'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Record a video of every task today", "Create a central 'How-To' database (Notion/Wiki)", "Mandate the use of checklists for every project stage"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Founder-centric delivery", "Rapid growth without infrastructure", "Perfectionism ('I'm the only one who can do it')"],
+      automationPotential: {
+        rating: 'High',
+        example: "Digital SOPs integrated directly into task management tools."
+      },
+      pathToRoot: "No Systems → Process Bottleneck → Bought Cant Deliver"
+    }
+  },
+  'dependencies-key-people': {
+    explanation: "Your business breaks if one specific person gets sick or goes on vacation. You have 'Knowledge Hoarding' or specialized roles with no backup.",
+    relatedProblems: ['only-one-knows', 'single-point-failure', 'bus-factor'],
+    impactAnalysis: {
+      financialImpact: "High risk of total operational stall; 'Hostage' situations with key staff.",
+      severity: "Major",
+      affectedAreas: ['Operational Risk', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Mandate 'Cross-Training' for critical tasks", "Require documentation for all unique workflows", "Incentivize knowledge sharing over hoarding"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Scale outstripping documentation", "Hiring 'Heroes' instead of 'Builders'", "Lack of redundant training"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Capturing tribal knowledge into an AI-powered internal search engine."
+      },
+      pathToRoot: "Person Dependency → Process Bottleneck → Bought Cant Deliver"
+    }
+  },
+  'tools-inadequate': {
+    explanation: "You are using 'Spreadsheets and Email' to run a business that needs a 'CRM and ERP.' Your tech stack is holding you back instead of helping you grow.",
+    relatedProblems: ['wrong-software', 'systems-dont-integrate'],
+    impactAnalysis: {
+      financialImpact: "Efficiency drag; data loss risk; inability to provide modern client experience.",
+      severity: "Moderate",
+      affectedAreas: ['Operational Speed', 'Customer Experience', 'Team Morale'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Medium',
+      quickWins: ["Identify the #1 most frustrating tool and replace it", "Hire a consultant to map your tech stack", "Sign up for ONE 'source of truth' project tool"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Technical debt", "Frugality at the cost of efficiency", "Outgrown initial tools"],
+      automationPotential: {
+        rating: 'High',
+        example: "Full stack integration using modern APIs and automation platforms."
+      },
+      pathToRoot: "Bad Tools → Process Bottleneck → Bought Cant Deliver"
+    }
+  },
+  'coordination-issues': {
+    explanation: "The left hand doesn't know what the right hand is doing. Work falls through the cracks at the handoff points between team members or departments.",
+    relatedProblems: ['work-stuck', 'miscommunication-who-does'],
+    impactAnalysis: {
+      financialImpact: "Costly rework; missed deadlines; frustrated clients.",
+      severity: "Major",
+      affectedAreas: ['Efficiency', 'Team Trust', 'Client Experience'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 months",
+      difficulty: 'Medium',
+      quickWins: ["Implement a 'DACI' (Driver, Approver, Contributor, Informed) model for projects", "Mandate all project updates happen in the PM tool, not Slack", "Host a 15-min daily 'Scrum'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of clear ownership", "Reliance on synchronous communication (meetings/chat)", "Undefined handoff SOPs"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated task assignment and notification based on project status changes."
+      },
+      pathToRoot: "Coordination Chaos → Process Bottleneck → Bought Cant Deliver"
+    }
+  },
+  'quality-problems': {
+    explanation: "You are delivering work, but it's not up to standard. This leads to rework, refunds, and a damaged reputation. Quality is the foundation of retention.",
+    relatedProblems: ['inconsistent-delivery-quality', 'mistakes-rework', 'client-dissatisfaction'],
+    impactAnalysis: {
+      financialImpact: "Profit erosion; high churn; zero referrals.",
+      severity: "Critical",
+      affectedAreas: ['Brand Reputation', 'LTV', 'Margins'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Medium',
+      quickWins: ["Implement a mandatory 'Quality Sign-off' checklist", "Audit the last 5 deliverables personally", "Fix the single most common 'Bug' or error today"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Rushing to fulfillment", "Lack of training", "Undefined quality standards"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI-powered quality control tools to flag anomalies in deliverables."
+      },
+      pathToRoot: "Quality Failure → Bought Cant Deliver → Not Enough Revenue"
+    }
+  },
+  'inconsistent-delivery-quality': {
+    explanation: "Client A gets a great experience, but Client B gets a mediocre one. Your results depend on 'who' does the work rather than 'how' the business works.",
+    relatedProblems: ['different-results', 'no-quality-standards'],
+    impactAnalysis: {
+      financialImpact: "Revenue 'Gambling'; unpredictable referrals; high management overhead.",
+      severity: "Major",
+      affectedAreas: ['Scalability', 'Brand Trust'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Standardize the final deliverable template", "Record 'Master Class' videos for internal use", "Create a 'Definition of Done' for all roles"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of standardized processes", "Team skill variability", "No centralized QA"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated delivery pipelines that ensure every client gets the exact same file/report structure."
+      },
+      pathToRoot: "Inconsistency → Quality Problems → Bought Cant Deliver"
+    }
+  },
+  'skills-gap': {
+    explanation: "Your team lacks the specific expertise needed to deliver the high-value results you've sold. You are 'learning on the client's dime' at the cost of speed and quality.",
+    relatedProblems: ['team-no-expertise', 'learning-on-job'],
+    impactAnalysis: {
+      financialImpact: "High rework; slow delivery; risk of project failure.",
+      severity: "Major",
+      affectedAreas: ['Delivery Speed', 'Profitability', 'Service Quality'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Hire a high-level consultant to 'Train the Trainers'", "Invest in a specialized course for the team", "Outsource the complex 20% of the work to a specialist"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Under-hiring", "Service complexity outstripping team training", "Rapid industry changes"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this requires human upskilling or hiring."
+      },
+      pathToRoot: "Skill Gap → Quality Problems → Bought Cant Deliver"
+    }
+  },
+  'client-dissatisfaction': {
+    explanation: "The ultimate symptom of delivery failure. Clients are unhappy, complaining, or asking for refunds. This is a red-alert state for any business.",
+    relatedProblems: ['poor-results', 'complaints-issues'],
+    impactAnalysis: {
+      financialImpact: "Immediate revenue loss; reputation damage; high churn.",
+      severity: "Critical",
+      affectedAreas: ['LTV', 'Brand Equity', 'Founder Morale'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Call every complaining client personally today", "Offer a 'Service Recovery' (extra value/refund)", "Identify and fix the root cause of the most common complaint"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-promising in sales", "Poor quality control", "Communication breakdown"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated NPS/Satisfaction surveys to catch issues before they escalate."
+      },
+      pathToRoot: "Unhappy Clients → Quality Problems → Bought Cant Deliver"
+    }
+  },
+  'scope-creep-profit': {
+    explanation: "You are doing more work than the client paid for. This extra effort is unbilled, meaning it comes directly out of your net profit.",
+    relatedProblems: ['clients-ask-more', 'no-change-order-process'],
+    impactAnalysis: {
+      financialImpact: "Direct erosion of margin; team burnout from 'unending' projects.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Capacity', 'Client Management'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Implement a strict 'Change Order' policy today", "Review the original contract before every new request", "Say: 'That's a great idea, let's scope that for Phase 2'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Poorly defined scope upfront", "People-pleasing mindset", "Lack of project tracking"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Project tools that alert you when task hours exceed the original estimate."
+      },
+      pathToRoot: "Scope Creep → PM Issues → Bought Cant Deliver"
+    }
+  },
+  'timelines-slip': {
+    explanation: "Projects are taking longer than estimated. This delays your final payment, clogs your pipeline, and frustrates both the client and your team.",
+    relatedProblems: ['underestimate-time-pm', 'unexpected-complications'],
+    impactAnalysis: {
+      financialImpact: "Delayed cash flow; increased labor costs per project; lower total capacity.",
+      severity: "Major",
+      affectedAreas: ['Cash Flow', 'Team Capacity', 'Client Trust'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Medium',
+      quickWins: ["Add a 20% 'Buffer' to all future project estimates", "Identify the #1 cause of the last 3 delays", "Implement a 'Critical Path' management style"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Optimism bias in estimation", "Poor resource planning", "Unmanaged external dependencies"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated Gantt charts and dependency tracking to flag delays before they happen."
+      },
+      pathToRoot: "Slipping Timelines → PM Issues → Bought Cant Deliver"
+    }
+  },
+  'communication-breakdowns-pm': {
+    explanation: "Expectations are misaligned because communication is irregular or unclear. The client is confused, and the team is working on the wrong things.",
+    relatedProblems: ['expectations-misaligned', 'internal-miscommunication'],
+    impactAnalysis: {
+      financialImpact: "Rework costs; client churn; low referral rate.",
+      severity: "Major",
+      affectedAreas: ['Efficiency', 'Client Experience', 'Team Alignment'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Easy',
+      quickWins: ["Send a weekly 'Project Status Report' every Friday", "Standardize the project kickoff meeting", "Use a shared project board with the client"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Reliance on chat (Slack) for project updates", "No dedicated project manager", "Lack of communication SOPs"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated client status updates delivered via email/portal based on task completion."
+      },
+      pathToRoot: "Communication Failure → PM Issues → Bought Cant Deliver"
+    }
+  },
+  'resource-allocation-wrong': {
+    explanation: "You have the right people but they are on the wrong tasks. Highly skilled people are doing busywork, while juniors are struggling with complex deliverables.",
+    relatedProblems: ['wrong-people-projects', 'overbooking'],
+    impactAnalysis: {
+      financialImpact: "High labor costs; low efficiency; high burnout risk.",
+      severity: "Moderate",
+      affectedAreas: ['Team Efficiency', 'Profitability', 'Scalability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-2 months",
+      difficulty: 'Medium',
+      quickWins: ["Map team skills to current project needs", "Offload 'Low-Value' tasks from senior staff today", "Audit current workload vs capacity for every team member"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Reactive staffing", "Lack of visibility into team capacity", "Flat organizational structure"],
+      automationPotential: {
+        rating: 'High',
+        example: "Capacity planning software that auto-recommends assignments based on skill/availability."
+      },
+      pathToRoot: "Resource Mismatch → PM Issues → Bought Cant Deliver"
+    }
+  },
+  'difficult-clients': {
+    explanation: "You are working with people who are unreasonable, disrespectful, or constantly changing their minds. These clients take up 80% of your energy for 20% of your revenue.",
+    relatedProblems: ['unreasonable-expectations', 'constant-changes'],
+    impactAnalysis: {
+      financialImpact: "Massive hidden costs; high team turnover; founder burnout.",
+      severity: "Major",
+      affectedAreas: ['Founder Health', 'Team Morale', 'Net Profit'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Fire your worst client today", "Implement a 'PITA (Pain In The Ass) Tax' for difficult requests", "Strictly enforce contract boundaries"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Desperation for revenue during sales", "Weak qualifying", "Lack of clear boundaries"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a relationship and boundary-setting task."
+      },
+      pathToRoot: "Bad Clients → Client Management Issues → Bought Cant Deliver"
+    }
+  },
+  'wrong-clients': {
+    explanation: "You are selling to people who don't fit your model. They can't afford you, don't value what you do, or have problems you aren't designed to solve.",
+    relatedProblems: ['bad-fit-services', 'cant-afford-pricing'],
+    impactAnalysis: {
+      financialImpact: "Low conversion; high support costs; zero ROI for the client.",
+      severity: "Major",
+      affectedAreas: ['Sales pipeline', 'Profitability', 'Product-Market Fit'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Hard',
+      quickWins: ["Tighten your 'Qualifying Criteria' in the sales process", "Increase your minimum engagement fee", "Refer bad-fit leads to a partner instead of saying yes"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Undefined ICP (Ideal Customer Profile)", "Marketing to the wrong audience", "Desperate sales mindset"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Qualifying Forms' that filter out bad fits before they book a call."
+      },
+      pathToRoot: "Fit Mismatch → Client Management Issues → Bought Cant Deliver"
+    }
+  },
+  'no-client-boundaries': {
+    explanation: "The client owns you. They call you at night, demand instant replies, and treat your team like their personal staff. You have trained them that you will always say yes.",
+    relatedProblems: ['available-24-7', 'scope-creep-accepted'],
+    impactAnalysis: {
+      financialImpact: "Invisible labor drain; high team stress; devalued service.",
+      severity: "Moderate",
+      affectedAreas: ['Operational Stability', 'Founder Peace of Mind'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Set fixed 'Office Hours' for communication", "Stop replying to non-emergency Slacks/emails after 6 PM", "Include a 'Communication Policy' in your onboarding deck"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["People-pleasing founder", "Lack of onboarding discipline", "Over-dependence on a single large client"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Out of Office' and status updates to manage client expectations instantly."
+      },
+      pathToRoot: "No Boundaries → Client Management Issues → Bought Cant Deliver"
     }
   },
 
@@ -858,6 +1387,167 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       pathToRoot: "High Overhead → Expenses High → Money Out Fast → Not Enough Money (Root)"
     }
   },
+  'expensive-office': {
+    explanation: "Paying for more space than you need, or paying a premium for a prestigious address that doesn't actually contribute to your bottom line. In a post-remote world, office space is often a massive unnecessary weight on a business.",
+    relatedProblems: ['overhead-high', 'utilities-facilities'],
+    impactAnalysis: {
+      financialImpact: "High monthly cash drain; fixed commitment that's hard to reduce quickly.",
+      severity: "Moderate",
+      affectedAreas: ['Fixed Costs', 'Liquidity'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "3-12 months (Lease dependent)",
+      difficulty: 'Hard',
+      quickWins: ["Sublet unused desks or rooms", "Negotiate a rent reduction with landlord", "Switch to a smaller or coworking-only model"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Pre-remote mindset", "Over-optimism when signing lease", "Ego-driven location choice"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a physical asset management issue."
+      },
+      pathToRoot: "Expensive Office → Overhead High → Expenses High → Not Enough Money"
+    }
+  },
+  'many-subscriptions': {
+    explanation: "The 'SaaS Creep.' Dozens of small $20-$100/mo tools that add up to thousands of dollars. Often, these are duplicate tools, seats for people who no longer work there, or 'Ghost' subscriptions no one uses.",
+    relatedProblems: ['unused-subscriptions', 'duplicate-systems'],
+    impactAnalysis: {
+      financialImpact: "Passive cash leak; hidden overhead that scales silently.",
+      severity: "Low to Moderate",
+      affectedAreas: ['Profitability', 'Admin Efficiency'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Use a tool like RocketMoney or audit bank statements", "Cancel any tool not logged into in 30 days", "Consolidate multiple tools into a single platform (e.g., Notion)"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of procurement oversight", "Team members signing up for their own tools", "Free trials rolling into paid"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated SaaS management tools that flag unused licenses."
+      },
+      pathToRoot: "Subscription Bloat → Overhead High → Expenses High → Not Enough Money"
+    }
+  },
+  'equipment-costs': {
+    explanation: "High upfront or monthly costs for physical hardware, machinery, or specialized gear. This includes leases, maintenance, and the 'Latest Model' trap where you upgrade before you need to.",
+    relatedProblems: ['overhead-high', 'tools-equipment-break'],
+    impactAnalysis: {
+      financialImpact: "Direct hit to cash reserves; high maintenance drag.",
+      severity: "Moderate",
+      affectedAreas: ['Cash Flow', 'Asset Management'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Delay next upgrade cycle by 6 months", "Sell unused gear on secondary market", "Renegotiate equipment leases"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-specifying for current needs", "Poor maintenance cycles", "Lack of cost-benefit analysis on gear"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "IoT-based maintenance alerts to extend equipment lifespan."
+      },
+      pathToRoot: "Equipment Costs → Overhead High → Expenses High → Not Enough Money"
+    }
+  },
+  'insurance-legal': {
+    explanation: "Compliance and protection costs are necessary but often unoptimized. You might be over-insured for risks you don't face, or paying 'Big Firm' rates for routine legal work that could be handled more efficiently.",
+    relatedProblems: ['overhead-high', 'licensing-compliance'],
+    impactAnalysis: {
+      financialImpact: "Silent profit erosion; high cost of entry/existence.",
+      severity: "Low to Moderate",
+      affectedAreas: ['Profitability', 'Risk Management'],
+      strategicPriority: 'Low'
+    },
+    timeToSolve: {
+      estimate: "1-2 months",
+      difficulty: 'Medium',
+      quickWins: ["Shop your insurance policy with 3 brokers", "Switch routine contracts to AI-vetted templates", "Set a cap on 'retainer' hours for legal counsel"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Reactive risk management", "Reliance on legacy providers", "Complex regulatory environment"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI-driven contract review tools to reduce lawyer hours."
+      },
+      pathToRoot: "Insurance/Legal → Overhead High → Expenses High → Not Enough Money"
+    }
+  },
+  'utilities-facilities': {
+    explanation: "The 'Invisible' costs of a physical location—electricity, internet, cleaning, security, and repairs. These small bills accumulate and create a constant weight on the monthly budget.",
+    relatedProblems: ['overhead-high', 'expensive-office'],
+    impactAnalysis: {
+      financialImpact: "Steady monthly drain; often ignored because 'that's just what it costs.'",
+      severity: "Low",
+      affectedAreas: ['Fixed Costs'],
+      strategicPriority: 'Low'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Easy',
+      quickWins: ["Audit utility bills for overcharges", "Negotiate better internet/cleaning rates", "Implement energy-saving measures (smart thermostats, etc.)"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Passive management of small bills", "Inefficient facility usage", "Legacy vendor contracts"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Smart building automation to reduce utility waste."
+      },
+      pathToRoot: "Utilities/Facilities → Overhead High → Expenses High → Not Enough Money"
+    }
+  },
+  'admin-staff': {
+    explanation: "Having a large 'Back Office' relative to your revenue-generating team. Often, these roles are manual, doing work that could be automated or outsourced more cheaply.",
+    relatedProblems: ['overhead-high', 'manual-processes', 'admin-busywork'],
+    impactAnalysis: {
+      financialImpact: "High labor cost with no direct ROI; 'Management overhead' drag.",
+      severity: "Moderate to Major",
+      affectedAreas: ['Profitability', 'Operational Efficiency'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Hard',
+      quickWins: ["Identify top 3 repetitive admin tasks and automate them", "Transition full-time roles to part-time or VA models", "Implement self-service tools for clients/team"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Scaling by hiring people instead of systems", "Inefficient legacy processes", "Fear of technology"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI assistants and custom automations to handle 80% of routine admin work."
+      },
+      pathToRoot: "Admin Staff → Overhead High → Expenses High → Not Enough Money"
+    }
+  },
+  'banking-fees': {
+    explanation: "Transaction fees, wire fees, interest on lines of credit, and credit card processing. While individual fees are small, they can eat 3-5% of your total revenue if not managed.",
+    relatedProblems: ['overhead-high', 'payment-friction'],
+    impactAnalysis: {
+      financialImpact: "Direct erosion of top-line revenue before it even hits your account.",
+      severity: "Low to Moderate",
+      affectedAreas: ['Net Revenue', 'Profitability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Negotiate lower processing rates with Stripe/bank", "Pass credit card fees to clients where legal", "Switch to ACH for large payments"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Convenience at the cost of margin", "Lack of fee monitoring", "Using high-interest credit lines"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated routing of payments to the lowest-fee channel."
+      },
+      pathToRoot: "Banking Fees → Overhead High → Expenses High → Not Enough Money"
+    }
+  },
 
   // MARGINS LOW - SUB-BRANCHES
   'prices-low': {
@@ -908,27 +1598,188 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       pathToRoot: "Founder Bottleneck → Capacity Issues → Not Enough Revenue (Root)"
     }
   },
-  'burnout-energy': {
-    explanation: "The founder's energy is the business's most valuable asset. When you are burned out, your decision-making quality drops, you miss opportunities, and you eventually resent the business.",
-    relatedProblems: ['working-too-much', 'poor-boundaries', 'health-neglected', 'emotionally-exhausted'],
+  'working-too-much': {
+    explanation: "You are working 60, 70, or 80 hours a week. This is unsustainable and indicates a failure of systems, delegation, or pricing. You are brute-forcing the business's survival with your own labor.",
+    relatedProblems: ['burnout-energy', 'time-trapped', 'low-value-work'],
     impactAnalysis: {
-      financialImpact: "Hidden costs of poor decisions and missed sales; eventual complete operational collapse.",
-      severity: "Critical",
-      affectedAreas: ['Leadership', 'Strategic Vision', 'Team Culture'],
+      financialImpact: "Decreasing hourly ROI; high risk of health collapse; poor leadership.",
+      severity: "Major",
+      affectedAreas: ['Founder Energy', 'Strategic Decision Making', 'Family Life'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Set a strict 'Hard Stop' time each day", "Take one full day off per week", "Audit your top 3 time-wasters"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of systems", "Inefficient fulfillment", "Founder hero complex"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to handle 20+ hours of routine communication and admin work."
+      },
+      pathToRoot: "Overwork → Burnout → Capacity Issues → Revenue Risk"
+    }
+  },
+  'poor-boundaries': {
+    explanation: "There is no line where work ends and your life begins. You are working at the dinner table, on vacation, and in bed. This constant 'on' state prevents your brain from resting and recovering.",
+    relatedProblems: ['burnout-energy', 'available-24-7', 'no-client-boundaries'],
+    impactAnalysis: {
+      financialImpact: "Relationship breakdown; emotional exhaustion; lower creativity.",
+      severity: "Major",
+      affectedAreas: ['Mental Health', 'Family', 'Visionary Thinking'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Delete work email from your phone today", "Create a 'Physical Boundary' (e.g., no laptop in the bedroom)", "Tell your team when you are 'Off-Grid'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of missing out/failure", "Lack of personal system", "People-pleasing"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a human discipline and habit task."
+      },
+      pathToRoot: "No Boundaries → Burnout → Capacity Issues → Revenue Risk"
+    }
+  },
+  'no-financial-literacy': {
+    explanation: "You don't understand your P&L, balance sheet, or cash flow statement. You are making decisions based on your bank balance rather than financial data.",
+    relatedProblems: ['no-business-skills', 'dont-know-costs'],
+    impactAnalysis: {
+      financialImpact: "Inefficient spending; high tax risk; missed profit opportunities.",
+      severity: "Major",
+      affectedAreas: ['Financial Management', 'Strategic Planning'],
       strategicPriority: 'High'
     },
     timeToSolve: {
       estimate: "3-6 months",
       difficulty: 'Medium',
-      quickWins: ["Book a 3-day weekend with zero work", "Delete Slack/Email from phone after 6 PM", "Outsource one high-friction task immediately"]
+      quickWins: ["Hire a bookkeeper today", "Schedule a monthly 1-hour review of your numbers", "Learn the difference between 'Revenue' and 'Profit'"],
     },
     rootCauseAnalysis: {
-      likelyCauses: ["No boundaries", "Inability to say 'no'", "Lack of operational systems", "Isolation"],
+      likelyCauses: ["Technician-turned-founder", "Fear of numbers", "Poor initial accounting setup"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated financial dashboards (Fathom, Jirav) that translate numbers into insights."
+      },
+      pathToRoot: "No Literacy → Business Skill Gap → Knowledge Gap → Revenue Risk"
+    }
+  },
+  'no-systems-thinking': {
+    explanation: "You view the business as a series of isolated events rather than an interconnected system. You fix the symptom instead of the disease, leading to recurring problems.",
+    relatedProblems: ['no-business-skills', 'no-systems'],
+    impactAnalysis: {
+      financialImpact: "High cost of recurring errors; inability to scale reliably.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Scalability', 'Leadership'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Map out your lead-to-cash flow today", "Read 'Work the System' or 'The Goal'", "Stop fixing problems and start building systems"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Reactive leadership", "Lack of formal process training"],
       automationPotential: {
         rating: 'Medium',
-        example: "Automating client communication so the business 'talks' while you sleep/rest."
+        example: "Using workflow mapping tools to visualize and automate entire business cycles."
       },
-      pathToRoot: "Burnout → Personal Bottleneck → Capacity Issues → Not Enough Money (Root)"
+      pathToRoot: "No Systems Thinking → Business Skill Gap → Knowledge Gap"
+    }
+  },
+  'dont-know-target': {
+    explanation: "You are trying to sell to 'everyone.' This makes your messaging weak, your ads expensive, and your sales process a struggle. A niche is a multiplier for your marketing spend.",
+    relatedProblems: ['no-marketing-skills', 'weak-messaging', 'cant-find-prospects'],
+    impactAnalysis: {
+      financialImpact: "Wasted marketing spend; low conversion; zero authority.",
+      severity: "Major",
+      affectedAreas: ['Marketing ROI', 'Sales Velocity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Pick ONE niche to focus on for the next 90 days", "Interview 5 people in that niche", "Tailor your homepage to speak ONLY to them"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of exclusion", "Lack of market research", "Undefined core value prop"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to build detailed audience personas based on customer data."
+      },
+      pathToRoot: "Unknown Target → Marketing Skill Gap → Knowledge Gap"
+    }
+  },
+  'no-positioning': {
+    explanation: "You don't have a clear 'Category' in the prospect's mind. You are just another [Job Title]. Positioning is what makes you the 'Only' choice rather than just 'One of' the choices.",
+    relatedProblems: ['no-marketing-skills', 'commoditized-service', 'look-too-small'],
+    impactAnalysis: {
+      financialImpact: "Price wars; slow sales cycles; low brand equity.",
+      severity: "Major",
+      affectedAreas: ['Brand Power', 'Profitability', 'Competitive Advantage'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Hard',
+      quickWins: ["Define your 'Point of View' (POV) on your industry", "Choose a unique name for your method", "Say 'No' to projects that don't fit your positioning"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Following competitors", "Lack of strategic vision", "Fear of being bold"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a creative and strategic leadership task."
+      },
+      pathToRoot: "Poor Positioning → Marketing Skill Gap → Knowledge Gap"
+    }
+  },
+  'imposter-syndrome': {
+    explanation: "The constant fear that you'll be 'found out' as a fraud. This prevents you from raising prices, speaking with authority, or going after high-ticket deals.",
+    relatedProblems: ['mindset-blocks', 'prices-low', 'afraid-raise-prices'],
+    impactAnalysis: {
+      financialImpact: "Hidden growth ceiling; thousands lost in under-pricing.",
+      severity: "Major",
+      affectedAreas: ['Sales', 'Leadership', 'Margins'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Hard',
+      quickWins: ["Create a 'Win Folder' of client praise", "Raise your price for the next lead just to see what happens", "Talk to a mentor about your achievements"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Personal history", "Isolation", "Lack of objective performance metrics"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - requires personal growth and community support."
+      },
+      pathToRoot: "Imposter Syndrome → Mindset Blocks → Knowledge Gap"
+    }
+  },
+  'fear-failure': {
+    explanation: "You are 'playing not to lose' rather than 'playing to win.' This leads to conservative, slow decisions that prevent the business from reaching its potential.",
+    relatedProblems: ['mindset-blocks', 'shiny-object-syndrome'],
+    impactAnalysis: {
+      financialImpact: "Missed big opportunities; slow innovation; stagnant growth.",
+      severity: "Moderate to Major",
+      affectedAreas: ['Innovation', 'Strategic Risk', 'Growth Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Hard',
+      quickWins: ["Take one 'Smart Risk' this week", "Define the 'Worst Case Scenario' (it's usually not that bad)", "Celebrate a small failure as a learning lesson"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Risk aversion", "Fixed mindset", "Lack of cash buffer"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - requires human courage and leadership."
+      },
+      pathToRoot: "Fear of Failure → Mindset Blocks → Knowledge Gap"
     }
   },
 
@@ -956,27 +1807,418 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       pathToRoot: "Marketing Problem → Not Enough Revenue (Root)"
     }
   },
-  'seo-nonexistent': {
-    explanation: "You are invisible to people actively searching for solutions. You are losing 'intent-based' traffic to competitors who show up on page 1.",
-    relatedProblems: ['not-showing-search', 'no-website'],
+  'not-enough-activity': {
+    explanation: "You aren't making enough 'Shots on Goal.' Whether it's cold calls, emails, or ad spend, the sheer volume of your output is too low to produce the results you need. Sales is a numbers game, and your numbers are too small.",
+    relatedProblems: ['lead-gen-insufficient', 'inconsistent-effort'],
     impactAnalysis: {
-      financialImpact: "High opportunity cost; paying for ads that could be free traffic.",
-      severity: "Moderate",
-      affectedAreas: ['Acquisition Cost', 'Organic Reach'],
+      financialImpact: "Low pipeline volume; unpredictable revenue; high cost-per-lead.",
+      severity: "Major",
+      affectedAreas: ['Sales pipeline', 'Growth Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Double your outreach targets today", "Automate the initial contact phase", "Hire a part-time SDR to increase volume"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of rejection", "Under-estimating the numbers needed", "Manual outreach bottlenecks"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated outbound software to send 100+ personalized emails a day."
+      },
+      pathToRoot: "Low Activity → Lead Gen Insufficient → Not Getting New Clients"
+    }
+  },
+  'sources-dried': {
+    explanation: "Your old reliable way of getting leads (e.g., one specific platform, one referral partner) has stopped working. You were over-dependent on a single source and now you're stranded.",
+    relatedProblems: ['lead-gen-insufficient', 'not-trying-channels'],
+    impactAnalysis: {
+      financialImpact: "Sudden revenue drop; high stress; business fragility.",
+      severity: "Critical",
+      affectedAreas: ['Revenue Stability', 'Lead Generation'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Hard',
+      quickWins: ["Identify 3 new potential lead sources today", "Launch a small test on a different platform", "Re-engage past clients for immediate short-term work"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of channel diversification", "Market shift", "Platform algorithm changes"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated monitoring of lead flow across multiple channels."
+      },
+      pathToRoot: "Dried Sources → Lead Gen Insufficient → Not Getting New Clients"
+    }
+  },
+  'no-marketing': {
+    explanation: "You are doing zero proactive work to tell people who you are. You are relying entirely on word-of-mouth or 'Hope Marketing,' which is not a scalable business strategy.",
+    relatedProblems: ['no-visibility', 'prospects-dont-know'],
+    impactAnalysis: {
+      financialImpact: "Zero growth; high risk if the referral well runs dry.",
+      severity: "Critical",
+      affectedAreas: ['Brand Awareness', 'Sales Pipeline'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Launch a basic 3-post-a-week social strategy", "Setup a simple lead magnet", "Tell your network exactly what you're selling"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Founder discomfort with sales", "Over-focus on delivery", "Lack of marketing knowledge"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to generate and schedule your first month of marketing content."
+      },
+      pathToRoot: "No Marketing → No Visibility → Prospects Dont Know → Not Getting New Clients"
+    }
+  },
+  'social-inactive': {
+    explanation: "Your social media profiles are 'Ghost Towns.' When prospects look you up (and they will), they see a business that looks like it might be closed.",
+    relatedProblems: ['no-visibility', 'trust-signals-missing'],
+    impactAnalysis: {
+      financialImpact: "Loss of trust; lower conversion on other marketing efforts.",
+      severity: "Low to Moderate",
+      affectedAreas: ['Brand Trust', 'Organic Reach'],
       strategicPriority: 'Medium'
     },
     timeToSolve: {
-      estimate: "6-12 months",
-      difficulty: 'Hard',
-      quickWins: ["Claim Google My Business profile", "Optimize page titles for keywords", "Fix broken links"]
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Update your profiles today", "Post one 'Value' post every day for a week", "Schedule 3 months of content in advance"],
     },
     rootCauseAnalysis: {
-      likelyCauses: ["Technical SEO errors", "Zero content strategy", "No backlink profile"],
+      likelyCauses: ["Lack of content system", "Perfectionism ('I don't know what to say')"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated social media schedulers and AI-assisted caption writing."
+      },
+      pathToRoot: "Inactive Social → No Visibility → Prospects Dont Know → Not Getting New Clients"
+    }
+  },
+  'not-publishing': {
+    explanation: "You aren't sharing your expertise. You aren't building 'Authority' through content, which makes you just another replaceable vendor in the eyes of the market.",
+    relatedProblems: ['no-visibility', 'look-too-small'],
+    impactAnalysis: {
+      financialImpact: "Zero inbound authority; constant need to 'chase' leads rather than 'attract' them.",
+      severity: "Moderate",
+      affectedAreas: ['Brand Authority', 'Lead Quality'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Write one 'Deep Dive' article on a client problem today", "Share 3 'Lessons Learned' from current projects", "Start a simple newsletter"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Expert curse (thinking everyone knows what you know)", "Lack of publishing system"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI tools to turn one video recording into 10 social posts and an article."
+      },
+      pathToRoot: "Not Publishing → No Visibility → Prospects Dont Know → Not Getting New Clients"
+    }
+  },
+  'not-asking-referrals': {
+    explanation: "You are doing great work, but you are being 'Too Polite' to ask for the referral. You are missing the highest ROI sales activity because of social awkwardness.",
+    relatedProblems: ['no-referrals', 'forget-ask'],
+    impactAnalysis: {
+      financialImpact: "Passive revenue loss; higher total acquisition cost.",
+      severity: "Moderate",
+      affectedAreas: ['Sales pipeline', 'Customer LTV'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Email your 3 best clients today and ask for one introduction", "Add 'Referral Request' to your project closing SOP", "Offer a thank-you gift for successful referrals"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of sounding desperate", "Lack of referral process"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated referral prompts sent after a positive project milestone."
+      },
+      pathToRoot: "Not Asking → No Referrals → Prospects Dont Know → Not Getting New Clients"
+    }
+  },
+  'not-doing-outbound': {
+    explanation: "You are waiting for the phone to ring. You have zero control over your growth because you aren't proactively reaching out to your ideal clients.",
+    relatedProblems: ['outreach-issues', 'lead-gen-insufficient'],
+    impactAnalysis: {
+      financialImpact: "Stagnant revenue; reliance on external platforms/luck.",
+      severity: "Critical",
+      affectedAreas: ['Growth Control', 'Revenue Predictability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["List your 'Dream 100' clients today", "Send 10 personalized cold emails", "Start one cold outreach experiment"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of 'Cold' sales", "Lack of prospecting list", "Founder avoidance"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated outbound systems that handle the initial 'Hello' at scale."
+      },
+      pathToRoot: "No Outbound → Outreach Issues → Prospects Dont Know → Not Getting New Clients"
+    }
+  },
+  'outbound-spammy': {
+    explanation: "You are sending 'Hey, buy my stuff' messages to people who don't know you. You are burning your reputation and getting blocked because you lack a 'Value-First' approach.",
+    relatedProblems: ['outreach-issues', 'getting-ignored'],
+    impactAnalysis: {
+      financialImpact: "Domain blacklisting; reputation damage; zero conversion.",
+      severity: "Major",
+      affectedAreas: ['Brand Reputation', 'Email Deliverability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Rewrite your outreach to offer a 'Quick Win' or free audit", "Personalize the first line of every message", "Reduce your daily volume and focus on quality"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lazy sales tactics", "Lack of ICP focus", "Wrong incentives for sales team"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to personalize outreach based on prospect's recent news/posts."
+      },
+      pathToRoot: "Spammy Outreach → Outreach Issues → Prospects Dont Know → Not Getting New Clients"
+    }
+  },
+  'getting-ignored': {
+    explanation: "You are reaching out, but no one is replying. Your message isn't breaking through the noise, or you are talking to people who don't have the problem you solve.",
+    relatedProblems: ['outreach-issues', 'message-no-resonate'],
+    impactAnalysis: {
+      financialImpact: "Massive waste of effort and tech spend; zero pipeline results.",
+      severity: "Major",
+      affectedAreas: ['Sales pipeline', 'Founder Morale'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Change your 'Hook' or subject line today", "Focus on a more specific niche", "Add social proof to your initial message"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Weak offer", "Boring messaging", "Poorly targeted list"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI-powered subject line testing and message optimization."
+      },
+      pathToRoot: "Getting Ignored → Outreach Issues → Prospects Dont Know → Not Getting New Clients"
+    }
+  },
+  'unreasonable-expectations': {
+    explanation: "The client expects 'Ferrari results on a Bicycle budget' or wants things done yesterday. These expectations weren't managed during the sales process.",
+    relatedProblems: ['difficult-clients', 'poor-communication-client'],
+    impactAnalysis: {
+      financialImpact: "High rework; team stress; zero profit projects.",
+      severity: "Major",
+      affectedAreas: ['Team Morale', 'Profitability', 'Quality'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate (reset)",
+      difficulty: 'Medium',
+      quickWins: ["Re-align on the contract scope today", "Set clear 'Milestone' expectations", "Say 'No' to one unreasonable request"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-promising in sales", "Undefined success metrics", "Vague contract"],
       automationPotential: {
         rating: 'Medium',
-        example: "AI-driven keyword research and automated SEO audit tools."
+        example: "Automated onboarding sequences that reiterate the scope and timeline."
       },
-      pathToRoot: "SEO → Visibility → New Clients → Revenue (Root)"
+      pathToRoot: "Bad Expectations → Difficult Clients → Client Issues → Bought Cant Deliver"
+    }
+  },
+  'constant-changes': {
+    explanation: "The 'Indecisive Client.' They keep changing their mind, which restarts your work and delays completion. This is a scope and leadership issue.",
+    relatedProblems: ['difficult-clients', 'scope-creep-profit'],
+    impactAnalysis: {
+      financialImpact: "Margin erosion; project 'Stagnation'; team frustration.",
+      severity: "Moderate",
+      affectedAreas: ['Profitability', 'Delivery Timeline'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Charge a 'Restart Fee' for major changes", "Implement a strict 'Change Order' process", "Require written sign-off before moving to the next stage"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of client leadership", "No 'Lock-in' milestones", "Passive project management"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Client portals that require digital sign-off before unlock of next stage."
+      },
+      pathToRoot: "Constant Changes → Difficult Clients → Client Issues → Bought Cant Deliver"
+    }
+  },
+  'dont-respect-boundaries': {
+    explanation: "Clients who call your personal cell at 9 PM or demand instant replies to non-emergency emails. They treat you like an employee rather than a partner.",
+    relatedProblems: ['difficult-clients', 'available-24-7', 'no-client-boundaries'],
+    impactAnalysis: {
+      financialImpact: "Founder/Team burnout; lower service quality due to constant interruption.",
+      severity: "Major",
+      affectedAreas: ['Mental Health', 'Retention', 'Operational Efficiency'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week (reset)",
+      difficulty: 'Medium',
+      quickWins: ["Tell the client: 'From now on, please use [App] for all requests'", "Stop replying outside of office hours", "Standardize your 'Response Time' expectations"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of initial boundary setting", "People-pleasing habits", "Fear of client loss"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Out of Office' and status triage systems."
+      },
+      pathToRoot: "Boundary Failure → Difficult Clients → Client Issues → Bought Cant Deliver"
+    }
+  },
+  'bad-fit-services': {
+    explanation: "You are selling 'Web Design' to people who need 'Lead Gen.' You are solving the wrong problem for the client, which leads to poor results and dissatisfaction.",
+    relatedProblems: ['wrong-clients', 'product-market-mismatch'],
+    impactAnalysis: {
+      financialImpact: "High churn; zero referrals; low ROI for client.",
+      severity: "Major",
+      affectedAreas: ['LTV', 'Sales ROI', 'Reputation'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Audit your last 5 churned clients for a common 'Fit' issue", "Update your 'Qualifying Questions' today", "Stop saying yes to projects outside your core expertise"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Vague service offering", "Desperate sales", "Lack of niche focus"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Self-selection tools on your website that filter out bad fits."
+      },
+      pathToRoot: "Service Mismatch → Wrong Clients → Client Issues → Bought Cant Deliver"
+    }
+  },
+  'misaligned-values': {
+    explanation: "You and the client fundamentally disagree on 'How' things should be done. Whether it's communication style, ethics, or speed, the 'Vibe' is wrong, which makes delivery painful.",
+    relatedProblems: ['wrong-clients', 'difficult-clients'],
+    impactAnalysis: {
+      financialImpact: "High emotional cost; toxic culture; low long-term retention.",
+      severity: "Moderate",
+      affectedAreas: ['Team Morale', 'Brand Alignment'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Immediate (vetting)",
+      difficulty: 'Medium',
+      quickWins: ["Add 'Values' to your sales deck", "Interview for culture fit during the discovery call", "Trust your gut: if the vibe is off, say no"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of defined business values", "Desperate sales"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a human intuition and culture task."
+      },
+      pathToRoot: "Value Mismatch → Wrong Clients → Client Issues → Bought Cant Deliver"
+    }
+  },
+  'available-24-7': {
+    explanation: "You have trained your clients that you are always available. This prevents you from ever having 'Deep Work' time and destroys your personal life.",
+    relatedProblems: ['no-client-boundaries', 'dont-respect-boundaries', 'interruptions-constant'],
+    impactAnalysis: {
+      financialImpact: "Inefficient labor; high burnout; inability to manage multiple clients.",
+      severity: "Major",
+      affectedAreas: ['Productivity', 'Founder Health', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Medium',
+      quickWins: ["Remove work apps from your phone", "Setup an auto-reply for 'After Hours'", "Move all client comms into a project tool"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Early-stage 'Hustle' habits", "Insecurity about value"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to triage client requests and provide instant 'We've received this' replies."
+      },
+      pathToRoot: "Always Available → No Boundaries → Client Issues → Bought Cant Deliver"
+    }
+  },
+  'scope-creep-accepted': {
+    explanation: "You say 'Sure, no problem' to every extra request. You are giving away thousands of dollars in free labor because you are afraid of a 'Hard Conversation.'",
+    relatedProblems: ['no-client-boundaries', 'scope-creep-profit', 'extras-free'],
+    impactAnalysis: {
+      financialImpact: "Direct net profit loss; project delays.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Delivery Timelines'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Say: 'I can do that, here is the quote' for the next request", "Review your scope document with the client today", "Standardize what's NOT included"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Vague scope documents", "Fear of confrontation", "Under-valuing your own time"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Project tools that flag 'Out-of-Scope' keywords in client requests."
+      },
+      pathToRoot: "Creep Accepted → No Boundaries → Client Issues → Bought Cant Deliver"
+    }
+  },
+  'allow-bad-behavior': {
+    explanation: "You let clients treat your team poorly, pay late without penalty, or ignore your process. This destroys your team's trust in you and sets a dangerous precedent.",
+    relatedProblems: ['no-client-boundaries', 'difficult-clients', 'team-unreliable'],
+    impactAnalysis: {
+      financialImpact: "High team churn; low morale; devalued brand.",
+      severity: "Critical",
+      affectedAreas: ['Team Culture', 'Brand Authority', 'Retention'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Hard',
+      quickWins: ["Fire a toxic client today", "Support your team in a client dispute", "Publish a 'Code of Conduct' for clients"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of personal leadership", "Revenue-at-all-costs mindset"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a leadership and ethics task."
+      },
+      pathToRoot: "Bad Behavior Allowed → No Boundaries → Client Issues → Bought Cant Deliver"
+    }
+  },
+  'cant-say-no': {
+    explanation: "The root of all boundary problems. You are afraid that saying 'No' will lead to losing the client or getting a bad review. This fear is keeping you trapped in a low-profit, high-stress cycle.",
+    relatedProblems: ['no-client-boundaries', 'scope-creep-accepted', 'difficult-clients'],
+    impactAnalysis: {
+      financialImpact: "Death by a thousand 'Yeses'; total loss of strategic focus.",
+      severity: "Critical",
+      affectedAreas: ['Strategic Vision', 'Profitability', 'Founder Health'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Hard',
+      quickWins: ["Say 'No' to one thing today", "Pre-write a 'Kind No' email template", "Recognize that every 'Yes' is a 'No' to your own growth"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["People-pleasing mindset", "Insecurity", "Lack of clear business priorities"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a mindset and discipline task."
+      },
+      pathToRoot: "Cant Say No → No Boundaries → Client Issues → Bought Cant Deliver"
     }
   },
 
@@ -3288,27 +4530,510 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
     }
   },
   // ADMIN BRANCH
-  'admin-busywork': {
-    explanation: "You are spending your expensive founder hours on data entry, scheduling, and invoice chasing. Every hour you spend on admin is an hour you aren't spending on growth.",
-    relatedProblems: ['low-value-work', 'admin-staff'],
+  'work-others-cheaper': {
+    explanation: "You are performing tasks that have a market value of $20-$50/hour while your business needs you to perform $500/hour activities. Every hour you spend on 'cheap' work is an hour you are effectively paying yourself a junior's salary.",
+    relatedProblems: ['low-value-work', 'cant-delegate-founder'],
     impactAnalysis: {
-      financialImpact: "Massive opportunity cost; strategic stagnation.",
-      severity: "Moderate",
-      affectedAreas: ['Founder Throughput', 'Growth Rate'],
+      financialImpact: "Direct loss of high-value growth; highest opportunity cost in the business.",
+      severity: "Major",
+      affectedAreas: ['Founder Throughput', 'Growth Speed'],
       strategicPriority: 'High'
     },
     timeToSolve: {
       estimate: "1 month",
       difficulty: 'Easy',
-      quickWins: ["Hire a VA for 2 hours a day", "Setup an automated scheduler (Calendly)", "Use AI to draft your common emails"]
+      quickWins: ["List every task you did this week and its hourly market rate", "Hire a part-time VA or freelancer for the lowest-rate tasks", "Stop doing any task that someone on Fiverr could do for $20"]
     },
     rootCauseAnalysis: {
-      likelyCauses: ["Lack of delegation", "Hero complex"],
+      likelyCauses: ["Frugality mindset ('I can save money by doing it myself')", "Lack of awareness of task value"],
       automationPotential: {
         rating: 'High',
-        example: "AI-powered calendar and inbox management."
+        example: "Using AI to perform routine drafting, research, or data tasks."
       },
-      pathToRoot: "Admin Work → Low-Value Work → Time Trapped → Personal Bottlenecks"
+      pathToRoot: "Cheap Work → Low-Value Work → Time Trapped → Personal Bottlenecks"
+    }
+  },
+  'busy-not-revenue': {
+    explanation: "You are mistaking activity for progress. Your calendar is full, but your bank account isn't growing. You are focusing on 'Business Theater' rather than 'Revenue Generating Activities' (RGAs).",
+    relatedProblems: ['low-value-work', 'reactive-not-proactive'],
+    impactAnalysis: {
+      financialImpact: "Strategic stagnation; running in place while competition moves ahead.",
+      severity: "Major",
+      affectedAreas: ['Strategic Growth', 'Revenue Predictability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Medium',
+      quickWins: ["Identify your top 3 RGAs and schedule them for first thing in the morning", "Say 'No' to 3 non-revenue meetings this week", "Set a 'Revenue Target' for every major project"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Avoiding difficult sales/growth work", "Lack of clear goals", "People-pleasing"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a prioritization and mindset shift."
+      },
+      pathToRoot: "Busywork → Low-Value Work → Time Trapped → Personal Bottlenecks"
+    }
+  },
+  'firefighting-not-building': {
+    explanation: "You spend your entire day solving problems that shouldn't have happened in the first place. You are reactive, constantly 'putting out fires' rather than building the systems that prevent them.",
+    relatedProblems: ['low-value-work', 'no-systems'],
+    impactAnalysis: {
+      financialImpact: "Zero progress on infrastructure; high stress; recurring mistakes.",
+      severity: "Major",
+      affectedAreas: ['Mental Clarity', 'Scalability', 'Operational Stability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Hard',
+      quickWins: ["Identify the #1 'Recurring Fire' and build a system to kill it today", "Block 2 hours of 'Non-Interruption' time for building SOPs", "Stop solving the same problem twice"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of operational systems", "Poorly trained team", "Reactive leadership style"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using automated monitoring and alerts to catch 'Small Sparks' before they become fires."
+      },
+      pathToRoot: "Firefighting → Low-Value Work → Time Trapped → Personal Bottlenecks"
+    }
+  },
+  'micromanagement': {
+    explanation: "You hired people but you don't trust them to do the work. You are involved in every tiny detail, which slows down the team, creates a bottleneck, and prevents your staff from growing.",
+    relatedProblems: ['cant-delegate-founder', 'dont-trust-others'],
+    impactAnalysis: {
+      financialImpact: "Highest cost of management; low team morale; zero scalability.",
+      severity: "Major",
+      affectedAreas: ['Team Morale', 'Scalability', 'Founder Efficiency'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Give one project to a team member and promise not to check in for 48 hours", "Define 'Success Criteria' instead of 'How to do it'", "Accept that 80% as good as you is often good enough"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Perfectionism", "Insecurity", "Lack of clear training/SOPs"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using project dashboards to see progress *without* having to ask for updates."
+      },
+      pathToRoot: "Micromanagement → Cant Delegate → Time Trapped → Personal Bottlenecks"
+    }
+  },
+  'everything-founders-head': {
+    explanation: "The business knowledge is trapped in your brain. If you aren't there to answer questions, the business stops. This makes you the world's most expensive 'Support Desk.'",
+    relatedProblems: ['no-processes-documented', 'knowledge-not-transferable'],
+    impactAnalysis: {
+      financialImpact: "High cost of existence; zero exit value; high training friction.",
+      severity: "Critical",
+      affectedAreas: ['Scalability', 'Asset Value', 'Team Autonomy'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Record every internal question you answer this week", "Turn those answers into a simple Wiki or Notion doc", "Stop answering questions that aren't documented yet"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Moving too fast to document", "Reliance on verbal communication"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to transcribe your verbal instructions into written SOPs."
+      },
+      pathToRoot: "Internal Bottleneck → No Docs → Time Trapped → Personal Bottlenecks"
+    }
+  },
+  'knowledge-not-transferable': {
+    explanation: "You have built a service that is 'Magic' rather than 'Method.' It's based on your unique intuition or talent, meaning you can't easily teach someone else to do it.",
+    relatedProblems: ['no-processes-documented', 'service-complex'],
+    impactAnalysis: {
+      financialImpact: "Growth ceiling; inability to hire senior replacements; high 'Magic' tax.",
+      severity: "Major",
+      affectedAreas: ['Scalability', 'Product Strategy'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Deconstruct your 'Magic' into a 5-step framework", "Identify the 'General' vs 'Specialized' parts of your work", "Standardize the inputs needed for your intuition to work"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of proprietary method", "Over-reliance on founder talent"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI models trained on your 'Method' to assist team members."
+      },
+      pathToRoot: "Non-Transferable → No Docs → Time Trapped → Personal Bottlenecks"
+    }
+  },
+  'no-systems-organization': {
+    explanation: "You have no 'Home' for information. Tasks, files, and communications are scattered across Slack, Email, WhatsApp, and your memory. This is the foundation of chaos.",
+    relatedProblems: ['disorganized-chaotic', 'messy-files', 'no-task-management'],
+    impactAnalysis: {
+      financialImpact: "High hidden labor waste; missed opportunities; high team frustration.",
+      severity: "Major",
+      affectedAreas: ['Efficiency', 'Mental Clarity', 'Operational Stability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 months",
+      difficulty: 'Medium',
+      quickWins: ["Choose ONE project tool and delete the rest", "Set a 'No-Slack-Tasks' rule today", "Create a master file naming convention"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Tool fragmentation", "Lack of operational discipline", "Rapid scale"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated file routing and task creation using centralized workspace tools."
+      },
+      pathToRoot: "No Org Systems → Disorganized → Personal Bottlenecks"
+    }
+  },
+  'messy-files': {
+    explanation: "Documents are named 'final_final_v2.pdf' and hidden in deep folder structures. You and your team waste 30-60 mins a day just searching for things you already have.",
+    relatedProblems: ['no-systems-organization', 'cant-find-things'],
+    impactAnalysis: {
+      financialImpact: "Direct labor waste; risk of using outdated information.",
+      severity: "Low to Moderate",
+      affectedAreas: ['Efficiency', 'Quality Control'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Standardize top-level folder names today", "Archive anything older than 2 years", "Use a 'Master Index' document for critical project files"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of folder hierarchy SOP", "No naming convention", "Personal habit of team"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI-powered file search and automated tagging/organization."
+      },
+      pathToRoot: "Messy Files → No Org Systems → Disorganized → Personal Bottlenecks"
+    }
+  },
+  'sticky-notes-everywhere': {
+    explanation: "Your 'System' is physical clutter. Sticky notes, physical pads, and memory are not searchable, not shareable, and easily lost. It's a sign of a 'Single-User' business mindset.",
+    relatedProblems: ['no-systems-organization', 'no-task-management'],
+    impactAnalysis: {
+      financialImpact: "Information loss; inability to delegate; high risk of items 'falling through.'",
+      severity: "Moderate",
+      affectedAreas: ['Reliability', 'Scalability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Throw away every sticky note today after digitizing the tasks", "Switch to a digital 'Inbox' for all random thoughts", "Buy a second monitor instead of more paper"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Resistance to digital tools", "Fear of 'System' overhead"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using OCR (Optical Character Recognition) to digitize notes instantly."
+      },
+      pathToRoot: "Physical Chaos → No Org Systems → Disorganized → Personal Bottlenecks"
+    }
+  },
+  'shiny-object-syndrome': {
+    explanation: "You are constantly starting new projects but finishing none. You are chasing the 'Next Big Thing' because the current thing is hard or boring. This prevents the business from ever reaching critical mass.",
+    relatedProblems: ['poor-prioritization', 'everything-urgent'],
+    impactAnalysis: {
+      financialImpact: "Diverted resources; zero momentum; wasted R&D spend.",
+      severity: "Major",
+      affectedAreas: ['Growth Speed', 'Focus', 'Productivity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Strategic shift",
+      difficulty: 'Hard',
+      quickWins: ["Say 'No' to every new idea for 30 days", "Implement an 'Ideas Parking Lot' Notion page", "Focus on the #1 revenue source until it's automated"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Entrepreneurial boredom", "Fear of failure in the core business", "Lack of clear vision"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a leadership and focus issue."
+      },
+      pathToRoot: "Shiny Object Syndrome → Poor Prioritization → Disorganized → Personal Bottlenecks"
+    }
+  },
+  'time-management-broken': {
+    explanation: "You have no control over your day. You are a 'slave to the notifications.' This leads to long hours with very little output, eventually causing burnout.",
+    relatedProblems: ['no-calendar-system', 'no-time-blocking', 'interruptions-constant'],
+    impactAnalysis: {
+      financialImpact: "Low founder productivity; high stress; eventual health collapse.",
+      severity: "Major",
+      affectedAreas: ['Founder Health', 'Efficiency', 'Leadership'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Delete Slack/Email from your phone", "Block out the first 2 hours of your day for 'Deep Work'", "Use a calendar for EVERYTHING, including lunch"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of boundaries", "Reliance on synchronous communication", "Reactive habits"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated calendar managers and focus-mode software."
+      },
+      pathToRoot: "Broken Time Management → Disorganized → Personal Bottlenecks"
+    }
+  },
+  'no-time-blocking': {
+    explanation: "You work on whatever is 'loudest' right now. You lack the discipline to dedicate specific blocks of time to specific types of work, leading to constant context-switching.",
+    relatedProblems: ['time-management-broken', 'interruptions-switching'],
+    impactAnalysis: {
+      financialImpact: "40% reduction in cognitive performance due to switching; delayed projects.",
+      severity: "Moderate",
+      affectedAreas: ['Productivity', 'Quality of Work'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Color-code your calendar by activity type", "Schedule 'Admin' for the end of the day", "Strictly follow the calendar for 3 days"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of planning", "Under-estimating task duration"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Smart scheduling tools that auto-block time based on task priority."
+      },
+      pathToRoot: "No Blocking → Broken Time Management → Disorganized → Personal Bottlenecks"
+    }
+  },
+  'interruptions-constant': {
+    explanation: "Your team, clients, and family can reach you at any time. You are never in 'Deep Work' for more than 15 minutes. You are living in a state of 'continuous partial attention.'",
+    relatedProblems: ['time-management-broken', 'interruptions-switching'],
+    impactAnalysis: {
+      financialImpact: "High error rate; low-quality decisions; high stress.",
+      severity: "Major",
+      affectedAreas: ['Mental Health', 'Output Quality'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Medium',
+      quickWins: ["Turn off ALL non-human notifications", "Set Slack to 'Away' during deep work", "Tell the team: 'No questions between 9 AM and 11 AM'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Culture of immediacy", "Poor team autonomy", "Notification addiction"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Quiet Mode' across all devices during scheduled focus blocks."
+      },
+      pathToRoot: "Constant Interruptions → Broken Time Management → Disorganized → Personal Bottlenecks"
+    }
+  },
+  'communication-mess': {
+    explanation: "You are searching 5 different apps to find one piece of information. Your 'Corporate Memory' is fragmented, leading to confusion and missed deadlines.",
+    relatedProblems: ['multiple-channels-mess', 'losing-important-messages', 'inbox-overflowing'],
+    impactAnalysis: {
+      financialImpact: "Invisible time loss (search cost); client perception of incompetence.",
+      severity: "Moderate",
+      affectedAreas: ['Operational Speed', 'Team Alignment', 'Customer Experience'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Choose ONE app for internal comms and ONE for external", "Shutdown all other channels today", "Set a 'No Internal Email' rule"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Tool bloat", "Lack of communication policy", "Shadow IT (team choosing their own tools)"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI aggregators to sync communications into a single searchable feed."
+      },
+      pathToRoot: "Comms Chaos → Disorganized → Personal Bottlenecks"
+    }
+  },
+  'inbox-overflowing': {
+    explanation: "Your email is a To-Do list that anyone in the world can add to. With thousands of unread messages, you are living in a state of 'Low-Grade Anxiety' and missing revenue opportunities.",
+    relatedProblems: ['communication-mess', 'losing-important-messages'],
+    impactAnalysis: {
+      financialImpact: "Missed sales leads; delayed vendor payments; poor client follow-up.",
+      severity: "Moderate",
+      affectedAreas: ['Sales', 'Mental Health', 'Responsiveness'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Archive ALL emails older than 30 days today (Inbox Zero strategy)", "Unsubscribe from 50 newsletters", "Use filters to route receipts/alerts away from the inbox"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of 'Inbox Zero' discipline", "No email triage system"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI-powered email filters and triage agents (SaneBox, Superhuman)."
+      },
+      pathToRoot: "Inbox Chaos → Comms Chaos → Disorganized → Personal Bottlenecks"
+    }
+  },
+  'workspace-environment': {
+    explanation: "Your physical or digital desk is a disaster. Visual clutter leads to mental clutter. If you can't see your desk, you can't see the path to growth.",
+    relatedProblems: ['physical-clutter', 'desktop-chaos', 'too-many-tabs'],
+    impactAnalysis: {
+      financialImpact: "Reduced focus; friction in starting tasks; low energy.",
+      severity: "Low",
+      affectedAreas: ['Mental Clarity', 'Productivity'],
+      strategicPriority: 'Low'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Clean your desk today", "Close every browser tab and start fresh", "Organize your computer desktop"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Personal habit", "Lack of regular 'Cleanup' cycles"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Digital cleanup bots that auto-archive old desktop files and browser tabs."
+      },
+      pathToRoot: "Workspace Chaos → Disorganized → Personal Bottlenecks"
+    }
+  },
+  'health-neglected': {
+    explanation: "You are sacrificing your body for the business. Poor sleep, no exercise, and bad diet are lowering your IQ, your mood, and your leadership capacity. You are an engine running without oil.",
+    relatedProblems: ['burnout-energy', 'chronic-stress', 'physical-symptoms'],
+    impactAnalysis: {
+      financialImpact: "Poor decision-making; high medical costs; risk of long-term business stall.",
+      severity: "Critical",
+      affectedAreas: ['Leadership Capability', 'Energy Levels', 'Business Survival'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Hard',
+      quickWins: ["Sleep 7+ hours tonight", "Schedule 30 mins of movement today", "Drink 2L of water"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Work-at-all-costs mindset", "Lack of self-care systems", "Isolation"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this requires human lifestyle changes, though wearable tracking can help."
+      },
+      pathToRoot: "Health Neglect → Burnout → Personal Bottlenecks"
+    }
+  },
+  'emotionally-exhausted': {
+    explanation: "You have lost your 'Why.' You are numb, cynical, or constantly on the verge of tears. Your emotional reserves are empty, making you a brittle and ineffective leader.",
+    relatedProblems: ['burnout-energy', 'lost-motivation', 'decision-fatigue'],
+    impactAnalysis: {
+      financialImpact: "Toxic culture; high team churn; missed strategic opportunities.",
+      severity: "Critical",
+      affectedAreas: ['Team Culture', 'Vision', 'Retention'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Take a 48-hour 'Digital Detox'", "Find a founder peer group to talk to", "Outsource the #1 thing you hate doing today"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Long-term chronic stress", "Lack of support network", "Misalignment with core values"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - requires counseling, community, and rest."
+      },
+      pathToRoot: "Emotional Exhaustion → Burnout → Personal Bottlenecks"
+    }
+  },
+  'no-business-skills': {
+    explanation: "You are a great 'technician' but a poor 'business owner.' You don't understand cash flow, hiring, or strategy. You are trying to build a skyscraper with a Lego set.",
+    relatedProblems: ['skills-knowledge-gap', 'no-financial-literacy', 'no-systems-thinking'],
+    impactAnalysis: {
+      financialImpact: "Poor capital allocation; high risk of 'accidental' bankruptcy.",
+      severity: "Major",
+      affectedAreas: ['Financial Management', 'Strategic Growth', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-18 months",
+      difficulty: 'Hard',
+      quickWins: ["Hire a part-time CFO or bookkeeper today", "Read 'The E-Myth Revisited'", "Audit your P&L statement for 1 hour"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Technician-turned-founder", "Lack of formal business education"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI-powered financial analysis and strategy planning tools."
+      },
+      pathToRoot: "Business Skill Gap → Knowledge Gap → Personal Bottlenecks"
+    }
+  },
+  'no-marketing-skills': {
+    explanation: "You don't know how to generate attention or trust at scale. You rely on 'Referrals and Luck,' which is not a growth strategy.",
+    relatedProblems: ['skills-knowledge-gap', 'dont-know-target', 'no-digital-marketing'],
+    impactAnalysis: {
+      financialImpact: "Revenue growth is stagnant and unpredictable.",
+      severity: "Major",
+      affectedAreas: ['Sales pipeline', 'Brand Authority'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Hire a marketing consultant for a 1-hour audit", "Pick ONE channel and master it", "Define your 'Irresistible Offer' today"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Assumption that 'Good work sells itself'", "Technical/Product bias"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI-driven marketing strategy and content generation engines."
+      },
+      pathToRoot: "Marketing Skill Gap → Knowledge Gap → Personal Bottlenecks"
+    }
+  },
+  'learning-too-slow': {
+    explanation: "The world is moving faster than you are. Your skills and tools are becoming obsolete, but you 'don't have time' to learn new ones. You are being out-competed by people who learn 10x faster.",
+    relatedProblems: ['skills-knowledge-gap', 'no-time-learn', 'no-mentors'],
+    impactAnalysis: {
+      financialImpact: "Decreasing competitiveness; eventual obsolescence.",
+      severity: "Moderate",
+      affectedAreas: ['Innovation', 'Competitive Edge'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Schedule 1 hour of 'Learning' time every Friday", "Subscribe to a top industry newsletter", "Join a mastermind group"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Busywork-trap", "Arrogance or fixed mindset"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to summarize books, courses, and industry news into 5-min briefs."
+      },
+      pathToRoot: "Slow Learning → Knowledge Gap → Personal Bottlenecks"
+    }
+  },
+  'mindset-blocks': {
+    explanation: "The 'Inner Bottleneck.' Fear of success, fear of failure, or an 'Imposter' mindset is preventing you from taking the big actions needed to grow.",
+    relatedProblems: ['skills-knowledge-gap', 'imposter-syndrome', 'fear-failure'],
+    impactAnalysis: {
+      financialImpact: "Hidden growth ceiling; self-sabotage of big deals.",
+      severity: "Major",
+      affectedAreas: ['Leadership', 'Sales', 'Strategic Risk'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Write down your #1 business fear today", "Talk to a coach or therapist", "Do the one thing you've been avoiding all week"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Personal trauma/history", "Lack of confidence", "Isolation"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - requires deep internal work and mentorship."
+      },
+      pathToRoot: "Mindset Blocks → Knowledge Gap → Personal Bottlenecks"
     }
   },
   'email-meeting-overload': {
@@ -3632,6 +5357,5273 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
         example: "Automated Gantt charts and 'Delay Warnings' that flag issues before they become crises."
       },
       pathToRoot: "Timelines Slip → Project Management Issues → Bought Cant Deliver"
+    }
+  },
+  'wrong-clients': {
+    explanation: "You are working with people who can't afford you, don't value you, or have problems you aren't optimized to solve. They are draining your energy and profit.",
+    relatedProblems: ['bad-fit-services', 'cant-afford-pricing', 'high-maintenance-low-profit'],
+    impactAnalysis: {
+      financialImpact: "High 'Support-to-Revenue' ratio; high churn; team misery.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Team Morale', 'Brand Alignment'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Fire your most 'Abusive' or 'Unprofitable' client today", "Tighten your 'Lead Qualification' form", "Say 'No' to any prospect who asks for a discount in the first meeting"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Selling out of desperation", "Weak marketing filters", "No clear niche"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated 'Qualification Quizzes' to filter out bad-fit clients before they even talk to you."
+      },
+      pathToRoot: "Wrong Clients → Client Management Issues → Bought Cant Deliver"
+    }
+  },
+  'out-of-business': {
+    explanation: "Your client's company has ceased operations. While this feels outside your control, a high rate of clients going out of business suggests you are targeting an unstable or high-risk market segment.",
+    relatedProblems: ['wrong-clients', 'market-too-small'],
+    impactAnalysis: {
+      financialImpact: "100% LTV loss; potential bad debt (unpaid invoices).",
+      severity: "Major",
+      affectedAreas: ['Revenue Stability', 'Market Strategy'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "3-6 months (Market shift)",
+      difficulty: 'Hard',
+      quickWins: ["Audit the financial health of your current top 10 clients", "Pivot marketing to more 'Recession-Proof' industries", "Require larger upfront payments from startups"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Targeting fragile startups", "Industry-wide downturn", "Poor client qualification"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a strategic targeting issue."
+      },
+      pathToRoot: "Client Out of Business → Why They Left → Clients Churned"
+    }
+  },
+  'contract-ended': {
+    explanation: "The project or subscription term finished, and there was no proactive effort to renew or extend. This is a passive form of churn where you simply 'let them walk away.'",
+    relatedProblems: ['no-renewal-process', 'assuming-stay'],
+    impactAnalysis: {
+      financialImpact: "Passive revenue erosion; high cost of replacement sales.",
+      severity: "Moderate",
+      affectedAreas: ['Retention Rate', 'LTV'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Create a 30-day 'Contract Expiry' alert in your CRM", "Draft a 'Renewal Offer' template today", "Schedule 'Future Planning' calls 2 months before contract end"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of administrative oversight", "Fear of re-negotiation", "Weak relationship management"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated renewal sequences and calendar tasks for account managers."
+      },
+      pathToRoot: "Contract Ended → Why They Left → Clients Churned"
+    }
+  },
+  'pricing-increased': {
+    explanation: "You raised your prices and the client left. While some churn is expected during price increases, losing high-value clients indicates they didn't see enough 'Added Value' to justify the new cost.",
+    relatedProblems: ['afraid-raise-prices', 'value-conveyance'],
+    impactAnalysis: {
+      financialImpact: "Immediate revenue drop from churn; offset by higher margins on remaining clients.",
+      severity: "Moderate",
+      affectedAreas: ['Profitability', 'Retention'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-2 months",
+      difficulty: 'Medium',
+      quickWins: ["Offer a 'Grandfathered' rate for 3-6 months to ease the transition", "Bundle new features or services with the price hike", "Clearly communicate the ROI increase that justifies the price"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Poor communication of value", "Sudden price jumps without warning", "Targeting price-sensitive segments"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a value perception and communication issue."
+      },
+      pathToRoot: "Pricing Increased Churn → Why They Left → Clients Churned"
+    }
+  },
+  'needs-changed': {
+    explanation: "The client outgrew your current service level, or their internal strategy pivoted away from what you provide. This is often a sign that your service isn't 'Sticking' to their long-term growth.",
+    relatedProblems: ['lack-awareness', 'no-upsell-process'],
+    impactAnalysis: {
+      financialImpact: "Loss of 'Scale-up' potential; missed opportunities to grow with the client.",
+      severity: "Moderate",
+      affectedAreas: ['Client Lifetime Value', 'Service Roadmap'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Medium',
+      quickWins: ["Interview the departing client to see what they need *now*", "Develop a 'Premium' or 'Enterprise' tier for growing clients", "Partner with vendors who solve the 'Next' problem for them"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Static service offering", "Not keeping pace with industry trends", "Lack of quarterly strategic reviews"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to track client company news and flag 'Growth' triggers (hiring, funding)."
+      },
+      pathToRoot: "Needs Changed → Why They Left → Clients Churned"
+    }
+  },
+  'contact-left': {
+    explanation: "Your internal champion or primary contact left the client's company, and you failed to build a relationship with their successor or the wider team. You were 'tied to a person,' not the organization.",
+    relatedProblems: ['relationship-deteriorated', 'no-retention-system'],
+    impactAnalysis: {
+      financialImpact: "Sudden account risk; high probability of 'New Manager' syndrome (bringing in their own vendors).",
+      severity: "Major",
+      affectedAreas: ['Account Stability', 'LTV'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate (on occurrence)",
+      difficulty: 'Medium',
+      quickWins: ["Multi-thread your relationships (know at least 3 people in the company)", "Set a Google Alert for your champions' names", "Reach out to the new contact with a 'Value Audit' of past results"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Single-threaded relationships", "Passive account management", "Lack of institutional trust"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using LinkedIn integration to automatically flag when a key contact changes jobs."
+      },
+      pathToRoot: "Contact Left → Why They Left → Clients Churned"
+    }
+  },
+  'relationship-deteriorated': {
+    explanation: "The trust and rapport between you and the client have eroded over time. This is often due to small, unaddressed frustrations, poor communication, or a 'Transactional' feel to the work.",
+    relatedProblems: ['bad-service', 'not-asking-feedback'],
+    impactAnalysis: {
+      financialImpact: "Slow-motion churn; zero referrals; increased price sensitivity.",
+      severity: "Major",
+      affectedAreas: ['Retention', 'Referral Rate', 'Team Morale'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Send a personal, non-work related 'Thinking of you' note", "Host a 'Service Recovery' meeting to clear the air", "Assign a new account manager for a fresh start"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Communication gaps", "Arrogance or complacency", "Mismatch in personalities"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - relationships require human touch."
+      },
+      pathToRoot: "Relationship Deteriorated → Why They Left → Clients Churned"
+    }
+  },
+  'not-staying-touch': {
+    explanation: "The 'Out of sight, out of mind' problem. You only contact the client when there is an invoice or a problem. They don't feel valued or supported between projects.",
+    relatedProblems: ['no-retention-system', 'assuming-stay'],
+    impactAnalysis: {
+      financialImpact: "Increased risk of competitor poaching; low upsell conversion.",
+      severity: "Moderate",
+      affectedAreas: ['Brand Loyalty', 'Account Growth'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Easy',
+      quickWins: ["Setup a monthly value-add newsletter", "Schedule a recurring '15-min Coffee' call every quarter", "Share one relevant industry article with them today"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Focus on 'New Sales' over 'Existing Success'", "No account management process", "Founder busy-ness"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Stay-in-Touch' reminders in your CRM based on last contact date."
+      },
+      pathToRoot: "Not Staying in Touch → No Retention System → Clients Churned"
+    }
+  },
+  'not-asking-feedback': {
+    explanation: "You are operating in a vacuum. You don't know if the client is happy or frustrated because you never ask. Silence is not always 'Good News.'",
+    relatedProblems: ['bad-service', 'relationship-deteriorated'],
+    impactAnalysis: {
+      financialImpact: "Surprise churn; missed opportunities to fix small issues before they become terminal.",
+      severity: "Major",
+      affectedAreas: ['Service Quality', 'Client Satisfaction'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Send a simple 1-question NPS survey today", "Ask at the end of every call: 'What's one thing we could do better?'", "Implement a formal 'Mid-Project' review"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of negative feedback", "Complacency", "No formal QA process"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated feedback requests sent after project milestones or every 90 days."
+      },
+      pathToRoot: "Not Asking Feedback → No Retention System → Clients Churned"
+    }
+  },
+  'not-monitoring-satisfaction': {
+    explanation: "You have no data on client health. You don't track metrics like login frequency, usage, or response times that signal a client is 'Checking out' before they actually leave.",
+    relatedProblems: ['bad-service', 'no-retention-system'],
+    impactAnalysis: {
+      financialImpact: "Inability to predict churn; reactive instead of proactive retention.",
+      severity: "Moderate",
+      affectedAreas: ['Retention Strategy', 'Operational Awareness'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Identify 3 'Health Triggers' for your service", "Create a 'Red Account' list for weekly review", "Check-in with any client who hasn't responded in > 10 days"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of data tracking", "No Customer Success role", "Focus on delivery only"],
+      automationPotential: {
+        rating: 'High',
+        example: "Customer health dashboards that aggregate usage data and survey scores."
+      },
+      pathToRoot: "Not Monitoring Satisfaction → No Retention System → Clients Churned"
+    }
+  },
+  'assuming-stay': {
+    explanation: "The 'Complacency Trap.' You believe that because they've been with you for years, they always will be. You stop 'Earning' their business every month.",
+    relatedProblems: ['no-renewal-process', 'not-staying-touch'],
+    impactAnalysis: {
+      financialImpact: "Sudden, shocking loss of 'Safe' revenue; loss of institutional knowledge.",
+      severity: "Major",
+      affectedAreas: ['Revenue Stability', 'Strategic Planning'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing (Mindset shift)",
+      difficulty: 'Medium',
+      quickWins: ["Re-pitch your value to an old client today", "Audit your oldest account for 'Service Drift'", "Ask: 'If they were a new lead today, would my current offer win them?'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Arrogance", "Lack of competitive awareness", "Taking relationships for granted"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a cultural and mindset issue."
+      },
+      pathToRoot: "Assuming They'll Stay → No Retention System → Clients Churned"
+    }
+  },
+  'lack-awareness': {
+    explanation: "Clients don't buy more because they don't know what else you do. They have categorized you as 'The [X] Guy' and don't realize you also solve [Y] and [Z].",
+    relatedProblems: ['dont-know-offer', 'dont-know-what-else', 'never-told'],
+    impactAnalysis: {
+      financialImpact: "Missed high-margin upsells; client buys from competitors for things you could have done.",
+      severity: "Major",
+      affectedAreas: ['LTV', 'Sales Efficiency', 'Market Share'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Easy',
+      quickWins: ["Send a 'Capability Deck' to all current clients", "Add a 'What Else We Do' section to your email signature", "Mention one other service in every monthly update"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Poor internal marketing", "Narrow initial positioning", "Lack of account expansion strategy"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Did you know?' educational sequences for active clients."
+      },
+      pathToRoot: "Lack of Awareness → Existing Clients Not Buying More → Not Enough Clients"
+    }
+  },
+  'lack-need-perceived': {
+    explanation: "The client actually has a problem you can solve, but they don't *feel* the pain yet, or they don't see how your other services connect to their current goals.",
+    relatedProblems: ['dont-see-connection', 'dont-need-else'],
+    impactAnalysis: {
+      financialImpact: "Stagnant account growth; perceived as a 'Vendor' rather than a 'Partner.'",
+      severity: "Moderate",
+      affectedAreas: ['Account Strategy', 'Perceived Value'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Medium',
+      quickWins: ["Run a 'Gap Analysis' for the client's business", "Show them a case study of how [Service B] improved [Service A] results", "Ask: 'What happens to your [X] results if [Y] isn't solved?'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of strategic consultative selling", "Focus on technical delivery over business outcomes"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI-driven 'Next Best Action' recommendations based on client industry data."
+      },
+      pathToRoot: "Lack of Perceived Need → Existing Clients Not Buying More → Not Enough Clients"
+    }
+  },
+  'barriers-expansion': {
+    explanation: "There are concrete obstacles preventing the client from buying more, even if they want to. This could be budget, timing, or past friction that hasn't been resolved.",
+    relatedProblems: ['budget-constraints', 'bad-experience-first', 'buying-elsewhere'],
+    impactAnalysis: {
+      financialImpact: "Capped account revenue; increased pressure to find new leads instead of growing existing ones.",
+      severity: "Major",
+      affectedAreas: ['LTV', 'Sales Velocity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Audit the client's current vendors to see where you can consolidate", "Offer a 'Trial' of the new service at a discount", "Identify the 'Internal Blocker' (person) and build a relationship with them"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Poor client qualification initially", "Operational friction in first project", "Competitive lock-in"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated 'Barrier Surveys' to identify why expansion deals are stalling."
+      },
+      pathToRoot: "Barriers to Expansion → Existing Clients Not Buying More → Not Enough Clients"
+    }
+  },
+  'market-too-small': {
+    explanation: "You have picked a niche that is so specific or local that there simply aren't enough people to hit your revenue targets. You are the 'Big Fish in a Tiny Pond.'",
+    relatedProblems: ['niche-narrow', 'geographic-limits', 'addressable-market'],
+    impactAnalysis: {
+      financialImpact: "Hard revenue ceiling; high customer acquisition costs as you exhaust the pool.",
+      severity: "Major",
+      affectedAreas: ['Scalability', 'Business Valuation', 'Growth Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months (Strategic pivot)",
+      difficulty: 'Hard',
+      quickWins: ["Expand your 'Geographic' target by 50 miles", "Identify one 'Adjacent' niche you can serve with the same tech", "Increase prices to compensate for lower volume"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of competition in larger markets", "Lack of market research", "Legacy business models"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a market selection problem."
+      },
+      pathToRoot: "Market Too Small → Cant Find Prospects → Not Getting New Clients"
+    }
+  },
+  'market-competitive': {
+    explanation: "You are in a 'Red Ocean.' There are too many providers, prices are being driven down, and you look exactly like everyone else. You are fighting for scraps.",
+    relatedProblems: ['race-bottom-price', 'differentiation-unclear', 'barriers-low'],
+    impactAnalysis: {
+      financialImpact: "Margin compression; low conversion rates; high marketing spend for low ROI.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Competitive Positioning', 'Marketing ROI'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Pick a sub-niche and become the #1 expert there", "Create a 'Unique Mechanism' for your delivery", "Add a high-value guarantee that competitors are afraid to offer"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Commoditization", "Lack of innovation", "Following 'Best Practices' too closely"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Competitive intelligence tools to monitor rival pricing and offers in real-time."
+      },
+      pathToRoot: "Market Too Competitive → Cant Find Prospects → Not Getting New Clients"
+    }
+  },
+  'no-word-mouth': {
+    explanation: "Your service is 'Fine,' but it's not 'Remarkable.' People don't talk about things that just 'work as expected.' You lack the 'Wow' factor that triggers organic growth.",
+    relatedProblems: ['not-talk-worthy', 'no-community', 'not-memorable'],
+    impactAnalysis: {
+      financialImpact: "100% reliance on paid/outbound channels; zero 'Free' growth.",
+      severity: "Moderate",
+      affectedAreas: ['Acquisition Cost', 'Brand Equity'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Medium',
+      quickWins: ["Add one 'Unexpected Bonus' to your onboarding", "Send a physical gift after the first milestone", "Create a 'Client-Only' community or event"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Standardized/Boring delivery", "Lack of personality in brand", "Focus on 'Tasks' over 'Experience'"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated 'Gifting' systems (e.g., Sendoso) triggered by project success."
+      },
+      pathToRoot: "No Word of Mouth → Prospects Dont Know → Not Getting New Clients"
+    }
+  },
+  'wrong-channels': {
+    explanation: "You are fishing in the wrong pond. You are spending money on Facebook when your clients are reading trade journals, or on cold email when they prefer LinkedIn.",
+    relatedProblems: ['marketing-not-audience', 'message-wrong-platforms'],
+    impactAnalysis: {
+      financialImpact: "100% waste of marketing budget; opportunity cost of missed leads.",
+      severity: "Major",
+      affectedAreas: ['Marketing ROI', 'Lead Quality'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Ask your last 5 leads: 'How did you find us?' and 'Where do you look for [Service]?'", "Pause the lowest-performing channel today", "Reallocate 20% of budget to a 'Wildcard' channel test"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Following 'Marketing Trends' instead of 'Customer Behavior'", "Lack of attribution tracking", "Inertia"],
+      automationPotential: {
+        rating: 'High',
+        example: "Attribution software (e.g., Hyros, Rockerbox) to see exactly where leads come from."
+      },
+      pathToRoot: "Wrong Channels → Prospects Dont Know → Not Getting New Clients"
+    }
+  },
+  'wrong-clients': {
+    explanation: "You are working with people who can't afford you, don't value you, or have problems you aren't optimized to solve. They are draining your energy and profit.",
+    relatedProblems: ['bad-fit-services', 'cant-afford-pricing', 'high-maintenance-low-profit'],
+    impactAnalysis: {
+      financialImpact: "High 'Support-to-Revenue' ratio; high churn; team misery.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Team Morale', 'Brand Alignment'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Fire your most 'Abusive' or 'Unprofitable' client today", "Tighten your 'Lead Qualification' form", "Say 'No' to any prospect who asks for a discount in the first meeting"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Selling out of desperation", "Weak marketing filters", "No clear niche"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated 'Qualification Quizzes' to filter out bad-fit clients before they even talk to you."
+      },
+      pathToRoot: "Wrong Clients → Client Management Issues → Bought Cant Deliver"
+    }
+  },
+  'wrong-timing': {
+    explanation: "You are reaching prospects when they don't have the problem you solve, or they aren't in a 'Buying Mode.' Without nurturing, you lose these leads forever when you could have been the first choice later.",
+    relatedProblems: ['not-nurturing', 'no-followup', 'one-and-done'],
+    impactAnalysis: {
+      financialImpact: "High 'Lead Burn' rate; wasted ad spend on top-of-funnel leads that never close.",
+      severity: "Moderate",
+      affectedAreas: ['Conversion Rate', 'Marketing ROI'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Easy',
+      quickWins: ["Setup an automated 'Long-term' nurture email sequence", "Create a retargeting ad audience for website visitors", "Ask: 'If not now, when would be a better time to re-evaluate?'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Impatience in sales process", "No CRM automation", "Focus on 'Right Now' deals only"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated email nurture flows triggered by lead score or time since last contact."
+      },
+      pathToRoot: "Wrong Timing → Aware But Dont Engage → Not Getting New Clients"
+    }
+  },
+  'no-clear-next-step': {
+    explanation: "Prospects are interested, but they don't know what to do. Your Call-to-Action (CTA) is either missing, too complicated, or requires too much commitment too early.",
+    relatedProblems: ['no-cta', 'cta-unclear', 'too-much-friction'],
+    impactAnalysis: {
+      financialImpact: "Immediate drop-off in sales velocity; high 'Bounce Rate' on landing pages.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'Sales pipeline'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Add a single, bold button to your homepage", "Use a 'Low-Friction' CTA (e.g., 'Free 5-min Audit' vs '1-Hour Sales Call')", "Tell them exactly what happens after they click"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Analysis Paralysis", "Lack of design focus", "Fear of being 'Too Direct'"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'Sticky' CTAs or chatbots to prompt the next step automatically."
+      },
+      pathToRoot: "No Clear Next Step → Aware But Dont Engage → Not Getting New Clients"
+    }
+  },
+  'content-weak': {
+    explanation: "Your website, ads, or posts look 'Amateur' or read 'Boring.' In a world of infinite distraction, your creative content isn't sharp enough to stop the scroll and build authority.",
+    relatedProblems: ['design-amateur', 'copy-boring', 'no-hook'],
+    impactAnalysis: {
+      financialImpact: "High cost of attention; low engagement rates; perceived as a 'Low-Value' vendor.",
+      severity: "Major",
+      affectedAreas: ['Brand Authority', 'Marketing Conversion'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Hire a professional designer for your top 3 assets", "Rewrite your copy focusing on *Outcomes* not *Features*", "Add a 'Hook' to the first 3 seconds of every video/post"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["DIY mindset", "Under-investing in creative", "Lack of brand guidelines"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI image and video tools to rapidly iterate on creative variations."
+      },
+      pathToRoot: "Weak Content → Aware But Dont Engage → Not Getting New Clients"
+    }
+  },
+  'trust-signals-missing': {
+    explanation: "You are a 'Faceless' brand. Prospects can't see who you've worked with, what your results are, or if you're even a real company. They won't engage because the risk of 'First Contact' feels too high.",
+    relatedProblems: ['no-social-proof', 'no-credentials', 'anonymous-brand'],
+    impactAnalysis: {
+      financialImpact: "Zero organic trust; high barrier to entry for every new lead.",
+      severity: "Major",
+      affectedAreas: ['Close Rate', 'Brand Equity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Add client logos to your header", "Publish 3 'Customer Success' stories", "Put your face/founder's story on the 'About' page"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Privacy concerns", "Lack of social proof gathering", "Newness in market"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated 'Proof' popups showing recent signups or purchases."
+      },
+      pathToRoot: "Missing Trust Signals → Aware But Dont Engage → Not Getting New Clients"
+    }
+  },
+  'dont-trust': {
+    explanation: "The prospect likes the idea, but they don't believe *you* can deliver it. You lack the 'Proof' required to lower their perceived risk at the point of sale.",
+    relatedProblems: ['no-testimonials', 'no-track-record', 'website-unprofessional'],
+    impactAnalysis: {
+      financialImpact: "High drop-off at the final stage of the funnel.",
+      severity: "Major",
+      affectedAreas: ['Close Rate', 'Brand Equity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Get 3 video testimonials from happy clients", "Showcase logos of recognizable brands you've worked with", "Publish a detailed 'Deep Dive' case study showing your process"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["New business/offer", "Invisible results", "Poor branding"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated testimonial gathering and display widgets (Senja, TrustPulse)."
+      },
+      pathToRoot: "Lack of Trust → Engage But Dont Buy → Not Getting New Clients"
+    }
+  },
+  'dont-understand-offer': {
+    explanation: "If you confuse them, you lose them. Your pricing, process, or 'What's Included' is too complex. The prospect can't figure out exactly what they're buying, so they default to 'No.'",
+    relatedProblems: ['explanation-complicated', 'too-many-options', 'pricing-structure-confusing'],
+    impactAnalysis: {
+      financialImpact: "High sales friction; deals die in 'Review' because they can't be explained to others.",
+      severity: "Major",
+      affectedAreas: ['Sales Velocity', 'Conversion Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Create a 1-page 'How It Works' infographic", "Simplify to 3 clear pricing tiers", "Use a 'Start Here' video to explain the first 30 days"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Expert blindness (using jargon)", "Over-engineering the offer", "Fear of being 'Too Simple'"],
+      automationPotential: {
+        rating: 'High',
+        example: "Interactive 'Offer Builders' that guide the user through their specific needs."
+      },
+      pathToRoot: "Dont Understand Offer → Engage But Dont Buy → Not Getting New Clients"
+    }
+  },
+  'dont-believe-solves': {
+    explanation: "The prospect understands what you do, but they don't think it will work for *them.* They feel their situation is 'Special' or 'Unique' and your case studies don't bridge that gap.",
+    relatedProblems: ['weak-case-studies', 'cant-articulate-roi', 'situation-different'],
+    impactAnalysis: {
+      financialImpact: "Massive sales labor waste; deals stall at 'I'll think about it.'",
+      severity: "Major",
+      affectedAreas: ['Close Rate', 'Market Authority'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Categorize case studies by 'Industry' or 'Problem Type'", "Add a 'Customized ROI Calculator' to your sales process", "Offer a 'Mini-Sprint' to prove value first"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Generic sales deck", "Lack of industry-specific proof", "Weak consultative skills"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI-powered case study matching that finds the most relevant results for each prospect."
+      },
+      pathToRoot: "Dont Believe It Solves → Engage But Dont Buy → Not Getting New Clients"
+    }
+  },
+  'price-objection': {
+    explanation: "The prospect wants it, but they say they 'Can't Afford It.' This is rarely a budget problem and almost always a 'Value Perceived' vs 'Price' problem.",
+    relatedProblems: ['sticker-shock', 'cant-see-value', 'payment-terms-dont-work'],
+    impactAnalysis: {
+      financialImpact: "Constant downward pressure on margins; haggling; 'Ghosting' after pricing is revealed.",
+      severity: "Major",
+      affectedAreas: ['Gross Margin', 'Sales Conversion'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Offer payment plans (weekly/monthly)", "Anchoring: Show a much higher price first", "Tie the price directly to the cost of *not* solving the problem"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Selling features instead of outcomes", "Targeting the wrong segment", "Poor value anchoring"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated 'Budget Checkers' that qualify prospects before the call."
+      },
+      pathToRoot: "Price Objection → Engage But Dont Buy → Not Getting New Clients"
+    }
+  },
+  'timing-not-right-sales': {
+    explanation: "The prospect has the problem and likes the solution, but 'Now is not the time.' This is usually due to internal bureaucracy, seasonal budgets, or competing priorities.",
+    relatedProblems: ['problem-not-urgent', 'budget-not-now', 'other-priorities'],
+    impactAnalysis: {
+      financialImpact: "High 'Work-in-Progress' (WIP) in sales pipeline; unpredictable revenue.",
+      severity: "Moderate",
+      affectedAreas: ['Sales pipeline', 'Cash Flow Forecasting'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing (Nurture)",
+      difficulty: 'Medium',
+      quickWins: ["Get a firm 'Next Step' date on the calendar now", "Incentivize 'Early Signing' with a future start date", "Send a 'Value-Add' email every 30 days until they are ready"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["No sense of urgency", "Mismatch with fiscal cycles", "Passive follow-up"],
+      automationPotential: {
+        rating: 'High',
+        example: "CRM automation that alerts you 14 days before their 'Budget Cycle' starts."
+      },
+      pathToRoot: "Timing Not Right → Engage But Dont Buy → Not Getting New Clients"
+    }
+  },
+  'competition-beats': {
+    explanation: "You were in the race, but you came in second. The prospect chose a competitor because they moved faster, had a better relationship, or presented a more compelling case.",
+    relatedProblems: ['competitor-better-offer', 'competitor-moved-faster', 'lost-on-price'],
+    impactAnalysis: {
+      financialImpact: "High opportunity cost; total loss of marketing/sales spend for that lead.",
+      severity: "Major",
+      affectedAreas: ['Market Share', 'Win Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Hard',
+      quickWins: ["Run a 'Lost Deal' post-mortem to find out why", "Improve your response time to < 1 hour", "Add one 'Exclusive' feature that no competitor has"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Slow sales response", "Weak differentiation", "Passive relationship building"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated 'Battle Cards' that provide rebuttals against specific competitors in real-time."
+      },
+      pathToRoot: "Competition Beats Us → Engage But Dont Buy → Not Getting New Clients"
+    }
+  },
+  'risk-too-high': {
+    explanation: "The prospect is afraid of making the 'Wrong Choice.' They are worried about looking bad internally, losing money, or the headache of a failed implementation.",
+    relatedProblems: ['big-commitment', 'fear-wrong-decision', 'no-trial-guarantee'],
+    impactAnalysis: {
+      financialImpact: "Extreme sales friction; 'Paralysis by Analysis' in mid-sized to large companies.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'Sales Velocity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Add a 'Money-Back Guarantee'", "Offer a 'Pilot Program' or 'Discovery Phase'", "Show a 'Step-by-Step' onboarding map to reduce fear of change"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of confidence in presentation", "Complex transition process", "High price without safety net"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Interactive risk assessment tools that address concerns before the final pitch."
+      },
+      pathToRoot: "Risk Too High → Engage But Dont Buy → Not Getting New Clients"
+    }
+  },
+  'risk-too-high': {
+    explanation: "The prospect is afraid of making the 'Wrong Choice.' They are worried about looking bad internally, losing money, or the headache of a failed implementation.",
+    relatedProblems: ['big-commitment', 'fear-wrong-decision', 'no-trial-guarantee'],
+    impactAnalysis: {
+      financialImpact: "Extreme sales friction; 'Paralysis by Analysis' in mid-sized to large companies.",
+      severity: "Major",
+      affectedAreas: ['Conversion Rate', 'Sales Velocity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Add a 'Money-Back Guarantee'", "Offer a 'Pilot Program' or 'Discovery Phase'", "Show a 'Step-by-Step' onboarding map to reduce fear of change"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of confidence in presentation", "Complex transition process", "High price without safety net"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Interactive risk assessment tools that address concerns before the final pitch."
+      },
+      pathToRoot: "Risk Too High → Engage But Dont Buy → Not Getting New Clients"
+    }
+  },
+  'cant-delegate': {
+    explanation: "You struggle to let go of tasks, either because you don't trust others or you don't know how to document your 'Magic' so others can replicate it. This makes you the ultimate bottleneck.",
+    relatedProblems: ['dont-trust-others', 'easier-do-myself', 'no-one-delegate'],
+    impactAnalysis: {
+      financialImpact: "Capped growth; high opportunity cost; founder burnout.",
+      severity: "Critical",
+      affectedAreas: ['Scalability', 'Founder Productivity', 'Team Growth'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months (Mindset)",
+      difficulty: 'Hard',
+      quickWins: ["Record a Loom of you doing a task", "Delegate one 'Safe to Fail' task this week", "Accept that 80% as good as you is enough to start"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Perfectionism", "Lack of training systems", "Hero complex"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using delegation tracking tools to monitor progress without micromanaging."
+      },
+      pathToRoot: "Cant Delegate → Founder Doing Everything → Not Enough Capacity"
+    }
+  },
+  'no-one-knows-how': {
+    explanation: "You are the only person who knows how to deliver the core value. If you stop working, the business stops. This is a job, not a scalable asset.",
+    relatedProblems: ['everything-founders-head', 'no-sops', 'tribal-knowledge'],
+    impactAnalysis: {
+      financialImpact: "Zero business valuation; impossible to scale without your direct labor.",
+      severity: "Critical",
+      affectedAreas: ['Business Continuity', 'Asset Value', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Identify the #1 most repeated task", "Record a screen-share explanation", "Create a 'How-to' index in Notion today"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Expert blindness", "Lack of documentation culture", "High complexity service"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to transcribe and structure your 'Brain Dumps' into usable SOPs."
+      },
+      pathToRoot: "No One Knows How → Founder Doing Everything → Not Enough Capacity"
+    }
+  },
+  'afraid-let-go': {
+    explanation: "The fear that 'No one can do it as well as I can.' This perfectionism keeps you trapped in the weeds and prevents your team from ever becoming experts themselves.",
+    relatedProblems: ['micromanagement', 'dont-trust-others', 'perfectionism'],
+    impactAnalysis: {
+      financialImpact: "Extreme founder burnout; team demotivation; stagnant revenue.",
+      severity: "Critical",
+      affectedAreas: ['Team Culture', 'Founder Health', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing (Mindset)",
+      difficulty: 'Mindset',
+      quickWins: ["Delegate a task and *don't check it* for 24 hours", "Set a 'Definition of Done' instead of a 'Method of Doing'", "Focus on the result, not the process"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Previous bad experiences', 'Anxiety about quality', 'Need for control"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a psychological and leadership hurdle."
+      },
+      pathToRoot: "Afraid to Let Go → Founder Doing Everything → Not Enough Capacity"
+    }
+  },
+  'havent-trained': {
+    explanation: "You have people, but you haven't invested the time to train them. You expect them to 'figure it out,' which leads to mistakes and you jumping back in to fix them.",
+    relatedProblems: ['no-training-system', 'training-busy-founder', 'explain-every-time'],
+    impactAnalysis: {
+      financialImpact: "High cost of 'Inefficient' payroll; double-work for the founder.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Gross Margin', 'Team ROI'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Medium',
+      quickWins: ["Block 4 hours a week for 'Training Time'", "Assign a 'Mentor' from your current best performers", "Create a basic onboarding checklist today"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Short-term focus on delivery', 'Lack of time', 'Underestimating training ROI"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using learning management systems (LMS) to automate the 'Knowledge Transfer' phase."
+      },
+      pathToRoot: "Havent Trained → Founder Doing Everything → Not Enough Capacity"
+    }
+  },
+  'doing-sales-delivery-admin': {
+    explanation: "The 'Chief of Everything' problem. You are switching between high-level strategy, mid-level sales, and low-level admin all day. Context switching is destroying your productivity.",
+    relatedProblems: ['time-trapped', 'admin-busywork', 'busy-not-revenue'],
+    impactAnalysis: {
+      financialImpact: "Massive opportunity cost; strategic drift; low decision quality.",
+      severity: "Critical",
+      affectedAreas: ['Founder Throughput', 'Growth Rate', 'Mental Clarity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Batch your tasks (Admin on Monday, Sales on Tuesday)", "Hire a VA for just the admin tasks today", "Delete one non-essential app from your phone"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of clear roles', 'Under-hiring', 'Scale exceeding structure"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to automate the 'Admin' layer (scheduling, invoicing, data entry)."
+      },
+      pathToRoot: "Doing Everything → Founder Doing Everything → Not Enough Capacity"
+    }
+  },
+  'cant-find-qualified': {
+    explanation: "You are looking for 'Unicorns' or your job offer isn't compelling enough to attract the top 5%. You feel like 'there's no good talent out there.'",
+    relatedProblems: ['job-market-competitive', 'hiring-process-slow'],
+    impactAnalysis: {
+      financialImpact: "Missed revenue from unfulfilled orders; high recruitment spend.",
+      severity: "Major",
+      affectedAreas: ['Capacity', 'Growth Velocity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Medium',
+      quickWins: ["Rewrite your job description to focus on *their* career growth", "Ask your best employees for referrals", "Use a 'Test Task' instead of a long interview"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Weak employer brand', 'Unrealistic expectations', 'Poor sourcing channels"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI-powered sourcing tools that find candidates matching your ICP automatically."
+      },
+      pathToRoot: "Cant Find Qualified → Cant Hire Fast → Not Enough Capacity"
+    }
+  },
+  'hiring-process-slow': {
+    explanation: "By the time you offer them a job, the best candidates have already accepted another one. Your process has too many steps or too much internal friction.",
+    relatedProblems: ['interview-bottleneck', 'not-enough-applicants'],
+    impactAnalysis: {
+      financialImpact: "Loss of top talent to competitors; increased team strain during long vacancies.",
+      severity: "Moderate",
+      affectedAreas: ['Recruitment ROI', 'Growth Rate'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "2 weeks",
+      difficulty: 'Easy',
+      quickWins: ["Cut one interview round", "Commit to an 'Offer/No-Offer' decision within 24 hours of final call", "Standardize the feedback form for interviewers"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Decision-by-committee', 'Fear of making a bad hire', 'Lack of urgency"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using Applicant Tracking Systems (ATS) to automate interview scheduling and reminders."
+      },
+      pathToRoot: "Slow Hiring Process → Cant Hire Fast → Not Enough Capacity"
+    }
+  },
+  'interview-bottleneck': {
+    explanation: "One person (usually the founder) has to interview everyone. This delays the process and keeps the founder stuck in 'Recruitment' instead of 'Growth.'",
+    relatedProblems: ['cant-delegate-founder', 'hiring-process-slow'],
+    impactAnalysis: {
+      financialImpact: "Capped hiring speed; high founder time waste.",
+      severity: "Moderate",
+      affectedAreas: ['Scalability', 'Founder Productivity'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Train one team member to do the first 'Screening' call", "Use a recorded video interview (e.g., VideoAsk) for the first round", "Only interview the top 3 candidates yourself"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of trust in team judgement', 'No standardized scorecard', 'Control issues"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to score initial recorded interviews based on specific criteria."
+      },
+      pathToRoot: "Interview Bottleneck → Cant Hire Fast → Not Enough Capacity"
+    }
+  },
+  'interview-bottleneck': {
+    explanation: "One person (usually the founder) has to interview everyone. This delays the process and keeps the founder stuck in 'Recruitment' instead of 'Growth.'",
+    relatedProblems: ['cant-delegate-founder', 'hiring-process-slow'],
+    impactAnalysis: {
+      financialImpact: "Capped hiring speed; high founder time waste.",
+      severity: "Moderate",
+      affectedAreas: ['Scalability', 'Founder Productivity'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Train one team member to do the first 'Screening' call", "Use a recorded video interview (e.g., VideoAsk) for the first round", "Only interview the top 3 candidates yourself"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of trust in team judgement", "No standardized scorecard", "Control issues"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to score initial recorded interviews based on specific criteria."
+      },
+      pathToRoot: "Interview Bottleneck → Cant Hire Fast → Not Enough Capacity"
+    }
+  },
+  'not-enough-applicants': {
+    explanation: "You post a job and nobody applies. This is usually because your 'Candidate Hook' is weak, you aren't promoting the role, or your reputation in the market is invisible.",
+    relatedProblems: ['prospects-dont-know', 'cant-find-prospects'],
+    impactAnalysis: {
+      financialImpact: "Stagnant growth due to zero capacity; high opportunity cost.",
+      severity: "Major",
+      affectedAreas: ['Capacity', 'Brand Equity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Post on 3 new platforms today", "Boost your LinkedIn job post with a small budget", "Ask your network to share the role"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Weak job title', 'Boring copy', 'No distribution strategy"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to optimize job titles and copy for maximum SEO and engagement."
+      },
+      pathToRoot: "Low Applicant Volume → Cant Hire Fast → Not Enough Capacity"
+    }
+  },
+  'job-market-competitive': {
+    explanation: "You are fighting for the same talent as Google or big competitors. If you don't have a 'Unique Talent Proposition' (UTP), you will always lose on salary or perks.",
+    relatedProblems: ['market-competitive', 'cant-compete-compensation'],
+    impactAnalysis: {
+      financialImpact: "High cost of acquisition per employee; constant risk of team poach.",
+      severity: "Major",
+      affectedAreas: ['Recruitment ROI', 'Profitability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Offer 'Remote Work' if competitors don't", "Focus on 'Fast-Growth' potential as a benefit", "Highlight your unique culture or mission"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Commoditized workplace', 'Lack of differentiation', 'Salary wars"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is about your employer brand and offer."
+      },
+      pathToRoot: "Competitive Job Market → Cant Hire Fast → Not Enough Capacity"
+    }
+  },
+  'cant-compete-compensation': {
+    explanation: "You can't afford the 'Market Rate' for top talent. This forces you to hire juniors (slow training) or unreliable contractors, which hurts your quality.",
+    relatedProblems: ['cant-afford-hire', 'margins-low'],
+    impactAnalysis: {
+      financialImpact: "Lower quality output; slow training ROI; high churn risk.",
+      severity: "Major",
+      affectedAreas: ['Quality Control', 'Gross Margin', 'Capacity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months (Margin fix)",
+      difficulty: 'Hard',
+      quickWins: ["Offer 'Performance-Based' bonuses instead of high base", "Incentivize with 'Equity' or 'Profit-Sharing'", "Hire from lower-cost regions for non-critical roles"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Low service prices', 'Thin margins', 'Business model issues"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a business model and margin problem."
+      },
+      pathToRoot: "Low Compensation → Cant Hire Fast → Not Enough Capacity"
+    }
+  },
+  'no-cash-payroll': {
+    explanation: "You want to hire, but you don't have the cash in the bank to guarantee the first 3 months of salary. You are living month-to-month, which makes hiring feel too risky.",
+    relatedProblems: ['cash-flow-gaps', 'no-buffer'],
+    impactAnalysis: {
+      financialImpact: "Growth stagnation; extreme founder stress; inability to build a team.",
+      severity: "Critical",
+      affectedAreas: ['Scalability', 'Financial Stability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2-4 months",
+      difficulty: 'Medium',
+      quickWins: ["Save 10% of every invoice into a 'Payroll Reserve'", "Get a Line of Credit today (while you don't need it)", "Shift to upfront payments to build a cash floor"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Poor cash management', 'Lumpy revenue', 'No reserves"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Cash Reserve' transfers from your main business account."
+      },
+      pathToRoot: "No Cash for Payroll → Cant Afford to Hire → Not Enough Capacity"
+    }
+  },
+  'margins-thin-staff': {
+    explanation: "Your profit margins are so low that adding one more employee makes you unprofitable. You are trapped in a low-value business model that doesn't scale.",
+    relatedProblems: ['margins-low', 'prices-low'],
+    impactAnalysis: {
+      financialImpact: "Negative ROI on labor; 'Scaling' leads to 'Bankruptcy.'",
+      severity: "Critical",
+      affectedAreas: ['Profitability', 'Business Model', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Raise your prices by 20% immediately", "Automate 50% of the role before you hire for it", "Fire your lowest-margin clients to make room"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Trading time for money', 'Commoditized service', 'Inefficient fulfillment"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to double the productivity of existing staff instead of hiring new ones."
+      },
+      pathToRoot: "Thin Margins → Cant Afford to Hire → Not Enough Capacity"
+    }
+  },
+  'revenue-uncertain': {
+    explanation: "You have the money today, but you don't know if you'll have it tomorrow. Without predictable revenue, hiring feels like a 'Gamble' that could lead to layoffs.",
+    relatedProblems: ['lumpy-revenue', 'no-recurring-revenue'],
+    impactAnalysis: {
+      financialImpact: "Hesitant growth; team instability; high cost of replacement hires.",
+      severity: "Major",
+      affectedAreas: ['Strategic Planning', 'Team Morale'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "4-8 months",
+      difficulty: 'Hard',
+      quickWins: ["Convert one project into a retainer", "Setup a 'Sales Pipeline' to track future deals", "Introduce 12-month contracts with monthly billing"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["One-off project focus', 'Passive sales activity', 'Lack of recurring offer"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated subscription billing and renewal alerts."
+      },
+      pathToRoot: "Uncertain Revenue → Cant Afford to Hire → Not Enough Capacity"
+    }
+  },
+  'already-stretched': {
+    explanation: "You are already at your financial limit. Every dollar is allocated, and there is no room for the 'Growth Spurt' required to hire someone who will eventually make you more money.",
+    relatedProblems: ['expenses-high', 'no-buffer'],
+    impactAnalysis: {
+      financialImpact: "Zero investment capacity; constant 'Firefighting' for cash.",
+      severity: "Critical",
+      affectedAreas: ['Investment Power', 'Growth Rate', 'Founder Health'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Audit and cut the bottom 10% of expenses today", "Freeze all non-revenue spending", "Run a 'Flash Sale' to generate a quick cash injection"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-spending on non-essentials', 'Lack of budget controls', 'Slow AR"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated expense tracking and 'Burn Rate' alerts."
+      },
+      pathToRoot: "Already Stretched → Cant Afford to Hire → Not Enough Capacity"
+    }
+  },
+  'afraid-commitment': {
+    explanation: "The 'Fear of Payroll.' You are worried about the responsibility of another human's livelihood. This psychological block keeps you small and overworked.",
+    relatedProblems: ['mindset-blocks', 'fear-failure'],
+    impactAnalysis: {
+      financialImpact: "Capped revenue; high opportunity cost of your time.",
+      severity: "Moderate",
+      affectedAreas: ['Scalability', 'Founder Health'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month (Mindset)",
+      difficulty: 'Mindset',
+      quickWins: ["Start with a 'Freelancer' on a project basis", "Hire for a '3-Month Trial' only", "Calculate the ROI of your time if you offloaded 10 hours/week"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Previous layoff experience', 'Anxiety about the future', 'Perfectionism"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a leadership mindset shift."
+      },
+      pathToRoot: "Fear of Commitment → Cant Afford to Hire → Not Enough Capacity"
+    }
+  },
+  'no-training-system': {
+    explanation: "You hire people and then 'Throw them in the deep end.' Without a system, they take twice as long to learn, make expensive mistakes, and eventually quit from frustration.",
+    relatedProblems: ['training-long', 'no-sops'],
+    impactAnalysis: {
+      financialImpact: "Massive waste of payroll; high turnover costs; inconsistent quality.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Team ROI', 'Gross Margin'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 months",
+      difficulty: 'Medium',
+      quickWins: ["Create a 'Start Here' doc for new hires today", "Assign a 'Shadow' project for the first 3 days", "Use a 'New Hire Checklist' for the basics"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Founder too busy to document', 'Undervaluing onboarding', 'Implicit knowledge focus"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated training sequences (e.g., Trainual) that track completion."
+      },
+      pathToRoot: "No Training System → Training Takes Too Long → Not Enough Capacity"
+    }
+  },
+  'no-training-system': {
+    explanation: "You hire people and then 'Throw them in the deep end.' Without a system, they take twice as long to learn, make expensive mistakes, and eventually quit from frustration.",
+    relatedProblems: ['training-long', 'no-sops'],
+    impactAnalysis: {
+      financialImpact: "Massive waste of payroll; high turnover costs; inconsistent quality.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Team ROI', 'Gross Margin'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 months",
+      difficulty: 'Medium',
+      quickWins: ["Create a 'Start Here' doc for new hires today", "Assign a 'Shadow' project for the first 3 days", "Use a 'New Hire Checklist' for the basics"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Founder too busy to document", "Undervaluing onboarding", "Implicit knowledge focus"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated training sequences (e.g., Trainual) that track completion."
+      },
+      pathToRoot: "No Training System → Training Takes Too Long → Not Enough Capacity"
+    }
+  },
+  'service-complex': {
+    explanation: "Your core offer is too difficult for an average person to deliver. If it takes 5 years of experience to do what you do, you will never scale fast because the talent pool is too small.",
+    relatedProblems: ['product-market-mismatch', 'no-one-knows-how'],
+    impactAnalysis: {
+      financialImpact: "High salary costs; slow growth; founder remains the 'Magic.'",
+      severity: "Major",
+      affectedAreas: ['Scalability', 'Gross Margin', 'Training ROI'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6 months (Simplification)",
+      difficulty: 'Hard',
+      quickWins: ["Productize one 'Simple' version of your service", "Create a 'Decision Tree' for your complex tasks", "Use software to handle the most difficult logic"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Founder ego/perfectionism', 'Bespoke offer', 'Lack of productization"],
+      automationPotential: {
+        rating: 'High',
+        example: "Building an expert system (AI or logic-based) that handles 80% of the complex decision-making."
+      },
+      pathToRoot: "Service Too Complex → Training Takes Too Long → Not Enough Capacity"
+    }
+  },
+  'turnover-before-trained': {
+    explanation: "People quit before they become profitable. You are paying for the 'Learning Phase' but never reaping the 'Productive Phase.' Your onboarding is likely demoralizing or too slow.",
+    relatedProblems: ['no-training-system', 'team-unreliable'],
+    impactAnalysis: {
+      financialImpact: "Constant drain on cash; high recruitment cost loop; zero momentum.",
+      severity: "Critical",
+      affectedAreas: ['Cash Flow', 'Team Morale', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Medium',
+      quickWins: ["Implement 'Early Wins' in the first 7 days", "Survey departing employees honestly", "Improve the 'Culture Fit' during the interview stage"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Bad onboarding experience', 'Role mismatch', 'Lack of early feedback"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated 'New Hire Satisfaction' check-ins at day 7, 30, and 90."
+      },
+      pathToRoot: "High Early Turnover → Training Takes Too Long → Not Enough Capacity"
+    }
+  },
+  'training-busy-founder': {
+    explanation: "The founder is the only one who can train. This means every new hire *costs* you time before they make you money. You become the bottleneck for your own expansion.",
+    relatedProblems: ['interview-bottleneck', 'cant-delegate-founder'],
+    impactAnalysis: {
+      financialImpact: "Negative ROI on hiring in the short term; extreme founder stress.",
+      severity: "Major",
+      affectedAreas: ['Founder Throughput', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 months",
+      difficulty: 'Medium',
+      quickWins: ["Record your next training session and make it the 'Standard'", "Promote a 'Lead' to handle training", "Use Loom for async training today"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of SOPs', 'Hero complex', 'Fear of delegating authority"],
+      automationPotential: {
+        rating: 'High',
+        example: "Creating a video-based training library that new hires can consume independently."
+      },
+      pathToRoot: "Founder Bottlenecked Training → Training Takes Too Long → Not Enough Capacity"
+    }
+  },
+  'learning-curve-steep': {
+    explanation: "It takes too long to get up to speed. This isn't just about the service being complex; it's about the tools, culture, and processes being poorly defined.",
+    relatedProblems: ['no-training-system', 'tools-inadequate'],
+    impactAnalysis: {
+      financialImpact: "High cost of 'Unproductive' payroll; low gross margin on new team members.",
+      severity: "Moderate",
+      affectedAreas: ['Team Efficiency', 'Scalability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Medium',
+      quickWins: ["Simplify the toolstack for new hires", "Create a 'Quick Reference' guide for the top 10 questions", "Use 'Project Templates' to reduce decision making"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-complex internal tools', 'Lack of clear documentation', 'Implicit expectations"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI chatbots that answer 'How do I do X?' for new employees in Slack/Teams."
+      },
+      pathToRoot: "Steep Learning Curve → Training Takes Too Long → Not Enough Capacity"
+    }
+  },
+  'people-quit': {
+    explanation: "High employee churn. You are a 'Revolving Door.' This destroys team culture, drains your cash, and keeps you stuck in 'Recruitment Mode.'",
+    relatedProblems: ['team-unreliable', 'bad-fit-services'],
+    impactAnalysis: {
+      financialImpact: "Extreme loss of institutional knowledge; high recruitment/onboarding costs.",
+      severity: "Critical",
+      affectedAreas: ['Team Morale', 'Operations', 'Revenue Stability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6 months (Culture shift)",
+      difficulty: 'Hard',
+      quickWins: ["Hold 'Stay Interviews' with your best people today", "Audit your compensation against market rates", "Identify and fix the #1 cause of frustration mentioned in exit interviews"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Toxic culture', 'Low pay', 'Poor management', 'No career path"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a leadership and culture issue."
+      },
+      pathToRoot: "High Turnover → Team Unreliable → Not Enough Capacity"
+    }
+  },
+  'people-underperform': {
+    explanation: "They are here, but they aren't working at the level required. This results in slow delivery, quality errors, and more work for the manager/founder.",
+    relatedProblems: ['team-unreliable', 'motivation-low'],
+    impactAnalysis: {
+      financialImpact: "Hidden labor waste; high cost of rework; client dissatisfaction.",
+      severity: "Major",
+      affectedAreas: ['Gross Margin', 'Service Quality', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Set clear 'Performance KPIs' this week", "Implement a weekly 'Scorecard'", "Hold a 'Standard-Setting' meeting with the whole team"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of accountability', 'Unclear expectations', 'Bad hiring"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated performance tracking dashboards that show individual results."
+      },
+      pathToRoot: "Underperformance → Team Unreliable → Not Enough Capacity"
+    }
+  },
+  'attendance-issues': {
+    explanation: "Reliability is low. People calling in sick, showing up late, or being unavailable during work hours. This creates chaos in delivery schedules.",
+    relatedProblems: ['team-unreliable', 'motivation-low'],
+    impactAnalysis: {
+      financialImpact: "Missed deadlines; high stress for reliable team members; unbilled time.",
+      severity: "Moderate",
+      affectedAreas: ['Operations', 'Team Culture', 'Client Trust'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Create a formal 'Attendance Policy'", "Use a shared calendar for all time-off", "Address the first instance of unreliability immediately"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Low engagement', 'Personal issues', 'Lack of work ethic'],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Check-in' tools or shared team schedules that flag absence instantly."
+      },
+      pathToRoot: "Attendance Issues → Team Unreliable → Not Enough Capacity"
+    }
+  },
+  'skill-mismatches': {
+    explanation: "You hired a great person, but for the wrong seat. They are struggling because the role doesn't play to their strengths, leading to frustration and poor results.",
+    relatedProblems: ['hiring-process-slow', 'people-underperform'],
+    impactAnalysis: {
+      financialImpact: "Inefficient payroll; high opportunity cost; wasted talent.",
+      severity: "Moderate",
+      affectedAreas: ['Team Morale', 'Efficiency', 'Quality'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Run a 'Skills Audit' for the team", "Move one person to a role that fits them better", "Redefine the job description for future hires"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Panic hiring', 'Lack of role clarity', 'Weak assessment during interviews"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using automated skills assessment tools (e.g., TestGorilla) before hiring."
+      },
+      pathToRoot: "Skill Mismatch → Team Unreliable → Not Enough Capacity"
+    }
+  },
+  'motivation-low': {
+    explanation: "The team is 'Quiet Quitting.' They do the bare minimum to not get fired. There is no drive, no innovation, and no ownership of results.",
+    relatedProblems: ['people-underperform', 'people-quit'],
+    impactAnalysis: {
+      financialImpact: "Low throughput; high risk of mistakes; zero organic growth.",
+      severity: "Major",
+      affectedAreas: ['Team Culture', 'Productivity', 'Innovation'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Implement a 'Win of the Week' recognition", "Connect the team's daily work to a larger goal", "Ask: 'What's one thing preventing you from doing your best work?'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Micromanagement', 'Unfair compensation', 'Boring work', 'Poor leadership"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - motivation requires human leadership and connection."
+      },
+      pathToRoot: "Low Motivation → Team Unreliable → Not Enough Capacity"
+    }
+  },
+  'motivation-low': {
+    explanation: "The team is 'Quiet Quitting.' They do the bare minimum to not get fired. There is no drive, no innovation, and no ownership of results.",
+    relatedProblems: ['people-underperform', 'people-quit'],
+    impactAnalysis: {
+      financialImpact: "Low throughput; high risk of mistakes; zero organic growth.",
+      severity: "Major",
+      affectedAreas: ['Team Culture', 'Productivity', 'Innovation'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Implement a 'Win of the Week' recognition", "Connect the team's daily work to a larger goal", "Ask: 'What's one thing preventing you from doing your best work?'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Micromanagement", "Unfair compensation", "Boring work", "Poor leadership"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - motivation requires human leadership and connection."
+      },
+      pathToRoot: "Low Motivation → Team Unreliable → Not Enough Capacity"
+    }
+  },
+  'management-issues': {
+    explanation: "You have people, but they aren't being led effectively. There is no clarity on goals, no feedback loops, and no accountability. The team is busy but not efficient.",
+    relatedProblems: ['communication-breakdowns-pm', 'people-underperform'],
+    impactAnalysis: {
+      financialImpact: "Inefficient payroll; high turnover; strategic misalignment.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Team Performance', 'Founder Health'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Medium',
+      quickWins: ["Schedule recurring 1-on-1s today", "Define 3 'Priority Objectives' for the month", "Implement a simple status reporting tool"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Founder as a technician not a leader', 'Lack of management training', 'Poor communication structure"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using management software (e.g., Lattice, 15Five) to structure feedback and goal tracking."
+      },
+      pathToRoot: "Management Failure → Team Unreliable → Not Enough Capacity"
+    }
+  },
+  'physical-limitations': {
+    explanation: "Your growth is stopped by the walls of your office, the number of machines you have, or the speed of your equipment. You physically cannot produce more without capital investment.",
+    relatedProblems: ['equipment-costs', 'geographic-constraints'],
+    impactAnalysis: {
+      financialImpact: "Hard revenue ceiling; high fixed costs if you expand.",
+      severity: "Moderate",
+      affectedAreas: ['Scalability', 'Operations', 'Asset Management'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Implement 'Shift Work' to use equipment 24/7", "Outsource the 'Overflow' production", "Audit your space for layout inefficiencies"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of facility planning', 'Under-investment in assets', 'Bespoke manufacturing needs"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using IoT and predictive maintenance to maximize the uptime of physical assets."
+      },
+      pathToRoot: "Physical Limits → Scaling Constraints → Not Enough Capacity"
+    }
+  },
+  'can-only-serve-x': {
+    explanation: "Your business has a built-in 'Cap' on how many clients you can handle at once. Whether it's seats in a room or hours in a day, your model is fundamentally non-scalable.",
+    relatedProblems: ['time-trapped', 'service-complex'],
+    impactAnalysis: {
+      financialImpact: "Revenue is linear to time/space; zero exponential growth potential.",
+      severity: "Major",
+      affectedAreas: ['Scalability', 'Business Model', 'LTV'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6 months (Pivot)",
+      difficulty: 'Hard',
+      quickWins: ["Raise prices to maximize revenue per slot", "Introduce 'Group' or 'Digital' versions of the service", "Create a waitlist to build buying heat"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Trading time for money', 'Bespoke delivery model', 'Lack of productization"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automating the delivery of core value through software or recorded content (Productization)."
+      },
+      pathToRoot: "Capacity Cap → Scaling Constraints → Not Enough Capacity"
+    }
+  },
+  'geographic-constraints': {
+    explanation: "You can only serve people in a specific town or region. If that local market is small or saturated, your business has no room to grow.",
+    relatedProblems: ['market-too-small', 'physical-limitations'],
+    impactAnalysis: {
+      financialImpact: "Hard revenue ceiling; vulnerability to local economic shifts.",
+      severity: "Moderate",
+      affectedAreas: ['Growth Rate', 'Market Reach', 'Sustainability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "6-18 months",
+      difficulty: 'Hard',
+      quickWins: ["Launch a 'Remote' version of your offer", "Partner with vendors in other regions", "Start an online presence today"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Brick-and-mortar mindset', 'Lack of digital infrastructure', 'Local-only focus"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using digital marketing and remote delivery tools to expand beyond local borders."
+      },
+      pathToRoot: "Geo-Locked → Scaling Constraints → Not Enough Capacity"
+    }
+  },
+  'licensing-limits': {
+    explanation: "Regulatory or professional requirements limit who can do the work. If only 'Licensed [X]' can deliver, your hiring is restricted by the speed of government or professional boards.",
+    relatedProblems: ['cant-find-qualified', 'licensing-compliance'],
+    impactAnalysis: {
+      financialImpact: "Extreme hiring friction; high cost of specialized labor.",
+      severity: "Major",
+      affectedAreas: ['Capacity', 'Scalability', 'Legal Risk'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Standardize everything the 'Licensed' person *doesn't* have to do", "Hire 'Assistants' to offload the non-regulated parts of the work", "Create a 'Licensing Path' for current employees"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Regulated industry', 'Narrow professional standards', 'Lack of role unbundling"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to handle 80% of the research or prep work, leaving only the final 'Sign-off' for the licensed expert."
+      },
+      pathToRoot: "Licensing Bottleneck → Scaling Constraints → Not Enough Capacity"
+    }
+  },
+  'technology-cant-handle': {
+    explanation: "Your website is crashing, your database is slow, or your current software is bugging out under the load. Your digital foundation is crumbling as you scale.",
+    relatedProblems: ['tools-inadequate', 'duplicate-systems'],
+    impactAnalysis: {
+      financialImpact: "Immediate revenue loss (downtime); churn risk; high rework/bug-fix costs.",
+      severity: "Critical",
+      affectedAreas: ['Operations', 'Client Trust', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Hard',
+      quickWins: ["Audit your top 3 tech bottlenecks today", "Upgrade your hosting/infrastructure immediately", "Stop all new feature development and fix the 'Core'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Technical debt', 'Cheap initial tools', 'Scale exceeding architecture"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using cloud-native, auto-scaling infrastructure (Vercel, AWS) to handle spikes automatically."
+      },
+      pathToRoot: "Tech Failure → Scaling Constraints → Not Enough Capacity"
+    }
+  },
+  'everything-by-hand': {
+    explanation: "You are doing manual work that software could do in seconds. This is a massive drain on human energy and increases the risk of 'Human Error.'",
+    relatedProblems: ['manual-data-entry', 'no-automation', 'repetitive-tasks'],
+    impactAnalysis: {
+      financialImpact: "High 'Labor-to-Value' ratio; zero scalability; high error costs.",
+      severity: "Major",
+      affectedAreas: ['Efficiency', 'Gross Margin', 'Team Morale'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Easy',
+      quickWins: ["Identify the one task you do > 5x a day", "Map the steps of that task today", "Solve it with a simple Zapier/Make flow"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of technical awareness', 'Rushing to deliver', 'Legacy habits"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using robotic process automation (RPA) or API integrations to remove human touchpoints."
+      },
+      pathToRoot: "Manual Work → Manual Processes → Process Bottlenecks"
+    }
+  },
+  'no-automation': {
+    explanation: "Your business has zero 'Robots' working for it. Everything relies on human attention, meaning your costs scale linearly with your revenue. You have no 'Operating Leverage.'",
+    relatedProblems: ['everything-by-hand', 'manual-data-entry'],
+    impactAnalysis: {
+      financialImpact: "Stagnant margins; inability to scale without constant hiring; slow response times.",
+      severity: "Major",
+      affectedAreas: ['Scalability', 'Gross Margin', 'Profitability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Medium',
+      quickWins: ["Automate your invoicing today", "Setup an automated 'Welcome' sequence for new leads", "Sync your CRM and Email marketing tools"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of tech', 'Lack of time to build', 'Siloed tools"],
+      automationPotential: {
+        rating: 'High',
+        example: "Building a central 'Automation Hub' (Make.com) that connects all your business functions."
+      },
+      pathToRoot: "No Automation → Manual Processes → Process Bottlenecks"
+    }
+  },
+  'repetitive-tasks': {
+    explanation: "You are wasting your team's brains on tasks that require zero thinking. This leads to burnout and high error rates, while preventing them from doing 'High-Value' work.",
+    relatedProblems: ['low-value-work', 'everything-by-hand'],
+    impactAnalysis: {
+      financialImpact: "High labor waste; low employee retention; opportunity cost of strategic work.",
+      severity: "Moderate",
+      affectedAreas: ['Efficiency', 'Team Engagement', 'Operations'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "2 weeks",
+      difficulty: 'Easy',
+      quickWins: ["Run a 'Time Audit' for the team this week", "Identify the 'Top 3 Repetitive Tasks'", "Record a Loom of the task and look for automation opportunities"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of process mapping', 'Inertia', 'Undervaluing employee time"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI agents to handle the 'Routine' part of the work (sorting, tagging, pre-filling)."
+      },
+      pathToRoot: "Repetition → Manual Processes → Process Bottlenecks"
+    }
+  },
+  'data-entry-overwhelming': {
+    explanation: "You spend more time 'Typing' about the work than 'Doing' the work. Your team is bogged down in reporting and status updates, slowing down delivery.",
+    relatedProblems: ['manual-data-entry', 'copy-paste-hell'],
+    impactAnalysis: {
+      financialImpact: "High cost of 'Hidden' admin; slow data-to-decision speed; error-prone data.",
+      severity: "Moderate",
+      affectedAreas: ['Admin Efficiency', 'Decision Quality', 'Speed'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Easy',
+      quickWins: ["Use 'Import' tools instead of manual entry", "Connect your forms directly to your CRM", "Stop tracking data that nobody uses for decisions"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fragmented toolstack', 'Lack of single source of truth', 'Over-reporting"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'Webhooks' to move data between apps instantly without human intervention."
+      },
+      pathToRoot: "Admin Overload → Manual Processes → Process Bottlenecks"
+    }
+  },
+  'copy-paste-hell': {
+    explanation: "Moving information from an email to a CRM, or from a CRM to an invoice. This is a sign of 'Tool Isolation' and is the easiest problem to solve with modern software.",
+    relatedProblems: ['manual-data-entry', 'everything-by-hand'],
+    impactAnalysis: {
+      financialImpact: "Waste of human labor; high risk of data mismatches; frustrated employees.",
+      severity: "Moderate",
+      affectedAreas: ['Efficiency', 'Data Integrity', 'Team Morale'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Install a 'One-Click' integration today", "Use Zapier to connect your top 2 tools", "Setup a shared database instead of individual spreadsheets"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Disconnected systems', 'Lack of API knowledge', 'Short-term thinking"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using tools like Syncari or Tray.io to keep data perfectly synced across all platforms."
+      },
+      pathToRoot: "Copy-Paste → Manual Processes → Process Bottlenecks"
+    }
+  },
+  'tribal-knowledge': {
+    explanation: "Information lives in people's heads, not in a system. When someone goes on vacation (or quits), the business stops or makes massive mistakes.",
+    relatedProblems: ['everything-founders-head', 'no-sops'],
+    impactAnalysis: {
+      financialImpact: "High risk of operational collapse; zero business value; high training costs.",
+      severity: "Critical",
+      affectedAreas: ['Business Continuity', 'Asset Value', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Record one 'Knowledge Transfer' call per day", "Setup a central wiki (Notion/Slite) today", "Incentivize documentation in the team's KPIs"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of documentation habit', 'Hero complex', 'Fast growth over-running systems"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to document SOPs by 'Listening' to team meetings and extracting processes."
+      },
+      pathToRoot: "Knowledge Isolation → No Systems → Process Bottlenecks"
+    }
+  },
+  'every-project-reinvented': {
+    explanation: "You treat every new client like a 'Special Case.' You have no templates, no standard steps, and no 'Productized' delivery. You are building a new business for every project.",
+    relatedProblems: ['not-standardized', 'service-complex'],
+    impactAnalysis: {
+      financialImpact: "Zero operational leverage; inconsistent margins; constant 'First-Time' errors.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Efficiency', 'Quality Control'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Create a 'Standard Project Template' today", "Pick the #1 most recurring project type and map it", "Stop accepting 'Bespoke' requests for 30 days"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of being 'Generic', 'Lack of productization', 'People-pleasing founder"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using Project Management templates that auto-populate tasks and deadlines for every new deal."
+      },
+      pathToRoot: "Reinventing Wheel → No Systems → Process Bottlenecks"
+    }
+  },
+  'cant-scale-without-founder': {
+    explanation: "The 'Founder Trap.' You are involved in every handoff, every decision, and every quality check. You aren't building a business; you're building a cage for yourself.",
+    relatedProblems: ['founder-everything', 'cant-delegate-founder'],
+    impactAnalysis: {
+      financialImpact: "Growth is capped by your personal hours; zero exit value.",
+      severity: "Critical",
+      affectedAreas: ['Scalability', 'Founder Health', 'Business Valuation'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Identify one 'Decision' you make daily and delegate it", "Create a 'Rules of Engagement' doc so the team can decide without you", "Take a 2-day 'No-Email' test"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Hero complex', 'Lack of trust in systems', 'Undefined authority levels"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI-powered decision support to guide the team through your 'Logic' without needing you."
+      },
+      pathToRoot: "Founder Reliance → No Systems → Process Bottlenecks"
+    }
+  },
+  'no-sops': {
+    explanation: "You have no Standard Operating Procedures. Your team is guessing how to do things, leading to inconsistent quality and constant questions for the manager.",
+    relatedProblems: ['tribal-knowledge', 'inconsistent-methods'],
+    impactAnalysis: {
+      financialImpact: "High cost of management; inconsistent results; slow training ROI.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Quality Control', 'Team Efficiency'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Medium',
+      quickWins: ["Record a video of every task you do today", "Use a 'Template' for SOPs to make them easy to write", "Hire a VA to transcribe your videos into docs"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Undervaluing systems', 'Lack of time', 'Expert blindness"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI tools (e.g., Scribe, Guidde) to automatically generate SOPs from screen recordings."
+      },
+      pathToRoot: "Missing SOPs → No Systems → Process Bottlenecks"
+    }
+  },
+  'inconsistent-methods': {
+    explanation: "Three different people do the same task in three different ways. This makes it impossible to measure efficiency or guarantee quality. You have chaos, not a process.",
+    relatedProblems: ['no-sops', 'different-results'],
+    impactAnalysis: {
+      financialImpact: "Unpredictable margins; varied client experience; high rework rates.",
+      severity: "Major",
+      affectedAreas: ['Quality Control', 'Operations', 'Predictability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 months",
+      difficulty: 'Medium',
+      quickWins: ["Pick the 'Best' method today and make it the 'Only' method", "Run a 'Process Alignment' meeting with the team", "Add a checklist to the PM tool for this task"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of standardization', 'Individual silos', 'Passive management"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated workflows that enforce a 'Sequence of Events' so variations aren't possible."
+      },
+      pathToRoot: "Inconsistency → No Systems → Process Bottlenecks"
+    }
+  },
+  'only-one-knows': {
+    explanation: "A specific part of the business relies on one person's knowledge. If they are out, that part of the business freezes. This is a massive 'Single Point of Failure.'",
+    relatedProblems: ['single-point-failure', 'bus-factor'],
+    impactAnalysis: {
+      financialImpact: "High risk of total operational halt; high leverage for that employee (risk of 'Ransom').",
+      severity: "Critical",
+      affectedAreas: ['Business Continuity', 'Accountability', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Schedule a 'Knowledge Share' call this week", "Identify a 'Backup' person for that role today", "Mandate that the expert documents their top 3 tasks"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Knowledge hoarding', 'Narrow hiring', 'Lack of cross-training"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to 'Extract' the expert's knowledge into a searchable database for the whole team."
+      },
+      pathToRoot: "Knowledge Silo → Dependency on Key People → Process Bottlenecks"
+    }
+  },
+  'bottleneck-unavailable': {
+    explanation: "Your project is ready to move, but the person who needs to approve it or do the next step is busy, on vacation, or in meetings. The project stalls and cash flow slows.",
+    relatedProblems: ['status-unclear', 'work-stuck'],
+    impactAnalysis: {
+      financialImpact: "Delayed billing; project stagnation; team idle time costs.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Cash Flow', 'Team Throughput'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Identify the 'Approval' bottlenecks today", "Lower the 'Authority' level required for minor approvals", "Set an 'Auto-Approve' rule if no feedback within 24 hours"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Centralized authority', 'Over-complex hierarchy', 'Poor resource planning"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Approval Triage' that sends tasks to the first available manager or auto-approves based on rules."
+      },
+      pathToRoot: "Approval Stalls → Dependency on Key People → Process Bottlenecks"
+    }
+  },
+  'single-point-failure': {
+    explanation: "Any part of your business that would cause total failure if one thing (person, tool, vendor) stopped working. You have zero redundancy.",
+    relatedProblems: ['bus-factor', 'only-one-knows'],
+    impactAnalysis: {
+      financialImpact: "Risk of 100% revenue loss; extreme business fragility.",
+      severity: "Critical",
+      affectedAreas: ['Business Continuity', 'Risk Management', 'Security'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Identify your top 3 'Critical Path' items today", "Setup a 'Backup' vendor for your most important tool", "Start cross-training a backup for your key person"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lean operations taken too far', 'Lack of risk planning', 'Under-investment in redundancy"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using failover systems and redundant cloud services to remove tech failures."
+      },
+      pathToRoot: "Systemic Fragility → Dependency on Key People → Process Bottlenecks"
+    }
+  },
+  'bus-factor': {
+    explanation: "The 'Bus Factor' is the number of people who, if hit by a bus tomorrow, would cause the business to fail. For most small businesses, the bus factor is 1.",
+    relatedProblems: ['single-point-failure', 'everything-founders-head'],
+    impactAnalysis: {
+      financialImpact: "Total loss of business value; high anxiety for the founder.",
+      severity: "Critical",
+      affectedAreas: ['Asset Value', 'Business Continuity', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Write your 'Emergency Continuity' plan today", "Delegate the #1 most critical daily task", "Store all passwords in a shared Vault (e.g., 1Password)"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Founder-centric model', 'Lack of documentation', 'Under-hiring leadership"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to map the business's 'Critical Paths' and identifying where human redundancy is needed."
+      },
+      pathToRoot: "Low Bus Factor → Dependency on Key People → Process Bottlenecks"
+    }
+  },
+  'knowledge-hoarding': {
+    explanation: "A team member intentionally (or unintentionally) keeps information to themselves to maintain 'Job Security' or power. This creates a toxic culture and stalls the business.",
+    relatedProblems: ['tribal-knowledge', 'only-one-knows'],
+    impactAnalysis: {
+      financialImpact: "High cost of management; culture of fear; stagnant innovation.",
+      severity: "Major",
+      affectedAreas: ['Team Culture', 'Operations', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months (Culture)",
+      difficulty: 'Hard',
+      quickWins: ["Change KPIs to reward 'Sharing' instead of 'Doing'", "Implement a peer-to-peer training session weekly", "Address the hoarding behavior directly in 1-on-1s"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Insecure employees', 'Toxic internal competition', 'Lack of transparent culture"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a psychological and cultural issue."
+      },
+      pathToRoot: "Information Hoarding → Dependency on Key People → Process Bottlenecks"
+    }
+  },
+  'knowledge-hoarding': {
+    explanation: "A team member intentionally (or unintentionally) keeps information to themselves to maintain 'Job Security' or power. This creates a toxic culture and stalls the business.",
+    relatedProblems: ['tribal-knowledge', 'only-one-knows'],
+    impactAnalysis: {
+      financialImpact: "High cost of management; culture of fear; stagnant innovation.",
+      severity: "Major",
+      affectedAreas: ['Team Culture', 'Operations', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months (Culture)",
+      difficulty: 'Hard',
+      quickWins: ["Change KPIs to reward 'Sharing' instead of 'Doing'", "Implement a peer-to-peer training session weekly", "Address the hoarding behavior directly in 1-on-1s"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Insecure employees", "Toxic internal competition", "Lack of transparent culture"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a psychological and cultural issue."
+      },
+      pathToRoot: "Information Hoarding → Dependency on Key People → Process Bottlenecks"
+    }
+  },
+  'wrong-software': {
+    explanation: "You are using tools that aren't designed for your specific business size or industry. This creates friction, missing features, and forces your team into 'Workarounds' instead of work.",
+    relatedProblems: ['tools-inadequate', 'systems-dont-integrate'],
+    impactAnalysis: {
+      financialImpact: "Waste of subscription costs; hidden labor waste from workarounds.",
+      severity: "Moderate",
+      affectedAreas: ['Operations', 'Team Efficiency', 'Scalability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Audit your top 3 most used apps today", "Ask the team: 'What tool makes your life hardest?'", "Trial one industry-standard alternative this week"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Starting with 'Free' tools and never upgrading', 'Lack of tech research', 'Shiny object syndrome"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to evaluate feature sets of different software and matching them to your business needs."
+      },
+      pathToRoot: "Wrong Software → Inadequate Tools → Process Bottlenecks"
+    }
+  },
+  'systems-dont-integrate': {
+    explanation: "Your apps don't 'Talk' to each other. This creates data silos and forces manual entry, leading to slow reporting and human errors.",
+    relatedProblems: ['manual-data-entry', 'copy-paste-hell'],
+    impactAnalysis: {
+      financialImpact: "High cost of 'Hidden' admin; delayed decision making; error-prone data.",
+      severity: "Major",
+      affectedAreas: ['Efficiency', 'Data Integrity', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Connect your top 2 apps via Zapier today", "Prioritize 'Native Integrations' when buying new software", "Use a central database (e.g., Airtable) to link silos"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fragmented tool choice', 'Lack of API knowledge', 'Short-term software fixes"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using integration platforms-as-a-service (iPaaS) like Workato or Tray.io to build complex cross-app workflows."
+      },
+      pathToRoot: "Fragmented Systems → Inadequate Tools → Process Bottlenecks"
+    }
+  },
+  'technology-unreliable': {
+    explanation: "Your core business tech keeps breaking, slowing down, or losing data. This creates a culture of frustration and makes you look amateur to your clients.",
+    relatedProblems: ['technology-cant-handle', 'tools-inadequate'],
+    impactAnalysis: {
+      financialImpact: "Immediate revenue risk (downtime); high cost of 'Emergency' fixes.",
+      severity: "Critical",
+      affectedAreas: ['Business Continuity', 'Client Trust', 'Team Morale'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-2 months",
+      difficulty: 'Hard',
+      quickWins: ["Identify the 'Oldest' piece of tech and replace it", "Setup uptime monitoring today (e.g., BetterStack)", "Move to a more reliable hosting or SaaS tier"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Technical debt', 'Under-investing in infrastructure', 'Poor vendor choice"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated error logging and alerting to catch tech issues before they affect the team."
+      },
+      pathToRoot: "Unreliable Tech → Inadequate Tools → Process Bottlenecks"
+    }
+  },
+  'outgrown-tools': {
+    explanation: "The tools that worked when you had 2 employees are now breaking with 10. You are trying to manage a complex machine with a 'Starter Kit.'",
+    relatedProblems: ['wrong-software', 'technology-cant-handle'],
+    impactAnalysis: {
+      financialImpact: "Stagnant growth; team frustration; scale-limiting bottlenecks.",
+      severity: "Major",
+      affectedAreas: ['Scalability', 'Efficiency', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["List the top 3 'Scale Killers' in your current stack", "Budget for 'Enterprise' or 'Pro' versions of core tools", "Plan a 90-day migration for the biggest bottleneck"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Success over-running infrastructure', 'Avoiding migration headaches', 'Fear of cost increases"],
+      automationPotential: {
+        rating: 'High',
+        example: "Migrating to platforms with 'Infinite' scale (e.g., move from a local server to AWS/Google Cloud)."
+      },
+      pathToRoot: "Outgrown Tools → Inadequate Tools → Process Bottlenecks"
+    }
+  },
+  'no-crm-pm': {
+    explanation: "You are managing clients and projects via Email, Slack, or Sticky Notes. You have zero central visibility, leading to missed deadlines and forgotten leads.",
+    relatedProblems: ['no-project-tracking', 'status-unclear'],
+    impactAnalysis: {
+      financialImpact: "Missed sales deals; budget overruns; unbilled work.",
+      severity: "Major",
+      affectedAreas: ['Sales pipeline', 'Project Operations', 'Data Value'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Move all active projects into a single PM tool today", "Import your client list into a CRM this week", "Achieve 'Inbox Zero' for internal project chat by moving it to the PM tool"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Relying on memory', 'Informal culture', 'Lack of operational discipline"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using CRM/PM automation to trigger tasks and follow-ups based on deal stages."
+      },
+      pathToRoot: "Missing Infrastructure → Inadequate Tools → Process Bottlenecks"
+    }
+  },
+  'cobbled-solutions': {
+    explanation: "A 'Frankenstein' stack of duct-tape solutions. While clever at first, this setup is brittle, hard to train people on, and impossible to scale without constant maintenance.",
+    relatedProblems: ['systems-dont-integrate', 'manual-data-entry'],
+    impactAnalysis: {
+      financialImpact: "High cost of 'Hidden' technical maintenance; high error risk.",
+      severity: "Moderate",
+      affectedAreas: ['Operations', 'Data Integrity', 'Scalability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Identify the #1 most 'Brittle' integration today", "Replace one 'Hack' with a native tool this month", "Standardize the data flow for the most core task"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Bricolage mindset', 'Under-budgeting for tech', 'No long-term architecture plan"],
+      automationPotential: {
+        rating: 'High',
+        example: "Replacing multiple 'Hacks' with a single, comprehensive platform (e.g., moving from 5 tools to one ERP or CRM)."
+      },
+      pathToRoot: "Brittle Stack → Inadequate Tools → Process Bottlenecks"
+    }
+  },
+  'work-stuck': {
+    explanation: "Projects are ready for the next step, but they are 'Sitting' in someone's inbox or on a board. There is no flow, only stops and starts.",
+    relatedProblems: ['bottleneck-unavailable', 'status-unclear'],
+    impactAnalysis: {
+      financialImpact: "Delayed revenue; high WIP (Work in Progress) costs; client frustration.",
+      severity: "Major",
+      affectedAreas: ['Sales Velocity', 'Operations', 'Cash Flow'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 weeks",
+      difficulty: 'Easy',
+      quickWins: ["Setup a 'Handoff' alert in your PM tool today", "Run a 10-min daily standup focused only on 'Stuck' tasks", "Identify the #1 'Stopping Point' in your process"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Undefined handoff criteria', 'Passive management', 'Lack of urgency"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Task Aging' alerts that ping managers when a task hasn't moved in > 48 hours."
+      },
+      pathToRoot: "Work Stagnation → Handoff Issues → Process Bottlenecks"
+    }
+  },
+  'miscommunication-who-does': {
+    explanation: "Two people do the same task, or more commonly, *nobody* does it because they thought someone else was doing it. Clarity on roles is missing.",
+    relatedProblems: ['no-clear-ownership', 'status-unclear'],
+    impactAnalysis: {
+      financialImpact: "Labor waste; high error costs; missed deadlines.",
+      severity: "Moderate",
+      affectedAreas: ['Operations', 'Team Morale', 'Profitability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Assign a single 'Owner' to every project board today", "Use a RACI matrix for your core processes", "Clarify role titles this week"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of role descriptions', 'Informal handoffs', 'Over-reliance on 'Teamwork' over 'Accountability'"],
+      automationPotential: {
+        rating: 'High',
+        example: "Mandatory 'Assignee' fields in PM tools that prevent a task from being created without an owner."
+      },
+      pathToRoot: "Role Confusion → Handoff Issues → Process Bottlenecks"
+    }
+  },
+  'things-fall-through': {
+    explanation: "Small tasks, follow-ups, or minor quality checks are being forgotten. You are 'Leaking' value because your process doesn't capture everything.",
+    relatedProblems: ['no-project-tracking', 'status-unclear'],
+    impactAnalysis: {
+      financialImpact: "Churn risk from poor client experience; missed upsells; reputation damage.",
+      severity: "Major",
+      affectedAreas: ['Client Satisfaction', 'Brand Equity', 'Profitability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Easy',
+      quickWins: ["Turn on 'Notifications' for overdue tasks", "Use a 'Project Checklist' for all final deliveries", "Hold a weekly 'Cracks' audit meeting"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Managing by memory', 'Tool overload', 'Lack of follow-up systems"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated 'Sanity Checks' that flag incomplete sub-tasks before a project is closed."
+      },
+      pathToRoot: "The 'Cracks' Problem → Handoff Issues → Process Bottlenecks"
+    }
+  },
+  'no-clear-ownership': {
+    explanation: "Nobody feels responsible for the end result. People are focused on their 'Task' but not the 'Outcome.' This leads to a 'Not My Job' culture.",
+    relatedProblems: ['miscommunication-who-does', 'management-issues'],
+    impactAnalysis: {
+      financialImpact: "High rework costs; client churn; stagnant innovation.",
+      severity: "Major",
+      affectedAreas: ['Team Accountability', 'Productivity', 'Culture'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months (Culture)",
+      difficulty: 'Hard',
+      quickWins: ["Appoint a 'Single Person Responsible' (DRI) for every client", "Tie performance bonuses to *Client Results* not just *Task Completion*", "Address 'Not my job' comments immediately"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Passive leadership', 'Vague goals', 'Fear of accountability'],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - ownership is a leadership and psychological trait."
+      },
+      pathToRoot: "Missing Responsibility → Handoff Issues → Process Bottlenecks"
+    }
+  },
+  'status-unclear': {
+    explanation: "You have to ask 'Where are we on this?' 10 times a day. There is no dashboard or visual way to see the health of projects at a glance.",
+    relatedProblems: ['no-project-tracking', 'work-stuck'],
+    impactAnalysis: {
+      financialImpact: "Waste of management time (constant checking); delayed reporting; anxiety.",
+      severity: "Moderate",
+      affectedAreas: ['Operations', 'Founder Peace of Mind', 'Speed'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Implement a 'Stoplight' status (Red/Yellow/Green) on all projects", "Use a central dashboard (Notion/ClickUp) for status updates", "Stop project updates via email/DM today"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fragmented communication', 'Lack of PM tool discipline', 'Focus on 'Doing' over 'Reporting'"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated status reports generated weekly from PM data."
+      },
+      pathToRoot: "Opaque Progress → Handoff Issues → Process Bottlenecks"
+    }
+  },
+  'different-results': {
+    explanation: "Quality is a coin flip. Sometimes it's great, sometimes it's poor. This variance kills your brand and makes referrals impossible.",
+    relatedProblems: ['no-quality-standards', 'wing-it'],
+    impactAnalysis: {
+      financialImpact: "High churn; constant rework; unpredictable refund risk.",
+      severity: "Major",
+      affectedAreas: ['Brand Authority', 'Profitability', 'Retention'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 months",
+      difficulty: 'Medium',
+      quickWins: ["Pick the 'Best' version of your work and make it the 'Standard'", "Identify the #1 reason for variance today", "Add a 'Final Inspection' step to every delivery"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of standardization', 'Different team skill levels', 'No QA process"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated testing or QA checklists that must be 'Passed' by a system before delivery."
+      },
+      pathToRoot: "Variance → Inconsistent Delivery → Quality Problems"
+    }
+  },
+  'no-quality-standards': {
+    explanation: "You haven't defined what 'Good' looks like. Without a standard, your team is aiming at a moving target, leading to inconsistent work and constant founder 'Tweak-ing.'",
+    relatedProblems: ['wing-it', 'depends-who-does'],
+    impactAnalysis: {
+      financialImpact: "Inefficient labor; high cost of founder oversight; inconsistent client ROI.",
+      severity: "Major",
+      affectedAreas: ['Quality Control', 'Team Autonomy', 'Brand Value'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Create a 'Definition of Done' doc today", "Share 3 examples of 'Perfect' work with the team", "Stop accepting work that doesn't meet the (newly defined) standard"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Expert blindness', 'Rushing to deliver', 'Undervaluing consistency"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI-powered 'Style Guides' or 'Linter' tools that flag deviations from the standard automatically."
+      },
+      pathToRoot: "No Benchmarks → Inconsistent Delivery → Quality Problems"
+    }
+  },
+  'depends-who-does': {
+    explanation: "If [Employee A] does it, it's 10/10. If [Employee B] does it, it's 6/10. Your business depends on individuals, not processes, making it unscalable.",
+    relatedProblems: ['only-one-knows', 'tribal-knowledge'],
+    impactAnalysis: {
+      financialImpact: "Inconsistent margins; 'Lottery' style client experience; risk of losing key talent.",
+      severity: "Major",
+      affectedAreas: ['Scalability', 'Brand Integrity', 'Team Growth'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Medium',
+      quickWins: ["Have the 'Expert' record their process today", "Make the 'Novice' follow that recording exactly", "Audit the variance between them next week"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of cross-training', 'Process in heads not on paper', 'Skill gaps"],
+      automationPotential: {
+        rating: 'High',
+        example: "Building 'Decision Support' tools that guide everyone through the same logic regardless of experience."
+      },
+      pathToRoot: "Person-Dependent Quality → Inconsistent Delivery → Quality Problems"
+    }
+  },
+  'no-review-qa': {
+    explanation: "Work goes straight from 'Doing' to 'Client.' There is no second eye, no double-check, and no safety net for human error.",
+    relatedProblems: ['errors-slip-through', 'no-quality-control'],
+    impactAnalysis: {
+      financialImpact: "Immediate churn risk; high rework costs; brand damage from 'Silly' mistakes.",
+      severity: "Critical",
+      affectedAreas: ['Client Trust', 'Operations', 'Profitability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Implement a mandatory 'Peer Review' today", "Use an automated checklist before clicking 'Send'", "Schedule a 15-min 'Pre-Delivery' signoff call"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Rushing to hit deadlines', 'Under-staffing', 'Undervaluing QA'],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to proofread or 'Check' work against requirements before a human even sees it."
+      },
+      pathToRoot: "No Safety Net → Inconsistent Delivery → Quality Problems"
+    }
+  },
+  'wing-it': {
+    explanation: "The team starts every task with a blank page. Intuition is used instead of a checklist. While creative, this is the enemy of efficiency and scale.",
+    relatedProblems: ['every-project-reinvented', 'inconsistent-methods'],
+    impactAnalysis: {
+      financialImpact: "Zero operational leverage; extreme time waste; high cognitive load for the team.",
+      severity: "Major",
+      affectedAreas: ['Efficiency', 'Mental Clarity', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Pick the most repeated task and create a 5-step checklist today", "Forbid 'Starting from Scratch' for recurring work", "Use templates for everything"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Creative hubris', 'Aversion to structure', 'Lack of leadership standards"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'Workflow Engines' that don't allow Step 2 to start until Step 1's checklist is checked off."
+      },
+      pathToRoot: "Improvisation → Inconsistent Delivery → Quality Problems"
+    }
+  },
+  'errors-slip-through': {
+    explanation: "Mistakes are reaching the client. Whether they are typos, broken links, or strategic errors, each one erodes trust and requires expensive rework.",
+    relatedProblems: ['no-review-qa', 'rushing-mistakes'],
+    impactAnalysis: {
+      financialImpact: "Client churn; increased refund requests; high rework labor.",
+      severity: "Critical",
+      affectedAreas: ['Client Retention', 'Brand Reputation', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Setup an automated 'Pre-flight' checklist", "Identify the #1 most common error today", "Implement a 'Zero-Error' bonus for the team"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of second-eye review', 'Fatigue/Burnout', 'Under-estimating complexity"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI vision or logic tools to 'Scan' deliverables for common errors automatically."
+      },
+      pathToRoot: "Leaking Mistakes → Mistakes/Rework → Quality Problems"
+    }
+  },
+  'no-quality-control': {
+    explanation: "You have no formal step in your process dedicated to checking work. Quality is assumed, not verified.",
+    relatedProblems: ['no-review-qa', 'different-results'],
+    impactAnalysis: {
+      financialImpact: "Hidden costs of rework; slow-motion churn; unmeasurable efficiency.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Quality Assurance', 'Brand Equity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Appoint a 'Quality Lead' (can be a current team member)", "Define 3 'Non-Negotiable' quality checks", "Add a 'QA' stage to your PM board today"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Growth at all costs mindset', 'Thin margins (avoiding QA time)', 'Implicit trust in team"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Smoke Tests' or regression suites that verify the core product is working."
+      },
+      pathToRoot: "Missing Verification → Mistakes/Rework → Quality Problems"
+    }
+  },
+  'rushing-mistakes': {
+    explanation: "The team is overworked or deadlines are unrealistic. Speed is being prioritized over quality, leading to careless errors that take longer to fix than if they were done right the first time.",
+    relatedProblems: ['working-too-much', 'timelines-slip'],
+    impactAnalysis: {
+      financialImpact: " Diminishing returns on speed; high rework costs; team burnout.",
+      severity: "Major",
+      affectedAreas: ['Team Morale', 'Gross Margin', 'Client Trust'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Extend the 'Next Deadline' by 20% today", "Identify the #1 'Time Pressure' source", "Mandate a 'Cool-off' hour before final delivery"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-promising in sales', 'Poor capacity planning', 'Under-staffing"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using capacity planning tools to automatically block out 'QA Time' so it can't be skipped for speed."
+      },
+      pathToRoot: "Speed vs Quality → Mistakes/Rework → Quality Problems"
+    }
+  },
+  'miscommunication-wrong-work': {
+    explanation: "The team did a great job... but on the wrong thing. Requirements were misunderstood, leading to 100% rework and a very frustrated client.",
+    relatedProblems: ['expectations-misaligned', 'internal-miscommunication'],
+    impactAnalysis: {
+      financialImpact: "100% loss of project labor; extreme churn risk.",
+      severity: "Critical",
+      affectedAreas: ['Profitability', 'Client Trust', 'Team Morale'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Mandate a 'Brief Review' call before work starts", "Use 'Project Wikis' for single source of truth", "Have the team repeat the requirements back to you in their own words"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Vague briefs', 'Oral-only instructions', 'Assumed understanding"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to compare the 'Project Brief' against the 'Final Work' to flag discrepancies automatically."
+      },
+      pathToRoot: "Briefing Failure → Mistakes/Rework → Quality Problems"
+    }
+  },
+  'high-defect-rate': {
+    explanation: "A high percentage of your deliverables require significant edits or corrections. You are 'Finishing the work twice' for every one project.",
+    relatedProblems: ['rework-mistakes', 'no-quality-standards'],
+    impactAnalysis: {
+      financialImpact: "Gross margin collapse; inability to scale; constant 'Crisis' mode.",
+      severity: "Critical",
+      affectedAreas: ['Profitability', 'Efficiency', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Hard',
+      quickWins: ["Track the 'Rework Ratio' for the next 30 days", "Identify the #1 'Repetitive Error'", "Stop delivery for one day to run a 'Quality Retrospective'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Systemic process failure', 'Skill gaps', 'Outdated tools"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using statistical process control (SPC) logic to flag when your defect rate is spiking."
+      },
+      pathToRoot: "Systemic Errors → Mistakes/Rework → Quality Problems"
+    }
+  },
+  'high-defect-rate': {
+    explanation: "A high percentage of your deliverables require significant edits or corrections. You are 'Finishing the work twice' for every one project.",
+    relatedProblems: ['rework-eating-profit', 'no-quality-standards'],
+    impactAnalysis: {
+      financialImpact: "Gross margin collapse; inability to scale; constant 'Crisis' mode.",
+      severity: "Critical",
+      affectedAreas: ['Profitability', 'Efficiency', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Hard',
+      quickWins: ["Track the 'Rework Ratio' for the next 30 days", "Identify the #1 'Repetitive Error'", "Stop delivery for one day to run a 'Quality Retrospective'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Systemic process failure", "Skill gaps", "Outdated tools"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using statistical process control (SPC) logic to flag when your defect rate is spiking."
+      },
+      pathToRoot: "Systemic Errors → Mistakes/Rework → Quality Problems"
+    }
+  },
+  'team-no-expertise': {
+    explanation: "You have a team, but they lack the deep technical or strategic knowledge required for the current projects. This leads to mediocre work and constant founder intervention.",
+    relatedProblems: ['skills-knowledge-gap', 'complex-beyond-capability'],
+    impactAnalysis: {
+      financialImpact: "High cost of management; inability to command premium prices; slow delivery.",
+      severity: "Major",
+      affectedAreas: ['Quality Control', 'Pricing Power', 'Growth Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Hire one 'Senior' to level up the juniors", "Identify the #1 'Missing Skill' and buy a course for the team", "Partner with an expert freelancer for current high-risk work"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Hiring based on budget not talent', 'Fast market shift', 'Under-investment in L&D"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - expertise is human capital."
+      },
+      pathToRoot: "Expertise Gap → Skills Gap → Quality Problems"
+    }
+  },
+  'complex-beyond-capability': {
+    explanation: "The work you've sold is more difficult than your team can handle. This creates high stress, quality failures, and eventually 'Burnout' as people struggle to perform.",
+    relatedProblems: ['team-no-expertise', 'bought-cant-deliver'],
+    impactAnalysis: {
+      financialImpact: "Immediate project risk; potential for legal/reputation damage; high rework costs.",
+      severity: "Critical",
+      affectedAreas: ['Service Quality', 'Team Mental Health', 'Client Retention'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate (Scope reduction)",
+      difficulty: 'Hard',
+      quickWins: ["Simplify the project requirements today", "Bring in a specialist contractor to finish the difficult parts", "Be honest with the client and reset expectations"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-selling capability', 'Lack of technical scoping during sales', 'Hero complex"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using technical assessment AI to verify if a project brief matches the team's historical skill data."
+      },
+      pathToRoot: "Over-selling → Skills Gap → Quality Problems"
+    }
+  },
+  'need-specialists': {
+    explanation: "Your project requires niche knowledge (e.g., specific law, advanced AI, specialized design) that your 'Generalist' team doesn't have. You are trying to solve complex problems with basic tools.",
+    relatedProblems: ['team-no-expertise', 'subcontractors-expensive'],
+    impactAnalysis: {
+      financialImpact: "Mediocre results; inability to solve the 'High-Value' part of the problem.",
+      severity: "Moderate",
+      affectedAreas: ['Market Reach', 'Value Creation', 'Strategic Positioning'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Identify the 'Specialist' needed for the current project", "Create a 'Specialist' bench of freelancers", "Joint-venture with a niche agency today"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Evolving client needs', 'Broad offer without depth', 'Lack of specialized network"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to find and vet specialists on platforms like Upwork or Malt automatically."
+      },
+      pathToRoot: "Generalist Trap → Skills Gap → Quality Problems"
+    }
+  },
+  'trying-not-good-at': {
+    explanation: "You are accepting work that is outside your 'Zone of Genius.' You are doing it for the money, but it's taking 3x longer and producing worse results than your core service.",
+    relatedProblems: ['wrong-clients', 'bad-fit-services'],
+    impactAnalysis: {
+      financialImpact: "Massive margin drain; team frustration; damage to your 'Expert' brand.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Brand Integrity', 'Team Morale'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate (Say 'No')",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Define your 'Anti-Offer' (what you *won't* do)", "Fire the worst 'Off-strategy' project today", "Refer the next 'Bad Fit' lead to a partner"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Scarcity mindset', 'Lack of niche focus', 'No sales filters"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated qualification forms that reject leads for services you don't excel at."
+      },
+      pathToRoot: "Lack of Focus → Skills Gap → Quality Problems"
+    }
+  },
+  'learning-on-job': {
+    explanation: "You are using client projects as 'Training Ground.' While some learning is necessary, doing it without supervision leads to slow delivery and high risk of errors.",
+    relatedProblems: ['no-training-system', 'errors-slip-through'],
+    impactAnalysis: {
+      financialImpact: "Unbilled 'Research' hours; client frustration with speed; potential for rookie mistakes.",
+      severity: "Moderate",
+      affectedAreas: ['Gross Margin', 'Client Trust', 'Efficiency'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Add a 'Senior Review' step to all new tasks", "Separate 'Internal R&D' from 'Client Work'", "Be transparent with the client about 'Beta' services"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of internal R&D budget', 'New service launches', 'Under-staffing seniors"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to guide the 'Learning' phase with real-time suggestions and quality checks."
+      },
+      pathToRoot: "Rookie Mistakes → Skills Gap → Quality Problems"
+    }
+  },
+  'not-meeting-expectations': {
+    explanation: "The client expected an 'A' and you delivered a 'B-'. This is often a failure of 'Expectation Management' during the sales or onboarding process.",
+    relatedProblems: ['expectations-misaligned', 'bad-service'],
+    impactAnalysis: {
+      financialImpact: "High churn risk; zero referrals; increased demand for 'Free' extra work to compensate.",
+      severity: "Critical",
+      affectedAreas: ['Brand Reputation', 'LTV', 'Team Pride'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Audit your 'Sales Promises' against 'Delivery Reality'", "Ask: 'What did you think this would look like?' today", "Send a 'Progress Report' that clearly ties work to original goals"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-promising in sales', 'Vague Success Criteria', 'Lack of communication"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Onboarding Questionnaires' that force the client to define 'Success' numerically."
+      },
+      pathToRoot: "Expectation Gap → Client Dissatisfaction → Quality Problems"
+    }
+  },
+  'communication-breakdowns-quality': {
+    explanation: "The work is fine, but the client doesn't know it. Or the client has concerns that aren't being heard. The 'Communication Layer' is failing, making the work *seem* lower quality than it is.",
+    relatedProblems: ['internal-miscommunication', 'no-communication-plan'],
+    impactAnalysis: {
+      financialImpact: "Increased churn; high anxiety for both parties; needless rework.",
+      severity: "Major",
+      affectedAreas: ['Client Trust', 'Team Speed', 'Referral Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Setup a weekly 'Status Email' today", "Give the client a 'Project Dashboard' for visibility", "Identify the 'Primary Contact' for each account"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Managing via Slack/DMs', 'No dedicated account management', 'Founder busy-ness"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Client Reporting' dashboards that pull data directly from PM/CRM tools."
+      },
+      pathToRoot: "Opaque Process → Client Dissatisfaction → Quality Problems"
+    }
+  },
+  'missed-deadlines-quality': {
+    explanation: "You deliver good work, but always 'Late.' This makes the client look bad internally and creates a feeling of unreliability that outweighs the quality of the work.",
+    relatedProblems: ['timelines-slip', 'underestimate-time-pm'],
+    impactAnalysis: {
+      financialImpact: "Churn risk; high price sensitivity; penalty fees in some contracts.",
+      severity: "Major",
+      affectedAreas: ['Account Stability', 'Market Reputation', 'Cash Flow'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Add a 20% 'Buffer' to the next deadline today", "Alert the client 48 hours *before* a deadline if you'll miss it", "Identify the #1 cause of delays this week"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Poor capacity planning', 'Optimism bias', 'Internal bottlenecks"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Deadline Alerts' that ping the team when a task is 50% through its duration but 0% complete."
+      },
+      pathToRoot: "Lateness → Client Dissatisfaction → Quality Problems"
+    }
+  },
+  'poor-results': {
+    explanation: "The work was delivered on time and on budget, but it didn't solve the client's problem. You produced 'Deliverables' but not 'Outcomes.'",
+    relatedProblems: ['results-mediocre', 'cant-articulate-roi'],
+    impactAnalysis: {
+      financialImpact: "100% Churn; negative ROI for the client; potential refund requests.",
+      severity: "Critical",
+      affectedAreas: ['LTV', 'Brand Authority', 'Business Viability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months (Strategy shift)",
+      difficulty: 'Hard',
+      quickWins: ["Ask the client: 'What is the #1 KPI you care about?'", "Audit your 'Product-Market Fit'", "Stop selling 'Tasks' and start selling 'Transformations'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Wrong strategy', 'Weak execution', 'Mismatched expectations"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to analyze results data and suggest strategic optimizations in real-time."
+      },
+      pathToRoot: "Failure to Deliver → Client Dissatisfaction → Quality Problems"
+    }
+  },
+  'complaints-issues': {
+    explanation: "Your inbox is full of client complaints. You are spending all your time 'Defending' your work instead of 'Improving' your work.",
+    relatedProblems: ['bad-service', 'relationship-deteriorated'],
+    impactAnalysis: {
+      financialImpact: "Massive time waste; high churn; team demoralization.",
+      severity: "Critical",
+      affectedAreas: ['Team Morale', 'Founder Peace of Mind', 'Retention'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month (Service recovery)",
+      difficulty: 'Hard',
+      quickWins: ["Create a 'Complaint Log' today to find patterns", "Hold a 'Root Cause' meeting for every complaint", "Implement a formal 'Service Recovery' policy (e.g., credit/refund)"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Systemic quality failure', 'Poor communication', 'Wrong client expectations"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Automated 'Sentiment Analysis' on client emails to flag frustrations before they become complaints."
+      },
+      pathToRoot: "Constant Friction → Client Dissatisfaction → Quality Problems"
+    }
+  },
+  'clients-ask-more': {
+    explanation: "The client keeps adding 'Tiny Requests' that they think are easy but actually derail your team. You haven't set a boundary, so the project grows without the budget growing.",
+    relatedProblems: ['extras-free', 'scope-creep-profit'],
+    impactAnalysis: {
+      financialImpact: "Profit margin erosion; unbilled labor; team burnout.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Team Capacity', 'Project Management'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate",
+      difficulty: 'Medium',
+      quickWins: ["Say: 'Yes, we can do that. Here is the cost.'", "Refer back to the original SOW in every meeting", "Introduce a 'Phase 2' bucket for all extras"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of boundaries', 'Desire to please', 'Vague initial agreement"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'Add-on' buttons in your PM tool that require a budget approval before the task is unlocked."
+      },
+      pathToRoot: "Boundary Failure → Scope Creep → Project Management Issues"
+    }
+  },
+  'original-scope-unclear': {
+    explanation: "You started the work before defining exactly what 'Finished' looks like. Now you and the client have different ideas of the goal, leading to infinite work.",
+    relatedProblems: ['scope-poorly-defined', 'expectations-misaligned'],
+    impactAnalysis: {
+      financialImpact: "Budget overruns; unmeasurable success; high rework risk.",
+      severity: "Major",
+      affectedAreas: ['Project Operations', 'Client Satisfaction', 'Profitability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Medium',
+      quickWins: ["Write a 'Definition of Done' for the current project today", "Hold a 'Mid-Project Alignment' call", "Standardize your 'Scope' template for all future deals"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Rushing to start', 'Expert blindness (assuming they know)', 'Weak contract templates"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Scoping Questionnaires' that generate a draft SOW based on client answers."
+      },
+      pathToRoot: "Vague Start → Scope Creep → Project Management Issues"
+    }
+  },
+  'saying-yes-everything': {
+    explanation: "The founder or sales team says 'Yes' to every request to close the deal or keep the client happy. You are over-promising and creating an impossible burden for delivery.",
+    relatedProblems: ['overcommitting', 'cant-say-no'],
+    impactAnalysis: {
+      financialImpact: "Delivery failure risk; high labor costs; team burnout.",
+      severity: "Major",
+      affectedAreas: ['Team Morale', 'Operations', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month (Mindset shift)",
+      difficulty: 'Mindset',
+      quickWins: ["Introduce a 'Cool-off' period before agreeing to extras", "Require 'Delivery Team' sign-off on all new sales promises", "Practice saying: 'We don't specialize in that, but we can do X.'"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Scarcity mindset', 'Fear of conflict', 'No role unbundling (sales vs delivery)"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using a 'Deal Scorer' that flags projects with too many custom 'Yes' items as high-risk."
+      },
+      pathToRoot: "Yes-Man Trap → Scope Creep → Project Management Issues"
+    }
+  },
+  'feature-creep': {
+    explanation: "The project is growing 'Features' that weren't in the plan. While each feature is cool, the collective weight is making the project late and unprofitable.",
+    relatedProblems: ['gold-plating', 'clients-ask-more'],
+    impactAnalysis: {
+      financialImpact: "Stagnant project revenue while costs climb; delayed final payout.",
+      severity: "Moderate",
+      affectedAreas: ['Profitability', 'Delivery Speed', 'Simplicity'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "2 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Freeze all new features today", "Categorize current features into 'Must-have' vs 'Nice-to-have'", "Bill for the 'Creep' retrospectively if possible"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Perfectionism', 'Lack of MVP mindset', 'Weak project management oversight"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'Change Order' automation that adds a fee every time a new requirement is logged."
+      },
+      pathToRoot: "Complexity Bloat → Scope Creep → Project Management Issues"
+    }
+  },
+  'gold-plating': {
+    explanation: "Your team is adding extra quality or features that the client didn't ask for and won't pay for. You are 'Over-delivering' yourself into bankruptcy.",
+    relatedProblems: ['over-delivering', 'feature-creep'],
+    impactAnalysis: {
+      financialImpact: "Wasted labor hours; decreased annual throughput; zero ROI on 'Extra' quality.",
+      severity: "Moderate",
+      affectedAreas: ['Gross Margin', 'Efficiency', 'Team Priorities'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Define 'Minimum Viable Quality' today", "Reward team for 'On-Time and On-Scope' rather than 'Extra' work", "Audit the last project for 'Unasked-for' features"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Team perfectionism', 'Lack of business awareness in delivery team', 'Hero complex"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a management and priority issue."
+      },
+      pathToRoot: "Over-polishing → Scope Creep → Project Management Issues"
+    }
+  },
+  'gold-plating': {
+    explanation: "Your team is adding extra quality or features that the client didn't ask for and won't pay for. You are 'Over-delivering' yourself into bankruptcy.",
+    relatedProblems: ['over-delivering', 'feature-creep'],
+    impactAnalysis: {
+      financialImpact: "Wasted labor hours; decreased annual throughput; zero ROI on 'Extra' quality.",
+      severity: "Moderate",
+      affectedAreas: ['Gross Margin', 'Efficiency', 'Team Priorities'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Define 'Minimum Viable Quality' today", "Reward team for 'On-Time and On-Scope' rather than 'Extra' work", "Audit the last project for 'Unasked-for' features"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Team perfectionism", "Lack of business awareness in delivery team", "Hero complex"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a management and priority issue."
+      },
+      pathToRoot: "Over-polishing → Scope Creep → Project Management Issues"
+    }
+  },
+  'unexpected-complications': {
+    explanation: "Things are going wrong that you 'couldn't have predicted.' While some risk is inherent, a pattern of 'Surprises' suggests poor initial research or weak contingency planning.",
+    relatedProblems: ['dependencies-delays', 'underestimate-time-pm'],
+    impactAnalysis: {
+      financialImpact: "Budget overruns; project delays; high 'Emergency' labor costs.",
+      severity: "Moderate",
+      affectedAreas: ['Profitability', 'Speed', 'Founder Stress'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month (Planning improvement)",
+      difficulty: 'Medium',
+      quickWins: ["Run a 'Pre-Mortem' before the next project starts", "Identify the #1 source of 'Surprises' in the last 3 deals", "Add a 15% 'Unforeseen' buffer to all quotes"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of risk assessment', 'Shallow discovery phase', 'New/Untested technology"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to simulate project risks based on historical data and flagging likely failure points."
+      },
+      pathToRoot: "Planning Failure → Timelines Slip → Project Management Issues"
+    }
+  },
+  'client-delays-pm': {
+    explanation: "Your project is ready to move, but it's sitting on the client's desk. This delay is costing you money in overhead and context-switching every single day.",
+    relatedProblems: ['waiting-feedback', 'work-stuck'],
+    impactAnalysis: {
+      financialImpact: "Stagnant cash flow; team idle time; project 'Stagnation' costs.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Team Throughput', 'Cash Flow'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Implement a '3-Day Approval' rule in contracts", "Schedule the review call *before* you send the work", "Charge a 'Restart Fee' for projects that stall > 14 days"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Passive project management', 'Undefined client responsibilities', 'Complex client hierarchy"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Nagging' systems that follow up with clients every 24 hours until they provide feedback."
+      },
+      pathToRoot: "Client Stalls → Timelines Slip → Project Management Issues"
+    }
+  },
+  'interruptions-switching': {
+    explanation: "Your team is constantly being pulled away from project work to handle 'Quick Questions' or emergencies. This kills their flow and makes tasks take 3x longer than needed.",
+    relatedProblems: ['email-meeting-overload', 'everything-urgent'],
+    impactAnalysis: {
+      financialImpact: "Massive hidden labor waste; high error rate; delayed deliveries.",
+      severity: "Major",
+      affectedAreas: ['Efficiency', 'Team Mental Health', 'Profitability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Medium',
+      quickWins: ["Implement 'Deep Work' blocks (no Slack/Email) today", "Limit meetings to specific days/hours", "Setup a 'Triage' system for questions so they don't hit the makers"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Slack/Chat culture', 'Poor prioritization', 'Reactive management"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI assistants to answer basic team questions so they don't interrupt the expert."
+      },
+      pathToRoot: "Context Switching → Timelines Slip → Project Management Issues"
+    }
+  },
+  'overcommitting': {
+    explanation: "You are selling more work than your team can possibly deliver. You are working at 110% capacity, which means the first small problem causes a total project collapse.",
+    relatedProblems: ['bought-cant-deliver', 'firefighting'],
+    impactAnalysis: {
+      financialImpact: "Churn risk; high rework costs; team burnout and turnover.",
+      severity: "Critical",
+      affectedAreas: ['Capacity', 'Team Morale', 'Client Trust'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate (Sales freeze)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Halt all new sales for 14 days today", "Extend all current 'Next' deadlines by 1 week", "Calculate your *True* capacity based on past data, not hopes"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Scarcity mindset', 'Lack of capacity planning', 'Optimism bias"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using capacity forecasting tools that 'Redline' your sales team when delivery is at 80%."
+      },
+      pathToRoot: "Capacity Overload → Timelines Slip → Project Management Issues"
+    }
+  },
+  'expectations-misaligned': {
+    explanation: "The client thinks they bought a 'Ferrari' and you're building a 'Jeep.' This gap in perception leads to endless frustration, even if the work is technically good.",
+    relatedProblems: ['not-meeting-expectations', 'original-scope-unclear'],
+    impactAnalysis: {
+      financialImpact: "High churn; low referral rate; constant demands for free extras.",
+      severity: "Major",
+      affectedAreas: ['Client Trust', 'Brand Equity', 'Profitability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month (Onboarding fix)",
+      difficulty: 'Medium',
+      quickWins: ["Run a 'Kickoff' meeting focused *only* on expectations today", "Ask the client to define 'Failure' for this project", "Create a 'What we don't do' list"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-selling', 'Vague briefs', 'Assumed understanding"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Expectation Setting' videos delivered immediately after purchase."
+      },
+      pathToRoot: "Perception Gap → Communication Breakdowns → Project Management Issues"
+    }
+  },
+  'internal-miscommunication': {
+    explanation: "Information is getting lost inside your own walls. Sales doesn't tell Delivery what was promised; Manager doesn't tell Team about changes. You are working against yourselves.",
+    relatedProblems: ['information-silos', 'miscommunication-who-does'],
+    impactAnalysis: {
+      financialImpact: "Needless rework; duplicate labor; missed sales promises.",
+      severity: "Major",
+      affectedAreas: ['Team Morale', 'Efficiency', 'Quality'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 weeks",
+      difficulty: 'Easy',
+      quickWins: ["Implement a mandatory 'Sales-to-Delivery' handoff call", "Standardize your internal project chat channels today", "Hold a 10-min daily huddle"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of central documentation', 'Managing via DM', 'No standardized handoffs"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to summarize sales calls and auto-post the 'Promises' into the delivery project board."
+      },
+      pathToRoot: "Internal Friction → Communication Breakdowns → Project Management Issues"
+    }
+  },
+  'assumptions-not-verified': {
+    explanation: "You are building based on 'I think' instead of 'I know.' Whether it's a technical requirement or a client goal, unverified assumptions lead to 100% rework later.",
+    relatedProblems: ['miscommunication-wrong-work', 'unexpected-complications'],
+    impactAnalysis: {
+      financialImpact: "Massive rework costs; project delays; erosion of professional authority.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Accuracy', 'Client Confidence'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Immediate (Checklist)",
+      difficulty: 'Easy',
+      quickWins: ["Add a 'Verification' step to your project brief", "Ask 'How do we know this is true?' for every core assumption", "Run a 15-min 'Validation' call before starting build"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Expert hubris', 'Rushing to deliver', 'Shallow discovery phase"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to flag 'Assumptive Language' in project briefs and prompting for proof."
+      },
+      pathToRoot: "Verification Failure → Communication Breakdowns → Project Management Issues"
+    }
+  },
+  'information-silos': {
+    explanation: "Information is trapped in individual departments or heads. People are making decisions without the full picture, leading to disjointed efforts and repeated mistakes.",
+    relatedProblems: ['tribal-knowledge', 'internal-miscommunication'],
+    impactAnalysis: {
+      financialImpact: "Hidden inefficiencies; slow decision making; inconsistent quality.",
+      severity: "Major",
+      affectedAreas: ['Strategic Alignment', 'Operations', 'Culture'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months (Infrastructure)",
+      difficulty: 'Hard',
+      quickWins: ["Move all work communication into 'Public' channels today", "Create a central 'Company Wiki' (Notion/Notion)", "Hold a weekly cross-functional demo session"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fragmented tools', 'Managing via private DMs', 'No central documentation culture"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using central knowledge bases that automatically 'Link' related info across different apps."
+      },
+      pathToRoot: "Isolation → Communication Breakdowns → Project Management Issues"
+    }
+  },
+  'no-communication-plan': {
+    explanation: "You are communicating 'Reactively.' You only talk to the client when there is a problem or an invoice. This leaves them feeling anxious and out-of-the-loop.",
+    relatedProblems: ['updates-missing', 'client-delays-pm'],
+    impactAnalysis: {
+      financialImpact: "Increased churn; price sensitivity; high anxiety for the account manager.",
+      severity: "Moderate",
+      affectedAreas: ['Client Experience', 'Referral Rate', 'Retention'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Commit to a 'Weekly Friday Update' for all clients today", "Define exactly *where* communication happens (e.g., 'We don't use Slack')", "Set expectations for response times upfront"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Under-valuing the 'Experience' over the 'Work', 'Founder busy-ness', 'Inexperience"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Progress Updates' triggered by project milestones in your PM tool."
+      },
+      pathToRoot: "Passive Comm → Communication Breakdowns → Project Management Issues"
+    }
+  },
+  'updates-missing': {
+    explanation: "The client goes weeks without hearing from you. Even if you are working hard, to them, 'Silence = Nothing is happening.' This is the #1 trigger for anxiety-based churn.",
+    relatedProblems: ['no-communication-plan', 'client-delays-pm'],
+    impactAnalysis: {
+      financialImpact: "Immediate account risk; high price sensitivity; loss of trust.",
+      severity: "Major",
+      affectedAreas: ['Retention', 'Referral Rate', 'Client Trust'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Set a calendar alert for 'Update Day' every Friday", "Send a 2-sentence 'What we did / What's next' update today", "Use a Loom video for faster reporting"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Focus on 'Doing' over 'Reporting', 'Perfectionism (waiting for 'Real' news)', 'No system"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to generate a 'Weekly Summary' of completed tasks from your PM tool and auto-emailing it."
+      },
+      pathToRoot: "Inconsistent Updates → Communication Breakdowns → Project Management Issues"
+    }
+  },
+  'wrong-people-projects': {
+    explanation: "You are putting 'Round pegs in square holes.' Assigning tasks based on 'Who is free' instead of 'Who is best' leads to slow delivery and quality errors.",
+    relatedProblems: ['skill-mismatches', 'people-underperform'],
+    impactAnalysis: {
+      financialImpact: " Labor waste; high cost of rework; slow training ROI.",
+      severity: "Moderate",
+      affectedAreas: ['Efficiency', 'Quality', 'Team Morale'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Run a 'Skills Matrix' for your team this week", "Move one project to a better-suited person today", "Create 'Subject Matter Experts' for core tasks"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Poor capacity planning', 'Hiring based on availability', 'No role specialization"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "AI-powered resource management that matches task 'Skills' to employee 'History' automatically."
+      },
+      pathToRoot: "Allocation Failure → Resource Allocation Wrong → Project Management Issues"
+    }
+  },
+  'overbooking': {
+    explanation: "You've assigned 120 hours of work to a team with 80 hours of capacity. You are intentionally building a 'Systemic Delay' into your business and burning out your best people.",
+    relatedProblems: ['overcommitting', 'working-too-much'],
+    impactAnalysis: {
+      financialImpact: "Total loss of delivery quality; high team turnover costs; missed deadlines.",
+      severity: "Critical",
+      affectedAreas: ['Team Mental Health', 'Operations', 'Client Retention'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate (Scope cut)",
+      difficulty: 'Hard',
+      quickWins: ["Stop all new project starts today", "Hire a contractor for the 'Overflow' this week", "Be honest with clients about delayed timelines now"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of capacity tracking', 'Saying 'Yes' to every sale', 'Ignoring labor math"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using resource planning tools (e.g., Float, Resource Guru) that 'Lock' project starts when at capacity."
+      },
+      pathToRoot: "Systemic Overload → Resource Allocation Wrong → Project Management Issues"
+    }
+  },
+  'underbooking': {
+    explanation: "You have a team sitting idle because sales are slow or projects are stuck. You are paying for capacity you aren't using, which is pure profit drain.",
+    relatedProblems: ['team-idle', 'not-enough-revenue'],
+    impactAnalysis: {
+      financialImpact: "Immediate drain on cash flow; negative ROI on labor; team boredom/demotivation.",
+      severity: "Major",
+      affectedAreas: ['Gross Margin', 'Profitability', 'Team Retention'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week (Sales push)",
+      difficulty: 'Medium',
+      quickWins: ["Assign all idle staff to 'SOP Documentation' today", "Run a 'Flash Sale' to fill the gaps", "Increase marketing spend immediately"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Inconsistent sales pipeline', 'Lumpy project timing', 'Poor capacity visibility"],
+      automationPotential: {
+        rating: 'High',
+        example: "Connecting your CRM pipeline to your Resource Manager to trigger marketing when 'Future Capacity' is high."
+      },
+      pathToRoot: "Wasted Capacity → Resource Allocation Wrong → Project Management Issues"
+    }
+  },
+  'skill-mismatch-resource': {
+    explanation: "You are assigning high-level seniors to low-level admin work, or juniors to high-level strategy. Either way, you are wasting money or risking quality.",
+    relatedProblems: ['low-value-work', 'skill-mismatches'],
+    impactAnalysis: {
+      financialImpact: "Inefficient labor costs; missed opportunities; high error risk.",
+      severity: "Moderate",
+      affectedAreas: ['Profitability', 'Quality Control', 'Team Growth'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Audit your top 2 seniors' time this week", "Hire a junior to offload the senior admin work today", "Redefine task-level authority"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Flat organizational structure', 'Founder as technician', 'Lack of role unbundling"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to categorize tasks by 'Complexity' and suggesting the appropriate pay-grade for each."
+      },
+      pathToRoot: "Efficiency Gap → Resource Allocation Wrong → Project Management Issues"
+    }
+  },
+  'priorities-unclear': {
+    explanation: "The team doesn't know what to work on first. They are busy, but on the wrong things. This leads to high-value projects being delayed for low-value 'Busy Work.'",
+    relatedProblems: ['poor-prioritization', 'everything-urgent'],
+    impactAnalysis: {
+      financialImpact: "Opportunity cost of delayed revenue; team frustration; strategic drift.",
+      severity: "Major",
+      affectedAreas: ['Throughput', 'Strategic Goals', 'Efficiency'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Implement a 'Top 3 for the Day' for everyone today", "Use a 'Priority' field in your PM tool (and use it!)", "Cancel all 'Maybe' tasks this week"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of clear KPIs', 'Reactive management', 'Too many 'Big' ideas"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to auto-sort task lists based on 'Due Date' and 'Revenue Impact' automatically."
+      },
+      pathToRoot: "Direction Failure → Resource Allocation Wrong → Project Management Issues"
+    }
+  },
+  'firefighting': {
+    explanation: "You are managing by crisis. You only focus on what is 'Burning' right now. You have no time for the 'Building' tasks that would prevent future fires.",
+    relatedProblems: ['everything-urgent', 'reactive-not-proactive'],
+    impactAnalysis: {
+      financialImpact: "High operational waste; founder burnout; stagnant growth.",
+      severity: "Critical",
+      affectedAreas: ['Founder Mental Health', 'Strategic Growth', 'Sustainability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months (Mindset shift)",
+      difficulty: 'Hard',
+      quickWins: ["Block 90 mins of 'Proactive Time' first thing tomorrow", "Fix the #1 recurring 'Crisis' permanently today", "Stop answering Slack/Email during your focus block"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of operational buffers', 'Poor systems', 'Hero complex'],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using automated monitoring to flag 'Small Problems' before they become 'Fires'."
+      },
+      pathToRoot: "Crisis Mode → Resource Allocation Wrong → Project Management Issues"
+    }
+  },
+  'no-visibility-utilization': {
+    explanation: "You don't know how much of your team's time is actually being spent on revenue-generating work. You are managing 'Blind' regarding your most expensive asset: labor.",
+    relatedProblems: ['team-idle', 'dont-know-costs'],
+    impactAnalysis: {
+      financialImpact: "Undiagnosed profit leaks; inefficient staffing; unmeasurable ROI.",
+      severity: "Major",
+      affectedAreas: ['Gross Margin', 'Efficiency', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Implement a simple 'Billable vs Non-Billable' tracker today", "Set a target utilization rate (e.g., 75%)", "Audit the last week's time logs"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Aversion to time-tracking', 'Informal culture', 'Lack of data focus"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated time-tracking tools (e.g., Harvest, Timely) that categorize work by project and task type."
+      },
+      pathToRoot: "Invisible Waste → No Project Tracking → Project Management Issues"
+    }
+  },
+  'surprises-end': {
+    explanation: "You only find out a project is over budget or failing when it's already done. You have no 'Mid-Course' correction, making every project a gamble.",
+    relatedProblems: ['no-project-tracking', 'unexpected-complications'],
+    impactAnalysis: {
+      financialImpact: "Shocking revenue losses; damaged client relationships; unable to plan cash.",
+      severity: "Critical",
+      affectedAreas: ['Profitability', 'Client Trust', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Setup a '50% Completion' check-in today", "Implement a weekly budget-vs-actual report", "Use automated 'Warning' alerts in your PM tool"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of real-time tracking', 'Post-mortem only culture', 'Passive management"],
+      automationPotential: {
+        rating: 'High',
+        example: "Real-time project dashboards that predict final budget based on current burn-rate."
+      },
+      pathToRoot: "Lagging Data → No Project Tracking → Project Management Issues"
+    }
+  },
+  'budget-overruns': {
+    explanation: "Projects are consistently costing you more than you budgeted. You are essentially 'paying to work' for some clients, and you might not even know it.",
+    relatedProblems: ['dont-know-costs', 'scope-creep-profit'],
+    impactAnalysis: {
+      financialImpact: "Negative project margins; cash flow drain; inability to reinvest.",
+      severity: "Critical",
+      affectedAreas: ['Profitability', 'Cash Flow', 'Business Viability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Hard',
+      quickWins: ["Audit the last 3 projects for 'Actual vs Quote' today", "Raise your next quote by 20% to build in a buffer", "Track all 'Internal' labor costs per project"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Poor cost estimation', 'Unbilled scope creep', 'High rework labor"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Budget Alerts' that lock down a project when it hits 90% of its estimated costs."
+      },
+      pathToRoot: "Profit Drain → No Project Tracking → Project Management Issues"
+    }
+  },
+  'unreasonable-expectations': {
+    explanation: "Your clients want the 'World for a Dollar.' You haven't educated them on what is possible or realistic, so they are constantly disappointed even when you deliver well.",
+    relatedProblems: ['expectations-misaligned', 'bad-fit-services'],
+    impactAnalysis: {
+      financialImpact: "High churn; constant demands for free extras; team demoralization.",
+      severity: "Major",
+      affectedAreas: ['Client Satisfaction', 'Team Morale', 'Profitability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month (Sales reset)",
+      difficulty: 'Medium',
+      quickWins: ["Add a 'Realistic Results' slide to your sales deck", "Fire the client who refuses to accept reality", "Clearly define 'Out-of-Scope' during kickoff"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-selling in sales', 'Targeting 'Entitled' segments', 'Lack of authoritative positioning"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Success Benchmarks' that show the client how their results compare to industry averages."
+      },
+      pathToRoot: "Education Failure → Difficult Clients → Client Management Issues"
+    }
+  },
+  'constant-changes': {
+    explanation: "The client can't make up their mind. Every week they pivot the goal, which forces your team into a loop of 'Start-Stop-Start,' destroying efficiency.",
+    relatedProblems: ['scope-creep-accepted', 'timelines-slip'],
+    impactAnalysis: {
+      financialImpact: "Massive labor waste; profit margin collapse; team burnout.",
+      severity: "Major",
+      affectedAreas: ['Efficiency', 'Team Morale', 'Gross Margin'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate (Change fees)",
+      difficulty: 'Medium',
+      quickWins: ["Implement a mandatory 'Change Fee' today", "Pause work until the client provides a final brief", "Limit the number of 'Pivots' allowed per phase"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of client conviction', 'Vague initial agreement', 'Passive management'],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using interactive 'Approval Loops' where a change isn't accepted until the client clicks 'Agree to New Fee'."
+      },
+      pathToRoot: "Indecision Loop → Difficult Clients → Client Management Issues"
+    }
+  },
+  'poor-communication-client': {
+    explanation: "The client is 'Ghosting' you or giving vague, unhelpful feedback. You are spending more time 'Chasing' them than 'Working' for them.",
+    relatedProblems: ['client-delays-pm', 'waiting-feedback'],
+    impactAnalysis: {
+      financialImpact: "Project stagnation; delayed revenue; team frustration.",
+      severity: "Moderate",
+      affectedAreas: ['Operations', 'Speed', 'Cash Flow'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Define 'Rules of Communication' today", "Use a 'Single Thread' for all project info", "Give the client a 'Communication Score' in your weekly internal review"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Wrong point-of-contact', 'Client overwhelmed', 'Lack of communication systems"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Deadline' pings that notify the client's manager if they don't respond."
+      },
+      pathToRoot: "Communication Lag → Difficult Clients → Client Management Issues"
+    }
+  },
+  'dont-respect-boundaries': {
+    explanation: "Clients are emailing you at 10 PM, texting your personal phone, or demanding 'Emergency' work for 'Non-emergency' issues. You have lost control of the relationship.",
+    relatedProblems: ['available-24-7', 'working-too-much'],
+    impactAnalysis: {
+      financialImpact: "Extreme founder burnout; team demotivation; unsustainable operations.",
+      severity: "Major",
+      affectedAreas: ['Founder Health', 'Team Culture', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week (Reset)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Delete client Slack/Email from your phone today", "Stop answering personal texts for work", "Send a 'Working Hours' update to all clients"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["People-pleasing founder', 'Lack of professional onboarding', 'Scarcity mindset"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Out of Office' responders that only trigger for clients after hours."
+      },
+      pathToRoot: "Boundary Collapse → Difficult Clients → Client Management Issues"
+    }
+  },
+  'late-responsibilities': {
+    explanation: "The client isn't giving you the data, login, or files you need to start. Your team is sitting idle while the clock is ticking, and the client still expects an 'On-Time' delivery.",
+    relatedProblems: ['client-delays-pm', 'underbooking'],
+    impactAnalysis: {
+      financialImpact: "Wasted labor capacity; delayed final payment; high stress.",
+      severity: "Major",
+      affectedAreas: ['Efficiency', 'Cash Flow', 'Team Morale'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Use an 'Onboarding Portal' (e.g., Content Snare) to collect files", "Stop work until all assets are received", "Add a 'Day-for-Day' delay rule to your contract today"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Managing assets via email', 'Lack of 'Prerequisite' rules', 'Passive onboarding"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated asset gathering tools that remind the client every 12 hours until the upload is 100% complete."
+      },
+      pathToRoot: "Asset Stalls → Difficult Clients → Client Management Issues"
+    }
+  },
+  'abusive': {
+    explanation: "The client is rude, aggressive, or belittling to you or your team. This is a toxic influence that destroys team morale and has zero place in a professional business.",
+    relatedProblems: ['team-unreliable', 'bad-fit-services'],
+    impactAnalysis: {
+      financialImpact: "High risk of team turnover; founder health collapse; negative brand energy.",
+      severity: "Critical",
+      affectedAreas: ['Team Culture', 'Founder Health', 'Employee Retention'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate (Fire them)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Fire your most abusive client today", "Implement a 'No-Assholes' policy for future leads", "Tell your team you have their back and won't tolerate it"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of client vetting', 'Scarcity mindset (taking anyone with money)', 'Weak leadership"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this requires a firm leadership decision."
+      },
+      pathToRoot: "Toxic Account → Difficult Clients → Client Management Issues"
+    }
+  },
+  'bad-fit-services': {
+    explanation: "You sold them something they don't actually need, or your service won't solve their specific version of the problem. You've set yourselves up for failure from day one.",
+    relatedProblems: ['wrong-clients', 'product-market-mismatch'],
+    impactAnalysis: {
+      financialImpact: "100% Churn; negative brand reputation; high support/rework costs.",
+      severity: "Major",
+      affectedAreas: ['Brand Reputation', 'LTV', 'Team Pride'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate (Say 'No')",
+      difficulty: 'Medium',
+      quickWins: ["Tighten your sales qualification form today", "Clearly define your 'Anti-Offer'", "Stop incentivizing sales reps on 'Revenue' and start on 'Retention'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Selling for the commission/cash', 'Weak understanding of ICP', 'Broad positioning"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI lead-scoring to auto-reject any prospect that doesn't fit your core success criteria."
+      },
+      pathToRoot: "Strategy Mismatch → Wrong Clients → Client Management Issues"
+    }
+  },
+  'cant-afford-pricing': {
+    explanation: "You are targeting prospects who are 'Cash-Poor.' They will haggle over every dollar, demand more 'Value' for less 'Price,' and will be the first to churn when things get tight.",
+    relatedProblems: ['price-objection', 'market-too-small'],
+    impactAnalysis: {
+      financialImpact: "Compressed margins; constant haggling; high churn risk.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'LTV', 'Sales ROI'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months (Market shift)",
+      difficulty: 'Hard',
+      quickWins: ["Add a 'Minimum Revenue' field to your lead form", "Double your prices for the next lead to test the market", "Refer low-budget leads to a 'Productized' cheaper alternative"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Targeting small/new businesses', 'Fear of competing at the high-end', 'Poor value anchoring"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using business data tools (e.g., ZoomInfo, Apollo) to automatically verify lead revenue before you call."
+      },
+      pathToRoot: "Budget Mismatch → Wrong Clients → Client Management Issues"
+    }
+  },
+  'dont-value': {
+    explanation: "The client sees you as a 'Cost' to be minimized, not an 'Investment' to be maximized. They don't respect your expertise and will treat you like a commodity vendor.",
+    relatedProblems: ['commoditized-service', 'undervalue-expertise'],
+    impactAnalysis: {
+      financialImpact: "Low pricing power; constant threat of replacement; zero strategic leverage.",
+      severity: "Major",
+      affectedAreas: ['Pricing Power', 'Strategic Positioning', 'LTV'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months (Positioning)",
+      difficulty: 'Hard',
+      quickWins: ["Stop itemizing your invoices by 'Hours'", "Publish an 'Expert' whitepaper or case study this week", "Only speak to the 'Decision Maker,' never the 'User'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Technical jargon selling', 'Commoditized offer', 'Lack of authority proof"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to analyze your brand voice and ensuring it sounds like an 'Advisor' not a 'Vendor'."
+      },
+      pathToRoot: "Perception Failure → Wrong Clients → Client Management Issues"
+    }
+  },
+  'high-maintenance-low-profit': {
+    explanation: "The 'Nightmare Client.' They take 80% of your support time but only provide 5% of your profit. They are subsidizing their business with your team's unpaid labor.",
+    relatedProblems: ['scope-creep-profit', 'difficult-clients'],
+    impactAnalysis: {
+      financialImpact: "Extreme drain on team resources; negative net margin on the account.",
+      severity: "Critical",
+      affectedAreas: ['Profitability', 'Team Capacity', 'Mental Health'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate (Fire them)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Run an 'Account Profitability' report today", "Fire the bottom 10% of clients by margin", "Raise prices for 'Maintenance' tasks for remaining clients"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of 'Cost-per-Account' tracking', 'People-pleasing founder', 'Vague boundaries"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated time-tracking per client to show a 'Net Profit' dashboard for every account."
+      },
+      pathToRoot: "Profit Leak → Wrong Clients → Client Management Issues"
+    }
+  },
+  'misaligned-values': {
+    explanation: "You and the client simply don't see the world the same way. Whether it's ethics, speed of work, or communication style, the mismatch creates constant friction and a 'heavy' feeling to the work.",
+    relatedProblems: ['bad-fit-services', 'relationship-deteriorated'],
+    impactAnalysis: {
+      financialImpact: "High management friction; slow-motion churn; team demotivation.",
+      severity: "Moderate",
+      affectedAreas: ['Team Morale', 'Operations', 'LTV'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Immediate (Vetting fix)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Define your 'Core Values' today", "Add a 'Values Check' question to your sales process", "Part ways with one client who feels 'Heavy'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Taking anyone with money', 'Lack of company identity', 'No sales filters"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - values are a human-to-human match."
+      },
+      pathToRoot: "Cultural Mismatch → Wrong Clients → Client Management Issues"
+    }
+  },
+  'available-24-7': {
+    explanation: "You have trained your clients that they can reach you at any time. By responding to that 9 PM text, you've set a standard that you can never sustain.",
+    relatedProblems: ['dont-respect-boundaries', 'working-too-much'],
+    impactAnalysis: {
+      financialImpact: "Zero operational leverage; extreme founder burnout; unscalable delivery.",
+      severity: "Major",
+      affectedAreas: ['Founder Health', 'Team Autonomy', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week (Reset)",
+      difficulty: 'Mindset',
+      quickWins: ["Stop answering all non-emergency calls after 6 PM today", "Use 'Scheduled Send' for your late-night emails", "Remove work apps from your phone"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Anxiety about losing deals', 'Lack of other hobbies/identity', 'Hero complex"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated 'After Hours' responders that route emergencies to a dedicated system and others to tomorrow."
+      },
+      pathToRoot: "Availability Trap → No Client Boundaries → Client Management Issues"
+    }
+  },
+  'scope-creep-accepted': {
+    explanation: "You know they are asking for more, but you say 'Sure' anyway without asking for money. You are undervaluing your team's time and training the client to keep asking.",
+    relatedProblems: ['afraid-charge-changes', 'clients-ask-more'],
+    impactAnalysis: {
+      financialImpact: "Direct profit margin loss; team frustration; increased 'Bespoke' complexity.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Efficiency', 'Accountability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate (Change fee)",
+      difficulty: 'Medium',
+      quickWins: ["Use the phrase: 'We can definitely do that, let me send you the quote for it' today", "Refer to the original brief in every review", "Empower your team to say 'No'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of being 'Mean', 'Undervaluing your time', 'No formal change process"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'Add-on' modules in your PM tool that require a payment before the task is visible to the team."
+      },
+      pathToRoot: "Value Leaks → No Client Boundaries → Client Management Issues"
+    }
+  },
+  'allow-bad-behavior': {
+    explanation: "You tolerate late payments, rude emails, or missed meetings. By allowing it once, you've made it the 'New Normal' for that account.",
+    relatedProblems: ['abusive', 'clients-pay-late'],
+    impactAnalysis: {
+      financialImpact: "Cash flow instability; team demoralization; loss of authority.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Team Morale', 'Cash Flow'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week (Policy reset)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Implement an 'Automatic Pause' rule for late payers today", "Address one instance of 'Bad Behavior' immediately and professionally", "Fire the repeat offender"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Scarcity mindset', 'Low self-esteem as a business', 'Passive management"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated dunning systems that lock account access until payment is cleared."
+      },
+      pathToRoot: "Standard Failure → No Client Boundaries → Client Management Issues"
+    }
+  },
+  'cant-say-no': {
+    explanation: "The 'Pleaser' mindset. You take every project, every deadline, and every request because you're afraid of the word 'No.' You are building a business based on other people's needs, not your goals.",
+    relatedProblems: ['saying-yes-everything', 'overcommitting'],
+    impactAnalysis: {
+      financialImpact: "Strategic drift; profit margin collapse; extreme burnout.",
+      severity: "Critical",
+      affectedAreas: ['Scalability', 'Founder Health', 'Strategic Vision'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate (Mindset shift)",
+      difficulty: 'Mindset',
+      quickWins: ["Say 'No' to the next project that doesn't feel right", "Define your 'Perfect Client' profile today", "Set a 'No-Sales' day once a week"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Scarcity mindset', 'Need for external validation', 'Lack of long-term goals"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a core leadership and personal hurdle."
+      },
+      pathToRoot: "People Pleasing → No Client Boundaries → Client Management Issues"
+    }
+  },
+  'cant-say-no': {
+    explanation: "The 'Pleaser' mindset. You take every project, every deadline, and every request because you're afraid of the word 'No.' You are building a business based on other people's needs, not your goals.",
+    relatedProblems: ['saying-yes-everything', 'overcommitting'],
+    impactAnalysis: {
+      financialImpact: "Strategic drift; profit margin collapse; extreme burnout.",
+      severity: "Critical",
+      affectedAreas: ['Scalability', 'Founder Health', 'Strategic Vision'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Immediate (Mindset shift)",
+      difficulty: 'Mindset',
+      quickWins: ["Say 'No' to the next project that doesn't feel right", "Define your 'Perfect Client' profile today", "Set a 'No-Sales' day once a week"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Scarcity mindset", "Need for external validation", "Lack of long-term goals"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a core leadership and personal hurdle."
+      },
+      pathToRoot: "People Pleasing → No Client Boundaries → Client Management Issues"
+    }
+  },
+  'work-others-cheaper': {
+    explanation: "You are doing tasks that you could pay someone $20/hour to do, while your own time is worth $200/hour. You are effectively 'losing' $180 every hour you spend on low-value work.",
+    relatedProblems: ['admin-busywork', 'time-trapped'],
+    impactAnalysis: {
+      financialImpact: "Massive opportunity cost; negative ROI on founder time.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Founder Throughput', 'Growth Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Identify 3 tasks to outsource today", "Hire a VA for 5 hours a week this month", "Calculate your 'Founder Hourly Rate'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Scarcity mindset', 'Lack of delegation skills', 'Hero complex"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI or low-cost contractors to handle the 'Routine' layer of the business."
+      },
+      pathToRoot: "Labor Inefficiency → Doing Low-Value Work → Time Trapped"
+    }
+  },
+  'busy-not-revenue': {
+    explanation: "You are 'Busy' all day but your bank account isn't growing. You are confusing 'Movement' with 'Progress.' You are likely avoiding the high-leverage sales or product work that actually moves the needle.",
+    relatedProblems: ['poor-prioritization', 'everything-urgent'],
+    impactAnalysis: {
+      financialImpact: "Stagnant revenue; wasted labor capacity; strategic drift.",
+      severity: "Major",
+      affectedAreas: ['Revenue Growth', 'Efficiency', 'Strategic Vision'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 day (Priority shift)",
+      difficulty: 'Medium',
+      quickWins: ["List your tasks today and label them 'Revenue' or 'Non-Revenue'", "Do one 'Revenue' task first thing tomorrow morning", "Cancel one 'Busy' meeting today"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Procrastination on difficult tasks', 'Lack of clear revenue targets', 'Reactive habits"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to track your calendar and flagging how much time is spent on 'Growth' vs 'Admin'."
+      },
+      pathToRoot: "Activity Trap → Doing Low-Value Work → Time Trapped"
+    }
+  },
+  'firefighting-not-building': {
+    explanation: "You spend 90% of your time fixing mistakes or handling crises. You have zero time to build the systems that would stop the fires from starting in the first place.",
+    relatedProblems: ['everything-urgent', 'firefighting'],
+    impactAnalysis: {
+      financialImpact: "High operational waste; founder burnout; zero scalability.",
+      severity: "Critical",
+      affectedAreas: ['Founder Mental Health', 'Operations', 'Strategic Growth'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months (Mindset/Process shift)",
+      difficulty: 'Hard',
+      quickWins: ["Fix the #1 recurring fire permanently today", "Block 1 hour a day for 'System Building' only", "Accept that some small fires might burn while you build"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of systems', 'No operational buffers', 'Hero complex"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using automated monitoring and alerts to catch 'Smoldering' issues before they become 'Fires'."
+      },
+      pathToRoot: "Crisis Mode → Doing Low-Value Work → Time Trapped"
+    }
+  },
+  'easier-do-myself': {
+    explanation: "The 'Expert Trap.' You believe that explaining it takes longer than doing it. This is true for today, but false for the next 5 years. By doing it yourself, you ensure you will *always* have to do it yourself.",
+    relatedProblems: ['cant-delegate', 'afraid-let-go'],
+    impactAnalysis: {
+      financialImpact: "Capped revenue; zero business valuation; extreme opportunity cost.",
+      severity: "Critical",
+      affectedAreas: ['Scalability', 'Founder Health', 'Team Growth'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month (Mindset shift)",
+      difficulty: 'Mindset',
+      quickWins: ["Record yourself doing the task once (Loom)", "Accept a 'B+' result from a team member today", "Invest 2 hours in training someone now to save 100 hours this year"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Short-term thinking', 'Perfectionism', 'Expert blindness"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to 'Extract' your process as you do it, creating a draft SOP for others to follow."
+      },
+      pathToRoot: "Short-termism → Cant Delegate → Time Trapped"
+    }
+  },
+  'no-one-delegate': {
+    explanation: "You have no team, or your team is already at 100% capacity. You want to offload work, but there is 'No one to catch the ball.'",
+    relatedProblems: ['cant-afford-hire', 'not-enough-capacity'],
+    impactAnalysis: {
+      financialImpact: "Growth is linear to founder hours; zero resilience; high burnout risk.",
+      severity: "Major",
+      affectedAreas: ['Capacity', 'Founder Peace of Mind', 'Business Value'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2-4 months (Hiring)",
+      difficulty: 'Hard',
+      quickWins: ["Hire a freelancer for a 10-hour project today", "Audit your tasks to see if 20% can be 'Automated' instead of delegated", "Post a part-time VA role this week"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Under-investing in labor', 'Thin margins', 'Fear of management"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI 'Agents' to act as your first 'Digital Employees' for basic tasks."
+      },
+      pathToRoot: "Missing Team → Cant Delegate → Time Trapped"
+    }
+  },
+  'dont-know-how-delegate': {
+    explanation: "You give vague instructions and then get frustrated when the result is wrong. You don't have a 'Delegation Framework,' so you default back to doing it yourself.",
+    relatedProblems: ['havent-trained', 'no-sops'],
+    impactAnalysis: {
+      financialImpact: "High rework labor; team demotivation; founder bottlenecking.",
+      severity: "Moderate",
+      affectedAreas: ['Team ROI', 'Operations', 'Scalability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Use the '5 Levels of Delegation' framework today", "Specify the 'Definition of Done' for every task", "Ask the team to repeat instructions back to you"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of management training', 'Poor communication habits', 'Rushing"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to 'Polish' your rough instructions into a detailed project brief."
+      },
+      pathToRoot: "Skill Gap → Cant Delegate → Time Trapped"
+    }
+  },
+  'micromanagement': {
+    explanation: "You are checking every email, every pixel, and every line of code. You are paying for a team but still doing their jobs for them. This kills trust and prevents your team from growing.",
+    relatedProblems: ['afraid-let-go', 'dont-trust-others'],
+    impactAnalysis: {
+      financialImpact: "Diminishing returns on team labor; high turnover of high-performers; founder burnout.",
+      severity: "Critical",
+      affectedAreas: ['Team Culture', 'Founder Throughput', 'Retention'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months (Mindset/Culture)",
+      difficulty: 'Mindset',
+      quickWins: ["Stop attending one 'Internal' meeting today", "Set a 'No-Check' limit for projects < $X", "Focus on 'Output' KPIs, not 'How' they did it"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Perfectionism', 'Anxiety about quality', 'Lack of trust in systems"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - micromanagement is a leadership behavior."
+      },
+      pathToRoot: "Need for Control → Cant Delegate → Time Trapped"
+    }
+  },
+  'cant-hand-off': {
+    explanation: "You've built a project, but you can't hand it over to the client or the next team member without a 3-hour meeting. The 'Knowledge Gap' is too wide at the transition point.",
+    relatedProblems: ['everything-founders-head', 'explain-every-time'],
+    impactAnalysis: {
+      financialImpact: "Project 'Tail' drags on; unbilled support hours; high friction.",
+      severity: "Moderate",
+      affectedAreas: ['Efficiency', 'Client Experience', 'Project Payout'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Create a 'Client Handover' portal today", "Standardize the project completion checklist", "Record a video 'Walkthrough' instead of a live call"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of 'Deliverable' standards', 'Poor documentation', 'Expert blindness"],
+      automationPotential: {
+        rating: 'High',
+        example: "Automated 'Onboarding/Offboarding' flows that deliver all docs and logins instantly."
+      },
+      pathToRoot: "Transition Failure → No Processes → Time Trapped"
+    }
+  },
+  'explain-every-time': {
+    explanation: "You are answering the same questions over and over. You are a 'Human Help Desk.' This is a sign that you lack a central knowledge base or that your team hasn't been trained to look for answers themselves.",
+    relatedProblems: ['tribal-knowledge', 'no-sops'],
+    impactAnalysis: {
+      financialImpact: "Massive hidden time waste; high cognitive load; slow team speed.",
+      severity: "Major",
+      affectedAreas: ['Founder Productivity', 'Team Autonomy', 'Efficiency'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Easy',
+      quickWins: ["Create a 'Frequently Asked Questions' wiki today", "Stop answering questions that are already in the wiki", "Record every answer as a Loom video"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Managing via DM', 'Lack of searchable docs', 'Hero complex"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI chatbots (e.g., Guru, CustomGPT) that index your SOPs and answer team questions 24/7."
+      },
+      pathToRoot: "Repetitive Support → No Processes → Time Trapped"
+    }
+  },
+  'knowledge-not-transferable': {
+    explanation: "Your expertise is 'Magic.' It's based on intuition or 20 years of experience that you haven't broken down into steps. This makes you impossible to replace and the business impossible to sell.",
+    relatedProblems: ['service-complex', 'tribal-knowledge'],
+    impactAnalysis: {
+      financialImpact: "Zero business valuation; zero scalability; high risk if you leave.",
+      severity: "Critical",
+      affectedAreas: ['Asset Value', 'Scalability', 'Risk Management'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Identify the 'First 20%' of your intuition that can be coded", "Hire a 'Writer' to interview you and document your brain", "Create a 'Decision Tree' for your most complex task"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Expert blindness', 'Undervaluing process', 'Complex service model"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to 'Model' your decision making by analyzing your past work results and finding patterns."
+      },
+      pathToRoot: "Magic Trap → No Processes → Time Trapped"
+    }
+  },
+  'no-systems-organization': {
+    explanation: "You have no 'Operating System' for your business. There is no central place for tasks, files, or communication. You are managing a multi-million dollar potential with a 'Mom and Pop' setup.",
+    relatedProblems: ['no-crm-pm', 'communication-mess'],
+    impactAnalysis: {
+      financialImpact: "Invisible efficiency leaks; high stress; impossible to manage a team larger than 3.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Founder Peace of Mind', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Choose ONE tool for tasks, ONE for files, ONE for chat today", "Forbid 'Work outside the system'", "Migrate your top 3 projects to the new system this week"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Organic growth without infrastructure planning', 'Lack of operational discipline', 'Tool overwhelm"],
+      automationPotential: {
+        rating: 'High',
+        example: "Building a central 'Operating System' in Notion or Airtable that links all business functions."
+      },
+      pathToRoot: "Infrastructure Gap → Disorganized → Personal Bottlenecks"
+    }
+  },
+  'messy-files': {
+    explanation: "Your digital documents are scattered across GDrive, Dropbox, Desktop, and Email. You are losing hours a month just 'Searching' for the right version of a file.",
+    relatedProblems: ['cant-find-things', 'duplicate-work'],
+    impactAnalysis: {
+      financialImpact: "Labor waste; high risk of sending wrong version to client; data security risk.",
+      severity: "Moderate",
+      affectedAreas: ['Efficiency', 'Accuracy', 'Professionalism'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Adopt a 'Standard Naming Convention' today", "Delete all old versions of files", "Move everything into a single, structured cloud drive today"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of folder structure', 'Saving to desktop habits', 'No file versioning system"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to automatically tag and sort files based on their content."
+      },
+      pathToRoot: "Digital Chaos → No Systems/Org → Disorganized"
+    }
+  },
+  'no-task-management': {
+    explanation: "You are managing your To-Do list in your head, email, or Slack DMs. This creates constant 'Mental Noise' and ensures that small but important things will be forgotten.",
+    relatedProblems: ['everything-urgent', 'things-fall-through'],
+    impactAnalysis: {
+      financialImpact: "Missed sales follow-ups; delayed projects; team confusion.",
+      severity: "Major",
+      affectedAreas: ['Execution Speed', 'Mental Clarity', 'Founder Throughput'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Move all tasks into ONE tool (Asana, ClickUp, Todoist) today", "Empty your brain onto that list tonight", "Delete all 'Mental' To-Dos"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Relying on memory', 'Informal habits', 'Aversion to structure"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to 'Extract' tasks from your Slack messages and auto-add them to your PM tool."
+      },
+      pathToRoot: "Mental Overload → No Systems/Org → Disorganized"
+    }
+  },
+  'sticky-notes-everywhere': {
+    explanation: "Managing a business via physical notes or random text files. This information is non-searchable, non-sharable, and easily lost. It's 'Analog management' in a 'Digital world.'",
+    relatedProblems: ['no-task-management', 'messy-files'],
+    impactAnalysis: {
+      financialImpact: "Hidden inefficiencies; impossible to delegate; zero data historical value.",
+      severity: "Moderate",
+      affectedAreas: ['Operations', 'Founder Peace of Mind', 'Collaboration'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Transcribe all current sticky notes into your task tool today", "Throw away all the paper notes", "Set a 'Digital First' rule for all new info"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Legacy habits', 'Tactile preference over efficiency', 'Fear of digital tools"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI OCR to scan and digitize physical notes instantly into your central system."
+      },
+      pathToRoot: "Analog Trap → No Systems/Org → Disorganized"
+    }
+  },
+  'cant-find-things': {
+    explanation: "The 'Where is that?' problem. You spend 15% of your day searching for logins, files, emails, or links. This is pure 'Friction' that adds zero value to your clients.",
+    relatedProblems: ['messy-files', 'no-task-management'],
+    impactAnalysis: {
+      financialImpact: "Direct labor waste; high frustration; slow response times.",
+      severity: "Moderate",
+      affectedAreas: ['Efficiency', 'Professionalism', 'Speed'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Setup a password manager (1Password) today", "Create a 'Core Links' document for the team", "Archive anything older than 6 months"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of single source of truth', 'Tool fragmentation', 'Disorganized digital habits"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'Unified Search' tools (e.g., Glean, Raycast) to search across all your apps at once."
+      },
+      pathToRoot: "Friction → No Systems/Org → Disorganized"
+    }
+  },
+  'duplicate-work': {
+    explanation: "You or your team are re-doing work that has already been done because nobody can find the original, or nobody knew it existed. This is 100% wasted labor.",
+    relatedProblems: ['messy-files', 'internal-miscommunication'],
+    impactAnalysis: {
+      financialImpact: "Pure margin drain; negative ROI on payroll; team demotivation.",
+      severity: "Major",
+      affectedAreas: ['Profitability', 'Efficiency', 'Team Morale'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Create a 'Knowledge Base' of past projects today", "Search the system *before* starting anything new", "Hold a weekly 'What we did' demo to share work across the team"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of central repository', 'Siloed projects', 'Poor internal communication"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to flag 'Similar Projects' when a new task is created, preventing redundant work."
+      },
+      pathToRoot: "Redundancy → No Systems/Org → Disorganized"
+    }
+  },
+  'poor-prioritization': {
+    explanation: "You are doing the 'Easiest' things first, not the 'Most Important' things. You are crossing things off a list but not moving the business forward.",
+    relatedProblems: ['busy-not-revenue', 'everything-urgent'],
+    impactAnalysis: {
+      financialImpact: "Opportunity cost of delayed growth; strategic stagnation; high burnout.",
+      severity: "Major",
+      affectedAreas: ['Growth Velocity', 'Strategic Vision', 'Founder Peace of Mind'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 day (Framework)",
+      difficulty: 'Medium',
+      quickWins: ["Use the Eisenhower Matrix today", "Choose ONE 'Big Lever' for the week", "Say 'No' to 3 minor tasks this morning"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of clear goals', 'Reactive mindset', 'Dopamine seeking (small wins)"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to auto-sort your task list based on 'Impact' vs 'Effort' scores."
+      },
+      pathToRoot: "Strategic Failure → Disorganized → Personal Bottlenecks"
+    }
+  },
+  'cant-say-no-personal': {
+    explanation: "You agree to every meeting, every 'Quick Call,' and every random opportunity. Your calendar is full of other people's priorities, leaving no room for your own.",
+    relatedProblems: ['cant-say-no', 'email-meeting-overload'],
+    impactAnalysis: {
+      financialImpact: "Zero time for high-value strategic work; slow decision making.",
+      severity: "Major",
+      affectedAreas: ['Founder Throughput', 'Growth Rate', 'Mental Health'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 day (Mindset)",
+      difficulty: 'Mindset',
+      quickWins: ["Set your 'Default' answer to 'No'", "Charge for your time for 'Quick Calls'", "Block 'Maker Time' on your calendar today"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["People-pleasing', 'FOMO (Fear of Missing Out)', 'Lack of boundary setting"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated scheduling rules that only allow meetings during specific 'Open' windows."
+      },
+      pathToRoot: "Boundary Failure → Poor Prioritization → Disorganized"
+    }
+  },
+  'reactive-not-proactive': {
+    explanation: "You are waiting for things to happen and then responding to them. You are 'Playing Defense' all day. You have no control over the direction of the business.",
+    relatedProblems: ['firefighting', 'everything-urgent'],
+    impactAnalysis: {
+      financialImpact: "Linear growth at best; high risk of being blindsided by market shifts.",
+      severity: "Major",
+      affectedAreas: ['Leadership', 'Strategic Growth', 'Sustainability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months (Mindset shift)",
+      difficulty: 'Hard',
+      quickWins: ["Block 90 mins of 'Strategy Time' first thing tomorrow", "Fix one 'Root Cause' today", "Stop checking Slack/Email for the first hour of work"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of long-term vision', 'Under-staffing (no buffer)', 'Hero complex"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI 'Forecasting' to predict future problems so you can solve them pro-actively."
+      },
+      pathToRoot: "Defense Mode → Poor Prioritization → Disorganized"
+    }
+  },
+  'no-clear-goals': {
+    explanation: "You don't know where you're going, so any road will take you there. Without clear 'North Star' metrics, your team is pulling in different directions.",
+    relatedProblems: ['poor-prioritization', 'strategic-priority'],
+    impactAnalysis: {
+      financialImpact: "Wasted labor spend; high opportunity cost; team confusion.",
+      severity: "Critical",
+      affectedAreas: ['Strategic Vision', 'Team Alignment', 'Growth Velocity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Medium',
+      quickWins: ["Define your 'One Big Number' for the year today", "Communicate 3 core objectives to the team this week", "Set a 'Stop List' of things you'll no longer do"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of commitment to a niche', 'Lack of strategic planning', 'Shiny object syndrome"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using OKR tracking software (e.g., Koan, Perdoo) to keep the team focused on goals automatically."
+      },
+      pathToRoot: "Direction Failure → Poor Prioritization → Disorganized"
+    }
+  },
+  'shiny-object-syndrome': {
+    explanation: "You are constantly pivoting to the 'Next Big Thing' before the current thing has even worked. You have 10 projects at 10% completion and zero at 100%.",
+    relatedProblems: ['poor-prioritization', 'overcommitting'],
+    impactAnalysis: {
+      financialImpact: "Massive waste of R&D and founder time; zero 'Momentum' revenue.",
+      severity: "Major",
+      affectedAreas: ['Execution', 'Strategic Vision', 'Profitability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing (Mindset shift)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Forbid all 'New Ideas' for the next 30 days", "Finish the #1 most-complete project this week", "Keep an 'Ideas' list but don't act on them"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Entrepreneurial ADD', 'Fear of failure (pivoting as a defense)', 'Low attention span"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a core founder discipline issue."
+      },
+      pathToRoot: "Focus Failure → Poor Prioritization → Disorganized"
+    }
+  },
+  'no-calendar-system': {
+    explanation: "You are managing your time by 'Feeling.' You have no visual map of your day, which leads to double-booking, missed calls, and zero focus time.",
+    relatedProblems: ['overcommitting-personal', 'constantly-late'],
+    impactAnalysis: {
+      financialImpact: "Missed sales leads; high stress; unprofessional brand image.",
+      severity: "Moderate",
+      affectedAreas: ['Time Efficiency', 'Professionalism', 'Mental Clarity'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Move all appointments to a digital calendar (GCal/Outlook) today", "Setup an automated scheduler (Calendly)", "Block out your lunch and sleep times today"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Informal habits', 'Managing via memory', 'Lack of structure"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI schedulers (e.g., Reclaim.ai, Clockwise) to auto-optimize your day for focus."
+      },
+      pathToRoot: "Time Chaos → Time Management Broken → Disorganized"
+    }
+  },
+  'overcommitting-personal': {
+    explanation: "You say 'Yes' to more than you can physically do in 24 hours. You are constantly 'Under Water,' which leads to poor quality work and high anxiety.",
+    relatedProblems: ['cant-say-no-personal', 'working-too-much'],
+    impactAnalysis: {
+      financialImpact: "Burnout risk; diminished returns on labor; error-prone decisions.",
+      severity: "Major",
+      affectedAreas: ['Founder Health', 'Quality', 'Sustainability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week (Reset)",
+      difficulty: 'Mindset',
+      quickWins: ["Cancel 20% of your meetings for next week today", "Add a 'Buffer' between every appointment", "Practice saying: 'I'd love to, but I'm at capacity right now'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Optimism bias', 'People-pleasing', 'Lack of time-budgeting"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to analyze your task list and flagging when it exceeds your available hours."
+      },
+      pathToRoot: "Overload → Time Management Broken → Disorganized"
+    }
+  },
+  'constantly-late': {
+    explanation: "Being late to meetings or deadlines is a sign of 'Time Optimism.' It erodes your professional authority and creates a culture of lateness in your team.",
+    relatedProblems: ['no-calendar-system', 'poor-boundaries'],
+    impactAnalysis: {
+      financialImpact: "Damage to brand reputation; increased client price-sensitivity; team demotivation.",
+      severity: "Moderate",
+      affectedAreas: ['Professionalism', 'Team Culture', 'Client Trust'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week (Habit shift)",
+      difficulty: 'Easy',
+      quickWins: ["Set all calendar alerts to 10 mins before", "Standardize 25 or 50-minute meetings (not 30/60)", "Assume every task takes 2x longer than you think"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Planning fallacy', 'Adrenaline seeking', 'Lack of buffers"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'Buffer Time' automation that auto-adds 10 mins of travel/prep between every meeting."
+      },
+      pathToRoot: "Reliability Failure → Time Management Broken → Disorganized"
+    }
+  },
+  'no-time-blocking': {
+    explanation: "You work on whatever 'Pings' you first. Without dedicated blocks for 'Deep Work,' you never finish the complex strategic tasks that actually scale the business.",
+    relatedProblems: ['interruptions-constant', 'low-value-work'],
+    impactAnalysis: {
+      financialImpact: "Massive hidden time waste; high cognitive load; zero strategic progress.",
+      severity: "Major",
+      affectedAreas: ['Productivity', 'Strategic Growth', 'Mental Clarity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Block 9 AM - 11 AM tomorrow for 'No-Slack' work", "Group all your 'Quick Calls' into a single afternoon block", "Set 'Focus Mode' on your laptop"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Reactive culture', 'Lack of discipline', 'Tool distraction"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI calendar tools that 'Shield' your focus time by auto-declining conflicting meetings."
+      },
+      pathToRoot: "Focus Failure → Time Management Broken → Disorganized"
+    }
+  },
+  'interruptions-constant': {
+    explanation: "Slack, Email, and Team 'Quick Questions' are the 'Death by a thousand cuts' for your productivity. Every interruption costs you 20 mins of recovery time.",
+    relatedProblems: ['email-meeting-overload', 'everything-urgent'],
+    impactAnalysis: {
+      financialImpact: " Massive labor waste; high error rate; founder burnout.",
+      severity: "Major",
+      affectedAreas: ['Efficiency', 'Mental Health', 'Decision Quality'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week (Policy change)",
+      difficulty: 'Medium',
+      quickWins: ["Turn off Slack/Email notifications today", "Set 'Office Hours' for team questions", "Switch to async communication for non-emergencies"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Synchronous culture', 'Lack of SOPs (people need to ask how)', 'Poor boundaries"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI triage bots that answer basic team questions so they don't hit the founder."
+      },
+      pathToRoot: "Distraction Loop → Time Management Broken → Disorganized"
+    }
+  },
+  'communication-mess': {
+    explanation: "Messages are scattered across Email, Slack, WhatsApp, and Phone. You are losing information and spending hours a week just 'Consolidating' conversations.",
+    relatedProblems: ['multiple-channels-mess', 'losing-important-messages'],
+    impactAnalysis: {
+      financialImpact: "Missed sales leads; delayed project approvals; team anxiety.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Sales Velocity', 'Team Alignment'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Pick ONE tool for internal and ONE for external comms today", "Delete work apps that don't belong (e.g., WhatsApp for work)", "Forbid 'Important decisions' via DM"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Organic tool bloat', 'Lack of communication rules', 'Urgency culture"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'Omni-channel' hubs that pull all messages into a single, searchable stream."
+      },
+      pathToRoot: "Information Chaos → Communication Chaos → Disorganized"
+    }
+  },
+  'multiple-channels-mess': {
+    explanation: "You have too many ways to be reached. This creates 'Inbox Anxiety' and ensures that you will miss something critical because you didn't check 'Channel #5' today.",
+    relatedProblems: ['communication-mess', 'inbox-overflowing'],
+    impactAnalysis: {
+      financialImpact: "Extreme cognitive load; labor waste searching across apps; missed deadlines.",
+      severity: "Moderate",
+      affectedAreas: ['Mental Clarity', 'Efficiency', 'Speed'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Shut down 2 communication channels today", "Point all clients to a single 'Help Desk' email", "Set 'Do Not Disturb' on non-core apps"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-connectedness', 'Lack of customer onboarding rules', 'Fear of being unavailable"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using tools like Zapier to 'Mirror' messages from secondary channels into your primary one."
+      },
+      pathToRoot: "Channel Bloat → Communication Chaos → Disorganized"
+    }
+  },
+  'losing-important-messages': {
+    explanation: "A sales lead, a client approval, or a team crisis was missed because it was buried under 500 other messages. You are 'Leaking' opportunities every day.",
+    relatedProblems: ['inbox-overflowing', 'no-follow-up-system'],
+    impactAnalysis: {
+      financialImpact: "Direct revenue loss; churn risk; damaged reputation.",
+      severity: "Critical",
+      affectedAreas: ['Revenue Growth', 'Client Trust', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 day (Triage)",
+      difficulty: 'Easy',
+      quickWins: ["Implement an 'Important' tag or filter today", "Archive all non-essential mail immediately", "Use a 'Read-Only' inbox for notifications"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Low signal-to-noise ratio', 'Lack of inbox management skills', 'Under-staffing (no VA)"],
+      automationPotential: {
+        rating: 'High',
+        example: "AI-powered inbox triage that flags 'Actionable' or 'Revenue-Related' emails automatically."
+      },
+      pathToRoot: "Information Loss → Communication Chaos → Disorganized"
+    }
+  },
+  'no-follow-up-system': {
+    explanation: "You rely on your 'Memory' to follow up. If you don't do it today, it's gone. You are leaving 50% of your sales and 20% of your project momentum on the table.",
+    relatedProblems: ['no-crm-pm', 'prospects-engage-dont-buy'],
+    impactAnalysis: {
+      financialImpact: "Massive sales leakage; delayed project finalization; stagnant account growth.",
+      severity: "Major",
+      affectedAreas: ['Sales pipeline', 'Cash Flow', 'LTV'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Set an 'Automatic Follow-up' in your CRM today", "Use a 'Wait' or 'Remind Me' feature in email", "Block 30 mins a day for 'Follow-up' only"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Passive mindset', 'Lack of CRM discipline', 'Over-reliance on 'buying heat'"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated sales sequences (e.g., Apollo, Instantly) that follow up until a response is received."
+      },
+      pathToRoot: "Follow-up Failure → Communication Chaos → Disorganized"
+    }
+  },
+  'no-follow-up-system': {
+    explanation: "You rely on your 'Memory' to follow up. If you don't do it today, it's gone. You are leaving 50% of your sales and 20% of your project momentum on the table.",
+    relatedProblems: ['no-crm-pm', 'prospects-engage-dont-buy'],
+    impactAnalysis: {
+      financialImpact: "Massive sales leakage; delayed project finalization; stagnant account growth.",
+      severity: "Major",
+      affectedAreas: ['Sales pipeline', 'Cash Flow', 'LTV'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Set an 'Automatic Follow-up' in your CRM today", "Use a 'Wait' or 'Remind Me' feature in email", "Block 30 mins a day for 'Follow-up' only"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Passive mindset", "Lack of CRM discipline", "Over-reliance on 'buying heat'"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated sales sequences (e.g., Apollo, Instantly) that follow up until a response is received."
+      },
+      pathToRoot: "Follow-up Failure → Communication Chaos → Disorganized"
+    }
+  },
+  'workspace-environment': {
+    explanation: "Your physical and digital 'Home' is chaotic. This environment triggers high cortisol (stress) and prevents the 'Deep Focus' required for high-level business building.",
+    relatedProblems: ['physical-clutter', 'too-many-tabs', 'desktop-chaos'],
+    impactAnalysis: {
+      financialImpact: "Hidden productivity drain; high stress levels; low mental energy.",
+      severity: "Moderate",
+      affectedAreas: ['Founder Mental Health', 'Efficiency', 'Creativity'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 day",
+      difficulty: 'Easy',
+      quickWins: ["Clear your physical desk today", "Close all browser tabs tonight", "Add one 'Calm' element to your workspace (e.g., a plant)"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of cleaning habits', 'Over-stimulation', 'Too many active projects"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'Tab Management' and 'File Cleaners' to keep your digital workspace organized automatically."
+      },
+      pathToRoot: "Atmosphere Failure → Disorganized → Personal Bottlenecks"
+    }
+  },
+  'physical-clutter': {
+    explanation: "Papers, trash, and random items on your desk. Visual clutter is 'Mental noise' that competes for your attention and makes you feel 'Overwhelmed' before you even start work.",
+    relatedProblems: ['sticky-notes-everywhere', 'cant-find-things'],
+    impactAnalysis: {
+      financialImpact: "Lower cognitive bandwidth; high stress; unprofessional environment.",
+      severity: "Moderate",
+      affectedAreas: ['Focus', 'Mental Health', 'Organization'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 hour",
+      difficulty: 'Easy',
+      quickWins: ["Throw away all non-essential items on your desk now", "Create a 'To-File' box for papers", "Adopt a 'Clear Desk at Night' policy"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of storage', 'Procrastination on small cleaning tasks', 'Analog focus"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - physical cleaning requires manual effort."
+      },
+      pathToRoot: "Physical Mess → Workspace Environment → Disorganized"
+    }
+  },
+  'too-many-tabs': {
+    explanation: "Having 50+ browser tabs open is a sign of 'Mental Incompletion.' It slows down your computer and your brain, making it impossible to focus on the ONE thing you're actually doing.",
+    relatedProblems: ['shiny-object-syndrome', 'poor-prioritization'],
+    impactAnalysis: {
+      financialImpact: "Massive hidden distraction; slow computer performance; anxiety.",
+      severity: "Minor",
+      affectedAreas: ['Focus', 'Tech Performance', 'Mental Clarity'],
+      strategicPriority: 'Low'
+    },
+    timeToSolve: {
+      estimate: "5 mins",
+      difficulty: 'Easy',
+      quickWins: ["Close all tabs today", "Use a 'Read it Later' tool (Pocket/Instapaper)", "Use ONE window per project"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of losing info', 'Parallel processing habit', 'Distraction seeking"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'OneTab' or 'Arc Browser' to automatically group and snooze inactive tabs."
+      },
+      pathToRoot: "Digital Bloat → Workspace Environment → Disorganized"
+    }
+  },
+  'desktop-chaos': {
+    explanation: "Your computer desktop is full of random files, screenshots, and 'Final_v2' documents. This is the digital equivalent of working in a trash pile.",
+    relatedProblems: ['messy-files', 'cant-find-things'],
+    impactAnalysis: {
+      financialImpact: "Labor waste searching for files; high risk of using wrong versions; tech clutter.",
+      severity: "Minor",
+      affectedAreas: ['Efficiency', 'Mental Health', 'Organization'],
+      strategicPriority: 'Low'
+    },
+    timeToSolve: {
+      estimate: "30 mins",
+      difficulty: 'Easy',
+      quickWins: ["Move all desktop files into a 'Triage' folder today", "Change your 'Download' location to a specific folder", "Delete all screenshots older than 24 hours"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of folder structure', 'Laziness in file naming', 'No digital cleanup routine"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'Hazel' (Mac) or 'Files-Linter' (Windows) to auto-sort desktop files into folders."
+      },
+      pathToRoot: "Digital Clutter → Workspace Environment → Disorganized"
+    }
+  },
+  'disorganized-tools': {
+    explanation: "You have 10 apps that all do the same thing, or none of them are setup correctly. You are paying for tech that is adding more complexity than value.",
+    relatedProblems: ['duplicate-systems', 'wrong-software'],
+    impactAnalysis: {
+      financialImpact: "Waste of subscription spend; high training costs; team confusion.",
+      severity: "Moderate",
+      affectedAreas: ['Operational ROI', 'Team Efficiency', 'Scalability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Audit your monthly app spend today", "Pick ONE tool per category and delete the rest", "Standardize the setup for your top 3 tools"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Shiny object syndrome', 'No central tech ownership', 'Fragmented growth"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'SaaS Management' tools to track usage and auto-cancel underutilized subscriptions."
+      },
+      pathToRoot: "Tool Bloat → Workspace Environment → Disorganized"
+    }
+  },
+  'nights-weekends': {
+    explanation: "You are working 24/7. This isn't 'Hustle,' it's 'Inefficiency.' You have no time to recover, which means your decision quality is dropping and you are a ticking time bomb for burnout.",
+    relatedProblems: ['working-too-much', 'poor-boundaries'],
+    impactAnalysis: {
+      financialImpact: "Diminishing returns on hours worked; high health costs; long-term productivity collapse.",
+      severity: "Critical",
+      affectedAreas: ['Founder Health', 'Sustainability', 'Decision Quality'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month (Boundary reset)",
+      difficulty: 'Mindset',
+      quickWins: ["Set a 'No-Work' time (e.g., after 7 PM) today", "Forbid work on Sundays immediately", "Delete work apps from your phone during weekends"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of delegation', 'Over-committing', 'Founder identity tied only to work"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated scheduling to 'Timebox' your work hours and auto-replying during off-times."
+      },
+      pathToRoot: "Workaholism → Working Too Much → Burnout"
+    }
+  },
+  'no-time-off': {
+    explanation: "You haven't taken a real vacation in over a year. Your brain has no 'Reset' time, leading to cynical thinking and a loss of the 'Big Picture' perspective.",
+    relatedProblems: ['nights-weekends', 'emotionally-exhausted'],
+    impactAnalysis: {
+      financialImpact: "High risk of total operational failure if you crash; zero strategic innovation.",
+      severity: "Critical",
+      affectedAreas: ['Strategic Vision', 'Founder Health', 'Sustainability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months (Planning)",
+      difficulty: 'Medium',
+      quickWins: ["Book a 3-day 'Digital Detox' for next month today", "Schedule a 'Weekly Recovery' day", "Tell your team: 'I am unavailable on [Date]'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear the business will fail without you', 'Poor systems', 'Scarcity mindset"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - recovery requires physical and mental disconnect."
+      },
+      pathToRoot: "Recovery Failure → Working Too Much → Burnout"
+    }
+  },
+  'always-on-call': {
+    explanation: "You never truly disconnect. You are checking Slack at dinner and Email in bed. You are in a constant state of 'Low-level anxiety,' which prevents deep recovery.",
+    relatedProblems: ['available-24-7', 'poor-boundaries'],
+    impactAnalysis: {
+      financialImpact: "Extreme decision fatigue; long-term burnout; relationship strain.",
+      severity: "Major",
+      affectedAreas: ['Mental Health', 'Sustainability', 'Relationship Success'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week (Policy reset)",
+      difficulty: 'Mindset',
+      quickWins: ["Turn off all work notifications after hours today", "Use a 'Second Phone' for work that stays in the office", "Establish an 'Emergency-Only' contact method"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Anxiety about missing out', 'Lack of trust in team', 'Poor boundaries"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to triage 'Emergency' vs 'Routine' and only alerting you for the true crises."
+      },
+      pathToRoot: "Hyper-Availability → Working Too Much → Burnout"
+    }
+  },
+  'cant-stop-thinking': {
+    explanation: "Work has invaded your thoughts 24/7. You can't sleep or relax because you are 'replaying' problems. This is the final stage before a major mental health crash.",
+    relatedProblems: ['sleep-deprived', 'chronic-stress'],
+    impactAnalysis: {
+      financialImpact: "Total loss of creative power; high risk of major medical leave.",
+      severity: "Critical",
+      affectedAreas: ['Mental Health', 'Sustainability', 'Strategic Vision'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing (Therapy/Mindset)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Start a 'Brain Dump' journal before bed", "Practice 10 mins of meditation tonight", "Seek professional coaching or therapy"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-identification with the business', 'High-stakes anxiety', 'Lack of mental closure"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a psychological and wellness issue."
+      },
+      pathToRoot: "Mental Ruminating → Working Too Much → Burnout"
+    }
+  },
+  'poor-boundaries': {
+    explanation: "You don't know where the 'Business' ends and 'You' begin. You allow work to bleed into family, health, and personal time without a fight.",
+    relatedProblems: ['family-suffering', 'no-hobbies', 'guilt-not-working'],
+    impactAnalysis: {
+      financialImpact: "Hidden costs of burnout; high 'Divorce/Relationship Risk' (which is the #1 killer of businesses).",
+      severity: "Critical",
+      affectedAreas: ['Sustainability', 'Founder Health', 'Life Balance'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 month (Reset)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Establish a 'Physical' boundary (e.g., 'No laptops in the bedroom')", "Schedule one 'Sacred' personal event per week", "Communicate your boundaries to your family/team"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of personal identity', 'Scarcity mindset', 'Passive habits"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - boundaries require human-to-human enforcement."
+      },
+      pathToRoot: "Boundary Failure → Personal Life Impact → Burnout"
+    }
+  },
+  'family-suffering': {
+    explanation: "Your relationships with spouse, children, or friends are deteriorating because you are never truly 'Present,' even when you are there physically.",
+    relatedProblems: ['social-isolation', 'guilt-not-working'],
+    impactAnalysis: {
+      financialImpact: "High cost of divorce/legal issues; loss of support system; extreme emotional drain.",
+      severity: "Critical",
+      affectedAreas: ['Sustainability', 'Life Balance', 'Mental Health'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing (Healing)",
+      difficulty: 'Hard',
+      quickWins: ["Schedule a 'No-Phone' date night tonight", "Put your phone in a box during dinner", "Ask your partner: 'What's one thing I can do to show up better for you?'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Workaholism', 'Prioritizing 'Revenue' over 'Connection', 'Lack of presence"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - relationships require human presence."
+      },
+      pathToRoot: "Relational Damage → Personal Life Impact → Burnout"
+    }
+  },
+  'no-hobbies': {
+    explanation: "You have no interests outside of business. This makes you a 'One-Dimensional' person and ensures that your self-worth is entirely tied to your bank account.",
+    relatedProblems: ['poor-boundaries', 'cant-stop-thinking'],
+    impactAnalysis: {
+      financialImpact: "Lack of creative cross-pollination; high stress; unsustainable lifestyle.",
+      severity: "Moderate",
+      affectedAreas: ['Creativity', 'Sustainability', 'Mental Health'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Revisit one childhood hobby this weekend", "Join a non-business club/group today", "Block 2 hours for 'Play' each week"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Time-poverty', 'Guilt about not working', 'Narrow identity"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - hobbies are personal pursuits."
+      },
+      pathToRoot: "Identity Loss → Personal Life Impact → Burnout"
+    }
+  },
+  'social-isolation': {
+    explanation: "You have lost touch with friends and mentors. You are 'Alone at the Top,' which makes every problem feel 10x heavier than it actually is.",
+    relatedProblems: ['no-hobbies', 'family-suffering'],
+    impactAnalysis: {
+      financialImpact: "Lack of 'External Perspective' (leads to bad decisions); higher stress levels.",
+      severity: "Major",
+      affectedAreas: ['Mental Health', 'Sustainability', 'Strategic Growth'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Reach out to one old friend today", "Join a peer mastermind group", "Schedule a non-business lunch this week"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Over-work', 'Social anxiety from burnout', 'Geographic isolation"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - social connection is human."
+      },
+      pathToRoot: "Social Loss → Personal Life Impact → Burnout"
+    }
+  },
+  'guilt-not-working': {
+    explanation: "When you aren't working, you feel like you 'Should be.' This guilt prevents any true recovery and makes leisure time more stressful than work itself.",
+    relatedProblems: ['cant-stop-thinking', 'poor-boundaries'],
+    impactAnalysis: {
+      financialImpact: "100% loss of recovery ROI; high cortisol levels; low creativity.",
+      severity: "Major",
+      affectedAreas: ['Mental Health', 'Sustainability', 'Creativity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing (Mindset)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Accept that 'Recovery is part of the work'", "Schedule your leisure time as a 'Task'", "Practice doing 'Nothing' for 5 mins today"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Internalized 'Hustle Culture'', 'Anxiety about business survival', 'Low self-worth"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a psychological belief system."
+      },
+      pathToRoot: "Guilt Cycle → Personal Life Impact → Burnout"
+    }
+  },
+  'health-neglected': {
+    explanation: "You are sacrificing your physical body for your business. This is the ultimate 'False Economy' because a sick founder cannot run a healthy business.",
+    relatedProblems: ['chronic-stress', 'sleep-deprived', 'physical-symptoms'],
+    impactAnalysis: {
+      financialImpact: "Massive future medical costs; total loss of operational capacity; low daily energy.",
+      severity: "Critical",
+      affectedAreas: ['Sustainability', 'Daily Energy', 'Life Expectancy'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months",
+      difficulty: 'Hard',
+      quickWins: ["Book a full medical check-up today", "Drink 2L of water tomorrow", "Go for a 20-min walk daily"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Time poverty', 'Prioritizing 'Growth' over 'Health', 'Convenience diet"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using wearable health trackers to auto-alert you when your stress/sleep is reaching critical levels."
+      },
+      pathToRoot: "Physical Neglect → Health Impact → Burnout"
+    }
+  },
+  'chronic-stress': {
+    explanation: "Your body is in a constant state of 'Fight or Flight.' This high-cortisol environment destroys your immune system, your sleep, and your ability to think clearly.",
+    relatedProblems: ['health-neglected', 'emotionally-exhausted'],
+    impactAnalysis: {
+      financialImpact: "Increased medical leave; high error rate; poor strategic decisions.",
+      severity: "Critical",
+      affectedAreas: ['Founder Health', 'Decision Quality', 'Sustainability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Hard',
+      quickWins: ["Identify your #1 stress trigger today", "Implement 'Box Breathing' during the day", "Stop all caffeine after 12 PM"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Unaddressed business risks', 'Poor coping mechanisms', 'No operational buffer"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - stress management is a biological and psychological requirement."
+      },
+      pathToRoot: "Stress Loop → Health Impact → Burnout"
+    }
+  },
+  'sleep-deprived': {
+    explanation: "You are running on 4-5 hours of sleep. Science shows that a sleep-deprived brain has the same cognitive impairment as being drunk. You are managing your business while 'Digital Drunk.'",
+    relatedProblems: ['cant-stop-thinking', 'health-neglected'],
+    impactAnalysis: {
+      financialImpact: "Extreme drop in IQ/Decision quality; high risk of accidents/errors; long-term brain damage.",
+      severity: "Critical",
+      affectedAreas: ['Decision Quality', 'Daily Energy', 'Mental Health'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week (Habit shift)",
+      difficulty: 'Medium',
+      quickWins: ["Set a 'No-Screens' rule 60 mins before bed today", "Go to bed at the same time every night", "Get 8 hours of sleep tonight, no matter what"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Revenge Bedtime Procrastination', 'Caffeine abuse', 'Night-time anxiety"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using 'Smart Lights' to auto-dim and trigger your sleep cycle."
+      },
+      pathToRoot: "Sleep Failure → Health Impact → Burnout"
+    }
+  },
+  'poor-diet-exercise': {
+    explanation: "You are eating junk and moving zero. Your brain is starved of proper fuel and oxygen, leading to 'Brain Fog' and low daily throughput.",
+    relatedProblems: ['health-neglected', 'physical-symptoms'],
+    impactAnalysis: {
+      financialImpact: "Low daily energy = lower revenue; high risk of chronic disease.",
+      severity: "Moderate",
+      affectedAreas: ['Daily Energy', 'Sustainability', 'Founder Confidence'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Hard',
+      quickWins: ["Prep your meals for tomorrow tonight", "Do 10 pushups today", "Replace one coffee with a green tea"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Convenience-first lifestyle', 'Lack of time-budgeting for health', 'Stress eating"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using meal-prep services to automate your nutrition and remove daily decision making."
+      },
+      pathToRoot: "Physical Decay → Health Impact → Burnout"
+    }
+  },
+  'physical-symptoms': {
+    explanation: "Back pain, headaches, eye strain, or stomach issues. Your body is 'Screaming' at you to stop. If you ignore these signals, your body will eventually 'Stop' for you.",
+    relatedProblems: ['health-neglected', 'chronic-stress'],
+    impactAnalysis: {
+      financialImpact: "Frequent unplanned 'Down Days'; potential for major surgery/long-term leave.",
+      severity: "Critical",
+      affectedAreas: ['Sustainability', 'Founder Health', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-6 months",
+      difficulty: 'Medium',
+      quickWins: ["Audit your 'Ergonomics' (chair/desk) today", "See a specialist for your #1 pain today", "Stop work when you feel the first sign of a headache"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Poor workstation setup', 'Ignoring early warning signs', 'Chronic stress"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - physical symptoms require medical attention."
+      },
+      pathToRoot: "Somatic Breakdown → Health Impact → Burnout"
+    }
+  },
+  'physical-symptoms': {
+    explanation: "Back pain, headaches, eye strain, or stomach issues. Your body is 'Screaming' at you to stop. If you ignore these signals, your body will eventually 'Stop' for you.",
+    relatedProblems: ['health-neglected', 'chronic-stress'],
+    impactAnalysis: {
+      financialImpact: "Frequent unplanned 'Down Days'; potential for major surgery/long-term leave.",
+      severity: "Critical",
+      affectedAreas: ['Sustainability', 'Founder Health', 'Operations'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1-6 months",
+      difficulty: 'Medium',
+      quickWins: ["Audit your 'Ergonomics' (chair/desk) today", "See a specialist for your #1 pain today", "Stop work when you feel the first sign of a headache"]
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Poor workstation setup", "Ignoring early warning signs", "Chronic stress"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - physical symptoms require medical attention."
+      },
+      pathToRoot: "Somatic Breakdown → Health Impact → Burnout"
+    }
+  },
+  'lost-motivation': {
+    explanation: "You don't care about the business anymore. The spark is gone, and you are just 'Going through the motions.' This is a dangerous state because your energy sets the ceiling for the whole company.",
+    relatedProblems: ['cynical-negative', 'emotionally-exhausted'],
+    impactAnalysis: {
+      financialImpact: "Stagnant revenue; team demotivation; zero innovation.",
+      severity: "Critical",
+      affectedAreas: ['Strategic Vision', 'Team Culture', 'Sustainability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3-6 months (Re-discovery)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Reconnect with your 'Why' today", "Take a 1-week break to clear your head", "Assign a 'Success Manager' to handle the day-to-day work"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Alignment failure', 'Chronic over-work', 'Lost connection to purpose"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - motivation is a personal and internal driver."
+      },
+      pathToRoot: "Apathy → Emotionally Exhausted → Burnout"
+    }
+  },
+  'cynical-negative': {
+    explanation: "You have a 'Bad Attitude' towards clients, employees, and the market. You've been burned too many times and now you expect failure, which creates a self-fulfilling prophecy.",
+    relatedProblems: ['relationship-deteriorated', 'abusive'],
+    impactAnalysis: {
+      financialImpact: "Toxic team culture; high client churn; lost opportunities from being 'Hard to work with.'",
+      severity: "Major",
+      affectedAreas: ['Team Morale', 'Brand Equity', 'Strategic Thinking'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Practice 'Gratitude' for 3 things every morning", "Stop reading 'Negative' industry news for 30 days", "Audit your internal self-talk"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Previous failures unaddressed', 'Exposure to toxic people', 'Burnout"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - cynicism is a psychological filter."
+      },
+      pathToRoot: "Toxicity → Emotionally Exhausted → Burnout"
+    }
+  },
+  'decision-fatigue': {
+    explanation: "You have made too many small decisions today. By 4 PM, you are incapable of high-level thinking, leading to procrastination or bad choices on the 'Big' things.",
+    relatedProblems: ['founder-everything', 'micromanagement'],
+    impactAnalysis: {
+      financialImpact: "Strategic errors; slow execution speed; missed big-picture opportunities.",
+      severity: "Major",
+      affectedAreas: ['Founder Efficiency', 'Decision Quality', 'Mental Clarity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week",
+      difficulty: 'Easy',
+      quickWins: ["Make 'Big' decisions before 10 AM today", "Automate or delegate all minor choices (e.g., meal prep)", "Limit meetings to 3 per day"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of delegation', 'Fragmented focus', 'High cognitive load"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to 'Pre-Screen' decisions and presenting only the top 2 options to the founder."
+      },
+      pathToRoot: "Decision Bloat → Emotionally Exhausted → Burnout"
+    }
+  },
+  'feel-trapped': {
+    explanation: "You feel like you 'Have' to do this business, rather than 'Want' to. You've built a cage made of payroll, overhead, and client demands, and you don't see the exit.",
+    relatedProblems: ['working-too-much', 'no-time-off'],
+    impactAnalysis: {
+      financialImpact: "Zero innovative energy; hidden desire for the business to fail; stagnant growth.",
+      severity: "Critical",
+      affectedAreas: ['Strategic Vision', 'Founder Health', 'Business Sustainability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6 months (Strategic pivot/exit)",
+      difficulty: 'Hard',
+      quickWins: ["Design your 'Ideal Life' first, then the business", "Hire a VA to handle the part you hate most today", "Identify one 'Exit' path (sale, merger, shutdown)"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Alignment failure', 'Scale exceeding purpose', 'Financial pressure"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - this is a core life-path and strategic alignment issue."
+      },
+      pathToRoot: "Lost Agency → Emotionally Exhausted → Burnout"
+    }
+  },
+  'no-business-skills': {
+    explanation: "You are a great technician (designer, coder, coach) but you don't know how to run a company. You are guessing on hiring, finance, and strategy.",
+    relatedProblems: ['no-financial-literacy', 'no-hiring-skills'],
+    impactAnalysis: {
+      financialImpact: "Hidden profit leaks; poor investment ROI; unstable operations.",
+      severity: "Major",
+      affectedAreas: ['Business Growth', 'Operations', 'Profitability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Read 'The E-Myth Revisited' this weekend", "Hire a business coach today", "Review your P&L statement every month"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Technical background', 'Lack of formal training', 'Learning on the job without mentors"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI business advisors to provide 'On-Demand' coaching for specific management problems."
+      },
+      pathToRoot: "Skill Gap → Lack of Critical Skills → Personal Bottlenecks"
+    }
+  },
+  'no-hiring-skills': {
+    explanation: "You hire based on 'Gut' or 'Likability.' You don't have a scorecard or a vetting process, which leads to expensive bad hires and a revolving door of staff.",
+    relatedProblems: ['team-unreliable', 'hiring-process-slow'],
+    impactAnalysis: {
+      financialImpact: "Massive cost of 'Bad Hires' (3x salary); team demotivation.",
+      severity: "Major",
+      affectedAreas: ['Recruitment ROI', 'Team Culture', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Medium',
+      quickWins: ["Adopt a 'Scorecard' hiring method today", "Ask 'Behavioral' questions in interviews", "Always call 3 references"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of HR training', 'Rushing to fill seats', 'Bias towards 'Likable' candidates"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using automated interviewing and assessment tools to filter for 'Competence' over 'Charisma'."
+      },
+      pathToRoot: "Recruitment Gap → Lack of Critical Skills → Personal Bottlenecks"
+    }
+  },
+  'no-sales-skills': {
+    explanation: "You are afraid to sell, or you 'hope' people will buy. You lack the ability to handle objections, articulate ROI, or close the deal confidently.",
+    relatedProblems: ['price-objection', 'sales-process-weak'],
+    impactAnalysis: {
+      financialImpact: "Stagnant revenue; low close rates; high price sensitivity.",
+      severity: "Major",
+      affectedAreas: ['Revenue Growth', 'Market Reach', 'Profitability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months",
+      difficulty: 'Medium',
+      quickWins: ["Take a sales training course this month", "Practice your 'Pitch' in front of a mirror", "Record your sales calls and listen back to them"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of rejection', 'Undervaluing your own work', 'Lack of sales training"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to analyze sales call transcripts and provide coaching on objection handling."
+      },
+      pathToRoot: "Sales Gap → Lack of Critical Skills → Personal Bottlenecks"
+    }
+  },
+  'no-systems-thinking': {
+    explanation: "You see every problem as a 'One-off' event rather than a symptom of a broken process. You solve the 'Fire' but never the 'Fuel.'",
+    relatedProblems: ['no-sops', 'firefighting'],
+    impactAnalysis: {
+      financialImpact: "Repeating the same expensive mistakes; inability to scale; infinite management time.",
+      severity: "Major",
+      affectedAreas: ['Operations', 'Scalability', 'Efficiency'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6 months (Mindset shift)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Ask 'Why?' 5 times for every problem today", "Map out the 'Process' for the next error you find", "Read 'Systems Thinking' books"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Technician mindset', 'Short-term focus', 'Reactive habits"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to 'Map' the recurring themes in your business errors and suggest systemic fixes."
+      },
+      pathToRoot: "Process Blindness → Lack of Critical Skills → Personal Bottlenecks"
+    }
+  },
+  'no-marketing-skills': {
+    explanation: "You don't know how to generate attention or build a brand. You are a 'Hidden Secret' in the market, relying entirely on luck or referrals.",
+    relatedProblems: ['no-visibility', 'prospects-dont-know'],
+    impactAnalysis: {
+      financialImpact: "Inconsistent lead flow; low brand equity; zero market authority.",
+      severity: "Major",
+      affectedAreas: ['Revenue Growth', 'Market Reach', 'Asset Value'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6-12 months",
+      difficulty: 'Hard',
+      quickWins: ["Define your 'Target Audience' today", "Publish one piece of 'Authority' content this week", "Hire a marketing consultant for a 90-day strategy"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of marketing training', 'Undervaluing attention', 'Reliance on referrals"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to automate your content creation and distribution across social platforms."
+      },
+      pathToRoot: "Market Blindness → Lack of Critical Skills → Personal Bottlenecks"
+    }
+  },
+  'dont-know-target': {
+    explanation: "You are trying to sell to 'Everyone.' This means your message is generic, your ads are expensive, and nobody feels like you're talking to them.",
+    relatedProblems: ['market-too-small', 'message-no-resonate'],
+    impactAnalysis: {
+      financialImpact: "Waste of marketing budget; low conversion rates; weak brand identity.",
+      severity: "Major",
+      affectedAreas: ['Marketing ROI', 'Conversion Rate', 'Strategic Positioning'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "1 week (Research)",
+      difficulty: 'Medium',
+      quickWins: ["Define your 'Ideal Customer Profile' (ICP) today", "Interview your top 3 clients about their pain points", "Stop all ads targeting 'Everyone' immediately"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of missing out (FOMO)', 'Lack of market research', 'Broad service offer"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to analyze your past client data and identify the most profitable 'Target' segment."
+      },
+      pathToRoot: "Targeting Failure → No Marketing Skills → Personal Bottlenecks"
+    }
+  },
+  'no-positioning': {
+    explanation: "You look exactly like your competitors. When the client can't tell the difference, they choose based on 'Price,' which leads to a race to the bottom.",
+    relatedProblems: ['market-competitive', 'prices-low'],
+    impactAnalysis: {
+      financialImpact: "Compressed margins; high price sensitivity; low win rates.",
+      severity: "Major",
+      affectedAreas: ['Pricing Power', 'Market Share', 'Brand Value'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "3 months (Re-branding)",
+      difficulty: 'Hard',
+      quickWins: ["Identify one 'Unique Mechanism' for your work today", "Rewrite your homepage to focus on *how* you are different", "Add a 'Bold Guarantee' that no one else has"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Commoditized offer', 'Lack of innovative strategy', 'Fear of being different"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to analyze competitor messaging and finding the 'White Space' where you can stand out."
+      },
+      pathToRoot: "Commoditization → No Marketing Skills → Personal Bottlenecks"
+    }
+  },
+  'no-digital-marketing': {
+    explanation: "You are invisible online. In 2026, if you're not easily findable and authoritative on digital channels, you simply don't exist for most high-value prospects.",
+    relatedProblems: ['no-visibility', 'seo-nonexistent'],
+    impactAnalysis: {
+      financialImpact: "Missed 80% of the market opportunity; high reliance on offline/analog sales.",
+      severity: "Major",
+      affectedAreas: ['Market Reach', 'Asset Value', 'Revenue Stability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "6 months",
+      difficulty: 'Hard',
+      quickWins: ["Optimize your Google Business profile today", "Setup a basic 'Lead Magnet' on your site", "Post 3x a week on your target's primary social platform"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Legacy business mindset', 'Lack of tech skills', 'Under-investing in digital"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI-powered SEO and social management tools to maintain a 24/7 digital presence automatically."
+      },
+      pathToRoot: "Digital Invisibility → No Marketing Skills → Personal Bottlenecks"
+    }
+  },
+  'no-content-creation': {
+    explanation: "You aren't sharing your expertise. By staying quiet, you allow your competitors to define the market. Content is the 'Scalable Salesperson' you are currently ignoring.",
+    relatedProblems: ['no-word-mouth', 'content-weak'],
+    impactAnalysis: {
+      financialImpact: "Zero 'Inbound' leads; high cost of sales (manual education); low authority.",
+      severity: "Moderate",
+      affectedAreas: ['Brand Authority', 'Lead Generation', 'Sales ROI'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Turn your next 3 client emails into 'Blog Posts' today", "Record a 5-min video explaining one complex concept", "Use AI to repurpose one article into 10 social posts"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Perfectionism', 'Imposter syndrome', 'Undervaluing your own knowledge"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to ghostwrite and schedule content based on your core ideas and 'Brain Dumps'."
+      },
+      pathToRoot: "Silence → No Marketing Skills → Personal Bottlenecks"
+    }
+  },
+  'learning-too-slow': {
+    explanation: "The market is moving faster than you are. You are using 2010 strategies in a 2026 world. If your 'Learning Rate' is lower than the 'Market Change Rate,' you are dying.",
+    relatedProblems: ['no-business-skills', 'wrong-learning-sources'],
+    impactAnalysis: {
+      financialImpact: "Obsolescence risk; decreasing margins; lost competitive advantage.",
+      severity: "Major",
+      affectedAreas: ['Strategic Growth', 'Innovation', 'Scalability'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing",
+      difficulty: 'Medium',
+      quickWins: ["Follow 3 industry leaders on LinkedIn today", "Listen to a business podcast during your commute", "Join a peer-learning community"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of 'Learning' time on calendar', 'Arrogance (think you know it all)', 'Information silos"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to summarize 10 books or articles into 5-min 'Key Takeaways' for you every week."
+      },
+      pathToRoot: "Knowledge Stagnation → Skill Gap → Personal Bottlenecks"
+    }
+  },
+  'no-mentors': {
+    explanation: "You are trying to figure it all out alone. You are making mistakes that others have already solved. You lack the 'Shortcut' that comes from talking to someone further ahead.",
+    relatedProblems: ['social-isolation', 'no-peer-network'],
+    impactAnalysis: {
+      financialImpact: "High cost of 'Unnecessary' mistakes; slow growth velocity; high stress.",
+      severity: "Moderate",
+      affectedAreas: ['Strategic Growth', 'Mental Health', 'Sustainability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 month",
+      difficulty: 'Medium',
+      quickWins: ["Email one person you admire today with a specific question", "Hire a business mentor/coach this month", "Attend a 'Mastermind' event"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of asking for help', 'Hero complex', 'Lack of investment in coaching"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - mentorship is a high-level human connection."
+      },
+      pathToRoot: "Isolation → Learning Too Slow → Personal Bottlenecks"
+    }
+  },
+  'no-peer-network': {
+    explanation: "You don't have a 'Tribe' of people at your level. You lack the benchmark of what is 'Normal,' leading to either complacency or unnecessary panic.",
+    relatedProblems: ['social-isolation', 'no-mentors'],
+    impactAnalysis: {
+      financialImpact: "Lack of 'Referral' partners; zero market intelligence; high anxiety.",
+      severity: "Moderate",
+      affectedAreas: ['Mental Health', 'Market Awareness', 'Sustainability'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1-3 months",
+      difficulty: 'Medium',
+      quickWins: ["Join a 'Founders Only' Slack or group today", "Schedule a 'Coffee Chat' with a competitor this week", "Invite 3 peers to a monthly dinner"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Managing in secret', 'Time poverty', 'Aversion to networking events"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to find and introduce you to relevant peers based on your business profile."
+      },
+      pathToRoot: "Tribeless → Learning Too Slow → Personal Bottlenecks"
+    }
+  },
+  'wrong-learning-sources': {
+    explanation: "You are reading 'Business Entertainment' instead of 'Business Strategy.' You are following influencers who don't run real businesses, leading to 'Tactical' whiplash.",
+    relatedProblems: ['shiny-object-syndrome', 'learning-too-slow'],
+    impactAnalysis: {
+      financialImpact: "Wasted learning hours; implementation of bad advice; strategic confusion.",
+      severity: "Moderate",
+      affectedAreas: ['Strategic Growth', 'Efficiency', 'Decision Quality'],
+      strategicPriority: 'Medium'
+    },
+    timeToSolve: {
+      estimate: "1 week (Curation reset)",
+      difficulty: 'Easy',
+      quickWins: ["Unfollow 10 'Guru' accounts today", "Buy a book by a proven, real-world CEO", "Stop reading 'Trend' articles and focus on 'Fundamentals'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Dopamine-seeking in learning', 'Lack of critical vetting', 'Algorithm bubbles"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to vet sources based on 'Author Track Record' before you invest time in reading."
+      },
+      pathToRoot: "Bad Input → Learning Too Slow → Personal Bottlenecks"
+    }
+  },
+  'mindset-blocks': {
+    explanation: "The biggest bottleneck in the business is the 6 inches between your ears. Your fears, insecurities, and childhood beliefs are limiting what the business is 'Allowed' to become.",
+    relatedProblems: ['imposter-syndrome', 'scarcity-mindset'],
+    impactAnalysis: {
+      financialImpact: "Revenue is capped by your personal 'Comfort Zone'; high self-sabotage risk.",
+      severity: "Critical",
+      affectedAreas: ['Scalability', 'Leadership', 'Strategic Vision'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing (Therapy/Coaching)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Identify your #1 'Fear' today", "Ask: 'What would I do if I wasn't afraid?'", "Seek professional therapy or mindset coaching"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Upbringing/Conditioning', 'Previous failures unaddressed', 'Lack of self-awareness"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - mindset is a human psychological journey."
+      },
+      pathToRoot: "Mental Ceiling → Mindset Blocks → Personal Bottlenecks"
+    }
+  },
+  'perfectionism': {
+    explanation: "The desire to be 'Perfect' is just 'Procrastination' in a fancy suit. It's a defense mechanism to avoid being judged, and it kills your speed and profitability.",
+    relatedProblems: ['afraid-let-go', 'over-delivering'],
+    impactAnalysis: {
+      financialImpact: "100% loss of 'Speed to Market'; high unbilled labor costs; team frustration.",
+      severity: "Major",
+      affectedAreas: ['Execution Speed', 'Gross Margin', 'Team Morale'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing (Mindset shift)",
+      difficulty: 'Mindset',
+      quickWins: ["Ship something 'Good Enough' today", "Set a 'Time Limit' for every task (and stick to it)", "Celebrate a 'B-' result that went out on time"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Fear of judgement', 'High personal standards taken too far', 'Lack of 'Done' definition"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - perfectionism is a personal behavior."
+      },
+      pathToRoot: "Fear of Judgement → Mindset Blocks → Personal Bottlenecks"
+    }
+  },
+  'fear-failure': {
+    explanation: "You aren't taking big risks because you're afraid of what happens if they don't work. This 'Safe' strategy ensures that you will never have a 'Big' success.",
+    relatedProblems: ['scarcity-mindset', 'afraid-commitment'],
+    impactAnalysis: {
+      financialImpact: "Stagnant, linear growth; missed 'Game-Changing' opportunities.",
+      severity: "Major",
+      affectedAreas: ['Strategic Vision', 'Innovation', 'Growth Rate'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing (Mindset shift)",
+      difficulty: 'Mindset',
+      quickWins: ["Run one 'Small' risk today (e.g., call a big lead)", "Map out the 'Worst Case Scenario' and realize you'll survive it", "Celebrate the 'Attempt' not just the 'Result'"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of confidence', 'Over-estimating risk', 'Financial fragility"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - courage is a leadership trait."
+      },
+      pathToRoot: "Risk Aversion → Mindset Blocks → Personal Bottlenecks"
+    }
+  },
+  'scarcity-mindset': {
+    explanation: "You believe there isn't 'Enough' to go around. This leads to penny-pinching, afraid-to-hire, and treating competitors like enemies. It keeps you small and stressed.",
+    relatedProblems: ['afraid-raise-prices', 'cant-afford-hire'],
+    impactAnalysis: {
+      financialImpact: "Inability to invest in growth; high price sensitivity (your own); toxic culture.",
+      severity: "Critical",
+      affectedAreas: ['Strategic Growth', 'Team Culture', 'Investment Capacity'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing (Mindset shift)",
+      difficulty: 'Mindset',
+      quickWins: ["Pay one bill early today", "Refer a client to a competitor", "Invest $100 in yourself tonight"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Upbringing/Poverty', 'Focus on 'Saving' over 'Growing', 'Fear of lack"],
+      automationPotential: {
+        rating: 'Low',
+        example: "N/A - scarcity is a deep-seated belief system."
+      },
+      pathToRoot: "Abundance Failure → Mindset Blocks → Personal Bottlenecks"
+    }
+  },
+  'cant-think-bigger': {
+    explanation: "You are focused on 'Next Week' while your competitors are focused on 'Next Year.' You lack the imagination or the confidence to play a larger game.",
+    relatedProblems: ['no-clear-goals', 'mindset-blocks'],
+    impactAnalysis: {
+      financialImpact: "Linear growth; business that is easily replaced; zero legacy value.",
+      severity: "Major",
+      affectedAreas: ['Strategic Vision', 'Business Valuation', 'Market Reach'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "Ongoing (Vision)",
+      difficulty: 'Hard (Mindset)',
+      quickWins: ["Write your '10x' plan today (even if it's crazy)", "Talk to one person who is 5 years ahead of you", "Stop doing one task that 'Small' you would do"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Lack of exposure to big thinkers', 'Daily operational overwhelm', 'Fear of scale"],
+      automationPotential: {
+        rating: 'Medium',
+        example: "Using AI to 'Model' what your business would look like with 10x more revenue, identifying where it breaks."
+      },
+      pathToRoot: "Vision Ceiling → Mindset Blocks → Personal Bottlenecks"
+    }
+  },
+  'outreach-issues': {
+    explanation: "Your outbound efforts (calls, emails, DMs) are being ignored, blocked, or deleted. You are likely being seen as 'Spam' because your approach lacks personalization or value.",
+    relatedProblems: ['outbound-spammy', 'getting-ignored', 'lists-outdated'],
+    impactAnalysis: {
+      financialImpact: "High labor cost for zero return; damage to domain/brand reputation.",
+      severity: "Major",
+      affectedAreas: ['Sales pipeline', 'Brand Reputation'],
+      strategicPriority: 'High'
+    },
+    timeToSolve: {
+      estimate: "2 weeks",
+      difficulty: 'Medium',
+      quickWins: ["Stop all automated 'Mass' blasts today", "Switch to '10-10-10' (10 high-quality, personalized outreaches per day)", "Offer a 'Mini-Win' (audit, tip, insight) in the first message"],
+    },
+    rootCauseAnalysis: {
+      likelyCauses: ["Reliance on 'Volume' over 'Value'", "Weak sales copy", "Bad data/lists"],
+      automationPotential: {
+        rating: 'High',
+        example: "Using AI to personalize the first 2 sentences of every outbound email based on prospect LinkedIn data."
+      },
+      pathToRoot: "Outreach Issues → Prospects Dont Know → Not Getting New Clients"
     }
   },
   'wrong-clients': {

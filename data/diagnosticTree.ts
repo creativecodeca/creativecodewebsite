@@ -1050,7 +1050,7 @@ const rawTreeData: TreeNode = {
               level: 4,
               children: [
                 { id: 'everything-urgent', label: 'Everything feels urgent', level: 5, children: [] },
-                { id: 'cant-say-no', label: "Can't say no to opportunities/distractions", level: 5, children: [] },
+                { id: 'cant-say-no-personal', label: "Can't say no to opportunities/distractions", level: 5, children: [] },
                 { id: 'reactive-not-proactive', label: 'Reactive instead of proactive', level: 5, children: [] },
                 { id: 'no-clear-goals', label: 'No clear goals or roadmap', level: 5, children: [] },
                 { id: 'shiny-object-syndrome', label: 'Constantly chasing new ideas (shiny object syndrome)', level: 5, children: [] },
@@ -1062,7 +1062,7 @@ const rawTreeData: TreeNode = {
               level: 4,
               children: [
                 { id: 'no-calendar-system', label: 'No calendar or scheduling system', level: 5, children: [] },
-                { id: 'overcommitting', label: 'Overcommitting and double-booking', level: 5, children: [] },
+                { id: 'overcommitting-personal', label: 'Overcommitting and double-booking', level: 5, children: [] },
                 { id: 'constantly-late', label: 'Constantly late or missing deadlines', level: 5, children: [] },
                 { id: 'no-time-blocking', label: 'No time blocking or dedicated focus time', level: 5, children: [] },
                 { id: 'interruptions-constant', label: 'Constant interruptions throughout day', level: 5, children: [] },
