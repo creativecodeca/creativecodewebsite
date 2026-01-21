@@ -6662,7 +6662,7 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       quickWins: ["Create a formal 'Attendance Policy'", "Use a shared calendar for all time-off", "Address the first instance of unreliability immediately"]
     },
     rootCauseAnalysis: {
-      likelyCauses: ["Low engagement', 'Personal issues', 'Lack of work ethic'],
+      likelyCauses: ["Low engagement", "Personal issues", "Lack of work ethic"],
       automationPotential: {
         rating: 'High',
         example: "Automated 'Check-in' tools or shared team schedules that flag absence instantly."
