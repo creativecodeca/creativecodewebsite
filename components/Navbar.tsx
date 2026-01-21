@@ -47,6 +47,12 @@ const Navbar: React.FC = () => {
             Products
           </Link>
           <Link
+            to="/tools"
+            className={`hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all interactable ${location.pathname === '/tools' || location.pathname.startsWith('/tools/') ? 'text-white' : ''}`}
+          >
+            Tools
+          </Link>
+          <Link
             to="/about"
             className={`hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all interactable ${location.pathname === '/about' ? 'text-white' : ''}`}
           >
@@ -87,6 +93,13 @@ const Navbar: React.FC = () => {
             onClick={() => setMobileMenuOpen(false)}
           >
             Products
+          </Link>
+          <Link
+            to="/tools"
+            className="text-lg font-medium text-slate-300"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Tools
           </Link>
           <Link
             to="/about"

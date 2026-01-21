@@ -22,6 +22,7 @@ const MobileContact = lazy(() => import('./components/MobileContact'));
 const ClientCall = lazy(() => import('./components/ClientCall'));
 const WebsiteOnboardingForm = lazy(() => import('./components/WebsiteOnboardingForm'));
 const FunnelPrivateGift = lazy(() => import('./components/FunnelPrivateGift'));
+const Tools = lazy(() => import('./components/Tools'));
 const DiagnosisMap = lazy(() => import('./components/DiagnosisMap'));
 
 // Loading fallback component
@@ -69,6 +70,7 @@ function AppContent() {
             <Route path="/privacy" element={<PageWrapper><PrivacyPolicy /></PageWrapper>} />
             <Route path="/terms" element={<PageWrapper><TermsConditions /></PageWrapper>} />
             <Route path="/funnel/privategift/r1/:name" element={<FunnelPrivateGift />} />
+            <Route path="/tools" element={<PageWrapper><Tools /></PageWrapper>} />
             <Route path="/tools/diagnosismap" element={<DiagnosisMap />} />
             {/* Catch-all route - redirect to home for any undefined paths */}
             <Route path="*" element={<Navigate to="/" replace />} />
