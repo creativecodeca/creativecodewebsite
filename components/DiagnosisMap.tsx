@@ -166,7 +166,7 @@ const DiagnosisMapContent: React.FC = () => {
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; nodeId: string; nodeLabel: string } | null>(null);
   
   // AI Modal state
-  const [aiModal, setAiModal] = useState<{ isOpen: boolean; title: string; content: string; isLoading: boolean }>({
+  const [aiModal, setAiModal] = useState<{ isOpen: boolean; title: string; content: string; isLoading: boolean; x?: number; y?: number }>({
     isOpen: false,
     title: '',
     content: '',
@@ -228,6 +228,8 @@ const DiagnosisMapContent: React.FC = () => {
         title: `Explaining: ${contextMenu.nodeLabel}`,
         content: explanationCache[contextMenu.nodeId],
         isLoading: false,
+        x: contextMenu.x,
+        y: contextMenu.y,
       });
       return;
     }
@@ -238,6 +240,8 @@ const DiagnosisMapContent: React.FC = () => {
       title: `Explaining: ${contextMenu.nodeLabel}`,
       content: '',
       isLoading: true,
+      x: contextMenu.x,
+      y: contextMenu.y,
     });
 
     try {
@@ -267,6 +271,8 @@ const DiagnosisMapContent: React.FC = () => {
         title: `Explaining: ${contextMenu.nodeLabel}`,
         content,
         isLoading: false,
+        x: contextMenu.x,
+        y: contextMenu.y,
       });
     } catch (error) {
       console.error('Error fetching explanation:', error);
@@ -275,6 +281,8 @@ const DiagnosisMapContent: React.FC = () => {
         title: `Explaining: ${contextMenu.nodeLabel}`,
         content: 'Failed to generate explanation. Please try again.',
         isLoading: false,
+        x: contextMenu.x,
+        y: contextMenu.y,
       });
     }
   }, [contextMenu, closeContextMenu, explanationCache, buildNodeContext]);
@@ -289,6 +297,8 @@ const DiagnosisMapContent: React.FC = () => {
       title: `Solutions for: ${contextMenu.nodeLabel}`,
       content: '',
       isLoading: true,
+      x: contextMenu.x,
+      y: contextMenu.y,
     });
 
     try {
@@ -316,6 +326,8 @@ const DiagnosisMapContent: React.FC = () => {
         title: `Solutions for: ${contextMenu.nodeLabel}`,
         content: data.content || 'Unable to generate solutions.',
         isLoading: false,
+        x: contextMenu.x,
+        y: contextMenu.y,
       });
     } catch (error) {
       console.error('Error fetching solutions:', error);
@@ -324,6 +336,8 @@ const DiagnosisMapContent: React.FC = () => {
         title: `Solutions for: ${contextMenu.nodeLabel}`,
         content: 'Failed to generate solutions. Please try again.',
         isLoading: false,
+        x: contextMenu.x,
+        y: contextMenu.y,
       });
     }
   }, [contextMenu, closeContextMenu]);
@@ -343,6 +357,8 @@ const DiagnosisMapContent: React.FC = () => {
         title: `Impact Analysis: ${contextMenu.nodeLabel}`,
         content: explanationCache[cacheKey],
         isLoading: false,
+        x: contextMenu.x,
+        y: contextMenu.y,
       });
       return;
     }
@@ -353,6 +369,8 @@ const DiagnosisMapContent: React.FC = () => {
       title: `Impact Analysis: ${contextMenu.nodeLabel}`,
       content: '',
       isLoading: true,
+      x: contextMenu.x,
+      y: contextMenu.y,
     });
 
     try {
@@ -382,6 +400,8 @@ const DiagnosisMapContent: React.FC = () => {
         title: `Impact Analysis: ${contextMenu.nodeLabel}`,
         content,
         isLoading: false,
+        x: contextMenu.x,
+        y: contextMenu.y,
       });
     } catch (error) {
       console.error('Error fetching impact analysis:', error);
@@ -390,6 +410,8 @@ const DiagnosisMapContent: React.FC = () => {
         title: `Impact Analysis: ${contextMenu.nodeLabel}`,
         content: 'Failed to generate impact analysis. Please try again.',
         isLoading: false,
+        x: contextMenu.x,
+        y: contextMenu.y,
       });
     }
   }, [contextMenu, closeContextMenu, explanationCache, buildNodeContext]);
@@ -702,6 +724,8 @@ const DiagnosisMapContent: React.FC = () => {
             content={aiModal.content}
             isLoading={aiModal.isLoading}
             onClose={closeAiModal}
+            x={aiModal.x}
+            y={aiModal.y}
           />
         )}
       </AnimatePresence>

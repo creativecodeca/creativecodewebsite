@@ -19,6 +19,33 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
   onImpactAnalysis,
   onClose 
 }) => {
+  const menuRef = React.useRef<HTMLDivElement>(null);
+  const [coords, setCoords] = React.useState({ x, y });
+
+  useEffect(() => {
+    if (menuRef.current) {
+      const rect = menuRef.current.getBoundingClientRect();
+      const { innerWidth, innerHeight } = window;
+      
+      let newX = x;
+      let newY = y;
+
+      // Adjust X if it goes off screen
+      if (x + rect.width > innerWidth) {
+        newX = innerWidth - rect.width - 10;
+      }
+      if (newX < 10) newX = 10;
+
+      // Adjust Y if it goes off screen
+      if (y + rect.height > innerHeight) {
+        newY = innerHeight - rect.height - 10;
+      }
+      if (newY < 10) newY = 10;
+
+      setCoords({ x: newX, y: newY });
+    }
+  }, [x, y]);
+
   useEffect(() => {
     const handleClick = () => onClose();
     const handleEscape = (e: KeyboardEvent) => {
@@ -47,10 +74,11 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
 
       {/* Context Menu */}
       <motion.div
+        ref={menuRef}
         className="fixed z-[101] bg-black/95 backdrop-blur-md border border-white/20 rounded-lg shadow-2xl overflow-hidden min-w-[220px]"
         style={{
-          left: x,
-          top: y,
+          left: coords.x,
+          top: coords.y,
         }}
         initial={{ opacity: 0, scale: 0.9, y: -10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}

@@ -7,9 +7,51 @@ interface AIModalProps {
   content: string;
   isLoading: boolean;
   onClose: () => void;
+  x?: number;
+  y?: number;
 }
 
-const AIModal: React.FC<AIModalProps> = ({ title, content, isLoading, onClose }) => {
+const AIModal: React.FC<AIModalProps> = ({ title, content, isLoading, onClose, x, y }) => {
+  const modalRef = React.useRef<HTMLDivElement>(null);
+  const [coords, setCoords] = React.useState({ x: 0, y: 0 });
+  const [isPositioned, setIsPositioned] = React.useState(false);
+
+  React.useEffect(() => {
+    if (x !== undefined && y !== undefined && modalRef.current) {
+      const rect = modalRef.current.getBoundingClientRect();
+      const { innerWidth, innerHeight } = window;
+      
+      let newX = x;
+      let newY = y;
+
+      // Center the modal on the cursor initially, but keep it within bounds
+      newX = x - rect.width / 2;
+      newY = y - rect.height / 2;
+
+      // Adjust X if it goes off screen
+      if (newX + rect.width > innerWidth - 20) {
+        newX = innerWidth - rect.width - 20;
+      }
+      if (newX < 20) newX = 20;
+
+      // Adjust Y if it goes off screen
+      if (newY + rect.height > innerHeight - 20) {
+        newY = innerHeight - rect.height - 20;
+      }
+      if (newY < 20) newY = 20;
+
+      setCoords({ x: newX, y: newY });
+      setIsPositioned(true);
+    } else if (x === undefined || y === undefined) {
+      // Default to center if no coordinates provided
+      setIsPositioned(true);
+    }
+  }, [x, y, isLoading]); // Re-calculate when loading finishes and content size might change
+
+  const positionStyle = x !== undefined && y !== undefined && isPositioned
+    ? { left: coords.x, top: coords.y, transform: 'none' }
+    : { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' };
+
   return (
     <>
       {/* Backdrop */}
@@ -23,9 +65,15 @@ const AIModal: React.FC<AIModalProps> = ({ title, content, isLoading, onClose })
 
       {/* Modal */}
       <motion.div
-        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[111] w-full max-w-2xl h-[600px] max-h-[85vh] bg-black/95 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl overflow-hidden flex flex-col"
+        ref={modalRef}
+        className="fixed z-[111] w-full max-w-2xl h-[600px] max-h-[85vh] bg-black/95 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl overflow-hidden flex flex-col"
+        style={positionStyle}
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
+        animate={{ 
+          opacity: isPositioned ? 1 : 0, 
+          scale: isPositioned ? 1 : 0.9, 
+          y: isPositioned ? 0 : 20 
+        }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
         transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
         onClick={(e) => e.stopPropagation()}
