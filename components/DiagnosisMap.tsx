@@ -176,6 +176,27 @@ const DiagnosisMapContent: React.FC = () => {
   // Cache for AI-generated explanations
   const [explanationCache, setExplanationCache] = useState<Record<string, any>>({});
 
+  // Helper to build node context including children - MUST be defined before use
+  const buildNodeContext = useCallback((nodeId: string): string => {
+    const node = getNodeById(nodeId);
+    if (!node) return '';
+    
+    const buildHierarchy = (n: TreeNode, depth = 0): string => {
+      const indent = '  '.repeat(depth);
+      let result = `${indent}- ${n.label}\n`;
+      
+      if (n.children && n.children.length > 0) {
+        n.children.forEach(child => {
+          result += buildHierarchy(child, depth + 1);
+        });
+      }
+      
+      return result;
+    };
+    
+    return buildHierarchy(node);
+  }, []);
+
   // Handle context menu
   const handleContextMenu = useCallback((nodeId: string, event: React.MouseEvent) => {
     const allNodesData = getAllNodes(rawTreeData);
@@ -380,27 +401,6 @@ const DiagnosisMapContent: React.FC = () => {
       content: '',
       isLoading: false,
     });
-  }, []);
-
-  // Helper to build node context including children
-  const buildNodeContext = useCallback((nodeId: string): string => {
-    const node = getNodeById(nodeId);
-    if (!node) return '';
-    
-    const buildHierarchy = (n: TreeNode, depth = 0): string => {
-      const indent = '  '.repeat(depth);
-      let result = `${indent}- ${n.label}\n`;
-      
-      if (n.children && n.children.length > 0) {
-        n.children.forEach(child => {
-          result += buildHierarchy(child, depth + 1);
-        });
-      }
-      
-      return result;
-    };
-    
-    return buildHierarchy(node);
   }, []);
 
   // Recenter map and collapse all nodes
