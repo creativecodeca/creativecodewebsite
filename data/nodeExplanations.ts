@@ -27,10 +27,10 @@ export interface NodeExplanation {
 export const nodeExplanations: Record<string, NodeExplanation> = {
   // ROOT & MAIN BRANCHES
   'root': {
-    explanation: "Your business is in a state of financial scarcity. This isn't just about 'making more sales'—it's a systemic failure where the cash produced by the business is insufficient to cover operations, pay the founder, and reinvest in growth. This creates a high-stress 'survival mode' that prevents strategic thinking.",
+    explanation: 'Your business is in a state of financial scarcity. This isn't just about 'making more sales'—it's a systemic failure where the cash produced by the business is insufficient to cover operations, pay the founder, and reinvest in growth. This creates a high-stress 'survival mode' that prevents strategic thinking.',
     relatedProblems: ["money-slow", "money-out-fast", "not-enough-revenue"],
     impactAnalysis: {
-      financialImpact: "Complete business failure risk if not addressed.",
+      financialImpact: 'Complete business failure risk if not addressed.',
       severity: "Critical",
       affectedAreas: ["Everything"],
       strategicPriority: 'High'
@@ -44,16 +44,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Broken pricing model", "High churn", "Inefficient fulfillment", "Poor lead quality"],
       automationPotential: {
         rating: "High",
-        example: "End-to-end automated financial dashboard for real-time visibility."
+        example: 'End-to-end automated financial dashboard for real-time visibility.'
       },
-      pathToRoot: "This is the root node."
+      pathToRoot: 'This is the root node.'
     }
   },
   'money-slow': {
-    explanation: "The "Cash Gap" problem. You are earning money (accrual) but not receiving it (cash). This often happens when a business scales; you have to pay for the work before the client pays you, draining your reserves even while you grow.",
+    explanation: 'The "Cash Gap" problem. You are earning money (accrual) but not receiving it (cash). This often happens when a business scales; you have to pay for the work before the client pays you, draining your reserves even while you grow.',
     relatedProblems: ["payment-terms-long", "clients-pay-late", "cash-flow-gaps"],
     impactAnalysis: {
-      financialImpact: "Operational paralysis; unable to pay vendors/team on time.",
+      financialImpact: 'Operational paralysis; unable to pay vendors/team on time.',
       severity: "Major",
       affectedAreas: ["Operations", "Team Trust", "Vendor Relations"],
       strategicPriority: 'High'
@@ -67,16 +67,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Weak contract terms", "Manual invoicing", "No late payment penalties"],
       automationPotential: {
         rating: "High",
-        example: "Automated dunning (follow-up) sequences for unpaid invoices."
+        example: 'Automated dunning (follow-up) sequences for unpaid invoices.'
       },
-      pathToRoot: "Slow Money → Not Enough Money (Root)"
+      pathToRoot: 'Slow Money → Not Enough Money (Root)'
     }
   },
   'money-out-fast': {
-    explanation: "The "Leaky Bucket" problem. No matter how much revenue you bring in, the costs of running the business scale at the same or higher rate. This usually points to inefficient operations, high overhead, or low margins.",
+    explanation: 'The "Leaky Bucket" problem. No matter how much revenue you bring in, the costs of running the business scale at the same or higher rate. This usually points to inefficient operations, high overhead, or low margins.',
     relatedProblems: ["expenses-high", "margins-low"],
     impactAnalysis: {
-      financialImpact: "Profitability death spiral; working harder for less money.",
+      financialImpact: 'Profitability death spiral; working harder for less money.',
       severity: "Major",
       affectedAreas: ["Profit Margins", "Reinvestment Capacity"],
       strategicPriority: 'High'
@@ -90,16 +90,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Operational inefficiency", "Lack of budget controls", "Scope creep"],
       automationPotential: {
         rating: "High",
-        example: "Automating repetitive delivery tasks to lower cost-per-fulfillment."
+        example: 'Automating repetitive delivery tasks to lower cost-per-fulfillment.'
       },
-      pathToRoot: "Money Out Fast → Not Enough Money (Root)"
+      pathToRoot: 'Money Out Fast → Not Enough Money (Root)'
     }
   },
   'expenses-high': {
-    explanation: "Your total cash outflow is simply too high relative to your revenue. This can be due to bloated overhead, expensive acquisition, or inefficient fulfillment. It"s not just about spending less, but about spending effectively on the right things.",
+    explanation: 'Your total cash outflow is simply too high relative to your revenue. This can be due to bloated overhead, expensive acquisition, or inefficient fulfillment. It"s not just about spending less, but about spending effectively on the right things.',
     relatedProblems: ["overhead-high", "delivery-costs-high", "acquisition-costs-high"],
     impactAnalysis: {
-      financialImpact: "Reduced net profit; inability to build cash reserves or reinvest in growth.",
+      financialImpact: 'Reduced net profit; inability to build cash reserves or reinvest in growth.',
       severity: "Major",
       affectedAreas: ["Profitability", "Cash Flow", "Business Sustainability"],
       strategicPriority: 'High'
@@ -113,16 +113,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of budgetary discipline", "Lifestyle/ego creep in business", "Inefficient sales or delivery models"],
       automationPotential: {
         rating: "High",
-        example: "Automated expense tracking and alerting when categories exceed budget."
+        example: 'Automated expense tracking and alerting when categories exceed budget.'
       },
-      pathToRoot: "Expenses Too High → Money Out Fast → Not Enough Money (Root)"
+      pathToRoot: 'Expenses Too High → Money Out Fast → Not Enough Money (Root)'
     }
   },
   'not-enough-capacity': {
-    explanation: "Your sales team is winning, but your delivery team is drowning. You lack the human or technical resources to fulfill the promises you"ve made without massive delays or quality drops.",
+    explanation: 'Your sales team is winning, but your delivery team is drowning. You lack the human or technical resources to fulfill the promises you"ve made without massive delays or quality drops.',
     relatedProblems: ["founder-everything", "cant-hire-fast", "scaling-constraints"],
     impactAnalysis: {
-      financialImpact: "High churn risk; inability to scale revenue; team burnout.",
+      financialImpact: 'High churn risk; inability to scale revenue; team burnout.',
       severity: "Major",
       affectedAreas: ["Operations", "Team Health", "Customer Retention"],
       strategicPriority: 'High'
@@ -136,16 +136,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Sudden sales spike", "Under-hiring", "Inefficient fulfillment model"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated workload balancing and capacity planning dashboards."
+        example: 'Automated workload balancing and capacity planning dashboards.'
       },
-      pathToRoot: "Capacity Issues → Bought Cant Deliver → Not Enough Revenue (Root)"
+      pathToRoot: 'Capacity Issues → Bought Cant Deliver → Not Enough Revenue (Root)'
     }
   },
   'cant-hire-fast': {
-    explanation: "You need more people, but your hiring process is too slow or you can"t find qualified candidates. The business is stalling because the 'Seat' is empty.",
+    explanation: 'You need more people, but your hiring process is too slow or you can"t find qualified candidates. The business is stalling because the 'Seat' is empty.',
     relatedProblems: ["not-enough-capacity", "training-long"],
     impactAnalysis: {
-      financialImpact: "Delayed project starts; missed revenue targets; existing team burnout.",
+      financialImpact: 'Delayed project starts; missed revenue targets; existing team burnout.',
       severity: "Moderate",
       affectedAreas: ["Recruitment", "Growth Speed"],
       strategicPriority: 'Medium'
@@ -159,16 +159,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Broken hiring funnel", "Unrealistic job requirements", "Poor employer brand"],
       automationPotential: {
         rating: "High",
-        example: "Automated applicant tracking and screening using AI."
+        example: 'Automated applicant tracking and screening using AI.'
       },
-      pathToRoot: "Hiring Bottleneck → Capacity Issues → Bought Cant Deliver"
+      pathToRoot: 'Hiring Bottleneck → Capacity Issues → Bought Cant Deliver'
     }
   },
   'cant-afford-hire': {
-    explanation: "You need more help, but you don"t have the cash flow or margins to pay for it. You are trapped in the 'Value Valley' where you're too big to do it alone but too small to afford a team.",
+    explanation: 'You need more help, but you don"t have the cash flow or margins to pay for it. You are trapped in the 'Value Valley' where you're too big to do it alone but too small to afford a team.',
     relatedProblems: ["margins-low", "no-buffer"],
     impactAnalysis: {
-      financialImpact: "Growth ceiling; founder exhaustion; inability to scale.",
+      financialImpact: 'Growth ceiling; founder exhaustion; inability to scale.',
       severity: "Major",
       affectedAreas: ["Financial Stability", "Scalability"],
       strategicPriority: 'High'
@@ -182,16 +182,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Low margins", "Inefficient delivery model", "High overhead"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to perform the work of 1-2 junior employees."
+        example: 'Using AI to perform the work of 1-2 junior employees.'
       },
-      pathToRoot: "Affordability Issues → Capacity Issues → Bought Cant Deliver"
+      pathToRoot: 'Affordability Issues → Capacity Issues → Bought Cant Deliver'
     }
   },
   'training-long': {
-    explanation: "New hires take too long to become "Revenue Positive.' You are spending weeks or months training them, during which they are a net cost to the business.",
+    explanation: 'New hires take too long to become "Revenue Positive.' You are spending weeks or months training them, during which they are a net cost to the business.',
     relatedProblems: ["no-processes-documented", "team-unreliable"],
     impactAnalysis: {
-      financialImpact: "High cost of onboarding; delayed capacity scaling.",
+      financialImpact: 'High cost of onboarding; delayed capacity scaling.',
       severity: "Moderate",
       affectedAreas: ["Onboarding Efficiency", "Profitability"],
       strategicPriority: 'Medium'
@@ -205,16 +205,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of SOPs", "Complex service model", "Founder-led training only"],
       automationPotential: {
         rating: "High",
-        example: "Interactive AI training modules and internal knowledge bases."
+        example: 'Interactive AI training modules and internal knowledge bases.'
       },
-      pathToRoot: "Slow Onboarding → Capacity Issues → Bought Cant Deliver"
+      pathToRoot: 'Slow Onboarding → Capacity Issues → Bought Cant Deliver'
     }
   },
   'team-unreliable': {
-    explanation: "You have the seats filled, but the work isn"t getting done correctly or on time. You spend more time managing 'people problems' than growing the business.",
+    explanation: 'You have the seats filled, but the work isn"t getting done correctly or on time. You spend more time managing 'people problems' than growing the business.',
     relatedProblems: ["management-issues", "quality-problems"],
     impactAnalysis: {
-      financialImpact: "High turnover costs; rework costs; missed deadlines.",
+      financialImpact: 'High turnover costs; rework costs; missed deadlines.',
       severity: "Major",
       affectedAreas: ["Team Culture", "Operational Reliability", "Customer Satisfaction"],
       strategicPriority: 'High'
@@ -228,16 +228,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor hiring vetting", "Lack of clear expectations/KPIs", "Weak culture"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated performance tracking and status reporting."
+        example: 'Automated performance tracking and status reporting.'
       },
-      pathToRoot: "Reliability Issues → Capacity Issues → Bought Cant Deliver"
+      pathToRoot: 'Reliability Issues → Capacity Issues → Bought Cant Deliver'
     }
   },
   'scaling-constraints': {
-    explanation: "Your business model has a physical or logical limit. You can"t just "add more' without hitting a wall (e.g., floor space, specialized equipment, or regulatory caps).",
+    explanation: 'Your business model has a physical or logical limit. You can"t just "add more' without hitting a wall (e.g., floor space, specialized equipment, or regulatory caps).',
     relatedProblems: ["physical-limitations", "technology-cant-handle"],
     impactAnalysis: {
-      financialImpact: "Capped revenue; decreasing ROI on additional efforts.",
+      financialImpact: 'Capped revenue; decreasing ROI on additional efforts.',
       severity: "Major",
       affectedAreas: ["Strategic Growth", "Profitability"],
       strategicPriority: 'Medium'
@@ -251,16 +251,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Asset-heavy model", "Outgrown infrastructure", "Legacy technology"],
       automationPotential: {
         rating: "Medium",
-        example: "Using IoT or advanced scheduling to maximize asset utilization."
+        example: 'Using IoT or advanced scheduling to maximize asset utilization.'
       },
-      pathToRoot: "Scaling Limits → Capacity Issues → Bought Cant Deliver"
+      pathToRoot: 'Scaling Limits → Capacity Issues → Bought Cant Deliver'
     }
   },
   'process-bottlenecks': {
-    explanation: "Your delivery pipeline has "narrow" points where work gets stuck. Even if the rest of the team is fast, everything slows down to the speed of the bottleneck.",
+    explanation: 'Your delivery pipeline has "narrow" points where work gets stuck. Even if the rest of the team is fast, everything slows down to the speed of the bottleneck.',
     relatedProblems: ["manual-processes", "no-systems", "coordination-issues"],
     impactAnalysis: {
-      financialImpact: "Lost revenue due to delays; high team frustration; inefficient resource use.",
+      financialImpact: 'Lost revenue due to delays; high team frustration; inefficient resource use.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Throughput", "Profitability"],
       strategicPriority: 'High'
@@ -274,16 +274,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of horizontal scaling", "Single-point-of-failure roles", "Manual data handoffs"],
       automationPotential: {
         rating: "High",
-        example: "Workflow automation to route tasks and data instantly between departments."
+        example: 'Workflow automation to route tasks and data instantly between departments.'
       },
-      pathToRoot: "Process Bottleneck → Bought Cant Deliver → Not Enough Revenue"
+      pathToRoot: 'Process Bottleneck → Bought Cant Deliver → Not Enough Revenue'
     }
   },
   'manual-processes': {
-    explanation: "You are performing tasks by hand that should be handled by code or systems. This is the biggest "hidden tax" on your team's time.",
+    explanation: 'You are performing tasks by hand that should be handled by code or systems. This is the biggest "hidden tax" on your team's time.',
     relatedProblems: ["inefficient-processes", "copy-paste-hell"],
     impactAnalysis: {
-      financialImpact: "High cost-per-fulfillment; human error risk; low scalability.",
+      financialImpact: 'High cost-per-fulfillment; human error risk; low scalability.',
       severity: "Major",
       affectedAreas: ["Team Capacity", "Profitability", "Speed"],
       strategicPriority: 'High'
@@ -297,16 +297,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: [""How we"ve always done it" mindset", "Technical debt", "Lack of automation knowledge"],
       automationPotential: {
         rating: "High",
-        example: "Custom scripts or AI agents to perform routine data processing."
+        example: 'Custom scripts or AI agents to perform routine data processing.'
       },
-      pathToRoot: "Manual Work → Process Bottleneck → Bought Cant Deliver"
+      pathToRoot: 'Manual Work → Process Bottleneck → Bought Cant Deliver'
     }
   },
   'no-systems': {
-    explanation: "You have no standardized "Way" of doing things. Every project is an invention, leading to massive variability in quality and time.",
+    explanation: 'You have no standardized "Way" of doing things. Every project is an invention, leading to massive variability in quality and time.',
     relatedProblems: ["tribal-knowledge", "no-sops", "inconsistent-methods"],
     impactAnalysis: {
-      financialImpact: "Unpredictable delivery costs; impossible to scale; high rework.",
+      financialImpact: 'Unpredictable delivery costs; impossible to scale; high rework.',
       severity: "Critical",
       affectedAreas: ["Scalability", "Quality", "Asset Value"],
       strategicPriority: 'High'
@@ -320,16 +320,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder-centric delivery", "Rapid growth without infrastructure", "Perfectionism ("I"m the only one who can do it')"],
       automationPotential: {
         rating: "High",
-        example: "Digital SOPs integrated directly into task management tools."
+        example: 'Digital SOPs integrated directly into task management tools.'
       },
-      pathToRoot: "No Systems → Process Bottleneck → Bought Cant Deliver"
+      pathToRoot: 'No Systems → Process Bottleneck → Bought Cant Deliver'
     }
   },
   'dependencies-key-people': {
-    explanation: "Your business breaks if one specific person gets sick or goes on vacation. You have "Knowledge Hoarding" or specialized roles with no backup.",
+    explanation: 'Your business breaks if one specific person gets sick or goes on vacation. You have "Knowledge Hoarding" or specialized roles with no backup.',
     relatedProblems: ["only-one-knows", "single-point-failure", "bus-factor"],
     impactAnalysis: {
-      financialImpact: "High risk of total operational stall; "Hostage" situations with key staff.",
+      financialImpact: 'High risk of total operational stall; "Hostage" situations with key staff.',
       severity: "Major",
       affectedAreas: ["Operational Risk", "Scalability"],
       strategicPriority: 'High'
@@ -343,16 +343,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Scale outstripping documentation", "Hiring "Heroes" instead of "Builders'", "Lack of redundant training"],
       automationPotential: {
         rating: "Medium",
-        example: "Capturing tribal knowledge into an AI-powered internal search engine."
+        example: 'Capturing tribal knowledge into an AI-powered internal search engine.'
       },
-      pathToRoot: "Person Dependency → Process Bottleneck → Bought Cant Deliver"
+      pathToRoot: 'Person Dependency → Process Bottleneck → Bought Cant Deliver'
     }
   },
   'tools-inadequate': {
-    explanation: "You are using "Spreadsheets and Email" to run a business that needs a 'CRM and ERP.' Your tech stack is holding you back instead of helping you grow.",
+    explanation: 'You are using "Spreadsheets and Email" to run a business that needs a 'CRM and ERP.' Your tech stack is holding you back instead of helping you grow.',
     relatedProblems: ["wrong-software", "systems-dont-integrate"],
     impactAnalysis: {
-      financialImpact: "Efficiency drag; data loss risk; inability to provide modern client experience.",
+      financialImpact: 'Efficiency drag; data loss risk; inability to provide modern client experience.',
       severity: "Moderate",
       affectedAreas: ["Operational Speed", "Customer Experience", "Team Morale"],
       strategicPriority: 'Medium'
@@ -366,16 +366,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technical debt", "Frugality at the cost of efficiency", "Outgrown initial tools"],
       automationPotential: {
         rating: "High",
-        example: "Full stack integration using modern APIs and automation platforms."
+        example: 'Full stack integration using modern APIs and automation platforms.'
       },
-      pathToRoot: "Bad Tools → Process Bottleneck → Bought Cant Deliver"
+      pathToRoot: 'Bad Tools → Process Bottleneck → Bought Cant Deliver'
     }
   },
   'coordination-issues': {
-    explanation: "The left hand doesn"t know what the right hand is doing. Work falls through the cracks at the handoff points between team members or departments.",
+    explanation: 'The left hand doesn"t know what the right hand is doing. Work falls through the cracks at the handoff points between team members or departments.',
     relatedProblems: ["work-stuck", "miscommunication-who-does"],
     impactAnalysis: {
-      financialImpact: "Costly rework; missed deadlines; frustrated clients.",
+      financialImpact: 'Costly rework; missed deadlines; frustrated clients.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Team Trust", "Client Experience"],
       strategicPriority: 'High'
@@ -389,16 +389,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of clear ownership", "Reliance on synchronous communication (meetings/chat)", "Undefined handoff SOPs"],
       automationPotential: {
         rating: "High",
-        example: "Automated task assignment and notification based on project status changes."
+        example: 'Automated task assignment and notification based on project status changes.'
       },
-      pathToRoot: "Coordination Chaos → Process Bottleneck → Bought Cant Deliver"
+      pathToRoot: 'Coordination Chaos → Process Bottleneck → Bought Cant Deliver'
     }
   },
   'quality-problems': {
-    explanation: "You are delivering work, but it"s not up to standard. This leads to rework, refunds, and a damaged reputation. Quality is the foundation of retention.",
+    explanation: 'You are delivering work, but it"s not up to standard. This leads to rework, refunds, and a damaged reputation. Quality is the foundation of retention.',
     relatedProblems: ["inconsistent-delivery-quality", "mistakes-rework", "client-dissatisfaction"],
     impactAnalysis: {
-      financialImpact: "Profit erosion; high churn; zero referrals.",
+      financialImpact: 'Profit erosion; high churn; zero referrals.',
       severity: "Critical",
       affectedAreas: ["Brand Reputation", "LTV", "Margins"],
       strategicPriority: 'High'
@@ -412,16 +412,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Rushing to fulfillment", "Lack of training", "Undefined quality standards"],
       automationPotential: {
         rating: "Medium",
-        example: "AI-powered quality control tools to flag anomalies in deliverables."
+        example: 'AI-powered quality control tools to flag anomalies in deliverables.'
       },
-      pathToRoot: "Quality Failure → Bought Cant Deliver → Not Enough Revenue"
+      pathToRoot: 'Quality Failure → Bought Cant Deliver → Not Enough Revenue'
     }
   },
   'inconsistent-delivery-quality': {
-    explanation: "Client A gets a great experience, but Client B gets a mediocre one. Your results depend on "who" does the work rather than 'how' the business works.",
+    explanation: 'Client A gets a great experience, but Client B gets a mediocre one. Your results depend on "who" does the work rather than 'how' the business works.',
     relatedProblems: ["different-results", "no-quality-standards"],
     impactAnalysis: {
-      financialImpact: "Revenue "Gambling"; unpredictable referrals; high management overhead.",
+      financialImpact: 'Revenue "Gambling"; unpredictable referrals; high management overhead.',
       severity: "Major",
       affectedAreas: ["Scalability", "Brand Trust"],
       strategicPriority: 'High'
@@ -435,16 +435,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of standardized processes", "Team skill variability", "No centralized QA"],
       automationPotential: {
         rating: "High",
-        example: "Automated delivery pipelines that ensure every client gets the exact same file/report structure."
+        example: 'Automated delivery pipelines that ensure every client gets the exact same file/report structure.'
       },
-      pathToRoot: "Inconsistency → Quality Problems → Bought Cant Deliver"
+      pathToRoot: 'Inconsistency → Quality Problems → Bought Cant Deliver'
     }
   },
   'skills-gap': {
-    explanation: "Your team lacks the specific expertise needed to deliver the high-value results you"ve sold. You are 'learning on the client's dime' at the cost of speed and quality.",
+    explanation: 'Your team lacks the specific expertise needed to deliver the high-value results you"ve sold. You are 'learning on the client's dime' at the cost of speed and quality.',
     relatedProblems: ["team-no-expertise", "learning-on-job"],
     impactAnalysis: {
-      financialImpact: "High rework; slow delivery; risk of project failure.",
+      financialImpact: 'High rework; slow delivery; risk of project failure.',
       severity: "Major",
       affectedAreas: ["Delivery Speed", "Profitability", "Service Quality"],
       strategicPriority: 'High'
@@ -458,16 +458,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Under-hiring", "Service complexity outstripping team training", "Rapid industry changes"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this requires human upskilling or hiring."
+        example: 'N/A - this requires human upskilling or hiring.'
       },
-      pathToRoot: "Skill Gap → Quality Problems → Bought Cant Deliver"
+      pathToRoot: 'Skill Gap → Quality Problems → Bought Cant Deliver'
     }
   },
   'client-dissatisfaction': {
-    explanation: "The ultimate symptom of delivery failure. Clients are unhappy, complaining, or asking for refunds. This is a red-alert state for any business.",
+    explanation: 'The ultimate symptom of delivery failure. Clients are unhappy, complaining, or asking for refunds. This is a red-alert state for any business.',
     relatedProblems: ["poor-results", "complaints-issues"],
     impactAnalysis: {
-      financialImpact: "Immediate revenue loss; reputation damage; high churn.",
+      financialImpact: 'Immediate revenue loss; reputation damage; high churn.',
       severity: "Critical",
       affectedAreas: ["LTV", "Brand Equity", "Founder Morale"],
       strategicPriority: 'High'
@@ -481,16 +481,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-promising in sales", "Poor quality control", "Communication breakdown"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated NPS/Satisfaction surveys to catch issues before they escalate."
+        example: 'Automated NPS/Satisfaction surveys to catch issues before they escalate.'
       },
-      pathToRoot: "Unhappy Clients → Quality Problems → Bought Cant Deliver"
+      pathToRoot: 'Unhappy Clients → Quality Problems → Bought Cant Deliver'
     }
   },
   'scope-creep-profit': {
-    explanation: "You are doing more work than the client paid for. This extra effort is unbilled, meaning it comes directly out of your net profit.",
+    explanation: 'You are doing more work than the client paid for. This extra effort is unbilled, meaning it comes directly out of your net profit.',
     relatedProblems: ["clients-ask-more", "no-change-order-process"],
     impactAnalysis: {
-      financialImpact: "Direct erosion of margin; team burnout from "unending" projects.",
+      financialImpact: 'Direct erosion of margin; team burnout from "unending" projects.',
       severity: "Major",
       affectedAreas: ["Profitability", "Capacity", "Client Management"],
       strategicPriority: 'High'
@@ -504,16 +504,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poorly defined scope upfront", "People-pleasing mindset", "Lack of project tracking"],
       automationPotential: {
         rating: "Medium",
-        example: "Project tools that alert you when task hours exceed the original estimate."
+        example: 'Project tools that alert you when task hours exceed the original estimate.'
       },
-      pathToRoot: "Scope Creep → PM Issues → Bought Cant Deliver"
+      pathToRoot: 'Scope Creep → PM Issues → Bought Cant Deliver'
     }
   },
   'timelines-slip': {
-    explanation: "Projects are taking longer than estimated. This delays your final payment, clogs your pipeline, and frustrates both the client and your team.",
+    explanation: 'Projects are taking longer than estimated. This delays your final payment, clogs your pipeline, and frustrates both the client and your team.',
     relatedProblems: ["underestimate-time-pm", "unexpected-complications"],
     impactAnalysis: {
-      financialImpact: "Delayed cash flow; increased labor costs per project; lower total capacity.",
+      financialImpact: 'Delayed cash flow; increased labor costs per project; lower total capacity.',
       severity: "Major",
       affectedAreas: ["Cash Flow", "Team Capacity", "Client Trust"],
       strategicPriority: 'High'
@@ -527,16 +527,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Optimism bias in estimation", "Poor resource planning", "Unmanaged external dependencies"],
       automationPotential: {
         rating: "High",
-        example: "Automated Gantt charts and dependency tracking to flag delays before they happen."
+        example: 'Automated Gantt charts and dependency tracking to flag delays before they happen.'
       },
-      pathToRoot: "Slipping Timelines → PM Issues → Bought Cant Deliver"
+      pathToRoot: 'Slipping Timelines → PM Issues → Bought Cant Deliver'
     }
   },
   'communication-breakdowns-pm': {
-    explanation: "Expectations are misaligned because communication is irregular or unclear. The client is confused, and the team is working on the wrong things.",
+    explanation: 'Expectations are misaligned because communication is irregular or unclear. The client is confused, and the team is working on the wrong things.',
     relatedProblems: ["expectations-misaligned", "internal-miscommunication"],
     impactAnalysis: {
-      financialImpact: "Rework costs; client churn; low referral rate.",
+      financialImpact: 'Rework costs; client churn; low referral rate.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Client Experience", "Team Alignment"],
       strategicPriority: 'High'
@@ -550,16 +550,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Reliance on chat (Slack) for project updates", "No dedicated project manager", "Lack of communication SOPs"],
       automationPotential: {
         rating: "High",
-        example: "Automated client status updates delivered via email/portal based on task completion."
+        example: 'Automated client status updates delivered via email/portal based on task completion.'
       },
-      pathToRoot: "Communication Failure → PM Issues → Bought Cant Deliver"
+      pathToRoot: 'Communication Failure → PM Issues → Bought Cant Deliver'
     }
   },
   'resource-allocation-wrong': {
-    explanation: "You have the right people but they are on the wrong tasks. Highly skilled people are doing busywork, while juniors are struggling with complex deliverables.",
+    explanation: 'You have the right people but they are on the wrong tasks. Highly skilled people are doing busywork, while juniors are struggling with complex deliverables.',
     relatedProblems: ["wrong-people-projects", "overbooking"],
     impactAnalysis: {
-      financialImpact: "High labor costs; low efficiency; high burnout risk.",
+      financialImpact: 'High labor costs; low efficiency; high burnout risk.',
       severity: "Moderate",
       affectedAreas: ["Team Efficiency", "Profitability", "Scalability"],
       strategicPriority: 'Medium'
@@ -573,16 +573,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Reactive staffing", "Lack of visibility into team capacity", "Flat organizational structure"],
       automationPotential: {
         rating: "High",
-        example: "Capacity planning software that auto-recommends assignments based on skill/availability."
+        example: 'Capacity planning software that auto-recommends assignments based on skill/availability.'
       },
-      pathToRoot: "Resource Mismatch → PM Issues → Bought Cant Deliver"
+      pathToRoot: 'Resource Mismatch → PM Issues → Bought Cant Deliver'
     }
   },
   'difficult-clients': {
-    explanation: "You are working with people who are unreasonable, disrespectful, or constantly changing their minds. These clients take up 80% of your energy for 20% of your revenue.",
+    explanation: 'You are working with people who are unreasonable, disrespectful, or constantly changing their minds. These clients take up 80% of your energy for 20% of your revenue.',
     relatedProblems: ["unreasonable-expectations", "constant-changes"],
     impactAnalysis: {
-      financialImpact: "Massive hidden costs; high team turnover; founder burnout.",
+      financialImpact: 'Massive hidden costs; high team turnover; founder burnout.',
       severity: "Major",
       affectedAreas: ["Founder Health", "Team Morale", "Net Profit"],
       strategicPriority: 'High'
@@ -596,16 +596,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Desperation for revenue during sales", "Weak qualifying", "Lack of clear boundaries"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a relationship and boundary-setting task."
+        example: 'N/A - this is a relationship and boundary-setting task.'
       },
-      pathToRoot: "Bad Clients → Client Management Issues → Bought Cant Deliver"
+      pathToRoot: 'Bad Clients → Client Management Issues → Bought Cant Deliver'
     }
   },
   'wrong-clients': {
-    explanation: "You are selling to people who don"t fit your model. They can't afford you, don't value what you do, or have problems you aren't designed to solve.",
+    explanation: 'You are selling to people who don"t fit your model. They can't afford you, don't value what you do, or have problems you aren't designed to solve.',
     relatedProblems: ["bad-fit-services", "cant-afford-pricing"],
     impactAnalysis: {
-      financialImpact: "Low conversion; high support costs; zero ROI for the client.",
+      financialImpact: 'Low conversion; high support costs; zero ROI for the client.',
       severity: "Major",
       affectedAreas: ["Sales pipeline", "Profitability", "Product-Market Fit"],
       strategicPriority: 'High'
@@ -619,16 +619,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Undefined ICP (Ideal Customer Profile)", "Marketing to the wrong audience", "Desperate sales mindset"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Qualifying Forms" that filter out bad fits before they book a call."
+        example: 'Automated "Qualifying Forms" that filter out bad fits before they book a call.'
       },
-      pathToRoot: "Fit Mismatch → Client Management Issues → Bought Cant Deliver"
+      pathToRoot: 'Fit Mismatch → Client Management Issues → Bought Cant Deliver'
     }
   },
   'no-client-boundaries': {
-    explanation: "The client owns you. They call you at night, demand instant replies, and treat your team like their personal staff. You have trained them that you will always say yes.",
+    explanation: 'The client owns you. They call you at night, demand instant replies, and treat your team like their personal staff. You have trained them that you will always say yes.',
     relatedProblems: ["available-24-7", "scope-creep-accepted"],
     impactAnalysis: {
-      financialImpact: "Invisible labor drain; high team stress; devalued service.",
+      financialImpact: 'Invisible labor drain; high team stress; devalued service.',
       severity: "Moderate",
       affectedAreas: ["Operational Stability", "Founder Peace of Mind"],
       strategicPriority: 'Medium'
@@ -642,18 +642,18 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["People-pleasing founder", "Lack of onboarding discipline", "Over-dependence on a single large client"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Out of Office" and status updates to manage client expectations instantly."
+        example: 'Automated "Out of Office" and status updates to manage client expectations instantly.'
       },
-      pathToRoot: "No Boundaries → Client Management Issues → Bought Cant Deliver"
+      pathToRoot: 'No Boundaries → Client Management Issues → Bought Cant Deliver'
     }
   },
 
   // MONEY COMES IN SLOWLY - SUB-BRANCHES
   'payment-terms-long': {
-    explanation: "You are essentially acting as a bank for your clients, providing them interest-free loans. This is common in enterprise sales but deadly for small businesses without deep pockets.",
+    explanation: 'You are essentially acting as a bank for your clients, providing them interest-free loans. This is common in enterprise sales but deadly for small businesses without deep pockets.',
     relatedProblems: ["net-terms", "no-deposits", "deferred-payment"],
     impactAnalysis: {
-      financialImpact: "High cost of capital; cash flow unpredictability.",
+      financialImpact: 'High cost of capital; cash flow unpredictability.',
       severity: "Moderate",
       affectedAreas: ["Cash Flow", "Negotiation Power"],
       strategicPriority: 'Medium'
@@ -667,16 +667,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of losing the deal", "Following "industry standards" blindly", "Weak sales positioning"],
       automationPotential: {
         rating: "Medium",
-        example: "Setting up a payment portal that requires credit card on file before work starts."
+        example: 'Setting up a payment portal that requires credit card on file before work starts.'
       },
-      pathToRoot: "Long Terms → Money Slow → Not Enough Money (Root)"
+      pathToRoot: 'Long Terms → Money Slow → Not Enough Money (Root)'
     }
   },
   'clients-pay-late': {
-    explanation: "A breakdown in account receivables management. Clients are ignoring your terms because there are no consequences, or your invoicing process is confusing and easy to ignore.",
+    explanation: 'A breakdown in account receivables management. Clients are ignoring your terms because there are no consequences, or your invoicing process is confusing and easy to ignore.',
     relatedProblems: ["no-followup-late", "invoices-unclear", "no-penalties"],
     impactAnalysis: {
-      financialImpact: "Variable cash flow; high administrative time spent "chasing" money.",
+      financialImpact: 'Variable cash flow; high administrative time spent "chasing" money.',
       severity: "Moderate",
       affectedAreas: ["Accounts Receivable", "Founder Stress"],
       strategicPriority: 'Medium'
@@ -690,16 +690,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["No clear follow-up process", "Lack of automated dunning", "Client cash flow issues"],
       automationPotential: {
         rating: "High",
-        example: "Automated SMS and email reminders for overdue invoices (Dunning)."
+        example: 'Automated SMS and email reminders for overdue invoices (Dunning).'
       },
-      pathToRoot: "Late Payments → Money Slow → Not Enough Money (Root)"
+      pathToRoot: 'Late Payments → Money Slow → Not Enough Money (Root)'
     }
   },
   'net-terms': {
-    explanation: "Your business is trapped in "Net-30', "Net-60', or even 'Net-90' terms. You are effectively providing interest-free financing to your clients while you carry the costs of delivery.",
+    explanation: 'Your business is trapped in "Net-30', "Net-60', or even 'Net-90' terms. You are effectively providing interest-free financing to your clients while you carry the costs of delivery.',
     relatedProblems: ["payment-terms-long", "cash-flow-gaps"],
     impactAnalysis: {
-      financialImpact: "Severe cash drag; business growth is capped by available cash reserves.",
+      financialImpact: 'Severe cash drag; business growth is capped by available cash reserves.',
       severity: "Major",
       affectedAreas: ["Working Capital", "Liquidity"],
       strategicPriority: 'High'
@@ -713,16 +713,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Standard industry inertia", "Low negotiation leverage", "Fear of losing clients"],
       automationPotential: {
         rating: "Medium",
-        example: "Invoice factoring or supply chain finance integrations."
+        example: 'Invoice factoring or supply chain finance integrations.'
       },
-      pathToRoot: "Net Terms → Long Terms → Money Slow → Not Enough Money"
+      pathToRoot: 'Net Terms → Long Terms → Money Slow → Not Enough Money'
     }
   },
   'no-deposits': {
-    explanation: "Starting work with zero cash in hand is a major risk. You are assuming 100% of the financial risk while the client assumes zero until delivery.",
+    explanation: 'Starting work with zero cash in hand is a major risk. You are assuming 100% of the financial risk while the client assumes zero until delivery.',
     relatedProblems: ["payment-terms-long", "deferred-payment"],
     impactAnalysis: {
-      financialImpact: "Negative cash flow at project start; high risk of non-payment for work already done.",
+      financialImpact: 'Negative cash flow at project start; high risk of non-payment for work already done.',
       severity: "Major",
       affectedAreas: ["Cash Flow", "Risk Management"],
       strategicPriority: 'High'
@@ -736,16 +736,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of sales confidence", "Undefined onboarding process"],
       automationPotential: {
         rating: "High",
-        example: "Automated payment link sent as part of the contract signing process."
+        example: 'Automated payment link sent as part of the contract signing process.'
       },
-      pathToRoot: "No Deposits → Long Terms → Money Slow → Not Enough Money"
+      pathToRoot: 'No Deposits → Long Terms → Money Slow → Not Enough Money'
     }
   },
   'milestones-spread': {
-    explanation: "Payment milestones are too far apart, causing you to go weeks or months without a cash injection while work continues.",
+    explanation: 'Payment milestones are too far apart, causing you to go weeks or months without a cash injection while work continues.',
     relatedProblems: ["deferred-payment", "long-delivery-cycle"],
     impactAnalysis: {
-      financialImpact: "Cash flow "dry spells" during the middle of projects.",
+      financialImpact: 'Cash flow "dry spells" during the middle of projects.',
       severity: "Moderate",
       affectedAreas: ["Operational Stability"],
       strategicPriority: 'Medium'
@@ -759,16 +759,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor project scoping", "Inflexible billing software"],
       automationPotential: {
         rating: "Medium",
-        example: "Project management tools that auto-trigger invoices when a task status changes."
+        example: 'Project management tools that auto-trigger invoices when a task status changes.'
       },
-      pathToRoot: "Spread Milestones → Long Terms → Money Slow → Not Enough Money"
+      pathToRoot: 'Spread Milestones → Long Terms → Money Slow → Not Enough Money'
     }
   },
   'deferred-payment': {
-    explanation: "Waiting until the very end of a project to get paid is a recipe for disaster. It incentivizes the client to drag out the "final 5%' to delay payment.",
+    explanation: 'Waiting until the very end of a project to get paid is a recipe for disaster. It incentivizes the client to drag out the "final 5%' to delay payment.',
     relatedProblems: ["no-deposits", "long-delivery-cycle"],
     impactAnalysis: {
-      financialImpact: "Extremely high risk; zero cash flow during project lifecycle.",
+      financialImpact: 'Extremely high risk; zero cash flow during project lifecycle.',
       severity: "Critical",
       affectedAreas: ["Business Survival", "Risk Management"],
       strategicPriority: 'High'
@@ -782,16 +782,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Outdated contract templates", "Fear of client pushback"],
       automationPotential: {
         rating: "Low",
-        example: "This is a contractual change, but can be managed via escrow-style payment tools."
+        example: 'This is a contractual change, but can be managed via escrow-style payment tools.'
       },
-      pathToRoot: "Deferred Payment → Long Terms → Money Slow → Not Enough Money"
+      pathToRoot: 'Deferred Payment → Long Terms → Money Slow → Not Enough Money'
     }
   },
   'no-followup-late': {
-    explanation: "If you don"t ask for the money, people often won't send it. Silence is interpreted as 'it's not urgent.'",
+    explanation: 'If you don"t ask for the money, people often won't send it. Silence is interpreted as 'it's not urgent.'',
     relatedProblems: ["clients-pay-late", "no-penalties"],
     impactAnalysis: {
-      financialImpact: "Increased Days Sales Outstanding (DSO); higher chance of bad debt.",
+      financialImpact: 'Increased Days Sales Outstanding (DSO); higher chance of bad debt.',
       severity: "Moderate",
       affectedAreas: ["Cash Flow", "Accounts Receivable"],
       strategicPriority: 'Medium'
@@ -805,16 +805,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder discomfort with "confrontation"", "No admin support"],
       automationPotential: {
         rating: "High",
-        example: "Automated dunning sequences via tools like Chaser or QuickBooks Online."
+        example: 'Automated dunning sequences via tools like Chaser or QuickBooks Online.'
       },
-      pathToRoot: "No Follow-up → Late Payments → Money Slow → Not Enough Money"
+      pathToRoot: 'No Follow-up → Late Payments → Money Slow → Not Enough Money'
     }
   },
   'invoices-unclear': {
-    explanation: "Confusion is the #1 reason for payment delays. If the client doesn"t know what they"re paying for or how to pay it, the invoice goes to the bottom of the pile.",
+    explanation: 'Confusion is the #1 reason for payment delays. If the client doesn"t know what they"re paying for or how to pay it, the invoice goes to the bottom of the pile.',
     relatedProblems: ["payment-friction", "wrong-person"],
     impactAnalysis: {
-      financialImpact: "Needless delays; high admin time spent answering "what is this?' emails.",
+      financialImpact: 'Needless delays; high admin time spent answering "what is this?' emails.',
       severity: "Low",
       affectedAreas: ["Admin Efficiency", "Client Experience"],
       strategicPriority: 'Low'
@@ -828,16 +828,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor billing software", "Rushed data entry"],
       automationPotential: {
         rating: "High",
-        example: "Using standardized invoice templates that pull directly from project management data."
+        example: 'Using standardized invoice templates that pull directly from project management data.'
       },
-      pathToRoot: "Unclear Invoices → Late Payments → Money Slow → Not Enough Money"
+      pathToRoot: 'Unclear Invoices → Late Payments → Money Slow → Not Enough Money'
     }
   },
   'no-penalties': {
-    explanation: "Without late fees, there is no downside for the client to prioritize other vendors over you. You are the cheapest "loan" they have.",
+    explanation: 'Without late fees, there is no downside for the client to prioritize other vendors over you. You are the cheapest "loan" they have.',
     relatedProblems: ["clients-pay-late", "no-followup-late"],
     impactAnalysis: {
-      financialImpact: "Devaluation of your time; incentivizes bad client behavior.",
+      financialImpact: 'Devaluation of your time; incentivizes bad client behavior.',
       severity: "Moderate",
       affectedAreas: ["Client Management", "Cash Flow"],
       strategicPriority: 'Medium'
@@ -851,16 +851,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of sounding "mean"", "Missing from legal templates"],
       automationPotential: {
         rating: "High",
-        example: "Accounting software that auto-applies late fees after X days."
+        example: 'Accounting software that auto-applies late fees after X days.'
       },
-      pathToRoot: "No Penalties → Late Payments → Money Slow → Not Enough Money"
+      pathToRoot: 'No Penalties → Late Payments → Money Slow → Not Enough Money'
     }
   },
   'payment-friction': {
-    explanation: "If you only accept checks or wire transfers, you are making it hard for people to give you money. Every step you add to the process increases the chance of delay.",
+    explanation: 'If you only accept checks or wire transfers, you are making it hard for people to give you money. Every step you add to the process increases the chance of delay.',
     relatedProblems: ["invoices-unclear", "approval-delays"],
     impactAnalysis: {
-      financialImpact: "Slower payment velocity; increased drop-off in small-ticket transactions.",
+      financialImpact: 'Slower payment velocity; increased drop-off in small-ticket transactions.',
       severity: "Moderate",
       affectedAreas: ["Sales Conversion", "Cash Flow"],
       strategicPriority: 'Medium'
@@ -874,16 +874,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Avoiding processing fees", "Old-school business mindset"],
       automationPotential: {
         rating: "High",
-        example: "One-click payment portals integrated with your invoicing system."
+        example: 'One-click payment portals integrated with your invoicing system.'
       },
-      pathToRoot: "Payment Friction → Late Payments → Money Slow → Not Enough Money"
+      pathToRoot: 'Payment Friction → Late Payments → Money Slow → Not Enough Money'
     }
   },
   'wrong-person': {
-    explanation: "Your invoice is sitting in the inbox of the project manager, not the accounts payable (AP) person who actually cuts the checks.",
+    explanation: 'Your invoice is sitting in the inbox of the project manager, not the accounts payable (AP) person who actually cuts the checks.',
     relatedProblems: ["invoices-unclear", "approval-delays"],
     impactAnalysis: {
-      financialImpact: "Hidden delays (invoices "lost" in internal mail); high friction.",
+      financialImpact: 'Hidden delays (invoices "lost" in internal mail); high friction.',
       severity: "Low",
       affectedAreas: ["Admin Efficiency", "Client Relations"],
       strategicPriority: 'Low'
@@ -897,16 +897,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor onboarding data collection"],
       automationPotential: {
         rating: "Medium",
-        example: "CRM fields specifically for billing contacts that sync to your accounting software."
+        example: 'CRM fields specifically for billing contacts that sync to your accounting software.'
       },
-      pathToRoot: "Wrong Person → Late Payments → Money Slow → Not Enough Money"
+      pathToRoot: 'Wrong Person → Late Payments → Money Slow → Not Enough Money'
     }
   },
   'approval-delays': {
-    explanation: "The work is done, but the invoice is stuck in a "Review" loop inside the client"s company. This is especially common with larger corporations.",
+    explanation: 'The work is done, but the invoice is stuck in a "Review" loop inside the client"s company. This is especially common with larger corporations.',
     relatedProblems: ["procurement-bottleneck", "wrong-person"],
     impactAnalysis: {
-      financialImpact: "Unpredictable payment dates; project team frustration.",
+      financialImpact: 'Unpredictable payment dates; project team frustration.',
       severity: "Moderate",
       affectedAreas: ["Operations", "Cash Flow"],
       strategicPriority: 'Medium'
@@ -920,16 +920,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of clear "Success Criteria"", "Complex client hierarchy"],
       automationPotential: {
         rating: "Low",
-        example: "Client portals where they can sign off on work instantly."
+        example: 'Client portals where they can sign off on work instantly.'
       },
-      pathToRoot: "Approval Delays → Late Payments → Money Slow → Not Enough Money"
+      pathToRoot: 'Approval Delays → Late Payments → Money Slow → Not Enough Money'
     }
   },
   'long-sales-cycle': {
-    explanation: "Your sales process takes months to close, meaning you have to fund the "customer acquisition" period for a long time before seeing a return.",
+    explanation: 'Your sales process takes months to close, meaning you have to fund the "customer acquisition" period for a long time before seeing a return.',
     relatedProblems: ["many-decision-makers", "proposal-drags", "budget-approval"],
     impactAnalysis: {
-      financialImpact: "High cost of acquisition; unpredictable revenue forecasting.",
+      financialImpact: 'High cost of acquisition; unpredictable revenue forecasting.',
       severity: "Major",
       affectedAreas: ["Sales Efficiency", "Cash Flow"],
       strategicPriority: 'High'
@@ -943,16 +943,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Targeting large enterprise without the resources", "Complex product offering", "Passive sales follow-up"],
       automationPotential: {
         rating: "High",
-        example: "Automated nurture sequences and CRM workflow triggers to keep deals moving."
+        example: 'Automated nurture sequences and CRM workflow triggers to keep deals moving.'
       },
-      pathToRoot: "Long Sales Cycle → Money Slow → Not Enough Money"
+      pathToRoot: 'Long Sales Cycle → Money Slow → Not Enough Money'
     }
   },
   'many-decision-makers': {
-    explanation: "The "Consensus" trap. Too many people have a veto, and no one has a clear 'yes.' Every additional person in the room slows down the deal.",
+    explanation: 'The "Consensus" trap. Too many people have a veto, and no one has a clear 'yes.' Every additional person in the room slows down the deal.',
     relatedProblems: ["procurement-bottleneck", "approval-delays"],
     impactAnalysis: {
-      financialImpact: "Increased sales labor costs; higher chance of deal "fading" away.",
+      financialImpact: 'Increased sales labor costs; higher chance of deal "fading" away.',
       severity: "Moderate",
       affectedAreas: ["Sales Cycle", "Conversion Rate"],
       strategicPriority: 'Medium'
@@ -966,16 +966,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Selling to committees", "Lack of internal champion"],
       automationPotential: {
         rating: "Low",
-        example: "This is a relationship skill, though digital sales rooms can help keep everyone on the same page."
+        example: 'This is a relationship skill, though digital sales rooms can help keep everyone on the same page.'
       },
-      pathToRoot: "Many Decision Makers → Long Sales Cycle → Money Slow → Not Enough Money"
+      pathToRoot: 'Many Decision Makers → Long Sales Cycle → Money Slow → Not Enough Money'
     }
   },
   'proposal-drags': {
-    explanation: "You are spending days or weeks writing custom proposals. This delay allows the prospect"s "buying heat' to cool down.",
+    explanation: 'You are spending days or weeks writing custom proposals. This delay allows the prospect"s "buying heat' to cool down.',
     relatedProblems: ["contract-negotiation", "manual-processes"],
     impactAnalysis: {
-      financialImpact: "Low sales velocity; high unbilled labor costs.",
+      financialImpact: 'Low sales velocity; high unbilled labor costs.',
       severity: "Low",
       affectedAreas: ["Sales Efficiency"],
       strategicPriority: 'Low'
@@ -989,16 +989,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-customizing every deal", "No standardized pricing sheet"],
       automationPotential: {
         rating: "High",
-        example: "Using tools like PandaDoc or Better Proposals to auto-generate docs from CRM data."
+        example: 'Using tools like PandaDoc or Better Proposals to auto-generate docs from CRM data.'
       },
-      pathToRoot: "Proposal Drags → Long Sales Cycle → Money Slow → Not Enough Money"
+      pathToRoot: 'Proposal Drags → Long Sales Cycle → Money Slow → Not Enough Money'
     }
   },
   'contract-negotiation': {
-    explanation: "Legal "redlining" is stalling your cash flow. You've won the deal, but you can't start work or get paid because of a clause in the contract.",
+    explanation: 'Legal "redlining" is stalling your cash flow. You've won the deal, but you can't start work or get paid because of a clause in the contract.',
     relatedProblems: ["procurement-bottleneck", "many-decision-makers"],
     impactAnalysis: {
-      financialImpact: "Revenue "stuck" in legal; high legal fees if using outside counsel.",
+      financialImpact: 'Revenue "stuck" in legal; high legal fees if using outside counsel.',
       severity: "Moderate",
       affectedAreas: ["Sales Velocity", "Legal Costs"],
       strategicPriority: 'Medium'
@@ -1012,16 +1012,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-complex contracts", "Dealing with over-zealous legal departments"],
       automationPotential: {
         rating: "Medium",
-        example: "Contract Lifecycle Management (CLM) tools with pre-approved clause libraries."
+        example: 'Contract Lifecycle Management (CLM) tools with pre-approved clause libraries.'
       },
-      pathToRoot: "Contract Negotiating → Long Sales Cycle → Money Slow → Not Enough Money"
+      pathToRoot: 'Contract Negotiating → Long Sales Cycle → Money Slow → Not Enough Money'
     }
   },
   'procurement-bottleneck': {
-    explanation: "The "Black Hole" of corporate buying. Even after the business owner says yes, the 'Procurement' department adds weeks of paperwork, vendor setup, and security reviews.",
+    explanation: 'The "Black Hole" of corporate buying. Even after the business owner says yes, the 'Procurement' department adds weeks of paperwork, vendor setup, and security reviews.',
     relatedProblems: ["many-decision-makers", "wrong-person"],
     impactAnalysis: {
-      financialImpact: "Delayed project start; high admin burden.",
+      financialImpact: 'Delayed project start; high admin burden.',
       severity: "Moderate",
       affectedAreas: ["Admin Efficiency", "Cash Flow"],
       strategicPriority: 'Medium'
@@ -1035,16 +1035,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Selling to large organizations without being a "preferred vendor""],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to auto-fill security and procurement forms based on previous answers."
+        example: 'Using AI to auto-fill security and procurement forms based on previous answers.'
       },
-      pathToRoot: "Procurement Bottleneck → Long Sales Cycle → Money Slow → Not Enough Money"
+      pathToRoot: 'Procurement Bottleneck → Long Sales Cycle → Money Slow → Not Enough Money'
     }
   },
   'rfp-timeline': {
-    explanation: "Request for Proposals (RFPs) are designed for the buyer, not the seller. They are long, competitive, and often have fixed timelines that ignore your cash needs.",
+    explanation: 'Request for Proposals (RFPs) are designed for the buyer, not the seller. They are long, competitive, and often have fixed timelines that ignore your cash needs.',
     relatedProblems: ["long-sales-cycle", "low-margins"],
     impactAnalysis: {
-      financialImpact: "Extremely high cost of sale; low win percentage; zero control over timing.",
+      financialImpact: 'Extremely high cost of sale; low win percentage; zero control over timing.',
       severity: "Major",
       affectedAreas: ["Sales Strategy", "Profitability"],
       strategicPriority: 'Low'
@@ -1058,16 +1058,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Dependency on government or large institutional contracts"],
       automationPotential: {
         rating: "High",
-        example: "AI-driven RFP response software to cut down the writing time from days to hours."
+        example: 'AI-driven RFP response software to cut down the writing time from days to hours.'
       },
-      pathToRoot: "RFP Timeline → Long Sales Cycle → Money Slow → Not Enough Money"
+      pathToRoot: 'RFP Timeline → Long Sales Cycle → Money Slow → Not Enough Money'
     }
   },
   'budget-approval': {
-    explanation: "The "Fiscal Year" problem. The client wants to buy, but they are waiting for next quarter's budget to be released. Your cash flow is at the mercy of their CFO's calendar.",
+    explanation: 'The "Fiscal Year" problem. The client wants to buy, but they are waiting for next quarter's budget to be released. Your cash flow is at the mercy of their CFO's calendar.',
     relatedProblems: ["wrong-timing", "many-decision-makers"],
     impactAnalysis: {
-      financialImpact: "Lumpy revenue; high stress during "budget season.'",
+      financialImpact: 'Lumpy revenue; high stress during "budget season.'',
       severity: "Moderate",
       affectedAreas: ["Revenue Predictability", "Cash Flow"],
       strategicPriority: 'Medium'
@@ -1081,16 +1081,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Selling high-ticket items without a "stair-step" entry"],
       automationPotential: {
         rating: "Low",
-        example: "Tracking client fiscal cycles in your CRM to time your outreach perfectly."
+        example: 'Tracking client fiscal cycles in your CRM to time your outreach perfectly.'
       },
-      pathToRoot: "Budget Approval → Long Sales Cycle → Money Slow → Not Enough Money"
+      pathToRoot: 'Budget Approval → Long Sales Cycle → Money Slow → Not Enough Money'
     }
   },
   'long-delivery-cycle': {
-    explanation: "Your fulfillment process takes too long. If you spend 3 months doing work before you can send the final invoice, you are funding 90 days of payroll and overhead on a hope.",
+    explanation: 'Your fulfillment process takes too long. If you spend 3 months doing work before you can send the final invoice, you are funding 90 days of payroll and overhead on a hope.',
     relatedProblems: ["invoice-after-complete", "work-takes-long", "waiting-feedback"],
     impactAnalysis: {
-      financialImpact: "Strained working capital; high risk of project "stalling.'",
+      financialImpact: 'Strained working capital; high risk of project "stalling.'',
       severity: "Major",
       affectedAreas: ["Operations", "Cash Flow"],
       strategicPriority: 'High'
@@ -1104,16 +1104,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Inefficient fulfillment", "Scope creep", "Manual delivery steps"],
       automationPotential: {
         rating: "High",
-        example: "Automating the delivery of work products (e.g., reports, code, setup) to speed up completion."
+        example: 'Automating the delivery of work products (e.g., reports, code, setup) to speed up completion.'
       },
-      pathToRoot: "Long Delivery → Money Slow → Not Enough Money"
+      pathToRoot: 'Long Delivery → Money Slow → Not Enough Money'
     }
   },
   'invoice-after-complete': {
-    explanation: "The "All or Nothing" billing model. You only get paid once everything is 100% done. This gives the client all the leverage to withhold payment for minor tweaks.",
+    explanation: 'The "All or Nothing" billing model. You only get paid once everything is 100% done. This gives the client all the leverage to withhold payment for minor tweaks.',
     relatedProblems: ["deferred-payment", "revisions-delay"],
     impactAnalysis: {
-      financialImpact: "Extremely high risk; "Zero-cash' delivery period.",
+      financialImpact: 'Extremely high risk; "Zero-cash' delivery period.',
       severity: "Critical",
       affectedAreas: ["Business Stability", "Risk"],
       strategicPriority: 'High'
@@ -1127,16 +1127,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Weak contract terms", "Standardized by client, not you"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated billing triggered by "Task Completion" in your project management tool."
+        example: 'Automated billing triggered by "Task Completion" in your project management tool.'
       },
-      pathToRoot: "Invoice After Completion → Long Delivery → Money Slow → Not Enough Money"
+      pathToRoot: 'Invoice After Completion → Long Delivery → Money Slow → Not Enough Money'
     }
   },
   'work-takes-long': {
-    explanation: "Your internal efficiency is low. Tasks that should take 2 days are taking 10. This increases your "cost-per-fulfillment' and slows down cash.",
+    explanation: 'Your internal efficiency is low. Tasks that should take 2 days are taking 10. This increases your "cost-per-fulfillment' and slows down cash.',
     relatedProblems: ["inefficient-processes", "manual-processes", "rework-mistakes"],
     impactAnalysis: {
-      financialImpact: "Decreased net profit; lower throughput (capacity).",
+      financialImpact: 'Decreased net profit; lower throughput (capacity).',
       severity: "Major",
       affectedAreas: ["Efficiency", "Profitability"],
       strategicPriority: 'High'
@@ -1150,16 +1150,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technical debt", "Poorly trained team", "No standardized tools"],
       automationPotential: {
         rating: "High",
-        example: "Using AI and automation to handle repetitive parts of the work delivery."
+        example: 'Using AI and automation to handle repetitive parts of the work delivery.'
       },
-      pathToRoot: "Work Takes Long → Long Delivery → Money Slow → Not Enough Money"
+      pathToRoot: 'Work Takes Long → Long Delivery → Money Slow → Not Enough Money'
     }
   },
   'waiting-feedback': {
-    explanation: "Your project is ready to move, but it"s sitting on the client"s desk. This delay is costing you money in overhead every single day.",
+    explanation: 'Your project is ready to move, but it"s sitting on the client"s desk. This delay is costing you money in overhead every single day.',
     relatedProblems: ["approval-delays", "long-delivery-cycle"],
     impactAnalysis: {
-      financialImpact: "Project "Stagnation" costs; team context-switching costs.",
+      financialImpact: 'Project "Stagnation" costs; team context-switching costs.',
       severity: "Moderate",
       affectedAreas: ["Project Timeline", "Profitability"],
       strategicPriority: 'Medium'
@@ -1173,16 +1173,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Passive project management", "Undefined client responsibilities"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated "Gentle Nudge" sequences if a feedback link hasn't been clicked."
+        example: 'Automated "Gentle Nudge" sequences if a feedback link hasn't been clicked.'
       },
-      pathToRoot: "Waiting on Feedback → Long Delivery → Money Slow → Not Enough Money"
+      pathToRoot: 'Waiting on Feedback → Long Delivery → Money Slow → Not Enough Money'
     }
   },
   'revisions-delay': {
-    explanation: "Unlimited revisions are a profit-killer. Each extra "tweak" delays the final invoice and increases your cost of delivery.",
+    explanation: 'Unlimited revisions are a profit-killer. Each extra "tweak" delays the final invoice and increases your cost of delivery.',
     relatedProblems: ["scope-creep-unbilled", "results-mediocre"],
     impactAnalysis: {
-      financialImpact: "Profit margin erosion; delayed final payment.",
+      financialImpact: 'Profit margin erosion; delayed final payment.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Delivery Timeline"],
       strategicPriority: 'Medium'
@@ -1196,16 +1196,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Vague "Success Metrics"", "People-pleasing founder"],
       automationPotential: {
         rating: "Low",
-        example: "Standardized "Revision Request" forms to ensure feedback is clear and consolidated."
+        example: 'Standardized "Revision Request" forms to ensure feedback is clear and consolidated.'
       },
-      pathToRoot: "Revisions Delay → Long Delivery → Money Slow → Not Enough Money"
+      pathToRoot: 'Revisions Delay → Long Delivery → Money Slow → Not Enough Money'
     }
   },
   'third-party-dependencies': {
-    explanation: "You are waiting on a vendor, partner, or software provider to do their part before you can finish yours. You are at the mercy of their timeline.",
+    explanation: 'You are waiting on a vendor, partner, or software provider to do their part before you can finish yours. You are at the mercy of their timeline.',
     relatedProblems: ["long-delivery-cycle", "manual-processes"],
     impactAnalysis: {
-      financialImpact: "Unpredictable project completion; risk of "Vendor Lock" delays.",
+      financialImpact: 'Unpredictable project completion; risk of "Vendor Lock" delays.',
       severity: "Low",
       affectedAreas: ["Operations"],
       strategicPriority: 'Low'
@@ -1219,16 +1219,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of vertical integration", "Poor vendor management"],
       automationPotential: {
         rating: "Medium",
-        example: "Using APIs to monitor third-party status and auto-alert your team of delays."
+        example: 'Using APIs to monitor third-party status and auto-alert your team of delays.'
       },
-      pathToRoot: "Third Party Dependencies → Long Delivery → Money Slow → Not Enough Money"
+      pathToRoot: 'Third Party Dependencies → Long Delivery → Money Slow → Not Enough Money'
     }
   },
   'seasonal-constraints': {
-    explanation: "Your business is only "active" during certain times of the year. During the 'off-season,' your cash flow drops but your fixed costs remain.",
+    explanation: 'Your business is only "active" during certain times of the year. During the 'off-season,' your cash flow drops but your fixed costs remain.',
     relatedProblems: ["lumpy-revenue", "cash-flow-gaps"],
     impactAnalysis: {
-      financialImpact: "Survival risk during "Down-months'; difficulty maintaining team year-round.",
+      financialImpact: 'Survival risk during "Down-months'; difficulty maintaining team year-round.',
       severity: "Major",
       affectedAreas: ["Financial Stability", "Staffing"],
       strategicPriority: 'Medium'
@@ -1242,16 +1242,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Niche-specific timing (e.g., Tax, Holidays, Weather)"],
       automationPotential: {
         rating: "Low",
-        example: "Using automation to scale up/down marketing spend based on seasonality."
+        example: 'Using automation to scale up/down marketing spend based on seasonality.'
       },
-      pathToRoot: "Seasonal Constraints → Long Delivery → Money Slow → Not Enough Money"
+      pathToRoot: 'Seasonal Constraints → Long Delivery → Money Slow → Not Enough Money'
     }
   },
   'cash-flow-gaps': {
-    explanation: "The timing of your "money in" doesn't match the timing of your 'money out.' You are profitable on paper, but your bank account is empty on the 1st of the month.",
+    explanation: 'The timing of your "money in" doesn't match the timing of your 'money out.' You are profitable on paper, but your bank account is empty on the 1st of the month.',
     relatedProblems: ["irregular-timing", "big-expenses-before-payment", "no-buffer"],
     impactAnalysis: {
-      financialImpact: "Inability to pay payroll/taxes on time; high stress.",
+      financialImpact: 'Inability to pay payroll/taxes on time; high stress.',
       severity: "Critical",
       affectedAreas: ["Business Survival", "Operations"],
       strategicPriority: 'High'
@@ -1265,16 +1265,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Mismatch between AR and AP terms", "No cash reserves"],
       automationPotential: {
         rating: "High",
-        example: "Cash flow forecasting software that syncs with your bank and accounting tools."
+        example: 'Cash flow forecasting software that syncs with your bank and accounting tools.'
       },
-      pathToRoot: "Cash Flow Gaps → Money Slow → Not Enough Money"
+      pathToRoot: 'Cash Flow Gaps → Money Slow → Not Enough Money'
     }
   },
   'irregular-timing': {
-    explanation: "Projects start and end randomly. You can"t predict when the next big "payout' will happen, making it impossible to plan hiring or investment.",
+    explanation: 'Projects start and end randomly. You can"t predict when the next big "payout' will happen, making it impossible to plan hiring or investment.',
     relatedProblems: ["lumpy-revenue", "long-sales-cycle"],
     impactAnalysis: {
-      financialImpact: "Financial "Whiplash"; inability to make long-term commitments.",
+      financialImpact: 'Financial "Whiplash"; inability to make long-term commitments.',
       severity: "Moderate",
       affectedAreas: ["Strategic Planning", "Cash Flow"],
       strategicPriority: 'Medium'
@@ -1288,16 +1288,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Reactive sales process", "No project pipeline management"],
       automationPotential: {
         rating: "Medium",
-        example: "Project queuing systems and automated onboarding workflows."
+        example: 'Project queuing systems and automated onboarding workflows.'
       },
-      pathToRoot: "Irregular Timing → Cash Flow Gaps → Money Slow → Not Enough Money"
+      pathToRoot: 'Irregular Timing → Cash Flow Gaps → Money Slow → Not Enough Money'
     }
   },
   'big-expenses-before-payment': {
-    explanation: "You have to pay for subcontractors, materials, or ads before the client pays you. You are "financing" the client's project with your own cash.",
+    explanation: 'You have to pay for subcontractors, materials, or ads before the client pays you. You are "financing" the client's project with your own cash.',
     relatedProblems: ["no-deposits", "delivery-costs-high"],
     impactAnalysis: {
-      financialImpact: "Direct drain on liquidity; risk of "Growing yourself out of business.'",
+      financialImpact: 'Direct drain on liquidity; risk of "Growing yourself out of business.'',
       severity: "Major",
       affectedAreas: ["Liquidity", "Profitability"],
       strategicPriority: 'High'
@@ -1311,16 +1311,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poorly negotiated vendor vs client terms"],
       automationPotential: {
         rating: "Low",
-        example: "Automated expense vs revenue tracking to see "Project Margin" in real-time."
+        example: 'Automated expense vs revenue tracking to see "Project Margin" in real-time.'
       },
-      pathToRoot: "Expenses Before Payment → Cash Flow Gaps → Money Slow → Not Enough Money"
+      pathToRoot: 'Expenses Before Payment → Cash Flow Gaps → Money Slow → Not Enough Money'
     }
   },
   'no-buffer': {
-    explanation: "You are living "paycheck to paycheck" in the business. One late payment from a client or one unexpected expense could bankrupt you.",
+    explanation: 'You are living "paycheck to paycheck" in the business. One late payment from a client or one unexpected expense could bankrupt you.',
     relatedProblems: ["cash-flow-gaps", "expenses-high"],
     impactAnalysis: {
-      financialImpact: "Zero "Sleep-at-night' factor; high risk of business failure.",
+      financialImpact: 'Zero "Sleep-at-night' factor; high risk of business failure.',
       severity: "Critical",
       affectedAreas: ["Overall Stability", "Founder Health"],
       strategicPriority: 'High'
@@ -1334,16 +1334,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-spending on growth", "Low margins", "Personal and business finances mixed"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Bank Rules" that sweep a percentage of income into a savings account."
+        example: 'Automated "Bank Rules" that sweep a percentage of income into a savings account.'
       },
-      pathToRoot: "No Buffer → Cash Flow Gaps → Money Slow → Not Enough Money"
+      pathToRoot: 'No Buffer → Cash Flow Gaps → Money Slow → Not Enough Money'
     }
   },
   'lumpy-revenue': {
-    explanation: "The "Feast or Famine" cycle. You have $50k months followed by $5k months. This makes it impossible to build a team or invest in systems.",
+    explanation: 'The "Feast or Famine" cycle. You have $50k months followed by $5k months. This makes it impossible to build a team or invest in systems.',
     relatedProblems: ["seasonal-constraints", "irregular-timing", "no-upsell-process"],
     impactAnalysis: {
-      financialImpact: "Extreme stress; high turnover of staff during "famine" periods.",
+      financialImpact: 'Extreme stress; high turnover of staff during "famine" periods.',
       severity: "Major",
       affectedAreas: ["Sustainability", "Revenue Growth"],
       strategicPriority: 'High'
@@ -1357,18 +1357,18 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Selling "One-off' projects only", "Lack of recurring value proposition"],
       automationPotential: {
         rating: "High",
-        example: "Automated recurring billing and subscription management tools."
+        example: 'Automated recurring billing and subscription management tools.'
       },
-      pathToRoot: "Lumpy Revenue → Cash Flow Gaps → Money Slow → Not Enough Money"
+      pathToRoot: 'Lumpy Revenue → Cash Flow Gaps → Money Slow → Not Enough Money'
     }
   },
 
   // EXPENSES TOO HIGH - SUB-BRANCHES
   'overhead-high': {
-    explanation: "Fixed costs that exist regardless of how many sales you make. This "high floor" creates immense pressure to sell constantly just to break even.",
+    explanation: 'Fixed costs that exist regardless of how many sales you make. This "high floor" creates immense pressure to sell constantly just to break even.',
     relatedProblems: ["expensive-office", "many-subscriptions", "admin-staff"],
     impactAnalysis: {
-      financialImpact: "Reduced margin for error; slow recovery in downturns.",
+      financialImpact: 'Reduced margin for error; slow recovery in downturns.',
       severity: "Moderate",
       affectedAreas: ["Fixed Costs", "Profitability"],
       strategicPriority: 'Medium'
@@ -1382,16 +1382,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Ego-driven spending (office)", "Subscription bloat", "Over-hiring administrative roles"],
       automationPotential: {
         rating: "High",
-        example: "Using AI agents/automation to replace manual administrative roles."
+        example: 'Using AI agents/automation to replace manual administrative roles.'
       },
-      pathToRoot: "High Overhead → Expenses High → Money Out Fast → Not Enough Money (Root)"
+      pathToRoot: 'High Overhead → Expenses High → Money Out Fast → Not Enough Money (Root)'
     }
   },
   'expensive-office': {
-    explanation: "Paying for more space than you need, or paying a premium for a prestigious address that doesn"t actually contribute to your bottom line. In a post-remote world, office space is often a massive unnecessary weight on a business.",
+    explanation: 'Paying for more space than you need, or paying a premium for a prestigious address that doesn"t actually contribute to your bottom line. In a post-remote world, office space is often a massive unnecessary weight on a business.',
     relatedProblems: ["overhead-high", "utilities-facilities"],
     impactAnalysis: {
-      financialImpact: "High monthly cash drain; fixed commitment that"s hard to reduce quickly.",
+      financialImpact: 'High monthly cash drain; fixed commitment that"s hard to reduce quickly.',
       severity: "Moderate",
       affectedAreas: ["Fixed Costs", "Liquidity"],
       strategicPriority: 'Medium'
@@ -1405,16 +1405,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Pre-remote mindset", "Over-optimism when signing lease", "Ego-driven location choice"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a physical asset management issue."
+        example: 'N/A - this is a physical asset management issue.'
       },
-      pathToRoot: "Expensive Office → Overhead High → Expenses High → Not Enough Money"
+      pathToRoot: 'Expensive Office → Overhead High → Expenses High → Not Enough Money'
     }
   },
   'many-subscriptions': {
-    explanation: "The "SaaS Creep.' Dozens of small $20-$100/mo tools that add up to thousands of dollars. Often, these are duplicate tools, seats for people who no longer work there, or 'Ghost' subscriptions no one uses.",
+    explanation: 'The "SaaS Creep.' Dozens of small $20-$100/mo tools that add up to thousands of dollars. Often, these are duplicate tools, seats for people who no longer work there, or 'Ghost' subscriptions no one uses.',
     relatedProblems: ["unused-subscriptions", "duplicate-systems"],
     impactAnalysis: {
-      financialImpact: "Passive cash leak; hidden overhead that scales silently.",
+      financialImpact: 'Passive cash leak; hidden overhead that scales silently.',
       severity: "Low to Moderate",
       affectedAreas: ["Profitability", "Admin Efficiency"],
       strategicPriority: 'Medium'
@@ -1428,16 +1428,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of procurement oversight", "Team members signing up for their own tools", "Free trials rolling into paid"],
       automationPotential: {
         rating: "High",
-        example: "Automated SaaS management tools that flag unused licenses."
+        example: 'Automated SaaS management tools that flag unused licenses.'
       },
-      pathToRoot: "Subscription Bloat → Overhead High → Expenses High → Not Enough Money"
+      pathToRoot: 'Subscription Bloat → Overhead High → Expenses High → Not Enough Money'
     }
   },
   'equipment-costs': {
-    explanation: "High upfront or monthly costs for physical hardware, machinery, or specialized gear. This includes leases, maintenance, and the "Latest Model" trap where you upgrade before you need to.",
+    explanation: 'High upfront or monthly costs for physical hardware, machinery, or specialized gear. This includes leases, maintenance, and the "Latest Model" trap where you upgrade before you need to.',
     relatedProblems: ["overhead-high", "tools-equipment-break"],
     impactAnalysis: {
-      financialImpact: "Direct hit to cash reserves; high maintenance drag.",
+      financialImpact: 'Direct hit to cash reserves; high maintenance drag.',
       severity: "Moderate",
       affectedAreas: ["Cash Flow", "Asset Management"],
       strategicPriority: 'Medium'
@@ -1451,16 +1451,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-specifying for current needs", "Poor maintenance cycles", "Lack of cost-benefit analysis on gear"],
       automationPotential: {
         rating: "Medium",
-        example: "IoT-based maintenance alerts to extend equipment lifespan."
+        example: 'IoT-based maintenance alerts to extend equipment lifespan.'
       },
-      pathToRoot: "Equipment Costs → Overhead High → Expenses High → Not Enough Money"
+      pathToRoot: 'Equipment Costs → Overhead High → Expenses High → Not Enough Money'
     }
   },
   'insurance-legal': {
-    explanation: "Compliance and protection costs are necessary but often unoptimized. You might be over-insured for risks you don"t face, or paying 'Big Firm' rates for routine legal work that could be handled more efficiently.",
+    explanation: 'Compliance and protection costs are necessary but often unoptimized. You might be over-insured for risks you don"t face, or paying 'Big Firm' rates for routine legal work that could be handled more efficiently.',
     relatedProblems: ["overhead-high", "licensing-compliance"],
     impactAnalysis: {
-      financialImpact: "Silent profit erosion; high cost of entry/existence.",
+      financialImpact: 'Silent profit erosion; high cost of entry/existence.',
       severity: "Low to Moderate",
       affectedAreas: ["Profitability", "Risk Management"],
       strategicPriority: 'Low'
@@ -1474,16 +1474,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Reactive risk management", "Reliance on legacy providers", "Complex regulatory environment"],
       automationPotential: {
         rating: "Medium",
-        example: "AI-driven contract review tools to reduce lawyer hours."
+        example: 'AI-driven contract review tools to reduce lawyer hours.'
       },
-      pathToRoot: "Insurance/Legal → Overhead High → Expenses High → Not Enough Money"
+      pathToRoot: 'Insurance/Legal → Overhead High → Expenses High → Not Enough Money'
     }
   },
   'utilities-facilities': {
-    explanation: "The "Invisible" costs of a physical location—electricity, internet, cleaning, security, and repairs. These small bills accumulate and create a constant weight on the monthly budget.",
+    explanation: 'The "Invisible" costs of a physical location—electricity, internet, cleaning, security, and repairs. These small bills accumulate and create a constant weight on the monthly budget.',
     relatedProblems: ["overhead-high", "expensive-office"],
     impactAnalysis: {
-      financialImpact: "Steady monthly drain; often ignored because "that"s just what it costs.'",
+      financialImpact: 'Steady monthly drain; often ignored because "that"s just what it costs.'',
       severity: "Low",
       affectedAreas: ["Fixed Costs"],
       strategicPriority: 'Low'
@@ -1497,16 +1497,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Passive management of small bills", "Inefficient facility usage", "Legacy vendor contracts"],
       automationPotential: {
         rating: "Medium",
-        example: "Smart building automation to reduce utility waste."
+        example: 'Smart building automation to reduce utility waste.'
       },
-      pathToRoot: "Utilities/Facilities → Overhead High → Expenses High → Not Enough Money"
+      pathToRoot: 'Utilities/Facilities → Overhead High → Expenses High → Not Enough Money'
     }
   },
   'admin-staff': {
-    explanation: "Having a large "Back Office" relative to your revenue-generating team. Often, these roles are manual, doing work that could be automated or outsourced more cheaply.",
+    explanation: 'Having a large "Back Office" relative to your revenue-generating team. Often, these roles are manual, doing work that could be automated or outsourced more cheaply.',
     relatedProblems: ["overhead-high", "manual-processes", "admin-busywork"],
     impactAnalysis: {
-      financialImpact: "High labor cost with no direct ROI; "Management overhead" drag.",
+      financialImpact: 'High labor cost with no direct ROI; "Management overhead" drag.',
       severity: "Moderate to Major",
       affectedAreas: ["Profitability", "Operational Efficiency"],
       strategicPriority: 'High'
@@ -1520,16 +1520,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Scaling by hiring people instead of systems", "Inefficient legacy processes", "Fear of technology"],
       automationPotential: {
         rating: "High",
-        example: "Using AI assistants and custom automations to handle 80% of routine admin work."
+        example: 'Using AI assistants and custom automations to handle 80% of routine admin work.'
       },
-      pathToRoot: "Admin Staff → Overhead High → Expenses High → Not Enough Money"
+      pathToRoot: 'Admin Staff → Overhead High → Expenses High → Not Enough Money'
     }
   },
   'banking-fees': {
-    explanation: "Transaction fees, wire fees, interest on lines of credit, and credit card processing. While individual fees are small, they can eat 3-5% of your total revenue if not managed.",
+    explanation: 'Transaction fees, wire fees, interest on lines of credit, and credit card processing. While individual fees are small, they can eat 3-5% of your total revenue if not managed.',
     relatedProblems: ["overhead-high", "payment-friction"],
     impactAnalysis: {
-      financialImpact: "Direct erosion of top-line revenue before it even hits your account.",
+      financialImpact: 'Direct erosion of top-line revenue before it even hits your account.',
       severity: "Low to Moderate",
       affectedAreas: ["Net Revenue", "Profitability"],
       strategicPriority: 'Medium'
@@ -1543,18 +1543,18 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Convenience at the cost of margin", "Lack of fee monitoring", "Using high-interest credit lines"],
       automationPotential: {
         rating: "High",
-        example: "Automated routing of payments to the lowest-fee channel."
+        example: 'Automated routing of payments to the lowest-fee channel.'
       },
-      pathToRoot: "Banking Fees → Overhead High → Expenses High → Not Enough Money"
+      pathToRoot: 'Banking Fees → Overhead High → Expenses High → Not Enough Money'
     }
   },
 
   // MARGINS LOW - SUB-BRANCHES
   'prices-low': {
-    explanation: "Pricing is the biggest lever in business. If you are "too busy" but 'don't have enough money', your prices are almost certainly too low. You are undercutting your own future for the sake of winning low-value work.",
+    explanation: 'Pricing is the biggest lever in business. If you are "too busy" but 'don't have enough money', your prices are almost certainly too low. You are undercutting your own future for the sake of winning low-value work.',
     relatedProblems: ["afraid-raise-prices", "competing-price", "undervaluing-expertise"],
     impactAnalysis: {
-      financialImpact: "Direct hit to bottom line; inability to afford high-quality help.",
+      financialImpact: 'Direct hit to bottom line; inability to afford high-quality help.',
       severity: "Major",
       affectedAreas: ["Profitability", "Service Quality", "Founder Burnout"],
       strategicPriority: 'High'
@@ -1568,18 +1568,18 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Imposter syndrome", "Lack of differentiation", "Targeting the "cheap" segment of the market"],
       automationPotential: {
         rating: "Low",
-        example: "Pricing is a strategic/mindset shift, though you can use tools to analyze competitor pricing."
+        example: 'Pricing is a strategic/mindset shift, though you can use tools to analyze competitor pricing.'
       },
-      pathToRoot: "Low Prices → Low Margins → Money Out Fast → Not Enough Money (Root)"
+      pathToRoot: 'Low Prices → Low Margins → Money Out Fast → Not Enough Money (Root)'
     }
   },
 
   // PERSONAL/FOUNDER BOTTLENECKS
   'personal-bottlenecks': {
-    explanation: "The business is entirely dependent on the founder. If you stop working, the money stops coming. You haven"t built a business; you've built a high-stress job that you can't quit.",
+    explanation: 'The business is entirely dependent on the founder. If you stop working, the money stops coming. You haven"t built a business; you've built a high-stress job that you can't quit.',
     relatedProblems: ["time-trapped", "disorganized-chaotic", "burnout-energy"],
     impactAnalysis: {
-      financialImpact: "Capped revenue (limited by founder"s hours); zero enterprise value (unsellable).",
+      financialImpact: 'Capped revenue (limited by founder"s hours); zero enterprise value (unsellable).',
       severity: "Major",
       affectedAreas: ["Scalability", "Founder Health", "Exit Potential"],
       strategicPriority: 'High'
@@ -1593,16 +1593,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of SOPs", "Hero complex", "Poor delegation skills", "Hiring late"],
       automationPotential: {
         rating: "High",
-        example: "Automating the "founder"s touch'—using AI to draft replies or triage emails."
+        example: 'Automating the "founder"s touch'—using AI to draft replies or triage emails.'
       },
-      pathToRoot: "Founder Bottleneck → Capacity Issues → Not Enough Revenue (Root)"
+      pathToRoot: 'Founder Bottleneck → Capacity Issues → Not Enough Revenue (Root)'
     }
   },
   'working-too-much': {
-    explanation: "You are working 60, 70, or 80 hours a week. This is unsustainable and indicates a failure of systems, delegation, or pricing. You are brute-forcing the business"s survival with your own labor.",
+    explanation: 'You are working 60, 70, or 80 hours a week. This is unsustainable and indicates a failure of systems, delegation, or pricing. You are brute-forcing the business"s survival with your own labor.',
     relatedProblems: ["burnout-energy", "time-trapped", "low-value-work"],
     impactAnalysis: {
-      financialImpact: "Decreasing hourly ROI; high risk of health collapse; poor leadership.",
+      financialImpact: 'Decreasing hourly ROI; high risk of health collapse; poor leadership.',
       severity: "Major",
       affectedAreas: ["Founder Energy", "Strategic Decision Making", "Family Life"],
       strategicPriority: 'High'
@@ -1616,16 +1616,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of systems", "Inefficient fulfillment", "Founder hero complex"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to handle 20+ hours of routine communication and admin work."
+        example: 'Using AI to handle 20+ hours of routine communication and admin work.'
       },
-      pathToRoot: "Overwork → Burnout → Capacity Issues → Revenue Risk"
+      pathToRoot: 'Overwork → Burnout → Capacity Issues → Revenue Risk'
     }
   },
   'poor-boundaries': {
-    explanation: "There is no line where work ends and your life begins. You are working at the dinner table, on vacation, and in bed. This constant "on" state prevents your brain from resting and recovering.",
+    explanation: 'There is no line where work ends and your life begins. You are working at the dinner table, on vacation, and in bed. This constant "on" state prevents your brain from resting and recovering.',
     relatedProblems: ["burnout-energy", "available-24-7", "no-client-boundaries"],
     impactAnalysis: {
-      financialImpact: "Relationship breakdown; emotional exhaustion; lower creativity.",
+      financialImpact: 'Relationship breakdown; emotional exhaustion; lower creativity.',
       severity: "Major",
       affectedAreas: ["Mental Health", "Family", "Visionary Thinking"],
       strategicPriority: 'High'
@@ -1639,16 +1639,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of missing out/failure", "Lack of personal system", "People-pleasing"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a human discipline and habit task."
+        example: 'N/A - this is a human discipline and habit task.'
       },
-      pathToRoot: "No Boundaries → Burnout → Capacity Issues → Revenue Risk"
+      pathToRoot: 'No Boundaries → Burnout → Capacity Issues → Revenue Risk'
     }
   },
   'no-financial-literacy': {
-    explanation: "You don"t understand your P&L, balance sheet, or cash flow statement. You are making decisions based on your bank balance rather than financial data.",
+    explanation: 'You don"t understand your P&L, balance sheet, or cash flow statement. You are making decisions based on your bank balance rather than financial data.',
     relatedProblems: ["no-business-skills", "dont-know-costs"],
     impactAnalysis: {
-      financialImpact: "Inefficient spending; high tax risk; missed profit opportunities.",
+      financialImpact: 'Inefficient spending; high tax risk; missed profit opportunities.',
       severity: "Major",
       affectedAreas: ["Financial Management", "Strategic Planning"],
       strategicPriority: 'High'
@@ -1662,16 +1662,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technician-turned-founder", "Fear of numbers", "Poor initial accounting setup"],
       automationPotential: {
         rating: "High",
-        example: "Automated financial dashboards (Fathom, Jirav) that translate numbers into insights."
+        example: 'Automated financial dashboards (Fathom, Jirav) that translate numbers into insights.'
       },
-      pathToRoot: "No Literacy → Business Skill Gap → Knowledge Gap → Revenue Risk"
+      pathToRoot: 'No Literacy → Business Skill Gap → Knowledge Gap → Revenue Risk'
     }
   },
   'no-systems-thinking': {
-    explanation: "You view the business as a series of isolated events rather than an interconnected system. You fix the symptom instead of the disease, leading to recurring problems.",
+    explanation: 'You view the business as a series of isolated events rather than an interconnected system. You fix the symptom instead of the disease, leading to recurring problems.',
     relatedProblems: ["no-business-skills", "no-systems"],
     impactAnalysis: {
-      financialImpact: "High cost of recurring errors; inability to scale reliably.",
+      financialImpact: 'High cost of recurring errors; inability to scale reliably.',
       severity: "Major",
       affectedAreas: ["Operations", "Scalability", "Leadership"],
       strategicPriority: 'High'
@@ -1685,16 +1685,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Reactive leadership", "Lack of formal process training"],
       automationPotential: {
         rating: "Medium",
-        example: "Using workflow mapping tools to visualize and automate entire business cycles."
+        example: 'Using workflow mapping tools to visualize and automate entire business cycles.'
       },
-      pathToRoot: "No Systems Thinking → Business Skill Gap → Knowledge Gap"
+      pathToRoot: 'No Systems Thinking → Business Skill Gap → Knowledge Gap'
     }
   },
   'dont-know-target': {
-    explanation: "You are trying to sell to "everyone.' This makes your messaging weak, your ads expensive, and your sales process a struggle. A niche is a multiplier for your marketing spend.",
+    explanation: 'You are trying to sell to "everyone.' This makes your messaging weak, your ads expensive, and your sales process a struggle. A niche is a multiplier for your marketing spend.',
     relatedProblems: ["no-marketing-skills", "weak-messaging", "cant-find-prospects"],
     impactAnalysis: {
-      financialImpact: "Wasted marketing spend; low conversion; zero authority.",
+      financialImpact: 'Wasted marketing spend; low conversion; zero authority.',
       severity: "Major",
       affectedAreas: ["Marketing ROI", "Sales Velocity"],
       strategicPriority: 'High'
@@ -1708,16 +1708,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of exclusion", "Lack of market research", "Undefined core value prop"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to build detailed audience personas based on customer data."
+        example: 'Using AI to build detailed audience personas based on customer data.'
       },
-      pathToRoot: "Unknown Target → Marketing Skill Gap → Knowledge Gap"
+      pathToRoot: 'Unknown Target → Marketing Skill Gap → Knowledge Gap'
     }
   },
   'no-positioning': {
-    explanation: "You don"t have a clear "Category' in the prospect's mind. You are just another [Job Title]. Positioning is what makes you the 'Only' choice rather than just 'One of' the choices.",
+    explanation: 'You don"t have a clear "Category' in the prospect's mind. You are just another [Job Title]. Positioning is what makes you the 'Only' choice rather than just 'One of' the choices.',
     relatedProblems: ["no-marketing-skills", "commoditized-service", "look-too-small"],
     impactAnalysis: {
-      financialImpact: "Price wars; slow sales cycles; low brand equity.",
+      financialImpact: 'Price wars; slow sales cycles; low brand equity.',
       severity: "Major",
       affectedAreas: ["Brand Power", "Profitability", "Competitive Advantage"],
       strategicPriority: 'High'
@@ -1731,16 +1731,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Following competitors", "Lack of strategic vision", "Fear of being bold"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a creative and strategic leadership task."
+        example: 'N/A - this is a creative and strategic leadership task.'
       },
-      pathToRoot: "Poor Positioning → Marketing Skill Gap → Knowledge Gap"
+      pathToRoot: 'Poor Positioning → Marketing Skill Gap → Knowledge Gap'
     }
   },
   'imposter-syndrome': {
-    explanation: "The constant fear that you"ll be "found out' as a fraud. This prevents you from raising prices, speaking with authority, or going after high-ticket deals.",
+    explanation: 'The constant fear that you"ll be "found out' as a fraud. This prevents you from raising prices, speaking with authority, or going after high-ticket deals.',
     relatedProblems: ["mindset-blocks", "prices-low", "afraid-raise-prices"],
     impactAnalysis: {
-      financialImpact: "Hidden growth ceiling; thousands lost in under-pricing.",
+      financialImpact: 'Hidden growth ceiling; thousands lost in under-pricing.',
       severity: "Major",
       affectedAreas: ["Sales", "Leadership", "Margins"],
       strategicPriority: 'High'
@@ -1754,16 +1754,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Personal history", "Isolation", "Lack of objective performance metrics"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - requires personal growth and community support."
+        example: 'N/A - requires personal growth and community support.'
       },
-      pathToRoot: "Imposter Syndrome → Mindset Blocks → Knowledge Gap"
+      pathToRoot: 'Imposter Syndrome → Mindset Blocks → Knowledge Gap'
     }
   },
   'fear-failure': {
-    explanation: "You are "playing not to lose" rather than 'playing to win.' This leads to conservative, slow decisions that prevent the business from reaching its potential.",
+    explanation: 'You are "playing not to lose" rather than 'playing to win.' This leads to conservative, slow decisions that prevent the business from reaching its potential.',
     relatedProblems: ["mindset-blocks", "shiny-object-syndrome"],
     impactAnalysis: {
-      financialImpact: "Missed big opportunities; slow innovation; stagnant growth.",
+      financialImpact: 'Missed big opportunities; slow innovation; stagnant growth.',
       severity: "Moderate to Major",
       affectedAreas: ["Innovation", "Strategic Risk", "Growth Rate"],
       strategicPriority: 'Medium'
@@ -1777,18 +1777,18 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Risk aversion", "Fixed mindset", "Lack of cash buffer"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - requires human courage and leadership."
+        example: 'N/A - requires human courage and leadership.'
       },
-      pathToRoot: "Fear of Failure → Mindset Blocks → Knowledge Gap"
+      pathToRoot: 'Fear of Failure → Mindset Blocks → Knowledge Gap'
     }
   },
 
   // NOT GETTING NEW CLIENTS
   'not-getting-new': {
-    explanation: "The top-of-funnel problem. Your message isn"t reaching enough of the right people, or the market is unaware of your existence. This is a volume and visibility issue.",
+    explanation: 'The top-of-funnel problem. Your message isn"t reaching enough of the right people, or the market is unaware of your existence. This is a volume and visibility issue.',
     relatedProblems: ["cant-find-prospects", "prospects-dont-know"],
     impactAnalysis: {
-      financialImpact: "Zero growth; reliance on declining referral base.",
+      financialImpact: 'Zero growth; reliance on declining referral base.',
       severity: "Major",
       affectedAreas: ["Sales pipeline", "Market Share"],
       strategicPriority: 'High'
@@ -1802,16 +1802,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Weak marketing activity", "No outbound strategy", "Invisible online presence"],
       automationPotential: {
         rating: "High",
-        example: "Automated LinkedIn outreach or lead scraper bots."
+        example: 'Automated LinkedIn outreach or lead scraper bots.'
       },
-      pathToRoot: "Marketing Problem → Not Enough Revenue (Root)"
+      pathToRoot: 'Marketing Problem → Not Enough Revenue (Root)'
     }
   },
   'not-enough-activity': {
-    explanation: "You aren"t making enough "Shots on Goal.' Whether it's cold calls, emails, or ad spend, the sheer volume of your output is too low to produce the results you need. Sales is a numbers game, and your numbers are too small.",
+    explanation: 'You aren"t making enough "Shots on Goal.' Whether it's cold calls, emails, or ad spend, the sheer volume of your output is too low to produce the results you need. Sales is a numbers game, and your numbers are too small.',
     relatedProblems: ["lead-gen-insufficient", "inconsistent-effort"],
     impactAnalysis: {
-      financialImpact: "Low pipeline volume; unpredictable revenue; high cost-per-lead.",
+      financialImpact: 'Low pipeline volume; unpredictable revenue; high cost-per-lead.',
       severity: "Major",
       affectedAreas: ["Sales pipeline", "Growth Rate"],
       strategicPriority: 'High'
@@ -1825,16 +1825,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of rejection", "Under-estimating the numbers needed", "Manual outreach bottlenecks"],
       automationPotential: {
         rating: "High",
-        example: "Using automated outbound software to send 100+ personalized emails a day."
+        example: 'Using automated outbound software to send 100+ personalized emails a day.'
       },
-      pathToRoot: "Low Activity → Lead Gen Insufficient → Not Getting New Clients"
+      pathToRoot: 'Low Activity → Lead Gen Insufficient → Not Getting New Clients'
     }
   },
   'sources-dried': {
-    explanation: "Your old reliable way of getting leads (e.g., one specific platform, one referral partner) has stopped working. You were over-dependent on a single source and now you"re stranded.",
+    explanation: 'Your old reliable way of getting leads (e.g., one specific platform, one referral partner) has stopped working. You were over-dependent on a single source and now you"re stranded.',
     relatedProblems: ["lead-gen-insufficient", "not-trying-channels"],
     impactAnalysis: {
-      financialImpact: "Sudden revenue drop; high stress; business fragility.",
+      financialImpact: 'Sudden revenue drop; high stress; business fragility.',
       severity: "Critical",
       affectedAreas: ["Revenue Stability", "Lead Generation"],
       strategicPriority: 'High'
@@ -1848,16 +1848,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of channel diversification", "Market shift", "Platform algorithm changes"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated monitoring of lead flow across multiple channels."
+        example: 'Automated monitoring of lead flow across multiple channels.'
       },
-      pathToRoot: "Dried Sources → Lead Gen Insufficient → Not Getting New Clients"
+      pathToRoot: 'Dried Sources → Lead Gen Insufficient → Not Getting New Clients'
     }
   },
   'no-marketing': {
-    explanation: "You are doing zero proactive work to tell people who you are. You are relying entirely on word-of-mouth or "Hope Marketing,' which is not a scalable business strategy.",
+    explanation: 'You are doing zero proactive work to tell people who you are. You are relying entirely on word-of-mouth or "Hope Marketing,' which is not a scalable business strategy.',
     relatedProblems: ["no-visibility", "prospects-dont-know"],
     impactAnalysis: {
-      financialImpact: "Zero growth; high risk if the referral well runs dry.",
+      financialImpact: 'Zero growth; high risk if the referral well runs dry.',
       severity: "Critical",
       affectedAreas: ["Brand Awareness", "Sales Pipeline"],
       strategicPriority: 'High'
@@ -1871,16 +1871,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder discomfort with sales", "Over-focus on delivery", "Lack of marketing knowledge"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to generate and schedule your first month of marketing content."
+        example: 'Using AI to generate and schedule your first month of marketing content.'
       },
-      pathToRoot: "No Marketing → No Visibility → Prospects Dont Know → Not Getting New Clients"
+      pathToRoot: 'No Marketing → No Visibility → Prospects Dont Know → Not Getting New Clients'
     }
   },
   'social-inactive': {
-    explanation: "Your social media profiles are "Ghost Towns.' When prospects look you up (and they will), they see a business that looks like it might be closed.",
+    explanation: 'Your social media profiles are "Ghost Towns.' When prospects look you up (and they will), they see a business that looks like it might be closed.',
     relatedProblems: ["no-visibility", "trust-signals-missing"],
     impactAnalysis: {
-      financialImpact: "Loss of trust; lower conversion on other marketing efforts.",
+      financialImpact: 'Loss of trust; lower conversion on other marketing efforts.',
       severity: "Low to Moderate",
       affectedAreas: ["Brand Trust", "Organic Reach"],
       strategicPriority: 'Medium'
@@ -1894,16 +1894,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of content system", "Perfectionism ("I don"t know what to say")"],
       automationPotential: {
         rating: "High",
-        example: "Automated social media schedulers and AI-assisted caption writing."
+        example: 'Automated social media schedulers and AI-assisted caption writing.'
       },
-      pathToRoot: "Inactive Social → No Visibility → Prospects Dont Know → Not Getting New Clients"
+      pathToRoot: 'Inactive Social → No Visibility → Prospects Dont Know → Not Getting New Clients'
     }
   },
   'not-publishing': {
-    explanation: "You aren"t sharing your expertise. You aren't building 'Authority' through content, which makes you just another replaceable vendor in the eyes of the market.",
+    explanation: 'You aren"t sharing your expertise. You aren't building 'Authority' through content, which makes you just another replaceable vendor in the eyes of the market.',
     relatedProblems: ["no-visibility", "look-too-small"],
     impactAnalysis: {
-      financialImpact: "Zero inbound authority; constant need to "chase" leads rather than 'attract' them.",
+      financialImpact: 'Zero inbound authority; constant need to "chase" leads rather than 'attract' them.',
       severity: "Moderate",
       affectedAreas: ["Brand Authority", "Lead Quality"],
       strategicPriority: 'Medium'
@@ -1917,16 +1917,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Expert curse (thinking everyone knows what you know)", "Lack of publishing system"],
       automationPotential: {
         rating: "High",
-        example: "AI tools to turn one video recording into 10 social posts and an article."
+        example: 'AI tools to turn one video recording into 10 social posts and an article.'
       },
-      pathToRoot: "Not Publishing → No Visibility → Prospects Dont Know → Not Getting New Clients"
+      pathToRoot: 'Not Publishing → No Visibility → Prospects Dont Know → Not Getting New Clients'
     }
   },
   'not-asking-referrals': {
-    explanation: "You are doing great work, but you are being "Too Polite" to ask for the referral. You are missing the highest ROI sales activity because of social awkwardness.",
+    explanation: 'You are doing great work, but you are being "Too Polite" to ask for the referral. You are missing the highest ROI sales activity because of social awkwardness.',
     relatedProblems: ["no-referrals", "forget-ask"],
     impactAnalysis: {
-      financialImpact: "Passive revenue loss; higher total acquisition cost.",
+      financialImpact: 'Passive revenue loss; higher total acquisition cost.',
       severity: "Moderate",
       affectedAreas: ["Sales pipeline", "Customer LTV"],
       strategicPriority: 'High'
@@ -1940,16 +1940,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of sounding desperate", "Lack of referral process"],
       automationPotential: {
         rating: "High",
-        example: "Automated referral prompts sent after a positive project milestone."
+        example: 'Automated referral prompts sent after a positive project milestone.'
       },
-      pathToRoot: "Not Asking → No Referrals → Prospects Dont Know → Not Getting New Clients"
+      pathToRoot: 'Not Asking → No Referrals → Prospects Dont Know → Not Getting New Clients'
     }
   },
   'not-doing-outbound': {
-    explanation: "You are waiting for the phone to ring. You have zero control over your growth because you aren"t proactively reaching out to your ideal clients.",
+    explanation: 'You are waiting for the phone to ring. You have zero control over your growth because you aren"t proactively reaching out to your ideal clients.',
     relatedProblems: ["outreach-issues", "lead-gen-insufficient"],
     impactAnalysis: {
-      financialImpact: "Stagnant revenue; reliance on external platforms/luck.",
+      financialImpact: 'Stagnant revenue; reliance on external platforms/luck.',
       severity: "Critical",
       affectedAreas: ["Growth Control", "Revenue Predictability"],
       strategicPriority: 'High'
@@ -1963,16 +1963,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of "Cold" sales", "Lack of prospecting list", "Founder avoidance"],
       automationPotential: {
         rating: "High",
-        example: "Automated outbound systems that handle the initial "Hello" at scale."
+        example: 'Automated outbound systems that handle the initial "Hello" at scale.'
       },
-      pathToRoot: "No Outbound → Outreach Issues → Prospects Dont Know → Not Getting New Clients"
+      pathToRoot: 'No Outbound → Outreach Issues → Prospects Dont Know → Not Getting New Clients'
     }
   },
   'outbound-spammy': {
-    explanation: "You are sending "Hey, buy my stuff' messages to people who don't know you. You are burning your reputation and getting blocked because you lack a 'Value-First' approach.",
+    explanation: 'You are sending "Hey, buy my stuff' messages to people who don't know you. You are burning your reputation and getting blocked because you lack a 'Value-First' approach.',
     relatedProblems: ["outreach-issues", "getting-ignored"],
     impactAnalysis: {
-      financialImpact: "Domain blacklisting; reputation damage; zero conversion.",
+      financialImpact: 'Domain blacklisting; reputation damage; zero conversion.',
       severity: "Major",
       affectedAreas: ["Brand Reputation", "Email Deliverability"],
       strategicPriority: 'High'
@@ -1986,16 +1986,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lazy sales tactics", "Lack of ICP focus", "Wrong incentives for sales team"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to personalize outreach based on prospect"s recent news/posts."
+        example: 'Using AI to personalize outreach based on prospect"s recent news/posts.'
       },
-      pathToRoot: "Spammy Outreach → Outreach Issues → Prospects Dont Know → Not Getting New Clients"
+      pathToRoot: 'Spammy Outreach → Outreach Issues → Prospects Dont Know → Not Getting New Clients'
     }
   },
   'getting-ignored': {
-    explanation: "You are reaching out, but no one is replying. Your message isn"t breaking through the noise, or you are talking to people who don't have the problem you solve.",
+    explanation: 'You are reaching out, but no one is replying. Your message isn"t breaking through the noise, or you are talking to people who don't have the problem you solve.',
     relatedProblems: ["outreach-issues", "message-no-resonate"],
     impactAnalysis: {
-      financialImpact: "Massive waste of effort and tech spend; zero pipeline results.",
+      financialImpact: 'Massive waste of effort and tech spend; zero pipeline results.',
       severity: "Major",
       affectedAreas: ["Sales pipeline", "Founder Morale"],
       strategicPriority: 'High'
@@ -2009,16 +2009,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Weak offer", "Boring messaging", "Poorly targeted list"],
       automationPotential: {
         rating: "High",
-        example: "AI-powered subject line testing and message optimization."
+        example: 'AI-powered subject line testing and message optimization.'
       },
-      pathToRoot: "Getting Ignored → Outreach Issues → Prospects Dont Know → Not Getting New Clients"
+      pathToRoot: 'Getting Ignored → Outreach Issues → Prospects Dont Know → Not Getting New Clients'
     }
   },
   'unreasonable-expectations': {
-    explanation: "The client expects "Ferrari results on a Bicycle budget" or wants things done yesterday. These expectations weren't managed during the sales process.",
+    explanation: 'The client expects "Ferrari results on a Bicycle budget" or wants things done yesterday. These expectations weren't managed during the sales process.',
     relatedProblems: ["difficult-clients", "poor-communication-client"],
     impactAnalysis: {
-      financialImpact: "High rework; team stress; zero profit projects.",
+      financialImpact: 'High rework; team stress; zero profit projects.',
       severity: "Major",
       affectedAreas: ["Team Morale", "Profitability", "Quality"],
       strategicPriority: 'High'
@@ -2032,16 +2032,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-promising in sales", "Undefined success metrics", "Vague contract"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated onboarding sequences that reiterate the scope and timeline."
+        example: 'Automated onboarding sequences that reiterate the scope and timeline.'
       },
-      pathToRoot: "Bad Expectations → Difficult Clients → Client Issues → Bought Cant Deliver"
+      pathToRoot: 'Bad Expectations → Difficult Clients → Client Issues → Bought Cant Deliver'
     }
   },
   'constant-changes': {
-    explanation: "The "Indecisive Client.' They keep changing their mind, which restarts your work and delays completion. This is a scope and leadership issue.",
+    explanation: 'The "Indecisive Client.' They keep changing their mind, which restarts your work and delays completion. This is a scope and leadership issue.',
     relatedProblems: ["difficult-clients", "scope-creep-profit"],
     impactAnalysis: {
-      financialImpact: "Margin erosion; project "Stagnation"; team frustration.",
+      financialImpact: 'Margin erosion; project "Stagnation"; team frustration.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Delivery Timeline"],
       strategicPriority: 'Medium'
@@ -2055,16 +2055,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of client leadership", "No "Lock-in' milestones", "Passive project management"],
       automationPotential: {
         rating: "Medium",
-        example: "Client portals that require digital sign-off before unlock of next stage."
+        example: 'Client portals that require digital sign-off before unlock of next stage.'
       },
-      pathToRoot: "Constant Changes → Difficult Clients → Client Issues → Bought Cant Deliver"
+      pathToRoot: 'Constant Changes → Difficult Clients → Client Issues → Bought Cant Deliver'
     }
   },
   'dont-respect-boundaries': {
-    explanation: "Clients who call your personal cell at 9 PM or demand instant replies to non-emergency emails. They treat you like an employee rather than a partner.",
+    explanation: 'Clients who call your personal cell at 9 PM or demand instant replies to non-emergency emails. They treat you like an employee rather than a partner.',
     relatedProblems: ["difficult-clients", "available-24-7", "no-client-boundaries"],
     impactAnalysis: {
-      financialImpact: "Founder/Team burnout; lower service quality due to constant interruption.",
+      financialImpact: 'Founder/Team burnout; lower service quality due to constant interruption.',
       severity: "Major",
       affectedAreas: ["Mental Health", "Retention", "Operational Efficiency"],
       strategicPriority: 'High'
@@ -2078,16 +2078,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of initial boundary setting", "People-pleasing habits", "Fear of client loss"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Out of Office" and status triage systems."
+        example: 'Automated "Out of Office" and status triage systems.'
       },
-      pathToRoot: "Boundary Failure → Difficult Clients → Client Issues → Bought Cant Deliver"
+      pathToRoot: 'Boundary Failure → Difficult Clients → Client Issues → Bought Cant Deliver'
     }
   },
   'bad-fit-services': {
-    explanation: "You are selling "Web Design" to people who need 'Lead Gen.' You are solving the wrong problem for the client, which leads to poor results and dissatisfaction.",
+    explanation: 'You are selling "Web Design" to people who need 'Lead Gen.' You are solving the wrong problem for the client, which leads to poor results and dissatisfaction.',
     relatedProblems: ["wrong-clients", "product-market-mismatch"],
     impactAnalysis: {
-      financialImpact: "High churn; zero referrals; low ROI for client.",
+      financialImpact: 'High churn; zero referrals; low ROI for client.',
       severity: "Major",
       affectedAreas: ["LTV", "Sales ROI", "Reputation"],
       strategicPriority: 'High'
@@ -2101,16 +2101,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Vague service offering", "Desperate sales", "Lack of niche focus"],
       automationPotential: {
         rating: "Medium",
-        example: "Self-selection tools on your website that filter out bad fits."
+        example: 'Self-selection tools on your website that filter out bad fits.'
       },
-      pathToRoot: "Service Mismatch → Wrong Clients → Client Issues → Bought Cant Deliver"
+      pathToRoot: 'Service Mismatch → Wrong Clients → Client Issues → Bought Cant Deliver'
     }
   },
   'misaligned-values': {
-    explanation: "You and the client fundamentally disagree on "How" things should be done. Whether it's communication style, ethics, or speed, the 'Vibe' is wrong, which makes delivery painful.",
+    explanation: 'You and the client fundamentally disagree on "How" things should be done. Whether it's communication style, ethics, or speed, the 'Vibe' is wrong, which makes delivery painful.',
     relatedProblems: ["wrong-clients", "difficult-clients"],
     impactAnalysis: {
-      financialImpact: "High emotional cost; toxic culture; low long-term retention.",
+      financialImpact: 'High emotional cost; toxic culture; low long-term retention.',
       severity: "Moderate",
       affectedAreas: ["Team Morale", "Brand Alignment"],
       strategicPriority: 'Medium'
@@ -2124,16 +2124,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of defined business values", "Desperate sales"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a human intuition and culture task."
+        example: 'N/A - this is a human intuition and culture task.'
       },
-      pathToRoot: "Value Mismatch → Wrong Clients → Client Issues → Bought Cant Deliver"
+      pathToRoot: 'Value Mismatch → Wrong Clients → Client Issues → Bought Cant Deliver'
     }
   },
   'available-24-7': {
-    explanation: "You have trained your clients that you are always available. This prevents you from ever having "Deep Work" time and destroys your personal life.",
+    explanation: 'You have trained your clients that you are always available. This prevents you from ever having "Deep Work" time and destroys your personal life.',
     relatedProblems: ["no-client-boundaries", "dont-respect-boundaries", "interruptions-constant"],
     impactAnalysis: {
-      financialImpact: "Inefficient labor; high burnout; inability to manage multiple clients.",
+      financialImpact: 'Inefficient labor; high burnout; inability to manage multiple clients.',
       severity: "Major",
       affectedAreas: ["Productivity", "Founder Health", "Scalability"],
       strategicPriority: 'High'
@@ -2147,16 +2147,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Early-stage "Hustle" habits", "Insecurity about value"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to triage client requests and provide instant "We"ve received this" replies."
+        example: 'Using AI to triage client requests and provide instant "We"ve received this" replies.'
       },
-      pathToRoot: "Always Available → No Boundaries → Client Issues → Bought Cant Deliver"
+      pathToRoot: 'Always Available → No Boundaries → Client Issues → Bought Cant Deliver'
     }
   },
   'scope-creep-accepted': {
-    explanation: "You say "Sure, no problem' to every extra request. You are giving away thousands of dollars in free labor because you are afraid of a 'Hard Conversation.'",
+    explanation: 'You say "Sure, no problem' to every extra request. You are giving away thousands of dollars in free labor because you are afraid of a 'Hard Conversation.'',
     relatedProblems: ["no-client-boundaries", "scope-creep-profit", "extras-free"],
     impactAnalysis: {
-      financialImpact: "Direct net profit loss; project delays.",
+      financialImpact: 'Direct net profit loss; project delays.',
       severity: "Major",
       affectedAreas: ["Profitability", "Delivery Timelines"],
       strategicPriority: 'High'
@@ -2170,16 +2170,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Vague scope documents", "Fear of confrontation", "Under-valuing your own time"],
       automationPotential: {
         rating: "Medium",
-        example: "Project tools that flag "Out-of-Scope' keywords in client requests."
+        example: 'Project tools that flag "Out-of-Scope' keywords in client requests.'
       },
-      pathToRoot: "Creep Accepted → No Boundaries → Client Issues → Bought Cant Deliver"
+      pathToRoot: 'Creep Accepted → No Boundaries → Client Issues → Bought Cant Deliver'
     }
   },
   'allow-bad-behavior': {
-    explanation: "You let clients treat your team poorly, pay late without penalty, or ignore your process. This destroys your team"s trust in you and sets a dangerous precedent.",
+    explanation: 'You let clients treat your team poorly, pay late without penalty, or ignore your process. This destroys your team"s trust in you and sets a dangerous precedent.',
     relatedProblems: ["no-client-boundaries", "difficult-clients", "team-unreliable"],
     impactAnalysis: {
-      financialImpact: "High team churn; low morale; devalued brand.",
+      financialImpact: 'High team churn; low morale; devalued brand.',
       severity: "Critical",
       affectedAreas: ["Team Culture", "Brand Authority", "Retention"],
       strategicPriority: 'High'
@@ -2193,16 +2193,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of personal leadership", "Revenue-at-all-costs mindset"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a leadership and ethics task."
+        example: 'N/A - this is a leadership and ethics task.'
       },
-      pathToRoot: "Bad Behavior Allowed → No Boundaries → Client Issues → Bought Cant Deliver"
+      pathToRoot: 'Bad Behavior Allowed → No Boundaries → Client Issues → Bought Cant Deliver'
     }
   },
   'cant-say-no': {
-    explanation: "The root of all boundary problems. You are afraid that saying "No" will lead to losing the client or getting a bad review. This fear is keeping you trapped in a low-profit, high-stress cycle.",
+    explanation: 'The root of all boundary problems. You are afraid that saying "No" will lead to losing the client or getting a bad review. This fear is keeping you trapped in a low-profit, high-stress cycle.',
     relatedProblems: ["no-client-boundaries", "scope-creep-accepted", "difficult-clients"],
     impactAnalysis: {
-      financialImpact: "Death by a thousand "Yeses"; total loss of strategic focus.",
+      financialImpact: 'Death by a thousand "Yeses"; total loss of strategic focus.',
       severity: "Critical",
       affectedAreas: ["Strategic Vision", "Profitability", "Founder Health"],
       strategicPriority: 'High'
@@ -2216,18 +2216,18 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["People-pleasing mindset", "Insecurity", "Lack of clear business priorities"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a mindset and discipline task."
+        example: 'N/A - this is a mindset and discipline task.'
       },
-      pathToRoot: "Cant Say No → No Boundaries → Client Issues → Bought Cant Deliver"
+      pathToRoot: 'Cant Say No → No Boundaries → Client Issues → Bought Cant Deliver'
     }
   },
 
   // SALES PROCESS WEAK
   'sales-process-weak': {
-    explanation: "You are getting leads, but you are failing to convert them into paying clients. There are gaps in your discovery, follow-up, or closing techniques.",
+    explanation: 'You are getting leads, but you are failing to convert them into paying clients. There are gaps in your discovery, follow-up, or closing techniques.',
     relatedProblems: ["not-qualifying", "not-closing", "following-up-inconsistently"],
     impactAnalysis: {
-      financialImpact: "Massive waste of marketing spend; low ROI on lead generation.",
+      financialImpact: 'Massive waste of marketing spend; low ROI on lead generation.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Profitability"],
       strategicPriority: 'High'
@@ -2241,18 +2241,18 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of sales training", "No CRM usage", "Fear of rejection"],
       automationPotential: {
         rating: "High",
-        example: "Automated CRM follow-up reminders and appointment booking bots."
+        example: 'Automated CRM follow-up reminders and appointment booking bots.'
       },
-      pathToRoot: "Sales Gap → Not Enough Revenue (Root)"
+      pathToRoot: 'Sales Gap → Not Enough Revenue (Root)'
     }
   },
 
   // PROCESS BOTTLENECKS
   'manual-processes': {
-    explanation: "Human hands are doing work that software should be doing. This is slow, expensive, and error-prone. It limits your capacity to scale beyond your current headcount.",
+    explanation: 'Human hands are doing work that software should be doing. This is slow, expensive, and error-prone. It limits your capacity to scale beyond your current headcount.',
     relatedProblems: ["everything-by-hand", "no-automation", "data-entry-overwhelming"],
     impactAnalysis: {
-      financialImpact: "High labor costs; unable to take on more work without hiring.",
+      financialImpact: 'High labor costs; unable to take on more work without hiring.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Scalability", "Gross Margin"],
       strategicPriority: 'High'
@@ -2266,16 +2266,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of technical awareness", "Rushing to deliver instead of building systems", "Technical debt"],
       automationPotential: {
         rating: "High",
-        example: "Connecting your sales, fulfillment, and accounting apps via an integration platform."
+        example: 'Connecting your sales, fulfillment, and accounting apps via an integration platform.'
       },
-      pathToRoot: "Manual Work → Bottlenecks → Capacity Issues → Revenue (Root)"
+      pathToRoot: 'Manual Work → Bottlenecks → Capacity Issues → Revenue (Root)'
     }
   },
   'no-systems': {
-    explanation: "The business relies on "Tribal Knowledge.' Every project is a bespoke creation, making quality inconsistent and delegating impossible. You are re-inventing the wheel every Monday morning.",
+    explanation: 'The business relies on "Tribal Knowledge.' Every project is a bespoke creation, making quality inconsistent and delegating impossible. You are re-inventing the wheel every Monday morning.',
     relatedProblems: ["no-sops", "tribal-knowledge", "cant-scale-without-founder"],
     impactAnalysis: {
-      financialImpact: "High cost of rework; slow training of new team members.",
+      financialImpact: 'High cost of rework; slow training of new team members.',
       severity: "Critical",
       affectedAreas: ["Operations", "Quality Control", "Asset Value"],
       strategicPriority: 'High'
@@ -2289,18 +2289,18 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder hero syndrome", "Lack of operational discipline", "Scale exceeding infrastructure"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to generate draft SOPs based on your recorded Loom videos."
+        example: 'Using AI to generate draft SOPs based on your recorded Loom videos.'
       },
-      pathToRoot: "No Systems → Quality/Capacity Issues → Revenue (Root)"
+      pathToRoot: 'No Systems → Quality/Capacity Issues → Revenue (Root)'
     }
   },
 
   // ORGANIZATION / CHAOS
   'disorganized-chaotic': {
-    explanation: "The "Mental Load" problem. Information is scattered, tasks are forgotten, and everything feels urgent. You are reacting to the business rather than leading it.",
+    explanation: 'The "Mental Load" problem. Information is scattered, tasks are forgotten, and everything feels urgent. You are reacting to the business rather than leading it.',
     relatedProblems: ["no-systems-organization", "poor-prioritization", "time-management-broken"],
     impactAnalysis: {
-      financialImpact: "Missed deadlines; dropped leads; constant firefighting costs.",
+      financialImpact: 'Missed deadlines; dropped leads; constant firefighting costs.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Mental Clarity", "Team Trust"],
       strategicPriority: 'High'
@@ -2314,16 +2314,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of focus", "Technical debt in tools", "Personal habits of founder"],
       automationPotential: {
         rating: "High",
-        example: "Centralizing all incoming communications into a single unified inbox/dashboard."
+        example: 'Centralizing all incoming communications into a single unified inbox/dashboard.'
       },
-      pathToRoot: "Chaos → Founder Bottleneck → Capacity → Not Enough Money (Root)"
+      pathToRoot: 'Chaos → Founder Bottleneck → Capacity → Not Enough Money (Root)'
     }
   },
   'waste-inefficiency': {
-    explanation: "Invisible profit eaters. Money is leaking through redundant systems, unused subscriptions, and a lack of resource discipline. It"s the "death by a thousand cuts' scenario.",
+    explanation: 'Invisible profit eaters. Money is leaking through redundant systems, unused subscriptions, and a lack of resource discipline. It"s the "death by a thousand cuts' scenario.',
     relatedProblems: ["unused-subscriptions", "duplicate-systems", "team-idle"],
     impactAnalysis: {
-      financialImpact: "Erosion of gross margin; working harder for less net profit.",
+      financialImpact: 'Erosion of gross margin; working harder for less net profit.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Operational Discipline"],
       strategicPriority: 'Medium'
@@ -2337,16 +2337,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of financial tracking", "Decision-making without ROI analysis", "Rapid growth without cleanup"],
       automationPotential: {
         rating: "High",
-        example: "Automated subscription tracking and usage alerts."
+        example: 'Automated subscription tracking and usage alerts.'
       },
-      pathToRoot: "Waste → High Expenses → Money Out Fast → Not Enough Money (Root)"
+      pathToRoot: 'Waste → High Expenses → Money Out Fast → Not Enough Money (Root)'
     }
   },
   'clients-churned': {
-    explanation: "The "Hole in the Bucket" problem. You are acquiring clients, but they aren't staying. This forces you to constantly find new business just to stay at zero growth.",
+    explanation: 'The "Hole in the Bucket" problem. You are acquiring clients, but they aren't staying. This forces you to constantly find new business just to stay at zero growth.',
     relatedProblems: ["why-left", "no-retention-system"],
     impactAnalysis: {
-      financialImpact: "Unsustainable acquisition costs; low Customer Lifetime Value (LTV).",
+      financialImpact: 'Unsustainable acquisition costs; low Customer Lifetime Value (LTV).',
       severity: "Major",
       affectedAreas: ["Growth Rate", "Brand Reputation", "LTV"],
       strategicPriority: 'High'
@@ -2360,16 +2360,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Product quality issues", "Weak onboarding", "Poor customer support", "Competitor superiority"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated churn-risk alerts based on low product usage or late payments."
+        example: 'Automated churn-risk alerts based on low product usage or late payments.'
       },
-      pathToRoot: "Churn → Not Enough Total Clients → Not Enough Revenue (Root)"
+      pathToRoot: 'Churn → Not Enough Total Clients → Not Enough Revenue (Root)'
     }
   },
   'not-enough-capacity': {
-    explanation: "You have sold the work, but you don"t have the people, time, or infrastructure to fulfill it. You are a victim of your own success.",
+    explanation: 'You have sold the work, but you don"t have the people, time, or infrastructure to fulfill it. You are a victim of your own success.',
     relatedProblems: ["founder-everything", "cant-hire-fast", "cant-afford-hire"],
     impactAnalysis: {
-      financialImpact: "Missed revenue (capped); poor service quality due to rushing.",
+      financialImpact: 'Missed revenue (capped); poor service quality due to rushing.',
       severity: "Major",
       affectedAreas: ["Fulfillment", "Team Burnout", "Customer Satisfaction"],
       strategicPriority: 'High'
@@ -2383,16 +2383,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Under-hiring", "Low operational efficiency", "Scaling too fast"],
       automationPotential: {
         rating: "High",
-        example: "Using AI/automation to handle 20-40% of the fulfillment tasks without human intervention."
+        example: 'Using AI/automation to handle 20-40% of the fulfillment tasks without human intervention.'
       },
-      pathToRoot: "Capacity Gap → Delivery Failure → Revenue Risk (Root)"
+      pathToRoot: 'Capacity Gap → Delivery Failure → Revenue Risk (Root)'
     }
   },
   'quality-problems': {
-    explanation: "Inconsistent delivery is killing your reputation and causing rework costs. Every client gets a different version of your service, most of which are below standard.",
+    explanation: 'Inconsistent delivery is killing your reputation and causing rework costs. Every client gets a different version of your service, most of which are below standard.',
     relatedProblems: ["inconsistent-delivery-quality", "mistakes-rework", "client-dissatisfaction"],
     impactAnalysis: {
-      financialImpact: "High rework costs; zero referrals; eventual brand damage.",
+      financialImpact: 'High rework costs; zero referrals; eventual brand damage.',
       severity: "Major",
       affectedAreas: ["Operations", "Brand Value", "Profitability"],
       strategicPriority: 'High'
@@ -2406,16 +2406,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["No SOPs", "Rushing due to capacity issues", "Lack of team training"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated QA checks or validation scripts for technical work."
+        example: 'Automated QA checks or validation scripts for technical work.'
       },
-      pathToRoot: "Quality Issues → Churn/Rework → Profit/Revenue Risk (Root)"
+      pathToRoot: 'Quality Issues → Churn/Rework → Profit/Revenue Risk (Root)'
     }
   },
   'low-value-work': {
-    explanation: "The founder is doing tasks that could be done for $20/hour. This is an expensive mistake. You are "busy" but not 'productive'.",
+    explanation: 'The founder is doing tasks that could be done for $20/hour. This is an expensive mistake. You are "busy" but not 'productive'.',
     relatedProblems: ["admin-busywork", "work-others-cheaper", "email-meeting-overload"],
     impactAnalysis: {
-      financialImpact: "Opportunity cost of thousands per hour; strategic stagnation.",
+      financialImpact: 'Opportunity cost of thousands per hour; strategic stagnation.',
       severity: "Major",
       affectedAreas: ["Founder Productivity", "Strategic Growth"],
       strategicPriority: 'High'
@@ -2429,16 +2429,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Control issues", "Lack of delegation skills", "Hiring late"],
       automationPotential: {
         rating: "High",
-        example: "AI-based email triage and automated appointment scheduling."
+        example: 'AI-based email triage and automated appointment scheduling.'
       },
-      pathToRoot: "Low-Value Work → Founder Bottleneck → Capacity Issues → Revenue Risk (Root)"
+      pathToRoot: 'Low-Value Work → Founder Bottleneck → Capacity Issues → Revenue Risk (Root)'
     }
   },
   'expenses-high': {
-    explanation: "Your business is spending too much relative to its revenue. This can be due to high overhead, inefficient delivery, or excessive acquisition costs.",
+    explanation: 'Your business is spending too much relative to its revenue. This can be due to high overhead, inefficient delivery, or excessive acquisition costs.',
     relatedProblems: ["overhead-high", "delivery-costs-high", "acquisition-costs-high", "waste-inefficiency"],
     impactAnalysis: {
-      financialImpact: "Direct erosion of net profit; lower runway.",
+      financialImpact: 'Direct erosion of net profit; lower runway.',
       severity: "Major",
       affectedAreas: ["Profitability", "Net Margin"],
       strategicPriority: 'High'
@@ -2452,16 +2452,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of budget controls", "Inefficient processes", "Scaling too fast"],
       automationPotential: {
         rating: "High",
-        example: "Automated expense tracking and approval workflows."
+        example: 'Automated expense tracking and approval workflows.'
       },
-      pathToRoot: "Expenses High → Money Out Fast → Not Enough Money (Root)"
+      pathToRoot: 'Expenses High → Money Out Fast → Not Enough Money (Root)'
     }
   },
   'acquisition-costs-high': {
-    explanation: "You are paying too much to get a new customer. If your CAC (Customer Acquisition Cost) is close to your LTV (Lifetime Value), you are effectively losing money on every sale once overhead is factored in.",
+    explanation: 'You are paying too much to get a new customer. If your CAC (Customer Acquisition Cost) is close to your LTV (Lifetime Value), you are effectively losing money on every sale once overhead is factored in.',
     relatedProblems: ["ads-expensive", "sales-process-long", "high-churn"],
     impactAnalysis: {
-      financialImpact: "Negative ROI on marketing; business cannot grow profitably.",
+      financialImpact: 'Negative ROI on marketing; business cannot grow profitably.',
       severity: "Major",
       affectedAreas: ["Marketing Efficiency", "Profitability", "Scalability"],
       strategicPriority: 'High'
@@ -2475,16 +2475,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor targeting", "Weak offer", "Low conversion rate in sales funnel"],
       automationPotential: {
         rating: "High",
-        example: "Automated lead scoring and attribution tracking to identify "cheap" vs 'expensive' channels."
+        example: 'Automated lead scoring and attribution tracking to identify "cheap" vs 'expensive' channels.'
       },
-      pathToRoot: "High Acquisition Cost → Expenses High → Money Out Fast"
+      pathToRoot: 'High Acquisition Cost → Expenses High → Money Out Fast'
     }
   },
   'ads-expensive': {
-    explanation: "Your cost-per-click or cost-per-lead is too high. You are competing in a saturated market without a unique "Hook" to drive down costs.",
+    explanation: 'Your cost-per-click or cost-per-lead is too high. You are competing in a saturated market without a unique "Hook" to drive down costs.',
     relatedProblems: ["acquisition-costs-high", "not-getting-new"],
     impactAnalysis: {
-      financialImpact: "Marketing budget "burn"; unable to scale ad spend profitably.",
+      financialImpact: 'Marketing budget "burn"; unable to scale ad spend profitably.',
       severity: "Moderate",
       affectedAreas: ["Marketing ROI", "Cash Flow"],
       strategicPriority: 'Medium'
@@ -2498,16 +2498,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Bad creative", "Broad targeting", "Inefficient ad platform settings"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to generate and test hundreds of ad variations (e.g., AdCreative.ai)."
+        example: 'Using AI to generate and test hundreds of ad variations (e.g., AdCreative.ai).'
       },
-      pathToRoot: "Expensive Ads → Acquisition Cost → Money Out Fast"
+      pathToRoot: 'Expensive Ads → Acquisition Cost → Money Out Fast'
     }
   },
   'sales-process-long': {
-    explanation: "Time is money. Every hour spent on a prospect who doesn"t buy is a direct expense. If your sales cycle is too long, you are 'carrying' the labor cost of sales for too long.",
+    explanation: 'Time is money. Every hour spent on a prospect who doesn"t buy is a direct expense. If your sales cycle is too long, you are 'carrying' the labor cost of sales for too long.',
     relatedProblems: ["long-sales-cycle", "acquisition-costs-high"],
     impactAnalysis: {
-      financialImpact: "Increased cost of sale; lower sales velocity.",
+      financialImpact: 'Increased cost of sale; lower sales velocity.',
       severity: "Moderate",
       affectedAreas: ["Sales Efficiency", "Profitability"],
       strategicPriority: 'Medium'
@@ -2521,16 +2521,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of sales training", "No sense of urgency in the offer"],
       automationPotential: {
         rating: "High",
-        example: "Automated CRM reminders and nurturing to keep leads moving without manual effort."
+        example: 'Automated CRM reminders and nurturing to keep leads moving without manual effort.'
       },
-      pathToRoot: "Long Sales Process → Acquisition Cost → Money Out Fast"
+      pathToRoot: 'Long Sales Process → Acquisition Cost → Money Out Fast'
     }
   },
   'high-churn': {
-    explanation: "Getting a customer is expensive; keeping them is cheap. If you lose clients as fast as you get them, you are on a treadmill that never ends.",
+    explanation: 'Getting a customer is expensive; keeping them is cheap. If you lose clients as fast as you get them, you are on a treadmill that never ends.',
     relatedProblems: ["clients-churned", "acquisition-costs-high", "quality-problems"],
     impactAnalysis: {
-      financialImpact: "Low LTV; massive pressure on marketing to replace lost revenue.",
+      financialImpact: 'Low LTV; massive pressure on marketing to replace lost revenue.',
       severity: "Critical",
       affectedAreas: ["LTV", "Brand Reputation", "Growth"],
       strategicPriority: 'High'
@@ -2544,16 +2544,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Bad onboarding", "Product/service doesn"t meet expectations", "Weak relationship management"],
       automationPotential: {
         rating: "Medium",
-        example: "Using "Customer Health" scores to trigger manual intervention before a client cancels."
+        example: 'Using "Customer Health" scores to trigger manual intervention before a client cancels.'
       },
-      pathToRoot: "High Churn → Acquisition Cost → Money Out Fast"
+      pathToRoot: 'High Churn → Acquisition Cost → Money Out Fast'
     }
   },
   'agency-fees': {
-    explanation: "You are paying a marketing agency a flat fee, but they aren"t delivering a measurable ROI. They are an expense, not an investment.",
+    explanation: 'You are paying a marketing agency a flat fee, but they aren"t delivering a measurable ROI. They are an expense, not an investment.',
     relatedProblems: ["acquisition-costs-high", "waste-inefficiency"],
     impactAnalysis: {
-      financialImpact: "Direct hit to profit; high opportunity cost of misspent capital.",
+      financialImpact: 'Direct hit to profit; high opportunity cost of misspent capital.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Marketing Strategy"],
       strategicPriority: 'Medium'
@@ -2567,16 +2567,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Passive management of vendors", "Lack of clear KPIs"],
       automationPotential: {
         rating: "Low",
-        example: "Setting up a real-time dashboard to monitor agency performance daily."
+        example: 'Setting up a real-time dashboard to monitor agency performance daily.'
       },
-      pathToRoot: "Agency Fees → Acquisition Cost → Money Out Fast"
+      pathToRoot: 'Agency Fees → Acquisition Cost → Money Out Fast'
     }
   },
   'sales-compensation': {
-    explanation: "Your sales team"s base salary is too high, or your commission structure doesn't align with profit. You are paying them for 'Revenue' even if it's 'Unprofitable Revenue.'",
+    explanation: 'Your sales team"s base salary is too high, or your commission structure doesn't align with profit. You are paying them for 'Revenue' even if it's 'Unprofitable Revenue.'',
     relatedProblems: ["acquisition-costs-high", "margins-low"],
     impactAnalysis: {
-      financialImpact: "Incentivizes the "wrong" kind of sales; high overhead risk during slow months.",
+      financialImpact: 'Incentivizes the "wrong" kind of sales; high overhead risk during slow months.',
       severity: "Moderate",
       affectedAreas: ["Sales Culture", "Profitability"],
       strategicPriority: 'Medium'
@@ -2590,16 +2590,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Outdated compensation model", "Fear of losing sales talent"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated commission calculators that sync with your CRM and accounting software."
+        example: 'Automated commission calculators that sync with your CRM and accounting software.'
       },
-      pathToRoot: "Sales Compensation → Acquisition Cost → Money Out Fast"
+      pathToRoot: 'Sales Compensation → Acquisition Cost → Money Out Fast'
     }
   },
   'events-no-roi': {
-    explanation: "Trade shows, conferences, and sponsorships. They are expensive and often provide "Brand Awareness" but zero 'Direct Sales.'",
+    explanation: 'Trade shows, conferences, and sponsorships. They are expensive and often provide "Brand Awareness" but zero 'Direct Sales.'',
     relatedProblems: ["acquisition-costs-high", "waste-inefficiency"],
     impactAnalysis: {
-      financialImpact: "High unmeasured marketing spend; travel and booth costs eat profit.",
+      financialImpact: 'High unmeasured marketing spend; travel and booth costs eat profit.',
       severity: "Low",
       affectedAreas: ["Marketing ROI"],
       strategicPriority: 'Low'
@@ -2613,16 +2613,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Following the competition", "Founder desire for "Visibility" over Profit"],
       automationPotential: {
         rating: "Medium",
-        example: "Using automated lead capture and follow-up tools at events to ensure zero leakage."
+        example: 'Using automated lead capture and follow-up tools at events to ensure zero leakage.'
       },
-      pathToRoot: "Events No ROI → Acquisition Cost → Money Out Fast"
+      pathToRoot: 'Events No ROI → Acquisition Cost → Money Out Fast'
     }
   },
   'content-costs': {
-    explanation: "You are spending too much on high-production content (video, design) that doesn"t actually convert. High quality doesn't always mean high ROI.",
+    explanation: 'You are spending too much on high-production content (video, design) that doesn"t actually convert. High quality doesn't always mean high ROI.',
     relatedProblems: ["acquisition-costs-high", "waste-inefficiency"],
     impactAnalysis: {
-      financialImpact: "Wasted creative budget; over-engineering your marketing.",
+      financialImpact: 'Wasted creative budget; over-engineering your marketing.',
       severity: "Low",
       affectedAreas: ["Marketing Strategy"],
       strategicPriority: 'Low'
@@ -2636,16 +2636,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Perfectionism", "Misunderstanding of what "engages" the modern audience"],
       automationPotential: {
         rating: "High",
-        example: "Using AI tools (Midjourney, ChatGPT, Canva Magic) to produce high-quality assets at 1/10th the cost."
+        example: 'Using AI tools (Midjourney, ChatGPT, Canva Magic) to produce high-quality assets at 1/10th the cost.'
       },
-      pathToRoot: "Content Costs → Acquisition Cost → Money Out Fast"
+      pathToRoot: 'Content Costs → Acquisition Cost → Money Out Fast'
     }
   },
   'commission-unsustainable': {
-    explanation: "You are paying out so much in commission or affiliate fees that there is nothing left for the business. You"ve incentivized growth at the cost of survival.",
+    explanation: 'You are paying out so much in commission or affiliate fees that there is nothing left for the business. You"ve incentivized growth at the cost of survival.',
     relatedProblems: ["acquisition-costs-high", "margins-low"],
     impactAnalysis: {
-      financialImpact: "Negative net margin on sales; risk of "Growing to Bankruptcy.'",
+      financialImpact: 'Negative net margin on sales; risk of "Growing to Bankruptcy.'',
       severity: "Major",
       affectedAreas: ["Profitability", "Cash Flow"],
       strategicPriority: 'High'
@@ -2659,16 +2659,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Aggressive early-stage growth strategy that was never adjusted"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated affiliate tracking that only pays out on "Cleared" funds."
+        example: 'Automated affiliate tracking that only pays out on "Cleared" funds.'
       },
-      pathToRoot: "Unsustainable Commission → Acquisition Cost → Money Out Fast"
+      pathToRoot: 'Unsustainable Commission → Acquisition Cost → Money Out Fast'
     }
   },
   'unused-subscriptions': {
-    explanation: "Software that you are paying for but haven"t logged into in 30 days. It's an absolute waste of cash.",
+    explanation: 'Software that you are paying for but haven"t logged into in 30 days. It's an absolute waste of cash.',
     relatedProblems: ["many-subscriptions", "waste-inefficiency"],
     impactAnalysis: {
-      financialImpact: "Pure profit leakage; zero ROI.",
+      financialImpact: 'Pure profit leakage; zero ROI.',
       severity: "Low",
       affectedAreas: ["Fixed Costs"],
       strategicPriority: 'Easy'
@@ -2682,16 +2682,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of financial oversight", "Forgotten trials"],
       automationPotential: {
         rating: "High",
-        example: "Software like "Subly" or simple bank statement analysis tools."
+        example: 'Software like "Subly" or simple bank statement analysis tools.'
       },
-      pathToRoot: "Unused Subs → Waste → Money Out Fast"
+      pathToRoot: 'Unused Subs → Waste → Money Out Fast'
     }
   },
   'duplicate-systems': {
-    explanation: "You are paying for two tools that do the same thing (e.g., two CRMs, two project management tools, or Slack + Teams).",
+    explanation: 'You are paying for two tools that do the same thing (e.g., two CRMs, two project management tools, or Slack + Teams).',
     relatedProblems: ["many-subscriptions", "waste-inefficiency"],
     impactAnalysis: {
-      financialImpact: "Redundant spending; data silo confusion; team frustration.",
+      financialImpact: 'Redundant spending; data silo confusion; team frustration.',
       severity: "Low",
       affectedAreas: ["Efficiency", "Fixed Costs"],
       strategicPriority: 'Easy'
@@ -2705,16 +2705,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Organic, unmanaged growth", "Lack of central technical leadership"],
       automationPotential: {
         rating: "Medium",
-        example: "Using integration tools to centralize data rather than paying for two systems."
+        example: 'Using integration tools to centralize data rather than paying for two systems.'
       },
-      pathToRoot: "Duplicate Systems → Waste → Money Out Fast"
+      pathToRoot: 'Duplicate Systems → Waste → Money Out Fast'
     }
   },
   'team-idle': {
-    explanation: "Your team is waiting for work. You are paying for their hours, but you aren"t providing the pipeline to fill them. This is the most expensive type of waste.",
+    explanation: 'Your team is waiting for work. You are paying for their hours, but you aren"t providing the pipeline to fill them. This is the most expensive type of waste.',
     relatedProblems: ["waste-inefficiency", "not-enough-revenue"],
     impactAnalysis: {
-      financialImpact: "Wasted labor budget; decreased morale; low efficiency.",
+      financialImpact: 'Wasted labor budget; decreased morale; low efficiency.',
       severity: "Major",
       affectedAreas: ["Labor Costs", "Team Morale", "Profitability"],
       strategicPriority: 'High'
@@ -2728,16 +2728,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor capacity planning", "Famine period in sales"],
       automationPotential: {
         rating: "Medium",
-        example: "Resource management software that shows team utilization in real-time."
+        example: 'Resource management software that shows team utilization in real-time.'
       },
-      pathToRoot: "Team Idle → Waste → Money Out Fast"
+      pathToRoot: 'Team Idle → Waste → Money Out Fast'
     }
   },
   'overbuying-inventory': {
-    explanation: "Cash is sitting on a shelf. You"ve bought supplies, products, or materials that you won't use for months. This is cash that could be used for growth.",
+    explanation: 'Cash is sitting on a shelf. You"ve bought supplies, products, or materials that you won't use for months. This is cash that could be used for growth.',
     relatedProblems: ["waste-inefficiency", "materials-supplies"],
     impactAnalysis: {
-      financialImpact: "Liquidity trap; risk of obsolescence/spoilage.",
+      financialImpact: 'Liquidity trap; risk of obsolescence/spoilage.',
       severity: "Moderate",
       affectedAreas: ["Cash Flow", "Working Capital"],
       strategicPriority: 'Medium'
@@ -2751,16 +2751,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of "Out of stock"", "Buying in bulk for discounts that aren"t worth the cash drag"],
       automationPotential: {
         rating: "High",
-        example: "Inventory forecasting software that syncs with sales data."
+        example: 'Inventory forecasting software that syncs with sales data.'
       },
-      pathToRoot: "Overbuying → Waste → Money Out Fast"
+      pathToRoot: 'Overbuying → Waste → Money Out Fast'
     }
   },
   'poor-resource-allocation': {
-    explanation: "You are putting your best people on your smallest clients, or spending your budget on the wrong priorities. You are "polishing the brass on the Titanic.'",
+    explanation: 'You are putting your best people on your smallest clients, or spending your budget on the wrong priorities. You are "polishing the brass on the Titanic.'',
     relatedProblems: ["waste-inefficiency", "low-value-work"],
     impactAnalysis: {
-      financialImpact: "Opportunity cost of missed growth; inefficient use of capital.",
+      financialImpact: 'Opportunity cost of missed growth; inefficient use of capital.',
       severity: "Major",
       affectedAreas: ["Strategic Focus", "ROI"],
       strategicPriority: 'High'
@@ -2774,16 +2774,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of clear strategic goals", "Reactive management style"],
       automationPotential: {
         rating: "Low",
-        example: "This is a leadership decision, but data-driven reporting can guide the choice."
+        example: 'This is a leadership decision, but data-driven reporting can guide the choice.'
       },
-      pathToRoot: "Poor Allocation → Waste → Money Out Fast"
+      pathToRoot: 'Poor Allocation → Waste → Money Out Fast'
     }
   },
   'afraid-raise-prices': {
-    explanation: "The "Fear of No.' You think that if you raise prices, you'll lose everyone. In reality, you'll lose the clients you probably didn't want anyway.",
+    explanation: 'The "Fear of No.' You think that if you raise prices, you'll lose everyone. In reality, you'll lose the clients you probably didn't want anyway.',
     relatedProblems: ["prices-low", "undervalue-expertise"],
     impactAnalysis: {
-      financialImpact: "Self-imposed revenue ceiling; under-resourced delivery.",
+      financialImpact: 'Self-imposed revenue ceiling; under-resourced delivery.',
       severity: "Major",
       affectedAreas: ["Profitability", "Confidence"],
       strategicPriority: 'High'
@@ -2797,16 +2797,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Imposter syndrome", "Lack of clear differentiation"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a psychological and strategic hurdle."
+        example: 'N/A - this is a psychological and strategic hurdle.'
       },
-      pathToRoot: "Fear of Price Increase → Low Prices → Low Margins → Money Out Fast"
+      pathToRoot: 'Fear of Price Increase → Low Prices → Low Margins → Money Out Fast'
     }
   },
   'competing-price': {
-    explanation: "The "Race to the Bottom.' If your only differentiator is 'I'm cheaper,' you will eventually be beaten by someone even more desperate or automated than you.",
+    explanation: 'The "Race to the Bottom.' If your only differentiator is 'I'm cheaper,' you will eventually be beaten by someone even more desperate or automated than you.',
     relatedProblems: ["prices-low", "commoditized-service"],
     impactAnalysis: {
-      financialImpact: "Profit margins compressed to zero; unable to hire quality staff.",
+      financialImpact: 'Profit margins compressed to zero; unable to hire quality staff.',
       severity: "Critical",
       affectedAreas: ["Sustainability", "Brand Positioning"],
       strategicPriority: 'High'
@@ -2820,16 +2820,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of unique value proposition", "Selling in a commoditized market"],
       automationPotential: {
         rating: "Low",
-        example: "Automation can lower your costs to *win* a price war, but it"s better to exit the war entirely."
+        example: 'Automation can lower your costs to *win* a price war, but it"s better to exit the war entirely.'
       },
-      pathToRoot: "Competing on Price → Low Prices → Low Margins → Money Out Fast"
+      pathToRoot: 'Competing on Price → Low Prices → Low Margins → Money Out Fast'
     }
   },
   'dont-know-costs': {
-    explanation: "You are guessing your pricing. You don"t know your Cost of Goods Sold (COGS), labor cost per project, or client acquisition cost.",
+    explanation: 'You are guessing your pricing. You don"t know your Cost of Goods Sold (COGS), labor cost per project, or client acquisition cost.',
     relatedProblems: ["prices-low", "margins-low"],
     impactAnalysis: {
-      financialImpact: "Inadvertently losing money on some projects while "thinking" they are profitable.",
+      financialImpact: 'Inadvertently losing money on some projects while "thinking" they are profitable.',
       severity: "Major",
       affectedAreas: ["Financial Oversight", "Profitability"],
       strategicPriority: 'High'
@@ -2843,16 +2843,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of bookkeeping discipline", "Simple "Top-line' revenue focus"],
       automationPotential: {
         rating: "High",
-        example: "Using project-based accounting tools like Harvest or QuickBooks Projects."
+        example: 'Using project-based accounting tools like Harvest or QuickBooks Projects.'
       },
-      pathToRoot: "Unknown Costs → Low Prices → Low Margins → Money Out Fast"
+      pathToRoot: 'Unknown Costs → Low Prices → Low Margins → Money Out Fast'
     }
   },
   'underestimate-time': {
-    explanation: "The "Optimism Bias.' You think it will take 10 hours; it takes 30. You are effectively paying the client to work for them.",
+    explanation: 'The "Optimism Bias.' You think it will take 10 hours; it takes 30. You are effectively paying the client to work for them.',
     relatedProblems: ["prices-low", "taking-too-long"],
     impactAnalysis: {
-      financialImpact: "Massive unbilled labor cost; project timelines slipping.",
+      financialImpact: 'Massive unbilled labor cost; project timelines slipping.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Scheduling"],
       strategicPriority: 'Medium'
@@ -2866,16 +2866,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of time-tracking data", "Over-eagerness to win the deal"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated time-tracking tools (like Toggl or RescueTime) that provide data-driven estimates."
+        example: 'Automated time-tracking tools (like Toggl or RescueTime) that provide data-driven estimates.'
       },
-      pathToRoot: "Underestimating Time → Low Prices → Low Margins → Money Out Fast"
+      pathToRoot: 'Underestimating Time → Low Prices → Low Margins → Money Out Fast'
     }
   },
   'too-many-discounts': {
-    explanation: "Every discount comes directly out of your profit. A 10% discount on a project with 30% margin is a 33% hit to your net profit.",
+    explanation: 'Every discount comes directly out of your profit. A 10% discount on a project with 30% margin is a 33% hit to your net profit.',
     relatedProblems: ["prices-low", "competing-price"],
     impactAnalysis: {
-      financialImpact: "Pure profit erosion; devalues your service in the client"s eyes.",
+      financialImpact: 'Pure profit erosion; devalues your service in the client"s eyes.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Brand Value"],
       strategicPriority: 'Medium'
@@ -2889,16 +2889,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of sales negotiation skills", "Low confidence in value"],
       automationPotential: {
         rating: "Low",
-        example: "Removing "Discount" fields from your automated checkout or proposal tools."
+        example: 'Removing "Discount" fields from your automated checkout or proposal tools.'
       },
-      pathToRoot: "Too Many Discounts → Low Prices → Low Margins → Money Out Fast"
+      pathToRoot: 'Too Many Discounts → Low Prices → Low Margins → Money Out Fast'
     }
   },
   'grandfather-clauses': {
-    explanation: "Old clients are still paying your 2019 rates while your costs (and expertise) have doubled. You are subsidizing your oldest clients with your newest ones.",
+    explanation: 'Old clients are still paying your 2019 rates while your costs (and expertise) have doubled. You are subsidizing your oldest clients with your newest ones.',
     relatedProblems: ["prices-low", "margins-low"],
     impactAnalysis: {
-      financialImpact: "Capped profit on your most stable work; increasing unprofitability over time.",
+      financialImpact: 'Capped profit on your most stable work; increasing unprofitability over time.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Cash Flow"],
       strategicPriority: 'Medium'
@@ -2912,16 +2912,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of losing "Loyal" clients", "Lack of annual price review process"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a communication and contractual shift."
+        example: 'N/A - this is a communication and contractual shift.'
       },
-      pathToRoot: "Grandfathered Rates → Low Prices → Low Margins → Money Out Fast"
+      pathToRoot: 'Grandfathered Rates → Low Prices → Low Margins → Money Out Fast'
     }
   },
   'race-to-bottom': {
-    explanation: "You are in a market where the only way to win is to be the cheapest. This is a losing game unless you have massive scale or automation that others don"t.",
+    explanation: 'You are in a market where the only way to win is to be the cheapest. This is a losing game unless you have massive scale or automation that others don"t.',
     relatedProblems: ["competing-price", "commoditized-service"],
     impactAnalysis: {
-      financialImpact: "Eventual business failure as costs rise but prices cannot.",
+      financialImpact: 'Eventual business failure as costs rise but prices cannot.',
       severity: "Critical",
       affectedAreas: ["Survival", "Strategic Positioning"],
       strategicPriority: 'High'
@@ -2935,16 +2935,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Selling a generic product/service", "No brand differentiation"],
       automationPotential: {
         rating: "Medium",
-        example: "Using automation to be the *most efficient* in the race, or using it to create a unique high-value service."
+        example: 'Using automation to be the *most efficient* in the race, or using it to create a unique high-value service.'
       },
-      pathToRoot: "Race to Bottom → Low Prices → Low Margins → Money Out Fast"
+      pathToRoot: 'Race to Bottom → Low Prices → Low Margins → Money Out Fast'
     }
   },
   'undervalue-expertise': {
-    explanation: "You are charging for "Labor" when you should be charging for "Certainty' and 'Results.' You don't realize how much value you actually create for the client.",
+    explanation: 'You are charging for "Labor" when you should be charging for "Certainty' and 'Results.' You don't realize how much value you actually create for the client.',
     relatedProblems: ["prices-low", "afraid-raise-prices"],
     impactAnalysis: {
-      financialImpact: "Leaving 50-200% of potential revenue on the table.",
+      financialImpact: 'Leaving 50-200% of potential revenue on the table.',
       severity: "Major",
       affectedAreas: ["Profitability", "Market Positioning"],
       strategicPriority: 'High'
@@ -2958,16 +2958,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Imposter syndrome", "Lack of case studies showing ROI"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a strategic shift in how you sell."
+        example: 'N/A - this is a strategic shift in how you sell.'
       },
-      pathToRoot: "Undervaluing Expertise → Low Prices → Low Margins → Money Out Fast"
+      pathToRoot: 'Undervaluing Expertise → Low Prices → Low Margins → Money Out Fast'
     }
   },
   'extras-free': {
-    explanation: "The "Scope Creep" trap. You do a little bit of extra work to keep the client happy, but you never bill for it. Those 'little bits' are your entire profit margin.",
+    explanation: 'The "Scope Creep" trap. You do a little bit of extra work to keep the client happy, but you never bill for it. Those 'little bits' are your entire profit margin.',
     relatedProblems: ["scope-creep-unbilled", "no-change-order"],
     impactAnalysis: {
-      financialImpact: "Unbilled labor hours; profit leakage on every project.",
+      financialImpact: 'Unbilled labor hours; profit leakage on every project.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Labor Utilization"],
       strategicPriority: 'Medium'
@@ -2981,16 +2981,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["People-pleasing", "Vague project scope"],
       automationPotential: {
         rating: "Medium",
-        example: "Digital proposal tools where adding "Extras" auto-updates the price and requires a signature."
+        example: 'Digital proposal tools where adding "Extras" auto-updates the price and requires a signature.'
       },
-      pathToRoot: "Free Extras → Unbilled Scope Creep → Low Margins → Money Out Fast"
+      pathToRoot: 'Free Extras → Unbilled Scope Creep → Low Margins → Money Out Fast'
     }
   },
   'no-change-order': {
-    explanation: "You have no formal process for when a project changes. You just "absorb" the extra work and hope for the best.",
+    explanation: 'You have no formal process for when a project changes. You just "absorb" the extra work and hope for the best.',
     relatedProblems: ["scope-creep-unbilled", "afraid-charge-changes"],
     impactAnalysis: {
-      financialImpact: "Uncontrolled project cost growth; revenue stays static while costs rise.",
+      financialImpact: 'Uncontrolled project cost growth; revenue stays static while costs rise.',
       severity: "Moderate",
       affectedAreas: ["Operations", "Profitability"],
       strategicPriority: 'Medium'
@@ -3004,16 +3004,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of operational discipline", "Fear of "confrontation""],
       automationPotential: {
         rating: "Medium",
-        example: "Automated "Add-on' billing in your project management system."
+        example: 'Automated "Add-on' billing in your project management system.'
       },
-      pathToRoot: "No Change Order → Unbilled Scope Creep → Low Margins → Money Out Fast"
+      pathToRoot: 'No Change Order → Unbilled Scope Creep → Low Margins → Money Out Fast'
     }
   },
   'afraid-charge-changes': {
-    explanation: "You know you should charge more, but you"re afraid the client will get angry. You value their 'happiness' more than your business's survival.",
+    explanation: 'You know you should charge more, but you"re afraid the client will get angry. You value their 'happiness' more than your business's survival.',
     relatedProblems: ["scope-creep-unbilled", "afraid-raise-prices"],
     impactAnalysis: {
-      financialImpact: "Self-inflicted margin hit; creates entitled clients who expect free work.",
+      financialImpact: 'Self-inflicted margin hit; creates entitled clients who expect free work.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Confidence"],
       strategicPriority: 'High'
@@ -3027,16 +3027,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Imposter syndrome", "Boundary issues"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a mindset shift."
+        example: 'N/A - this is a mindset shift.'
       },
-      pathToRoot: "Fear of Charging for Changes → Unbilled Scope Creep → Low Margins → Money Out Fast"
+      pathToRoot: 'Fear of Charging for Changes → Unbilled Scope Creep → Low Margins → Money Out Fast'
     }
   },
   'scope-poorly-defined': {
-    explanation: "If you don"t know where the project ends, it never will. Vague contracts lead to endless 'But I thought this was included' conversations.",
+    explanation: 'If you don"t know where the project ends, it never will. Vague contracts lead to endless 'But I thought this was included' conversations.',
     relatedProblems: ["scope-creep-unbilled", "one-thing-adds-up"],
     impactAnalysis: {
-      financialImpact: "Project "Stalling" costs; high risk of client dispute.",
+      financialImpact: 'Project "Stalling" costs; high risk of client dispute.',
       severity: "Major",
       affectedAreas: ["Operations", "Legal Risk", "Profitability"],
       strategicPriority: 'High'
@@ -3050,16 +3050,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Rushing the sales process", "Lack of technical scoping expertise"],
       automationPotential: {
         rating: "Medium",
-        example: "Using standardized scoping templates and AI to double-check for "Vague" language."
+        example: 'Using standardized scoping templates and AI to double-check for "Vague" language.'
       },
-      pathToRoot: "Poor Scope Definition → Unbilled Scope Creep → Low Margins → Money Out Fast"
+      pathToRoot: 'Poor Scope Definition → Unbilled Scope Creep → Low Margins → Money Out Fast'
     }
   },
   'one-thing-adds-up': {
-    explanation: "The "Death by a thousand Papercuts.' Each individual request is small, but combined they turn a profitable project into a loss.",
+    explanation: 'The "Death by a thousand Papercuts.' Each individual request is small, but combined they turn a profitable project into a loss.',
     relatedProblems: ["scope-creep-unbilled", "extras-free"],
     impactAnalysis: {
-      financialImpact: "Hidden profit erosion; team frustration.",
+      financialImpact: 'Hidden profit erosion; team frustration.',
       severity: "Low",
       affectedAreas: ["Profitability", "Team Morale"],
       strategicPriority: 'Low'
@@ -3073,16 +3073,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of project tracking", "Micro-scope-creep"],
       automationPotential: {
         rating: "Medium",
-        example: "Ticketing systems where "Extra" requests are automatically flagged for review."
+        example: 'Ticketing systems where "Extra" requests are automatically flagged for review.'
       },
-      pathToRoot: "One Thing Adds Up → Unbilled Scope Creep → Low Margins → Money Out Fast"
+      pathToRoot: 'One Thing Adds Up → Unbilled Scope Creep → Low Margins → Money Out Fast'
     }
   },
   'taking-too-long': {
-    explanation: "Your internal efficiency is low. Tasks that should take 2 days are taking 10. This increases your "cost-per-fulfillment' and slows down cash.",
+    explanation: 'Your internal efficiency is low. Tasks that should take 2 days are taking 10. This increases your "cost-per-fulfillment' and slows down cash.',
     relatedProblems: ["inefficient-delivery", "work-takes-long"],
     impactAnalysis: {
-      financialImpact: "Decreased net profit; lower throughput (capacity).",
+      financialImpact: 'Decreased net profit; lower throughput (capacity).',
       severity: "Major",
       affectedAreas: ["Efficiency", "Profitability"],
       strategicPriority: 'High'
@@ -3096,16 +3096,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technical debt", "Poorly trained team", "No standardized tools"],
       automationPotential: {
         rating: "High",
-        example: "Using AI and automation to handle repetitive parts of the work delivery."
+        example: 'Using AI and automation to handle repetitive parts of the work delivery.'
       },
-      pathToRoot: "Taking Too Long → Inefficient Delivery → Low Margins → Money Out Fast"
+      pathToRoot: 'Taking Too Long → Inefficient Delivery → Low Margins → Money Out Fast'
     }
   },
   'not-standardized': {
-    explanation: "You are doing too much "Custom" work. Every client gets a bespoke solution, which means you can't reuse work, templates, or systems.",
+    explanation: 'You are doing too much "Custom" work. Every client gets a bespoke solution, which means you can't reuse work, templates, or systems.',
     relatedProblems: ["inefficient-delivery", "no-systems"],
     impactAnalysis: {
-      financialImpact: "Impossible to scale without 1:1 hiring; high margin risk on every project.",
+      financialImpact: 'Impossible to scale without 1:1 hiring; high margin risk on every project.',
       severity: "Major",
       affectedAreas: ["Scalability", "Profitability", "Asset Value"],
       strategicPriority: 'High'
@@ -3119,16 +3119,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of being "Rigid"", "Lack of a "Core" product vision"],
       automationPotential: {
         rating: "High",
-        example: "Automated fulfillment workflows that only work with standardized "Productized" services."
+        example: 'Automated fulfillment workflows that only work with standardized "Productized" services.'
       },
-      pathToRoot: "Not Standardized → Inefficient Delivery → Low Margins → Money Out Fast"
+      pathToRoot: 'Not Standardized → Inefficient Delivery → Low Margins → Money Out Fast'
     }
   },
   'over-delivering': {
-    explanation: "The "Golden Handcuffs.' You are doing more work than the client paid for to ensure they are 'happy.' This makes you a great freelancer but a terrible business owner.",
+    explanation: 'The "Golden Handcuffs.' You are doing more work than the client paid for to ensure they are 'happy.' This makes you a great freelancer but a terrible business owner.',
     relatedProblems: ["inefficient-delivery", "extras-free", "scope-creep-unbilled"],
     impactAnalysis: {
-      financialImpact: "Intentionally reducing your own profit; sets unsustainable expectations.",
+      financialImpact: 'Intentionally reducing your own profit; sets unsustainable expectations.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Capacity"],
       strategicPriority: 'Medium'
@@ -3142,16 +3142,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Insecurity about value", "Perfectionism"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a discipline and strategic choice."
+        example: 'N/A - this is a discipline and strategic choice.'
       },
-      pathToRoot: "Over-Delivering → Inefficient Delivery → Low Margins → Money Out Fast"
+      pathToRoot: 'Over-Delivering → Inefficient Delivery → Low Margins → Money Out Fast'
     }
   },
   'rework-eating-profit': {
-    explanation: "Mistakes are being made, and you are fixing them on your own dime. If a project requires 20% rework, you"ve just lost your entire profit margin.",
+    explanation: 'Mistakes are being made, and you are fixing them on your own dime. If a project requires 20% rework, you"ve just lost your entire profit margin.',
     relatedProblems: ["inefficient-delivery", "quality-problems", "rework-mistakes"],
     impactAnalysis: {
-      financialImpact: "Direct hit to bottom line; destroys project scheduling.",
+      financialImpact: 'Direct hit to bottom line; destroys project scheduling.',
       severity: "Major",
       affectedAreas: ["Profitability", "Team Capacity"],
       strategicPriority: 'High'
@@ -3165,16 +3165,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of clear SOPs", "Communication breakdown", "Unqualified staff"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated QA tools and validation scripts."
+        example: 'Automated QA tools and validation scripts.'
       },
-      pathToRoot: "Rework Eating Profit → Inefficient Delivery → Low Margins → Money Out Fast"
+      pathToRoot: 'Rework Eating Profit → Inefficient Delivery → Low Margins → Money Out Fast'
     }
   },
   'expensive-office': {
-    explanation: "You are paying for more space than you need, or for a "status" location that doesn't provide a direct return on investment (ROI). In a post-remote world, physical office space is often a massive unforced error.",
+    explanation: 'You are paying for more space than you need, or for a "status" location that doesn't provide a direct return on investment (ROI). In a post-remote world, physical office space is often a massive unforced error.',
     relatedProblems: ["overhead-high", "utilities-facilities"],
     impactAnalysis: {
-      financialImpact: "Direct hit to net profit every single month; long-term lease liabilities.",
+      financialImpact: 'Direct hit to net profit every single month; long-term lease liabilities.',
       severity: "Moderate",
       affectedAreas: ["Fixed Costs", "Cash Flow"],
       strategicPriority: 'Medium'
@@ -3188,16 +3188,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Old-school business mindset", "Long-term lease trap", "Over-estimating the need for physical presence"],
       automationPotential: {
         rating: "Low",
-        example: "Switching to a fully remote model managed by digital communication tools."
+        example: 'Switching to a fully remote model managed by digital communication tools.'
       },
-      pathToRoot: "Expensive Office → Overhead High → Money Out Fast"
+      pathToRoot: 'Expensive Office → Overhead High → Money Out Fast'
     }
   },
   'many-subscriptions': {
-    explanation: "The "SaaS Creep.' Small $20-$100/month tools add up to thousands of dollars in 'ghost' expenses that you've forgotten to cancel.",
+    explanation: 'The "SaaS Creep.' Small $20-$100/month tools add up to thousands of dollars in 'ghost' expenses that you've forgotten to cancel.',
     relatedProblems: ["unused-subscriptions", "duplicate-systems"],
     impactAnalysis: {
-      financialImpact: "Hidden profit erosion; death by a thousand cuts.",
+      financialImpact: 'Hidden profit erosion; death by a thousand cuts.',
       severity: "Low",
       affectedAreas: ["Fixed Costs", "Admin Efficiency"],
       strategicPriority: 'Easy'
@@ -3211,16 +3211,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of centralized software management", "Impulse buying tools"],
       automationPotential: {
         rating: "High",
-        example: "Using tools like RocketMoney (personal) or Glean (business) to track and cancel SaaS."
+        example: 'Using tools like RocketMoney (personal) or Glean (business) to track and cancel SaaS.'
       },
-      pathToRoot: "Too Many Subs → Overhead High → Money Out Fast"
+      pathToRoot: 'Too Many Subs → Overhead High → Money Out Fast'
     }
   },
   'equipment-costs': {
-    explanation: "You are buying high-end gear, hardware, or machinery that isn"t being fully utilized. If the equipment isn't paying for itself in 6-12 months, it's a liability.",
+    explanation: 'You are buying high-end gear, hardware, or machinery that isn"t being fully utilized. If the equipment isn't paying for itself in 6-12 months, it's a liability.',
     relatedProblems: ["overhead-high", "tools-equipment-break"],
     impactAnalysis: {
-      financialImpact: "Capital tied up in depreciating assets; high maintenance costs.",
+      financialImpact: 'Capital tied up in depreciating assets; high maintenance costs.',
       severity: "Low",
       affectedAreas: ["Cash Flow", "Asset Utilization"],
       strategicPriority: 'Low'
@@ -3234,16 +3234,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-specifying needs", "Buying instead of renting/leasing"],
       automationPotential: {
         rating: "Low",
-        example: "Using inventory management tools to track equipment ROI."
+        example: 'Using inventory management tools to track equipment ROI.'
       },
-      pathToRoot: "Equipment Costs → Overhead High → Money Out Fast"
+      pathToRoot: 'Equipment Costs → Overhead High → Money Out Fast'
     }
   },
   'insurance-legal': {
-    explanation: "While necessary, these costs can bloat if you aren"t shopping around or if you are over-insured for risks that are low-probability.",
+    explanation: 'While necessary, these costs can bloat if you aren"t shopping around or if you are over-insured for risks that are low-probability.',
     relatedProblems: ["overhead-high", "licensing-compliance"],
     impactAnalysis: {
-      financialImpact: "Fixed expense drag; potential for over-spending on "defensive" measures.",
+      financialImpact: 'Fixed expense drag; potential for over-spending on "defensive" measures.',
       severity: "Low",
       affectedAreas: ["Fixed Costs"],
       strategicPriority: 'Low'
@@ -3257,16 +3257,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of price comparison", "Over-conservative risk management"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI-driven legal tools for contract review instead of an expensive lawyer."
+        example: 'Using AI-driven legal tools for contract review instead of an expensive lawyer.'
       },
-      pathToRoot: "Insurance/Legal → Overhead High → Money Out Fast"
+      pathToRoot: 'Insurance/Legal → Overhead High → Money Out Fast'
     }
   },
   'utilities-facilities': {
-    explanation: "Heating, cooling, cleaning, and maintaining a physical space. These are invisible costs that scale with the size of your office, not your revenue.",
+    explanation: 'Heating, cooling, cleaning, and maintaining a physical space. These are invisible costs that scale with the size of your office, not your revenue.',
     relatedProblems: ["expensive-office", "overhead-high"],
     impactAnalysis: {
-      financialImpact: "Variable expense drag; inefficient use of resources.",
+      financialImpact: 'Variable expense drag; inefficient use of resources.',
       severity: "Low",
       affectedAreas: ["Fixed Costs"],
       strategicPriority: 'Low'
@@ -3280,16 +3280,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Inefficient physical space management"],
       automationPotential: {
         rating: "Medium",
-        example: "Smart building automation to reduce energy and facility costs."
+        example: 'Smart building automation to reduce energy and facility costs.'
       },
-      pathToRoot: "Utilities → Overhead High → Money Out Fast"
+      pathToRoot: 'Utilities → Overhead High → Money Out Fast'
     }
   },
   'admin-staff': {
-    explanation: "You have hired full-time people for roles that could be handled by software, contractors, or AI. Administrative payroll is the "heaviest" form of overhead.",
+    explanation: 'You have hired full-time people for roles that could be handled by software, contractors, or AI. Administrative payroll is the "heaviest" form of overhead.',
     relatedProblems: ["overhead-high", "low-value-work"],
     impactAnalysis: {
-      financialImpact: "Massive hit to gross margin; high "management debt" for the founder.",
+      financialImpact: 'Massive hit to gross margin; high "management debt" for the founder.',
       severity: "Major",
       affectedAreas: ["Payroll", "Profitability", "Scalability"],
       strategicPriority: 'High'
@@ -3303,16 +3303,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Hiring to solve a "process" problem with a "person'", "Traditional staffing mindset"],
       automationPotential: {
         rating: "High",
-        example: "Replacing manual data entry, scheduling, and bookkeeping with AI agents."
+        example: 'Replacing manual data entry, scheduling, and bookkeeping with AI agents.'
       },
-      pathToRoot: "Admin Staff → Overhead High → Money Out Fast"
+      pathToRoot: 'Admin Staff → Overhead High → Money Out Fast'
     }
   },
   'banking-fees': {
-    explanation: "Wire fees, monthly service charges, and credit card processing fees. These are small percentages that, on high volume, can equal a full salary every year.",
+    explanation: 'Wire fees, monthly service charges, and credit card processing fees. These are small percentages that, on high volume, can equal a full salary every year.',
     relatedProblems: ["overhead-high", "payment-friction"],
     impactAnalysis: {
-      financialImpact: "Direct erosion of revenue; "Tax" on every transaction.",
+      financialImpact: 'Direct erosion of revenue; "Tax" on every transaction.',
       severity: "Low",
       affectedAreas: ["Net Profit"],
       strategicPriority: 'Easy'
@@ -3326,16 +3326,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Using "Big Bank" services with high fee structures"],
       automationPotential: {
         rating: "Low",
-        example: "Switching to digital banks with automated fee-waiver systems."
+        example: 'Switching to digital banks with automated fee-waiver systems.'
       },
-      pathToRoot: "Banking Fees → Overhead High → Money Out Fast"
+      pathToRoot: 'Banking Fees → Overhead High → Money Out Fast'
     }
   },
   'delivery-costs-high': {
-    explanation: "The direct costs of fulfilling your service are too high. You are spending too much on labor, materials, or software to deliver what you"ve sold.",
+    explanation: 'The direct costs of fulfilling your service are too high. You are spending too much on labor, materials, or software to deliver what you"ve sold.',
     relatedProblems: ["subcontractors-expensive", "inefficient-processes", "rework-mistakes"],
     impactAnalysis: {
-      financialImpact: "Thin gross margins; working harder for less profit.",
+      financialImpact: 'Thin gross margins; working harder for less profit.',
       severity: "Major",
       affectedAreas: ["Gross Margin", "Scalability"],
       strategicPriority: 'High'
@@ -3349,16 +3349,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of standardized fulfillment", "Poor vendor management", "Over-delivering"],
       automationPotential: {
         rating: "High",
-        example: "Automating 20-50% of the fulfillment tasks to reduce labor hours per client."
+        example: 'Automating 20-50% of the fulfillment tasks to reduce labor hours per client.'
       },
-      pathToRoot: "High Delivery Costs → Expenses High → Money Out Fast"
+      pathToRoot: 'High Delivery Costs → Expenses High → Money Out Fast'
     }
   },
   'subcontractors-expensive': {
-    explanation: "You are relying on expensive freelancers or agencies to deliver your service. If you are paying them > 30-40% of the project fee, your margins are too thin.",
+    explanation: 'You are relying on expensive freelancers or agencies to deliver your service. If you are paying them > 30-40% of the project fee, your margins are too thin.',
     relatedProblems: ["delivery-costs-high", "cant-afford-hire"],
     impactAnalysis: {
-      financialImpact: "Direct margin squeeze; lack of control over quality/timing.",
+      financialImpact: 'Direct margin squeeze; lack of control over quality/timing.',
       severity: "Major",
       affectedAreas: ["Profitability", "Service Quality"],
       strategicPriority: 'High'
@@ -3372,16 +3372,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Avoiding the commitment of hiring full-time staff", "Lack of internal training systems"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to replace high-cost specialized subcontractors for specific tasks (e.g., copywriting, basic dev)."
+        example: 'Using AI to replace high-cost specialized subcontractors for specific tasks (e.g., copywriting, basic dev).'
       },
-      pathToRoot: "Expensive Subcontractors → Delivery Costs → Money Out Fast"
+      pathToRoot: 'Expensive Subcontractors → Delivery Costs → Money Out Fast'
     }
   },
   'inefficient-processes': {
-    explanation: "Work is being done the hard way. Duplicate data entry, manual follow-ups, and a lack of standardized templates are wasting hundreds of hours.",
+    explanation: 'Work is being done the hard way. Duplicate data entry, manual follow-ups, and a lack of standardized templates are wasting hundreds of hours.',
     relatedProblems: ["manual-processes", "delivery-costs-high", "rework-mistakes"],
     impactAnalysis: {
-      financialImpact: "High "Labor-to-Revenue' ratio; low capacity.",
+      financialImpact: 'High "Labor-to-Revenue' ratio; low capacity.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Capacity", "Gross Margin"],
       strategicPriority: 'High'
@@ -3395,16 +3395,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Rushing to deliver instead of building infrastructure", "Technical debt"],
       automationPotential: {
         rating: "High",
-        example: "Connecting your sales, fulfillment, and accounting apps to eliminate manual data transfer."
+        example: 'Connecting your sales, fulfillment, and accounting apps to eliminate manual data transfer.'
       },
-      pathToRoot: "Inefficient Processes → Delivery Costs → Money Out Fast"
+      pathToRoot: 'Inefficient Processes → Delivery Costs → Money Out Fast'
     }
   },
   'rework-mistakes': {
-    explanation: "Errors are costing you double: once to fix them, and once in the opportunity cost of the time lost. It also kills your reputation and future referrals.",
+    explanation: 'Errors are costing you double: once to fix them, and once in the opportunity cost of the time lost. It also kills your reputation and future referrals.',
     relatedProblems: ["quality-problems", "mistakes-rework", "delivery-costs-high"],
     impactAnalysis: {
-      financialImpact: "Profit margins destroyed by unbilled hours; high churn risk.",
+      financialImpact: 'Profit margins destroyed by unbilled hours; high churn risk.',
       severity: "Major",
       affectedAreas: ["Profitability", "Customer Satisfaction", "Quality"],
       strategicPriority: 'High'
@@ -3418,16 +3418,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of standardized SOPs", "Rushing due to capacity issues", "Poorly defined scope"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated validation scripts or QA check-tools for technical work."
+        example: 'Automated validation scripts or QA check-tools for technical work.'
       },
-      pathToRoot: "Rework → Delivery Costs → Money Out Fast"
+      pathToRoot: 'Rework → Delivery Costs → Money Out Fast'
     }
   },
   'travel-meetings': {
-    explanation: "Too much time and money spent on "face-to-face' that could be handled via video or asynchronous communication. Travel is an expensive 'hidden' cost.",
+    explanation: 'Too much time and money spent on "face-to-face' that could be handled via video or asynchronous communication. Travel is an expensive 'hidden' cost.',
     relatedProblems: ["delivery-costs-high", "low-value-work"],
     impactAnalysis: {
-      financialImpact: "Wasted labor hours; travel expenses (flights, hotels) eating profit.",
+      financialImpact: 'Wasted labor hours; travel expenses (flights, hotels) eating profit.',
       severity: "Low",
       affectedAreas: ["Profitability", "Founder Time"],
       strategicPriority: 'Medium'
@@ -3441,16 +3441,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Old-school relationship mindset", "Inability to lead digital meetings effectively"],
       automationPotential: {
         rating: "Low",
-        example: "Using async video tools like Loom to replace 50% of status meetings."
+        example: 'Using async video tools like Loom to replace 50% of status meetings.'
       },
-      pathToRoot: "Travel/Meetings → Delivery Costs → Money Out Fast"
+      pathToRoot: 'Travel/Meetings → Delivery Costs → Money Out Fast'
     }
   },
   'materials-supplies': {
-    explanation: "You are paying retail prices for materials or over-buying supplies that sit in inventory. Every $1 saved here is $1 of pure profit.",
+    explanation: 'You are paying retail prices for materials or over-buying supplies that sit in inventory. Every $1 saved here is $1 of pure profit.',
     relatedProblems: ["delivery-costs-high", "overbuying-inventory"],
     impactAnalysis: {
-      financialImpact: "Direct hit to gross margin; cash tied up in physical stock.",
+      financialImpact: 'Direct hit to gross margin; cash tied up in physical stock.',
       severity: "Low",
       affectedAreas: ["Gross Margin", "Cash Flow"],
       strategicPriority: 'Low'
@@ -3464,16 +3464,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor inventory management", "Lack of vendor negotiation"],
       automationPotential: {
         rating: "Medium",
-        example: "Inventory tracking software that auto-reorders at the best price."
+        example: 'Inventory tracking software that auto-reorders at the best price.'
       },
-      pathToRoot: "Materials/Supplies → Delivery Costs → Money Out Fast"
+      pathToRoot: 'Materials/Supplies → Delivery Costs → Money Out Fast'
     }
   },
   'tools-equipment-break': {
-    explanation: "Maintenance and replacement costs for the tools you use. If your gear is unreliable, you are losing time and money constantly.",
+    explanation: 'Maintenance and replacement costs for the tools you use. If your gear is unreliable, you are losing time and money constantly.',
     relatedProblems: ["delivery-costs-high", "equipment-costs"],
     impactAnalysis: {
-      financialImpact: "Unexpected expenses; project delays due to downtime.",
+      financialImpact: 'Unexpected expenses; project delays due to downtime.',
       severity: "Low",
       affectedAreas: ["Operational Stability", "Cash Flow"],
       strategicPriority: 'Low'
@@ -3487,16 +3487,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Buying cheap equipment", "Neglecting maintenance"],
       automationPotential: {
         rating: "Low",
-        example: "Automated maintenance alerts based on usage/time."
+        example: 'Automated maintenance alerts based on usage/time.'
       },
-      pathToRoot: "Broken Tools → Delivery Costs → Money Out Fast"
+      pathToRoot: 'Broken Tools → Delivery Costs → Money Out Fast'
     }
   },
   'licensing-compliance': {
-    explanation: "Software licenses, professional certifications, and regulatory compliance. These are often mandatory but can be optimized.",
+    explanation: 'Software licenses, professional certifications, and regulatory compliance. These are often mandatory but can be optimized.',
     relatedProblems: ["delivery-costs-high", "insurance-legal"],
     impactAnalysis: {
-      financialImpact: "Fixed cost drag; risk of high fines if neglected.",
+      financialImpact: 'Fixed cost drag; risk of high fines if neglected.',
       severity: "Low",
       affectedAreas: ["Fixed Costs", "Risk"],
       strategicPriority: 'Low'
@@ -3510,16 +3510,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of license management", "Regulatory complexity"],
       automationPotential: {
         rating: "Medium",
-        example: "Compliance management software to automate renewals and audits."
+        example: 'Compliance management software to automate renewals and audits.'
       },
-      pathToRoot: "Licensing/Compliance → Delivery Costs → Money Out Fast"
+      pathToRoot: 'Licensing/Compliance → Delivery Costs → Money Out Fast'
     }
   },
   'support-costs': {
-    explanation: "Post-delivery support is eating your profit. If your product/service is confusing or buggy, your support team (or you) is spending all their time "fixing" rather than 'selling.'",
+    explanation: 'Post-delivery support is eating your profit. If your product/service is confusing or buggy, your support team (or you) is spending all their time "fixing" rather than 'selling.'',
     relatedProblems: ["delivery-costs-high", "results-mediocre", "quality-problems"],
     impactAnalysis: {
-      financialImpact: "Massive hit to Net Profit; high churn risk; team frustration.",
+      financialImpact: 'Massive hit to Net Profit; high churn risk; team frustration.',
       severity: "Major",
       affectedAreas: ["Profitability", "Customer Satisfaction", "Labor Costs"],
       strategicPriority: 'High'
@@ -3533,16 +3533,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor onboarding", "Complex/unintuitive product", "Quality issues"],
       automationPotential: {
         rating: "High",
-        example: "Using AI chatbots to handle 70% of common support inquiries."
+        example: 'Using AI chatbots to handle 70% of common support inquiries.'
       },
-      pathToRoot: "Support Costs → Delivery Costs → Money Out Fast"
+      pathToRoot: 'Support Costs → Delivery Costs → Money Out Fast'
     }
   },
   'margins-low': {
-    explanation: "You are working for very little profit. This makes the business fragile and prevents reinvestment. It"s often a sign of poor pricing or inefficient delivery.",
+    explanation: 'You are working for very little profit. This makes the business fragile and prevents reinvestment. It"s often a sign of poor pricing or inefficient delivery.',
     relatedProblems: ["prices-low", "scope-creep-unbilled", "inefficient-delivery"],
     impactAnalysis: {
-      financialImpact: "Low ROI on efforts; inability to scale profitably.",
+      financialImpact: 'Low ROI on efforts; inability to scale profitably.',
       severity: "Major",
       affectedAreas: ["Profitability", "Scalability"],
       strategicPriority: 'High'
@@ -3556,16 +3556,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Under-pricing", "Inefficient fulfillment", "Unbilled scope creep"],
       automationPotential: {
         rating: "Medium",
-        example: "Using project tracking automation to identify margin leakage in real-time."
+        example: 'Using project tracking automation to identify margin leakage in real-time.'
       },
-      pathToRoot: "Low Margins → Money Out Fast → Not Enough Money (Root)"
+      pathToRoot: 'Low Margins → Money Out Fast → Not Enough Money (Root)'
     }
   },
   'pricing-value-issues': {
-    explanation: "Even if you have clients, the revenue generated per client is too low to sustain a healthy business. This is often a combination of "pricing too low" and 'not being perceived as high-value.' You are working hard but the financial output doesn't match the effort.",
+    explanation: 'Even if you have clients, the revenue generated per client is too low to sustain a healthy business. This is often a combination of "pricing too low" and 'not being perceived as high-value.' You are working hard but the financial output doesn't match the effort.',
     relatedProblems: ["prices-low", "value-conveyance", "pricing-model-revenue"],
     impactAnalysis: {
-      financialImpact: "Low Average Order Value (AOV); thin margins; high pressure to acquire volume.",
+      financialImpact: 'Low Average Order Value (AOV); thin margins; high pressure to acquire volume.',
       severity: "Major",
       affectedAreas: ["Profitability", "Team Quality", "Sustainability"],
       strategicPriority: 'High'
@@ -3579,16 +3579,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Commoditization", "Fear of rejection", "Lack of clear ROI"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated value-tracking dashboards to show clients the results you"re getting them."
+        example: 'Automated value-tracking dashboards to show clients the results you"re getting them.'
       },
-      pathToRoot: "Low Revenue Per Client → Not Enough Revenue → Not Enough Money (Root)"
+      pathToRoot: 'Low Revenue Per Client → Not Enough Revenue → Not Enough Money (Root)'
     }
   },
   'look-too-small': {
-    explanation: "Perception is reality in business. If you look like a "one-person shop' or an amateur operation, high-value clients will be afraid to trust you with large budgets. Your branding, website, and communication lack the authority needed to command premium prices.",
+    explanation: 'Perception is reality in business. If you look like a "one-person shop' or an amateur operation, high-value clients will be afraid to trust you with large budgets. Your branding, website, and communication lack the authority needed to command premium prices.',
     relatedProblems: ["trust-signals-missing", "design-amateur", "anonymous-brand"],
     impactAnalysis: {
-      financialImpact: "Loss of high-ticket deals; relegated to "budget" clients.",
+      financialImpact: 'Loss of high-ticket deals; relegated to "budget" clients.',
       severity: "Moderate",
       affectedAreas: ["Sales", "Brand Authority", "Market Positioning"],
       strategicPriority: 'Medium'
@@ -3602,16 +3602,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of brand investment", "Founder-centric identity", "Inconsistent messaging"],
       automationPotential: {
         rating: "Medium",
-        example: "AI-powered content engines to maintain a consistent, high-authority brand presence."
+        example: 'AI-powered content engines to maintain a consistent, high-authority brand presence.'
       },
-      pathToRoot: "Poor Perception → Value Not Conveyed → Clients Don"t Pay Enough → Not Enough Revenue (Root)"
+      pathToRoot: 'Poor Perception → Value Not Conveyed → Clients Don"t Pay Enough → Not Enough Revenue (Root)'
     }
   },
   'weak-messaging': {
-    explanation: "Your marketing copy talks about "what you do" instead of 'the result the client gets.' You are speaking to the logical brain (features) rather than the emotional brain (pain relief).",
+    explanation: 'Your marketing copy talks about "what you do" instead of 'the result the client gets.' You are speaking to the logical brain (features) rather than the emotional brain (pain relief).',
     relatedProblems: ["value-conveyance", "benefits-unclear"],
     impactAnalysis: {
-      financialImpact: "Leads don"t convert; prospects don't 'get' why you're better than the cheap option.",
+      financialImpact: 'Leads don"t convert; prospects don't 'get' why you're better than the cheap option.',
       severity: "Major",
       affectedAreas: ["Marketing ROI", "Sales Conversion"],
       strategicPriority: 'High'
@@ -3625,16 +3625,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Too close to the work (Expert Curse)", "Lack of copywriting skills"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to rewrite technical jargon into benefit-driven marketing copy."
+        example: 'Using AI to rewrite technical jargon into benefit-driven marketing copy.'
       },
-      pathToRoot: "Weak Messaging → Value Not Conveyed → Clients Don"t Pay Enough → Not Enough Revenue"
+      pathToRoot: 'Weak Messaging → Value Not Conveyed → Clients Don"t Pay Enough → Not Enough Revenue'
     }
   },
   'no-roi-proof': {
-    explanation: "You can"t point to a number and say "I made my client $X.' Without proof of financial return, your service is seen as a 'cost' to be cut rather than an 'investment' to be grown.",
+    explanation: 'You can"t point to a number and say "I made my client $X.' Without proof of financial return, your service is seen as a 'cost' to be cut rather than an 'investment' to be grown.',
     relatedProblems: ["value-conveyance", "cant-articulate-roi"],
     impactAnalysis: {
-      financialImpact: "Impossible to command premium prices; high churn during budget cuts.",
+      financialImpact: 'Impossible to command premium prices; high churn during budget cuts.',
       severity: "Major",
       affectedAreas: ["Pricing Power", "Client Retention"],
       strategicPriority: 'High'
@@ -3648,16 +3648,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Not tracking data", "Fear of making specific promises"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated reporting dashboards that show the client exactly how much money/time you"ve saved them."
+        example: 'Automated reporting dashboards that show the client exactly how much money/time you"ve saved them.'
       },
-      pathToRoot: "No ROI Proof → Value Not Conveyed → Clients Don"t Pay Enough → Not Enough Revenue"
+      pathToRoot: 'No ROI Proof → Value Not Conveyed → Clients Don"t Pay Enough → Not Enough Revenue'
     }
   },
   'value-creation': {
-    explanation: "Your core service might be "too thin.' You aren't solving a deep enough problem to justify a high price. You are doing the work, but the work itself isn't worth that much to the market.",
+    explanation: 'Your core service might be "too thin.' You aren't solving a deep enough problem to justify a high price. You are doing the work, but the work itself isn't worth that much to the market.',
     relatedProblems: ["commoditized-service", "product-market-mismatch"],
     impactAnalysis: {
-      financialImpact: "Low ceiling on revenue; intense competition.",
+      financialImpact: 'Low ceiling on revenue; intense competition.',
       severity: "Major",
       affectedAreas: ["Product Strategy", "Profitability"],
       strategicPriority: 'High'
@@ -3671,16 +3671,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of specialized expertise", "Targeting the wrong market segment"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a product/strategy shift."
+        example: 'N/A - this is a product/strategy shift.'
       },
-      pathToRoot: "Low Value Creation → Not Providing Enough Value → Clients Don"t Pay Enough → Not Enough Revenue"
+      pathToRoot: 'Low Value Creation → Not Providing Enough Value → Clients Don"t Pay Enough → Not Enough Revenue'
     }
   },
   'commoditized-service': {
-    explanation: "You look exactly like your competitors. When the client can"t see a difference, they choose based on price. You are a 'replaceable cog' in their business.",
+    explanation: 'You look exactly like your competitors. When the client can"t see a difference, they choose based on price. You are a 'replaceable cog' in their business.',
     relatedProblems: ["competing-price", "no-differentiation"],
     impactAnalysis: {
-      financialImpact: "Constant price wars; zero brand loyalty.",
+      financialImpact: 'Constant price wars; zero brand loyalty.',
       severity: "Critical",
       affectedAreas: ["Brand Positioning", "Margins"],
       strategicPriority: 'High'
@@ -3694,16 +3694,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Following the pack", "Fear of exclusion from the broader market"],
       automationPotential: {
         rating: "Low",
-        example: "Using automation to provide a "High-Touch' experience that commodities can't afford."
+        example: 'Using automation to provide a "High-Touch' experience that commodities can't afford.'
       },
-      pathToRoot: "Commoditization → Not Providing Enough Value → Clients Don"t Pay Enough → Not Enough Revenue"
+      pathToRoot: 'Commoditization → Not Providing Enough Value → Clients Don"t Pay Enough → Not Enough Revenue'
     }
   },
   'product-market-mismatch': {
-    explanation: "You are selling something the market doesn"t "need' enough to pay for. It's a 'nice to have' in a world that only buys 'must-haves.'",
+    explanation: 'You are selling something the market doesn"t "need' enough to pay for. It's a 'nice to have' in a world that only buys 'must-haves.'',
     relatedProblems: ["value-creation", "not-buying-mode"],
     impactAnalysis: {
-      financialImpact: "High cost of sales; low conversion; constant rejection.",
+      financialImpact: 'High cost of sales; low conversion; constant rejection.',
       severity: "Critical",
       affectedAreas: ["Survival", "Sales", "Product Strategy"],
       strategicPriority: 'High'
@@ -3717,16 +3717,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Building in a vacuum", "Solving a problem that doesn"t exist"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this requires human intuition and market listening."
+        example: 'N/A - this requires human intuition and market listening.'
       },
-      pathToRoot: "Mismatch → Not Providing Enough Value → Clients Don"t Pay Enough → Not Enough Revenue"
+      pathToRoot: 'Mismatch → Not Providing Enough Value → Clients Don"t Pay Enough → Not Enough Revenue'
     }
   },
   'results-mediocre': {
-    explanation: "Your service works, but it"s not "remarkable.' Remarkable results create referrals and high retention. 'Okay' results create churn and price-sensitivity.",
+    explanation: 'Your service works, but it"s not "remarkable.' Remarkable results create referrals and high retention. 'Okay' results create churn and price-sensitivity.',
     relatedProblems: ["quality-problems", "client-dissatisfaction"],
     impactAnalysis: {
-      financialImpact: "Zero referrals; high acquisition costs; low client LTV.",
+      financialImpact: 'Zero referrals; high acquisition costs; low client LTV.',
       severity: "Major",
       affectedAreas: ["Growth Rate", "Client LTV", "Brand Reputation"],
       strategicPriority: 'High'
@@ -3740,16 +3740,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Under-resourced team", "Lack of clear quality standards", "Rushing to fulfillment"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to double-check work or improve the quality of deliverables (e.g., better design, better code)."
+        example: 'Using AI to double-check work or improve the quality of deliverables (e.g., better design, better code).'
       },
-      pathToRoot: "Mediocre Results → Not Providing Enough Value → Clients Don"t Pay Enough → Not Enough Revenue"
+      pathToRoot: 'Mediocre Results → Not Providing Enough Value → Clients Don"t Pay Enough → Not Enough Revenue'
     }
   },
   'flat-fees-low': {
-    explanation: "You are charging a single price that hasn"t changed in years. As your costs and complexity grow, your 'Flat Fee' project is becoming less profitable by the day.",
+    explanation: 'You are charging a single price that hasn"t changed in years. As your costs and complexity grow, your 'Flat Fee' project is becoming less profitable by the day.',
     relatedProblems: ["prices-low", "dont-know-costs"],
     impactAnalysis: {
-      financialImpact: "Profit margin "Invisible" erosion; working for a lower effective hourly rate over time.",
+      financialImpact: 'Profit margin "Invisible" erosion; working for a lower effective hourly rate over time.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Cash Flow"],
       strategicPriority: 'Medium'
@@ -3763,16 +3763,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of losing the deal", "No annual price reviews"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a pricing strategy change."
+        example: 'N/A - this is a pricing strategy change.'
       },
-      pathToRoot: "Low Flat Fees → Pricing Structure Wrong → Clients Don"t Pay Enough → Not Enough Revenue"
+      pathToRoot: 'Low Flat Fees → Pricing Structure Wrong → Clients Don"t Pay Enough → Not Enough Revenue'
     }
   },
   'no-performance-upside': {
-    explanation: "You are making your clients millions of dollars, but you only get paid a fixed fee. You have no "skin in the game" and no way to benefit from the massive value you create.",
+    explanation: 'You are making your clients millions of dollars, but you only get paid a fixed fee. You have no "skin in the game" and no way to benefit from the massive value you create.',
     relatedProblems: ["value-conveyance", "pricing-model-revenue"],
     impactAnalysis: {
-      financialImpact: "Capped revenue; misaligned incentives with the client.",
+      financialImpact: 'Capped revenue; misaligned incentives with the client.',
       severity: "Moderate",
       affectedAreas: ["Revenue Growth", "Client Alignment"],
       strategicPriority: 'Medium'
@@ -3786,16 +3786,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of data tracking to prove results", "Fear of variable income"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated KPI tracking dashboards that trigger performance-based invoices."
+        example: 'Automated KPI tracking dashboards that trigger performance-based invoices.'
       },
-      pathToRoot: "No Upside → Pricing Structure Wrong → Clients Don"t Pay Enough → Not Enough Revenue"
+      pathToRoot: 'No Upside → Pricing Structure Wrong → Clients Don"t Pay Enough → Not Enough Revenue'
     }
   },
   'no-recurring-revenue': {
-    explanation: "You have to sell every single month just to survive. Without subscriptions or retainers, your business has zero "Momentum" and zero "Exit Value.'",
+    explanation: 'You have to sell every single month just to survive. Without subscriptions or retainers, your business has zero "Momentum" and zero "Exit Value.'',
     relatedProblems: ["lumpy-revenue", "pricing-model-revenue"],
     impactAnalysis: {
-      financialImpact: "High sales pressure; unpredictable cash flow; low business valuation.",
+      financialImpact: 'High sales pressure; unpredictable cash flow; low business valuation.',
       severity: "Major",
       affectedAreas: ["Business Valuation", "Cash Flow Stability"],
       strategicPriority: 'High'
@@ -3809,16 +3809,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Selling "One-off' projects only", "Lack of an ongoing value proposition"],
       automationPotential: {
         rating: "High",
-        example: "Automated recurring billing and subscription management tools (Stripe Billing, etc.)."
+        example: 'Automated recurring billing and subscription management tools (Stripe Billing, etc.).'
       },
-      pathToRoot: "No Recurring → Pricing Structure Wrong → Clients Don"t Pay Enough → Not Enough Revenue"
+      pathToRoot: 'No Recurring → Pricing Structure Wrong → Clients Don"t Pay Enough → Not Enough Revenue'
     }
   },
   'why-left': {
-    explanation: "You are losing clients, but you don"t know *exactly* why. Without understanding the 'Why,' you can't fix the 'How.' Every churned client is a treasure trove of data on how to improve your business.",
+    explanation: 'You are losing clients, but you don"t know *exactly* why. Without understanding the 'Why,' you can't fix the 'How.' Every churned client is a treasure trove of data on how to improve your business.',
     relatedProblems: ["bad-service", "competitor-stole", "no-retention-system"],
     impactAnalysis: {
-      financialImpact: "Continuous leak in revenue; high cost to replace lost income.",
+      financialImpact: 'Continuous leak in revenue; high cost to replace lost income.',
       severity: "Major",
       affectedAreas: ["LTV", "Brand Reputation", "Product/Service Quality"],
       strategicPriority: 'High'
@@ -3832,16 +3832,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of feedback loops", "Ignoring "Silent" dissatisfaction"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated exit surveys triggered by subscription cancellation."
+        example: 'Automated exit surveys triggered by subscription cancellation.'
       },
-      pathToRoot: "Why They Left → Clients Churned → Not Enough Clients → Not Enough Revenue"
+      pathToRoot: 'Why They Left → Clients Churned → Not Enough Clients → Not Enough Revenue'
     }
   },
   'bad-service': {
-    explanation: "The most painful reason for churn. You didn"t meet the expectations you set. Whether it was quality, timing, or communication, the client felt they didn't get what they paid for.",
+    explanation: 'The most painful reason for churn. You didn"t meet the expectations you set. Whether it was quality, timing, or communication, the client felt they didn't get what they paid for.',
     relatedProblems: ["quality-problems", "results-mediocre", "client-dissatisfaction"],
     impactAnalysis: {
-      financialImpact: "Zero referrals; negative word-of-mouth; immediate revenue loss.",
+      financialImpact: 'Zero referrals; negative word-of-mouth; immediate revenue loss.',
       severity: "Critical",
       affectedAreas: ["Brand Reputation", "Client LTV", "Team Morale"],
       strategicPriority: 'High'
@@ -3855,16 +3855,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of SOPs", "Over-selling/Under-delivering", "Untrained team"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated QA checklists that must be completed before work is sent to the client."
+        example: 'Automated QA checklists that must be completed before work is sent to the client.'
       },
-      pathToRoot: "Bad Service → Why They Left → Clients Churned → Not Enough Revenue"
+      pathToRoot: 'Bad Service → Why They Left → Clients Churned → Not Enough Revenue'
     }
   },
   'no-retention-system': {
-    explanation: "You have no proactive strategy to keep clients. You assume that if they are happy, they will stay. In reality, clients need to be "re-sold' on the value you provide regularly.",
+    explanation: 'You have no proactive strategy to keep clients. You assume that if they are happy, they will stay. In reality, clients need to be "re-sold' on the value you provide regularly.',
     relatedProblems: ["not-staying-touch", "no-renewal-process", "assuming-stay"],
     impactAnalysis: {
-      financialImpact: "Passive revenue loss; high acquisition pressure.",
+      financialImpact: 'Passive revenue loss; high acquisition pressure.',
       severity: "Major",
       affectedAreas: ["LTV", "Client Success"],
       strategicPriority: 'High'
@@ -3878,16 +3878,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Transactional mindset", "Founder focus on sales over success"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Success" emails and value-tracking dashboards."
+        example: 'Automated "Success" emails and value-tracking dashboards.'
       },
-      pathToRoot: "No Retention System → Clients Churned → Not Enough Clients → Not Enough Revenue"
+      pathToRoot: 'No Retention System → Clients Churned → Not Enough Clients → Not Enough Revenue'
     }
   },
   'clients-not-buying-more': {
-    explanation: "Your existing clients have more problems that you could solve, but they aren"t paying you to solve them. You are leaving the 'easiest' money on the table because you aren't upselling or cross-selling.",
+    explanation: 'Your existing clients have more problems that you could solve, but they aren"t paying you to solve them. You are leaving the 'easiest' money on the table because you aren't upselling or cross-selling.',
     relatedProblems: ["lack-awareness", "no-upsell-process", "lack-need-perceived"],
     impactAnalysis: {
-      financialImpact: "Low Revenue per Client; high reliance on new leads.",
+      financialImpact: 'Low Revenue per Client; high reliance on new leads.',
       severity: "Moderate",
       affectedAreas: ["LTV", "Sales Efficiency", "Profitability"],
       strategicPriority: 'Medium'
@@ -3901,16 +3901,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Passive account management", "Client views you as a "single-tool" provider"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Did you know?' email sequences triggered based on client milestones."
+        example: 'Automated "Did you know?' email sequences triggered based on client milestones.'
       },
-      pathToRoot: "Not Buying More → Not Enough Clients → Not Enough Revenue"
+      pathToRoot: 'Not Buying More → Not Enough Clients → Not Enough Revenue'
     }
   },
   'no-upsell-process': {
-    explanation: "You have no formal system for identifying and closing expansion opportunities. Upselling is happening randomly, if at all.",
+    explanation: 'You have no formal system for identifying and closing expansion opportunities. Upselling is happening randomly, if at all.',
     relatedProblems: ["not-proactively-offering", "waiting-ask", "not-identifying-opportunities"],
     impactAnalysis: {
-      financialImpact: "Stagnant LTV; missed high-margin revenue.",
+      financialImpact: 'Stagnant LTV; missed high-margin revenue.',
       severity: "Moderate",
       affectedAreas: ["Sales pipeline", "LTV"],
       strategicPriority: 'Medium'
@@ -3924,16 +3924,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of being "Salesy" after the deal", "Lack of expansion strategy"],
       automationPotential: {
         rating: "High",
-        example: "CRM automation that flags clients for an upsell after 90 days of success."
+        example: 'CRM automation that flags clients for an upsell after 90 days of success.'
       },
-      pathToRoot: "No Upsell Process → Not Buying More → Not Enough Clients → Not Enough Revenue"
+      pathToRoot: 'No Upsell Process → Not Buying More → Not Enough Clients → Not Enough Revenue'
     }
   },
   'cant-find-prospects': {
-    explanation: "The "Invisibility" problem. You don't know where your ideal clients hang out, or your target market is so broad that you are shouting into a void.",
+    explanation: 'The "Invisibility" problem. You don't know where your ideal clients hang out, or your target market is so broad that you are shouting into a void.',
     relatedProblems: ["dont-know-where-market", "market-too-small", "lead-gen-insufficient"],
     impactAnalysis: {
-      financialImpact: "Zero pipeline; wasted marketing dollars on the wrong audience.",
+      financialImpact: 'Zero pipeline; wasted marketing dollars on the wrong audience.',
       severity: "Major",
       affectedAreas: ["Sales pipeline", "Marketing Strategy"],
       strategicPriority: 'High'
@@ -3947,16 +3947,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of market research", "No niche focus"],
       automationPotential: {
         rating: "High",
-        example: "Automated lead scraping and enrichment based on specific ICP criteria."
+        example: 'Automated lead scraping and enrichment based on specific ICP criteria.'
       },
-      pathToRoot: "Cant Find Prospects → Not Getting New Clients → Not Enough Revenue"
+      pathToRoot: 'Cant Find Prospects → Not Getting New Clients → Not Enough Revenue'
     }
   },
   'prospects-dont-know': {
-    explanation: "You have a great product, but you"re the "best kept secret' in the industry. Your brand visibility is zero outside of your immediate circle.",
+    explanation: 'You have a great product, but you"re the "best kept secret' in the industry. Your brand visibility is zero outside of your immediate circle.',
     relatedProblems: ["no-visibility", "no-referrals", "no-word-mouth"],
     impactAnalysis: {
-      financialImpact: "No organic inbound; 100% reliance on outbound/manual efforts.",
+      financialImpact: 'No organic inbound; 100% reliance on outbound/manual efforts.',
       severity: "Major",
       affectedAreas: ["Brand Awareness", "Sales Pipeline"],
       strategicPriority: 'High'
@@ -3970,16 +3970,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of content strategy", "No outbound marketing activity"],
       automationPotential: {
         rating: "High",
-        example: "Automated content distribution and social media scheduling."
+        example: 'Automated content distribution and social media scheduling.'
       },
-      pathToRoot: "Prospects Dont Know → Not Getting New Clients → Not Enough Revenue"
+      pathToRoot: 'Prospects Dont Know → Not Getting New Clients → Not Enough Revenue'
     }
   },
   'no-referrals': {
-    explanation: "You are doing good work, but you aren"t "systematizing' the praise. Referrals are the highest-converting, lowest-cost leads, yet you're leaving them to chance.",
+    explanation: 'You are doing good work, but you aren"t "systematizing' the praise. Referrals are the highest-converting, lowest-cost leads, yet you're leaving them to chance.',
     relatedProblems: ["not-asking-referrals", "no-incentive-referrals", "dont-know-how-refer"],
     impactAnalysis: {
-      financialImpact: "High cost of acquisition; slow growth speed.",
+      financialImpact: 'High cost of acquisition; slow growth speed.',
       severity: "Moderate",
       affectedAreas: ["Sales pipeline", "Marketing ROI"],
       strategicPriority: 'Medium'
@@ -3993,16 +3993,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of "Bothering" clients", "No referral "ask" in the process"],
       automationPotential: {
         rating: "High",
-        example: "Automated referral requests sent 24 hours after a positive NPS score or milestone."
+        example: 'Automated referral requests sent 24 hours after a positive NPS score or milestone.'
       },
-      pathToRoot: "No Referrals → Prospects Dont Know → Not Getting New Clients → Not Enough Revenue"
+      pathToRoot: 'No Referrals → Prospects Dont Know → Not Getting New Clients → Not Enough Revenue'
     }
   },
   'prospects-aware-dont-engage': {
-    explanation: "People see your brand, but they don"t click, call, or email. Your 'Hook' isn't sharp enough to stop the scroll or justify the time of an initial conversation.",
+    explanation: 'People see your brand, but they don"t click, call, or email. Your 'Hook' isn't sharp enough to stop the scroll or justify the time of an initial conversation.',
     relatedProblems: ["message-no-resonate", "offer-not-compelling", "no-clear-next-step"],
     impactAnalysis: {
-      financialImpact: "Wasted visibility/impressions; high marketing "noise" without 'signal.'",
+      financialImpact: 'Wasted visibility/impressions; high marketing "noise" without 'signal.'',
       severity: "Major",
       affectedAreas: ["Marketing Conversion", "Sales pipeline"],
       strategicPriority: 'High'
@@ -4016,16 +4016,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Weak offer", "Boring messaging", "Too much friction"],
       automationPotential: {
         rating: "High",
-        example: "A/B testing software to automatically find the highest-engaging messages."
+        example: 'A/B testing software to automatically find the highest-engaging messages.'
       },
-      pathToRoot: "Dont Engage → Not Getting New Clients → Not Enough Revenue"
+      pathToRoot: 'Dont Engage → Not Getting New Clients → Not Enough Revenue'
     }
   },
   'prospects-engage-dont-buy': {
-    explanation: "You are getting the meetings, but you"re not getting the signatures. The 'Trust Gap' or the 'Value Gap' is too large at the point of sale.",
+    explanation: 'You are getting the meetings, but you"re not getting the signatures. The 'Trust Gap' or the 'Value Gap' is too large at the point of sale.',
     relatedProblems: ["dont-trust", "dont-understand-offer", "price-objection"],
     impactAnalysis: {
-      financialImpact: "Massive waste of founder/sales time; high acquisition costs.",
+      financialImpact: 'Massive waste of founder/sales time; high acquisition costs.',
       severity: "Critical",
       affectedAreas: ["Conversion Rate", "Profitability", "Founder Morale"],
       strategicPriority: 'High'
@@ -4039,16 +4039,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor sales skills", "Weak social proof", "Complex offer"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Pre-sale' nurture sequences that build trust before the first call."
+        example: 'Automated "Pre-sale' nurture sequences that build trust before the first call.'
       },
-      pathToRoot: "Engage Dont Buy → Not Getting New Clients → Not Enough Revenue"
+      pathToRoot: 'Engage Dont Buy → Not Getting New Clients → Not Enough Revenue'
     }
   },
   'no-project-tracking': {
-    explanation: "You have no real-time visibility into your projects. You don"t know who is doing what, where the bottlenecks are, or if a project is going over budget until it's too late.",
+    explanation: 'You have no real-time visibility into your projects. You don"t know who is doing what, where the bottlenecks are, or if a project is going over budget until it's too late.',
     relatedProblems: ["dont-know-status", "cant-see-bottlenecks", "surprises-end"],
     impactAnalysis: {
-      financialImpact: "Budget overruns; missed deadlines; unbilled labor.",
+      financialImpact: 'Budget overruns; missed deadlines; unbilled labor.',
       severity: "Major",
       affectedAreas: ["Operations", "Profitability", "Team Management"],
       strategicPriority: 'High'
@@ -4062,16 +4062,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Relying on Slack/Email for management", "Lack of operational discipline"],
       automationPotential: {
         rating: "High",
-        example: "Automated project dashboards that flag "Delayed" tasks or "Over-budget' hours instantly."
+        example: 'Automated project dashboards that flag "Delayed" tasks or "Over-budget' hours instantly.'
       },
-      pathToRoot: "No Project Tracking → Project Management Issues → Bought Cant Deliver"
+      pathToRoot: 'No Project Tracking → Project Management Issues → Bought Cant Deliver'
     }
   },
   'time-trapped': {
-    explanation: "The founder is doing everything. You are the bottleneck for every decision, every email, and every deliverable. You have a job, not a business.",
+    explanation: 'The founder is doing everything. You are the bottleneck for every decision, every email, and every deliverable. You have a job, not a business.',
     relatedProblems: ["low-value-work", "cant-delegate-founder", "no-processes-documented"],
     impactAnalysis: {
-      financialImpact: "Growth is capped by your personal hours; zero business valuation.",
+      financialImpact: 'Growth is capped by your personal hours; zero business valuation.',
       severity: "Critical",
       affectedAreas: ["Scalability", "Founder Health", "Business Value"],
       strategicPriority: 'High'
@@ -4085,16 +4085,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Hero complex", "Lack of delegation skills", "No SOPs"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to triage your email and draft replies, saving 10+ hours a week."
+        example: 'Using AI to triage your email and draft replies, saving 10+ hours a week.'
       },
-      pathToRoot: "Time Trapped → Personal Bottlenecks → Not Enough Money"
+      pathToRoot: 'Time Trapped → Personal Bottlenecks → Not Enough Money'
     }
   },
   'disorganized-chaotic': {
-    explanation: "Information is everywhere and nowhere. You are losing hours a week looking for files, re-answering the same questions, and fixing things that fell through the cracks.",
+    explanation: 'Information is everywhere and nowhere. You are losing hours a week looking for files, re-answering the same questions, and fixing things that fell through the cracks.',
     relatedProblems: ["no-systems-organization", "poor-prioritization", "communication-mess"],
     impactAnalysis: {
-      financialImpact: "Hidden labor waste; high stress; poor client experience.",
+      financialImpact: 'Hidden labor waste; high stress; poor client experience.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Mental Clarity", "Team Trust"],
       strategicPriority: 'High'
@@ -4108,16 +4108,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Rapid growth without cleanup", "Personal habit of founder"],
       automationPotential: {
         rating: "High",
-        example: "Automated file naming and organization tools."
+        example: 'Automated file naming and organization tools.'
       },
-      pathToRoot: "Disorganized → Personal Bottlenecks → Not Enough Money"
+      pathToRoot: 'Disorganized → Personal Bottlenecks → Not Enough Money'
     }
   },
   'value-conveyance': {
-    explanation: "You might be doing great work, but the client doesn"t perceive it as valuable. This is a messaging and translation gap. You are talking about 'features' while the client cares about 'outcomes' and 'ROI.'",
+    explanation: 'You might be doing great work, but the client doesn"t perceive it as valuable. This is a messaging and translation gap. You are talking about 'features' while the client cares about 'outcomes' and 'ROI.'',
     relatedProblems: ["weak-messaging", "no-roi-proof", "look-too-small"],
     impactAnalysis: {
-      financialImpact: "High price sensitivity; constant negotiation/haggling.",
+      financialImpact: 'High price sensitivity; constant negotiation/haggling.',
       severity: "Major",
       affectedAreas: ["Sales Conversion", "Client Satisfaction", "Pricing Power"],
       strategicPriority: 'High'
@@ -4131,16 +4131,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technical jargon", "Lack of sales training", "Inability to quantify results"],
       automationPotential: {
         rating: "High",
-        example: "Automated ROI calculators or "Savings" reports delivered monthly to clients."
+        example: 'Automated ROI calculators or "Savings" reports delivered monthly to clients.'
       },
-      pathToRoot: "Value Gap → Clients Don"t Pay Enough → Not Enough Revenue (Root)"
+      pathToRoot: 'Value Gap → Clients Don"t Pay Enough → Not Enough Revenue (Root)'
     }
   },
   'pricing-model-revenue': {
-    explanation: "The way you charge is fundamentally limiting your revenue. Relying solely on flat fees or hourly rates caps your upside and keeps you on a treadmill. You lack recurring revenue or value-based tiers that capture the true worth of your work.",
+    explanation: 'The way you charge is fundamentally limiting your revenue. Relying solely on flat fees or hourly rates caps your upside and keeps you on a treadmill. You lack recurring revenue or value-based tiers that capture the true worth of your work.',
     relatedProblems: ["no-recurring-revenue", "flat-fees-low", "no-performance-upside"],
     impactAnalysis: {
-      financialImpact: "Unpredictable revenue; inability to scale without more labor.",
+      financialImpact: 'Unpredictable revenue; inability to scale without more labor.',
       severity: "Major",
       affectedAreas: ["Business Valuation", "Cash Flow", "Scalability"],
       strategicPriority: 'High'
@@ -4154,16 +4154,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Trading time for money", "Lack of scalable productized services", "Fear of long-term commitment"],
       automationPotential: {
         rating: "High",
-        example: "Automated subscription billing and usage-based invoicing."
+        example: 'Automated subscription billing and usage-based invoicing.'
       },
-      pathToRoot: "Broken Model → Clients Don"t Pay Enough → Not Enough Revenue (Root)"
+      pathToRoot: 'Broken Model → Clients Don"t Pay Enough → Not Enough Revenue (Root)'
     }
   },
   'not-enough-clients': {
-    explanation: "Your total client base is too small to sustain the business. This can be due to high churn, existing clients not buying more, or failing to acquire new clients.",
+    explanation: 'Your total client base is too small to sustain the business. This can be due to high churn, existing clients not buying more, or failing to acquire new clients.',
     relatedProblems: ["clients-churned", "clients-not-buying-more", "not-getting-new"],
     impactAnalysis: {
-      financialImpact: "Low top-line revenue; inability to cover fixed costs.",
+      financialImpact: 'Low top-line revenue; inability to cover fixed costs.',
       severity: "Major",
       affectedAreas: ["Revenue", "Growth"],
       strategicPriority: 'High'
@@ -4177,16 +4177,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor marketing", "Weak sales process", "Product-market fit issues"],
       automationPotential: {
         rating: "High",
-        example: "Automated lead nurturing and client engagement systems."
+        example: 'Automated lead nurturing and client engagement systems.'
       },
-      pathToRoot: "Not Enough Clients → Not Enough Revenue → Not Enough Money (Root)"
+      pathToRoot: 'Not Enough Clients → Not Enough Revenue → Not Enough Money (Root)'
     }
   },
   'bought-cant-deliver': {
-    explanation: "You have sold more than you can handle. This leads to delivery delays, quality issues, and eventual reputation damage.",
+    explanation: 'You have sold more than you can handle. This leads to delivery delays, quality issues, and eventual reputation damage.',
     relatedProblems: ["not-enough-capacity", "process-bottlenecks", "quality-problems"],
     impactAnalysis: {
-      financialImpact: "Churn risk; high rework costs; missed future sales.",
+      financialImpact: 'Churn risk; high rework costs; missed future sales.',
       severity: "Major",
       affectedAreas: ["Delivery", "Customer Satisfaction", "Reputation"],
       strategicPriority: 'High'
@@ -4200,16 +4200,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-selling", "Under-hiring", "Inefficient fulfillment"],
       automationPotential: {
         rating: "High",
-        example: "Automated project management and fulfillment workflows."
+        example: 'Automated project management and fulfillment workflows.'
       },
-      pathToRoot: "Bought Cant Deliver → Not Enough Revenue → Not Enough Money (Root)"
+      pathToRoot: 'Bought Cant Deliver → Not Enough Revenue → Not Enough Money (Root)'
     }
   },
   'founder-everything': {
-    explanation: "The founder is the single point of failure. You are doing delivery, sales, admin, and strategy. This is not a business; it"s a high-stress job.",
+    explanation: 'The founder is the single point of failure. You are doing delivery, sales, admin, and strategy. This is not a business; it"s a high-stress job.',
     relatedProblems: ["cant-delegate", "no-one-knows-how", "afraid-let-go"],
     impactAnalysis: {
-      financialImpact: "Capped revenue; high burnout risk; zero exit value.",
+      financialImpact: 'Capped revenue; high burnout risk; zero exit value.',
       severity: "Major",
       affectedAreas: ["Scalability", "Founder Health"],
       strategicPriority: 'High'
@@ -4223,16 +4223,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of SOPs", "Hero complex", "Control issues"],
       automationPotential: {
         rating: "High",
-        example: "Automated triage systems to offload the founder"s initial touchpoints."
+        example: 'Automated triage systems to offload the founder"s initial touchpoints.'
       },
-      pathToRoot: "Founder Everything → Capacity Issues → Not Enough Revenue (Root)"
+      pathToRoot: 'Founder Everything → Capacity Issues → Not Enough Revenue (Root)'
     }
   },
   'project-management-issues': {
-    explanation: "Projects are slipping, scope is creeping, and communication is failing. This leads to inefficient delivery and low profit margins.",
+    explanation: 'Projects are slipping, scope is creeping, and communication is failing. This leads to inefficient delivery and low profit margins.',
     relatedProblems: ["scope-creep-profit", "timelines-slip", "communication-breakdowns-pm"],
     impactAnalysis: {
-      financialImpact: "Erosion of profit margins; high rework costs.",
+      financialImpact: 'Erosion of profit margins; high rework costs.',
       severity: "Moderate",
       affectedAreas: ["Operations", "Team Efficiency", "Profitability"],
       strategicPriority: 'Medium'
@@ -4246,16 +4246,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of standardized PM process", "Poor communication", "Undefined roles"],
       automationPotential: {
         rating: "High",
-        example: "Automated project templates and task reminders."
+        example: 'Automated project templates and task reminders.'
       },
-      pathToRoot: "PM Issues → Inefficient Delivery → Money Out Fast → Not Enough Money (Root)"
+      pathToRoot: 'PM Issues → Inefficient Delivery → Money Out Fast → Not Enough Money (Root)'
     }
   },
   'client-management-issues': {
-    explanation: "You are dealing with difficult or wrong clients, leading to constant changes, unreasonable expectations, and low profit.",
+    explanation: 'You are dealing with difficult or wrong clients, leading to constant changes, unreasonable expectations, and low profit.',
     relatedProblems: ["difficult-clients", "wrong-clients", "no-client-boundaries"],
     impactAnalysis: {
-      financialImpact: "High stress; low profit; team burnout.",
+      financialImpact: 'High stress; low profit; team burnout.',
       severity: "Moderate",
       affectedAreas: ["Team Morale", "Profitability", "Service Quality"],
       strategicPriority: 'Medium'
@@ -4269,16 +4269,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Desperate for business", "Weak sales qualifying", "Lack of clear boundaries"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated client onboarding and expectation-setting sequences."
+        example: 'Automated client onboarding and expectation-setting sequences.'
       },
-      pathToRoot: "Client Issues → Inefficient Delivery → Money Out Fast → Not Enough Money (Root)"
+      pathToRoot: 'Client Issues → Inefficient Delivery → Money Out Fast → Not Enough Money (Root)'
     }
   },
   'cant-delegate-founder': {
-    explanation: "You struggle to let go of control, either because you don"t trust others or you don"t know how to delegate effectively.",
+    explanation: 'You struggle to let go of control, either because you don"t trust others or you don"t know how to delegate effectively.',
     relatedProblems: ["dont-trust-others", "easier-do-myself", "no-one-delegate"],
     impactAnalysis: {
-      financialImpact: "Capped growth; high opportunity cost.",
+      financialImpact: 'Capped growth; high opportunity cost.',
       severity: "Major",
       affectedAreas: ["Scalability", "Founder Productivity"],
       strategicPriority: 'High'
@@ -4292,16 +4292,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Control issues", "Lack of training systems", "Hero complex"],
       automationPotential: {
         rating: "High",
-        example: "Using delegation tracking tools to monitor task progress without constant check-ins."
+        example: 'Using delegation tracking tools to monitor task progress without constant check-ins.'
       },
-      pathToRoot: "Cant Delegate → Founder Bottleneck → Capacity Issues → Revenue Risk (Root)"
+      pathToRoot: 'Cant Delegate → Founder Bottleneck → Capacity Issues → Revenue Risk (Root)'
     }
   },
   'no-processes-documented': {
-    explanation: "Everything is in the founder"s head. This makes delegating impossible and training new team members slow and painful.",
+    explanation: 'Everything is in the founder"s head. This makes delegating impossible and training new team members slow and painful.',
     relatedProblems: ["everything-founders-head", "cant-hand-off", "explain-every-time"],
     impactAnalysis: {
-      financialImpact: "High cost of training; inconsistent quality; low asset value.",
+      financialImpact: 'High cost of training; inconsistent quality; low asset value.',
       severity: "Major",
       affectedAreas: ["Operations", "Asset Value", "Scalability"],
       strategicPriority: 'High'
@@ -4315,16 +4315,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder hero syndrome", "Lack of time to document", "Scale exceeding infrastructure"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to generate SOP drafts from screen recordings."
+        example: 'Using AI to generate SOP drafts from screen recordings.'
       },
-      pathToRoot: "No Docs → Founder Bottleneck → Capacity Issues → Revenue Risk (Root)"
+      pathToRoot: 'No Docs → Founder Bottleneck → Capacity Issues → Revenue Risk (Root)'
     }
   },
   'skills-knowledge-gap': {
-    explanation: "The founder or team lacks critical business, marketing, or technical skills needed to scale.",
+    explanation: 'The founder or team lacks critical business, marketing, or technical skills needed to scale.',
     relatedProblems: ["no-business-skills", "no-marketing-skills", "learning-too-slow"],
     impactAnalysis: {
-      financialImpact: "Missed opportunities; poor strategic decisions.",
+      financialImpact: 'Missed opportunities; poor strategic decisions.',
       severity: "Major",
       affectedAreas: ["Leadership", "Strategic Growth", "Competitiveness"],
       strategicPriority: 'High'
@@ -4338,17 +4338,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Inexperience", "Lack of training resources", "No time to learn"],
       automationPotential: {
         rating: "Low",
-        example: "Skill gaps are solved through education/hiring, not directly through automation."
+        example: 'Skill gaps are solved through education/hiring, not directly through automation.'
       },
-      pathToRoot: "Skill Gap → Founder Bottleneck → Strategic Failure → Not Enough Money (Root)"
+      pathToRoot: 'Skill Gap → Founder Bottleneck → Strategic Failure → Not Enough Money (Root)'
     }
   },
   // CHURN BRANCH
   'competitor-stole': {
-    explanation: "A competitor offered a better price, better features, or a better relationship. You lost the client because you stopped being the "Best" choice for them.",
+    explanation: 'A competitor offered a better price, better features, or a better relationship. You lost the client because you stopped being the "Best" choice for them.',
     relatedProblems: ["commoditized-service", "no-differentiation"],
     impactAnalysis: {
-      financialImpact: "Loss of market share; increased acquisition pressure.",
+      financialImpact: 'Loss of market share; increased acquisition pressure.',
       severity: "Major",
       affectedAreas: ["LTV", "Competitive Positioning"],
       strategicPriority: 'High'
@@ -4362,16 +4362,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Commoditization", "Passive relationship management", "Competitor innovation"],
       automationPotential: {
         rating: "Medium",
-        example: "Competitive intelligence tools to track rival pricing and features automatically."
+        example: 'Competitive intelligence tools to track rival pricing and features automatically.'
       },
-      pathToRoot: "Competitor Stole → Why They Left → Clients Churned"
+      pathToRoot: 'Competitor Stole → Why They Left → Clients Churned'
     }
   },
   'no-renewal-process': {
-    explanation: "Contracts are ending and no one is asking for the renewal. You are letting clients drift away simply because you didn"t send a follow-up email.",
+    explanation: 'Contracts are ending and no one is asking for the renewal. You are letting clients drift away simply because you didn"t send a follow-up email.',
     relatedProblems: ["no-retention-system", "assuming-stay"],
     impactAnalysis: {
-      financialImpact: "Passive revenue erosion; high cost of replacement sales.",
+      financialImpact: 'Passive revenue erosion; high cost of replacement sales.',
       severity: "Major",
       affectedAreas: ["Retention Rate", "LTV"],
       strategicPriority: 'High'
@@ -4385,17 +4385,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of admin oversight", "Fear of client re-evaluating the deal"],
       automationPotential: {
         rating: "High",
-        example: "Automated contract renewal workflows in your CRM or CLM."
+        example: 'Automated contract renewal workflows in your CRM or CLM.'
       },
-      pathToRoot: "No Renewal Process → No Retention System → Clients Churned"
+      pathToRoot: 'No Renewal Process → No Retention System → Clients Churned'
     }
   },
   // LEAD GEN BRANCH
   'dont-know-where-market': {
-    explanation: "You are guessing where your leads are. You are spending time on Instagram when your clients are on LinkedIn, or at trade shows when they are on Google.",
+    explanation: 'You are guessing where your leads are. You are spending time on Instagram when your clients are on LinkedIn, or at trade shows when they are on Google.',
     relatedProblems: ["no-research", "guessing-demographics"],
     impactAnalysis: {
-      financialImpact: "Massive waste of marketing spend and founder time.",
+      financialImpact: 'Massive waste of marketing spend and founder time.',
       severity: "Major",
       affectedAreas: ["Marketing ROI", "Lead Quality"],
       strategicPriority: 'High'
@@ -4409,16 +4409,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of customer research", "Marketing based on "Gut""],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI audience research tools (SparkToro, etc.) to map your market."
+        example: 'Using AI audience research tools (SparkToro, etc.) to map your market.'
       },
-      pathToRoot: "Unknown Market Location → Cant Find Prospects → Not Getting New Clients"
+      pathToRoot: 'Unknown Market Location → Cant Find Prospects → Not Getting New Clients'
     }
   },
   'lead-gen-insufficient': {
-    explanation: "Your pipeline is dry. You don"t have enough "Shots on Goal' to hit your revenue targets. This is a volume problem.",
+    explanation: 'Your pipeline is dry. You don"t have enough "Shots on Goal' to hit your revenue targets. This is a volume problem.',
     relatedProblems: ["not-enough-activity", "sources-dried"],
     impactAnalysis: {
-      financialImpact: "Revenue stagnation; inability to project future growth.",
+      financialImpact: 'Revenue stagnation; inability to project future growth.',
       severity: "Critical",
       affectedAreas: ["Top-line Revenue', "Business Survival"],
       strategicPriority: 'High'
@@ -4432,16 +4432,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Inconsistent marketing effort", "Reliance on a single channel"],
       automationPotential: {
         rating: "High",
-        example: "Automated outbound prospecting systems (Instantly, Apollo, etc.)."
+        example: 'Automated outbound prospecting systems (Instantly, Apollo, etc.).'
       },
-      pathToRoot: "Low Lead Volume → Cant Find Prospects → Not Getting New Clients"
+      pathToRoot: 'Low Lead Volume → Cant Find Prospects → Not Getting New Clients'
     }
   },
   'no-visibility': {
-    explanation: "You are invisible to the market. You have no "Digital Footprint,' making it impossible for prospects to find you organically.",
+    explanation: 'You are invisible to the market. You have no "Digital Footprint,' making it impossible for prospects to find you organically.',
     relatedProblems: ["no-marketing", "no-website", "seo-nonexistent"],
     impactAnalysis: {
-      financialImpact: "100% reliance on expensive paid ads or manual outreach.",
+      financialImpact: '100% reliance on expensive paid ads or manual outreach.',
       severity: "Major",
       affectedAreas: ["Organic Reach", "Acquisition Cost"],
       strategicPriority: 'High'
@@ -4455,16 +4455,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder avoidance of "Public" presence", "Technical debt in marketing tech"],
       automationPotential: {
         rating: "High",
-        example: "Automated social media posting and basic AI-driven content generation."
+        example: 'Automated social media posting and basic AI-driven content generation.'
       },
-      pathToRoot: "No Visibility → Prospects Dont Know → Not Getting New Clients"
+      pathToRoot: 'No Visibility → Prospects Dont Know → Not Getting New Clients'
     }
   },
   'message-no-resonate': {
-    explanation: "People are seeing you, but they don"t care. Your message is too generic, too technical, or simply doesn't solve a pain they actually feel.",
+    explanation: 'People are seeing you, but they don"t care. Your message is too generic, too technical, or simply doesn't solve a pain they actually feel.',
     relatedProblems: ["talking-us-not-problems", "benefits-unclear", "weak-messaging"],
     impactAnalysis: {
-      financialImpact: "High cost of attention with zero conversion.",
+      financialImpact: 'High cost of attention with zero conversion.',
       severity: "Major",
       affectedAreas: ["Click-through Rate', "Conversion Rate"],
       strategicPriority: 'High'
@@ -4478,16 +4478,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of empathy/customer understanding", "Feature-focused selling"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to analyze customer reviews and rewrite copy in their exact voice."
+        example: 'Using AI to analyze customer reviews and rewrite copy in their exact voice.'
       },
-      pathToRoot: "Message Mismatch → Aware But Dont Engage → Not Getting New Clients"
+      pathToRoot: 'Message Mismatch → Aware But Dont Engage → Not Getting New Clients'
     }
   },
   'offer-not-compelling': {
-    explanation: "Your product/service sounds "Fine.' But fine doesn't get people to part with their money. You lack a 'Grand Slam Offer' that feels like an obvious win.",
+    explanation: 'Your product/service sounds "Fine.' But fine doesn't get people to part with their money. You lack a 'Grand Slam Offer' that feels like an obvious win.',
     relatedProblems: ["looks-like-everyone", "no-differentiation", "nothing-unique"],
     impactAnalysis: {
-      financialImpact: "High price sensitivity; long sales conversations that end in "No.'",
+      financialImpact: 'High price sensitivity; long sales conversations that end in "No.'',
       severity: "Major",
       affectedAreas: ["Sales Conversion", "Pricing Power"],
       strategicPriority: 'High'
@@ -4501,16 +4501,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Commoditization", "Fear of making a bold claim"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a strategy and creative task."
+        example: 'N/A - this is a strategy and creative task.'
       },
-      pathToRoot: "Weak Offer → Aware But Dont Engage → Not Getting New Clients"
+      pathToRoot: 'Weak Offer → Aware But Dont Engage → Not Getting New Clients'
     }
   },
   'dont-trust-us': {
-    explanation: "The prospect likes the idea, but they don"t believe *you* can deliver it. You lack the 'Proof' required to lower their perceived risk.",
+    explanation: 'The prospect likes the idea, but they don"t believe *you* can deliver it. You lack the 'Proof' required to lower their perceived risk.',
     relatedProblems: ["no-testimonials", "no-track-record", "website-unprofessional"],
     impactAnalysis: {
-      financialImpact: "High drop-off at the final stage of the funnel.",
+      financialImpact: 'High drop-off at the final stage of the funnel.',
       severity: "Major",
       affectedAreas: ["Close Rate", "Brand Equity"],
       strategicPriority: 'High'
@@ -4524,17 +4524,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["New business/offer", "Invisible results", "Poor branding"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated testimonial gathering and display widgets (Senja, TrustPulse)."
+        example: 'Automated testimonial gathering and display widgets (Senja, TrustPulse).'
       },
-      pathToRoot: "Lack of Trust → Engage But Dont Buy → Not Getting New Clients"
+      pathToRoot: 'Lack of Trust → Engage But Dont Buy → Not Getting New Clients'
     }
   },
   // ADMIN BRANCH
   'work-others-cheaper': {
-    explanation: "You are performing tasks that have a market value of $20-$50/hour while your business needs you to perform $500/hour activities. Every hour you spend on "cheap" work is an hour you are effectively paying yourself a junior's salary.",
+    explanation: 'You are performing tasks that have a market value of $20-$50/hour while your business needs you to perform $500/hour activities. Every hour you spend on "cheap" work is an hour you are effectively paying yourself a junior's salary.',
     relatedProblems: ["low-value-work", "cant-delegate-founder"],
     impactAnalysis: {
-      financialImpact: "Direct loss of high-value growth; highest opportunity cost in the business.",
+      financialImpact: 'Direct loss of high-value growth; highest opportunity cost in the business.',
       severity: "Major",
       affectedAreas: ["Founder Throughput", "Growth Speed"],
       strategicPriority: 'High'
@@ -4548,16 +4548,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Frugality mindset ("I can save money by doing it myself")", "Lack of awareness of task value"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to perform routine drafting, research, or data tasks."
+        example: 'Using AI to perform routine drafting, research, or data tasks.'
       },
-      pathToRoot: "Cheap Work → Low-Value Work → Time Trapped → Personal Bottlenecks"
+      pathToRoot: 'Cheap Work → Low-Value Work → Time Trapped → Personal Bottlenecks'
     }
   },
   'busy-not-revenue': {
-    explanation: "You are mistaking activity for progress. Your calendar is full, but your bank account isn"t growing. You are focusing on 'Business Theater' rather than 'Revenue Generating Activities' (RGAs).",
+    explanation: 'You are mistaking activity for progress. Your calendar is full, but your bank account isn"t growing. You are focusing on 'Business Theater' rather than 'Revenue Generating Activities' (RGAs).',
     relatedProblems: ["low-value-work", "reactive-not-proactive"],
     impactAnalysis: {
-      financialImpact: "Strategic stagnation; running in place while competition moves ahead.",
+      financialImpact: 'Strategic stagnation; running in place while competition moves ahead.',
       severity: "Major",
       affectedAreas: ["Strategic Growth", "Revenue Predictability"],
       strategicPriority: 'High'
@@ -4571,16 +4571,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Avoiding difficult sales/growth work", "Lack of clear goals", "People-pleasing"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a prioritization and mindset shift."
+        example: 'N/A - this is a prioritization and mindset shift.'
       },
-      pathToRoot: "Busywork → Low-Value Work → Time Trapped → Personal Bottlenecks"
+      pathToRoot: 'Busywork → Low-Value Work → Time Trapped → Personal Bottlenecks'
     }
   },
   'firefighting-not-building': {
-    explanation: "You spend your entire day solving problems that shouldn"t have happened in the first place. You are reactive, constantly 'putting out fires' rather than building the systems that prevent them.",
+    explanation: 'You spend your entire day solving problems that shouldn"t have happened in the first place. You are reactive, constantly 'putting out fires' rather than building the systems that prevent them.',
     relatedProblems: ["low-value-work", "no-systems"],
     impactAnalysis: {
-      financialImpact: "Zero progress on infrastructure; high stress; recurring mistakes.",
+      financialImpact: 'Zero progress on infrastructure; high stress; recurring mistakes.',
       severity: "Major",
       affectedAreas: ["Mental Clarity", "Scalability", "Operational Stability"],
       strategicPriority: 'High'
@@ -4594,16 +4594,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of operational systems", "Poorly trained team", "Reactive leadership style"],
       automationPotential: {
         rating: "Medium",
-        example: "Using automated monitoring and alerts to catch "Small Sparks" before they become fires."
+        example: 'Using automated monitoring and alerts to catch "Small Sparks" before they become fires.'
       },
-      pathToRoot: "Firefighting → Low-Value Work → Time Trapped → Personal Bottlenecks"
+      pathToRoot: 'Firefighting → Low-Value Work → Time Trapped → Personal Bottlenecks'
     }
   },
   'micromanagement': {
-    explanation: "You hired people but you don"t trust them to do the work. You are involved in every tiny detail, which slows down the team, creates a bottleneck, and prevents your staff from growing.",
+    explanation: 'You hired people but you don"t trust them to do the work. You are involved in every tiny detail, which slows down the team, creates a bottleneck, and prevents your staff from growing.',
     relatedProblems: ["cant-delegate-founder", "dont-trust-others"],
     impactAnalysis: {
-      financialImpact: "Highest cost of management; low team morale; zero scalability.",
+      financialImpact: 'Highest cost of management; low team morale; zero scalability.',
       severity: "Major",
       affectedAreas: ["Team Morale", "Scalability", "Founder Efficiency"],
       strategicPriority: 'Medium'
@@ -4617,16 +4617,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Perfectionism", "Insecurity", "Lack of clear training/SOPs"],
       automationPotential: {
         rating: "Medium",
-        example: "Using project dashboards to see progress *without* having to ask for updates."
+        example: 'Using project dashboards to see progress *without* having to ask for updates.'
       },
-      pathToRoot: "Micromanagement → Cant Delegate → Time Trapped → Personal Bottlenecks"
+      pathToRoot: 'Micromanagement → Cant Delegate → Time Trapped → Personal Bottlenecks'
     }
   },
   'everything-founders-head': {
-    explanation: "The business knowledge is trapped in your brain. If you aren"t there to answer questions, the business stops. This makes you the world's most expensive 'Support Desk.'",
+    explanation: 'The business knowledge is trapped in your brain. If you aren"t there to answer questions, the business stops. This makes you the world's most expensive 'Support Desk.'',
     relatedProblems: ["no-processes-documented", "knowledge-not-transferable"],
     impactAnalysis: {
-      financialImpact: "High cost of existence; zero exit value; high training friction.",
+      financialImpact: 'High cost of existence; zero exit value; high training friction.',
       severity: "Critical",
       affectedAreas: ["Scalability", "Asset Value", "Team Autonomy"],
       strategicPriority: 'High'
@@ -4640,16 +4640,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Moving too fast to document", "Reliance on verbal communication"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to transcribe your verbal instructions into written SOPs."
+        example: 'Using AI to transcribe your verbal instructions into written SOPs.'
       },
-      pathToRoot: "Internal Bottleneck → No Docs → Time Trapped → Personal Bottlenecks"
+      pathToRoot: 'Internal Bottleneck → No Docs → Time Trapped → Personal Bottlenecks'
     }
   },
   'knowledge-not-transferable': {
-    explanation: "You have built a service that is "Magic" rather than "Method.' It's based on your unique intuition or talent, meaning you can't easily teach someone else to do it.",
+    explanation: 'You have built a service that is "Magic" rather than "Method.' It's based on your unique intuition or talent, meaning you can't easily teach someone else to do it.',
     relatedProblems: ["no-processes-documented", "service-complex"],
     impactAnalysis: {
-      financialImpact: "Growth ceiling; inability to hire senior replacements; high "Magic" tax.",
+      financialImpact: 'Growth ceiling; inability to hire senior replacements; high "Magic" tax.',
       severity: "Major",
       affectedAreas: ["Scalability", "Product Strategy"],
       strategicPriority: 'Medium'
@@ -4663,16 +4663,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of proprietary method", "Over-reliance on founder talent"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI models trained on your "Method" to assist team members."
+        example: 'Using AI models trained on your "Method" to assist team members.'
       },
-      pathToRoot: "Non-Transferable → No Docs → Time Trapped → Personal Bottlenecks"
+      pathToRoot: 'Non-Transferable → No Docs → Time Trapped → Personal Bottlenecks'
     }
   },
   'no-systems-organization': {
-    explanation: "You have no "Home" for information. Tasks, files, and communications are scattered across Slack, Email, WhatsApp, and your memory. This is the foundation of chaos.",
+    explanation: 'You have no "Home" for information. Tasks, files, and communications are scattered across Slack, Email, WhatsApp, and your memory. This is the foundation of chaos.',
     relatedProblems: ["disorganized-chaotic", "messy-files", "no-task-management"],
     impactAnalysis: {
-      financialImpact: "High hidden labor waste; missed opportunities; high team frustration.",
+      financialImpact: 'High hidden labor waste; missed opportunities; high team frustration.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Mental Clarity", "Operational Stability"],
       strategicPriority: 'High'
@@ -4686,16 +4686,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Tool fragmentation", "Lack of operational discipline", "Rapid scale"],
       automationPotential: {
         rating: "High",
-        example: "Automated file routing and task creation using centralized workspace tools."
+        example: 'Automated file routing and task creation using centralized workspace tools.'
       },
-      pathToRoot: "No Org Systems → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'No Org Systems → Disorganized → Personal Bottlenecks'
     }
   },
   'messy-files': {
-    explanation: "Documents are named "final_final_v2.pdf' and hidden in deep folder structures. You and your team waste 30-60 mins a day just searching for things you already have.",
+    explanation: 'Documents are named "final_final_v2.pdf' and hidden in deep folder structures. You and your team waste 30-60 mins a day just searching for things you already have.',
     relatedProblems: ["no-systems-organization", "cant-find-things"],
     impactAnalysis: {
-      financialImpact: "Direct labor waste; risk of using outdated information.",
+      financialImpact: 'Direct labor waste; risk of using outdated information.',
       severity: "Low to Moderate",
       affectedAreas: ["Efficiency", "Quality Control"],
       strategicPriority: 'Medium'
@@ -4709,16 +4709,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of folder hierarchy SOP", "No naming convention", "Personal habit of team"],
       automationPotential: {
         rating: "High",
-        example: "Using AI-powered file search and automated tagging/organization."
+        example: 'Using AI-powered file search and automated tagging/organization.'
       },
-      pathToRoot: "Messy Files → No Org Systems → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'Messy Files → No Org Systems → Disorganized → Personal Bottlenecks'
     }
   },
   'sticky-notes-everywhere': {
-    explanation: "Your "System" is physical clutter. Sticky notes, physical pads, and memory are not searchable, not shareable, and easily lost. It's a sign of a 'Single-User' business mindset.",
+    explanation: 'Your "System" is physical clutter. Sticky notes, physical pads, and memory are not searchable, not shareable, and easily lost. It's a sign of a 'Single-User' business mindset.',
     relatedProblems: ["no-systems-organization", "no-task-management"],
     impactAnalysis: {
-      financialImpact: "Information loss; inability to delegate; high risk of items "falling through.'",
+      financialImpact: 'Information loss; inability to delegate; high risk of items "falling through.'',
       severity: "Moderate",
       affectedAreas: ["Reliability", "Scalability"],
       strategicPriority: 'Medium'
@@ -4732,16 +4732,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Resistance to digital tools", "Fear of "System" overhead"],
       automationPotential: {
         rating: "High",
-        example: "Using OCR (Optical Character Recognition) to digitize notes instantly."
+        example: 'Using OCR (Optical Character Recognition) to digitize notes instantly.'
       },
-      pathToRoot: "Physical Chaos → No Org Systems → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'Physical Chaos → No Org Systems → Disorganized → Personal Bottlenecks'
     }
   },
   'shiny-object-syndrome': {
-    explanation: "You are constantly starting new projects but finishing none. You are chasing the "Next Big Thing" because the current thing is hard or boring. This prevents the business from ever reaching critical mass.",
+    explanation: 'You are constantly starting new projects but finishing none. You are chasing the "Next Big Thing" because the current thing is hard or boring. This prevents the business from ever reaching critical mass.',
     relatedProblems: ["poor-prioritization", "everything-urgent"],
     impactAnalysis: {
-      financialImpact: "Diverted resources; zero momentum; wasted R&D spend.",
+      financialImpact: 'Diverted resources; zero momentum; wasted R&D spend.',
       severity: "Major",
       affectedAreas: ["Growth Speed", "Focus", "Productivity"],
       strategicPriority: 'High'
@@ -4755,16 +4755,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Entrepreneurial boredom", "Fear of failure in the core business", "Lack of clear vision"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a leadership and focus issue."
+        example: 'N/A - this is a leadership and focus issue.'
       },
-      pathToRoot: "Shiny Object Syndrome → Poor Prioritization → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'Shiny Object Syndrome → Poor Prioritization → Disorganized → Personal Bottlenecks'
     }
   },
   'time-management-broken': {
-    explanation: "You have no control over your day. You are a "slave to the notifications.' This leads to long hours with very little output, eventually causing burnout.",
+    explanation: 'You have no control over your day. You are a "slave to the notifications.' This leads to long hours with very little output, eventually causing burnout.',
     relatedProblems: ["no-calendar-system", "no-time-blocking", "interruptions-constant"],
     impactAnalysis: {
-      financialImpact: "Low founder productivity; high stress; eventual health collapse.",
+      financialImpact: 'Low founder productivity; high stress; eventual health collapse.',
       severity: "Major",
       affectedAreas: ["Founder Health", "Efficiency", "Leadership"],
       strategicPriority: 'High'
@@ -4778,16 +4778,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of boundaries", "Reliance on synchronous communication", "Reactive habits"],
       automationPotential: {
         rating: "High",
-        example: "Using automated calendar managers and focus-mode software."
+        example: 'Using automated calendar managers and focus-mode software.'
       },
-      pathToRoot: "Broken Time Management → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'Broken Time Management → Disorganized → Personal Bottlenecks'
     }
   },
   'no-time-blocking': {
-    explanation: "You work on whatever is "loudest" right now. You lack the discipline to dedicate specific blocks of time to specific types of work, leading to constant context-switching.",
+    explanation: 'You work on whatever is "loudest" right now. You lack the discipline to dedicate specific blocks of time to specific types of work, leading to constant context-switching.',
     relatedProblems: ["time-management-broken", "interruptions-switching"],
     impactAnalysis: {
-      financialImpact: "40% reduction in cognitive performance due to switching; delayed projects.",
+      financialImpact: '40% reduction in cognitive performance due to switching; delayed projects.',
       severity: "Moderate",
       affectedAreas: ["Productivity", "Quality of Work"],
       strategicPriority: 'Medium'
@@ -4801,16 +4801,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of planning", "Under-estimating task duration"],
       automationPotential: {
         rating: "Medium",
-        example: "Smart scheduling tools that auto-block time based on task priority."
+        example: 'Smart scheduling tools that auto-block time based on task priority.'
       },
-      pathToRoot: "No Blocking → Broken Time Management → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'No Blocking → Broken Time Management → Disorganized → Personal Bottlenecks'
     }
   },
   'interruptions-constant': {
-    explanation: "Your team, clients, and family can reach you at any time. You are never in "Deep Work" for more than 15 minutes. You are living in a state of 'continuous partial attention.'",
+    explanation: 'Your team, clients, and family can reach you at any time. You are never in "Deep Work" for more than 15 minutes. You are living in a state of 'continuous partial attention.'',
     relatedProblems: ["time-management-broken", "interruptions-switching"],
     impactAnalysis: {
-      financialImpact: "High error rate; low-quality decisions; high stress.",
+      financialImpact: 'High error rate; low-quality decisions; high stress.',
       severity: "Major",
       affectedAreas: ["Mental Health", "Output Quality"],
       strategicPriority: 'High'
@@ -4824,16 +4824,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Culture of immediacy", "Poor team autonomy", "Notification addiction"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Quiet Mode" across all devices during scheduled focus blocks."
+        example: 'Automated "Quiet Mode" across all devices during scheduled focus blocks.'
       },
-      pathToRoot: "Constant Interruptions → Broken Time Management → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'Constant Interruptions → Broken Time Management → Disorganized → Personal Bottlenecks'
     }
   },
   'communication-mess': {
-    explanation: "You are searching 5 different apps to find one piece of information. Your "Corporate Memory" is fragmented, leading to confusion and missed deadlines.",
+    explanation: 'You are searching 5 different apps to find one piece of information. Your "Corporate Memory" is fragmented, leading to confusion and missed deadlines.',
     relatedProblems: ["multiple-channels-mess", "losing-important-messages", "inbox-overflowing"],
     impactAnalysis: {
-      financialImpact: "Invisible time loss (search cost); client perception of incompetence.",
+      financialImpact: 'Invisible time loss (search cost); client perception of incompetence.',
       severity: "Moderate",
       affectedAreas: ["Operational Speed", "Team Alignment", "Customer Experience"],
       strategicPriority: 'Medium'
@@ -4847,16 +4847,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Tool bloat", "Lack of communication policy", "Shadow IT (team choosing their own tools)"],
       automationPotential: {
         rating: "High",
-        example: "Using AI aggregators to sync communications into a single searchable feed."
+        example: 'Using AI aggregators to sync communications into a single searchable feed.'
       },
-      pathToRoot: "Comms Chaos → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'Comms Chaos → Disorganized → Personal Bottlenecks'
     }
   },
   'inbox-overflowing': {
-    explanation: "Your email is a To-Do list that anyone in the world can add to. With thousands of unread messages, you are living in a state of "Low-Grade Anxiety' and missing revenue opportunities.",
+    explanation: 'Your email is a To-Do list that anyone in the world can add to. With thousands of unread messages, you are living in a state of "Low-Grade Anxiety' and missing revenue opportunities.',
     relatedProblems: ["communication-mess", "losing-important-messages"],
     impactAnalysis: {
-      financialImpact: "Missed sales leads; delayed vendor payments; poor client follow-up.",
+      financialImpact: 'Missed sales leads; delayed vendor payments; poor client follow-up.',
       severity: "Moderate",
       affectedAreas: ["Sales", "Mental Health", "Responsiveness"],
       strategicPriority: 'High'
@@ -4870,16 +4870,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of "Inbox Zero" discipline", "No email triage system"],
       automationPotential: {
         rating: "High",
-        example: "AI-powered email filters and triage agents (SaneBox, Superhuman)."
+        example: 'AI-powered email filters and triage agents (SaneBox, Superhuman).'
       },
-      pathToRoot: "Inbox Chaos → Comms Chaos → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'Inbox Chaos → Comms Chaos → Disorganized → Personal Bottlenecks'
     }
   },
   'workspace-environment': {
-    explanation: "Your physical or digital desk is a disaster. Visual clutter leads to mental clutter. If you can"t see your desk, you can't see the path to growth.",
+    explanation: 'Your physical or digital desk is a disaster. Visual clutter leads to mental clutter. If you can"t see your desk, you can't see the path to growth.',
     relatedProblems: ["physical-clutter", "desktop-chaos", "too-many-tabs"],
     impactAnalysis: {
-      financialImpact: "Reduced focus; friction in starting tasks; low energy.",
+      financialImpact: 'Reduced focus; friction in starting tasks; low energy.',
       severity: "Low",
       affectedAreas: ["Mental Clarity", "Productivity"],
       strategicPriority: 'Low'
@@ -4893,16 +4893,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Personal habit", "Lack of regular "Cleanup" cycles"],
       automationPotential: {
         rating: "Medium",
-        example: "Digital cleanup bots that auto-archive old desktop files and browser tabs."
+        example: 'Digital cleanup bots that auto-archive old desktop files and browser tabs.'
       },
-      pathToRoot: "Workspace Chaos → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'Workspace Chaos → Disorganized → Personal Bottlenecks'
     }
   },
   'health-neglected': {
-    explanation: "You are sacrificing your body for the business. Poor sleep, no exercise, and bad diet are lowering your IQ, your mood, and your leadership capacity. You are an engine running without oil.",
+    explanation: 'You are sacrificing your body for the business. Poor sleep, no exercise, and bad diet are lowering your IQ, your mood, and your leadership capacity. You are an engine running without oil.',
     relatedProblems: ["burnout-energy", "chronic-stress", "physical-symptoms"],
     impactAnalysis: {
-      financialImpact: "Poor decision-making; high medical costs; risk of long-term business stall.",
+      financialImpact: 'Poor decision-making; high medical costs; risk of long-term business stall.',
       severity: "Critical",
       affectedAreas: ["Leadership Capability", "Energy Levels", "Business Survival"],
       strategicPriority: 'High'
@@ -4916,16 +4916,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Work-at-all-costs mindset", "Lack of self-care systems", "Isolation"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this requires human lifestyle changes, though wearable tracking can help."
+        example: 'N/A - this requires human lifestyle changes, though wearable tracking can help.'
       },
-      pathToRoot: "Health Neglect → Burnout → Personal Bottlenecks"
+      pathToRoot: 'Health Neglect → Burnout → Personal Bottlenecks'
     }
   },
   'emotionally-exhausted': {
-    explanation: "You have lost your "Why.' You are numb, cynical, or constantly on the verge of tears. Your emotional reserves are empty, making you a brittle and ineffective leader.",
+    explanation: 'You have lost your "Why.' You are numb, cynical, or constantly on the verge of tears. Your emotional reserves are empty, making you a brittle and ineffective leader.',
     relatedProblems: ["burnout-energy", "lost-motivation", "decision-fatigue"],
     impactAnalysis: {
-      financialImpact: "Toxic culture; high team churn; missed strategic opportunities.",
+      financialImpact: 'Toxic culture; high team churn; missed strategic opportunities.',
       severity: "Critical",
       affectedAreas: ["Team Culture", "Vision", "Retention"],
       strategicPriority: 'High'
@@ -4939,16 +4939,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Long-term chronic stress", "Lack of support network", "Misalignment with core values"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - requires counseling, community, and rest."
+        example: 'N/A - requires counseling, community, and rest.'
       },
-      pathToRoot: "Emotional Exhaustion → Burnout → Personal Bottlenecks"
+      pathToRoot: 'Emotional Exhaustion → Burnout → Personal Bottlenecks'
     }
   },
   'no-business-skills': {
-    explanation: "You are a great "technician" but a poor 'business owner.' You don't understand cash flow, hiring, or strategy. You are trying to build a skyscraper with a Lego set.",
+    explanation: 'You are a great "technician" but a poor 'business owner.' You don't understand cash flow, hiring, or strategy. You are trying to build a skyscraper with a Lego set.',
     relatedProblems: ["skills-knowledge-gap", "no-financial-literacy", "no-systems-thinking"],
     impactAnalysis: {
-      financialImpact: "Poor capital allocation; high risk of "accidental" bankruptcy.",
+      financialImpact: 'Poor capital allocation; high risk of "accidental" bankruptcy.',
       severity: "Major",
       affectedAreas: ["Financial Management", "Strategic Growth", "Operations"],
       strategicPriority: 'High'
@@ -4962,16 +4962,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technician-turned-founder", "Lack of formal business education"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI-powered financial analysis and strategy planning tools."
+        example: 'Using AI-powered financial analysis and strategy planning tools.'
       },
-      pathToRoot: "Business Skill Gap → Knowledge Gap → Personal Bottlenecks"
+      pathToRoot: 'Business Skill Gap → Knowledge Gap → Personal Bottlenecks'
     }
   },
   'no-marketing-skills': {
-    explanation: "You don"t know how to generate attention or trust at scale. You rely on 'Referrals and Luck,' which is not a growth strategy.",
+    explanation: 'You don"t know how to generate attention or trust at scale. You rely on 'Referrals and Luck,' which is not a growth strategy.',
     relatedProblems: ["skills-knowledge-gap", "dont-know-target", "no-digital-marketing"],
     impactAnalysis: {
-      financialImpact: "Revenue growth is stagnant and unpredictable.",
+      financialImpact: 'Revenue growth is stagnant and unpredictable.',
       severity: "Major",
       affectedAreas: ["Sales pipeline", "Brand Authority"],
       strategicPriority: 'High'
@@ -4985,16 +4985,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Assumption that "Good work sells itself"", "Technical/Product bias"],
       automationPotential: {
         rating: "High",
-        example: "AI-driven marketing strategy and content generation engines."
+        example: 'AI-driven marketing strategy and content generation engines.'
       },
-      pathToRoot: "Marketing Skill Gap → Knowledge Gap → Personal Bottlenecks"
+      pathToRoot: 'Marketing Skill Gap → Knowledge Gap → Personal Bottlenecks'
     }
   },
   'learning-too-slow': {
-    explanation: "The world is moving faster than you are. Your skills and tools are becoming obsolete, but you "don"t have time' to learn new ones. You are being out-competed by people who learn 10x faster.",
+    explanation: 'The world is moving faster than you are. Your skills and tools are becoming obsolete, but you "don"t have time' to learn new ones. You are being out-competed by people who learn 10x faster.',
     relatedProblems: ["skills-knowledge-gap", "no-time-learn", "no-mentors"],
     impactAnalysis: {
-      financialImpact: "Decreasing competitiveness; eventual obsolescence.",
+      financialImpact: 'Decreasing competitiveness; eventual obsolescence.',
       severity: "Moderate",
       affectedAreas: ["Innovation", "Competitive Edge"],
       strategicPriority: 'Medium'
@@ -5008,16 +5008,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Busywork-trap", "Arrogance or fixed mindset"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to summarize books, courses, and industry news into 5-min briefs."
+        example: 'Using AI to summarize books, courses, and industry news into 5-min briefs.'
       },
-      pathToRoot: "Slow Learning → Knowledge Gap → Personal Bottlenecks"
+      pathToRoot: 'Slow Learning → Knowledge Gap → Personal Bottlenecks'
     }
   },
   'mindset-blocks': {
-    explanation: "The "Inner Bottleneck.' Fear of success, fear of failure, or an 'Imposter' mindset is preventing you from taking the big actions needed to grow.",
+    explanation: 'The "Inner Bottleneck.' Fear of success, fear of failure, or an 'Imposter' mindset is preventing you from taking the big actions needed to grow.',
     relatedProblems: ["skills-knowledge-gap", "imposter-syndrome", "fear-failure"],
     impactAnalysis: {
-      financialImpact: "Hidden growth ceiling; self-sabotage of big deals.",
+      financialImpact: 'Hidden growth ceiling; self-sabotage of big deals.',
       severity: "Major",
       affectedAreas: ["Leadership", "Sales", "Strategic Risk"],
       strategicPriority: 'High'
@@ -5031,16 +5031,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Personal trauma/history", "Lack of confidence", "Isolation"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - requires deep internal work and mentorship."
+        example: 'N/A - requires deep internal work and mentorship.'
       },
-      pathToRoot: "Mindset Blocks → Knowledge Gap → Personal Bottlenecks"
+      pathToRoot: 'Mindset Blocks → Knowledge Gap → Personal Bottlenecks'
     }
   },
   'email-meeting-overload': {
-    explanation: "Your day is reactive. You are at the mercy of everyone else"s priorities. If you spend 6 hours a day in meetings and email, you only have 2 hours left for the business.",
+    explanation: 'Your day is reactive. You are at the mercy of everyone else"s priorities. If you spend 6 hours a day in meetings and email, you only have 2 hours left for the business.',
     relatedProblems: ["time-management-broken", "interruptions-constant"],
     impactAnalysis: {
-      financialImpact: "Zero time for "Deep Work"; slow decision-making.",
+      financialImpact: 'Zero time for "Deep Work"; slow decision-making.',
       severity: "Major",
       affectedAreas: ["Strategic Vision", "Team Speed"],
       strategicPriority: 'High'
@@ -5054,16 +5054,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of asynchronous culture", "Inability to say "No""],
       automationPotential: {
         rating: "High",
-        example: "AI meeting summaries (Fireflies/Otter) to skip 50% of meetings."
+        example: 'AI meeting summaries (Fireflies/Otter) to skip 50% of meetings.'
       },
-      pathToRoot: "Overload → Low-Value Work → Time Trapped → Personal Bottlenecks"
+      pathToRoot: 'Overload → Low-Value Work → Time Trapped → Personal Bottlenecks'
     }
   },
   'dont-trust-others': {
-    explanation: "The "Only I can do it right" mindset. This is the ultimate growth killer. If you don't trust your team, you can never scale beyond your own hands.",
+    explanation: 'The "Only I can do it right" mindset. This is the ultimate growth killer. If you don't trust your team, you can never scale beyond your own hands.',
     relatedProblems: ["cant-delegate-founder", "micromanagement", "no-processes-documented"],
     impactAnalysis: {
-      financialImpact: "Revenue is capped at founder"s capacity; high team turnover.",
+      financialImpact: 'Revenue is capped at founder"s capacity; high team turnover.',
       severity: "Critical",
       affectedAreas: ["Scalability", "Team Culture", "Founder Burnout"],
       strategicPriority: 'High'
@@ -5077,16 +5077,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Perfectionism", "Previous bad hiring experiences"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a leadership and psychological hurdle."
+        example: 'N/A - this is a leadership and psychological hurdle.'
       },
-      pathToRoot: "Lack of Trust → Cant Delegate → Personal Bottlenecks"
+      pathToRoot: 'Lack of Trust → Cant Delegate → Personal Bottlenecks'
     }
   },
   'everything-founders-head': {
-    explanation: "The business relies on your "Magic.' If you get sick, the business stops. You have no systems, only intuition.",
+    explanation: 'The business relies on your "Magic.' If you get sick, the business stops. You have no systems, only intuition.',
     relatedProblems: ["no-processes-documented", "cant-hand-off", "tribal-knowledge"],
     impactAnalysis: {
-      financialImpact: "Zero exit value; impossible to train new hires fast.",
+      financialImpact: 'Zero exit value; impossible to train new hires fast.',
       severity: "Critical",
       affectedAreas: ["Business Continuity", "Asset Value", "Scalability"],
       strategicPriority: 'High'
@@ -5100,16 +5100,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Rushing to deliver", "Undervaluing systems"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to transcribe your "Brain Dumps" into structured SOPs."
+        example: 'Using AI to transcribe your "Brain Dumps" into structured SOPs.'
       },
-      pathToRoot: "Founders Head → No Processes → Time Trapped → Personal Bottlenecks"
+      pathToRoot: 'Founders Head → No Processes → Time Trapped → Personal Bottlenecks'
     }
   },
   'everything-urgent': {
-    explanation: "The "Firefighting" mode. You are always reacting to the latest crisis. You never have time for the 'Important but not Urgent' tasks that actually grow the business.",
+    explanation: 'The "Firefighting" mode. You are always reacting to the latest crisis. You never have time for the 'Important but not Urgent' tasks that actually grow the business.',
     relatedProblems: ["poor-prioritization", "reactive-not-proactive"],
     impactAnalysis: {
-      financialImpact: "Strategic drift; high burnout; missed long-term opportunities.",
+      financialImpact: 'Strategic drift; high burnout; missed long-term opportunities.',
       severity: "Major",
       affectedAreas: ["Strategic Growth", "Mental Clarity"],
       strategicPriority: 'High'
@@ -5123,16 +5123,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of clear goals", "No operational buffers"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated "Crisis Alerts" that flag real problems vs noise."
+        example: 'Automated "Crisis Alerts" that flag real problems vs noise.'
       },
-      pathToRoot: "Everything Urgent → Poor Prioritization → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'Everything Urgent → Poor Prioritization → Disorganized → Personal Bottlenecks'
     }
   },
   'inbox-overflowing': {
-    explanation: "Your email is a To-Do list that anyone in the world can add to. If you"re drowning in unread messages, you've lost control of your communication.",
+    explanation: 'Your email is a To-Do list that anyone in the world can add to. If you"re drowning in unread messages, you've lost control of your communication.',
     relatedProblems: ["communication-mess", "email-meeting-overload"],
     impactAnalysis: {
-      financialImpact: "Missed sales leads; delayed project approvals; high anxiety.",
+      financialImpact: 'Missed sales leads; delayed project approvals; high anxiety.',
       severity: "Moderate",
       affectedAreas: ["Admin Efficiency", "Sales Velocity"],
       strategicPriority: 'Medium'
@@ -5146,16 +5146,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Using email for internal chat", "Lack of VA support"],
       automationPotential: {
         rating: "High",
-        example: "AI email triage (SaneBox or custom AI agents) to pre-sort your mail."
+        example: 'AI email triage (SaneBox or custom AI agents) to pre-sort your mail.'
       },
-      pathToRoot: "Inbox Overflow → Communication Chaos → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'Inbox Overflow → Communication Chaos → Disorganized → Personal Bottlenecks'
     }
   },
   'working-too-much': {
-    explanation: "The "Hustle Porn" trap. You are working 70+ hours a week but the results aren't increasing. You are trading your life for a business that isn't working.",
+    explanation: 'The "Hustle Porn" trap. You are working 70+ hours a week but the results aren't increasing. You are trading your life for a business that isn't working.',
     relatedProblems: ["burnout-energy", "nights-weekends", "no-time-off"],
     impactAnalysis: {
-      financialImpact: "Diminishing returns on labor; high risk of health/relationship collapse.",
+      financialImpact: 'Diminishing returns on labor; high risk of health/relationship collapse.',
       severity: "Critical",
       affectedAreas: ["Founder Health", "Decision Quality", "Sustainability"],
       strategicPriority: 'High'
@@ -5169,16 +5169,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Inefficient systems", "Fear of failure", "Low prices (requiring volume)"],
       automationPotential: {
         rating: "High",
-        example: "Automating the "Routine" work to buy back 20+ hours a week."
+        example: 'Automating the "Routine" work to buy back 20+ hours a week.'
       },
-      pathToRoot: "Too Much Work → Burnout → Personal Bottlenecks → Not Enough Money"
+      pathToRoot: 'Too Much Work → Burnout → Personal Bottlenecks → Not Enough Money'
     }
   },
   'no-financial-literacy': {
-    explanation: "You don"t understand your P&L, Balance Sheet, or Cash Flow Statement. You are flying a plane without a dashboard.",
+    explanation: 'You don"t understand your P&L, Balance Sheet, or Cash Flow Statement. You are flying a plane without a dashboard.',
     relatedProblems: ["no-business-skills", "dont-know-costs"],
     impactAnalysis: {
-      financialImpact: "Inadvertent bankruptcy; tax surprises; missed profit opportunities.",
+      financialImpact: 'Inadvertent bankruptcy; tax surprises; missed profit opportunities.',
       severity: "Critical",
       affectedAreas: ["Financial Stability", "Strategic Planning"],
       strategicPriority: 'High'
@@ -5192,16 +5192,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Creative/Technician background", "Aversion to numbers"],
       automationPotential: {
         rating: "High",
-        example: "Automated financial dashboards (Fathom, Syft) that translate numbers into plain English."
+        example: 'Automated financial dashboards (Fathom, Syft) that translate numbers into plain English.'
       },
-      pathToRoot: "No Financial Literacy → Skills Gap → Personal Bottlenecks"
+      pathToRoot: 'No Financial Literacy → Skills Gap → Personal Bottlenecks'
     }
   },
   'imposter-syndrome': {
-    explanation: "You feel like a fraud. You"re afraid that if you raise prices or speak with authority, you'll be 'found out.' This keeps you playing small.",
+    explanation: 'You feel like a fraud. You"re afraid that if you raise prices or speak with authority, you'll be 'found out.' This keeps you playing small.',
     relatedProblems: ["mindset-blocks", "afraid-raise-prices"],
     impactAnalysis: {
-      financialImpact: "Directly caps your revenue and pricing power.",
+      financialImpact: 'Directly caps your revenue and pricing power.',
       severity: "Major",
       affectedAreas: ["Sales", "Leadership", "Brand Authority"],
       strategicPriority: 'High'
@@ -5215,17 +5215,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of external validation", "Comparison trap"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is psychological."
+        example: 'N/A - this is psychological.'
       },
-      pathToRoot: "Imposter Syndrome → Mindset Blocks → Skills Gap → Personal Bottlenecks"
+      pathToRoot: 'Imposter Syndrome → Mindset Blocks → Skills Gap → Personal Bottlenecks'
     }
   },
   // FULFILLMENT / CAPACITY
   'cant-hire-fast': {
-    explanation: "You have the money to hire, but you can"t find the right people. Your hiring process is either too slow, too picky, or you're looking in the wrong places.",
+    explanation: 'You have the money to hire, but you can"t find the right people. Your hiring process is either too slow, too picky, or you're looking in the wrong places.',
     relatedProblems: ["job-market-competitive", "hiring-process-slow"],
     impactAnalysis: {
-      financialImpact: "Missed revenue from unfulfilled sales; existing team burnout.",
+      financialImpact: 'Missed revenue from unfulfilled sales; existing team burnout.',
       severity: "Major",
       affectedAreas: ["Capacity", "Team Morale", "Growth Rate"],
       strategicPriority: 'High'
@@ -5239,16 +5239,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of employer branding", "Unclear job descriptions", "Bottlenecked interview process"],
       automationPotential: {
         rating: "High",
-        example: "Using Applicant Tracking Systems (ATS) with AI screening to filter the top 5% of candidates."
+        example: 'Using Applicant Tracking Systems (ATS) with AI screening to filter the top 5% of candidates.'
       },
-      pathToRoot: "Cant Hire Fast → Capacity Issues → Bought Cant Deliver"
+      pathToRoot: 'Cant Hire Fast → Capacity Issues → Bought Cant Deliver'
     }
   },
   'training-long': {
-    explanation: "It takes 6 months for a new hire to become "Profitable.' This lag time drains your cash flow and makes scaling dangerous.",
+    explanation: 'It takes 6 months for a new hire to become "Profitable.' This lag time drains your cash flow and makes scaling dangerous.',
     relatedProblems: ["no-training-system", "learning-curve-steep"],
     impactAnalysis: {
-      financialImpact: "High cost of "Unproductive" payroll; slow ROI on new hires.",
+      financialImpact: 'High cost of "Unproductive" payroll; slow ROI on new hires.',
       severity: "Moderate",
       affectedAreas: ["Cash Flow", "Team Efficiency"],
       strategicPriority: 'Medium'
@@ -5262,16 +5262,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Complex/bespoke service", "Lack of documentation", "No structured training path"],
       automationPotential: {
         rating: "High",
-        example: "Using AI-driven training platforms (Trainual, Whale) to automate the knowledge transfer."
+        example: 'Using AI-driven training platforms (Trainual, Whale) to automate the knowledge transfer.'
       },
-      pathToRoot: "Long Training → Capacity Issues → Bought Cant Deliver"
+      pathToRoot: 'Long Training → Capacity Issues → Bought Cant Deliver'
     }
   },
   'team-unreliable': {
-    explanation: "You have people, but they don"t care as much as you do. Mistakes are made, deadlines are missed, and you feel like you have to 'Babysit' everyone.",
+    explanation: 'You have people, but they don"t care as much as you do. Mistakes are made, deadlines are missed, and you feel like you have to 'Babysit' everyone.',
     relatedProblems: ["people-underperform", "management-issues", "motivation-low"],
     impactAnalysis: {
-      financialImpact: "High cost of rework; churn risk; massive founder stress.",
+      financialImpact: 'High cost of rework; churn risk; massive founder stress.',
       severity: "Critical",
       affectedAreas: ["Quality Control", "Team Culture", "Operations"],
       strategicPriority: 'High'
@@ -5285,16 +5285,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor hiring criteria", "Lack of leadership", "No accountability systems"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated task-tracking and "Missed Deadline" alerts to maintain accountability without 'Nagging'."
+        example: 'Automated task-tracking and "Missed Deadline" alerts to maintain accountability without 'Nagging'.'
       },
-      pathToRoot: "Unreliable Team → Capacity Issues → Bought Cant Deliver"
+      pathToRoot: 'Unreliable Team → Capacity Issues → Bought Cant Deliver'
     }
   },
   'manual-data-entry': {
-    explanation: "You are paying humans to copy-paste information from one tool to another. This is the ultimate form of "Waste" in a modern business.",
+    explanation: 'You are paying humans to copy-paste information from one tool to another. This is the ultimate form of "Waste" in a modern business.',
     relatedProblems: ["copy-paste-hell", "no-automation", "tools-inadequate"],
     impactAnalysis: {
-      financialImpact: "High labor cost; high error rate; zero scalability.",
+      financialImpact: 'High labor cost; high error rate; zero scalability.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Gross Margin", "Scalability"],
       strategicPriority: 'High'
@@ -5308,16 +5308,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technical debt", "Siloed tools", "Lack of integration knowledge"],
       automationPotential: {
         rating: "High",
-        example: "Using API-based integrations to move data instantly and perfectly between all systems."
+        example: 'Using API-based integrations to move data instantly and perfectly between all systems.'
       },
-      pathToRoot: "Manual Data Entry → Tools Inadequate → Process Bottlenecks → Bought Cant Deliver"
+      pathToRoot: 'Manual Data Entry → Tools Inadequate → Process Bottlenecks → Bought Cant Deliver'
     }
   },
   'scope-creep-profit': {
-    explanation: "The client asks for "One more thing" and you say "Sure.' You are trading your profit for their happiness, and they don't even realize you're doing them a favor.",
+    explanation: 'The client asks for "One more thing" and you say "Sure.' You are trading your profit for their happiness, and they don't even realize you're doing them a favor.',
     relatedProblems: ["extras-free", "no-change-order-process"],
     impactAnalysis: {
-      financialImpact: "Direct erosion of project margin; team burnout from "Never-ending' work.",
+      financialImpact: 'Direct erosion of project margin; team burnout from "Never-ending' work.',
       severity: "Major",
       affectedAreas: ["Profitability", "Team Capacity", "Project Management"],
       strategicPriority: 'High'
@@ -5331,16 +5331,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Vague SOWs", "Fear of client conflict", "No formal change process"],
       automationPotential: {
         rating: "Medium",
-        example: "Using project management tools that require "Credit" or "Add-on' approvals for new tasks."
+        example: 'Using project management tools that require "Credit" or "Add-on' approvals for new tasks.'
       },
-      pathToRoot: "Scope Creep → Project Management Issues → Bought Cant Deliver"
+      pathToRoot: 'Scope Creep → Project Management Issues → Bought Cant Deliver'
     }
   },
   'timelines-slip': {
-    explanation: "Projects are taking longer than quoted. This delays your next project, delays your payment, and costs you more in overhead per deal.",
+    explanation: 'Projects are taking longer than quoted. This delays your next project, delays your payment, and costs you more in overhead per deal.',
     relatedProblems: ["underestimate-time-pm", "dependencies-delays"],
     impactAnalysis: {
-      financialImpact: "Cash flow stagnation; decreased annual throughput; high opportunity cost.",
+      financialImpact: 'Cash flow stagnation; decreased annual throughput; high opportunity cost.',
       severity: "Major",
       affectedAreas: ["Operations", "Cash Flow", "Reputation"],
       strategicPriority: 'High'
@@ -5354,16 +5354,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Optimism bias", "Unmanaged dependencies", "Poor resource planning"],
       automationPotential: {
         rating: "High",
-        example: "Automated Gantt charts and "Delay Warnings" that flag issues before they become crises."
+        example: 'Automated Gantt charts and "Delay Warnings" that flag issues before they become crises.'
       },
-      pathToRoot: "Timelines Slip → Project Management Issues → Bought Cant Deliver"
+      pathToRoot: 'Timelines Slip → Project Management Issues → Bought Cant Deliver'
     }
   },
   'wrong-clients': {
-    explanation: "You are working with people who can"t afford you, don't value you, or have problems you aren't optimized to solve. They are draining your energy and profit.",
+    explanation: 'You are working with people who can"t afford you, don't value you, or have problems you aren't optimized to solve. They are draining your energy and profit.',
     relatedProblems: ["bad-fit-services", "cant-afford-pricing", "high-maintenance-low-profit"],
     impactAnalysis: {
-      financialImpact: "High "Support-to-Revenue' ratio; high churn; team misery.",
+      financialImpact: 'High "Support-to-Revenue' ratio; high churn; team misery.',
       severity: "Major",
       affectedAreas: ["Profitability", "Team Morale", "Brand Alignment"],
       strategicPriority: 'High'
@@ -5377,16 +5377,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Selling out of desperation", "Weak marketing filters", "No clear niche"],
       automationPotential: {
         rating: "High",
-        example: "Using automated "Qualification Quizzes" to filter out bad-fit clients before they even talk to you."
+        example: 'Using automated "Qualification Quizzes" to filter out bad-fit clients before they even talk to you.'
       },
-      pathToRoot: "Wrong Clients → Client Management Issues → Bought Cant Deliver"
+      pathToRoot: 'Wrong Clients → Client Management Issues → Bought Cant Deliver'
     }
   },
   'out-of-business': {
-    explanation: "Your client"s company has ceased operations. While this feels outside your control, a high rate of clients going out of business suggests you are targeting an unstable or high-risk market segment.",
+    explanation: 'Your client"s company has ceased operations. While this feels outside your control, a high rate of clients going out of business suggests you are targeting an unstable or high-risk market segment.',
     relatedProblems: ["wrong-clients", "market-too-small"],
     impactAnalysis: {
-      financialImpact: "100% LTV loss; potential bad debt (unpaid invoices).",
+      financialImpact: '100% LTV loss; potential bad debt (unpaid invoices).',
       severity: "Major",
       affectedAreas: ["Revenue Stability", "Market Strategy"],
       strategicPriority: 'Medium'
@@ -5400,16 +5400,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Targeting fragile startups", "Industry-wide downturn", "Poor client qualification"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a strategic targeting issue."
+        example: 'N/A - this is a strategic targeting issue.'
       },
-      pathToRoot: "Client Out of Business → Why They Left → Clients Churned"
+      pathToRoot: 'Client Out of Business → Why They Left → Clients Churned'
     }
   },
   'contract-ended': {
-    explanation: "The project or subscription term finished, and there was no proactive effort to renew or extend. This is a passive form of churn where you simply "let them walk away.'",
+    explanation: 'The project or subscription term finished, and there was no proactive effort to renew or extend. This is a passive form of churn where you simply "let them walk away.'',
     relatedProblems: ["no-renewal-process", "assuming-stay"],
     impactAnalysis: {
-      financialImpact: "Passive revenue erosion; high cost of replacement sales.",
+      financialImpact: 'Passive revenue erosion; high cost of replacement sales.',
       severity: "Moderate",
       affectedAreas: ["Retention Rate", "LTV"],
       strategicPriority: 'High'
@@ -5423,16 +5423,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of administrative oversight", "Fear of re-negotiation", "Weak relationship management"],
       automationPotential: {
         rating: "High",
-        example: "Automated renewal sequences and calendar tasks for account managers."
+        example: 'Automated renewal sequences and calendar tasks for account managers.'
       },
-      pathToRoot: "Contract Ended → Why They Left → Clients Churned"
+      pathToRoot: 'Contract Ended → Why They Left → Clients Churned'
     }
   },
   'pricing-increased': {
-    explanation: "You raised your prices and the client left. While some churn is expected during price increases, losing high-value clients indicates they didn"t see enough "Added Value' to justify the new cost.",
+    explanation: 'You raised your prices and the client left. While some churn is expected during price increases, losing high-value clients indicates they didn"t see enough "Added Value' to justify the new cost.',
     relatedProblems: ["afraid-raise-prices", "value-conveyance"],
     impactAnalysis: {
-      financialImpact: "Immediate revenue drop from churn; offset by higher margins on remaining clients.",
+      financialImpact: 'Immediate revenue drop from churn; offset by higher margins on remaining clients.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Retention"],
       strategicPriority: 'Medium'
@@ -5446,16 +5446,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor communication of value", "Sudden price jumps without warning", "Targeting price-sensitive segments"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a value perception and communication issue."
+        example: 'N/A - this is a value perception and communication issue.'
       },
-      pathToRoot: "Pricing Increased Churn → Why They Left → Clients Churned"
+      pathToRoot: 'Pricing Increased Churn → Why They Left → Clients Churned'
     }
   },
   'needs-changed': {
-    explanation: "The client outgrew your current service level, or their internal strategy pivoted away from what you provide. This is often a sign that your service isn"t "Sticking' to their long-term growth.",
+    explanation: 'The client outgrew your current service level, or their internal strategy pivoted away from what you provide. This is often a sign that your service isn"t "Sticking' to their long-term growth.',
     relatedProblems: ["lack-awareness", "no-upsell-process"],
     impactAnalysis: {
-      financialImpact: "Loss of "Scale-up' potential; missed opportunities to grow with the client.",
+      financialImpact: 'Loss of "Scale-up' potential; missed opportunities to grow with the client.',
       severity: "Moderate",
       affectedAreas: ["Client Lifetime Value", "Service Roadmap"],
       strategicPriority: 'Medium'
@@ -5469,16 +5469,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Static service offering", "Not keeping pace with industry trends", "Lack of quarterly strategic reviews"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to track client company news and flag "Growth" triggers (hiring, funding)."
+        example: 'Using AI to track client company news and flag "Growth" triggers (hiring, funding).'
       },
-      pathToRoot: "Needs Changed → Why They Left → Clients Churned"
+      pathToRoot: 'Needs Changed → Why They Left → Clients Churned'
     }
   },
   'contact-left': {
-    explanation: "Your internal champion or primary contact left the client"s company, and you failed to build a relationship with their successor or the wider team. You were 'tied to a person,' not the organization.",
+    explanation: 'Your internal champion or primary contact left the client"s company, and you failed to build a relationship with their successor or the wider team. You were 'tied to a person,' not the organization.',
     relatedProblems: ["relationship-deteriorated", "no-retention-system"],
     impactAnalysis: {
-      financialImpact: "Sudden account risk; high probability of "New Manager" syndrome (bringing in their own vendors).",
+      financialImpact: 'Sudden account risk; high probability of "New Manager" syndrome (bringing in their own vendors).',
       severity: "Major",
       affectedAreas: ["Account Stability", "LTV"],
       strategicPriority: 'High'
@@ -5492,16 +5492,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Single-threaded relationships", "Passive account management", "Lack of institutional trust"],
       automationPotential: {
         rating: "Medium",
-        example: "Using LinkedIn integration to automatically flag when a key contact changes jobs."
+        example: 'Using LinkedIn integration to automatically flag when a key contact changes jobs.'
       },
-      pathToRoot: "Contact Left → Why They Left → Clients Churned"
+      pathToRoot: 'Contact Left → Why They Left → Clients Churned'
     }
   },
   'relationship-deteriorated': {
-    explanation: "The trust and rapport between you and the client have eroded over time. This is often due to small, unaddressed frustrations, poor communication, or a "Transactional" feel to the work.",
+    explanation: 'The trust and rapport between you and the client have eroded over time. This is often due to small, unaddressed frustrations, poor communication, or a "Transactional" feel to the work.',
     relatedProblems: ["bad-service", "not-asking-feedback"],
     impactAnalysis: {
-      financialImpact: "Slow-motion churn; zero referrals; increased price sensitivity.",
+      financialImpact: 'Slow-motion churn; zero referrals; increased price sensitivity.',
       severity: "Major",
       affectedAreas: ["Retention", "Referral Rate", "Team Morale"],
       strategicPriority: 'High'
@@ -5515,16 +5515,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Communication gaps", "Arrogance or complacency", "Mismatch in personalities"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - relationships require human touch."
+        example: 'N/A - relationships require human touch.'
       },
-      pathToRoot: "Relationship Deteriorated → Why They Left → Clients Churned"
+      pathToRoot: 'Relationship Deteriorated → Why They Left → Clients Churned'
     }
   },
   'not-staying-touch': {
-    explanation: "The "Out of sight, out of mind' problem. You only contact the client when there is an invoice or a problem. They don't feel valued or supported between projects.",
+    explanation: 'The "Out of sight, out of mind' problem. You only contact the client when there is an invoice or a problem. They don't feel valued or supported between projects.',
     relatedProblems: ["no-retention-system", "assuming-stay"],
     impactAnalysis: {
-      financialImpact: "Increased risk of competitor poaching; low upsell conversion.",
+      financialImpact: 'Increased risk of competitor poaching; low upsell conversion.',
       severity: "Moderate",
       affectedAreas: ["Brand Loyalty", "Account Growth"],
       strategicPriority: 'Medium'
@@ -5538,16 +5538,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Focus on "New Sales" over 'Existing Success'", "No account management process", "Founder busy-ness"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Stay-in-Touch' reminders in your CRM based on last contact date."
+        example: 'Automated "Stay-in-Touch' reminders in your CRM based on last contact date.'
       },
-      pathToRoot: "Not Staying in Touch → No Retention System → Clients Churned"
+      pathToRoot: 'Not Staying in Touch → No Retention System → Clients Churned'
     }
   },
   'not-asking-feedback': {
-    explanation: "You are operating in a vacuum. You don"t know if the client is happy or frustrated because you never ask. Silence is not always 'Good News.'",
+    explanation: 'You are operating in a vacuum. You don"t know if the client is happy or frustrated because you never ask. Silence is not always 'Good News.'',
     relatedProblems: ["bad-service", "relationship-deteriorated"],
     impactAnalysis: {
-      financialImpact: "Surprise churn; missed opportunities to fix small issues before they become terminal.",
+      financialImpact: 'Surprise churn; missed opportunities to fix small issues before they become terminal.',
       severity: "Major",
       affectedAreas: ["Service Quality", "Client Satisfaction"],
       strategicPriority: 'High'
@@ -5561,16 +5561,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of negative feedback", "Complacency", "No formal QA process"],
       automationPotential: {
         rating: "High",
-        example: "Automated feedback requests sent after project milestones or every 90 days."
+        example: 'Automated feedback requests sent after project milestones or every 90 days.'
       },
-      pathToRoot: "Not Asking Feedback → No Retention System → Clients Churned"
+      pathToRoot: 'Not Asking Feedback → No Retention System → Clients Churned'
     }
   },
   'not-monitoring-satisfaction': {
-    explanation: "You have no data on client health. You don"t track metrics like login frequency, usage, or response times that signal a client is 'Checking out' before they actually leave.",
+    explanation: 'You have no data on client health. You don"t track metrics like login frequency, usage, or response times that signal a client is 'Checking out' before they actually leave.',
     relatedProblems: ["bad-service", "no-retention-system"],
     impactAnalysis: {
-      financialImpact: "Inability to predict churn; reactive instead of proactive retention.",
+      financialImpact: 'Inability to predict churn; reactive instead of proactive retention.',
       severity: "Moderate",
       affectedAreas: ["Retention Strategy", "Operational Awareness"],
       strategicPriority: 'Medium'
@@ -5584,16 +5584,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of data tracking", "No Customer Success role", "Focus on delivery only"],
       automationPotential: {
         rating: "High",
-        example: "Customer health dashboards that aggregate usage data and survey scores."
+        example: 'Customer health dashboards that aggregate usage data and survey scores.'
       },
-      pathToRoot: "Not Monitoring Satisfaction → No Retention System → Clients Churned"
+      pathToRoot: 'Not Monitoring Satisfaction → No Retention System → Clients Churned'
     }
   },
   'assuming-stay': {
-    explanation: "The "Complacency Trap.' You believe that because they've been with you for years, they always will be. You stop 'Earning' their business every month.",
+    explanation: 'The "Complacency Trap.' You believe that because they've been with you for years, they always will be. You stop 'Earning' their business every month.',
     relatedProblems: ["no-renewal-process", "not-staying-touch"],
     impactAnalysis: {
-      financialImpact: "Sudden, shocking loss of "Safe" revenue; loss of institutional knowledge.",
+      financialImpact: 'Sudden, shocking loss of "Safe" revenue; loss of institutional knowledge.',
       severity: "Major",
       affectedAreas: ["Revenue Stability", "Strategic Planning"],
       strategicPriority: 'High'
@@ -5607,16 +5607,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Arrogance", "Lack of competitive awareness", "Taking relationships for granted"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a cultural and mindset issue."
+        example: 'N/A - this is a cultural and mindset issue.'
       },
-      pathToRoot: "Assuming They"ll Stay → No Retention System → Clients Churned"
+      pathToRoot: 'Assuming They"ll Stay → No Retention System → Clients Churned'
     }
   },
   'lack-awareness': {
-    explanation: "Clients don"t buy more because they don"t know what else you do. They have categorized you as 'The [X] Guy' and don't realize you also solve [Y] and [Z].",
+    explanation: 'Clients don"t buy more because they don"t know what else you do. They have categorized you as 'The [X] Guy' and don't realize you also solve [Y] and [Z].',
     relatedProblems: ["dont-know-offer", "dont-know-what-else", "never-told"],
     impactAnalysis: {
-      financialImpact: "Missed high-margin upsells; client buys from competitors for things you could have done.",
+      financialImpact: 'Missed high-margin upsells; client buys from competitors for things you could have done.',
       severity: "Major",
       affectedAreas: ["LTV", "Sales Efficiency", "Market Share"],
       strategicPriority: 'High'
@@ -5630,16 +5630,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor internal marketing", "Narrow initial positioning", "Lack of account expansion strategy"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Did you know?' educational sequences for active clients."
+        example: 'Automated "Did you know?' educational sequences for active clients.'
       },
-      pathToRoot: "Lack of Awareness → Existing Clients Not Buying More → Not Enough Clients"
+      pathToRoot: 'Lack of Awareness → Existing Clients Not Buying More → Not Enough Clients'
     }
   },
   'lack-need-perceived': {
-    explanation: "The client actually has a problem you can solve, but they don"t *feel* the pain yet, or they don't see how your other services connect to their current goals.",
+    explanation: 'The client actually has a problem you can solve, but they don"t *feel* the pain yet, or they don't see how your other services connect to their current goals.',
     relatedProblems: ["dont-see-connection", "dont-need-else"],
     impactAnalysis: {
-      financialImpact: "Stagnant account growth; perceived as a "Vendor" rather than a "Partner.'",
+      financialImpact: 'Stagnant account growth; perceived as a "Vendor" rather than a "Partner.'',
       severity: "Moderate",
       affectedAreas: ["Account Strategy", "Perceived Value"],
       strategicPriority: 'Medium'
@@ -5653,16 +5653,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of strategic consultative selling", "Focus on technical delivery over business outcomes"],
       automationPotential: {
         rating: "Medium",
-        example: "AI-driven "Next Best Action" recommendations based on client industry data."
+        example: 'AI-driven "Next Best Action" recommendations based on client industry data.'
       },
-      pathToRoot: "Lack of Perceived Need → Existing Clients Not Buying More → Not Enough Clients"
+      pathToRoot: 'Lack of Perceived Need → Existing Clients Not Buying More → Not Enough Clients'
     }
   },
   'barriers-expansion': {
-    explanation: "There are concrete obstacles preventing the client from buying more, even if they want to. This could be budget, timing, or past friction that hasn"t been resolved.",
+    explanation: 'There are concrete obstacles preventing the client from buying more, even if they want to. This could be budget, timing, or past friction that hasn"t been resolved.',
     relatedProblems: ["budget-constraints", "bad-experience-first", "buying-elsewhere"],
     impactAnalysis: {
-      financialImpact: "Capped account revenue; increased pressure to find new leads instead of growing existing ones.",
+      financialImpact: 'Capped account revenue; increased pressure to find new leads instead of growing existing ones.',
       severity: "Major",
       affectedAreas: ["LTV", "Sales Velocity"],
       strategicPriority: 'High'
@@ -5676,16 +5676,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor client qualification initially", "Operational friction in first project", "Competitive lock-in"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated "Barrier Surveys" to identify why expansion deals are stalling."
+        example: 'Automated "Barrier Surveys" to identify why expansion deals are stalling.'
       },
-      pathToRoot: "Barriers to Expansion → Existing Clients Not Buying More → Not Enough Clients"
+      pathToRoot: 'Barriers to Expansion → Existing Clients Not Buying More → Not Enough Clients'
     }
   },
   'market-too-small': {
-    explanation: "You have picked a niche that is so specific or local that there simply aren"t enough people to hit your revenue targets. You are the 'Big Fish in a Tiny Pond.'",
+    explanation: 'You have picked a niche that is so specific or local that there simply aren"t enough people to hit your revenue targets. You are the 'Big Fish in a Tiny Pond.'',
     relatedProblems: ["niche-narrow", "geographic-limits", "addressable-market"],
     impactAnalysis: {
-      financialImpact: "Hard revenue ceiling; high customer acquisition costs as you exhaust the pool.",
+      financialImpact: 'Hard revenue ceiling; high customer acquisition costs as you exhaust the pool.',
       severity: "Major",
       affectedAreas: ["Scalability", "Business Valuation", "Growth Rate"],
       strategicPriority: 'High'
@@ -5699,16 +5699,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of competition in larger markets", "Lack of market research", "Legacy business models"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a market selection problem."
+        example: 'N/A - this is a market selection problem.'
       },
-      pathToRoot: "Market Too Small → Cant Find Prospects → Not Getting New Clients"
+      pathToRoot: 'Market Too Small → Cant Find Prospects → Not Getting New Clients'
     }
   },
   'market-competitive': {
-    explanation: "You are in a "Red Ocean.' There are too many providers, prices are being driven down, and you look exactly like everyone else. You are fighting for scraps.",
+    explanation: 'You are in a "Red Ocean.' There are too many providers, prices are being driven down, and you look exactly like everyone else. You are fighting for scraps.',
     relatedProblems: ["race-bottom-price", "differentiation-unclear", "barriers-low"],
     impactAnalysis: {
-      financialImpact: "Margin compression; low conversion rates; high marketing spend for low ROI.",
+      financialImpact: 'Margin compression; low conversion rates; high marketing spend for low ROI.',
       severity: "Major",
       affectedAreas: ["Profitability", "Competitive Positioning", "Marketing ROI"],
       strategicPriority: 'High'
@@ -5722,16 +5722,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Commoditization", "Lack of innovation", "Following "Best Practices" too closely"],
       automationPotential: {
         rating: "Medium",
-        example: "Competitive intelligence tools to monitor rival pricing and offers in real-time."
+        example: 'Competitive intelligence tools to monitor rival pricing and offers in real-time.'
       },
-      pathToRoot: "Market Too Competitive → Cant Find Prospects → Not Getting New Clients"
+      pathToRoot: 'Market Too Competitive → Cant Find Prospects → Not Getting New Clients'
     }
   },
   'no-word-mouth': {
-    explanation: "Your service is "Fine,' but it's not 'Remarkable.' People don't talk about things that just 'work as expected.' You lack the 'Wow' factor that triggers organic growth.",
+    explanation: 'Your service is "Fine,' but it's not 'Remarkable.' People don't talk about things that just 'work as expected.' You lack the 'Wow' factor that triggers organic growth.',
     relatedProblems: ["not-talk-worthy", "no-community", "not-memorable"],
     impactAnalysis: {
-      financialImpact: "100% reliance on paid/outbound channels; zero "Free" growth.",
+      financialImpact: '100% reliance on paid/outbound channels; zero "Free" growth.',
       severity: "Moderate",
       affectedAreas: ["Acquisition Cost", "Brand Equity"],
       strategicPriority: 'Medium'
@@ -5745,16 +5745,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Standardized/Boring delivery", "Lack of personality in brand", "Focus on "Tasks" over "Experience'"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated "Gifting" systems (e.g., Sendoso) triggered by project success."
+        example: 'Automated "Gifting" systems (e.g., Sendoso) triggered by project success.'
       },
-      pathToRoot: "No Word of Mouth → Prospects Dont Know → Not Getting New Clients"
+      pathToRoot: 'No Word of Mouth → Prospects Dont Know → Not Getting New Clients'
     }
   },
   'wrong-channels': {
-    explanation: "You are fishing in the wrong pond. You are spending money on Facebook when your clients are reading trade journals, or on cold email when they prefer LinkedIn.",
+    explanation: 'You are fishing in the wrong pond. You are spending money on Facebook when your clients are reading trade journals, or on cold email when they prefer LinkedIn.',
     relatedProblems: ["marketing-not-audience", "message-wrong-platforms"],
     impactAnalysis: {
-      financialImpact: "100% waste of marketing budget; opportunity cost of missed leads.",
+      financialImpact: '100% waste of marketing budget; opportunity cost of missed leads.',
       severity: "Major",
       affectedAreas: ["Marketing ROI", "Lead Quality"],
       strategicPriority: 'High'
@@ -5768,16 +5768,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Following "Marketing Trends" instead of 'Customer Behavior'", "Lack of attribution tracking", "Inertia"],
       automationPotential: {
         rating: "High",
-        example: "Attribution software (e.g., Hyros, Rockerbox) to see exactly where leads come from."
+        example: 'Attribution software (e.g., Hyros, Rockerbox) to see exactly where leads come from.'
       },
-      pathToRoot: "Wrong Channels → Prospects Dont Know → Not Getting New Clients"
+      pathToRoot: 'Wrong Channels → Prospects Dont Know → Not Getting New Clients'
     }
   },
   'wrong-clients': {
-    explanation: "You are working with people who can"t afford you, don't value you, or have problems you aren't optimized to solve. They are draining your energy and profit.",
+    explanation: 'You are working with people who can"t afford you, don't value you, or have problems you aren't optimized to solve. They are draining your energy and profit.',
     relatedProblems: ["bad-fit-services", "cant-afford-pricing", "high-maintenance-low-profit"],
     impactAnalysis: {
-      financialImpact: "High "Support-to-Revenue' ratio; high churn; team misery.",
+      financialImpact: 'High "Support-to-Revenue' ratio; high churn; team misery.',
       severity: "Major",
       affectedAreas: ["Profitability", "Team Morale", "Brand Alignment"],
       strategicPriority: 'High'
@@ -5791,16 +5791,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Selling out of desperation", "Weak marketing filters", "No clear niche"],
       automationPotential: {
         rating: "High",
-        example: "Using automated "Qualification Quizzes" to filter out bad-fit clients before they even talk to you."
+        example: 'Using automated "Qualification Quizzes" to filter out bad-fit clients before they even talk to you.'
       },
-      pathToRoot: "Wrong Clients → Client Management Issues → Bought Cant Deliver"
+      pathToRoot: 'Wrong Clients → Client Management Issues → Bought Cant Deliver'
     }
   },
   'wrong-timing': {
-    explanation: "You are reaching prospects when they don"t have the problem you solve, or they aren't in a 'Buying Mode.' Without nurturing, you lose these leads forever when you could have been the first choice later.",
+    explanation: 'You are reaching prospects when they don"t have the problem you solve, or they aren't in a 'Buying Mode.' Without nurturing, you lose these leads forever when you could have been the first choice later.',
     relatedProblems: ["not-nurturing", "no-followup", "one-and-done"],
     impactAnalysis: {
-      financialImpact: "High "Lead Burn" rate; wasted ad spend on top-of-funnel leads that never close.",
+      financialImpact: 'High "Lead Burn" rate; wasted ad spend on top-of-funnel leads that never close.',
       severity: "Moderate",
       affectedAreas: ["Conversion Rate", "Marketing ROI"],
       strategicPriority: 'Medium'
@@ -5814,16 +5814,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Impatience in sales process", "No CRM automation", "Focus on "Right Now" deals only"],
       automationPotential: {
         rating: "High",
-        example: "Automated email nurture flows triggered by lead score or time since last contact."
+        example: 'Automated email nurture flows triggered by lead score or time since last contact.'
       },
-      pathToRoot: "Wrong Timing → Aware But Dont Engage → Not Getting New Clients"
+      pathToRoot: 'Wrong Timing → Aware But Dont Engage → Not Getting New Clients'
     }
   },
   'no-clear-next-step': {
-    explanation: "Prospects are interested, but they don"t know what to do. Your Call-to-Action (CTA) is either missing, too complicated, or requires too much commitment too early.",
+    explanation: 'Prospects are interested, but they don"t know what to do. Your Call-to-Action (CTA) is either missing, too complicated, or requires too much commitment too early.',
     relatedProblems: ["no-cta", "cta-unclear", "too-much-friction"],
     impactAnalysis: {
-      financialImpact: "Immediate drop-off in sales velocity; high "Bounce Rate" on landing pages.",
+      financialImpact: 'Immediate drop-off in sales velocity; high "Bounce Rate" on landing pages.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Sales pipeline"],
       strategicPriority: 'High'
@@ -5837,16 +5837,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Analysis Paralysis", "Lack of design focus", "Fear of being "Too Direct""],
       automationPotential: {
         rating: "High",
-        example: "Using "Sticky" CTAs or chatbots to prompt the next step automatically."
+        example: 'Using "Sticky" CTAs or chatbots to prompt the next step automatically.'
       },
-      pathToRoot: "No Clear Next Step → Aware But Dont Engage → Not Getting New Clients"
+      pathToRoot: 'No Clear Next Step → Aware But Dont Engage → Not Getting New Clients'
     }
   },
   'content-weak': {
-    explanation: "Your website, ads, or posts look "Amateur" or read "Boring.' In a world of infinite distraction, your creative content isn't sharp enough to stop the scroll and build authority.",
+    explanation: 'Your website, ads, or posts look "Amateur" or read "Boring.' In a world of infinite distraction, your creative content isn't sharp enough to stop the scroll and build authority.',
     relatedProblems: ["design-amateur", "copy-boring", "no-hook"],
     impactAnalysis: {
-      financialImpact: "High cost of attention; low engagement rates; perceived as a "Low-Value' vendor.",
+      financialImpact: 'High cost of attention; low engagement rates; perceived as a "Low-Value' vendor.',
       severity: "Major",
       affectedAreas: ["Brand Authority", "Marketing Conversion"],
       strategicPriority: 'High'
@@ -5860,16 +5860,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["DIY mindset", "Under-investing in creative", "Lack of brand guidelines"],
       automationPotential: {
         rating: "High",
-        example: "Using AI image and video tools to rapidly iterate on creative variations."
+        example: 'Using AI image and video tools to rapidly iterate on creative variations.'
       },
-      pathToRoot: "Weak Content → Aware But Dont Engage → Not Getting New Clients"
+      pathToRoot: 'Weak Content → Aware But Dont Engage → Not Getting New Clients'
     }
   },
   'trust-signals-missing': {
-    explanation: "You are a "Faceless" brand. Prospects can't see who you've worked with, what your results are, or if you're even a real company. They won't engage because the risk of 'First Contact' feels too high.",
+    explanation: 'You are a "Faceless" brand. Prospects can't see who you've worked with, what your results are, or if you're even a real company. They won't engage because the risk of 'First Contact' feels too high.',
     relatedProblems: ["no-social-proof", "no-credentials", "anonymous-brand"],
     impactAnalysis: {
-      financialImpact: "Zero organic trust; high barrier to entry for every new lead.",
+      financialImpact: 'Zero organic trust; high barrier to entry for every new lead.',
       severity: "Major",
       affectedAreas: ["Close Rate", "Brand Equity"],
       strategicPriority: 'High'
@@ -5883,16 +5883,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Privacy concerns", "Lack of social proof gathering", "Newness in market"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated "Proof" popups showing recent signups or purchases."
+        example: 'Automated "Proof" popups showing recent signups or purchases.'
       },
-      pathToRoot: "Missing Trust Signals → Aware But Dont Engage → Not Getting New Clients"
+      pathToRoot: 'Missing Trust Signals → Aware But Dont Engage → Not Getting New Clients'
     }
   },
   'dont-trust': {
-    explanation: "The prospect likes the idea, but they don"t believe *you* can deliver it. You lack the 'Proof' required to lower their perceived risk at the point of sale.",
+    explanation: 'The prospect likes the idea, but they don"t believe *you* can deliver it. You lack the 'Proof' required to lower their perceived risk at the point of sale.',
     relatedProblems: ["no-testimonials", "no-track-record", "website-unprofessional"],
     impactAnalysis: {
-      financialImpact: "High drop-off at the final stage of the funnel.",
+      financialImpact: 'High drop-off at the final stage of the funnel.',
       severity: "Major",
       affectedAreas: ["Close Rate", "Brand Equity"],
       strategicPriority: 'High'
@@ -5906,16 +5906,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["New business/offer", "Invisible results", "Poor branding"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated testimonial gathering and display widgets (Senja, TrustPulse)."
+        example: 'Automated testimonial gathering and display widgets (Senja, TrustPulse).'
       },
-      pathToRoot: "Lack of Trust → Engage But Dont Buy → Not Getting New Clients"
+      pathToRoot: 'Lack of Trust → Engage But Dont Buy → Not Getting New Clients'
     }
   },
   'dont-understand-offer': {
-    explanation: "If you confuse them, you lose them. Your pricing, process, or "What"s Included" is too complex. The prospect can't figure out exactly what they're buying, so they default to 'No.'",
+    explanation: 'If you confuse them, you lose them. Your pricing, process, or "What"s Included" is too complex. The prospect can't figure out exactly what they're buying, so they default to 'No.'',
     relatedProblems: ["explanation-complicated", "too-many-options", "pricing-structure-confusing"],
     impactAnalysis: {
-      financialImpact: "High sales friction; deals die in "Review" because they can"t be explained to others.",
+      financialImpact: 'High sales friction; deals die in "Review" because they can"t be explained to others.',
       severity: "Major",
       affectedAreas: ["Sales Velocity", "Conversion Rate"],
       strategicPriority: 'High'
@@ -5929,16 +5929,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Expert blindness (using jargon)", "Over-engineering the offer", "Fear of being "Too Simple""],
       automationPotential: {
         rating: "High",
-        example: "Interactive "Offer Builders" that guide the user through their specific needs."
+        example: 'Interactive "Offer Builders" that guide the user through their specific needs.'
       },
-      pathToRoot: "Dont Understand Offer → Engage But Dont Buy → Not Getting New Clients"
+      pathToRoot: 'Dont Understand Offer → Engage But Dont Buy → Not Getting New Clients'
     }
   },
   'dont-believe-solves': {
-    explanation: "The prospect understands what you do, but they don"t think it will work for *them.* They feel their situation is 'Special' or 'Unique' and your case studies don't bridge that gap.",
+    explanation: 'The prospect understands what you do, but they don"t think it will work for *them.* They feel their situation is 'Special' or 'Unique' and your case studies don't bridge that gap.',
     relatedProblems: ["weak-case-studies", "cant-articulate-roi", "situation-different"],
     impactAnalysis: {
-      financialImpact: "Massive sales labor waste; deals stall at "I"ll think about it.'",
+      financialImpact: 'Massive sales labor waste; deals stall at "I"ll think about it.'',
       severity: "Major",
       affectedAreas: ["Close Rate", "Market Authority"],
       strategicPriority: 'High'
@@ -5952,16 +5952,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Generic sales deck", "Lack of industry-specific proof", "Weak consultative skills"],
       automationPotential: {
         rating: "Medium",
-        example: "AI-powered case study matching that finds the most relevant results for each prospect."
+        example: 'AI-powered case study matching that finds the most relevant results for each prospect.'
       },
-      pathToRoot: "Dont Believe It Solves → Engage But Dont Buy → Not Getting New Clients"
+      pathToRoot: 'Dont Believe It Solves → Engage But Dont Buy → Not Getting New Clients'
     }
   },
   'price-objection': {
-    explanation: "The prospect wants it, but they say they "Can"t Afford It.' This is rarely a budget problem and almost always a 'Value Perceived' vs 'Price' problem.",
+    explanation: 'The prospect wants it, but they say they "Can"t Afford It.' This is rarely a budget problem and almost always a 'Value Perceived' vs 'Price' problem.',
     relatedProblems: ["sticker-shock", "cant-see-value", "payment-terms-dont-work"],
     impactAnalysis: {
-      financialImpact: "Constant downward pressure on margins; haggling; "Ghosting" after pricing is revealed.",
+      financialImpact: 'Constant downward pressure on margins; haggling; "Ghosting" after pricing is revealed.',
       severity: "Major",
       affectedAreas: ["Gross Margin", "Sales Conversion"],
       strategicPriority: 'High'
@@ -5975,16 +5975,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Selling features instead of outcomes", "Targeting the wrong segment", "Poor value anchoring"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated "Budget Checkers" that qualify prospects before the call."
+        example: 'Automated "Budget Checkers" that qualify prospects before the call.'
       },
-      pathToRoot: "Price Objection → Engage But Dont Buy → Not Getting New Clients"
+      pathToRoot: 'Price Objection → Engage But Dont Buy → Not Getting New Clients'
     }
   },
   'timing-not-right-sales': {
-    explanation: "The prospect has the problem and likes the solution, but "Now is not the time.' This is usually due to internal bureaucracy, seasonal budgets, or competing priorities.",
+    explanation: 'The prospect has the problem and likes the solution, but "Now is not the time.' This is usually due to internal bureaucracy, seasonal budgets, or competing priorities.',
     relatedProblems: ["problem-not-urgent", "budget-not-now", "other-priorities"],
     impactAnalysis: {
-      financialImpact: "High "Work-in-Progress' (WIP) in sales pipeline; unpredictable revenue.",
+      financialImpact: 'High "Work-in-Progress' (WIP) in sales pipeline; unpredictable revenue.',
       severity: "Moderate",
       affectedAreas: ["Sales pipeline", "Cash Flow Forecasting"],
       strategicPriority: 'Medium'
@@ -5998,16 +5998,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["No sense of urgency", "Mismatch with fiscal cycles", "Passive follow-up"],
       automationPotential: {
         rating: "High",
-        example: "CRM automation that alerts you 14 days before their "Budget Cycle" starts."
+        example: 'CRM automation that alerts you 14 days before their "Budget Cycle" starts.'
       },
-      pathToRoot: "Timing Not Right → Engage But Dont Buy → Not Getting New Clients"
+      pathToRoot: 'Timing Not Right → Engage But Dont Buy → Not Getting New Clients'
     }
   },
   'competition-beats': {
-    explanation: "You were in the race, but you came in second. The prospect chose a competitor because they moved faster, had a better relationship, or presented a more compelling case.",
+    explanation: 'You were in the race, but you came in second. The prospect chose a competitor because they moved faster, had a better relationship, or presented a more compelling case.',
     relatedProblems: ["competitor-better-offer", "competitor-moved-faster", "lost-on-price"],
     impactAnalysis: {
-      financialImpact: "High opportunity cost; total loss of marketing/sales spend for that lead.",
+      financialImpact: 'High opportunity cost; total loss of marketing/sales spend for that lead.',
       severity: "Major",
       affectedAreas: ["Market Share", "Win Rate"],
       strategicPriority: 'High'
@@ -6021,16 +6021,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Slow sales response", "Weak differentiation", "Passive relationship building"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated "Battle Cards" that provide rebuttals against specific competitors in real-time."
+        example: 'Automated "Battle Cards" that provide rebuttals against specific competitors in real-time.'
       },
-      pathToRoot: "Competition Beats Us → Engage But Dont Buy → Not Getting New Clients"
+      pathToRoot: 'Competition Beats Us → Engage But Dont Buy → Not Getting New Clients'
     }
   },
   'risk-too-high': {
-    explanation: "The prospect is afraid of making the "Wrong Choice.' They are worried about looking bad internally, losing money, or the headache of a failed implementation.",
+    explanation: 'The prospect is afraid of making the "Wrong Choice.' They are worried about looking bad internally, losing money, or the headache of a failed implementation.',
     relatedProblems: ["big-commitment", "fear-wrong-decision", "no-trial-guarantee"],
     impactAnalysis: {
-      financialImpact: "Extreme sales friction; "Paralysis by Analysis" in mid-sized to large companies.",
+      financialImpact: 'Extreme sales friction; "Paralysis by Analysis" in mid-sized to large companies.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Sales Velocity"],
       strategicPriority: 'High'
@@ -6044,16 +6044,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of confidence in presentation", "Complex transition process", "High price without safety net"],
       automationPotential: {
         rating: "Medium",
-        example: "Interactive risk assessment tools that address concerns before the final pitch."
+        example: 'Interactive risk assessment tools that address concerns before the final pitch.'
       },
-      pathToRoot: "Risk Too High → Engage But Dont Buy → Not Getting New Clients"
+      pathToRoot: 'Risk Too High → Engage But Dont Buy → Not Getting New Clients'
     }
   },
   'risk-too-high': {
-    explanation: "The prospect is afraid of making the "Wrong Choice.' They are worried about looking bad internally, losing money, or the headache of a failed implementation.",
+    explanation: 'The prospect is afraid of making the "Wrong Choice.' They are worried about looking bad internally, losing money, or the headache of a failed implementation.',
     relatedProblems: ["big-commitment", "fear-wrong-decision", "no-trial-guarantee"],
     impactAnalysis: {
-      financialImpact: "Extreme sales friction; "Paralysis by Analysis" in mid-sized to large companies.",
+      financialImpact: 'Extreme sales friction; "Paralysis by Analysis" in mid-sized to large companies.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Sales Velocity"],
       strategicPriority: 'High'
@@ -6067,16 +6067,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of confidence in presentation", "Complex transition process", "High price without safety net"],
       automationPotential: {
         rating: "Medium",
-        example: "Interactive risk assessment tools that address concerns before the final pitch."
+        example: 'Interactive risk assessment tools that address concerns before the final pitch.'
       },
-      pathToRoot: "Risk Too High → Engage But Dont Buy → Not Getting New Clients"
+      pathToRoot: 'Risk Too High → Engage But Dont Buy → Not Getting New Clients'
     }
   },
   'cant-delegate': {
-    explanation: "You struggle to let go of tasks, either because you don"t trust others or you don"t know how to document your 'Magic' so others can replicate it. This makes you the ultimate bottleneck.",
+    explanation: 'You struggle to let go of tasks, either because you don"t trust others or you don"t know how to document your 'Magic' so others can replicate it. This makes you the ultimate bottleneck.',
     relatedProblems: ["dont-trust-others", "easier-do-myself", "no-one-delegate"],
     impactAnalysis: {
-      financialImpact: "Capped growth; high opportunity cost; founder burnout.",
+      financialImpact: 'Capped growth; high opportunity cost; founder burnout.',
       severity: "Critical",
       affectedAreas: ["Scalability", "Founder Productivity", "Team Growth"],
       strategicPriority: 'High'
@@ -6090,16 +6090,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Perfectionism", "Lack of training systems", "Hero complex"],
       automationPotential: {
         rating: "High",
-        example: "Using delegation tracking tools to monitor progress without micromanaging."
+        example: 'Using delegation tracking tools to monitor progress without micromanaging.'
       },
-      pathToRoot: "Cant Delegate → Founder Doing Everything → Not Enough Capacity"
+      pathToRoot: 'Cant Delegate → Founder Doing Everything → Not Enough Capacity'
     }
   },
   'no-one-knows-how': {
-    explanation: "You are the only person who knows how to deliver the core value. If you stop working, the business stops. This is a job, not a scalable asset.",
+    explanation: 'You are the only person who knows how to deliver the core value. If you stop working, the business stops. This is a job, not a scalable asset.',
     relatedProblems: ["everything-founders-head", "no-sops", "tribal-knowledge"],
     impactAnalysis: {
-      financialImpact: "Zero business valuation; impossible to scale without your direct labor.",
+      financialImpact: 'Zero business valuation; impossible to scale without your direct labor.',
       severity: "Critical",
       affectedAreas: ["Business Continuity", "Asset Value", "Scalability"],
       strategicPriority: 'High'
@@ -6113,16 +6113,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Expert blindness", "Lack of documentation culture", "High complexity service"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to transcribe and structure your "Brain Dumps" into usable SOPs."
+        example: 'Using AI to transcribe and structure your "Brain Dumps" into usable SOPs.'
       },
-      pathToRoot: "No One Knows How → Founder Doing Everything → Not Enough Capacity"
+      pathToRoot: 'No One Knows How → Founder Doing Everything → Not Enough Capacity'
     }
   },
   'afraid-let-go': {
-    explanation: "The fear that "No one can do it as well as I can.' This perfectionism keeps you trapped in the weeds and prevents your team from ever becoming experts themselves.",
+    explanation: 'The fear that "No one can do it as well as I can.' This perfectionism keeps you trapped in the weeds and prevents your team from ever becoming experts themselves.',
     relatedProblems: ["micromanagement", "dont-trust-others", "perfectionism"],
     impactAnalysis: {
-      financialImpact: "Extreme founder burnout; team demotivation; stagnant revenue.",
+      financialImpact: 'Extreme founder burnout; team demotivation; stagnant revenue.',
       severity: "Critical",
       affectedAreas: ["Team Culture", "Founder Health", "Scalability"],
       strategicPriority: 'High'
@@ -6136,16 +6136,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Previous bad experiences", "Anxiety about quality", "Need for control"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a psychological and leadership hurdle."
+        example: 'N/A - this is a psychological and leadership hurdle.'
       },
-      pathToRoot: "Afraid to Let Go → Founder Doing Everything → Not Enough Capacity"
+      pathToRoot: 'Afraid to Let Go → Founder Doing Everything → Not Enough Capacity'
     }
   },
   'havent-trained': {
-    explanation: "You have people, but you haven"t invested the time to train them. You expect them to 'figure it out,' which leads to mistakes and you jumping back in to fix them.",
+    explanation: 'You have people, but you haven"t invested the time to train them. You expect them to 'figure it out,' which leads to mistakes and you jumping back in to fix them.',
     relatedProblems: ["no-training-system", "training-busy-founder", "explain-every-time"],
     impactAnalysis: {
-      financialImpact: "High cost of "Inefficient" payroll; double-work for the founder.",
+      financialImpact: 'High cost of "Inefficient" payroll; double-work for the founder.',
       severity: "Major",
       affectedAreas: ["Operations", "Gross Margin", "Team ROI"],
       strategicPriority: 'High'
@@ -6159,16 +6159,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Short-term focus on delivery", "Lack of time", "Underestimating training ROI"],
       automationPotential: {
         rating: "High",
-        example: "Using learning management systems (LMS) to automate the "Knowledge Transfer" phase."
+        example: 'Using learning management systems (LMS) to automate the "Knowledge Transfer" phase.'
       },
-      pathToRoot: "Havent Trained → Founder Doing Everything → Not Enough Capacity"
+      pathToRoot: 'Havent Trained → Founder Doing Everything → Not Enough Capacity'
     }
   },
   'doing-sales-delivery-admin': {
-    explanation: "The "Chief of Everything" problem. You are switching between high-level strategy, mid-level sales, and low-level admin all day. Context switching is destroying your productivity.",
+    explanation: 'The "Chief of Everything" problem. You are switching between high-level strategy, mid-level sales, and low-level admin all day. Context switching is destroying your productivity.',
     relatedProblems: ["time-trapped", "admin-busywork", "busy-not-revenue"],
     impactAnalysis: {
-      financialImpact: "Massive opportunity cost; strategic drift; low decision quality.",
+      financialImpact: 'Massive opportunity cost; strategic drift; low decision quality.',
       severity: "Critical",
       affectedAreas: ["Founder Throughput", "Growth Rate", "Mental Clarity"],
       strategicPriority: 'High'
@@ -6182,16 +6182,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of clear roles", "Under-hiring', "Scale exceeding structure"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to automate the "Admin" layer (scheduling, invoicing, data entry)."
+        example: 'Using AI to automate the "Admin" layer (scheduling, invoicing, data entry).'
       },
-      pathToRoot: "Doing Everything → Founder Doing Everything → Not Enough Capacity"
+      pathToRoot: 'Doing Everything → Founder Doing Everything → Not Enough Capacity'
     }
   },
   'cant-find-qualified': {
-    explanation: "You are looking for "Unicorns" or your job offer isn"t compelling enough to attract the top 5%. You feel like 'there's no good talent out there.'",
+    explanation: 'You are looking for "Unicorns" or your job offer isn"t compelling enough to attract the top 5%. You feel like 'there's no good talent out there.'',
     relatedProblems: ["job-market-competitive", "hiring-process-slow"],
     impactAnalysis: {
-      financialImpact: "Missed revenue from unfulfilled orders; high recruitment spend.",
+      financialImpact: 'Missed revenue from unfulfilled orders; high recruitment spend.',
       severity: "Major",
       affectedAreas: ["Capacity", "Growth Velocity"],
       strategicPriority: 'High'
@@ -6205,16 +6205,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Weak employer brand", "Unrealistic expectations", "Poor sourcing channels"],
       automationPotential: {
         rating: "High",
-        example: "AI-powered sourcing tools that find candidates matching your ICP automatically."
+        example: 'AI-powered sourcing tools that find candidates matching your ICP automatically.'
       },
-      pathToRoot: "Cant Find Qualified → Cant Hire Fast → Not Enough Capacity"
+      pathToRoot: 'Cant Find Qualified → Cant Hire Fast → Not Enough Capacity'
     }
   },
   'hiring-process-slow': {
-    explanation: "By the time you offer them a job, the best candidates have already accepted another one. Your process has too many steps or too much internal friction.",
+    explanation: 'By the time you offer them a job, the best candidates have already accepted another one. Your process has too many steps or too much internal friction.',
     relatedProblems: ["interview-bottleneck", "not-enough-applicants"],
     impactAnalysis: {
-      financialImpact: "Loss of top talent to competitors; increased team strain during long vacancies.",
+      financialImpact: 'Loss of top talent to competitors; increased team strain during long vacancies.',
       severity: "Moderate",
       affectedAreas: ["Recruitment ROI", "Growth Rate"],
       strategicPriority: 'Medium'
@@ -6228,16 +6228,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Decision-by-committee", "Fear of making a bad hire", "Lack of urgency"],
       automationPotential: {
         rating: "High",
-        example: "Using Applicant Tracking Systems (ATS) to automate interview scheduling and reminders."
+        example: 'Using Applicant Tracking Systems (ATS) to automate interview scheduling and reminders.'
       },
-      pathToRoot: "Slow Hiring Process → Cant Hire Fast → Not Enough Capacity"
+      pathToRoot: 'Slow Hiring Process → Cant Hire Fast → Not Enough Capacity'
     }
   },
   'interview-bottleneck': {
-    explanation: "One person (usually the founder) has to interview everyone. This delays the process and keeps the founder stuck in "Recruitment" instead of "Growth.'",
+    explanation: 'One person (usually the founder) has to interview everyone. This delays the process and keeps the founder stuck in "Recruitment" instead of "Growth.'',
     relatedProblems: ["cant-delegate-founder", "hiring-process-slow"],
     impactAnalysis: {
-      financialImpact: "Capped hiring speed; high founder time waste.",
+      financialImpact: 'Capped hiring speed; high founder time waste.',
       severity: "Moderate",
       affectedAreas: ["Scalability", "Founder Productivity"],
       strategicPriority: 'Medium'
@@ -6251,16 +6251,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of trust in team judgement", "No standardized scorecard", "Control issues"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to score initial recorded interviews based on specific criteria."
+        example: 'Using AI to score initial recorded interviews based on specific criteria.'
       },
-      pathToRoot: "Interview Bottleneck → Cant Hire Fast → Not Enough Capacity"
+      pathToRoot: 'Interview Bottleneck → Cant Hire Fast → Not Enough Capacity'
     }
   },
   'interview-bottleneck': {
-    explanation: "One person (usually the founder) has to interview everyone. This delays the process and keeps the founder stuck in "Recruitment" instead of "Growth.'",
+    explanation: 'One person (usually the founder) has to interview everyone. This delays the process and keeps the founder stuck in "Recruitment" instead of "Growth.'',
     relatedProblems: ["cant-delegate-founder", "hiring-process-slow"],
     impactAnalysis: {
-      financialImpact: "Capped hiring speed; high founder time waste.",
+      financialImpact: 'Capped hiring speed; high founder time waste.',
       severity: "Moderate",
       affectedAreas: ["Scalability", "Founder Productivity"],
       strategicPriority: 'Medium'
@@ -6274,16 +6274,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of trust in team judgement", "No standardized scorecard", "Control issues"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to score initial recorded interviews based on specific criteria."
+        example: 'Using AI to score initial recorded interviews based on specific criteria.'
       },
-      pathToRoot: "Interview Bottleneck → Cant Hire Fast → Not Enough Capacity"
+      pathToRoot: 'Interview Bottleneck → Cant Hire Fast → Not Enough Capacity'
     }
   },
   'not-enough-applicants': {
-    explanation: "You post a job and nobody applies. This is usually because your "Candidate Hook" is weak, you aren't promoting the role, or your reputation in the market is invisible.",
+    explanation: 'You post a job and nobody applies. This is usually because your "Candidate Hook" is weak, you aren't promoting the role, or your reputation in the market is invisible.',
     relatedProblems: ["prospects-dont-know", "cant-find-prospects"],
     impactAnalysis: {
-      financialImpact: "Stagnant growth due to zero capacity; high opportunity cost.",
+      financialImpact: 'Stagnant growth due to zero capacity; high opportunity cost.',
       severity: "Major",
       affectedAreas: ["Capacity", "Brand Equity"],
       strategicPriority: 'High'
@@ -6297,16 +6297,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Weak job title", "Boring copy", "No distribution strategy"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to optimize job titles and copy for maximum SEO and engagement."
+        example: 'Using AI to optimize job titles and copy for maximum SEO and engagement.'
       },
-      pathToRoot: "Low Applicant Volume → Cant Hire Fast → Not Enough Capacity"
+      pathToRoot: 'Low Applicant Volume → Cant Hire Fast → Not Enough Capacity'
     }
   },
   'job-market-competitive': {
-    explanation: "You are fighting for the same talent as Google or big competitors. If you don"t have a "Unique Talent Proposition' (UTP), you will always lose on salary or perks.",
+    explanation: 'You are fighting for the same talent as Google or big competitors. If you don"t have a "Unique Talent Proposition' (UTP), you will always lose on salary or perks.',
     relatedProblems: ["market-competitive", "cant-compete-compensation"],
     impactAnalysis: {
-      financialImpact: "High cost of acquisition per employee; constant risk of team poach.",
+      financialImpact: 'High cost of acquisition per employee; constant risk of team poach.',
       severity: "Major",
       affectedAreas: ["Recruitment ROI", "Profitability"],
       strategicPriority: 'High'
@@ -6320,16 +6320,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Commoditized workplace", "Lack of differentiation", "Salary wars"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is about your employer brand and offer."
+        example: 'N/A - this is about your employer brand and offer.'
       },
-      pathToRoot: "Competitive Job Market → Cant Hire Fast → Not Enough Capacity"
+      pathToRoot: 'Competitive Job Market → Cant Hire Fast → Not Enough Capacity'
     }
   },
   'cant-compete-compensation': {
-    explanation: "You can"t afford the "Market Rate' for top talent. This forces you to hire juniors (slow training) or unreliable contractors, which hurts your quality.",
+    explanation: 'You can"t afford the "Market Rate' for top talent. This forces you to hire juniors (slow training) or unreliable contractors, which hurts your quality.',
     relatedProblems: ["cant-afford-hire", "margins-low"],
     impactAnalysis: {
-      financialImpact: "Lower quality output; slow training ROI; high churn risk.",
+      financialImpact: 'Lower quality output; slow training ROI; high churn risk.',
       severity: "Major",
       affectedAreas: ["Quality Control", "Gross Margin", "Capacity"],
       strategicPriority: 'High'
@@ -6343,16 +6343,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Low service prices", "Thin margins", "Business model issues"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a business model and margin problem."
+        example: 'N/A - this is a business model and margin problem.'
       },
-      pathToRoot: "Low Compensation → Cant Hire Fast → Not Enough Capacity"
+      pathToRoot: 'Low Compensation → Cant Hire Fast → Not Enough Capacity'
     }
   },
   'no-cash-payroll': {
-    explanation: "You want to hire, but you don"t have the cash in the bank to guarantee the first 3 months of salary. You are living month-to-month, which makes hiring feel too risky.",
+    explanation: 'You want to hire, but you don"t have the cash in the bank to guarantee the first 3 months of salary. You are living month-to-month, which makes hiring feel too risky.',
     relatedProblems: ["cash-flow-gaps", "no-buffer"],
     impactAnalysis: {
-      financialImpact: "Growth stagnation; extreme founder stress; inability to build a team.",
+      financialImpact: 'Growth stagnation; extreme founder stress; inability to build a team.',
       severity: "Critical",
       affectedAreas: ["Scalability", "Financial Stability"],
       strategicPriority: 'High'
@@ -6366,16 +6366,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor cash management", "Lumpy revenue", "No reserves"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Cash Reserve" transfers from your main business account."
+        example: 'Automated "Cash Reserve" transfers from your main business account.'
       },
-      pathToRoot: "No Cash for Payroll → Cant Afford to Hire → Not Enough Capacity"
+      pathToRoot: 'No Cash for Payroll → Cant Afford to Hire → Not Enough Capacity'
     }
   },
   'margins-thin-staff': {
-    explanation: "Your profit margins are so low that adding one more employee makes you unprofitable. You are trapped in a low-value business model that doesn"t scale.",
+    explanation: 'Your profit margins are so low that adding one more employee makes you unprofitable. You are trapped in a low-value business model that doesn"t scale.',
     relatedProblems: ["margins-low", "prices-low"],
     impactAnalysis: {
-      financialImpact: "Negative ROI on labor; "Scaling" leads to "Bankruptcy.'",
+      financialImpact: 'Negative ROI on labor; "Scaling" leads to "Bankruptcy.'',
       severity: "Critical",
       affectedAreas: ["Profitability", "Business Model", "Scalability"],
       strategicPriority: 'High'
@@ -6389,16 +6389,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Trading time for money", "Commoditized service", "Inefficient fulfillment"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to double the productivity of existing staff instead of hiring new ones."
+        example: 'Using AI to double the productivity of existing staff instead of hiring new ones.'
       },
-      pathToRoot: "Thin Margins → Cant Afford to Hire → Not Enough Capacity"
+      pathToRoot: 'Thin Margins → Cant Afford to Hire → Not Enough Capacity'
     }
   },
   'revenue-uncertain': {
-    explanation: "You have the money today, but you don"t know if you"ll have it tomorrow. Without predictable revenue, hiring feels like a 'Gamble' that could lead to layoffs.",
+    explanation: 'You have the money today, but you don"t know if you"ll have it tomorrow. Without predictable revenue, hiring feels like a 'Gamble' that could lead to layoffs.',
     relatedProblems: ["lumpy-revenue", "no-recurring-revenue"],
     impactAnalysis: {
-      financialImpact: "Hesitant growth; team instability; high cost of replacement hires.",
+      financialImpact: 'Hesitant growth; team instability; high cost of replacement hires.',
       severity: "Major",
       affectedAreas: ["Strategic Planning", "Team Morale"],
       strategicPriority: 'High'
@@ -6412,16 +6412,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["One-off project focus", "Passive sales activity", "Lack of recurring offer"],
       automationPotential: {
         rating: "High",
-        example: "Automated subscription billing and renewal alerts."
+        example: 'Automated subscription billing and renewal alerts.'
       },
-      pathToRoot: "Uncertain Revenue → Cant Afford to Hire → Not Enough Capacity"
+      pathToRoot: 'Uncertain Revenue → Cant Afford to Hire → Not Enough Capacity'
     }
   },
   'already-stretched': {
-    explanation: "You are already at your financial limit. Every dollar is allocated, and there is no room for the "Growth Spurt" required to hire someone who will eventually make you more money.",
+    explanation: 'You are already at your financial limit. Every dollar is allocated, and there is no room for the "Growth Spurt" required to hire someone who will eventually make you more money.',
     relatedProblems: ["expenses-high", "no-buffer"],
     impactAnalysis: {
-      financialImpact: "Zero investment capacity; constant "Firefighting" for cash.",
+      financialImpact: 'Zero investment capacity; constant "Firefighting" for cash.',
       severity: "Critical",
       affectedAreas: ["Investment Power", "Growth Rate", "Founder Health"],
       strategicPriority: 'High'
@@ -6435,16 +6435,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-spending on non-essentials", "Lack of budget controls", "Slow AR"],
       automationPotential: {
         rating: "High",
-        example: "Automated expense tracking and "Burn Rate" alerts."
+        example: 'Automated expense tracking and "Burn Rate" alerts.'
       },
-      pathToRoot: "Already Stretched → Cant Afford to Hire → Not Enough Capacity"
+      pathToRoot: 'Already Stretched → Cant Afford to Hire → Not Enough Capacity'
     }
   },
   'afraid-commitment': {
-    explanation: "The "Fear of Payroll.' You are worried about the responsibility of another human's livelihood. This psychological block keeps you small and overworked.",
+    explanation: 'The "Fear of Payroll.' You are worried about the responsibility of another human's livelihood. This psychological block keeps you small and overworked.',
     relatedProblems: ["mindset-blocks", "fear-failure"],
     impactAnalysis: {
-      financialImpact: "Capped revenue; high opportunity cost of your time.",
+      financialImpact: 'Capped revenue; high opportunity cost of your time.',
       severity: "Moderate",
       affectedAreas: ["Scalability", "Founder Health"],
       strategicPriority: 'Medium'
@@ -6458,16 +6458,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Previous layoff experience", "Anxiety about the future", "Perfectionism"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a leadership mindset shift."
+        example: 'N/A - this is a leadership mindset shift.'
       },
-      pathToRoot: "Fear of Commitment → Cant Afford to Hire → Not Enough Capacity"
+      pathToRoot: 'Fear of Commitment → Cant Afford to Hire → Not Enough Capacity'
     }
   },
   'no-training-system': {
-    explanation: "You hire people and then "Throw them in the deep end.' Without a system, they take twice as long to learn, make expensive mistakes, and eventually quit from frustration.",
+    explanation: 'You hire people and then "Throw them in the deep end.' Without a system, they take twice as long to learn, make expensive mistakes, and eventually quit from frustration.',
     relatedProblems: ["training-long", "no-sops"],
     impactAnalysis: {
-      financialImpact: "Massive waste of payroll; high turnover costs; inconsistent quality.",
+      financialImpact: 'Massive waste of payroll; high turnover costs; inconsistent quality.',
       severity: "Major",
       affectedAreas: ["Operations", "Team ROI", "Gross Margin"],
       strategicPriority: 'High'
@@ -6481,16 +6481,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder too busy to document", "Undervaluing onboarding", "Implicit knowledge focus"],
       automationPotential: {
         rating: "High",
-        example: "Using automated training sequences (e.g., Trainual) that track completion."
+        example: 'Using automated training sequences (e.g., Trainual) that track completion.'
       },
-      pathToRoot: "No Training System → Training Takes Too Long → Not Enough Capacity"
+      pathToRoot: 'No Training System → Training Takes Too Long → Not Enough Capacity'
     }
   },
   'no-training-system': {
-    explanation: "You hire people and then "Throw them in the deep end.' Without a system, they take twice as long to learn, make expensive mistakes, and eventually quit from frustration.",
+    explanation: 'You hire people and then "Throw them in the deep end.' Without a system, they take twice as long to learn, make expensive mistakes, and eventually quit from frustration.',
     relatedProblems: ["training-long", "no-sops"],
     impactAnalysis: {
-      financialImpact: "Massive waste of payroll; high turnover costs; inconsistent quality.",
+      financialImpact: 'Massive waste of payroll; high turnover costs; inconsistent quality.',
       severity: "Major",
       affectedAreas: ["Operations", "Team ROI", "Gross Margin"],
       strategicPriority: 'High'
@@ -6504,16 +6504,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder too busy to document", "Undervaluing onboarding", "Implicit knowledge focus"],
       automationPotential: {
         rating: "High",
-        example: "Using automated training sequences (e.g., Trainual) that track completion."
+        example: 'Using automated training sequences (e.g., Trainual) that track completion.'
       },
-      pathToRoot: "No Training System → Training Takes Too Long → Not Enough Capacity"
+      pathToRoot: 'No Training System → Training Takes Too Long → Not Enough Capacity'
     }
   },
   'service-complex': {
-    explanation: "Your core offer is too difficult for an average person to deliver. If it takes 5 years of experience to do what you do, you will never scale fast because the talent pool is too small.",
+    explanation: 'Your core offer is too difficult for an average person to deliver. If it takes 5 years of experience to do what you do, you will never scale fast because the talent pool is too small.',
     relatedProblems: ["product-market-mismatch", "no-one-knows-how"],
     impactAnalysis: {
-      financialImpact: "High salary costs; slow growth; founder remains the "Magic.'",
+      financialImpact: 'High salary costs; slow growth; founder remains the "Magic.'',
       severity: "Major",
       affectedAreas: ["Scalability", "Gross Margin", "Training ROI"],
       strategicPriority: 'High'
@@ -6527,16 +6527,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder ego/perfectionism", "Bespoke offer", "Lack of productization"],
       automationPotential: {
         rating: "High",
-        example: "Building an expert system (AI or logic-based) that handles 80% of the complex decision-making."
+        example: 'Building an expert system (AI or logic-based) that handles 80% of the complex decision-making.'
       },
-      pathToRoot: "Service Too Complex → Training Takes Too Long → Not Enough Capacity"
+      pathToRoot: 'Service Too Complex → Training Takes Too Long → Not Enough Capacity'
     }
   },
   'turnover-before-trained': {
-    explanation: "People quit before they become profitable. You are paying for the "Learning Phase" but never reaping the 'Productive Phase.' Your onboarding is likely demoralizing or too slow.",
+    explanation: 'People quit before they become profitable. You are paying for the "Learning Phase" but never reaping the 'Productive Phase.' Your onboarding is likely demoralizing or too slow.',
     relatedProblems: ["no-training-system", "team-unreliable"],
     impactAnalysis: {
-      financialImpact: "Constant drain on cash; high recruitment cost loop; zero momentum.",
+      financialImpact: 'Constant drain on cash; high recruitment cost loop; zero momentum.',
       severity: "Critical",
       affectedAreas: ["Cash Flow", "Team Morale", "Operations"],
       strategicPriority: 'High'
@@ -6550,16 +6550,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Bad onboarding experience", "Role mismatch", "Lack of early feedback"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated "New Hire Satisfaction" check-ins at day 7, 30, and 90."
+        example: 'Automated "New Hire Satisfaction" check-ins at day 7, 30, and 90.'
       },
-      pathToRoot: "High Early Turnover → Training Takes Too Long → Not Enough Capacity"
+      pathToRoot: 'High Early Turnover → Training Takes Too Long → Not Enough Capacity'
     }
   },
   'training-busy-founder': {
-    explanation: "The founder is the only one who can train. This means every new hire *costs* you time before they make you money. You become the bottleneck for your own expansion.",
+    explanation: 'The founder is the only one who can train. This means every new hire *costs* you time before they make you money. You become the bottleneck for your own expansion.',
     relatedProblems: ["interview-bottleneck", "cant-delegate-founder"],
     impactAnalysis: {
-      financialImpact: "Negative ROI on hiring in the short term; extreme founder stress.",
+      financialImpact: 'Negative ROI on hiring in the short term; extreme founder stress.',
       severity: "Major",
       affectedAreas: ["Founder Throughput", "Scalability"],
       strategicPriority: 'High'
@@ -6573,16 +6573,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of SOPs", "Hero complex", "Fear of delegating authority"],
       automationPotential: {
         rating: "High",
-        example: "Creating a video-based training library that new hires can consume independently."
+        example: 'Creating a video-based training library that new hires can consume independently.'
       },
-      pathToRoot: "Founder Bottlenecked Training → Training Takes Too Long → Not Enough Capacity"
+      pathToRoot: 'Founder Bottlenecked Training → Training Takes Too Long → Not Enough Capacity'
     }
   },
   'learning-curve-steep': {
-    explanation: "It takes too long to get up to speed. This isn"t just about the service being complex; it's about the tools, culture, and processes being poorly defined.",
+    explanation: 'It takes too long to get up to speed. This isn"t just about the service being complex; it's about the tools, culture, and processes being poorly defined.',
     relatedProblems: ["no-training-system", "tools-inadequate"],
     impactAnalysis: {
-      financialImpact: "High cost of "Unproductive" payroll; low gross margin on new team members.",
+      financialImpact: 'High cost of "Unproductive" payroll; low gross margin on new team members.',
       severity: "Moderate",
       affectedAreas: ["Team Efficiency", "Scalability"],
       strategicPriority: 'Medium'
@@ -6596,16 +6596,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-complex internal tools", "Lack of clear documentation", "Implicit expectations"],
       automationPotential: {
         rating: "High",
-        example: "AI chatbots that answer "How do I do X?' for new employees in Slack/Teams."
+        example: 'AI chatbots that answer "How do I do X?' for new employees in Slack/Teams.'
       },
-      pathToRoot: "Steep Learning Curve → Training Takes Too Long → Not Enough Capacity"
+      pathToRoot: 'Steep Learning Curve → Training Takes Too Long → Not Enough Capacity'
     }
   },
   'people-quit': {
-    explanation: "High employee churn. You are a "Revolving Door.' This destroys team culture, drains your cash, and keeps you stuck in 'Recruitment Mode.'",
+    explanation: 'High employee churn. You are a "Revolving Door.' This destroys team culture, drains your cash, and keeps you stuck in 'Recruitment Mode.'',
     relatedProblems: ["team-unreliable", "bad-fit-services"],
     impactAnalysis: {
-      financialImpact: "Extreme loss of institutional knowledge; high recruitment/onboarding costs.",
+      financialImpact: 'Extreme loss of institutional knowledge; high recruitment/onboarding costs.',
       severity: "Critical",
       affectedAreas: ["Team Morale", "Operations", "Revenue Stability"],
       strategicPriority: 'High'
@@ -6619,16 +6619,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Toxic culture", "Low pay", "Poor management", "No career path"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a leadership and culture issue."
+        example: 'N/A - this is a leadership and culture issue.'
       },
-      pathToRoot: "High Turnover → Team Unreliable → Not Enough Capacity"
+      pathToRoot: 'High Turnover → Team Unreliable → Not Enough Capacity'
     }
   },
   'people-underperform': {
-    explanation: "They are here, but they aren"t working at the level required. This results in slow delivery, quality errors, and more work for the manager/founder.",
+    explanation: 'They are here, but they aren"t working at the level required. This results in slow delivery, quality errors, and more work for the manager/founder.',
     relatedProblems: ["team-unreliable", "motivation-low"],
     impactAnalysis: {
-      financialImpact: "Hidden labor waste; high cost of rework; client dissatisfaction.",
+      financialImpact: 'Hidden labor waste; high cost of rework; client dissatisfaction.',
       severity: "Major",
       affectedAreas: ["Gross Margin", "Service Quality", "Operations"],
       strategicPriority: 'High'
@@ -6642,16 +6642,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of accountability", "Unclear expectations", "Bad hiring"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated performance tracking dashboards that show individual results."
+        example: 'Automated performance tracking dashboards that show individual results.'
       },
-      pathToRoot: "Underperformance → Team Unreliable → Not Enough Capacity"
+      pathToRoot: 'Underperformance → Team Unreliable → Not Enough Capacity'
     }
   },
   'attendance-issues': {
-    explanation: "Reliability is low. People calling in sick, showing up late, or being unavailable during work hours. This creates chaos in delivery schedules.",
+    explanation: 'Reliability is low. People calling in sick, showing up late, or being unavailable during work hours. This creates chaos in delivery schedules.',
     relatedProblems: ["team-unreliable", "motivation-low"],
     impactAnalysis: {
-      financialImpact: "Missed deadlines; high stress for reliable team members; unbilled time.",
+      financialImpact: 'Missed deadlines; high stress for reliable team members; unbilled time.',
       severity: "Moderate",
       affectedAreas: ["Operations", "Team Culture", "Client Trust"],
       strategicPriority: 'Medium'
@@ -6665,16 +6665,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Low engagement", "Personal issues", "Lack of work ethic"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Check-in' tools or shared team schedules that flag absence instantly."
+        example: 'Automated "Check-in' tools or shared team schedules that flag absence instantly.'
       },
-      pathToRoot: "Attendance Issues → Team Unreliable → Not Enough Capacity"
+      pathToRoot: 'Attendance Issues → Team Unreliable → Not Enough Capacity'
     }
   },
   'skill-mismatches': {
-    explanation: "You hired a great person, but for the wrong seat. They are struggling because the role doesn"t play to their strengths, leading to frustration and poor results.",
+    explanation: 'You hired a great person, but for the wrong seat. They are struggling because the role doesn"t play to their strengths, leading to frustration and poor results.',
     relatedProblems: ["hiring-process-slow", "people-underperform"],
     impactAnalysis: {
-      financialImpact: "Inefficient payroll; high opportunity cost; wasted talent.",
+      financialImpact: 'Inefficient payroll; high opportunity cost; wasted talent.',
       severity: "Moderate",
       affectedAreas: ["Team Morale", "Efficiency", "Quality"],
       strategicPriority: 'Medium'
@@ -6688,16 +6688,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Panic hiring", "Lack of role clarity", "Weak assessment during interviews"],
       automationPotential: {
         rating: "Medium",
-        example: "Using automated skills assessment tools (e.g., TestGorilla) before hiring."
+        example: 'Using automated skills assessment tools (e.g., TestGorilla) before hiring.'
       },
-      pathToRoot: "Skill Mismatch → Team Unreliable → Not Enough Capacity"
+      pathToRoot: 'Skill Mismatch → Team Unreliable → Not Enough Capacity'
     }
   },
   'motivation-low': {
-    explanation: "The team is "Quiet Quitting.' They do the bare minimum to not get fired. There is no drive, no innovation, and no ownership of results.",
+    explanation: 'The team is "Quiet Quitting.' They do the bare minimum to not get fired. There is no drive, no innovation, and no ownership of results.',
     relatedProblems: ["people-underperform", "people-quit"],
     impactAnalysis: {
-      financialImpact: "Low throughput; high risk of mistakes; zero organic growth.",
+      financialImpact: 'Low throughput; high risk of mistakes; zero organic growth.',
       severity: "Major",
       affectedAreas: ["Team Culture", "Productivity", "Innovation"],
       strategicPriority: 'High'
@@ -6711,16 +6711,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Micromanagement", "Unfair compensation", "Boring work", "Poor leadership"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - motivation requires human leadership and connection."
+        example: 'N/A - motivation requires human leadership and connection.'
       },
-      pathToRoot: "Low Motivation → Team Unreliable → Not Enough Capacity"
+      pathToRoot: 'Low Motivation → Team Unreliable → Not Enough Capacity'
     }
   },
   'motivation-low': {
-    explanation: "The team is "Quiet Quitting.' They do the bare minimum to not get fired. There is no drive, no innovation, and no ownership of results.",
+    explanation: 'The team is "Quiet Quitting.' They do the bare minimum to not get fired. There is no drive, no innovation, and no ownership of results.',
     relatedProblems: ["people-underperform", "people-quit"],
     impactAnalysis: {
-      financialImpact: "Low throughput; high risk of mistakes; zero organic growth.",
+      financialImpact: 'Low throughput; high risk of mistakes; zero organic growth.',
       severity: "Major",
       affectedAreas: ["Team Culture", "Productivity", "Innovation"],
       strategicPriority: 'High'
@@ -6734,16 +6734,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Micromanagement", "Unfair compensation", "Boring work", "Poor leadership"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - motivation requires human leadership and connection."
+        example: 'N/A - motivation requires human leadership and connection.'
       },
-      pathToRoot: "Low Motivation → Team Unreliable → Not Enough Capacity"
+      pathToRoot: 'Low Motivation → Team Unreliable → Not Enough Capacity'
     }
   },
   'management-issues': {
-    explanation: "You have people, but they aren"t being led effectively. There is no clarity on goals, no feedback loops, and no accountability. The team is busy but not efficient.",
+    explanation: 'You have people, but they aren"t being led effectively. There is no clarity on goals, no feedback loops, and no accountability. The team is busy but not efficient.',
     relatedProblems: ["communication-breakdowns-pm", "people-underperform"],
     impactAnalysis: {
-      financialImpact: "Inefficient payroll; high turnover; strategic misalignment.",
+      financialImpact: 'Inefficient payroll; high turnover; strategic misalignment.',
       severity: "Major",
       affectedAreas: ["Operations", "Team Performance", "Founder Health"],
       strategicPriority: 'High'
@@ -6757,16 +6757,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder as a technician not a leader", "Lack of management training", "Poor communication structure"],
       automationPotential: {
         rating: "Medium",
-        example: "Using management software (e.g., Lattice, 15Five) to structure feedback and goal tracking."
+        example: 'Using management software (e.g., Lattice, 15Five) to structure feedback and goal tracking.'
       },
-      pathToRoot: "Management Failure → Team Unreliable → Not Enough Capacity"
+      pathToRoot: 'Management Failure → Team Unreliable → Not Enough Capacity'
     }
   },
   'physical-limitations': {
-    explanation: "Your growth is stopped by the walls of your office, the number of machines you have, or the speed of your equipment. You physically cannot produce more without capital investment.",
+    explanation: 'Your growth is stopped by the walls of your office, the number of machines you have, or the speed of your equipment. You physically cannot produce more without capital investment.',
     relatedProblems: ["equipment-costs", "geographic-constraints"],
     impactAnalysis: {
-      financialImpact: "Hard revenue ceiling; high fixed costs if you expand.",
+      financialImpact: 'Hard revenue ceiling; high fixed costs if you expand.',
       severity: "Moderate",
       affectedAreas: ["Scalability", "Operations", "Asset Management"],
       strategicPriority: 'Medium'
@@ -6780,16 +6780,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of facility planning", "Under-investment in assets', "Bespoke manufacturing needs"],
       automationPotential: {
         rating: "Medium",
-        example: "Using IoT and predictive maintenance to maximize the uptime of physical assets."
+        example: 'Using IoT and predictive maintenance to maximize the uptime of physical assets.'
       },
-      pathToRoot: "Physical Limits → Scaling Constraints → Not Enough Capacity"
+      pathToRoot: 'Physical Limits → Scaling Constraints → Not Enough Capacity'
     }
   },
   'can-only-serve-x': {
-    explanation: "Your business has a built-in "Cap" on how many clients you can handle at once. Whether it's seats in a room or hours in a day, your model is fundamentally non-scalable.",
+    explanation: 'Your business has a built-in "Cap" on how many clients you can handle at once. Whether it's seats in a room or hours in a day, your model is fundamentally non-scalable.',
     relatedProblems: ["time-trapped", "service-complex"],
     impactAnalysis: {
-      financialImpact: "Revenue is linear to time/space; zero exponential growth potential.",
+      financialImpact: 'Revenue is linear to time/space; zero exponential growth potential.',
       severity: "Major",
       affectedAreas: ["Scalability", "Business Model", "LTV"],
       strategicPriority: 'High'
@@ -6803,16 +6803,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Trading time for money", "Bespoke delivery model", "Lack of productization"],
       automationPotential: {
         rating: "High",
-        example: "Automating the delivery of core value through software or recorded content (Productization)."
+        example: 'Automating the delivery of core value through software or recorded content (Productization).'
       },
-      pathToRoot: "Capacity Cap → Scaling Constraints → Not Enough Capacity"
+      pathToRoot: 'Capacity Cap → Scaling Constraints → Not Enough Capacity'
     }
   },
   'geographic-constraints': {
-    explanation: "You can only serve people in a specific town or region. If that local market is small or saturated, your business has no room to grow.",
+    explanation: 'You can only serve people in a specific town or region. If that local market is small or saturated, your business has no room to grow.',
     relatedProblems: ["market-too-small", "physical-limitations"],
     impactAnalysis: {
-      financialImpact: "Hard revenue ceiling; vulnerability to local economic shifts.",
+      financialImpact: 'Hard revenue ceiling; vulnerability to local economic shifts.',
       severity: "Moderate",
       affectedAreas: ["Growth Rate", "Market Reach", "Sustainability"],
       strategicPriority: 'Medium'
@@ -6826,16 +6826,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Brick-and-mortar mindset", "Lack of digital infrastructure", "Local-only focus"],
       automationPotential: {
         rating: "High",
-        example: "Using digital marketing and remote delivery tools to expand beyond local borders."
+        example: 'Using digital marketing and remote delivery tools to expand beyond local borders.'
       },
-      pathToRoot: "Geo-Locked → Scaling Constraints → Not Enough Capacity"
+      pathToRoot: 'Geo-Locked → Scaling Constraints → Not Enough Capacity'
     }
   },
   'licensing-limits': {
-    explanation: "Regulatory or professional requirements limit who can do the work. If only "Licensed [X]' can deliver, your hiring is restricted by the speed of government or professional boards.",
+    explanation: 'Regulatory or professional requirements limit who can do the work. If only "Licensed [X]' can deliver, your hiring is restricted by the speed of government or professional boards.',
     relatedProblems: ["cant-find-qualified", "licensing-compliance"],
     impactAnalysis: {
-      financialImpact: "Extreme hiring friction; high cost of specialized labor.",
+      financialImpact: 'Extreme hiring friction; high cost of specialized labor.',
       severity: "Major",
       affectedAreas: ["Capacity", "Scalability", "Legal Risk"],
       strategicPriority: 'High'
@@ -6849,16 +6849,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Regulated industry", "Narrow professional standards", "Lack of role unbundling"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to handle 80% of the research or prep work, leaving only the final "Sign-off' for the licensed expert."
+        example: 'Using AI to handle 80% of the research or prep work, leaving only the final "Sign-off' for the licensed expert.'
       },
-      pathToRoot: "Licensing Bottleneck → Scaling Constraints → Not Enough Capacity"
+      pathToRoot: 'Licensing Bottleneck → Scaling Constraints → Not Enough Capacity'
     }
   },
   'technology-cant-handle': {
-    explanation: "Your website is crashing, your database is slow, or your current software is bugging out under the load. Your digital foundation is crumbling as you scale.",
+    explanation: 'Your website is crashing, your database is slow, or your current software is bugging out under the load. Your digital foundation is crumbling as you scale.',
     relatedProblems: ["tools-inadequate", "duplicate-systems"],
     impactAnalysis: {
-      financialImpact: "Immediate revenue loss (downtime); churn risk; high rework/bug-fix costs.",
+      financialImpact: 'Immediate revenue loss (downtime); churn risk; high rework/bug-fix costs.',
       severity: "Critical",
       affectedAreas: ["Operations", "Client Trust", "Scalability"],
       strategicPriority: 'High'
@@ -6872,16 +6872,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technical debt", "Cheap initial tools", "Scale exceeding architecture"],
       automationPotential: {
         rating: "High",
-        example: "Using cloud-native, auto-scaling infrastructure (Vercel, AWS) to handle spikes automatically."
+        example: 'Using cloud-native, auto-scaling infrastructure (Vercel, AWS) to handle spikes automatically.'
       },
-      pathToRoot: "Tech Failure → Scaling Constraints → Not Enough Capacity"
+      pathToRoot: 'Tech Failure → Scaling Constraints → Not Enough Capacity'
     }
   },
   'everything-by-hand': {
-    explanation: "You are doing manual work that software could do in seconds. This is a massive drain on human energy and increases the risk of "Human Error.'",
+    explanation: 'You are doing manual work that software could do in seconds. This is a massive drain on human energy and increases the risk of "Human Error.'',
     relatedProblems: ["manual-data-entry", "no-automation", "repetitive-tasks"],
     impactAnalysis: {
-      financialImpact: "High "Labor-to-Value' ratio; zero scalability; high error costs.",
+      financialImpact: 'High "Labor-to-Value' ratio; zero scalability; high error costs.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Gross Margin", "Team Morale"],
       strategicPriority: 'High'
@@ -6895,16 +6895,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of technical awareness", "Rushing to deliver", "Legacy habits"],
       automationPotential: {
         rating: "High",
-        example: "Using robotic process automation (RPA) or API integrations to remove human touchpoints."
+        example: 'Using robotic process automation (RPA) or API integrations to remove human touchpoints.'
       },
-      pathToRoot: "Manual Work → Manual Processes → Process Bottlenecks"
+      pathToRoot: 'Manual Work → Manual Processes → Process Bottlenecks'
     }
   },
   'no-automation': {
-    explanation: "Your business has zero "Robots" working for it. Everything relies on human attention, meaning your costs scale linearly with your revenue. You have no 'Operating Leverage.'",
+    explanation: 'Your business has zero "Robots" working for it. Everything relies on human attention, meaning your costs scale linearly with your revenue. You have no 'Operating Leverage.'',
     relatedProblems: ["everything-by-hand", "manual-data-entry"],
     impactAnalysis: {
-      financialImpact: "Stagnant margins; inability to scale without constant hiring; slow response times.",
+      financialImpact: 'Stagnant margins; inability to scale without constant hiring; slow response times.',
       severity: "Major",
       affectedAreas: ["Scalability", "Gross Margin", "Profitability"],
       strategicPriority: 'High'
@@ -6918,16 +6918,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of tech", "Lack of time to build", "Siloed tools"],
       automationPotential: {
         rating: "High",
-        example: "Building a central "Automation Hub" (Make.com) that connects all your business functions."
+        example: 'Building a central "Automation Hub" (Make.com) that connects all your business functions.'
       },
-      pathToRoot: "No Automation → Manual Processes → Process Bottlenecks"
+      pathToRoot: 'No Automation → Manual Processes → Process Bottlenecks'
     }
   },
   'repetitive-tasks': {
-    explanation: "You are wasting your team"s brains on tasks that require zero thinking. This leads to burnout and high error rates, while preventing them from doing 'High-Value' work.",
+    explanation: 'You are wasting your team"s brains on tasks that require zero thinking. This leads to burnout and high error rates, while preventing them from doing 'High-Value' work.',
     relatedProblems: ["low-value-work", "everything-by-hand"],
     impactAnalysis: {
-      financialImpact: "High labor waste; low employee retention; opportunity cost of strategic work.",
+      financialImpact: 'High labor waste; low employee retention; opportunity cost of strategic work.',
       severity: "Moderate",
       affectedAreas: ["Efficiency", "Team Engagement", "Operations"],
       strategicPriority: 'Medium'
@@ -6941,16 +6941,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of process mapping", "Inertia", "Undervaluing employee time"],
       automationPotential: {
         rating: "High",
-        example: "Using AI agents to handle the "Routine" part of the work (sorting, tagging, pre-filling)."
+        example: 'Using AI agents to handle the "Routine" part of the work (sorting, tagging, pre-filling).'
       },
-      pathToRoot: "Repetition → Manual Processes → Process Bottlenecks"
+      pathToRoot: 'Repetition → Manual Processes → Process Bottlenecks'
     }
   },
   'data-entry-overwhelming': {
-    explanation: "You spend more time "Typing" about the work than "Doing' the work. Your team is bogged down in reporting and status updates, slowing down delivery.",
+    explanation: 'You spend more time "Typing" about the work than "Doing' the work. Your team is bogged down in reporting and status updates, slowing down delivery.',
     relatedProblems: ["manual-data-entry", "copy-paste-hell"],
     impactAnalysis: {
-      financialImpact: "High cost of "Hidden" admin; slow data-to-decision speed; error-prone data.",
+      financialImpact: 'High cost of "Hidden" admin; slow data-to-decision speed; error-prone data.',
       severity: "Moderate",
       affectedAreas: ["Admin Efficiency", "Decision Quality", "Speed"],
       strategicPriority: 'Medium'
@@ -6964,16 +6964,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fragmented toolstack", "Lack of single source of truth", "Over-reporting"],
       automationPotential: {
         rating: "High",
-        example: "Using "Webhooks" to move data between apps instantly without human intervention."
+        example: 'Using "Webhooks" to move data between apps instantly without human intervention.'
       },
-      pathToRoot: "Admin Overload → Manual Processes → Process Bottlenecks"
+      pathToRoot: 'Admin Overload → Manual Processes → Process Bottlenecks'
     }
   },
   'copy-paste-hell': {
-    explanation: "Moving information from an email to a CRM, or from a CRM to an invoice. This is a sign of "Tool Isolation" and is the easiest problem to solve with modern software.",
+    explanation: 'Moving information from an email to a CRM, or from a CRM to an invoice. This is a sign of "Tool Isolation" and is the easiest problem to solve with modern software.',
     relatedProblems: ["manual-data-entry", "everything-by-hand"],
     impactAnalysis: {
-      financialImpact: "Waste of human labor; high risk of data mismatches; frustrated employees.",
+      financialImpact: 'Waste of human labor; high risk of data mismatches; frustrated employees.',
       severity: "Moderate",
       affectedAreas: ["Efficiency", "Data Integrity", "Team Morale"],
       strategicPriority: 'Medium'
@@ -6987,16 +6987,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Disconnected systems", "Lack of API knowledge", "Short-term thinking"],
       automationPotential: {
         rating: "High",
-        example: "Using tools like Syncari or Tray.io to keep data perfectly synced across all platforms."
+        example: 'Using tools like Syncari or Tray.io to keep data perfectly synced across all platforms.'
       },
-      pathToRoot: "Copy-Paste → Manual Processes → Process Bottlenecks"
+      pathToRoot: 'Copy-Paste → Manual Processes → Process Bottlenecks'
     }
   },
   'tribal-knowledge': {
-    explanation: "Information lives in people"s heads, not in a system. When someone goes on vacation (or quits), the business stops or makes massive mistakes.",
+    explanation: 'Information lives in people"s heads, not in a system. When someone goes on vacation (or quits), the business stops or makes massive mistakes.',
     relatedProblems: ["everything-founders-head", "no-sops"],
     impactAnalysis: {
-      financialImpact: "High risk of operational collapse; zero business value; high training costs.",
+      financialImpact: 'High risk of operational collapse; zero business value; high training costs.',
       severity: "Critical",
       affectedAreas: ["Business Continuity", "Asset Value", "Scalability"],
       strategicPriority: 'High'
@@ -7010,16 +7010,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of documentation habit", "Hero complex", "Fast growth over-running systems"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to document SOPs by "Listening" to team meetings and extracting processes."
+        example: 'Using AI to document SOPs by "Listening" to team meetings and extracting processes.'
       },
-      pathToRoot: "Knowledge Isolation → No Systems → Process Bottlenecks"
+      pathToRoot: 'Knowledge Isolation → No Systems → Process Bottlenecks'
     }
   },
   'every-project-reinvented': {
-    explanation: "You treat every new client like a "Special Case.' You have no templates, no standard steps, and no 'Productized' delivery. You are building a new business for every project.",
+    explanation: 'You treat every new client like a "Special Case.' You have no templates, no standard steps, and no 'Productized' delivery. You are building a new business for every project.',
     relatedProblems: ["not-standardized", "service-complex"],
     impactAnalysis: {
-      financialImpact: "Zero operational leverage; inconsistent margins; constant "First-Time' errors.",
+      financialImpact: 'Zero operational leverage; inconsistent margins; constant "First-Time' errors.',
       severity: "Major",
       affectedAreas: ["Profitability", "Efficiency", "Quality Control"],
       strategicPriority: 'High'
@@ -7033,16 +7033,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of being "Generic", "Lack of productization", "People-pleasing founder"],
       automationPotential: {
         rating: "High",
-        example: "Using Project Management templates that auto-populate tasks and deadlines for every new deal."
+        example: 'Using Project Management templates that auto-populate tasks and deadlines for every new deal.'
       },
-      pathToRoot: "Reinventing Wheel → No Systems → Process Bottlenecks"
+      pathToRoot: 'Reinventing Wheel → No Systems → Process Bottlenecks'
     }
   },
   'cant-scale-without-founder': {
-    explanation: "The "Founder Trap.' You are involved in every handoff, every decision, and every quality check. You aren't building a business; you're building a cage for yourself.",
+    explanation: 'The "Founder Trap.' You are involved in every handoff, every decision, and every quality check. You aren't building a business; you're building a cage for yourself.',
     relatedProblems: ["founder-everything", "cant-delegate-founder"],
     impactAnalysis: {
-      financialImpact: "Growth is capped by your personal hours; zero exit value.",
+      financialImpact: 'Growth is capped by your personal hours; zero exit value.',
       severity: "Critical",
       affectedAreas: ["Scalability", "Founder Health", "Business Valuation"],
       strategicPriority: 'High'
@@ -7056,16 +7056,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Hero complex", "Lack of trust in systems", "Undefined authority levels"],
       automationPotential: {
         rating: "High",
-        example: "Using AI-powered decision support to guide the team through your "Logic" without needing you."
+        example: 'Using AI-powered decision support to guide the team through your "Logic" without needing you.'
       },
-      pathToRoot: "Founder Reliance → No Systems → Process Bottlenecks"
+      pathToRoot: 'Founder Reliance → No Systems → Process Bottlenecks'
     }
   },
   'no-sops': {
-    explanation: "You have no Standard Operating Procedures. Your team is guessing how to do things, leading to inconsistent quality and constant questions for the manager.",
+    explanation: 'You have no Standard Operating Procedures. Your team is guessing how to do things, leading to inconsistent quality and constant questions for the manager.',
     relatedProblems: ["tribal-knowledge", "inconsistent-methods"],
     impactAnalysis: {
-      financialImpact: "High cost of management; inconsistent results; slow training ROI.",
+      financialImpact: 'High cost of management; inconsistent results; slow training ROI.',
       severity: "Major",
       affectedAreas: ["Operations", "Quality Control", "Team Efficiency"],
       strategicPriority: 'High'
@@ -7079,16 +7079,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Undervaluing systems", "Lack of time", "Expert blindness"],
       automationPotential: {
         rating: "High",
-        example: "Using AI tools (e.g., Scribe, Guidde) to automatically generate SOPs from screen recordings."
+        example: 'Using AI tools (e.g., Scribe, Guidde) to automatically generate SOPs from screen recordings.'
       },
-      pathToRoot: "Missing SOPs → No Systems → Process Bottlenecks"
+      pathToRoot: 'Missing SOPs → No Systems → Process Bottlenecks'
     }
   },
   'inconsistent-methods': {
-    explanation: "Three different people do the same task in three different ways. This makes it impossible to measure efficiency or guarantee quality. You have chaos, not a process.",
+    explanation: 'Three different people do the same task in three different ways. This makes it impossible to measure efficiency or guarantee quality. You have chaos, not a process.',
     relatedProblems: ["no-sops", "different-results"],
     impactAnalysis: {
-      financialImpact: "Unpredictable margins; varied client experience; high rework rates.",
+      financialImpact: 'Unpredictable margins; varied client experience; high rework rates.',
       severity: "Major",
       affectedAreas: ["Quality Control", "Operations", "Predictability"],
       strategicPriority: 'High'
@@ -7102,16 +7102,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of standardization", "Individual silos", "Passive management"],
       automationPotential: {
         rating: "High",
-        example: "Using automated workflows that enforce a "Sequence of Events" so variations aren't possible."
+        example: 'Using automated workflows that enforce a "Sequence of Events" so variations aren't possible.'
       },
-      pathToRoot: "Inconsistency → No Systems → Process Bottlenecks"
+      pathToRoot: 'Inconsistency → No Systems → Process Bottlenecks'
     }
   },
   'only-one-knows': {
-    explanation: "A specific part of the business relies on one person"s knowledge. If they are out, that part of the business freezes. This is a massive 'Single Point of Failure.'",
+    explanation: 'A specific part of the business relies on one person"s knowledge. If they are out, that part of the business freezes. This is a massive 'Single Point of Failure.'',
     relatedProblems: ["single-point-failure", "bus-factor"],
     impactAnalysis: {
-      financialImpact: "High risk of total operational halt; high leverage for that employee (risk of "Ransom").",
+      financialImpact: 'High risk of total operational halt; high leverage for that employee (risk of "Ransom").',
       severity: "Critical",
       affectedAreas: ["Business Continuity", "Accountability", "Scalability"],
       strategicPriority: 'High'
@@ -7125,16 +7125,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Knowledge hoarding", "Narrow hiring", "Lack of cross-training"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to "Extract" the expert"s knowledge into a searchable database for the whole team."
+        example: 'Using AI to "Extract" the expert"s knowledge into a searchable database for the whole team.'
       },
-      pathToRoot: "Knowledge Silo → Dependency on Key People → Process Bottlenecks"
+      pathToRoot: 'Knowledge Silo → Dependency on Key People → Process Bottlenecks'
     }
   },
   'bottleneck-unavailable': {
-    explanation: "Your project is ready to move, but the person who needs to approve it or do the next step is busy, on vacation, or in meetings. The project stalls and cash flow slows.",
+    explanation: 'Your project is ready to move, but the person who needs to approve it or do the next step is busy, on vacation, or in meetings. The project stalls and cash flow slows.',
     relatedProblems: ["status-unclear", "work-stuck"],
     impactAnalysis: {
-      financialImpact: "Delayed billing; project stagnation; team idle time costs.",
+      financialImpact: 'Delayed billing; project stagnation; team idle time costs.',
       severity: "Major",
       affectedAreas: ["Operations", "Cash Flow", "Team Throughput"],
       strategicPriority: 'High'
@@ -7148,16 +7148,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Centralized authority", "Over-complex hierarchy', "Poor resource planning"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Approval Triage" that sends tasks to the first available manager or auto-approves based on rules."
+        example: 'Automated "Approval Triage" that sends tasks to the first available manager or auto-approves based on rules.'
       },
-      pathToRoot: "Approval Stalls → Dependency on Key People → Process Bottlenecks"
+      pathToRoot: 'Approval Stalls → Dependency on Key People → Process Bottlenecks'
     }
   },
   'single-point-failure': {
-    explanation: "Any part of your business that would cause total failure if one thing (person, tool, vendor) stopped working. You have zero redundancy.",
+    explanation: 'Any part of your business that would cause total failure if one thing (person, tool, vendor) stopped working. You have zero redundancy.',
     relatedProblems: ["bus-factor", "only-one-knows"],
     impactAnalysis: {
-      financialImpact: "Risk of 100% revenue loss; extreme business fragility.",
+      financialImpact: 'Risk of 100% revenue loss; extreme business fragility.',
       severity: "Critical",
       affectedAreas: ["Business Continuity", "Risk Management", "Security"],
       strategicPriority: 'High'
@@ -7171,16 +7171,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lean operations taken too far", "Lack of risk planning", "Under-investment in redundancy"],
       automationPotential: {
         rating: "Medium",
-        example: "Using failover systems and redundant cloud services to remove tech failures."
+        example: 'Using failover systems and redundant cloud services to remove tech failures.'
       },
-      pathToRoot: "Systemic Fragility → Dependency on Key People → Process Bottlenecks"
+      pathToRoot: 'Systemic Fragility → Dependency on Key People → Process Bottlenecks'
     }
   },
   'bus-factor': {
-    explanation: "The "Bus Factor" is the number of people who, if hit by a bus tomorrow, would cause the business to fail. For most small businesses, the bus factor is 1.",
+    explanation: 'The "Bus Factor" is the number of people who, if hit by a bus tomorrow, would cause the business to fail. For most small businesses, the bus factor is 1.',
     relatedProblems: ["single-point-failure", "everything-founders-head"],
     impactAnalysis: {
-      financialImpact: "Total loss of business value; high anxiety for the founder.",
+      financialImpact: 'Total loss of business value; high anxiety for the founder.',
       severity: "Critical",
       affectedAreas: ["Asset Value", "Business Continuity", "Scalability"],
       strategicPriority: 'High'
@@ -7194,16 +7194,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder-centric model", "Lack of documentation", "Under-hiring leadership"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to map the business"s "Critical Paths' and identifying where human redundancy is needed."
+        example: 'Using AI to map the business"s "Critical Paths' and identifying where human redundancy is needed.'
       },
-      pathToRoot: "Low Bus Factor → Dependency on Key People → Process Bottlenecks"
+      pathToRoot: 'Low Bus Factor → Dependency on Key People → Process Bottlenecks'
     }
   },
   'knowledge-hoarding': {
-    explanation: "A team member intentionally (or unintentionally) keeps information to themselves to maintain "Job Security" or power. This creates a toxic culture and stalls the business.",
+    explanation: 'A team member intentionally (or unintentionally) keeps information to themselves to maintain "Job Security" or power. This creates a toxic culture and stalls the business.',
     relatedProblems: ["tribal-knowledge", "only-one-knows"],
     impactAnalysis: {
-      financialImpact: "High cost of management; culture of fear; stagnant innovation.",
+      financialImpact: 'High cost of management; culture of fear; stagnant innovation.',
       severity: "Major",
       affectedAreas: ["Team Culture", "Operations", "Scalability"],
       strategicPriority: 'High'
@@ -7217,16 +7217,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Insecure employees", "Toxic internal competition", "Lack of transparent culture"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a psychological and cultural issue."
+        example: 'N/A - this is a psychological and cultural issue.'
       },
-      pathToRoot: "Information Hoarding → Dependency on Key People → Process Bottlenecks"
+      pathToRoot: 'Information Hoarding → Dependency on Key People → Process Bottlenecks'
     }
   },
   'knowledge-hoarding': {
-    explanation: "A team member intentionally (or unintentionally) keeps information to themselves to maintain "Job Security" or power. This creates a toxic culture and stalls the business.",
+    explanation: 'A team member intentionally (or unintentionally) keeps information to themselves to maintain "Job Security" or power. This creates a toxic culture and stalls the business.',
     relatedProblems: ["tribal-knowledge", "only-one-knows"],
     impactAnalysis: {
-      financialImpact: "High cost of management; culture of fear; stagnant innovation.",
+      financialImpact: 'High cost of management; culture of fear; stagnant innovation.',
       severity: "Major",
       affectedAreas: ["Team Culture", "Operations", "Scalability"],
       strategicPriority: 'High'
@@ -7240,16 +7240,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Insecure employees", "Toxic internal competition", "Lack of transparent culture"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a psychological and cultural issue."
+        example: 'N/A - this is a psychological and cultural issue.'
       },
-      pathToRoot: "Information Hoarding → Dependency on Key People → Process Bottlenecks"
+      pathToRoot: 'Information Hoarding → Dependency on Key People → Process Bottlenecks'
     }
   },
   'wrong-software': {
-    explanation: "You are using tools that aren"t designed for your specific business size or industry. This creates friction, missing features, and forces your team into 'Workarounds' instead of work.",
+    explanation: 'You are using tools that aren"t designed for your specific business size or industry. This creates friction, missing features, and forces your team into 'Workarounds' instead of work.',
     relatedProblems: ["tools-inadequate", "systems-dont-integrate"],
     impactAnalysis: {
-      financialImpact: "Waste of subscription costs; hidden labor waste from workarounds.",
+      financialImpact: 'Waste of subscription costs; hidden labor waste from workarounds.',
       severity: "Moderate",
       affectedAreas: ["Operations", "Team Efficiency", "Scalability"],
       strategicPriority: 'Medium'
@@ -7263,16 +7263,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Starting with "Free" tools and never upgrading", "Lack of tech research", "Shiny object syndrome"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to evaluate feature sets of different software and matching them to your business needs."
+        example: 'Using AI to evaluate feature sets of different software and matching them to your business needs.'
       },
-      pathToRoot: "Wrong Software → Inadequate Tools → Process Bottlenecks"
+      pathToRoot: 'Wrong Software → Inadequate Tools → Process Bottlenecks'
     }
   },
   'systems-dont-integrate': {
-    explanation: "Your apps don"t "Talk' to each other. This creates data silos and forces manual entry, leading to slow reporting and human errors.",
+    explanation: 'Your apps don"t "Talk' to each other. This creates data silos and forces manual entry, leading to slow reporting and human errors.',
     relatedProblems: ["manual-data-entry", "copy-paste-hell"],
     impactAnalysis: {
-      financialImpact: "High cost of "Hidden" admin; delayed decision making; error-prone data.",
+      financialImpact: 'High cost of "Hidden" admin; delayed decision making; error-prone data.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Data Integrity", "Operations"],
       strategicPriority: 'High'
@@ -7286,16 +7286,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fragmented tool choice", "Lack of API knowledge", "Short-term software fixes"],
       automationPotential: {
         rating: "High",
-        example: "Using integration platforms-as-a-service (iPaaS) like Workato or Tray.io to build complex cross-app workflows."
+        example: 'Using integration platforms-as-a-service (iPaaS) like Workato or Tray.io to build complex cross-app workflows.'
       },
-      pathToRoot: "Fragmented Systems → Inadequate Tools → Process Bottlenecks"
+      pathToRoot: 'Fragmented Systems → Inadequate Tools → Process Bottlenecks'
     }
   },
   'technology-unreliable': {
-    explanation: "Your core business tech keeps breaking, slowing down, or losing data. This creates a culture of frustration and makes you look amateur to your clients.",
+    explanation: 'Your core business tech keeps breaking, slowing down, or losing data. This creates a culture of frustration and makes you look amateur to your clients.',
     relatedProblems: ["technology-cant-handle", "tools-inadequate"],
     impactAnalysis: {
-      financialImpact: "Immediate revenue risk (downtime); high cost of "Emergency" fixes.",
+      financialImpact: 'Immediate revenue risk (downtime); high cost of "Emergency" fixes.',
       severity: "Critical",
       affectedAreas: ["Business Continuity", "Client Trust", "Team Morale"],
       strategicPriority: 'High'
@@ -7309,16 +7309,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technical debt", "Under-investing in infrastructure', "Poor vendor choice"],
       automationPotential: {
         rating: "High",
-        example: "Using automated error logging and alerting to catch tech issues before they affect the team."
+        example: 'Using automated error logging and alerting to catch tech issues before they affect the team.'
       },
-      pathToRoot: "Unreliable Tech → Inadequate Tools → Process Bottlenecks"
+      pathToRoot: 'Unreliable Tech → Inadequate Tools → Process Bottlenecks'
     }
   },
   'outgrown-tools': {
-    explanation: "The tools that worked when you had 2 employees are now breaking with 10. You are trying to manage a complex machine with a "Starter Kit.'",
+    explanation: 'The tools that worked when you had 2 employees are now breaking with 10. You are trying to manage a complex machine with a "Starter Kit.'',
     relatedProblems: ["wrong-software", "technology-cant-handle"],
     impactAnalysis: {
-      financialImpact: "Stagnant growth; team frustration; scale-limiting bottlenecks.",
+      financialImpact: 'Stagnant growth; team frustration; scale-limiting bottlenecks.',
       severity: "Major",
       affectedAreas: ["Scalability", "Efficiency", "Operations"],
       strategicPriority: 'High'
@@ -7332,16 +7332,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Success over-running infrastructure", "Avoiding migration headaches", "Fear of cost increases"],
       automationPotential: {
         rating: "High",
-        example: "Migrating to platforms with "Infinite" scale (e.g., move from a local server to AWS/Google Cloud)."
+        example: 'Migrating to platforms with "Infinite" scale (e.g., move from a local server to AWS/Google Cloud).'
       },
-      pathToRoot: "Outgrown Tools → Inadequate Tools → Process Bottlenecks"
+      pathToRoot: 'Outgrown Tools → Inadequate Tools → Process Bottlenecks'
     }
   },
   'no-crm-pm': {
-    explanation: "You are managing clients and projects via Email, Slack, or Sticky Notes. You have zero central visibility, leading to missed deadlines and forgotten leads.",
+    explanation: 'You are managing clients and projects via Email, Slack, or Sticky Notes. You have zero central visibility, leading to missed deadlines and forgotten leads.',
     relatedProblems: ["no-project-tracking", "status-unclear"],
     impactAnalysis: {
-      financialImpact: "Missed sales deals; budget overruns; unbilled work.",
+      financialImpact: 'Missed sales deals; budget overruns; unbilled work.',
       severity: "Major",
       affectedAreas: ["Sales pipeline", "Project Operations", "Data Value"],
       strategicPriority: 'High'
@@ -7355,16 +7355,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Relying on memory", "Informal culture", "Lack of operational discipline"],
       automationPotential: {
         rating: "High",
-        example: "Using CRM/PM automation to trigger tasks and follow-ups based on deal stages."
+        example: 'Using CRM/PM automation to trigger tasks and follow-ups based on deal stages.'
       },
-      pathToRoot: "Missing Infrastructure → Inadequate Tools → Process Bottlenecks"
+      pathToRoot: 'Missing Infrastructure → Inadequate Tools → Process Bottlenecks'
     }
   },
   'cobbled-solutions': {
-    explanation: "A "Frankenstein" stack of duct-tape solutions. While clever at first, this setup is brittle, hard to train people on, and impossible to scale without constant maintenance.",
+    explanation: 'A "Frankenstein" stack of duct-tape solutions. While clever at first, this setup is brittle, hard to train people on, and impossible to scale without constant maintenance.',
     relatedProblems: ["systems-dont-integrate", "manual-data-entry"],
     impactAnalysis: {
-      financialImpact: "High cost of "Hidden" technical maintenance; high error risk.",
+      financialImpact: 'High cost of "Hidden" technical maintenance; high error risk.',
       severity: "Moderate",
       affectedAreas: ["Operations", "Data Integrity", "Scalability"],
       strategicPriority: 'Medium'
@@ -7378,16 +7378,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Bricolage mindset", "Under-budgeting for tech', "No long-term architecture plan"],
       automationPotential: {
         rating: "High",
-        example: "Replacing multiple "Hacks" with a single, comprehensive platform (e.g., moving from 5 tools to one ERP or CRM)."
+        example: 'Replacing multiple "Hacks" with a single, comprehensive platform (e.g., moving from 5 tools to one ERP or CRM).'
       },
-      pathToRoot: "Brittle Stack → Inadequate Tools → Process Bottlenecks"
+      pathToRoot: 'Brittle Stack → Inadequate Tools → Process Bottlenecks'
     }
   },
   'work-stuck': {
-    explanation: "Projects are ready for the next step, but they are "Sitting" in someone"s inbox or on a board. There is no flow, only stops and starts.",
+    explanation: 'Projects are ready for the next step, but they are "Sitting" in someone"s inbox or on a board. There is no flow, only stops and starts.',
     relatedProblems: ["bottleneck-unavailable", "status-unclear"],
     impactAnalysis: {
-      financialImpact: "Delayed revenue; high WIP (Work in Progress) costs; client frustration.",
+      financialImpact: 'Delayed revenue; high WIP (Work in Progress) costs; client frustration.',
       severity: "Major",
       affectedAreas: ["Sales Velocity", "Operations", "Cash Flow"],
       strategicPriority: 'High'
@@ -7401,16 +7401,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Undefined handoff criteria", "Passive management", "Lack of urgency"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Task Aging" alerts that ping managers when a task hasn't moved in > 48 hours."
+        example: 'Automated "Task Aging" alerts that ping managers when a task hasn't moved in > 48 hours.'
       },
-      pathToRoot: "Work Stagnation → Handoff Issues → Process Bottlenecks"
+      pathToRoot: 'Work Stagnation → Handoff Issues → Process Bottlenecks'
     }
   },
   'miscommunication-who-does': {
-    explanation: "Two people do the same task, or more commonly, *nobody* does it because they thought someone else was doing it. Clarity on roles is missing.",
+    explanation: 'Two people do the same task, or more commonly, *nobody* does it because they thought someone else was doing it. Clarity on roles is missing.',
     relatedProblems: ["no-clear-ownership", "status-unclear"],
     impactAnalysis: {
-      financialImpact: "Labor waste; high error costs; missed deadlines.",
+      financialImpact: 'Labor waste; high error costs; missed deadlines.',
       severity: "Moderate",
       affectedAreas: ["Operations", "Team Morale", "Profitability"],
       strategicPriority: 'Medium'
@@ -7424,16 +7424,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of role descriptions", "Informal handoffs", "Over-reliance on 'Teamwork' over 'Accountability'"],
       automationPotential: {
         rating: "High",
-        example: "Mandatory "Assignee" fields in PM tools that prevent a task from being created without an owner."
+        example: 'Mandatory "Assignee" fields in PM tools that prevent a task from being created without an owner.'
       },
-      pathToRoot: "Role Confusion → Handoff Issues → Process Bottlenecks"
+      pathToRoot: 'Role Confusion → Handoff Issues → Process Bottlenecks'
     }
   },
   'things-fall-through': {
-    explanation: "Small tasks, follow-ups, or minor quality checks are being forgotten. You are "Leaking" value because your process doesn"t capture everything.",
+    explanation: 'Small tasks, follow-ups, or minor quality checks are being forgotten. You are "Leaking" value because your process doesn"t capture everything.',
     relatedProblems: ["no-project-tracking", "status-unclear"],
     impactAnalysis: {
-      financialImpact: "Churn risk from poor client experience; missed upsells; reputation damage.",
+      financialImpact: 'Churn risk from poor client experience; missed upsells; reputation damage.',
       severity: "Major",
       affectedAreas: ["Client Satisfaction", "Brand Equity", "Profitability"],
       strategicPriority: 'High'
@@ -7447,16 +7447,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Managing by memory", "Tool overload", "Lack of follow-up systems"],
       automationPotential: {
         rating: "High",
-        example: "Using automated "Sanity Checks" that flag incomplete sub-tasks before a project is closed."
+        example: 'Using automated "Sanity Checks" that flag incomplete sub-tasks before a project is closed.'
       },
-      pathToRoot: "The "Cracks" Problem → Handoff Issues → Process Bottlenecks"
+      pathToRoot: 'The "Cracks" Problem → Handoff Issues → Process Bottlenecks'
     }
   },
   'no-clear-ownership': {
-    explanation: "Nobody feels responsible for the end result. People are focused on their "Task" but not the "Outcome.' This leads to a 'Not My Job' culture.",
+    explanation: 'Nobody feels responsible for the end result. People are focused on their "Task" but not the "Outcome.' This leads to a 'Not My Job' culture.',
     relatedProblems: ["miscommunication-who-does", "management-issues"],
     impactAnalysis: {
-      financialImpact: "High rework costs; client churn; stagnant innovation.",
+      financialImpact: 'High rework costs; client churn; stagnant innovation.',
       severity: "Major",
       affectedAreas: ["Team Accountability", "Productivity", "Culture"],
       strategicPriority: 'High'
@@ -7470,16 +7470,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Passive leadership", "Vague goals", "Fear of accountability"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - ownership is a leadership and psychological trait."
+        example: 'N/A - ownership is a leadership and psychological trait.'
       },
-      pathToRoot: "Missing Responsibility → Handoff Issues → Process Bottlenecks"
+      pathToRoot: 'Missing Responsibility → Handoff Issues → Process Bottlenecks'
     }
   },
   'status-unclear': {
-    explanation: "You have to ask "Where are we on this?' 10 times a day. There is no dashboard or visual way to see the health of projects at a glance.",
+    explanation: 'You have to ask "Where are we on this?' 10 times a day. There is no dashboard or visual way to see the health of projects at a glance.',
     relatedProblems: ["no-project-tracking", "work-stuck"],
     impactAnalysis: {
-      financialImpact: "Waste of management time (constant checking); delayed reporting; anxiety.",
+      financialImpact: 'Waste of management time (constant checking); delayed reporting; anxiety.',
       severity: "Moderate",
       affectedAreas: ["Operations", "Founder Peace of Mind", "Speed"],
       strategicPriority: 'Medium'
@@ -7493,16 +7493,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fragmented communication", "Lack of PM tool discipline", "Focus on "Doing" over 'Reporting'"],
       automationPotential: {
         rating: "High",
-        example: "Automated status reports generated weekly from PM data."
+        example: 'Automated status reports generated weekly from PM data.'
       },
-      pathToRoot: "Opaque Progress → Handoff Issues → Process Bottlenecks"
+      pathToRoot: 'Opaque Progress → Handoff Issues → Process Bottlenecks'
     }
   },
   'different-results': {
-    explanation: "Quality is a coin flip. Sometimes it"s great, sometimes it's poor. This variance kills your brand and makes referrals impossible.",
+    explanation: 'Quality is a coin flip. Sometimes it"s great, sometimes it's poor. This variance kills your brand and makes referrals impossible.',
     relatedProblems: ["no-quality-standards", "wing-it"],
     impactAnalysis: {
-      financialImpact: "High churn; constant rework; unpredictable refund risk.",
+      financialImpact: 'High churn; constant rework; unpredictable refund risk.',
       severity: "Major",
       affectedAreas: ["Brand Authority", "Profitability", "Retention"],
       strategicPriority: 'High'
@@ -7516,16 +7516,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of standardization", "Different team skill levels", "No QA process"],
       automationPotential: {
         rating: "High",
-        example: "Using automated testing or QA checklists that must be "Passed" by a system before delivery."
+        example: 'Using automated testing or QA checklists that must be "Passed" by a system before delivery.'
       },
-      pathToRoot: "Variance → Inconsistent Delivery → Quality Problems"
+      pathToRoot: 'Variance → Inconsistent Delivery → Quality Problems'
     }
   },
   'no-quality-standards': {
-    explanation: "You haven"t defined what "Good' looks like. Without a standard, your team is aiming at a moving target, leading to inconsistent work and constant founder 'Tweak-ing.'",
+    explanation: 'You haven"t defined what "Good' looks like. Without a standard, your team is aiming at a moving target, leading to inconsistent work and constant founder 'Tweak-ing.'',
     relatedProblems: ["wing-it", "depends-who-does"],
     impactAnalysis: {
-      financialImpact: "Inefficient labor; high cost of founder oversight; inconsistent client ROI.",
+      financialImpact: 'Inefficient labor; high cost of founder oversight; inconsistent client ROI.',
       severity: "Major",
       affectedAreas: ["Quality Control", "Team Autonomy", "Brand Value"],
       strategicPriority: 'High'
@@ -7539,16 +7539,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Expert blindness", "Rushing to deliver", "Undervaluing consistency"],
       automationPotential: {
         rating: "High",
-        example: "AI-powered "Style Guides" or 'Linter' tools that flag deviations from the standard automatically."
+        example: 'AI-powered "Style Guides" or 'Linter' tools that flag deviations from the standard automatically.'
       },
-      pathToRoot: "No Benchmarks → Inconsistent Delivery → Quality Problems"
+      pathToRoot: 'No Benchmarks → Inconsistent Delivery → Quality Problems'
     }
   },
   'depends-who-does': {
-    explanation: "If [Employee A] does it, it"s 10/10. If [Employee B] does it, it's 6/10. Your business depends on individuals, not processes, making it unscalable.",
+    explanation: 'If [Employee A] does it, it"s 10/10. If [Employee B] does it, it's 6/10. Your business depends on individuals, not processes, making it unscalable.',
     relatedProblems: ["only-one-knows", "tribal-knowledge"],
     impactAnalysis: {
-      financialImpact: "Inconsistent margins; "Lottery" style client experience; risk of losing key talent.",
+      financialImpact: 'Inconsistent margins; "Lottery" style client experience; risk of losing key talent.',
       severity: "Major",
       affectedAreas: ["Scalability", "Brand Integrity", "Team Growth"],
       strategicPriority: 'High'
@@ -7562,16 +7562,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of cross-training", "Process in heads not on paper", "Skill gaps"],
       automationPotential: {
         rating: "High",
-        example: "Building "Decision Support" tools that guide everyone through the same logic regardless of experience."
+        example: 'Building "Decision Support" tools that guide everyone through the same logic regardless of experience.'
       },
-      pathToRoot: "Person-Dependent Quality → Inconsistent Delivery → Quality Problems"
+      pathToRoot: 'Person-Dependent Quality → Inconsistent Delivery → Quality Problems'
     }
   },
   'no-review-qa': {
-    explanation: "Work goes straight from "Doing" to "Client.' There is no second eye, no double-check, and no safety net for human error.",
+    explanation: 'Work goes straight from "Doing" to "Client.' There is no second eye, no double-check, and no safety net for human error.',
     relatedProblems: ["errors-slip-through", "no-quality-control"],
     impactAnalysis: {
-      financialImpact: "Immediate churn risk; high rework costs; brand damage from "Silly" mistakes.",
+      financialImpact: 'Immediate churn risk; high rework costs; brand damage from "Silly" mistakes.',
       severity: "Critical",
       affectedAreas: ["Client Trust", "Operations", "Profitability"],
       strategicPriority: 'High'
@@ -7585,16 +7585,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Rushing to hit deadlines", "Under-staffing", "Undervaluing QA"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to proofread or "Check" work against requirements before a human even sees it."
+        example: 'Using AI to proofread or "Check" work against requirements before a human even sees it.'
       },
-      pathToRoot: "No Safety Net → Inconsistent Delivery → Quality Problems"
+      pathToRoot: 'No Safety Net → Inconsistent Delivery → Quality Problems'
     }
   },
   'wing-it': {
-    explanation: "The team starts every task with a blank page. Intuition is used instead of a checklist. While creative, this is the enemy of efficiency and scale.",
+    explanation: 'The team starts every task with a blank page. Intuition is used instead of a checklist. While creative, this is the enemy of efficiency and scale.',
     relatedProblems: ["every-project-reinvented", "inconsistent-methods"],
     impactAnalysis: {
-      financialImpact: "Zero operational leverage; extreme time waste; high cognitive load for the team.",
+      financialImpact: 'Zero operational leverage; extreme time waste; high cognitive load for the team.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Mental Clarity", "Scalability"],
       strategicPriority: 'High'
@@ -7608,16 +7608,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Creative hubris", "Aversion to structure", "Lack of leadership standards"],
       automationPotential: {
         rating: "High",
-        example: "Using "Workflow Engines" that don't allow Step 2 to start until Step 1's checklist is checked off."
+        example: 'Using "Workflow Engines" that don't allow Step 2 to start until Step 1's checklist is checked off.'
       },
-      pathToRoot: "Improvisation → Inconsistent Delivery → Quality Problems"
+      pathToRoot: 'Improvisation → Inconsistent Delivery → Quality Problems'
     }
   },
   'errors-slip-through': {
-    explanation: "Mistakes are reaching the client. Whether they are typos, broken links, or strategic errors, each one erodes trust and requires expensive rework.",
+    explanation: 'Mistakes are reaching the client. Whether they are typos, broken links, or strategic errors, each one erodes trust and requires expensive rework.',
     relatedProblems: ["no-review-qa", "rushing-mistakes"],
     impactAnalysis: {
-      financialImpact: "Client churn; increased refund requests; high rework labor.",
+      financialImpact: 'Client churn; increased refund requests; high rework labor.',
       severity: "Critical",
       affectedAreas: ["Client Retention", "Brand Reputation", "Operations"],
       strategicPriority: 'High'
@@ -7631,16 +7631,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of second-eye review", "Fatigue/Burnout', "Under-estimating complexity"],
       automationPotential: {
         rating: "High",
-        example: "Using AI vision or logic tools to "Scan" deliverables for common errors automatically."
+        example: 'Using AI vision or logic tools to "Scan" deliverables for common errors automatically.'
       },
-      pathToRoot: "Leaking Mistakes → Mistakes/Rework → Quality Problems"
+      pathToRoot: 'Leaking Mistakes → Mistakes/Rework → Quality Problems'
     }
   },
   'no-quality-control': {
-    explanation: "You have no formal step in your process dedicated to checking work. Quality is assumed, not verified.",
+    explanation: 'You have no formal step in your process dedicated to checking work. Quality is assumed, not verified.',
     relatedProblems: ["no-review-qa", "different-results"],
     impactAnalysis: {
-      financialImpact: "Hidden costs of rework; slow-motion churn; unmeasurable efficiency.",
+      financialImpact: 'Hidden costs of rework; slow-motion churn; unmeasurable efficiency.',
       severity: "Major",
       affectedAreas: ["Operations", "Quality Assurance", "Brand Equity"],
       strategicPriority: 'High'
@@ -7654,16 +7654,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Growth at all costs mindset", "Thin margins (avoiding QA time)', "Implicit trust in team"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Smoke Tests" or regression suites that verify the core product is working."
+        example: 'Automated "Smoke Tests" or regression suites that verify the core product is working.'
       },
-      pathToRoot: "Missing Verification → Mistakes/Rework → Quality Problems"
+      pathToRoot: 'Missing Verification → Mistakes/Rework → Quality Problems'
     }
   },
   'rushing-mistakes': {
-    explanation: "The team is overworked or deadlines are unrealistic. Speed is being prioritized over quality, leading to careless errors that take longer to fix than if they were done right the first time.",
+    explanation: 'The team is overworked or deadlines are unrealistic. Speed is being prioritized over quality, leading to careless errors that take longer to fix than if they were done right the first time.',
     relatedProblems: ["working-too-much", "timelines-slip"],
     impactAnalysis: {
-      financialImpact: " Diminishing returns on speed; high rework costs; team burnout.",
+      financialImpact: ' Diminishing returns on speed; high rework costs; team burnout.',
       severity: "Major",
       affectedAreas: ["Team Morale", "Gross Margin", "Client Trust"],
       strategicPriority: 'High'
@@ -7677,16 +7677,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-promising in sales", "Poor capacity planning", "Under-staffing"],
       automationPotential: {
         rating: "High",
-        example: "Using capacity planning tools to automatically block out "QA Time" so it can't be skipped for speed."
+        example: 'Using capacity planning tools to automatically block out "QA Time" so it can't be skipped for speed.'
       },
-      pathToRoot: "Speed vs Quality → Mistakes/Rework → Quality Problems"
+      pathToRoot: 'Speed vs Quality → Mistakes/Rework → Quality Problems'
     }
   },
   'miscommunication-wrong-work': {
-    explanation: "The team did a great job... but on the wrong thing. Requirements were misunderstood, leading to 100% rework and a very frustrated client.",
+    explanation: 'The team did a great job... but on the wrong thing. Requirements were misunderstood, leading to 100% rework and a very frustrated client.',
     relatedProblems: ["expectations-misaligned", "internal-miscommunication"],
     impactAnalysis: {
-      financialImpact: "100% loss of project labor; extreme churn risk.",
+      financialImpact: '100% loss of project labor; extreme churn risk.',
       severity: "Critical",
       affectedAreas: ["Profitability", "Client Trust", "Team Morale"],
       strategicPriority: 'High'
@@ -7700,16 +7700,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Vague briefs", "Oral-only instructions', "Assumed understanding"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to compare the "Project Brief" against the 'Final Work' to flag discrepancies automatically."
+        example: 'Using AI to compare the "Project Brief" against the 'Final Work' to flag discrepancies automatically.'
       },
-      pathToRoot: "Briefing Failure → Mistakes/Rework → Quality Problems"
+      pathToRoot: 'Briefing Failure → Mistakes/Rework → Quality Problems'
     }
   },
   'high-defect-rate': {
-    explanation: "A high percentage of your deliverables require significant edits or corrections. You are "Finishing the work twice" for every one project.",
+    explanation: 'A high percentage of your deliverables require significant edits or corrections. You are "Finishing the work twice" for every one project.',
     relatedProblems: ["rework-mistakes", "no-quality-standards"],
     impactAnalysis: {
-      financialImpact: "Gross margin collapse; inability to scale; constant "Crisis" mode.",
+      financialImpact: 'Gross margin collapse; inability to scale; constant "Crisis" mode.',
       severity: "Critical",
       affectedAreas: ["Profitability", "Efficiency", "Operations"],
       strategicPriority: 'High'
@@ -7723,16 +7723,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Systemic process failure", "Skill gaps", "Outdated tools"],
       automationPotential: {
         rating: "Medium",
-        example: "Using statistical process control (SPC) logic to flag when your defect rate is spiking."
+        example: 'Using statistical process control (SPC) logic to flag when your defect rate is spiking.'
       },
-      pathToRoot: "Systemic Errors → Mistakes/Rework → Quality Problems"
+      pathToRoot: 'Systemic Errors → Mistakes/Rework → Quality Problems'
     }
   },
   'high-defect-rate': {
-    explanation: "A high percentage of your deliverables require significant edits or corrections. You are "Finishing the work twice" for every one project.",
+    explanation: 'A high percentage of your deliverables require significant edits or corrections. You are "Finishing the work twice" for every one project.',
     relatedProblems: ["rework-eating-profit", "no-quality-standards"],
     impactAnalysis: {
-      financialImpact: "Gross margin collapse; inability to scale; constant "Crisis" mode.",
+      financialImpact: 'Gross margin collapse; inability to scale; constant "Crisis" mode.',
       severity: "Critical",
       affectedAreas: ["Profitability", "Efficiency", "Operations"],
       strategicPriority: 'High'
@@ -7746,16 +7746,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Systemic process failure", "Skill gaps", "Outdated tools"],
       automationPotential: {
         rating: "Medium",
-        example: "Using statistical process control (SPC) logic to flag when your defect rate is spiking."
+        example: 'Using statistical process control (SPC) logic to flag when your defect rate is spiking.'
       },
-      pathToRoot: "Systemic Errors → Mistakes/Rework → Quality Problems"
+      pathToRoot: 'Systemic Errors → Mistakes/Rework → Quality Problems'
     }
   },
   'team-no-expertise': {
-    explanation: "You have a team, but they lack the deep technical or strategic knowledge required for the current projects. This leads to mediocre work and constant founder intervention.",
+    explanation: 'You have a team, but they lack the deep technical or strategic knowledge required for the current projects. This leads to mediocre work and constant founder intervention.',
     relatedProblems: ["skills-knowledge-gap", "complex-beyond-capability"],
     impactAnalysis: {
-      financialImpact: "High cost of management; inability to command premium prices; slow delivery.",
+      financialImpact: 'High cost of management; inability to command premium prices; slow delivery.',
       severity: "Major",
       affectedAreas: ["Quality Control", "Pricing Power", "Growth Rate"],
       strategicPriority: 'High'
@@ -7769,16 +7769,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Hiring based on budget not talent", "Fast market shift", "Under-investment in L&D"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - expertise is human capital."
+        example: 'N/A - expertise is human capital.'
       },
-      pathToRoot: "Expertise Gap → Skills Gap → Quality Problems"
+      pathToRoot: 'Expertise Gap → Skills Gap → Quality Problems'
     }
   },
   'complex-beyond-capability': {
-    explanation: "The work you"ve sold is more difficult than your team can handle. This creates high stress, quality failures, and eventually 'Burnout' as people struggle to perform.",
+    explanation: 'The work you"ve sold is more difficult than your team can handle. This creates high stress, quality failures, and eventually 'Burnout' as people struggle to perform.',
     relatedProblems: ["team-no-expertise", "bought-cant-deliver"],
     impactAnalysis: {
-      financialImpact: "Immediate project risk; potential for legal/reputation damage; high rework costs.",
+      financialImpact: 'Immediate project risk; potential for legal/reputation damage; high rework costs.',
       severity: "Critical",
       affectedAreas: ["Service Quality", "Team Mental Health", "Client Retention"],
       strategicPriority: 'High'
@@ -7792,16 +7792,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-selling capability", "Lack of technical scoping during sales", "Hero complex"],
       automationPotential: {
         rating: "Medium",
-        example: "Using technical assessment AI to verify if a project brief matches the team"s historical skill data."
+        example: 'Using technical assessment AI to verify if a project brief matches the team"s historical skill data.'
       },
-      pathToRoot: "Over-selling → Skills Gap → Quality Problems"
+      pathToRoot: 'Over-selling → Skills Gap → Quality Problems'
     }
   },
   'need-specialists': {
-    explanation: "Your project requires niche knowledge (e.g., specific law, advanced AI, specialized design) that your "Generalist" team doesn"t have. You are trying to solve complex problems with basic tools.",
+    explanation: 'Your project requires niche knowledge (e.g., specific law, advanced AI, specialized design) that your "Generalist" team doesn"t have. You are trying to solve complex problems with basic tools.',
     relatedProblems: ["team-no-expertise", "subcontractors-expensive"],
     impactAnalysis: {
-      financialImpact: "Mediocre results; inability to solve the "High-Value' part of the problem.",
+      financialImpact: 'Mediocre results; inability to solve the "High-Value' part of the problem.',
       severity: "Moderate",
       affectedAreas: ["Market Reach", "Value Creation", "Strategic Positioning"],
       strategicPriority: 'Medium'
@@ -7815,16 +7815,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Evolving client needs", "Broad offer without depth", "Lack of specialized network"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to find and vet specialists on platforms like Upwork or Malt automatically."
+        example: 'Using AI to find and vet specialists on platforms like Upwork or Malt automatically.'
       },
-      pathToRoot: "Generalist Trap → Skills Gap → Quality Problems"
+      pathToRoot: 'Generalist Trap → Skills Gap → Quality Problems'
     }
   },
   'trying-not-good-at': {
-    explanation: "You are accepting work that is outside your "Zone of Genius.' You are doing it for the money, but it's taking 3x longer and producing worse results than your core service.",
+    explanation: 'You are accepting work that is outside your "Zone of Genius.' You are doing it for the money, but it's taking 3x longer and producing worse results than your core service.',
     relatedProblems: ["wrong-clients", "bad-fit-services"],
     impactAnalysis: {
-      financialImpact: "Massive margin drain; team frustration; damage to your "Expert" brand.",
+      financialImpact: 'Massive margin drain; team frustration; damage to your "Expert" brand.',
       severity: "Major",
       affectedAreas: ["Profitability", "Brand Integrity", "Team Morale"],
       strategicPriority: 'High'
@@ -7838,16 +7838,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Scarcity mindset", "Lack of niche focus", "No sales filters"],
       automationPotential: {
         rating: "High",
-        example: "Using automated qualification forms that reject leads for services you don"t excel at."
+        example: 'Using automated qualification forms that reject leads for services you don"t excel at.'
       },
-      pathToRoot: "Lack of Focus → Skills Gap → Quality Problems"
+      pathToRoot: 'Lack of Focus → Skills Gap → Quality Problems'
     }
   },
   'learning-on-job': {
-    explanation: "You are using client projects as "Training Ground.' While some learning is necessary, doing it without supervision leads to slow delivery and high risk of errors.",
+    explanation: 'You are using client projects as "Training Ground.' While some learning is necessary, doing it without supervision leads to slow delivery and high risk of errors.',
     relatedProblems: ["no-training-system", "errors-slip-through"],
     impactAnalysis: {
-      financialImpact: "Unbilled "Research" hours; client frustration with speed; potential for rookie mistakes.",
+      financialImpact: 'Unbilled "Research" hours; client frustration with speed; potential for rookie mistakes.',
       severity: "Moderate",
       affectedAreas: ["Gross Margin", "Client Trust", "Efficiency"],
       strategicPriority: 'Medium'
@@ -7861,16 +7861,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of internal R&D budget", "New service launches", "Under-staffing seniors"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to guide the "Learning" phase with real-time suggestions and quality checks."
+        example: 'Using AI to guide the "Learning" phase with real-time suggestions and quality checks.'
       },
-      pathToRoot: "Rookie Mistakes → Skills Gap → Quality Problems"
+      pathToRoot: 'Rookie Mistakes → Skills Gap → Quality Problems'
     }
   },
   'not-meeting-expectations': {
-    explanation: "The client expected an "A" and you delivered a 'B-'. This is often a failure of 'Expectation Management' during the sales or onboarding process.",
+    explanation: 'The client expected an "A" and you delivered a 'B-'. This is often a failure of 'Expectation Management' during the sales or onboarding process.',
     relatedProblems: ["expectations-misaligned", "bad-service"],
     impactAnalysis: {
-      financialImpact: "High churn risk; zero referrals; increased demand for "Free" extra work to compensate.",
+      financialImpact: 'High churn risk; zero referrals; increased demand for "Free" extra work to compensate.',
       severity: "Critical",
       affectedAreas: ["Brand Reputation", "LTV", "Team Pride"],
       strategicPriority: 'High'
@@ -7884,16 +7884,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-promising in sales", "Vague Success Criteria", "Lack of communication"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Onboarding Questionnaires" that force the client to define 'Success' numerically."
+        example: 'Automated "Onboarding Questionnaires" that force the client to define 'Success' numerically.'
       },
-      pathToRoot: "Expectation Gap → Client Dissatisfaction → Quality Problems"
+      pathToRoot: 'Expectation Gap → Client Dissatisfaction → Quality Problems'
     }
   },
   'communication-breakdowns-quality': {
-    explanation: "The work is fine, but the client doesn"t know it. Or the client has concerns that aren't being heard. The 'Communication Layer' is failing, making the work *seem* lower quality than it is.",
+    explanation: 'The work is fine, but the client doesn"t know it. Or the client has concerns that aren't being heard. The 'Communication Layer' is failing, making the work *seem* lower quality than it is.',
     relatedProblems: ["internal-miscommunication", "no-communication-plan"],
     impactAnalysis: {
-      financialImpact: "Increased churn; high anxiety for both parties; needless rework.",
+      financialImpact: 'Increased churn; high anxiety for both parties; needless rework.',
       severity: "Major",
       affectedAreas: ["Client Trust", "Team Speed", "Referral Rate"],
       strategicPriority: 'High'
@@ -7907,16 +7907,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Managing via Slack/DMs", "No dedicated account management", "Founder busy-ness"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Client Reporting" dashboards that pull data directly from PM/CRM tools."
+        example: 'Automated "Client Reporting" dashboards that pull data directly from PM/CRM tools.'
       },
-      pathToRoot: "Opaque Process → Client Dissatisfaction → Quality Problems"
+      pathToRoot: 'Opaque Process → Client Dissatisfaction → Quality Problems'
     }
   },
   'missed-deadlines-quality': {
-    explanation: "You deliver good work, but always "Late.' This makes the client look bad internally and creates a feeling of unreliability that outweighs the quality of the work.",
+    explanation: 'You deliver good work, but always "Late.' This makes the client look bad internally and creates a feeling of unreliability that outweighs the quality of the work.',
     relatedProblems: ["timelines-slip", "underestimate-time-pm"],
     impactAnalysis: {
-      financialImpact: "Churn risk; high price sensitivity; penalty fees in some contracts.",
+      financialImpact: 'Churn risk; high price sensitivity; penalty fees in some contracts.',
       severity: "Major",
       affectedAreas: ["Account Stability", "Market Reputation", "Cash Flow"],
       strategicPriority: 'High'
@@ -7930,16 +7930,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor capacity planning", "Optimism bias", "Internal bottlenecks"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Deadline Alerts" that ping the team when a task is 50% through its duration but 0% complete."
+        example: 'Automated "Deadline Alerts" that ping the team when a task is 50% through its duration but 0% complete.'
       },
-      pathToRoot: "Lateness → Client Dissatisfaction → Quality Problems"
+      pathToRoot: 'Lateness → Client Dissatisfaction → Quality Problems'
     }
   },
   'poor-results': {
-    explanation: "The work was delivered on time and on budget, but it didn"t solve the client"s problem. You produced 'Deliverables' but not 'Outcomes.'",
+    explanation: 'The work was delivered on time and on budget, but it didn"t solve the client"s problem. You produced 'Deliverables' but not 'Outcomes.'',
     relatedProblems: ["results-mediocre", "cant-articulate-roi"],
     impactAnalysis: {
-      financialImpact: "100% Churn; negative ROI for the client; potential refund requests.",
+      financialImpact: '100% Churn; negative ROI for the client; potential refund requests.',
       severity: "Critical",
       affectedAreas: ["LTV", "Brand Authority", "Business Viability"],
       strategicPriority: 'High'
@@ -7953,16 +7953,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Wrong strategy", "Weak execution", "Mismatched expectations"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to analyze results data and suggest strategic optimizations in real-time."
+        example: 'Using AI to analyze results data and suggest strategic optimizations in real-time.'
       },
-      pathToRoot: "Failure to Deliver → Client Dissatisfaction → Quality Problems"
+      pathToRoot: 'Failure to Deliver → Client Dissatisfaction → Quality Problems'
     }
   },
   'complaints-issues': {
-    explanation: "Your inbox is full of client complaints. You are spending all your time "Defending" your work instead of "Improving' your work.",
+    explanation: 'Your inbox is full of client complaints. You are spending all your time "Defending" your work instead of "Improving' your work.',
     relatedProblems: ["bad-service", "relationship-deteriorated"],
     impactAnalysis: {
-      financialImpact: "Massive time waste; high churn; team demoralization.",
+      financialImpact: 'Massive time waste; high churn; team demoralization.',
       severity: "Critical",
       affectedAreas: ["Team Morale", "Founder Peace of Mind", "Retention"],
       strategicPriority: 'High'
@@ -7976,16 +7976,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Systemic quality failure", "Poor communication", "Wrong client expectations"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated "Sentiment Analysis" on client emails to flag frustrations before they become complaints."
+        example: 'Automated "Sentiment Analysis" on client emails to flag frustrations before they become complaints.'
       },
-      pathToRoot: "Constant Friction → Client Dissatisfaction → Quality Problems"
+      pathToRoot: 'Constant Friction → Client Dissatisfaction → Quality Problems'
     }
   },
   'clients-ask-more': {
-    explanation: "The client keeps adding "Tiny Requests" that they think are easy but actually derail your team. You haven't set a boundary, so the project grows without the budget growing.",
+    explanation: 'The client keeps adding "Tiny Requests" that they think are easy but actually derail your team. You haven't set a boundary, so the project grows without the budget growing.',
     relatedProblems: ["extras-free", "scope-creep-profit"],
     impactAnalysis: {
-      financialImpact: "Profit margin erosion; unbilled labor; team burnout.",
+      financialImpact: 'Profit margin erosion; unbilled labor; team burnout.',
       severity: "Major",
       affectedAreas: ["Profitability", "Team Capacity", "Project Management"],
       strategicPriority: 'High'
@@ -7999,16 +7999,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of boundaries", "Desire to please", "Vague initial agreement"],
       automationPotential: {
         rating: "High",
-        example: "Using "Add-on' buttons in your PM tool that require a budget approval before the task is unlocked."
+        example: 'Using "Add-on' buttons in your PM tool that require a budget approval before the task is unlocked.'
       },
-      pathToRoot: "Boundary Failure → Scope Creep → Project Management Issues"
+      pathToRoot: 'Boundary Failure → Scope Creep → Project Management Issues'
     }
   },
   'original-scope-unclear': {
-    explanation: "You started the work before defining exactly what "Finished" looks like. Now you and the client have different ideas of the goal, leading to infinite work.",
+    explanation: 'You started the work before defining exactly what "Finished" looks like. Now you and the client have different ideas of the goal, leading to infinite work.',
     relatedProblems: ["scope-poorly-defined", "expectations-misaligned"],
     impactAnalysis: {
-      financialImpact: "Budget overruns; unmeasurable success; high rework risk.",
+      financialImpact: 'Budget overruns; unmeasurable success; high rework risk.',
       severity: "Major",
       affectedAreas: ["Project Operations", "Client Satisfaction", "Profitability"],
       strategicPriority: 'High'
@@ -8022,16 +8022,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Rushing to start", "Expert blindness (assuming they know)', "Weak contract templates"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Scoping Questionnaires" that generate a draft SOW based on client answers."
+        example: 'Automated "Scoping Questionnaires" that generate a draft SOW based on client answers.'
       },
-      pathToRoot: "Vague Start → Scope Creep → Project Management Issues"
+      pathToRoot: 'Vague Start → Scope Creep → Project Management Issues'
     }
   },
   'saying-yes-everything': {
-    explanation: "The founder or sales team says "Yes" to every request to close the deal or keep the client happy. You are over-promising and creating an impossible burden for delivery.",
+    explanation: 'The founder or sales team says "Yes" to every request to close the deal or keep the client happy. You are over-promising and creating an impossible burden for delivery.',
     relatedProblems: ["overcommitting", "cant-say-no"],
     impactAnalysis: {
-      financialImpact: "Delivery failure risk; high labor costs; team burnout.",
+      financialImpact: 'Delivery failure risk; high labor costs; team burnout.',
       severity: "Major",
       affectedAreas: ["Team Morale", "Operations", "Scalability"],
       strategicPriority: 'High'
@@ -8045,16 +8045,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Scarcity mindset", "Fear of conflict", "No role unbundling (sales vs delivery)"],
       automationPotential: {
         rating: "Medium",
-        example: "Using a "Deal Scorer" that flags projects with too many custom 'Yes' items as high-risk."
+        example: 'Using a "Deal Scorer" that flags projects with too many custom 'Yes' items as high-risk.'
       },
-      pathToRoot: "Yes-Man Trap → Scope Creep → Project Management Issues"
+      pathToRoot: 'Yes-Man Trap → Scope Creep → Project Management Issues'
     }
   },
   'feature-creep': {
-    explanation: "The project is growing "Features" that weren"t in the plan. While each feature is cool, the collective weight is making the project late and unprofitable.",
+    explanation: 'The project is growing "Features" that weren"t in the plan. While each feature is cool, the collective weight is making the project late and unprofitable.',
     relatedProblems: ["gold-plating", "clients-ask-more"],
     impactAnalysis: {
-      financialImpact: "Stagnant project revenue while costs climb; delayed final payout.",
+      financialImpact: 'Stagnant project revenue while costs climb; delayed final payout.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Delivery Speed", "Simplicity"],
       strategicPriority: 'Medium'
@@ -8068,16 +8068,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Perfectionism", "Lack of MVP mindset", "Weak project management oversight"],
       automationPotential: {
         rating: "High",
-        example: "Using "Change Order" automation that adds a fee every time a new requirement is logged."
+        example: 'Using "Change Order" automation that adds a fee every time a new requirement is logged.'
       },
-      pathToRoot: "Complexity Bloat → Scope Creep → Project Management Issues"
+      pathToRoot: 'Complexity Bloat → Scope Creep → Project Management Issues'
     }
   },
   'gold-plating': {
-    explanation: "Your team is adding extra quality or features that the client didn"t ask for and won"t pay for. You are 'Over-delivering' yourself into bankruptcy.",
+    explanation: 'Your team is adding extra quality or features that the client didn"t ask for and won"t pay for. You are 'Over-delivering' yourself into bankruptcy.',
     relatedProblems: ["over-delivering", "feature-creep"],
     impactAnalysis: {
-      financialImpact: "Wasted labor hours; decreased annual throughput; zero ROI on "Extra" quality.",
+      financialImpact: 'Wasted labor hours; decreased annual throughput; zero ROI on "Extra" quality.',
       severity: "Moderate",
       affectedAreas: ["Gross Margin", "Efficiency", "Team Priorities"],
       strategicPriority: 'Medium'
@@ -8091,16 +8091,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Team perfectionism", "Lack of business awareness in delivery team", "Hero complex"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a management and priority issue."
+        example: 'N/A - this is a management and priority issue.'
       },
-      pathToRoot: "Over-polishing → Scope Creep → Project Management Issues"
+      pathToRoot: 'Over-polishing → Scope Creep → Project Management Issues'
     }
   },
   'gold-plating': {
-    explanation: "Your team is adding extra quality or features that the client didn"t ask for and won"t pay for. You are 'Over-delivering' yourself into bankruptcy.",
+    explanation: 'Your team is adding extra quality or features that the client didn"t ask for and won"t pay for. You are 'Over-delivering' yourself into bankruptcy.',
     relatedProblems: ["over-delivering", "feature-creep"],
     impactAnalysis: {
-      financialImpact: "Wasted labor hours; decreased annual throughput; zero ROI on "Extra" quality.",
+      financialImpact: 'Wasted labor hours; decreased annual throughput; zero ROI on "Extra" quality.',
       severity: "Moderate",
       affectedAreas: ["Gross Margin", "Efficiency", "Team Priorities"],
       strategicPriority: 'Medium'
@@ -8114,16 +8114,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Team perfectionism", "Lack of business awareness in delivery team", "Hero complex"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a management and priority issue."
+        example: 'N/A - this is a management and priority issue.'
       },
-      pathToRoot: "Over-polishing → Scope Creep → Project Management Issues"
+      pathToRoot: 'Over-polishing → Scope Creep → Project Management Issues'
     }
   },
   'unexpected-complications': {
-    explanation: "Things are going wrong that you "couldn"t have predicted.' While some risk is inherent, a pattern of 'Surprises' suggests poor initial research or weak contingency planning.",
+    explanation: 'Things are going wrong that you "couldn"t have predicted.' While some risk is inherent, a pattern of 'Surprises' suggests poor initial research or weak contingency planning.',
     relatedProblems: ["dependencies-delays", "underestimate-time-pm"],
     impactAnalysis: {
-      financialImpact: "Budget overruns; project delays; high "Emergency" labor costs.",
+      financialImpact: 'Budget overruns; project delays; high "Emergency" labor costs.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Speed", "Founder Stress"],
       strategicPriority: 'Medium'
@@ -8137,16 +8137,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of risk assessment", "Shallow discovery phase", "New/Untested technology"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to simulate project risks based on historical data and flagging likely failure points."
+        example: 'Using AI to simulate project risks based on historical data and flagging likely failure points.'
       },
-      pathToRoot: "Planning Failure → Timelines Slip → Project Management Issues"
+      pathToRoot: 'Planning Failure → Timelines Slip → Project Management Issues'
     }
   },
   'client-delays-pm': {
-    explanation: "Your project is ready to move, but it"s sitting on the client"s desk. This delay is costing you money in overhead and context-switching every single day.",
+    explanation: 'Your project is ready to move, but it"s sitting on the client"s desk. This delay is costing you money in overhead and context-switching every single day.',
     relatedProblems: ["waiting-feedback", "work-stuck"],
     impactAnalysis: {
-      financialImpact: "Stagnant cash flow; team idle time; project "Stagnation" costs.",
+      financialImpact: 'Stagnant cash flow; team idle time; project "Stagnation" costs.',
       severity: "Major",
       affectedAreas: ["Operations", "Team Throughput", "Cash Flow"],
       strategicPriority: 'High'
@@ -8160,16 +8160,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Passive project management", "Undefined client responsibilities", "Complex client hierarchy"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Nagging" systems that follow up with clients every 24 hours until they provide feedback."
+        example: 'Automated "Nagging" systems that follow up with clients every 24 hours until they provide feedback.'
       },
-      pathToRoot: "Client Stalls → Timelines Slip → Project Management Issues"
+      pathToRoot: 'Client Stalls → Timelines Slip → Project Management Issues'
     }
   },
   'interruptions-switching': {
-    explanation: "Your team is constantly being pulled away from project work to handle "Quick Questions" or emergencies. This kills their flow and makes tasks take 3x longer than needed.",
+    explanation: 'Your team is constantly being pulled away from project work to handle "Quick Questions" or emergencies. This kills their flow and makes tasks take 3x longer than needed.',
     relatedProblems: ["email-meeting-overload", "everything-urgent"],
     impactAnalysis: {
-      financialImpact: "Massive hidden labor waste; high error rate; delayed deliveries.",
+      financialImpact: 'Massive hidden labor waste; high error rate; delayed deliveries.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Team Mental Health", "Profitability"],
       strategicPriority: 'High'
@@ -8183,16 +8183,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Slack/Chat culture", "Poor prioritization", "Reactive management"],
       automationPotential: {
         rating: "High",
-        example: "Using AI assistants to answer basic team questions so they don"t interrupt the expert."
+        example: 'Using AI assistants to answer basic team questions so they don"t interrupt the expert.'
       },
-      pathToRoot: "Context Switching → Timelines Slip → Project Management Issues"
+      pathToRoot: 'Context Switching → Timelines Slip → Project Management Issues'
     }
   },
   'overcommitting': {
-    explanation: "You are selling more work than your team can possibly deliver. You are working at 110% capacity, which means the first small problem causes a total project collapse.",
+    explanation: 'You are selling more work than your team can possibly deliver. You are working at 110% capacity, which means the first small problem causes a total project collapse.',
     relatedProblems: ["bought-cant-deliver", "firefighting"],
     impactAnalysis: {
-      financialImpact: "Churn risk; high rework costs; team burnout and turnover.",
+      financialImpact: 'Churn risk; high rework costs; team burnout and turnover.',
       severity: "Critical",
       affectedAreas: ["Capacity", "Team Morale", "Client Trust"],
       strategicPriority: 'High'
@@ -8206,16 +8206,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Scarcity mindset", "Lack of capacity planning", "Optimism bias"],
       automationPotential: {
         rating: "High",
-        example: "Using capacity forecasting tools that "Redline" your sales team when delivery is at 80%."
+        example: 'Using capacity forecasting tools that "Redline" your sales team when delivery is at 80%.'
       },
-      pathToRoot: "Capacity Overload → Timelines Slip → Project Management Issues"
+      pathToRoot: 'Capacity Overload → Timelines Slip → Project Management Issues'
     }
   },
   'expectations-misaligned': {
-    explanation: "The client thinks they bought a "Ferrari" and you"re building a 'Jeep.' This gap in perception leads to endless frustration, even if the work is technically good.",
+    explanation: 'The client thinks they bought a "Ferrari" and you"re building a 'Jeep.' This gap in perception leads to endless frustration, even if the work is technically good.',
     relatedProblems: ["not-meeting-expectations", "original-scope-unclear"],
     impactAnalysis: {
-      financialImpact: "High churn; low referral rate; constant demands for free extras.",
+      financialImpact: 'High churn; low referral rate; constant demands for free extras.',
       severity: "Major",
       affectedAreas: ["Client Trust", "Brand Equity", "Profitability"],
       strategicPriority: 'High'
@@ -8229,16 +8229,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-selling", "Vague briefs", "Assumed understanding"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Expectation Setting" videos delivered immediately after purchase."
+        example: 'Automated "Expectation Setting" videos delivered immediately after purchase.'
       },
-      pathToRoot: "Perception Gap → Communication Breakdowns → Project Management Issues"
+      pathToRoot: 'Perception Gap → Communication Breakdowns → Project Management Issues'
     }
   },
   'internal-miscommunication': {
-    explanation: "Information is getting lost inside your own walls. Sales doesn"t tell Delivery what was promised; Manager doesn't tell Team about changes. You are working against yourselves.",
+    explanation: 'Information is getting lost inside your own walls. Sales doesn"t tell Delivery what was promised; Manager doesn't tell Team about changes. You are working against yourselves.',
     relatedProblems: ["information-silos", "miscommunication-who-does"],
     impactAnalysis: {
-      financialImpact: "Needless rework; duplicate labor; missed sales promises.",
+      financialImpact: 'Needless rework; duplicate labor; missed sales promises.',
       severity: "Major",
       affectedAreas: ["Team Morale", "Efficiency", "Quality"],
       strategicPriority: 'High'
@@ -8252,16 +8252,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of central documentation", "Managing via DM", "No standardized handoffs"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to summarize sales calls and auto-post the "Promises" into the delivery project board."
+        example: 'Using AI to summarize sales calls and auto-post the "Promises" into the delivery project board.'
       },
-      pathToRoot: "Internal Friction → Communication Breakdowns → Project Management Issues"
+      pathToRoot: 'Internal Friction → Communication Breakdowns → Project Management Issues'
     }
   },
   'assumptions-not-verified': {
-    explanation: "You are building based on "I think" instead of "I know.' Whether it's a technical requirement or a client goal, unverified assumptions lead to 100% rework later.",
+    explanation: 'You are building based on "I think" instead of "I know.' Whether it's a technical requirement or a client goal, unverified assumptions lead to 100% rework later.',
     relatedProblems: ["miscommunication-wrong-work", "unexpected-complications"],
     impactAnalysis: {
-      financialImpact: "Massive rework costs; project delays; erosion of professional authority.",
+      financialImpact: 'Massive rework costs; project delays; erosion of professional authority.',
       severity: "Major",
       affectedAreas: ["Profitability", "Accuracy", "Client Confidence"],
       strategicPriority: 'Medium'
@@ -8275,16 +8275,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Expert hubris", "Rushing to deliver", "Shallow discovery phase"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to flag "Assumptive Language" in project briefs and prompting for proof."
+        example: 'Using AI to flag "Assumptive Language" in project briefs and prompting for proof.'
       },
-      pathToRoot: "Verification Failure → Communication Breakdowns → Project Management Issues"
+      pathToRoot: 'Verification Failure → Communication Breakdowns → Project Management Issues'
     }
   },
   'information-silos': {
-    explanation: "Information is trapped in individual departments or heads. People are making decisions without the full picture, leading to disjointed efforts and repeated mistakes.",
+    explanation: 'Information is trapped in individual departments or heads. People are making decisions without the full picture, leading to disjointed efforts and repeated mistakes.',
     relatedProblems: ["tribal-knowledge", "internal-miscommunication"],
     impactAnalysis: {
-      financialImpact: "Hidden inefficiencies; slow decision making; inconsistent quality.",
+      financialImpact: 'Hidden inefficiencies; slow decision making; inconsistent quality.',
       severity: "Major",
       affectedAreas: ["Strategic Alignment", "Operations", "Culture"],
       strategicPriority: 'High'
@@ -8298,16 +8298,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fragmented tools", "Managing via private DMs", "No central documentation culture"],
       automationPotential: {
         rating: "High",
-        example: "Using central knowledge bases that automatically "Link" related info across different apps."
+        example: 'Using central knowledge bases that automatically "Link" related info across different apps.'
       },
-      pathToRoot: "Isolation → Communication Breakdowns → Project Management Issues"
+      pathToRoot: 'Isolation → Communication Breakdowns → Project Management Issues'
     }
   },
   'no-communication-plan': {
-    explanation: "You are communicating "Reactively.' You only talk to the client when there is a problem or an invoice. This leaves them feeling anxious and out-of-the-loop.",
+    explanation: 'You are communicating "Reactively.' You only talk to the client when there is a problem or an invoice. This leaves them feeling anxious and out-of-the-loop.',
     relatedProblems: ["updates-missing", "client-delays-pm"],
     impactAnalysis: {
-      financialImpact: "Increased churn; price sensitivity; high anxiety for the account manager.",
+      financialImpact: 'Increased churn; price sensitivity; high anxiety for the account manager.',
       severity: "Moderate",
       affectedAreas: ["Client Experience", "Referral Rate", "Retention"],
       strategicPriority: 'Medium'
@@ -8321,16 +8321,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Under-valuing the "Experience" over the "Work', "Founder busy-ness', "Inexperience"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Progress Updates" triggered by project milestones in your PM tool."
+        example: 'Automated "Progress Updates" triggered by project milestones in your PM tool.'
       },
-      pathToRoot: "Passive Comm → Communication Breakdowns → Project Management Issues"
+      pathToRoot: 'Passive Comm → Communication Breakdowns → Project Management Issues'
     }
   },
   'updates-missing': {
-    explanation: "The client goes weeks without hearing from you. Even if you are working hard, to them, "Silence = Nothing is happening.' This is the #1 trigger for anxiety-based churn.",
+    explanation: 'The client goes weeks without hearing from you. Even if you are working hard, to them, "Silence = Nothing is happening.' This is the #1 trigger for anxiety-based churn.',
     relatedProblems: ["no-communication-plan", "client-delays-pm"],
     impactAnalysis: {
-      financialImpact: "Immediate account risk; high price sensitivity; loss of trust.",
+      financialImpact: 'Immediate account risk; high price sensitivity; loss of trust.',
       severity: "Major",
       affectedAreas: ["Retention", "Referral Rate", "Client Trust"],
       strategicPriority: 'High'
@@ -8344,16 +8344,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Focus on "Doing" over "Reporting', "Perfectionism (waiting for 'Real' news)', "No system"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to generate a "Weekly Summary" of completed tasks from your PM tool and auto-emailing it."
+        example: 'Using AI to generate a "Weekly Summary" of completed tasks from your PM tool and auto-emailing it.'
       },
-      pathToRoot: "Inconsistent Updates → Communication Breakdowns → Project Management Issues"
+      pathToRoot: 'Inconsistent Updates → Communication Breakdowns → Project Management Issues'
     }
   },
   'wrong-people-projects': {
-    explanation: "You are putting "Round pegs in square holes.' Assigning tasks based on 'Who is free' instead of 'Who is best' leads to slow delivery and quality errors.",
+    explanation: 'You are putting "Round pegs in square holes.' Assigning tasks based on 'Who is free' instead of 'Who is best' leads to slow delivery and quality errors.',
     relatedProblems: ["skill-mismatches", "people-underperform"],
     impactAnalysis: {
-      financialImpact: " Labor waste; high cost of rework; slow training ROI.",
+      financialImpact: ' Labor waste; high cost of rework; slow training ROI.',
       severity: "Moderate",
       affectedAreas: ["Efficiency", "Quality", "Team Morale"],
       strategicPriority: 'Medium'
@@ -8367,16 +8367,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor capacity planning", "Hiring based on availability", "No role specialization"],
       automationPotential: {
         rating: "Medium",
-        example: "AI-powered resource management that matches task "Skills" to employee "History' automatically."
+        example: 'AI-powered resource management that matches task "Skills" to employee "History' automatically.'
       },
-      pathToRoot: "Allocation Failure → Resource Allocation Wrong → Project Management Issues"
+      pathToRoot: 'Allocation Failure → Resource Allocation Wrong → Project Management Issues'
     }
   },
   'overbooking': {
-    explanation: "You"ve assigned 120 hours of work to a team with 80 hours of capacity. You are intentionally building a 'Systemic Delay' into your business and burning out your best people.",
+    explanation: 'You"ve assigned 120 hours of work to a team with 80 hours of capacity. You are intentionally building a 'Systemic Delay' into your business and burning out your best people.',
     relatedProblems: ["overcommitting", "working-too-much"],
     impactAnalysis: {
-      financialImpact: "Total loss of delivery quality; high team turnover costs; missed deadlines.",
+      financialImpact: 'Total loss of delivery quality; high team turnover costs; missed deadlines.',
       severity: "Critical",
       affectedAreas: ["Team Mental Health", "Operations", "Client Retention"],
       strategicPriority: 'High'
@@ -8390,16 +8390,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of capacity tracking", "Saying "Yes" to every sale', "Ignoring labor math"],
       automationPotential: {
         rating: "High",
-        example: "Using resource planning tools (e.g., Float, Resource Guru) that "Lock" project starts when at capacity."
+        example: 'Using resource planning tools (e.g., Float, Resource Guru) that "Lock" project starts when at capacity.'
       },
-      pathToRoot: "Systemic Overload → Resource Allocation Wrong → Project Management Issues"
+      pathToRoot: 'Systemic Overload → Resource Allocation Wrong → Project Management Issues'
     }
   },
   'underbooking': {
-    explanation: "You have a team sitting idle because sales are slow or projects are stuck. You are paying for capacity you aren"t using, which is pure profit drain.",
+    explanation: 'You have a team sitting idle because sales are slow or projects are stuck. You are paying for capacity you aren"t using, which is pure profit drain.',
     relatedProblems: ["team-idle", "not-enough-revenue"],
     impactAnalysis: {
-      financialImpact: "Immediate drain on cash flow; negative ROI on labor; team boredom/demotivation.",
+      financialImpact: 'Immediate drain on cash flow; negative ROI on labor; team boredom/demotivation.',
       severity: "Major",
       affectedAreas: ["Gross Margin", "Profitability", "Team Retention"],
       strategicPriority: 'High'
@@ -8413,16 +8413,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Inconsistent sales pipeline", "Lumpy project timing", "Poor capacity visibility"],
       automationPotential: {
         rating: "High",
-        example: "Connecting your CRM pipeline to your Resource Manager to trigger marketing when "Future Capacity" is high."
+        example: 'Connecting your CRM pipeline to your Resource Manager to trigger marketing when "Future Capacity" is high.'
       },
-      pathToRoot: "Wasted Capacity → Resource Allocation Wrong → Project Management Issues"
+      pathToRoot: 'Wasted Capacity → Resource Allocation Wrong → Project Management Issues'
     }
   },
   'skill-mismatch-resource': {
-    explanation: "You are assigning high-level seniors to low-level admin work, or juniors to high-level strategy. Either way, you are wasting money or risking quality.",
+    explanation: 'You are assigning high-level seniors to low-level admin work, or juniors to high-level strategy. Either way, you are wasting money or risking quality.',
     relatedProblems: ["low-value-work", "skill-mismatches"],
     impactAnalysis: {
-      financialImpact: "Inefficient labor costs; missed opportunities; high error risk.",
+      financialImpact: 'Inefficient labor costs; missed opportunities; high error risk.',
       severity: "Moderate",
       affectedAreas: ["Profitability", "Quality Control", "Team Growth"],
       strategicPriority: 'Medium'
@@ -8436,16 +8436,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Flat organizational structure", "Founder as technician", "Lack of role unbundling"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to categorize tasks by "Complexity" and suggesting the appropriate pay-grade for each."
+        example: 'Using AI to categorize tasks by "Complexity" and suggesting the appropriate pay-grade for each.'
       },
-      pathToRoot: "Efficiency Gap → Resource Allocation Wrong → Project Management Issues"
+      pathToRoot: 'Efficiency Gap → Resource Allocation Wrong → Project Management Issues'
     }
   },
   'priorities-unclear': {
-    explanation: "The team doesn"t know what to work on first. They are busy, but on the wrong things. This leads to high-value projects being delayed for low-value 'Busy Work.'",
+    explanation: 'The team doesn"t know what to work on first. They are busy, but on the wrong things. This leads to high-value projects being delayed for low-value 'Busy Work.'',
     relatedProblems: ["poor-prioritization", "everything-urgent"],
     impactAnalysis: {
-      financialImpact: "Opportunity cost of delayed revenue; team frustration; strategic drift.",
+      financialImpact: 'Opportunity cost of delayed revenue; team frustration; strategic drift.',
       severity: "Major",
       affectedAreas: ["Throughput", "Strategic Goals", "Efficiency"],
       strategicPriority: 'High'
@@ -8459,16 +8459,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of clear KPIs", "Reactive management", "Too many "Big" ideas"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to auto-sort task lists based on "Due Date" and 'Revenue Impact' automatically."
+        example: 'Using AI to auto-sort task lists based on "Due Date" and 'Revenue Impact' automatically.'
       },
-      pathToRoot: "Direction Failure → Resource Allocation Wrong → Project Management Issues"
+      pathToRoot: 'Direction Failure → Resource Allocation Wrong → Project Management Issues'
     }
   },
   'firefighting': {
-    explanation: "You are managing by crisis. You only focus on what is "Burning" right now. You have no time for the 'Building' tasks that would prevent future fires.",
+    explanation: 'You are managing by crisis. You only focus on what is "Burning" right now. You have no time for the 'Building' tasks that would prevent future fires.',
     relatedProblems: ["everything-urgent", "reactive-not-proactive"],
     impactAnalysis: {
-      financialImpact: "High operational waste; founder burnout; stagnant growth.",
+      financialImpact: 'High operational waste; founder burnout; stagnant growth.',
       severity: "Critical",
       affectedAreas: ["Founder Mental Health", "Strategic Growth", "Sustainability"],
       strategicPriority: 'High'
@@ -8482,16 +8482,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of operational buffers", "Poor systems", "Hero complex"],
       automationPotential: {
         rating: "Medium",
-        example: "Using automated monitoring to flag "Small Problems" before they become 'Fires'."
+        example: 'Using automated monitoring to flag "Small Problems" before they become 'Fires'.'
       },
-      pathToRoot: "Crisis Mode → Resource Allocation Wrong → Project Management Issues"
+      pathToRoot: 'Crisis Mode → Resource Allocation Wrong → Project Management Issues'
     }
   },
   'no-visibility-utilization': {
-    explanation: "You don"t know how much of your team"s time is actually being spent on revenue-generating work. You are managing 'Blind' regarding your most expensive asset: labor.",
+    explanation: 'You don"t know how much of your team"s time is actually being spent on revenue-generating work. You are managing 'Blind' regarding your most expensive asset: labor.',
     relatedProblems: ["team-idle", "dont-know-costs"],
     impactAnalysis: {
-      financialImpact: "Undiagnosed profit leaks; inefficient staffing; unmeasurable ROI.",
+      financialImpact: 'Undiagnosed profit leaks; inefficient staffing; unmeasurable ROI.',
       severity: "Major",
       affectedAreas: ["Gross Margin", "Efficiency", "Operations"],
       strategicPriority: 'High'
@@ -8505,16 +8505,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Aversion to time-tracking", "Informal culture", "Lack of data focus"],
       automationPotential: {
         rating: "High",
-        example: "Using automated time-tracking tools (e.g., Harvest, Timely) that categorize work by project and task type."
+        example: 'Using automated time-tracking tools (e.g., Harvest, Timely) that categorize work by project and task type.'
       },
-      pathToRoot: "Invisible Waste → No Project Tracking → Project Management Issues"
+      pathToRoot: 'Invisible Waste → No Project Tracking → Project Management Issues'
     }
   },
   'surprises-end': {
-    explanation: "You only find out a project is over budget or failing when it"s already done. You have no 'Mid-Course' correction, making every project a gamble.",
+    explanation: 'You only find out a project is over budget or failing when it"s already done. You have no 'Mid-Course' correction, making every project a gamble.',
     relatedProblems: ["no-project-tracking", "unexpected-complications"],
     impactAnalysis: {
-      financialImpact: "Shocking revenue losses; damaged client relationships; unable to plan cash.",
+      financialImpact: 'Shocking revenue losses; damaged client relationships; unable to plan cash.',
       severity: "Critical",
       affectedAreas: ["Profitability", "Client Trust", "Operations"],
       strategicPriority: 'High'
@@ -8528,16 +8528,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of real-time tracking", "Post-mortem only culture', "Passive management"],
       automationPotential: {
         rating: "High",
-        example: "Real-time project dashboards that predict final budget based on current burn-rate."
+        example: 'Real-time project dashboards that predict final budget based on current burn-rate.'
       },
-      pathToRoot: "Lagging Data → No Project Tracking → Project Management Issues"
+      pathToRoot: 'Lagging Data → No Project Tracking → Project Management Issues'
     }
   },
   'budget-overruns': {
-    explanation: "Projects are consistently costing you more than you budgeted. You are essentially "paying to work" for some clients, and you might not even know it.",
+    explanation: 'Projects are consistently costing you more than you budgeted. You are essentially "paying to work" for some clients, and you might not even know it.',
     relatedProblems: ["dont-know-costs", "scope-creep-profit"],
     impactAnalysis: {
-      financialImpact: "Negative project margins; cash flow drain; inability to reinvest.",
+      financialImpact: 'Negative project margins; cash flow drain; inability to reinvest.',
       severity: "Critical",
       affectedAreas: ["Profitability", "Cash Flow", "Business Viability"],
       strategicPriority: 'High'
@@ -8551,16 +8551,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor cost estimation", "Unbilled scope creep", "High rework labor"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Budget Alerts" that lock down a project when it hits 90% of its estimated costs."
+        example: 'Automated "Budget Alerts" that lock down a project when it hits 90% of its estimated costs.'
       },
-      pathToRoot: "Profit Drain → No Project Tracking → Project Management Issues"
+      pathToRoot: 'Profit Drain → No Project Tracking → Project Management Issues'
     }
   },
   'unreasonable-expectations': {
-    explanation: "Your clients want the "World for a Dollar.' You haven't educated them on what is possible or realistic, so they are constantly disappointed even when you deliver well.",
+    explanation: 'Your clients want the "World for a Dollar.' You haven't educated them on what is possible or realistic, so they are constantly disappointed even when you deliver well.',
     relatedProblems: ["expectations-misaligned", "bad-fit-services"],
     impactAnalysis: {
-      financialImpact: "High churn; constant demands for free extras; team demoralization.",
+      financialImpact: 'High churn; constant demands for free extras; team demoralization.',
       severity: "Major",
       affectedAreas: ["Client Satisfaction", "Team Morale", "Profitability"],
       strategicPriority: 'High'
@@ -8574,16 +8574,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-selling in sales", "Targeting "Entitled" segments', "Lack of authoritative positioning"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Success Benchmarks" that show the client how their results compare to industry averages."
+        example: 'Automated "Success Benchmarks" that show the client how their results compare to industry averages.'
       },
-      pathToRoot: "Education Failure → Difficult Clients → Client Management Issues"
+      pathToRoot: 'Education Failure → Difficult Clients → Client Management Issues'
     }
   },
   'constant-changes': {
-    explanation: "The client can"t make up their mind. Every week they pivot the goal, which forces your team into a loop of 'Start-Stop-Start,' destroying efficiency.",
+    explanation: 'The client can"t make up their mind. Every week they pivot the goal, which forces your team into a loop of 'Start-Stop-Start,' destroying efficiency.',
     relatedProblems: ["scope-creep-accepted", "timelines-slip"],
     impactAnalysis: {
-      financialImpact: "Massive labor waste; profit margin collapse; team burnout.",
+      financialImpact: 'Massive labor waste; profit margin collapse; team burnout.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Team Morale", "Gross Margin"],
       strategicPriority: 'High'
@@ -8597,16 +8597,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of client conviction", "Vague initial agreement", "Passive management"],
       automationPotential: {
         rating: "Medium",
-        example: "Using interactive "Approval Loops" where a change isn't accepted until the client clicks 'Agree to New Fee'."
+        example: 'Using interactive "Approval Loops" where a change isn't accepted until the client clicks 'Agree to New Fee'.'
       },
-      pathToRoot: "Indecision Loop → Difficult Clients → Client Management Issues"
+      pathToRoot: 'Indecision Loop → Difficult Clients → Client Management Issues'
     }
   },
   'poor-communication-client': {
-    explanation: "The client is "Ghosting" you or giving vague, unhelpful feedback. You are spending more time 'Chasing' them than 'Working' for them.",
+    explanation: 'The client is "Ghosting" you or giving vague, unhelpful feedback. You are spending more time 'Chasing' them than 'Working' for them.',
     relatedProblems: ["client-delays-pm", "waiting-feedback"],
     impactAnalysis: {
-      financialImpact: "Project stagnation; delayed revenue; team frustration.",
+      financialImpact: 'Project stagnation; delayed revenue; team frustration.',
       severity: "Moderate",
       affectedAreas: ["Operations", "Speed", "Cash Flow"],
       strategicPriority: 'Medium'
@@ -8620,16 +8620,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Wrong point-of-contact", "Client overwhelmed", "Lack of communication systems"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Deadline" pings that notify the client"s manager if they don't respond."
+        example: 'Automated "Deadline" pings that notify the client"s manager if they don't respond.'
       },
-      pathToRoot: "Communication Lag → Difficult Clients → Client Management Issues"
+      pathToRoot: 'Communication Lag → Difficult Clients → Client Management Issues'
     }
   },
   'dont-respect-boundaries': {
-    explanation: "Clients are emailing you at 10 PM, texting your personal phone, or demanding "Emergency" work for "Non-emergency' issues. You have lost control of the relationship.",
+    explanation: 'Clients are emailing you at 10 PM, texting your personal phone, or demanding "Emergency" work for "Non-emergency' issues. You have lost control of the relationship.',
     relatedProblems: ["available-24-7", "working-too-much"],
     impactAnalysis: {
-      financialImpact: "Extreme founder burnout; team demotivation; unsustainable operations.",
+      financialImpact: 'Extreme founder burnout; team demotivation; unsustainable operations.',
       severity: "Major",
       affectedAreas: ["Founder Health", "Team Culture", "Operations"],
       strategicPriority: 'High'
@@ -8643,16 +8643,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["People-pleasing founder", "Lack of professional onboarding", "Scarcity mindset"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Out of Office" responders that only trigger for clients after hours."
+        example: 'Automated "Out of Office" responders that only trigger for clients after hours.'
       },
-      pathToRoot: "Boundary Collapse → Difficult Clients → Client Management Issues"
+      pathToRoot: 'Boundary Collapse → Difficult Clients → Client Management Issues'
     }
   },
   'late-responsibilities': {
-    explanation: "The client isn"t giving you the data, login, or files you need to start. Your team is sitting idle while the clock is ticking, and the client still expects an 'On-Time' delivery.",
+    explanation: 'The client isn"t giving you the data, login, or files you need to start. Your team is sitting idle while the clock is ticking, and the client still expects an 'On-Time' delivery.',
     relatedProblems: ["client-delays-pm", "underbooking"],
     impactAnalysis: {
-      financialImpact: "Wasted labor capacity; delayed final payment; high stress.",
+      financialImpact: 'Wasted labor capacity; delayed final payment; high stress.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Cash Flow", "Team Morale"],
       strategicPriority: 'High'
@@ -8666,16 +8666,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Managing assets via email", "Lack of "Prerequisite" rules', "Passive onboarding"],
       automationPotential: {
         rating: "High",
-        example: "Automated asset gathering tools that remind the client every 12 hours until the upload is 100% complete."
+        example: 'Automated asset gathering tools that remind the client every 12 hours until the upload is 100% complete.'
       },
-      pathToRoot: "Asset Stalls → Difficult Clients → Client Management Issues"
+      pathToRoot: 'Asset Stalls → Difficult Clients → Client Management Issues'
     }
   },
   'abusive': {
-    explanation: "The client is rude, aggressive, or belittling to you or your team. This is a toxic influence that destroys team morale and has zero place in a professional business.",
+    explanation: 'The client is rude, aggressive, or belittling to you or your team. This is a toxic influence that destroys team morale and has zero place in a professional business.',
     relatedProblems: ["team-unreliable", "bad-fit-services"],
     impactAnalysis: {
-      financialImpact: "High risk of team turnover; founder health collapse; negative brand energy.",
+      financialImpact: 'High risk of team turnover; founder health collapse; negative brand energy.',
       severity: "Critical",
       affectedAreas: ["Team Culture", "Founder Health", "Employee Retention"],
       strategicPriority: 'High'
@@ -8689,16 +8689,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of client vetting", "Scarcity mindset (taking anyone with money)', "Weak leadership"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this requires a firm leadership decision."
+        example: 'N/A - this requires a firm leadership decision.'
       },
-      pathToRoot: "Toxic Account → Difficult Clients → Client Management Issues"
+      pathToRoot: 'Toxic Account → Difficult Clients → Client Management Issues'
     }
   },
   'bad-fit-services': {
-    explanation: "You sold them something they don"t actually need, or your service won't solve their specific version of the problem. You've set yourselves up for failure from day one.",
+    explanation: 'You sold them something they don"t actually need, or your service won't solve their specific version of the problem. You've set yourselves up for failure from day one.',
     relatedProblems: ["wrong-clients", "product-market-mismatch"],
     impactAnalysis: {
-      financialImpact: "100% Churn; negative brand reputation; high support/rework costs.",
+      financialImpact: '100% Churn; negative brand reputation; high support/rework costs.',
       severity: "Major",
       affectedAreas: ["Brand Reputation", "LTV", "Team Pride"],
       strategicPriority: 'High'
@@ -8712,16 +8712,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Selling for the commission/cash", "Weak understanding of ICP", "Broad positioning"],
       automationPotential: {
         rating: "High",
-        example: "Using AI lead-scoring to auto-reject any prospect that doesn"t fit your core success criteria."
+        example: 'Using AI lead-scoring to auto-reject any prospect that doesn"t fit your core success criteria.'
       },
-      pathToRoot: "Strategy Mismatch → Wrong Clients → Client Management Issues"
+      pathToRoot: 'Strategy Mismatch → Wrong Clients → Client Management Issues'
     }
   },
   'cant-afford-pricing': {
-    explanation: "You are targeting prospects who are "Cash-Poor.' They will haggle over every dollar, demand more 'Value' for less 'Price,' and will be the first to churn when things get tight.",
+    explanation: 'You are targeting prospects who are "Cash-Poor.' They will haggle over every dollar, demand more 'Value' for less 'Price,' and will be the first to churn when things get tight.',
     relatedProblems: ["price-objection", "market-too-small"],
     impactAnalysis: {
-      financialImpact: "Compressed margins; constant haggling; high churn risk.",
+      financialImpact: 'Compressed margins; constant haggling; high churn risk.',
       severity: "Major",
       affectedAreas: ["Profitability", "LTV", "Sales ROI"],
       strategicPriority: 'High'
@@ -8735,16 +8735,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Targeting small/new businesses", "Fear of competing at the high-end', "Poor value anchoring"],
       automationPotential: {
         rating: "Medium",
-        example: "Using business data tools (e.g., ZoomInfo, Apollo) to automatically verify lead revenue before you call."
+        example: 'Using business data tools (e.g., ZoomInfo, Apollo) to automatically verify lead revenue before you call.'
       },
-      pathToRoot: "Budget Mismatch → Wrong Clients → Client Management Issues"
+      pathToRoot: 'Budget Mismatch → Wrong Clients → Client Management Issues'
     }
   },
   'dont-value': {
-    explanation: "The client sees you as a "Cost" to be minimized, not an 'Investment' to be maximized. They don't respect your expertise and will treat you like a commodity vendor.",
+    explanation: 'The client sees you as a "Cost" to be minimized, not an 'Investment' to be maximized. They don't respect your expertise and will treat you like a commodity vendor.',
     relatedProblems: ["commoditized-service", "undervalue-expertise"],
     impactAnalysis: {
-      financialImpact: "Low pricing power; constant threat of replacement; zero strategic leverage.",
+      financialImpact: 'Low pricing power; constant threat of replacement; zero strategic leverage.',
       severity: "Major",
       affectedAreas: ["Pricing Power", "Strategic Positioning", "LTV"],
       strategicPriority: 'High'
@@ -8758,16 +8758,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technical jargon selling", "Commoditized offer", "Lack of authority proof"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to analyze your brand voice and ensuring it sounds like an "Advisor" not a "Vendor'."
+        example: 'Using AI to analyze your brand voice and ensuring it sounds like an "Advisor" not a "Vendor'.'
       },
-      pathToRoot: "Perception Failure → Wrong Clients → Client Management Issues"
+      pathToRoot: 'Perception Failure → Wrong Clients → Client Management Issues'
     }
   },
   'high-maintenance-low-profit': {
-    explanation: "The "Nightmare Client.' They take 80% of your support time but only provide 5% of your profit. They are subsidizing their business with your team's unpaid labor.",
+    explanation: 'The "Nightmare Client.' They take 80% of your support time but only provide 5% of your profit. They are subsidizing their business with your team's unpaid labor.',
     relatedProblems: ["scope-creep-profit", "difficult-clients"],
     impactAnalysis: {
-      financialImpact: "Extreme drain on team resources; negative net margin on the account.",
+      financialImpact: 'Extreme drain on team resources; negative net margin on the account.',
       severity: "Critical",
       affectedAreas: ["Profitability", "Team Capacity", "Mental Health"],
       strategicPriority: 'High'
@@ -8781,16 +8781,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of "Cost-per-Account' tracking', "People-pleasing founder', "Vague boundaries"],
       automationPotential: {
         rating: "High",
-        example: "Using automated time-tracking per client to show a "Net Profit" dashboard for every account."
+        example: 'Using automated time-tracking per client to show a "Net Profit" dashboard for every account.'
       },
-      pathToRoot: "Profit Leak → Wrong Clients → Client Management Issues"
+      pathToRoot: 'Profit Leak → Wrong Clients → Client Management Issues'
     }
   },
   'misaligned-values': {
-    explanation: "You and the client simply don"t see the world the same way. Whether it's ethics, speed of work, or communication style, the mismatch creates constant friction and a 'heavy' feeling to the work.",
+    explanation: 'You and the client simply don"t see the world the same way. Whether it's ethics, speed of work, or communication style, the mismatch creates constant friction and a 'heavy' feeling to the work.',
     relatedProblems: ["bad-fit-services", "relationship-deteriorated"],
     impactAnalysis: {
-      financialImpact: "High management friction; slow-motion churn; team demotivation.",
+      financialImpact: 'High management friction; slow-motion churn; team demotivation.',
       severity: "Moderate",
       affectedAreas: ["Team Morale", "Operations", "LTV"],
       strategicPriority: 'Medium'
@@ -8804,16 +8804,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Taking anyone with money", "Lack of company identity", "No sales filters"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - values are a human-to-human match."
+        example: 'N/A - values are a human-to-human match.'
       },
-      pathToRoot: "Cultural Mismatch → Wrong Clients → Client Management Issues"
+      pathToRoot: 'Cultural Mismatch → Wrong Clients → Client Management Issues'
     }
   },
   'available-24-7': {
-    explanation: "You have trained your clients that they can reach you at any time. By responding to that 9 PM text, you"ve set a standard that you can never sustain.",
+    explanation: 'You have trained your clients that they can reach you at any time. By responding to that 9 PM text, you"ve set a standard that you can never sustain.',
     relatedProblems: ["dont-respect-boundaries", "working-too-much"],
     impactAnalysis: {
-      financialImpact: "Zero operational leverage; extreme founder burnout; unscalable delivery.",
+      financialImpact: 'Zero operational leverage; extreme founder burnout; unscalable delivery.',
       severity: "Major",
       affectedAreas: ["Founder Health", "Team Autonomy", "Scalability"],
       strategicPriority: 'High'
@@ -8827,16 +8827,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Anxiety about losing deals", "Lack of other hobbies/identity', "Hero complex"],
       automationPotential: {
         rating: "High",
-        example: "Using automated "After Hours" responders that route emergencies to a dedicated system and others to tomorrow."
+        example: 'Using automated "After Hours" responders that route emergencies to a dedicated system and others to tomorrow.'
       },
-      pathToRoot: "Availability Trap → No Client Boundaries → Client Management Issues"
+      pathToRoot: 'Availability Trap → No Client Boundaries → Client Management Issues'
     }
   },
   'scope-creep-accepted': {
-    explanation: "You know they are asking for more, but you say "Sure" anyway without asking for money. You are undervaluing your team's time and training the client to keep asking.",
+    explanation: 'You know they are asking for more, but you say "Sure" anyway without asking for money. You are undervaluing your team's time and training the client to keep asking.',
     relatedProblems: ["afraid-charge-changes", "clients-ask-more"],
     impactAnalysis: {
-      financialImpact: "Direct profit margin loss; team frustration; increased "Bespoke" complexity.",
+      financialImpact: 'Direct profit margin loss; team frustration; increased "Bespoke" complexity.',
       severity: "Major",
       affectedAreas: ["Profitability", "Efficiency", "Accountability"],
       strategicPriority: 'High'
@@ -8850,16 +8850,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of being "Mean", "Undervaluing your time", "No formal change process"],
       automationPotential: {
         rating: "High",
-        example: "Using "Add-on' modules in your PM tool that require a payment before the task is visible to the team."
+        example: 'Using "Add-on' modules in your PM tool that require a payment before the task is visible to the team.'
       },
-      pathToRoot: "Value Leaks → No Client Boundaries → Client Management Issues"
+      pathToRoot: 'Value Leaks → No Client Boundaries → Client Management Issues'
     }
   },
   'allow-bad-behavior': {
-    explanation: "You tolerate late payments, rude emails, or missed meetings. By allowing it once, you"ve made it the "New Normal' for that account.",
+    explanation: 'You tolerate late payments, rude emails, or missed meetings. By allowing it once, you"ve made it the "New Normal' for that account.',
     relatedProblems: ["abusive", "clients-pay-late"],
     impactAnalysis: {
-      financialImpact: "Cash flow instability; team demoralization; loss of authority.",
+      financialImpact: 'Cash flow instability; team demoralization; loss of authority.',
       severity: "Major",
       affectedAreas: ["Operations", "Team Morale", "Cash Flow"],
       strategicPriority: 'High'
@@ -8873,16 +8873,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Scarcity mindset", "Low self-esteem as a business', "Passive management"],
       automationPotential: {
         rating: "High",
-        example: "Using automated dunning systems that lock account access until payment is cleared."
+        example: 'Using automated dunning systems that lock account access until payment is cleared.'
       },
-      pathToRoot: "Standard Failure → No Client Boundaries → Client Management Issues"
+      pathToRoot: 'Standard Failure → No Client Boundaries → Client Management Issues'
     }
   },
   'cant-say-no': {
-    explanation: "The "Pleaser" mindset. You take every project, every deadline, and every request because you're afraid of the word 'No.' You are building a business based on other people's needs, not your goals.",
+    explanation: 'The "Pleaser" mindset. You take every project, every deadline, and every request because you're afraid of the word 'No.' You are building a business based on other people's needs, not your goals.',
     relatedProblems: ["saying-yes-everything", "overcommitting"],
     impactAnalysis: {
-      financialImpact: "Strategic drift; profit margin collapse; extreme burnout.",
+      financialImpact: 'Strategic drift; profit margin collapse; extreme burnout.',
       severity: "Critical",
       affectedAreas: ["Scalability", "Founder Health", "Strategic Vision"],
       strategicPriority: 'High'
@@ -8896,16 +8896,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Scarcity mindset", "Need for external validation", "Lack of long-term goals"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a core leadership and personal hurdle."
+        example: 'N/A - this is a core leadership and personal hurdle.'
       },
-      pathToRoot: "People Pleasing → No Client Boundaries → Client Management Issues"
+      pathToRoot: 'People Pleasing → No Client Boundaries → Client Management Issues'
     }
   },
   'cant-say-no': {
-    explanation: "The "Pleaser" mindset. You take every project, every deadline, and every request because you're afraid of the word 'No.' You are building a business based on other people's needs, not your goals.",
+    explanation: 'The "Pleaser" mindset. You take every project, every deadline, and every request because you're afraid of the word 'No.' You are building a business based on other people's needs, not your goals.',
     relatedProblems: ["saying-yes-everything", "overcommitting"],
     impactAnalysis: {
-      financialImpact: "Strategic drift; profit margin collapse; extreme burnout.",
+      financialImpact: 'Strategic drift; profit margin collapse; extreme burnout.',
       severity: "Critical",
       affectedAreas: ["Scalability", "Founder Health", "Strategic Vision"],
       strategicPriority: 'High'
@@ -8919,16 +8919,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Scarcity mindset", "Need for external validation", "Lack of long-term goals"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a core leadership and personal hurdle."
+        example: 'N/A - this is a core leadership and personal hurdle.'
       },
-      pathToRoot: "People Pleasing → No Client Boundaries → Client Management Issues"
+      pathToRoot: 'People Pleasing → No Client Boundaries → Client Management Issues'
     }
   },
   'work-others-cheaper': {
-    explanation: "You are doing tasks that you could pay someone $20/hour to do, while your own time is worth $200/hour. You are effectively "losing" $180 every hour you spend on low-value work.",
+    explanation: 'You are doing tasks that you could pay someone $20/hour to do, while your own time is worth $200/hour. You are effectively "losing" $180 every hour you spend on low-value work.',
     relatedProblems: ["admin-busywork", "time-trapped"],
     impactAnalysis: {
-      financialImpact: "Massive opportunity cost; negative ROI on founder time.",
+      financialImpact: 'Massive opportunity cost; negative ROI on founder time.',
       severity: "Major",
       affectedAreas: ["Profitability", "Founder Throughput", "Growth Rate"],
       strategicPriority: 'High'
@@ -8942,16 +8942,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Scarcity mindset", "Lack of delegation skills", "Hero complex"],
       automationPotential: {
         rating: "High",
-        example: "Using AI or low-cost contractors to handle the "Routine" layer of the business."
+        example: 'Using AI or low-cost contractors to handle the "Routine" layer of the business.'
       },
-      pathToRoot: "Labor Inefficiency → Doing Low-Value Work → Time Trapped"
+      pathToRoot: 'Labor Inefficiency → Doing Low-Value Work → Time Trapped'
     }
   },
   'busy-not-revenue': {
-    explanation: "You are "Busy" all day but your bank account isn"t growing. You are confusing 'Movement' with 'Progress.' You are likely avoiding the high-leverage sales or product work that actually moves the needle.",
+    explanation: 'You are "Busy" all day but your bank account isn"t growing. You are confusing 'Movement' with 'Progress.' You are likely avoiding the high-leverage sales or product work that actually moves the needle.',
     relatedProblems: ["poor-prioritization", "everything-urgent"],
     impactAnalysis: {
-      financialImpact: "Stagnant revenue; wasted labor capacity; strategic drift.",
+      financialImpact: 'Stagnant revenue; wasted labor capacity; strategic drift.',
       severity: "Major",
       affectedAreas: ["Revenue Growth", "Efficiency", "Strategic Vision"],
       strategicPriority: 'High'
@@ -8965,16 +8965,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Procrastination on difficult tasks", "Lack of clear revenue targets", "Reactive habits"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to track your calendar and flagging how much time is spent on "Growth" vs "Admin'."
+        example: 'Using AI to track your calendar and flagging how much time is spent on "Growth" vs "Admin'.'
       },
-      pathToRoot: "Activity Trap → Doing Low-Value Work → Time Trapped"
+      pathToRoot: 'Activity Trap → Doing Low-Value Work → Time Trapped'
     }
   },
   'firefighting-not-building': {
-    explanation: "You spend 90% of your time fixing mistakes or handling crises. You have zero time to build the systems that would stop the fires from starting in the first place.",
+    explanation: 'You spend 90% of your time fixing mistakes or handling crises. You have zero time to build the systems that would stop the fires from starting in the first place.',
     relatedProblems: ["everything-urgent", "firefighting"],
     impactAnalysis: {
-      financialImpact: "High operational waste; founder burnout; zero scalability.",
+      financialImpact: 'High operational waste; founder burnout; zero scalability.',
       severity: "Critical",
       affectedAreas: ["Founder Mental Health", "Operations", "Strategic Growth"],
       strategicPriority: 'High'
@@ -8988,16 +8988,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of systems", "No operational buffers", "Hero complex"],
       automationPotential: {
         rating: "Medium",
-        example: "Using automated monitoring and alerts to catch "Smoldering" issues before they become "Fires'."
+        example: 'Using automated monitoring and alerts to catch "Smoldering" issues before they become "Fires'.'
       },
-      pathToRoot: "Crisis Mode → Doing Low-Value Work → Time Trapped"
+      pathToRoot: 'Crisis Mode → Doing Low-Value Work → Time Trapped'
     }
   },
   'easier-do-myself': {
-    explanation: "The "Expert Trap.' You believe that explaining it takes longer than doing it. This is true for today, but false for the next 5 years. By doing it yourself, you ensure you will *always* have to do it yourself.",
+    explanation: 'The "Expert Trap.' You believe that explaining it takes longer than doing it. This is true for today, but false for the next 5 years. By doing it yourself, you ensure you will *always* have to do it yourself.',
     relatedProblems: ["cant-delegate", "afraid-let-go"],
     impactAnalysis: {
-      financialImpact: "Capped revenue; zero business valuation; extreme opportunity cost.",
+      financialImpact: 'Capped revenue; zero business valuation; extreme opportunity cost.',
       severity: "Critical",
       affectedAreas: ["Scalability", "Founder Health", "Team Growth"],
       strategicPriority: 'High'
@@ -9011,16 +9011,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Short-term thinking", "Perfectionism", "Expert blindness"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to "Extract" your process as you do it, creating a draft SOP for others to follow."
+        example: 'Using AI to "Extract" your process as you do it, creating a draft SOP for others to follow.'
       },
-      pathToRoot: "Short-termism → Cant Delegate → Time Trapped"
+      pathToRoot: 'Short-termism → Cant Delegate → Time Trapped'
     }
   },
   'no-one-delegate': {
-    explanation: "You have no team, or your team is already at 100% capacity. You want to offload work, but there is "No one to catch the ball.'",
+    explanation: 'You have no team, or your team is already at 100% capacity. You want to offload work, but there is "No one to catch the ball.'',
     relatedProblems: ["cant-afford-hire", "not-enough-capacity"],
     impactAnalysis: {
-      financialImpact: "Growth is linear to founder hours; zero resilience; high burnout risk.",
+      financialImpact: 'Growth is linear to founder hours; zero resilience; high burnout risk.',
       severity: "Major",
       affectedAreas: ["Capacity", "Founder Peace of Mind", "Business Value"],
       strategicPriority: 'High'
@@ -9034,16 +9034,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Under-investing in labor", "Thin margins", "Fear of management"],
       automationPotential: {
         rating: "High",
-        example: "Using AI "Agents" to act as your first "Digital Employees' for basic tasks."
+        example: 'Using AI "Agents" to act as your first "Digital Employees' for basic tasks.'
       },
-      pathToRoot: "Missing Team → Cant Delegate → Time Trapped"
+      pathToRoot: 'Missing Team → Cant Delegate → Time Trapped'
     }
   },
   'dont-know-how-delegate': {
-    explanation: "You give vague instructions and then get frustrated when the result is wrong. You don"t have a "Delegation Framework,' so you default back to doing it yourself.",
+    explanation: 'You give vague instructions and then get frustrated when the result is wrong. You don"t have a "Delegation Framework,' so you default back to doing it yourself.',
     relatedProblems: ["havent-trained", "no-sops"],
     impactAnalysis: {
-      financialImpact: "High rework labor; team demotivation; founder bottlenecking.",
+      financialImpact: 'High rework labor; team demotivation; founder bottlenecking.',
       severity: "Moderate",
       affectedAreas: ["Team ROI", "Operations", "Scalability"],
       strategicPriority: 'Medium'
@@ -9057,16 +9057,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of management training", "Poor communication habits", "Rushing"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to "Polish" your rough instructions into a detailed project brief."
+        example: 'Using AI to "Polish" your rough instructions into a detailed project brief.'
       },
-      pathToRoot: "Skill Gap → Cant Delegate → Time Trapped"
+      pathToRoot: 'Skill Gap → Cant Delegate → Time Trapped'
     }
   },
   'micromanagement': {
-    explanation: "You are checking every email, every pixel, and every line of code. You are paying for a team but still doing their jobs for them. This kills trust and prevents your team from growing.",
+    explanation: 'You are checking every email, every pixel, and every line of code. You are paying for a team but still doing their jobs for them. This kills trust and prevents your team from growing.',
     relatedProblems: ["afraid-let-go", "dont-trust-others"],
     impactAnalysis: {
-      financialImpact: "Diminishing returns on team labor; high turnover of high-performers; founder burnout.",
+      financialImpact: 'Diminishing returns on team labor; high turnover of high-performers; founder burnout.',
       severity: "Critical",
       affectedAreas: ["Team Culture", "Founder Throughput", "Retention"],
       strategicPriority: 'High'
@@ -9080,16 +9080,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Perfectionism", "Anxiety about quality", "Lack of trust in systems"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - micromanagement is a leadership behavior."
+        example: 'N/A - micromanagement is a leadership behavior.'
       },
-      pathToRoot: "Need for Control → Cant Delegate → Time Trapped"
+      pathToRoot: 'Need for Control → Cant Delegate → Time Trapped'
     }
   },
   'cant-hand-off': {
-    explanation: "You"ve built a project, but you can't hand it over to the client or the next team member without a 3-hour meeting. The 'Knowledge Gap' is too wide at the transition point.",
+    explanation: 'You"ve built a project, but you can't hand it over to the client or the next team member without a 3-hour meeting. The 'Knowledge Gap' is too wide at the transition point.',
     relatedProblems: ["everything-founders-head", "explain-every-time"],
     impactAnalysis: {
-      financialImpact: "Project "Tail" drags on; unbilled support hours; high friction.",
+      financialImpact: 'Project "Tail" drags on; unbilled support hours; high friction.',
       severity: "Moderate",
       affectedAreas: ["Efficiency", "Client Experience", "Project Payout"],
       strategicPriority: 'Medium'
@@ -9103,16 +9103,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of "Deliverable" standards", "Poor documentation", "Expert blindness"],
       automationPotential: {
         rating: "High",
-        example: "Automated "Onboarding/Offboarding' flows that deliver all docs and logins instantly."
+        example: 'Automated "Onboarding/Offboarding' flows that deliver all docs and logins instantly.'
       },
-      pathToRoot: "Transition Failure → No Processes → Time Trapped"
+      pathToRoot: 'Transition Failure → No Processes → Time Trapped'
     }
   },
   'explain-every-time': {
-    explanation: "You are answering the same questions over and over. You are a "Human Help Desk.' This is a sign that you lack a central knowledge base or that your team hasn't been trained to look for answers themselves.",
+    explanation: 'You are answering the same questions over and over. You are a "Human Help Desk.' This is a sign that you lack a central knowledge base or that your team hasn't been trained to look for answers themselves.',
     relatedProblems: ["tribal-knowledge", "no-sops"],
     impactAnalysis: {
-      financialImpact: "Massive hidden time waste; high cognitive load; slow team speed.",
+      financialImpact: 'Massive hidden time waste; high cognitive load; slow team speed.',
       severity: "Major",
       affectedAreas: ["Founder Productivity", "Team Autonomy", "Efficiency"],
       strategicPriority: 'High'
@@ -9126,16 +9126,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Managing via DM", "Lack of searchable docs", "Hero complex"],
       automationPotential: {
         rating: "High",
-        example: "AI chatbots (e.g., Guru, CustomGPT) that index your SOPs and answer team questions 24/7."
+        example: 'AI chatbots (e.g., Guru, CustomGPT) that index your SOPs and answer team questions 24/7.'
       },
-      pathToRoot: "Repetitive Support → No Processes → Time Trapped"
+      pathToRoot: 'Repetitive Support → No Processes → Time Trapped'
     }
   },
   'knowledge-not-transferable': {
-    explanation: "Your expertise is "Magic.' It's based on intuition or 20 years of experience that you haven't broken down into steps. This makes you impossible to replace and the business impossible to sell.",
+    explanation: 'Your expertise is "Magic.' It's based on intuition or 20 years of experience that you haven't broken down into steps. This makes you impossible to replace and the business impossible to sell.',
     relatedProblems: ["service-complex", "tribal-knowledge"],
     impactAnalysis: {
-      financialImpact: "Zero business valuation; zero scalability; high risk if you leave.",
+      financialImpact: 'Zero business valuation; zero scalability; high risk if you leave.',
       severity: "Critical",
       affectedAreas: ["Asset Value", "Scalability", "Risk Management"],
       strategicPriority: 'High'
@@ -9149,16 +9149,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Expert blindness", "Undervaluing process", "Complex service model"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to "Model" your decision making by analyzing your past work results and finding patterns."
+        example: 'Using AI to "Model" your decision making by analyzing your past work results and finding patterns.'
       },
-      pathToRoot: "Magic Trap → No Processes → Time Trapped"
+      pathToRoot: 'Magic Trap → No Processes → Time Trapped'
     }
   },
   'no-systems-organization': {
-    explanation: "You have no "Operating System" for your business. There is no central place for tasks, files, or communication. You are managing a multi-million dollar potential with a 'Mom and Pop' setup.",
+    explanation: 'You have no "Operating System" for your business. There is no central place for tasks, files, or communication. You are managing a multi-million dollar potential with a 'Mom and Pop' setup.',
     relatedProblems: ["no-crm-pm", "communication-mess"],
     impactAnalysis: {
-      financialImpact: "Invisible efficiency leaks; high stress; impossible to manage a team larger than 3.",
+      financialImpact: 'Invisible efficiency leaks; high stress; impossible to manage a team larger than 3.',
       severity: "Major",
       affectedAreas: ["Operations", "Founder Peace of Mind", "Scalability"],
       strategicPriority: 'High'
@@ -9172,16 +9172,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Organic growth without infrastructure planning", "Lack of operational discipline", "Tool overwhelm"],
       automationPotential: {
         rating: "High",
-        example: "Building a central "Operating System" in Notion or Airtable that links all business functions."
+        example: 'Building a central "Operating System" in Notion or Airtable that links all business functions.'
       },
-      pathToRoot: "Infrastructure Gap → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'Infrastructure Gap → Disorganized → Personal Bottlenecks'
     }
   },
   'messy-files': {
-    explanation: "Your digital documents are scattered across GDrive, Dropbox, Desktop, and Email. You are losing hours a month just "Searching" for the right version of a file.",
+    explanation: 'Your digital documents are scattered across GDrive, Dropbox, Desktop, and Email. You are losing hours a month just "Searching" for the right version of a file.',
     relatedProblems: ["cant-find-things", "duplicate-work"],
     impactAnalysis: {
-      financialImpact: "Labor waste; high risk of sending wrong version to client; data security risk.",
+      financialImpact: 'Labor waste; high risk of sending wrong version to client; data security risk.',
       severity: "Moderate",
       affectedAreas: ["Efficiency", "Accuracy", "Professionalism"],
       strategicPriority: 'Medium'
@@ -9195,16 +9195,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of folder structure", "Saving to desktop habits", "No file versioning system"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to automatically tag and sort files based on their content."
+        example: 'Using AI to automatically tag and sort files based on their content.'
       },
-      pathToRoot: "Digital Chaos → No Systems/Org → Disorganized"
+      pathToRoot: 'Digital Chaos → No Systems/Org → Disorganized'
     }
   },
   'no-task-management': {
-    explanation: "You are managing your To-Do list in your head, email, or Slack DMs. This creates constant "Mental Noise" and ensures that small but important things will be forgotten.",
+    explanation: 'You are managing your To-Do list in your head, email, or Slack DMs. This creates constant "Mental Noise" and ensures that small but important things will be forgotten.',
     relatedProblems: ["everything-urgent", "things-fall-through"],
     impactAnalysis: {
-      financialImpact: "Missed sales follow-ups; delayed projects; team confusion.",
+      financialImpact: 'Missed sales follow-ups; delayed projects; team confusion.',
       severity: "Major",
       affectedAreas: ["Execution Speed", "Mental Clarity", "Founder Throughput"],
       strategicPriority: 'High'
@@ -9218,16 +9218,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Relying on memory", "Informal habits", "Aversion to structure"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to "Extract" tasks from your Slack messages and auto-add them to your PM tool."
+        example: 'Using AI to "Extract" tasks from your Slack messages and auto-add them to your PM tool.'
       },
-      pathToRoot: "Mental Overload → No Systems/Org → Disorganized"
+      pathToRoot: 'Mental Overload → No Systems/Org → Disorganized'
     }
   },
   'sticky-notes-everywhere': {
-    explanation: "Managing a business via physical notes or random text files. This information is non-searchable, non-sharable, and easily lost. It"s "Analog management' in a 'Digital world.'",
+    explanation: 'Managing a business via physical notes or random text files. This information is non-searchable, non-sharable, and easily lost. It"s "Analog management' in a 'Digital world.'',
     relatedProblems: ["no-task-management", "messy-files"],
     impactAnalysis: {
-      financialImpact: "Hidden inefficiencies; impossible to delegate; zero data historical value.",
+      financialImpact: 'Hidden inefficiencies; impossible to delegate; zero data historical value.',
       severity: "Moderate",
       affectedAreas: ["Operations", "Founder Peace of Mind", "Collaboration"],
       strategicPriority: 'Medium'
@@ -9241,16 +9241,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Legacy habits", "Tactile preference over efficiency", "Fear of digital tools"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI OCR to scan and digitize physical notes instantly into your central system."
+        example: 'Using AI OCR to scan and digitize physical notes instantly into your central system.'
       },
-      pathToRoot: "Analog Trap → No Systems/Org → Disorganized"
+      pathToRoot: 'Analog Trap → No Systems/Org → Disorganized'
     }
   },
   'cant-find-things': {
-    explanation: "The "Where is that?' problem. You spend 15% of your day searching for logins, files, emails, or links. This is pure 'Friction' that adds zero value to your clients.",
+    explanation: 'The "Where is that?' problem. You spend 15% of your day searching for logins, files, emails, or links. This is pure 'Friction' that adds zero value to your clients.',
     relatedProblems: ["messy-files", "no-task-management"],
     impactAnalysis: {
-      financialImpact: "Direct labor waste; high frustration; slow response times.",
+      financialImpact: 'Direct labor waste; high frustration; slow response times.',
       severity: "Moderate",
       affectedAreas: ["Efficiency", "Professionalism", "Speed"],
       strategicPriority: 'Medium'
@@ -9264,16 +9264,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of single source of truth", "Tool fragmentation", "Disorganized digital habits"],
       automationPotential: {
         rating: "High",
-        example: "Using "Unified Search" tools (e.g., Glean, Raycast) to search across all your apps at once."
+        example: 'Using "Unified Search" tools (e.g., Glean, Raycast) to search across all your apps at once.'
       },
-      pathToRoot: "Friction → No Systems/Org → Disorganized"
+      pathToRoot: 'Friction → No Systems/Org → Disorganized'
     }
   },
   'duplicate-work': {
-    explanation: "You or your team are re-doing work that has already been done because nobody can find the original, or nobody knew it existed. This is 100% wasted labor.",
+    explanation: 'You or your team are re-doing work that has already been done because nobody can find the original, or nobody knew it existed. This is 100% wasted labor.',
     relatedProblems: ["messy-files", "internal-miscommunication"],
     impactAnalysis: {
-      financialImpact: "Pure margin drain; negative ROI on payroll; team demotivation.",
+      financialImpact: 'Pure margin drain; negative ROI on payroll; team demotivation.',
       severity: "Major",
       affectedAreas: ["Profitability", "Efficiency", "Team Morale"],
       strategicPriority: 'High'
@@ -9287,16 +9287,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of central repository", "Siloed projects", "Poor internal communication"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to flag "Similar Projects" when a new task is created, preventing redundant work."
+        example: 'Using AI to flag "Similar Projects" when a new task is created, preventing redundant work.'
       },
-      pathToRoot: "Redundancy → No Systems/Org → Disorganized"
+      pathToRoot: 'Redundancy → No Systems/Org → Disorganized'
     }
   },
   'poor-prioritization': {
-    explanation: "You are doing the "Easiest" things first, not the 'Most Important' things. You are crossing things off a list but not moving the business forward.",
+    explanation: 'You are doing the "Easiest" things first, not the 'Most Important' things. You are crossing things off a list but not moving the business forward.',
     relatedProblems: ["busy-not-revenue", "everything-urgent"],
     impactAnalysis: {
-      financialImpact: "Opportunity cost of delayed growth; strategic stagnation; high burnout.",
+      financialImpact: 'Opportunity cost of delayed growth; strategic stagnation; high burnout.',
       severity: "Major",
       affectedAreas: ["Growth Velocity", "Strategic Vision", "Founder Peace of Mind"],
       strategicPriority: 'High'
@@ -9310,16 +9310,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of clear goals", "Reactive mindset", "Dopamine seeking (small wins)"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to auto-sort your task list based on "Impact" vs "Effort' scores."
+        example: 'Using AI to auto-sort your task list based on "Impact" vs "Effort' scores.'
       },
-      pathToRoot: "Strategic Failure → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'Strategic Failure → Disorganized → Personal Bottlenecks'
     }
   },
   'cant-say-no-personal': {
-    explanation: "You agree to every meeting, every "Quick Call,' and every random opportunity. Your calendar is full of other people's priorities, leaving no room for your own.",
+    explanation: 'You agree to every meeting, every "Quick Call,' and every random opportunity. Your calendar is full of other people's priorities, leaving no room for your own.',
     relatedProblems: ["cant-say-no", "email-meeting-overload"],
     impactAnalysis: {
-      financialImpact: "Zero time for high-value strategic work; slow decision making.",
+      financialImpact: 'Zero time for high-value strategic work; slow decision making.',
       severity: "Major",
       affectedAreas: ["Founder Throughput", "Growth Rate", "Mental Health"],
       strategicPriority: 'High'
@@ -9333,16 +9333,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["People-pleasing", "FOMO (Fear of Missing Out)', "Lack of boundary setting"],
       automationPotential: {
         rating: "High",
-        example: "Using automated scheduling rules that only allow meetings during specific "Open" windows."
+        example: 'Using automated scheduling rules that only allow meetings during specific "Open" windows.'
       },
-      pathToRoot: "Boundary Failure → Poor Prioritization → Disorganized"
+      pathToRoot: 'Boundary Failure → Poor Prioritization → Disorganized'
     }
   },
   'reactive-not-proactive': {
-    explanation: "You are waiting for things to happen and then responding to them. You are "Playing Defense" all day. You have no control over the direction of the business.",
+    explanation: 'You are waiting for things to happen and then responding to them. You are "Playing Defense" all day. You have no control over the direction of the business.',
     relatedProblems: ["firefighting", "everything-urgent"],
     impactAnalysis: {
-      financialImpact: "Linear growth at best; high risk of being blindsided by market shifts.",
+      financialImpact: 'Linear growth at best; high risk of being blindsided by market shifts.',
       severity: "Major",
       affectedAreas: ["Leadership", "Strategic Growth", "Sustainability"],
       strategicPriority: 'High'
@@ -9356,16 +9356,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of long-term vision", "Under-staffing (no buffer)', "Hero complex"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI "Forecasting" to predict future problems so you can solve them pro-actively."
+        example: 'Using AI "Forecasting" to predict future problems so you can solve them pro-actively.'
       },
-      pathToRoot: "Defense Mode → Poor Prioritization → Disorganized"
+      pathToRoot: 'Defense Mode → Poor Prioritization → Disorganized'
     }
   },
   'no-clear-goals': {
-    explanation: "You don"t know where you"re going, so any road will take you there. Without clear 'North Star' metrics, your team is pulling in different directions.",
+    explanation: 'You don"t know where you"re going, so any road will take you there. Without clear 'North Star' metrics, your team is pulling in different directions.',
     relatedProblems: ["poor-prioritization", "strategic-priority"],
     impactAnalysis: {
-      financialImpact: "Wasted labor spend; high opportunity cost; team confusion.",
+      financialImpact: 'Wasted labor spend; high opportunity cost; team confusion.',
       severity: "Critical",
       affectedAreas: ["Strategic Vision", "Team Alignment", "Growth Velocity"],
       strategicPriority: 'High'
@@ -9379,16 +9379,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of commitment to a niche", "Lack of strategic planning", "Shiny object syndrome"],
       automationPotential: {
         rating: "High",
-        example: "Using OKR tracking software (e.g., Koan, Perdoo) to keep the team focused on goals automatically."
+        example: 'Using OKR tracking software (e.g., Koan, Perdoo) to keep the team focused on goals automatically.'
       },
-      pathToRoot: "Direction Failure → Poor Prioritization → Disorganized"
+      pathToRoot: 'Direction Failure → Poor Prioritization → Disorganized'
     }
   },
   'shiny-object-syndrome': {
-    explanation: "You are constantly pivoting to the "Next Big Thing" before the current thing has even worked. You have 10 projects at 10% completion and zero at 100%.",
+    explanation: 'You are constantly pivoting to the "Next Big Thing" before the current thing has even worked. You have 10 projects at 10% completion and zero at 100%.',
     relatedProblems: ["poor-prioritization", "overcommitting"],
     impactAnalysis: {
-      financialImpact: "Massive waste of R&D and founder time; zero "Momentum" revenue.",
+      financialImpact: 'Massive waste of R&D and founder time; zero "Momentum" revenue.',
       severity: "Major",
       affectedAreas: ["Execution", "Strategic Vision", "Profitability"],
       strategicPriority: 'High'
@@ -9402,16 +9402,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Entrepreneurial ADD", "Fear of failure (pivoting as a defense)', "Low attention span"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a core founder discipline issue."
+        example: 'N/A - this is a core founder discipline issue.'
       },
-      pathToRoot: "Focus Failure → Poor Prioritization → Disorganized"
+      pathToRoot: 'Focus Failure → Poor Prioritization → Disorganized'
     }
   },
   'no-calendar-system': {
-    explanation: "You are managing your time by "Feeling.' You have no visual map of your day, which leads to double-booking, missed calls, and zero focus time.",
+    explanation: 'You are managing your time by "Feeling.' You have no visual map of your day, which leads to double-booking, missed calls, and zero focus time.',
     relatedProblems: ["overcommitting-personal", "constantly-late"],
     impactAnalysis: {
-      financialImpact: "Missed sales leads; high stress; unprofessional brand image.",
+      financialImpact: 'Missed sales leads; high stress; unprofessional brand image.',
       severity: "Moderate",
       affectedAreas: ["Time Efficiency", "Professionalism", "Mental Clarity"],
       strategicPriority: 'Medium'
@@ -9425,16 +9425,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Informal habits", "Managing via memory", "Lack of structure"],
       automationPotential: {
         rating: "High",
-        example: "Using AI schedulers (e.g., Reclaim.ai, Clockwise) to auto-optimize your day for focus."
+        example: 'Using AI schedulers (e.g., Reclaim.ai, Clockwise) to auto-optimize your day for focus.'
       },
-      pathToRoot: "Time Chaos → Time Management Broken → Disorganized"
+      pathToRoot: 'Time Chaos → Time Management Broken → Disorganized'
     }
   },
   'overcommitting-personal': {
-    explanation: "You say "Yes" to more than you can physically do in 24 hours. You are constantly 'Under Water,' which leads to poor quality work and high anxiety.",
+    explanation: 'You say "Yes" to more than you can physically do in 24 hours. You are constantly 'Under Water,' which leads to poor quality work and high anxiety.',
     relatedProblems: ["cant-say-no-personal", "working-too-much"],
     impactAnalysis: {
-      financialImpact: "Burnout risk; diminished returns on labor; error-prone decisions.",
+      financialImpact: 'Burnout risk; diminished returns on labor; error-prone decisions.',
       severity: "Major",
       affectedAreas: ["Founder Health", "Quality", "Sustainability"],
       strategicPriority: 'High'
@@ -9448,16 +9448,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Optimism bias", "People-pleasing', "Lack of time-budgeting"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to analyze your task list and flagging when it exceeds your available hours."
+        example: 'Using AI to analyze your task list and flagging when it exceeds your available hours.'
       },
-      pathToRoot: "Overload → Time Management Broken → Disorganized"
+      pathToRoot: 'Overload → Time Management Broken → Disorganized'
     }
   },
   'constantly-late': {
-    explanation: "Being late to meetings or deadlines is a sign of "Time Optimism.' It erodes your professional authority and creates a culture of lateness in your team.",
+    explanation: 'Being late to meetings or deadlines is a sign of "Time Optimism.' It erodes your professional authority and creates a culture of lateness in your team.',
     relatedProblems: ["no-calendar-system", "poor-boundaries"],
     impactAnalysis: {
-      financialImpact: "Damage to brand reputation; increased client price-sensitivity; team demotivation.",
+      financialImpact: 'Damage to brand reputation; increased client price-sensitivity; team demotivation.',
       severity: "Moderate",
       affectedAreas: ["Professionalism", "Team Culture", "Client Trust"],
       strategicPriority: 'Medium'
@@ -9471,16 +9471,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Planning fallacy", "Adrenaline seeking", "Lack of buffers"],
       automationPotential: {
         rating: "High",
-        example: "Using "Buffer Time" automation that auto-adds 10 mins of travel/prep between every meeting."
+        example: 'Using "Buffer Time" automation that auto-adds 10 mins of travel/prep between every meeting.'
       },
-      pathToRoot: "Reliability Failure → Time Management Broken → Disorganized"
+      pathToRoot: 'Reliability Failure → Time Management Broken → Disorganized'
     }
   },
   'no-time-blocking': {
-    explanation: "You work on whatever "Pings" you first. Without dedicated blocks for 'Deep Work,' you never finish the complex strategic tasks that actually scale the business.",
+    explanation: 'You work on whatever "Pings" you first. Without dedicated blocks for 'Deep Work,' you never finish the complex strategic tasks that actually scale the business.',
     relatedProblems: ["interruptions-constant", "low-value-work"],
     impactAnalysis: {
-      financialImpact: "Massive hidden time waste; high cognitive load; zero strategic progress.",
+      financialImpact: 'Massive hidden time waste; high cognitive load; zero strategic progress.',
       severity: "Major",
       affectedAreas: ["Productivity", "Strategic Growth", "Mental Clarity"],
       strategicPriority: 'High'
@@ -9494,16 +9494,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Reactive culture", "Lack of discipline", "Tool distraction"],
       automationPotential: {
         rating: "High",
-        example: "AI calendar tools that "Shield" your focus time by auto-declining conflicting meetings."
+        example: 'AI calendar tools that "Shield" your focus time by auto-declining conflicting meetings.'
       },
-      pathToRoot: "Focus Failure → Time Management Broken → Disorganized"
+      pathToRoot: 'Focus Failure → Time Management Broken → Disorganized'
     }
   },
   'interruptions-constant': {
-    explanation: "Slack, Email, and Team "Quick Questions" are the 'Death by a thousand cuts' for your productivity. Every interruption costs you 20 mins of recovery time.",
+    explanation: 'Slack, Email, and Team "Quick Questions" are the 'Death by a thousand cuts' for your productivity. Every interruption costs you 20 mins of recovery time.',
     relatedProblems: ["email-meeting-overload", "everything-urgent"],
     impactAnalysis: {
-      financialImpact: " Massive labor waste; high error rate; founder burnout.",
+      financialImpact: ' Massive labor waste; high error rate; founder burnout.',
       severity: "Major",
       affectedAreas: ["Efficiency", "Mental Health", "Decision Quality"],
       strategicPriority: 'High'
@@ -9517,16 +9517,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Synchronous culture", "Lack of SOPs (people need to ask how)', "Poor boundaries"],
       automationPotential: {
         rating: "High",
-        example: "AI triage bots that answer basic team questions so they don"t hit the founder."
+        example: 'AI triage bots that answer basic team questions so they don"t hit the founder.'
       },
-      pathToRoot: "Distraction Loop → Time Management Broken → Disorganized"
+      pathToRoot: 'Distraction Loop → Time Management Broken → Disorganized'
     }
   },
   'communication-mess': {
-    explanation: "Messages are scattered across Email, Slack, WhatsApp, and Phone. You are losing information and spending hours a week just "Consolidating" conversations.",
+    explanation: 'Messages are scattered across Email, Slack, WhatsApp, and Phone. You are losing information and spending hours a week just "Consolidating" conversations.',
     relatedProblems: ["multiple-channels-mess", "losing-important-messages"],
     impactAnalysis: {
-      financialImpact: "Missed sales leads; delayed project approvals; team anxiety.",
+      financialImpact: 'Missed sales leads; delayed project approvals; team anxiety.',
       severity: "Major",
       affectedAreas: ["Operations", "Sales Velocity", "Team Alignment"],
       strategicPriority: 'High'
@@ -9540,16 +9540,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Organic tool bloat", "Lack of communication rules", "Urgency culture"],
       automationPotential: {
         rating: "High",
-        example: "Using "Omni-channel' hubs that pull all messages into a single, searchable stream."
+        example: 'Using "Omni-channel' hubs that pull all messages into a single, searchable stream.'
       },
-      pathToRoot: "Information Chaos → Communication Chaos → Disorganized"
+      pathToRoot: 'Information Chaos → Communication Chaos → Disorganized'
     }
   },
   'multiple-channels-mess': {
-    explanation: "You have too many ways to be reached. This creates "Inbox Anxiety" and ensures that you will miss something critical because you didn't check 'Channel #5' today.",
+    explanation: 'You have too many ways to be reached. This creates "Inbox Anxiety" and ensures that you will miss something critical because you didn't check 'Channel #5' today.',
     relatedProblems: ["communication-mess", "inbox-overflowing"],
     impactAnalysis: {
-      financialImpact: "Extreme cognitive load; labor waste searching across apps; missed deadlines.",
+      financialImpact: 'Extreme cognitive load; labor waste searching across apps; missed deadlines.',
       severity: "Moderate",
       affectedAreas: ["Mental Clarity", "Efficiency", "Speed"],
       strategicPriority: 'Medium'
@@ -9563,16 +9563,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-connectedness", "Lack of customer onboarding rules", "Fear of being unavailable"],
       automationPotential: {
         rating: "High",
-        example: "Using tools like Zapier to "Mirror" messages from secondary channels into your primary one."
+        example: 'Using tools like Zapier to "Mirror" messages from secondary channels into your primary one.'
       },
-      pathToRoot: "Channel Bloat → Communication Chaos → Disorganized"
+      pathToRoot: 'Channel Bloat → Communication Chaos → Disorganized'
     }
   },
   'losing-important-messages': {
-    explanation: "A sales lead, a client approval, or a team crisis was missed because it was buried under 500 other messages. You are "Leaking" opportunities every day.",
+    explanation: 'A sales lead, a client approval, or a team crisis was missed because it was buried under 500 other messages. You are "Leaking" opportunities every day.',
     relatedProblems: ["inbox-overflowing", "no-follow-up-system"],
     impactAnalysis: {
-      financialImpact: "Direct revenue loss; churn risk; damaged reputation.",
+      financialImpact: 'Direct revenue loss; churn risk; damaged reputation.',
       severity: "Critical",
       affectedAreas: ["Revenue Growth", "Client Trust", "Operations"],
       strategicPriority: 'High'
@@ -9586,16 +9586,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Low signal-to-noise ratio", "Lack of inbox management skills", "Under-staffing (no VA)"],
       automationPotential: {
         rating: "High",
-        example: "AI-powered inbox triage that flags "Actionable" or "Revenue-Related' emails automatically."
+        example: 'AI-powered inbox triage that flags "Actionable" or "Revenue-Related' emails automatically.'
       },
-      pathToRoot: "Information Loss → Communication Chaos → Disorganized"
+      pathToRoot: 'Information Loss → Communication Chaos → Disorganized'
     }
   },
   'no-follow-up-system': {
-    explanation: "You rely on your "Memory" to follow up. If you don't do it today, it's gone. You are leaving 50% of your sales and 20% of your project momentum on the table.",
+    explanation: 'You rely on your "Memory" to follow up. If you don't do it today, it's gone. You are leaving 50% of your sales and 20% of your project momentum on the table.',
     relatedProblems: ["no-crm-pm", "prospects-engage-dont-buy"],
     impactAnalysis: {
-      financialImpact: "Massive sales leakage; delayed project finalization; stagnant account growth.",
+      financialImpact: 'Massive sales leakage; delayed project finalization; stagnant account growth.',
       severity: "Major",
       affectedAreas: ["Sales pipeline", "Cash Flow", "LTV"],
       strategicPriority: 'High'
@@ -9609,16 +9609,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Passive mindset", "Lack of CRM discipline", "Over-reliance on 'buying heat'"],
       automationPotential: {
         rating: "High",
-        example: "Using automated sales sequences (e.g., Apollo, Instantly) that follow up until a response is received."
+        example: 'Using automated sales sequences (e.g., Apollo, Instantly) that follow up until a response is received.'
       },
-      pathToRoot: "Follow-up Failure → Communication Chaos → Disorganized"
+      pathToRoot: 'Follow-up Failure → Communication Chaos → Disorganized'
     }
   },
   'no-follow-up-system': {
-    explanation: "You rely on your "Memory" to follow up. If you don't do it today, it's gone. You are leaving 50% of your sales and 20% of your project momentum on the table.",
+    explanation: 'You rely on your "Memory" to follow up. If you don't do it today, it's gone. You are leaving 50% of your sales and 20% of your project momentum on the table.',
     relatedProblems: ["no-crm-pm", "prospects-engage-dont-buy"],
     impactAnalysis: {
-      financialImpact: "Massive sales leakage; delayed project finalization; stagnant account growth.",
+      financialImpact: 'Massive sales leakage; delayed project finalization; stagnant account growth.',
       severity: "Major",
       affectedAreas: ["Sales pipeline", "Cash Flow", "LTV"],
       strategicPriority: 'High'
@@ -9632,16 +9632,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Passive mindset", "Lack of CRM discipline", "Over-reliance on "buying heat""],
       automationPotential: {
         rating: "High",
-        example: "Using automated sales sequences (e.g., Apollo, Instantly) that follow up until a response is received."
+        example: 'Using automated sales sequences (e.g., Apollo, Instantly) that follow up until a response is received.'
       },
-      pathToRoot: "Follow-up Failure → Communication Chaos → Disorganized"
+      pathToRoot: 'Follow-up Failure → Communication Chaos → Disorganized'
     }
   },
   'workspace-environment': {
-    explanation: "Your physical and digital "Home" is chaotic. This environment triggers high cortisol (stress) and prevents the 'Deep Focus' required for high-level business building.",
+    explanation: 'Your physical and digital "Home" is chaotic. This environment triggers high cortisol (stress) and prevents the 'Deep Focus' required for high-level business building.',
     relatedProblems: ["physical-clutter", "too-many-tabs", "desktop-chaos"],
     impactAnalysis: {
-      financialImpact: "Hidden productivity drain; high stress levels; low mental energy.",
+      financialImpact: 'Hidden productivity drain; high stress levels; low mental energy.',
       severity: "Moderate",
       affectedAreas: ["Founder Mental Health", "Efficiency", "Creativity"],
       strategicPriority: 'Medium'
@@ -9655,16 +9655,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of cleaning habits", "Over-stimulation', "Too many active projects"],
       automationPotential: {
         rating: "High",
-        example: "Using "Tab Management" and 'File Cleaners' to keep your digital workspace organized automatically."
+        example: 'Using "Tab Management" and 'File Cleaners' to keep your digital workspace organized automatically.'
       },
-      pathToRoot: "Atmosphere Failure → Disorganized → Personal Bottlenecks"
+      pathToRoot: 'Atmosphere Failure → Disorganized → Personal Bottlenecks'
     }
   },
   'physical-clutter': {
-    explanation: "Papers, trash, and random items on your desk. Visual clutter is "Mental noise" that competes for your attention and makes you feel "Overwhelmed' before you even start work.",
+    explanation: 'Papers, trash, and random items on your desk. Visual clutter is "Mental noise" that competes for your attention and makes you feel "Overwhelmed' before you even start work.',
     relatedProblems: ["sticky-notes-everywhere", "cant-find-things"],
     impactAnalysis: {
-      financialImpact: "Lower cognitive bandwidth; high stress; unprofessional environment.",
+      financialImpact: 'Lower cognitive bandwidth; high stress; unprofessional environment.',
       severity: "Moderate",
       affectedAreas: ["Focus", "Mental Health", "Organization"],
       strategicPriority: 'Medium'
@@ -9678,16 +9678,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of storage", "Procrastination on small cleaning tasks", "Analog focus"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - physical cleaning requires manual effort."
+        example: 'N/A - physical cleaning requires manual effort.'
       },
-      pathToRoot: "Physical Mess → Workspace Environment → Disorganized"
+      pathToRoot: 'Physical Mess → Workspace Environment → Disorganized'
     }
   },
   'too-many-tabs': {
-    explanation: "Having 50+ browser tabs open is a sign of "Mental Incompletion.' It slows down your computer and your brain, making it impossible to focus on the ONE thing you're actually doing.",
+    explanation: 'Having 50+ browser tabs open is a sign of "Mental Incompletion.' It slows down your computer and your brain, making it impossible to focus on the ONE thing you're actually doing.',
     relatedProblems: ["shiny-object-syndrome", "poor-prioritization"],
     impactAnalysis: {
-      financialImpact: "Massive hidden distraction; slow computer performance; anxiety.",
+      financialImpact: 'Massive hidden distraction; slow computer performance; anxiety.',
       severity: "Minor",
       affectedAreas: ["Focus", "Tech Performance", "Mental Clarity"],
       strategicPriority: 'Low'
@@ -9701,16 +9701,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of losing info", "Parallel processing habit", "Distraction seeking"],
       automationPotential: {
         rating: "High",
-        example: "Using "OneTab" or 'Arc Browser' to automatically group and snooze inactive tabs."
+        example: 'Using "OneTab" or 'Arc Browser' to automatically group and snooze inactive tabs.'
       },
-      pathToRoot: "Digital Bloat → Workspace Environment → Disorganized"
+      pathToRoot: 'Digital Bloat → Workspace Environment → Disorganized'
     }
   },
   'desktop-chaos': {
-    explanation: "Your computer desktop is full of random files, screenshots, and "Final_v2' documents. This is the digital equivalent of working in a trash pile.",
+    explanation: 'Your computer desktop is full of random files, screenshots, and "Final_v2' documents. This is the digital equivalent of working in a trash pile.',
     relatedProblems: ["messy-files", "cant-find-things"],
     impactAnalysis: {
-      financialImpact: "Labor waste searching for files; high risk of using wrong versions; tech clutter.",
+      financialImpact: 'Labor waste searching for files; high risk of using wrong versions; tech clutter.',
       severity: "Minor",
       affectedAreas: ["Efficiency", "Mental Health", "Organization"],
       strategicPriority: 'Low'
@@ -9724,16 +9724,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of folder structure", "Laziness in file naming", "No digital cleanup routine"],
       automationPotential: {
         rating: "High",
-        example: "Using "Hazel" (Mac) or 'Files-Linter' (Windows) to auto-sort desktop files into folders."
+        example: 'Using "Hazel" (Mac) or 'Files-Linter' (Windows) to auto-sort desktop files into folders.'
       },
-      pathToRoot: "Digital Clutter → Workspace Environment → Disorganized"
+      pathToRoot: 'Digital Clutter → Workspace Environment → Disorganized'
     }
   },
   'disorganized-tools': {
-    explanation: "You have 10 apps that all do the same thing, or none of them are setup correctly. You are paying for tech that is adding more complexity than value.",
+    explanation: 'You have 10 apps that all do the same thing, or none of them are setup correctly. You are paying for tech that is adding more complexity than value.',
     relatedProblems: ["duplicate-systems", "wrong-software"],
     impactAnalysis: {
-      financialImpact: "Waste of subscription spend; high training costs; team confusion.",
+      financialImpact: 'Waste of subscription spend; high training costs; team confusion.',
       severity: "Moderate",
       affectedAreas: ["Operational ROI", "Team Efficiency", "Scalability"],
       strategicPriority: 'Medium'
@@ -9747,16 +9747,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Shiny object syndrome", "No central tech ownership", "Fragmented growth"],
       automationPotential: {
         rating: "High",
-        example: "Using "SaaS Management" tools to track usage and auto-cancel underutilized subscriptions."
+        example: 'Using "SaaS Management" tools to track usage and auto-cancel underutilized subscriptions.'
       },
-      pathToRoot: "Tool Bloat → Workspace Environment → Disorganized"
+      pathToRoot: 'Tool Bloat → Workspace Environment → Disorganized'
     }
   },
   'nights-weekends': {
-    explanation: "You are working 24/7. This isn"t "Hustle,' it's 'Inefficiency.' You have no time to recover, which means your decision quality is dropping and you are a ticking time bomb for burnout.",
+    explanation: 'You are working 24/7. This isn"t "Hustle,' it's 'Inefficiency.' You have no time to recover, which means your decision quality is dropping and you are a ticking time bomb for burnout.',
     relatedProblems: ["working-too-much", "poor-boundaries"],
     impactAnalysis: {
-      financialImpact: "Diminishing returns on hours worked; high health costs; long-term productivity collapse.",
+      financialImpact: 'Diminishing returns on hours worked; high health costs; long-term productivity collapse.',
       severity: "Critical",
       affectedAreas: ["Founder Health", "Sustainability", "Decision Quality"],
       strategicPriority: 'High'
@@ -9770,16 +9770,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of delegation", "Over-committing', "Founder identity tied only to work"],
       automationPotential: {
         rating: "High",
-        example: "Using automated scheduling to "Timebox" your work hours and auto-replying during off-times."
+        example: 'Using automated scheduling to "Timebox" your work hours and auto-replying during off-times.'
       },
-      pathToRoot: "Workaholism → Working Too Much → Burnout"
+      pathToRoot: 'Workaholism → Working Too Much → Burnout'
     }
   },
   'no-time-off': {
-    explanation: "You haven"t taken a real vacation in over a year. Your brain has no 'Reset' time, leading to cynical thinking and a loss of the 'Big Picture' perspective.",
+    explanation: 'You haven"t taken a real vacation in over a year. Your brain has no 'Reset' time, leading to cynical thinking and a loss of the 'Big Picture' perspective.',
     relatedProblems: ["nights-weekends", "emotionally-exhausted"],
     impactAnalysis: {
-      financialImpact: "High risk of total operational failure if you crash; zero strategic innovation.",
+      financialImpact: 'High risk of total operational failure if you crash; zero strategic innovation.',
       severity: "Critical",
       affectedAreas: ["Strategic Vision", "Founder Health", "Sustainability"],
       strategicPriority: 'High'
@@ -9793,16 +9793,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear the business will fail without you", "Poor systems", "Scarcity mindset"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - recovery requires physical and mental disconnect."
+        example: 'N/A - recovery requires physical and mental disconnect.'
       },
-      pathToRoot: "Recovery Failure → Working Too Much → Burnout"
+      pathToRoot: 'Recovery Failure → Working Too Much → Burnout'
     }
   },
   'always-on-call': {
-    explanation: "You never truly disconnect. You are checking Slack at dinner and Email in bed. You are in a constant state of "Low-level anxiety,' which prevents deep recovery.",
+    explanation: 'You never truly disconnect. You are checking Slack at dinner and Email in bed. You are in a constant state of "Low-level anxiety,' which prevents deep recovery.',
     relatedProblems: ["available-24-7", "poor-boundaries"],
     impactAnalysis: {
-      financialImpact: "Extreme decision fatigue; long-term burnout; relationship strain.",
+      financialImpact: 'Extreme decision fatigue; long-term burnout; relationship strain.',
       severity: "Major",
       affectedAreas: ["Mental Health", "Sustainability", "Relationship Success"],
       strategicPriority: 'High'
@@ -9816,16 +9816,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Anxiety about missing out", "Lack of trust in team", "Poor boundaries"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to triage "Emergency" vs "Routine' and only alerting you for the true crises."
+        example: 'Using AI to triage "Emergency" vs "Routine' and only alerting you for the true crises.'
       },
-      pathToRoot: "Hyper-Availability → Working Too Much → Burnout"
+      pathToRoot: 'Hyper-Availability → Working Too Much → Burnout'
     }
   },
   'cant-stop-thinking': {
-    explanation: "Work has invaded your thoughts 24/7. You can"t sleep or relax because you are "replaying' problems. This is the final stage before a major mental health crash.",
+    explanation: 'Work has invaded your thoughts 24/7. You can"t sleep or relax because you are "replaying' problems. This is the final stage before a major mental health crash.',
     relatedProblems: ["sleep-deprived", "chronic-stress"],
     impactAnalysis: {
-      financialImpact: "Total loss of creative power; high risk of major medical leave.",
+      financialImpact: 'Total loss of creative power; high risk of major medical leave.',
       severity: "Critical",
       affectedAreas: ["Mental Health", "Sustainability", "Strategic Vision"],
       strategicPriority: 'High'
@@ -9839,16 +9839,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-identification with the business", "High-stakes anxiety', "Lack of mental closure"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a psychological and wellness issue."
+        example: 'N/A - this is a psychological and wellness issue.'
       },
-      pathToRoot: "Mental Ruminating → Working Too Much → Burnout"
+      pathToRoot: 'Mental Ruminating → Working Too Much → Burnout'
     }
   },
   'poor-boundaries': {
-    explanation: "You don"t know where the "Business' ends and 'You' begin. You allow work to bleed into family, health, and personal time without a fight.",
+    explanation: 'You don"t know where the "Business' ends and 'You' begin. You allow work to bleed into family, health, and personal time without a fight.',
     relatedProblems: ["family-suffering", "no-hobbies", "guilt-not-working"],
     impactAnalysis: {
-      financialImpact: "Hidden costs of burnout; high "Divorce/Relationship Risk' (which is the #1 killer of businesses).",
+      financialImpact: 'Hidden costs of burnout; high "Divorce/Relationship Risk' (which is the #1 killer of businesses).',
       severity: "Critical",
       affectedAreas: ["Sustainability", "Founder Health", "Life Balance"],
       strategicPriority: 'High'
@@ -9862,16 +9862,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of personal identity", "Scarcity mindset", "Passive habits"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - boundaries require human-to-human enforcement."
+        example: 'N/A - boundaries require human-to-human enforcement.'
       },
-      pathToRoot: "Boundary Failure → Personal Life Impact → Burnout"
+      pathToRoot: 'Boundary Failure → Personal Life Impact → Burnout'
     }
   },
   'family-suffering': {
-    explanation: "Your relationships with spouse, children, or friends are deteriorating because you are never truly "Present,' even when you are there physically.",
+    explanation: 'Your relationships with spouse, children, or friends are deteriorating because you are never truly "Present,' even when you are there physically.',
     relatedProblems: ["social-isolation", "guilt-not-working"],
     impactAnalysis: {
-      financialImpact: "High cost of divorce/legal issues; loss of support system; extreme emotional drain.",
+      financialImpact: 'High cost of divorce/legal issues; loss of support system; extreme emotional drain.',
       severity: "Critical",
       affectedAreas: ["Sustainability", "Life Balance", "Mental Health"],
       strategicPriority: 'High'
@@ -9885,16 +9885,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Workaholism", "Prioritizing "Revenue" over 'Connection', "Lack of presence"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - relationships require human presence."
+        example: 'N/A - relationships require human presence.'
       },
-      pathToRoot: "Relational Damage → Personal Life Impact → Burnout"
+      pathToRoot: 'Relational Damage → Personal Life Impact → Burnout'
     }
   },
   'no-hobbies': {
-    explanation: "You have no interests outside of business. This makes you a "One-Dimensional' person and ensures that your self-worth is entirely tied to your bank account.",
+    explanation: 'You have no interests outside of business. This makes you a "One-Dimensional' person and ensures that your self-worth is entirely tied to your bank account.',
     relatedProblems: ["poor-boundaries", "cant-stop-thinking"],
     impactAnalysis: {
-      financialImpact: "Lack of creative cross-pollination; high stress; unsustainable lifestyle.",
+      financialImpact: 'Lack of creative cross-pollination; high stress; unsustainable lifestyle.',
       severity: "Moderate",
       affectedAreas: ["Creativity", "Sustainability", "Mental Health"],
       strategicPriority: 'Medium'
@@ -9908,16 +9908,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Time-poverty", "Guilt about not working", "Narrow identity"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - hobbies are personal pursuits."
+        example: 'N/A - hobbies are personal pursuits.'
       },
-      pathToRoot: "Identity Loss → Personal Life Impact → Burnout"
+      pathToRoot: 'Identity Loss → Personal Life Impact → Burnout'
     }
   },
   'social-isolation': {
-    explanation: "You have lost touch with friends and mentors. You are "Alone at the Top,' which makes every problem feel 10x heavier than it actually is.",
+    explanation: 'You have lost touch with friends and mentors. You are "Alone at the Top,' which makes every problem feel 10x heavier than it actually is.',
     relatedProblems: ["no-hobbies", "family-suffering"],
     impactAnalysis: {
-      financialImpact: "Lack of "External Perspective" (leads to bad decisions); higher stress levels.",
+      financialImpact: 'Lack of "External Perspective" (leads to bad decisions); higher stress levels.',
       severity: "Major",
       affectedAreas: ["Mental Health", "Sustainability", "Strategic Growth"],
       strategicPriority: 'High'
@@ -9931,16 +9931,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-work", "Social anxiety from burnout", "Geographic isolation"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - social connection is human."
+        example: 'N/A - social connection is human.'
       },
-      pathToRoot: "Social Loss → Personal Life Impact → Burnout"
+      pathToRoot: 'Social Loss → Personal Life Impact → Burnout'
     }
   },
   'guilt-not-working': {
-    explanation: "When you aren"t working, you feel like you 'Should be.' This guilt prevents any true recovery and makes leisure time more stressful than work itself.",
+    explanation: 'When you aren"t working, you feel like you 'Should be.' This guilt prevents any true recovery and makes leisure time more stressful than work itself.',
     relatedProblems: ["cant-stop-thinking", "poor-boundaries"],
     impactAnalysis: {
-      financialImpact: "100% loss of recovery ROI; high cortisol levels; low creativity.",
+      financialImpact: '100% loss of recovery ROI; high cortisol levels; low creativity.',
       severity: "Major",
       affectedAreas: ["Mental Health", "Sustainability", "Creativity"],
       strategicPriority: 'High'
@@ -9954,16 +9954,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Internalized "Hustle Culture"', "Anxiety about business survival", "Low self-worth"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a psychological belief system."
+        example: 'N/A - this is a psychological belief system.'
       },
-      pathToRoot: "Guilt Cycle → Personal Life Impact → Burnout"
+      pathToRoot: 'Guilt Cycle → Personal Life Impact → Burnout'
     }
   },
   'health-neglected': {
-    explanation: "You are sacrificing your physical body for your business. This is the ultimate "False Economy" because a sick founder cannot run a healthy business.",
+    explanation: 'You are sacrificing your physical body for your business. This is the ultimate "False Economy" because a sick founder cannot run a healthy business.',
     relatedProblems: ["chronic-stress", "sleep-deprived", "physical-symptoms"],
     impactAnalysis: {
-      financialImpact: "Massive future medical costs; total loss of operational capacity; low daily energy.",
+      financialImpact: 'Massive future medical costs; total loss of operational capacity; low daily energy.',
       severity: "Critical",
       affectedAreas: ["Sustainability", "Daily Energy", "Life Expectancy"],
       strategicPriority: 'High'
@@ -9977,16 +9977,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Time poverty", "Prioritizing "Growth" over 'Health', "Convenience diet"],
       automationPotential: {
         rating: "Medium",
-        example: "Using wearable health trackers to auto-alert you when your stress/sleep is reaching critical levels."
+        example: 'Using wearable health trackers to auto-alert you when your stress/sleep is reaching critical levels.'
       },
-      pathToRoot: "Physical Neglect → Health Impact → Burnout"
+      pathToRoot: 'Physical Neglect → Health Impact → Burnout'
     }
   },
   'chronic-stress': {
-    explanation: "Your body is in a constant state of "Fight or Flight.' This high-cortisol environment destroys your immune system, your sleep, and your ability to think clearly.",
+    explanation: 'Your body is in a constant state of "Fight or Flight.' This high-cortisol environment destroys your immune system, your sleep, and your ability to think clearly.',
     relatedProblems: ["health-neglected", "emotionally-exhausted"],
     impactAnalysis: {
-      financialImpact: "Increased medical leave; high error rate; poor strategic decisions.",
+      financialImpact: 'Increased medical leave; high error rate; poor strategic decisions.',
       severity: "Critical",
       affectedAreas: ["Founder Health", "Decision Quality", "Sustainability"],
       strategicPriority: 'High'
@@ -10000,16 +10000,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Unaddressed business risks", "Poor coping mechanisms", "No operational buffer"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - stress management is a biological and psychological requirement."
+        example: 'N/A - stress management is a biological and psychological requirement.'
       },
-      pathToRoot: "Stress Loop → Health Impact → Burnout"
+      pathToRoot: 'Stress Loop → Health Impact → Burnout'
     }
   },
   'sleep-deprived': {
-    explanation: "You are running on 4-5 hours of sleep. Science shows that a sleep-deprived brain has the same cognitive impairment as being drunk. You are managing your business while "Digital Drunk.'",
+    explanation: 'You are running on 4-5 hours of sleep. Science shows that a sleep-deprived brain has the same cognitive impairment as being drunk. You are managing your business while "Digital Drunk.'',
     relatedProblems: ["cant-stop-thinking", "health-neglected"],
     impactAnalysis: {
-      financialImpact: "Extreme drop in IQ/Decision quality; high risk of accidents/errors; long-term brain damage.",
+      financialImpact: 'Extreme drop in IQ/Decision quality; high risk of accidents/errors; long-term brain damage.',
       severity: "Critical",
       affectedAreas: ["Decision Quality", "Daily Energy", "Mental Health"],
       strategicPriority: 'High'
@@ -10023,16 +10023,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Revenge Bedtime Procrastination", "Caffeine abuse", "Night-time anxiety"],
       automationPotential: {
         rating: "High",
-        example: "Using "Smart Lights" to auto-dim and trigger your sleep cycle."
+        example: 'Using "Smart Lights" to auto-dim and trigger your sleep cycle.'
       },
-      pathToRoot: "Sleep Failure → Health Impact → Burnout"
+      pathToRoot: 'Sleep Failure → Health Impact → Burnout'
     }
   },
   'poor-diet-exercise': {
-    explanation: "You are eating junk and moving zero. Your brain is starved of proper fuel and oxygen, leading to "Brain Fog" and low daily throughput.",
+    explanation: 'You are eating junk and moving zero. Your brain is starved of proper fuel and oxygen, leading to "Brain Fog" and low daily throughput.',
     relatedProblems: ["health-neglected", "physical-symptoms"],
     impactAnalysis: {
-      financialImpact: "Low daily energy = lower revenue; high risk of chronic disease.",
+      financialImpact: 'Low daily energy = lower revenue; high risk of chronic disease.',
       severity: "Moderate",
       affectedAreas: ["Daily Energy", "Sustainability", "Founder Confidence"],
       strategicPriority: 'Medium'
@@ -10046,16 +10046,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Convenience-first lifestyle", "Lack of time-budgeting for health', "Stress eating"],
       automationPotential: {
         rating: "High",
-        example: "Using meal-prep services to automate your nutrition and remove daily decision making."
+        example: 'Using meal-prep services to automate your nutrition and remove daily decision making.'
       },
-      pathToRoot: "Physical Decay → Health Impact → Burnout"
+      pathToRoot: 'Physical Decay → Health Impact → Burnout'
     }
   },
   'physical-symptoms': {
-    explanation: "Back pain, headaches, eye strain, or stomach issues. Your body is "Screaming" at you to stop. If you ignore these signals, your body will eventually 'Stop' for you.",
+    explanation: 'Back pain, headaches, eye strain, or stomach issues. Your body is "Screaming" at you to stop. If you ignore these signals, your body will eventually 'Stop' for you.',
     relatedProblems: ["health-neglected", "chronic-stress"],
     impactAnalysis: {
-      financialImpact: "Frequent unplanned "Down Days"; potential for major surgery/long-term leave.",
+      financialImpact: 'Frequent unplanned "Down Days"; potential for major surgery/long-term leave.',
       severity: "Critical",
       affectedAreas: ["Sustainability", "Founder Health", "Operations"],
       strategicPriority: 'High'
@@ -10069,16 +10069,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor workstation setup", "Ignoring early warning signs", "Chronic stress"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - physical symptoms require medical attention."
+        example: 'N/A - physical symptoms require medical attention.'
       },
-      pathToRoot: "Somatic Breakdown → Health Impact → Burnout"
+      pathToRoot: 'Somatic Breakdown → Health Impact → Burnout'
     }
   },
   'physical-symptoms': {
-    explanation: "Back pain, headaches, eye strain, or stomach issues. Your body is "Screaming" at you to stop. If you ignore these signals, your body will eventually 'Stop' for you.",
+    explanation: 'Back pain, headaches, eye strain, or stomach issues. Your body is "Screaming" at you to stop. If you ignore these signals, your body will eventually 'Stop' for you.',
     relatedProblems: ["health-neglected", "chronic-stress"],
     impactAnalysis: {
-      financialImpact: "Frequent unplanned "Down Days"; potential for major surgery/long-term leave.",
+      financialImpact: 'Frequent unplanned "Down Days"; potential for major surgery/long-term leave.',
       severity: "Critical",
       affectedAreas: ["Sustainability", "Founder Health", "Operations"],
       strategicPriority: 'High'
@@ -10092,16 +10092,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor workstation setup", "Ignoring early warning signs", "Chronic stress"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - physical symptoms require medical attention."
+        example: 'N/A - physical symptoms require medical attention.'
       },
-      pathToRoot: "Somatic Breakdown → Health Impact → Burnout"
+      pathToRoot: 'Somatic Breakdown → Health Impact → Burnout'
     }
   },
   'lost-motivation': {
-    explanation: "You don"t care about the business anymore. The spark is gone, and you are just 'Going through the motions.' This is a dangerous state because your energy sets the ceiling for the whole company.",
+    explanation: 'You don"t care about the business anymore. The spark is gone, and you are just 'Going through the motions.' This is a dangerous state because your energy sets the ceiling for the whole company.',
     relatedProblems: ["cynical-negative", "emotionally-exhausted"],
     impactAnalysis: {
-      financialImpact: "Stagnant revenue; team demotivation; zero innovation.",
+      financialImpact: 'Stagnant revenue; team demotivation; zero innovation.',
       severity: "Critical",
       affectedAreas: ["Strategic Vision", "Team Culture", "Sustainability"],
       strategicPriority: 'High'
@@ -10115,16 +10115,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Alignment failure", "Chronic over-work', "Lost connection to purpose"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - motivation is a personal and internal driver."
+        example: 'N/A - motivation is a personal and internal driver.'
       },
-      pathToRoot: "Apathy → Emotionally Exhausted → Burnout"
+      pathToRoot: 'Apathy → Emotionally Exhausted → Burnout'
     }
   },
   'cynical-negative': {
-    explanation: "You have a "Bad Attitude" towards clients, employees, and the market. You've been burned too many times and now you expect failure, which creates a self-fulfilling prophecy.",
+    explanation: 'You have a "Bad Attitude" towards clients, employees, and the market. You've been burned too many times and now you expect failure, which creates a self-fulfilling prophecy.',
     relatedProblems: ["relationship-deteriorated", "abusive"],
     impactAnalysis: {
-      financialImpact: "Toxic team culture; high client churn; lost opportunities from being "Hard to work with.'",
+      financialImpact: 'Toxic team culture; high client churn; lost opportunities from being "Hard to work with.'',
       severity: "Major",
       affectedAreas: ["Team Morale", "Brand Equity", "Strategic Thinking"],
       strategicPriority: 'High'
@@ -10138,16 +10138,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Previous failures unaddressed", "Exposure to toxic people", "Burnout"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - cynicism is a psychological filter."
+        example: 'N/A - cynicism is a psychological filter.'
       },
-      pathToRoot: "Toxicity → Emotionally Exhausted → Burnout"
+      pathToRoot: 'Toxicity → Emotionally Exhausted → Burnout'
     }
   },
   'decision-fatigue': {
-    explanation: "You have made too many small decisions today. By 4 PM, you are incapable of high-level thinking, leading to procrastination or bad choices on the "Big" things.",
+    explanation: 'You have made too many small decisions today. By 4 PM, you are incapable of high-level thinking, leading to procrastination or bad choices on the "Big" things.',
     relatedProblems: ["founder-everything", "micromanagement"],
     impactAnalysis: {
-      financialImpact: "Strategic errors; slow execution speed; missed big-picture opportunities.",
+      financialImpact: 'Strategic errors; slow execution speed; missed big-picture opportunities.',
       severity: "Major",
       affectedAreas: ["Founder Efficiency", "Decision Quality", "Mental Clarity"],
       strategicPriority: 'High'
@@ -10161,16 +10161,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of delegation", "Fragmented focus", "High cognitive load"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to "Pre-Screen' decisions and presenting only the top 2 options to the founder."
+        example: 'Using AI to "Pre-Screen' decisions and presenting only the top 2 options to the founder.'
       },
-      pathToRoot: "Decision Bloat → Emotionally Exhausted → Burnout"
+      pathToRoot: 'Decision Bloat → Emotionally Exhausted → Burnout'
     }
   },
   'feel-trapped': {
-    explanation: "You feel like you "Have" to do this business, rather than 'Want' to. You've built a cage made of payroll, overhead, and client demands, and you don't see the exit.",
+    explanation: 'You feel like you "Have" to do this business, rather than 'Want' to. You've built a cage made of payroll, overhead, and client demands, and you don't see the exit.',
     relatedProblems: ["working-too-much", "no-time-off"],
     impactAnalysis: {
-      financialImpact: "Zero innovative energy; hidden desire for the business to fail; stagnant growth.",
+      financialImpact: 'Zero innovative energy; hidden desire for the business to fail; stagnant growth.',
       severity: "Critical",
       affectedAreas: ["Strategic Vision", "Founder Health", "Business Sustainability"],
       strategicPriority: 'High'
@@ -10184,16 +10184,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Alignment failure", "Scale exceeding purpose", "Financial pressure"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - this is a core life-path and strategic alignment issue."
+        example: 'N/A - this is a core life-path and strategic alignment issue.'
       },
-      pathToRoot: "Lost Agency → Emotionally Exhausted → Burnout"
+      pathToRoot: 'Lost Agency → Emotionally Exhausted → Burnout'
     }
   },
   'no-business-skills': {
-    explanation: "You are a great technician (designer, coder, coach) but you don"t know how to run a company. You are guessing on hiring, finance, and strategy.",
+    explanation: 'You are a great technician (designer, coder, coach) but you don"t know how to run a company. You are guessing on hiring, finance, and strategy.',
     relatedProblems: ["no-financial-literacy", "no-hiring-skills"],
     impactAnalysis: {
-      financialImpact: "Hidden profit leaks; poor investment ROI; unstable operations.",
+      financialImpact: 'Hidden profit leaks; poor investment ROI; unstable operations.',
       severity: "Major",
       affectedAreas: ["Business Growth", "Operations", "Profitability"],
       strategicPriority: 'High'
@@ -10207,16 +10207,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technical background", "Lack of formal training", "Learning on the job without mentors"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI business advisors to provide "On-Demand' coaching for specific management problems."
+        example: 'Using AI business advisors to provide "On-Demand' coaching for specific management problems.'
       },
-      pathToRoot: "Skill Gap → Lack of Critical Skills → Personal Bottlenecks"
+      pathToRoot: 'Skill Gap → Lack of Critical Skills → Personal Bottlenecks'
     }
   },
   'no-hiring-skills': {
-    explanation: "You hire based on "Gut" or "Likability.' You don't have a scorecard or a vetting process, which leads to expensive bad hires and a revolving door of staff.",
+    explanation: 'You hire based on "Gut" or "Likability.' You don't have a scorecard or a vetting process, which leads to expensive bad hires and a revolving door of staff.',
     relatedProblems: ["team-unreliable", "hiring-process-slow"],
     impactAnalysis: {
-      financialImpact: "Massive cost of "Bad Hires" (3x salary); team demotivation.",
+      financialImpact: 'Massive cost of "Bad Hires" (3x salary); team demotivation.',
       severity: "Major",
       affectedAreas: ["Recruitment ROI", "Team Culture", "Scalability"],
       strategicPriority: 'High'
@@ -10230,16 +10230,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of HR training", "Rushing to fill seats", "Bias towards "Likable" candidates"],
       automationPotential: {
         rating: "High",
-        example: "Using automated interviewing and assessment tools to filter for "Competence" over "Charisma'."
+        example: 'Using automated interviewing and assessment tools to filter for "Competence" over "Charisma'.'
       },
-      pathToRoot: "Recruitment Gap → Lack of Critical Skills → Personal Bottlenecks"
+      pathToRoot: 'Recruitment Gap → Lack of Critical Skills → Personal Bottlenecks'
     }
   },
   'no-sales-skills': {
-    explanation: "You are afraid to sell, or you "hope" people will buy. You lack the ability to handle objections, articulate ROI, or close the deal confidently.",
+    explanation: 'You are afraid to sell, or you "hope" people will buy. You lack the ability to handle objections, articulate ROI, or close the deal confidently.',
     relatedProblems: ["price-objection", "sales-process-weak"],
     impactAnalysis: {
-      financialImpact: "Stagnant revenue; low close rates; high price sensitivity.",
+      financialImpact: 'Stagnant revenue; low close rates; high price sensitivity.',
       severity: "Major",
       affectedAreas: ["Revenue Growth", "Market Reach", "Profitability"],
       strategicPriority: 'High'
@@ -10253,16 +10253,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of rejection", "Undervaluing your own work", "Lack of sales training"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to analyze sales call transcripts and provide coaching on objection handling."
+        example: 'Using AI to analyze sales call transcripts and provide coaching on objection handling.'
       },
-      pathToRoot: "Sales Gap → Lack of Critical Skills → Personal Bottlenecks"
+      pathToRoot: 'Sales Gap → Lack of Critical Skills → Personal Bottlenecks'
     }
   },
   'no-systems-thinking': {
-    explanation: "You see every problem as a "One-off' event rather than a symptom of a broken process. You solve the 'Fire' but never the 'Fuel.'",
+    explanation: 'You see every problem as a "One-off' event rather than a symptom of a broken process. You solve the 'Fire' but never the 'Fuel.'',
     relatedProblems: ["no-sops", "firefighting"],
     impactAnalysis: {
-      financialImpact: "Repeating the same expensive mistakes; inability to scale; infinite management time.",
+      financialImpact: 'Repeating the same expensive mistakes; inability to scale; infinite management time.',
       severity: "Major",
       affectedAreas: ["Operations", "Scalability", "Efficiency"],
       strategicPriority: 'High'
@@ -10276,16 +10276,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technician mindset", "Short-term focus', "Reactive habits"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to "Map" the recurring themes in your business errors and suggest systemic fixes."
+        example: 'Using AI to "Map" the recurring themes in your business errors and suggest systemic fixes.'
       },
-      pathToRoot: "Process Blindness → Lack of Critical Skills → Personal Bottlenecks"
+      pathToRoot: 'Process Blindness → Lack of Critical Skills → Personal Bottlenecks'
     }
   },
   'no-marketing-skills': {
-    explanation: "You don"t know how to generate attention or build a brand. You are a 'Hidden Secret' in the market, relying entirely on luck or referrals.",
+    explanation: 'You don"t know how to generate attention or build a brand. You are a 'Hidden Secret' in the market, relying entirely on luck or referrals.',
     relatedProblems: ["no-visibility", "prospects-dont-know"],
     impactAnalysis: {
-      financialImpact: "Inconsistent lead flow; low brand equity; zero market authority.",
+      financialImpact: 'Inconsistent lead flow; low brand equity; zero market authority.',
       severity: "Major",
       affectedAreas: ["Revenue Growth", "Market Reach", "Asset Value"],
       strategicPriority: 'High'
@@ -10299,16 +10299,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of marketing training", "Undervaluing attention", "Reliance on referrals"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to automate your content creation and distribution across social platforms."
+        example: 'Using AI to automate your content creation and distribution across social platforms.'
       },
-      pathToRoot: "Market Blindness → Lack of Critical Skills → Personal Bottlenecks"
+      pathToRoot: 'Market Blindness → Lack of Critical Skills → Personal Bottlenecks'
     }
   },
   'dont-know-target': {
-    explanation: "You are trying to sell to "Everyone.' This means your message is generic, your ads are expensive, and nobody feels like you're talking to them.",
+    explanation: 'You are trying to sell to "Everyone.' This means your message is generic, your ads are expensive, and nobody feels like you're talking to them.',
     relatedProblems: ["market-too-small", "message-no-resonate"],
     impactAnalysis: {
-      financialImpact: "Waste of marketing budget; low conversion rates; weak brand identity.",
+      financialImpact: 'Waste of marketing budget; low conversion rates; weak brand identity.',
       severity: "Major",
       affectedAreas: ["Marketing ROI", "Conversion Rate", "Strategic Positioning"],
       strategicPriority: 'High'
@@ -10322,16 +10322,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of missing out (FOMO)", "Lack of market research", "Broad service offer"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to analyze your past client data and identify the most profitable "Target" segment."
+        example: 'Using AI to analyze your past client data and identify the most profitable "Target" segment.'
       },
-      pathToRoot: "Targeting Failure → No Marketing Skills → Personal Bottlenecks"
+      pathToRoot: 'Targeting Failure → No Marketing Skills → Personal Bottlenecks'
     }
   },
   'no-positioning': {
-    explanation: "You look exactly like your competitors. When the client can"t tell the difference, they choose based on 'Price,' which leads to a race to the bottom.",
+    explanation: 'You look exactly like your competitors. When the client can"t tell the difference, they choose based on 'Price,' which leads to a race to the bottom.',
     relatedProblems: ["market-competitive", "prices-low"],
     impactAnalysis: {
-      financialImpact: "Compressed margins; high price sensitivity; low win rates.",
+      financialImpact: 'Compressed margins; high price sensitivity; low win rates.',
       severity: "Major",
       affectedAreas: ["Pricing Power", "Market Share", "Brand Value"],
       strategicPriority: 'High'
@@ -10345,16 +10345,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Commoditized offer", "Lack of innovative strategy", "Fear of being different"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to analyze competitor messaging and finding the "White Space" where you can stand out."
+        example: 'Using AI to analyze competitor messaging and finding the "White Space" where you can stand out.'
       },
-      pathToRoot: "Commoditization → No Marketing Skills → Personal Bottlenecks"
+      pathToRoot: 'Commoditization → No Marketing Skills → Personal Bottlenecks'
     }
   },
   'no-digital-marketing': {
-    explanation: "You are invisible online. In 2026, if you"re not easily findable and authoritative on digital channels, you simply don't exist for most high-value prospects.",
+    explanation: 'You are invisible online. In 2026, if you"re not easily findable and authoritative on digital channels, you simply don't exist for most high-value prospects.',
     relatedProblems: ["no-visibility", "seo-nonexistent"],
     impactAnalysis: {
-      financialImpact: "Missed 80% of the market opportunity; high reliance on offline/analog sales.",
+      financialImpact: 'Missed 80% of the market opportunity; high reliance on offline/analog sales.',
       severity: "Major",
       affectedAreas: ["Market Reach", "Asset Value", "Revenue Stability"],
       strategicPriority: 'High'
@@ -10368,16 +10368,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Legacy business mindset", "Lack of tech skills", "Under-investing in digital"],
       automationPotential: {
         rating: "High",
-        example: "Using AI-powered SEO and social management tools to maintain a 24/7 digital presence automatically."
+        example: 'Using AI-powered SEO and social management tools to maintain a 24/7 digital presence automatically.'
       },
-      pathToRoot: "Digital Invisibility → No Marketing Skills → Personal Bottlenecks"
+      pathToRoot: 'Digital Invisibility → No Marketing Skills → Personal Bottlenecks'
     }
   },
   'no-content-creation': {
-    explanation: "You aren"t sharing your expertise. By staying quiet, you allow your competitors to define the market. Content is the 'Scalable Salesperson' you are currently ignoring.",
+    explanation: 'You aren"t sharing your expertise. By staying quiet, you allow your competitors to define the market. Content is the 'Scalable Salesperson' you are currently ignoring.',
     relatedProblems: ["no-word-mouth", "content-weak"],
     impactAnalysis: {
-      financialImpact: "Zero "Inbound" leads; high cost of sales (manual education); low authority.",
+      financialImpact: 'Zero "Inbound" leads; high cost of sales (manual education); low authority.',
       severity: "Moderate",
       affectedAreas: ["Brand Authority", "Lead Generation", "Sales ROI"],
       strategicPriority: 'Medium'
@@ -10391,16 +10391,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Perfectionism", "Imposter syndrome", "Undervaluing your own knowledge"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to ghostwrite and schedule content based on your core ideas and "Brain Dumps"."
+        example: 'Using AI to ghostwrite and schedule content based on your core ideas and "Brain Dumps".'
       },
-      pathToRoot: "Silence → No Marketing Skills → Personal Bottlenecks"
+      pathToRoot: 'Silence → No Marketing Skills → Personal Bottlenecks'
     }
   },
   'learning-too-slow': {
-    explanation: "The market is moving faster than you are. You are using 2010 strategies in a 2026 world. If your "Learning Rate" is lower than the 'Market Change Rate,' you are dying.",
+    explanation: 'The market is moving faster than you are. You are using 2010 strategies in a 2026 world. If your "Learning Rate" is lower than the 'Market Change Rate,' you are dying.',
     relatedProblems: ["no-business-skills", "wrong-learning-sources"],
     impactAnalysis: {
-      financialImpact: "Obsolescence risk; decreasing margins; lost competitive advantage.",
+      financialImpact: 'Obsolescence risk; decreasing margins; lost competitive advantage.',
       severity: "Major",
       affectedAreas: ["Strategic Growth", "Innovation", "Scalability"],
       strategicPriority: 'High'
@@ -10414,16 +10414,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of "Learning" time on calendar", "Arrogance (think you know it all)', "Information silos"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to summarize 10 books or articles into 5-min "Key Takeaways" for you every week."
+        example: 'Using AI to summarize 10 books or articles into 5-min "Key Takeaways" for you every week.'
       },
-      pathToRoot: "Knowledge Stagnation → Skill Gap → Personal Bottlenecks"
+      pathToRoot: 'Knowledge Stagnation → Skill Gap → Personal Bottlenecks'
     }
   },
   'no-mentors': {
-    explanation: "You are trying to figure it all out alone. You are making mistakes that others have already solved. You lack the "Shortcut" that comes from talking to someone further ahead.",
+    explanation: 'You are trying to figure it all out alone. You are making mistakes that others have already solved. You lack the "Shortcut" that comes from talking to someone further ahead.',
     relatedProblems: ["social-isolation", "no-peer-network"],
     impactAnalysis: {
-      financialImpact: "High cost of "Unnecessary" mistakes; slow growth velocity; high stress.",
+      financialImpact: 'High cost of "Unnecessary" mistakes; slow growth velocity; high stress.',
       severity: "Moderate",
       affectedAreas: ["Strategic Growth", "Mental Health", "Sustainability"],
       strategicPriority: 'Medium'
@@ -10437,16 +10437,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of asking for help", "Hero complex", "Lack of investment in coaching"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - mentorship is a high-level human connection."
+        example: 'N/A - mentorship is a high-level human connection.'
       },
-      pathToRoot: "Isolation → Learning Too Slow → Personal Bottlenecks"
+      pathToRoot: 'Isolation → Learning Too Slow → Personal Bottlenecks'
     }
   },
   'no-peer-network': {
-    explanation: "You don"t have a "Tribe' of people at your level. You lack the benchmark of what is 'Normal,' leading to either complacency or unnecessary panic.",
+    explanation: 'You don"t have a "Tribe' of people at your level. You lack the benchmark of what is 'Normal,' leading to either complacency or unnecessary panic.',
     relatedProblems: ["social-isolation", "no-mentors"],
     impactAnalysis: {
-      financialImpact: "Lack of "Referral" partners; zero market intelligence; high anxiety.",
+      financialImpact: 'Lack of "Referral" partners; zero market intelligence; high anxiety.',
       severity: "Moderate",
       affectedAreas: ["Mental Health", "Market Awareness", "Sustainability"],
       strategicPriority: 'Medium'
@@ -10460,16 +10460,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Managing in secret", "Time poverty", "Aversion to networking events"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to find and introduce you to relevant peers based on your business profile."
+        example: 'Using AI to find and introduce you to relevant peers based on your business profile.'
       },
-      pathToRoot: "Tribeless → Learning Too Slow → Personal Bottlenecks"
+      pathToRoot: 'Tribeless → Learning Too Slow → Personal Bottlenecks'
     }
   },
   'wrong-learning-sources': {
-    explanation: "You are reading "Business Entertainment" instead of 'Business Strategy.' You are following influencers who don't run real businesses, leading to 'Tactical' whiplash.",
+    explanation: 'You are reading "Business Entertainment" instead of 'Business Strategy.' You are following influencers who don't run real businesses, leading to 'Tactical' whiplash.',
     relatedProblems: ["shiny-object-syndrome", "learning-too-slow"],
     impactAnalysis: {
-      financialImpact: "Wasted learning hours; implementation of bad advice; strategic confusion.",
+      financialImpact: 'Wasted learning hours; implementation of bad advice; strategic confusion.',
       severity: "Moderate",
       affectedAreas: ["Strategic Growth", "Efficiency", "Decision Quality"],
       strategicPriority: 'Medium'
@@ -10483,16 +10483,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Dopamine-seeking in learning", "Lack of critical vetting", "Algorithm bubbles"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to vet sources based on "Author Track Record" before you invest time in reading."
+        example: 'Using AI to vet sources based on "Author Track Record" before you invest time in reading.'
       },
-      pathToRoot: "Bad Input → Learning Too Slow → Personal Bottlenecks"
+      pathToRoot: 'Bad Input → Learning Too Slow → Personal Bottlenecks'
     }
   },
   'mindset-blocks': {
-    explanation: "The biggest bottleneck in the business is the 6 inches between your ears. Your fears, insecurities, and childhood beliefs are limiting what the business is "Allowed" to become.",
+    explanation: 'The biggest bottleneck in the business is the 6 inches between your ears. Your fears, insecurities, and childhood beliefs are limiting what the business is "Allowed" to become.',
     relatedProblems: ["imposter-syndrome", "scarcity-mindset"],
     impactAnalysis: {
-      financialImpact: "Revenue is capped by your personal "Comfort Zone"; high self-sabotage risk.",
+      financialImpact: 'Revenue is capped by your personal "Comfort Zone"; high self-sabotage risk.',
       severity: "Critical",
       affectedAreas: ["Scalability", "Leadership", "Strategic Vision"],
       strategicPriority: 'High'
@@ -10506,16 +10506,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Upbringing/Conditioning", "Previous failures unaddressed", "Lack of self-awareness"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - mindset is a human psychological journey."
+        example: 'N/A - mindset is a human psychological journey.'
       },
-      pathToRoot: "Mental Ceiling → Mindset Blocks → Personal Bottlenecks"
+      pathToRoot: 'Mental Ceiling → Mindset Blocks → Personal Bottlenecks'
     }
   },
   'perfectionism': {
-    explanation: "The desire to be "Perfect" is just "Procrastination' in a fancy suit. It's a defense mechanism to avoid being judged, and it kills your speed and profitability.",
+    explanation: 'The desire to be "Perfect" is just "Procrastination' in a fancy suit. It's a defense mechanism to avoid being judged, and it kills your speed and profitability.',
     relatedProblems: ["afraid-let-go", "over-delivering"],
     impactAnalysis: {
-      financialImpact: "100% loss of "Speed to Market"; high unbilled labor costs; team frustration.",
+      financialImpact: '100% loss of "Speed to Market"; high unbilled labor costs; team frustration.',
       severity: "Major",
       affectedAreas: ["Execution Speed", "Gross Margin", "Team Morale"],
       strategicPriority: 'High'
@@ -10529,16 +10529,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of judgement", "High personal standards taken too far", "Lack of "Done" definition"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - perfectionism is a personal behavior."
+        example: 'N/A - perfectionism is a personal behavior.'
       },
-      pathToRoot: "Fear of Judgement → Mindset Blocks → Personal Bottlenecks"
+      pathToRoot: 'Fear of Judgement → Mindset Blocks → Personal Bottlenecks'
     }
   },
   'fear-failure': {
-    explanation: "You aren"t taking big risks because you"re afraid of what happens if they don't work. This 'Safe' strategy ensures that you will never have a 'Big' success.",
+    explanation: 'You aren"t taking big risks because you"re afraid of what happens if they don't work. This 'Safe' strategy ensures that you will never have a 'Big' success.',
     relatedProblems: ["scarcity-mindset", "afraid-commitment"],
     impactAnalysis: {
-      financialImpact: "Stagnant, linear growth; missed "Game-Changing' opportunities.",
+      financialImpact: 'Stagnant, linear growth; missed "Game-Changing' opportunities.',
       severity: "Major",
       affectedAreas: ["Strategic Vision", "Innovation", "Growth Rate"],
       strategicPriority: 'High'
@@ -10552,16 +10552,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of confidence", "Over-estimating risk', "Financial fragility"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - courage is a leadership trait."
+        example: 'N/A - courage is a leadership trait.'
       },
-      pathToRoot: "Risk Aversion → Mindset Blocks → Personal Bottlenecks"
+      pathToRoot: 'Risk Aversion → Mindset Blocks → Personal Bottlenecks'
     }
   },
   'scarcity-mindset': {
-    explanation: "You believe there isn"t "Enough' to go around. This leads to penny-pinching, afraid-to-hire, and treating competitors like enemies. It keeps you small and stressed.",
+    explanation: 'You believe there isn"t "Enough' to go around. This leads to penny-pinching, afraid-to-hire, and treating competitors like enemies. It keeps you small and stressed.',
     relatedProblems: ["afraid-raise-prices", "cant-afford-hire"],
     impactAnalysis: {
-      financialImpact: "Inability to invest in growth; high price sensitivity (your own); toxic culture.",
+      financialImpact: 'Inability to invest in growth; high price sensitivity (your own); toxic culture.',
       severity: "Critical",
       affectedAreas: ["Strategic Growth", "Team Culture", "Investment Capacity"],
       strategicPriority: 'High'
@@ -10575,16 +10575,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Upbringing/Poverty", "Focus on "Saving" over 'Growing', "Fear of lack"],
       automationPotential: {
         rating: "Low",
-        example: "N/A - scarcity is a deep-seated belief system."
+        example: 'N/A - scarcity is a deep-seated belief system.'
       },
-      pathToRoot: "Abundance Failure → Mindset Blocks → Personal Bottlenecks"
+      pathToRoot: 'Abundance Failure → Mindset Blocks → Personal Bottlenecks'
     }
   },
   'cant-think-bigger': {
-    explanation: "You are focused on "Next Week" while your competitors are focused on 'Next Year.' You lack the imagination or the confidence to play a larger game.",
+    explanation: 'You are focused on "Next Week" while your competitors are focused on 'Next Year.' You lack the imagination or the confidence to play a larger game.',
     relatedProblems: ["no-clear-goals", "mindset-blocks"],
     impactAnalysis: {
-      financialImpact: "Linear growth; business that is easily replaced; zero legacy value.",
+      financialImpact: 'Linear growth; business that is easily replaced; zero legacy value.',
       severity: "Major",
       affectedAreas: ["Strategic Vision", "Business Valuation", "Market Reach"],
       strategicPriority: 'High'
@@ -10598,16 +10598,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of exposure to big thinkers", "Daily operational overwhelm", "Fear of scale"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to "Model" what your business would look like with 10x more revenue, identifying where it breaks."
+        example: 'Using AI to "Model" what your business would look like with 10x more revenue, identifying where it breaks.'
       },
-      pathToRoot: "Vision Ceiling → Mindset Blocks → Personal Bottlenecks"
+      pathToRoot: 'Vision Ceiling → Mindset Blocks → Personal Bottlenecks'
     }
   },
   'outreach-issues': {
-    explanation: "Your outbound efforts (calls, emails, DMs) are being ignored, blocked, or deleted. You are likely being seen as "Spam" because your approach lacks personalization or value.",
+    explanation: 'Your outbound efforts (calls, emails, DMs) are being ignored, blocked, or deleted. You are likely being seen as "Spam" because your approach lacks personalization or value.',
     relatedProblems: ["outbound-spammy", "getting-ignored", "lists-outdated"],
     impactAnalysis: {
-      financialImpact: "High labor cost for zero return; damage to domain/brand reputation.",
+      financialImpact: 'High labor cost for zero return; damage to domain/brand reputation.',
       severity: "Major",
       affectedAreas: ["Sales pipeline", "Brand Reputation"],
       strategicPriority: 'High'
@@ -10621,16 +10621,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Reliance on "Volume" over "Value'", "Weak sales copy", "Bad data/lists"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to personalize the first 2 sentences of every outbound email based on prospect LinkedIn data."
+        example: 'Using AI to personalize the first 2 sentences of every outbound email based on prospect LinkedIn data.'
       },
-      pathToRoot: "Outreach Issues → Prospects Dont Know → Not Getting New Clients"
+      pathToRoot: 'Outreach Issues → Prospects Dont Know → Not Getting New Clients'
     }
   },
   'wrong-clients': {
-    explanation: "You are working with people who can"t afford you, don't value you, or have problems you aren't optimized to solve. They are draining your energy and profit.",
+    explanation: 'You are working with people who can"t afford you, don't value you, or have problems you aren't optimized to solve. They are draining your energy and profit.',
     relatedProblems: ["bad-fit-services", "cant-afford-pricing", "high-maintenance-low-profit"],
     impactAnalysis: {
-      financialImpact: "High "Support-to-Revenue' ratio; high churn; team misery.",
+      financialImpact: 'High "Support-to-Revenue' ratio; high churn; team misery.',
       severity: "Major",
       affectedAreas: ["Profitability", "Team Morale", "Brand Alignment"],
       strategicPriority: 'High'
@@ -10644,17 +10644,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Selling out of desperation", "Weak marketing filters", "No clear niche"],
       automationPotential: {
         rating: "High",
-        example: "Using automated "Qualification Quizzes" to filter out bad-fit clients before they even talk to you."
+        example: 'Using automated "Qualification Quizzes" to filter out bad-fit clients before they even talk to you.'
       },
-      pathToRoot: "Wrong Clients → Client Management Issues → Bought Cant Deliver"
+      pathToRoot: 'Wrong Clients → Client Management Issues → Bought Cant Deliver'
     }
   },
   // LEVEL 7 NODES - DON"T KNOW WHERE TARGET MARKET IS
   'no-research': {
-    explanation: "You are making business decisions without data. Your understanding of your customer is based on assumptions rather than research, leading to wasted marketing spend and ineffective messaging.",
+    explanation: 'You are making business decisions without data. Your understanding of your customer is based on assumptions rather than research, leading to wasted marketing spend and ineffective messaging.',
     relatedProblems: ["guessing-demographics", "assumptions-hangout", "not-where-looking"],
     impactAnalysis: {
-      financialImpact: "Wasted marketing budget on wrong channels; low conversion rates; high CAC.",
+      financialImpact: 'Wasted marketing budget on wrong channels; low conversion rates; high CAC.',
       severity: "Major",
       affectedAreas: ["Marketing", "Product-Market Fit', "Sales"],
       strategicPriority: 'High'
@@ -10668,16 +10668,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Assuming you already know the answer", "Too busy to research", "Fear of what you might find"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to analyze customer support tickets and reviews for common pain points and language patterns."
+        example: 'Using AI to analyze customer support tickets and reviews for common pain points and language patterns.'
       },
-      pathToRoot: "No Research → Don"t Know Where Market Is → Can't Find Prospects → Not Getting New Clients"
+      pathToRoot: 'No Research → Don"t Know Where Market Is → Can't Find Prospects → Not Getting New Clients'
     }
   },
   'guessing-demographics': {
-    explanation: "Your ideal customer profile is a guess based on intuition rather than data. You are marketing to a phantom customer that might not actually exist or be reachable.",
+    explanation: 'Your ideal customer profile is a guess based on intuition rather than data. You are marketing to a phantom customer that might not actually exist or be reachable.',
     relatedProblems: ["no-research", "assumptions-hangout", "wrong-channels"],
     impactAnalysis: {
-      financialImpact: "High ad spend waste; poor targeting; low ROAS.",
+      financialImpact: 'High ad spend waste; poor targeting; low ROAS.',
       severity: "Major",
       affectedAreas: ["Marketing Efficiency", "Customer Acquisition"],
       strategicPriority: 'High'
@@ -10691,16 +10691,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Launched product before validating market", "Marketing to "Everyone"", "Using outdated personas"],
       automationPotential: {
         rating: "High",
-        example: "Automated customer data enrichment via HubSpot, Clearbit, or similar to reveal actual demographics."
+        example: 'Automated customer data enrichment via HubSpot, Clearbit, or similar to reveal actual demographics.'
       },
-      pathToRoot: "Guessing Demographics → Don"t Know Where Market Is → Can't Find Prospects"
+      pathToRoot: 'Guessing Demographics → Don"t Know Where Market Is → Can't Find Prospects'
     }
   },
   'assumptions-hangout': {
-    explanation: "You think you know where your customers are online or offline, but you have never actually validated this. You are fishing in the wrong pond.",
+    explanation: 'You think you know where your customers are online or offline, but you have never actually validated this. You are fishing in the wrong pond.',
     relatedProblems: ["no-research", "marketing-not-audience", "wrong-channels"],
     impactAnalysis: {
-      financialImpact: "Complete marketing budget waste if assumption is wrong.",
+      financialImpact: 'Complete marketing budget waste if assumption is wrong.',
       severity: "Major",
       affectedAreas: ["Marketing Channels", "Lead Generation"],
       strategicPriority: 'High'
@@ -10714,16 +10714,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Following industry "Best practices" blindly", "Confirmation bias", "Not tracking channel data"],
       automationPotential: {
         rating: "Medium",
-        example: "Using social listening tools like SparkToro or Brandwatch to find where your target keywords appear most."
+        example: 'Using social listening tools like SparkToro or Brandwatch to find where your target keywords appear most.'
       },
-      pathToRoot: "Assumptions About Hangout → Don"t Know Where Market Is → Can't Find Prospects"
+      pathToRoot: 'Assumptions About Hangout → Don"t Know Where Market Is → Can't Find Prospects'
     }
   },
   'not-where-looking': {
-    explanation: "Your ideal customers exist, but they are not in the places you are currently marketing. This is a simple misalignment between your effort and the reality of customer behavior.",
+    explanation: 'Your ideal customers exist, but they are not in the places you are currently marketing. This is a simple misalignment between your effort and the reality of customer behavior.',
     relatedProblems: ["wrong-channels", "marketing-not-audience", "no-research"],
     impactAnalysis: {
-      financialImpact: "Zero ROI on current marketing; opportunity cost of not being where they are.",
+      financialImpact: 'Zero ROI on current marketing; opportunity cost of not being where they are.',
       severity: "Major",
       affectedAreas: ["Marketing Effectiveness", "Growth Rate"],
       strategicPriority: 'High'
@@ -10737,16 +10737,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Marketing strategy based on your preferences not theirs", "Industry echo chamber", "Stale data"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated tracking of referral sources and first-touch attribution."
+        example: 'Automated tracking of referral sources and first-touch attribution.'
       },
-      pathToRoot: "Not Where Looking → Don"t Know Where Market Is → Can't Find Prospects"
+      pathToRoot: 'Not Where Looking → Don"t Know Where Market Is → Can't Find Prospects'
     }
   },
   'market-shifted': {
-    explanation: "Your customers used to be in one place (e.g., Facebook groups), but they have migrated (e.g., to Discord or private Slack communities), and you didn"t notice. Your strategy is outdated.",
+    explanation: 'Your customers used to be in one place (e.g., Facebook groups), but they have migrated (e.g., to Discord or private Slack communities), and you didn"t notice. Your strategy is outdated.',
     relatedProblems: ["tactics-stopped-working", "sources-dried", "not-where-looking"],
     impactAnalysis: {
-      financialImpact: "Declining lead quality and volume; eroding market presence.",
+      financialImpact: 'Declining lead quality and volume; eroding market presence.',
       severity: "Major",
       affectedAreas: ["Customer Acquisition", "Market Position"],
       strategicPriority: 'High'
@@ -10760,17 +10760,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Not staying current with trends", "Set-it-and-forget-it marketing", "Lack of customer feedback loops"],
       automationPotential: {
         rating: "Low",
-        example: "Social listening tools can detect emerging platforms, but human judgment is key."
+        example: 'Social listening tools can detect emerging platforms, but human judgment is key.'
       },
-      pathToRoot: "Market Shifted → Don"t Know Where Market Is → Can't Find Prospects"
+      pathToRoot: 'Market Shifted → Don"t Know Where Market Is → Can't Find Prospects'
     }
   },
   // TARGET MARKET TOO SMALL
   'niche-narrow': {
-    explanation: "Your total addressable market is too small to sustain your revenue goals. You have over-niched, and there simply aren"t enough customers to build a scalable business.",
+    explanation: 'Your total addressable market is too small to sustain your revenue goals. You have over-niched, and there simply aren"t enough customers to build a scalable business.',
     relatedProblems: ["market-too-small", "geographic-limits", "addressable-market"],
     impactAnalysis: {
-      financialImpact: "Hard revenue ceiling; inability to scale beyond current market size.",
+      financialImpact: 'Hard revenue ceiling; inability to scale beyond current market size.',
       severity: "Critical",
       affectedAreas: ["Growth Potential", "Valuation", "Scalability"],
       strategicPriority: 'High'
@@ -10784,16 +10784,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Over-specialization", "Geographic constraints self-imposed", "Misunderstanding of "Niche down" advice"],
       automationPotential: {
         rating: "Low",
-        example: "Market sizing tools like Gartner or Statista can provide TAM data, but strategy requires human insight."
+        example: 'Market sizing tools like Gartner or Statista can provide TAM data, but strategy requires human insight.'
       },
-      pathToRoot: "Niche Too Narrow → Target Market Too Small → Can"t Find Prospects"
+      pathToRoot: 'Niche Too Narrow → Target Market Too Small → Can"t Find Prospects'
     }
   },
   'geographic-limits': {
-    explanation: "You have artificially limited yourself to a specific city, state, or region when your service could be delivered remotely or expanded. This is a self-imposed constraint.",
+    explanation: 'You have artificially limited yourself to a specific city, state, or region when your service could be delivered remotely or expanded. This is a self-imposed constraint.',
     relatedProblems: ["niche-narrow", "market-too-small", "addressable-market"],
     impactAnalysis: {
-      financialImpact: "10-100x smaller market than necessary; limiting growth trajectory.",
+      financialImpact: '10-100x smaller market than necessary; limiting growth trajectory.',
       severity: "Major",
       affectedAreas: ["Scalability", "Revenue Ceiling"],
       strategicPriority: 'High'
@@ -10807,16 +10807,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Legacy business model", "Fear of logistics", "Licensing or legal constraints"],
       automationPotential: {
         rating: "High",
-        example: "Remote delivery via Zoom, recorded trainings, or project management software removes geographic limits."
+        example: 'Remote delivery via Zoom, recorded trainings, or project management software removes geographic limits.'
       },
-      pathToRoot: "Geographic Limits → Target Market Too Small → Can"t Find Prospects"
+      pathToRoot: 'Geographic Limits → Target Market Too Small → Can"t Find Prospects'
     }
   },
   'industry-specialized': {
-    explanation: "You serve such a specialized industry vertical that there are only a handful of potential customers. This might be fine for enterprise deals, but deadly for SMB models.",
+    explanation: 'You serve such a specialized industry vertical that there are only a handful of potential customers. This might be fine for enterprise deals, but deadly for SMB models.',
     relatedProblems: ["niche-narrow", "market-too-small"],
     impactAnalysis: {
-      financialImpact: "Low lead volume; high dependence on few accounts; vulnerability to industry downturns.",
+      financialImpact: 'Low lead volume; high dependence on few accounts; vulnerability to industry downturns.',
       severity: "Major",
       affectedAreas: ["Risk", "Growth Potential", "Diversification"],
       strategicPriority: 'Medium'
@@ -10830,16 +10830,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder"s previous career shaped niche", "Early clients were all in one industry", "Vertical-specific product"],
       automationPotential: {
         rating: "Low",
-        example: "Industry expansion is strategic, but AI can help identify adjacent markets via keyword analysis."
+        example: 'Industry expansion is strategic, but AI can help identify adjacent markets via keyword analysis.'
       },
-      pathToRoot: "Industry Too Specialized → Target Market Too Small → Can"t Find Prospects"
+      pathToRoot: 'Industry Too Specialized → Target Market Too Small → Can"t Find Prospects'
     }
   },
   'addressable-market': {
-    explanation: "Even if the total market is large, the segment you can actually reach and serve (your SAM - Serviceable Addressable Market) is too small due to constraints like budget, tech requirements, or awareness.",
+    explanation: 'Even if the total market is large, the segment you can actually reach and serve (your SAM - Serviceable Addressable Market) is too small due to constraints like budget, tech requirements, or awareness.',
     relatedProblems: ["niche-narrow", "market-too-small", "targeting-specific"],
     impactAnalysis: {
-      financialImpact: "Revenue cap at low level; difficulty raising capital or selling business.",
+      financialImpact: 'Revenue cap at low level; difficulty raising capital or selling business.',
       severity: "Major",
       affectedAreas: ["Scalability", "Valuation"],
       strategicPriority: 'High'
@@ -10853,16 +10853,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["High price point excludes most of market", "Tech or skill barriers", "Awareness gap"],
       automationPotential: {
         rating: "Medium",
-        example: "Creating self-serve or AI-assisted versions of your service can expand your SAM."
+        example: 'Creating self-serve or AI-assisted versions of your service can expand your SAM.'
       },
-      pathToRoot: "Addressable Market Too Small → Target Market Too Small → Can"t Find Prospects"
+      pathToRoot: 'Addressable Market Too Small → Target Market Too Small → Can"t Find Prospects'
     }
   },
   'targeting-specific': {
-    explanation: "Your Ideal Customer Profile is so specific (e.g., "45-year-old female dentist in Ohio with 2+ locations') that it excludes 99% of potential customers who could benefit from your service.",
+    explanation: 'Your Ideal Customer Profile is so specific (e.g., "45-year-old female dentist in Ohio with 2+ locations') that it excludes 99% of potential customers who could benefit from your service.',
     relatedProblems: ["niche-narrow", "market-too-small"],
     impactAnalysis: {
-      financialImpact: "Artificially small pipeline; high cost to find each lead.",
+      financialImpact: 'Artificially small pipeline; high cost to find each lead.',
       severity: "Moderate",
       affectedAreas: ["Lead Volume", "Marketing Efficiency"],
       strategicPriority: 'Medium'
@@ -10876,17 +10876,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Misapplied "Niche down" advice", "Early success with specific type", "Over-optimization"],
       automationPotential: {
         rating: "Medium",
-        example: "Lookalike audiences in Facebook/LinkedIn Ads can find similar but broader profiles."
+        example: 'Lookalike audiences in Facebook/LinkedIn Ads can find similar but broader profiles.'
       },
-      pathToRoot: "Targeting Too Specific → Target Market Too Small → Can"t Find Prospects"
+      pathToRoot: 'Targeting Too Specific → Target Market Too Small → Can"t Find Prospects'
     }
   },
   // TARGET MARKET TOO COMPETITIVE
   'market-saturated': {
-    explanation: "Your market has too many providers chasing too few customers. This drives prices down, makes differentiation nearly impossible, and forces you to compete on price alone.",
+    explanation: 'Your market has too many providers chasing too few customers. This drives prices down, makes differentiation nearly impossible, and forces you to compete on price alone.',
     relatedProblems: ["big-players-dominate", "race-bottom-price", "differentiation-unclear"],
     impactAnalysis: {
-      financialImpact: "Razor-thin margins; constant price pressure; high customer churn to cheaper alternatives.",
+      financialImpact: 'Razor-thin margins; constant price pressure; high customer churn to cheaper alternatives.',
       severity: "Major",
       affectedAreas: ["Profitability", "Pricing Power", "Market Position"],
       strategicPriority: 'High'
@@ -10900,16 +10900,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Entered a "Gold rush" market too late", "Low barriers to entry", "Commoditized service"],
       automationPotential: {
         rating: "Low",
-        example: "Automation itself can become differentiation (e.g., faster delivery via AI)."
+        example: 'Automation itself can become differentiation (e.g., faster delivery via AI).'
       },
-      pathToRoot: "Market Saturated → Target Market Too Competitive → Can"t Find Prospects"
+      pathToRoot: 'Market Saturated → Target Market Too Competitive → Can"t Find Prospects'
     }
   },
   'big-players-dominate': {
-    explanation: "Large incumbents (enterprise companies, franchises, or platforms) have such dominant market share, brand recognition, and resources that small players like you are invisible to customers.",
+    explanation: 'Large incumbents (enterprise companies, franchises, or platforms) have such dominant market share, brand recognition, and resources that small players like you are invisible to customers.',
     relatedProblems: ["market-saturated", "incumbent-advantage", "competitor-better-reputation"],
     impactAnalysis: {
-      financialImpact: "Difficulty acquiring customers; high CAC due to trust gap; pricing disadvantage.",
+      financialImpact: 'Difficulty acquiring customers; high CAC due to trust gap; pricing disadvantage.',
       severity: "Major",
       affectedAreas: ["Market Share", "Brand Trust", "Growth Rate"],
       strategicPriority: 'High'
@@ -10923,16 +10923,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Network effects or economies of scale favor large players", "Brand legacy", "Capital-intensive industry"],
       automationPotential: {
         rating: "Medium",
-        example: "Using AI to match or exceed big-player capabilities (e.g., 24/7 chatbot support)."
+        example: 'Using AI to match or exceed big-player capabilities (e.g., 24/7 chatbot support).'
       },
-      pathToRoot: "Big Players Dominate → Target Market Too Competitive → Can"t Find Prospects"
+      pathToRoot: 'Big Players Dominate → Target Market Too Competitive → Can"t Find Prospects'
     }
   },
   'race-bottom-price': {
-    explanation: "Competitors keep undercutting each other on price, creating a death spiral where no one makes money. This is common in markets with low differentiation and desperate sellers.",
+    explanation: 'Competitors keep undercutting each other on price, creating a death spiral where no one makes money. This is common in markets with low differentiation and desperate sellers.',
     relatedProblems: ["market-saturated", "competing-price", "lost-on-price"],
     impactAnalysis: {
-      financialImpact: "Negative or near-zero margins; unsustainable business model; eventual market exit.",
+      financialImpact: 'Negative or near-zero margins; unsustainable business model; eventual market exit.',
       severity: "Critical",
       affectedAreas: ["Profitability", "Business Viability"],
       strategicPriority: 'High'
@@ -10946,16 +10946,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Commoditized offering", "No clear value differentiation", "Desperate competitors willing to lose money"],
       automationPotential: {
         rating: "Medium",
-        example: "Automation reduces your costs so you can maintain margins even at lower prices."
+        example: 'Automation reduces your costs so you can maintain margins even at lower prices.'
       },
-      pathToRoot: "Race to Bottom → Target Market Too Competitive → Can"t Find Prospects"
+      pathToRoot: 'Race to Bottom → Target Market Too Competitive → Can"t Find Prospects'
     }
   },
   'differentiation-unclear': {
-    explanation: "Even if you are different, prospects can"t tell how. Your messaging, positioning, and visual identity all look like everyone else's, making you forgettable.",
+    explanation: 'Even if you are different, prospects can"t tell how. Your messaging, positioning, and visual identity all look like everyone else's, making you forgettable.',
     relatedProblems: ["generic-positioning", "looks-like-everyone", "no-differentiation"],
     impactAnalysis: {
-      financialImpact: "High CAC due to lack of preference; price becomes the only decision factor.",
+      financialImpact: 'High CAC due to lack of preference; price becomes the only decision factor.',
       severity: "Major",
       affectedAreas: ["Brand", "Conversion Rate", "Pricing Power"],
       strategicPriority: 'High'
@@ -10969,16 +10969,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Generic messaging ("We help businesses grow")", "Fear of being too niche", "Copying competitors"],
       automationPotential: {
         rating: "High",
-        example: "Using AI to analyze competitor messaging and identify gaps you can own."
+        example: 'Using AI to analyze competitor messaging and identify gaps you can own.'
       },
-      pathToRoot: "Differentiation Unclear → Target Market Too Competitive → Can"t Find Prospects"
+      pathToRoot: 'Differentiation Unclear → Target Market Too Competitive → Can"t Find Prospects'
     }
   },
   'barriers-low': {
-    explanation: "Anyone can start doing what you do with minimal capital, skill, or certification. This floods the market with low-quality competitors and makes it hard to establish authority.",
+    explanation: 'Anyone can start doing what you do with minimal capital, skill, or certification. This floods the market with low-quality competitors and makes it hard to establish authority.',
     relatedProblems: ["market-saturated", "race-bottom-price"],
     impactAnalysis: {
-      financialImpact: "Constant new competition; downward price pressure; difficulty standing out.",
+      financialImpact: 'Constant new competition; downward price pressure; difficulty standing out.',
       severity: "Moderate",
       affectedAreas: ["Market Positioning", "Pricing Power"],
       strategicPriority: 'Medium'
@@ -10992,17 +10992,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Service-based or digital business model", "No regulatory barriers", "Low startup costs"],
       automationPotential: {
         rating: "High",
-        example: "Building proprietary AI tools or systems that competitors can"t easily replicate."
+        example: 'Building proprietary AI tools or systems that competitors can"t easily replicate.'
       },
-      pathToRoot: "Barriers Low → Target Market Too Competitive → Can"t Find Prospects"
+      pathToRoot: 'Barriers Low → Target Market Too Competitive → Can"t Find Prospects'
     }
   },
   // LEAD GENERATION INSUFFICIENT
   'not-enough-activity': {
-    explanation: "You are simply not doing enough outreach, content creation, or marketing activity. The volume is too low to generate meaningful results, even if your conversion rate is good.",
+    explanation: 'You are simply not doing enough outreach, content creation, or marketing activity. The volume is too low to generate meaningful results, even if your conversion rate is good.',
     relatedProblems: ["inconsistent-effort", "not-trying-channels", "sources-dried"],
     impactAnalysis: {
-      financialImpact: "Directly proportional to growth; low activity = low revenue.",
+      financialImpact: 'Directly proportional to growth; low activity = low revenue.',
       severity: "Major",
       affectedAreas: ["Pipeline", "Revenue Growth"],
       strategicPriority: 'High'
@@ -11016,16 +11016,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder doing everything", "Fear of rejection", "No accountability or tracking"],
       automationPotential: {
         rating: "High",
-        example: "Automated email sequences, social media scheduling, and lead scraping tools can 10x your activity."
+        example: 'Automated email sequences, social media scheduling, and lead scraping tools can 10x your activity.'
       },
-      pathToRoot: "Not Enough Activity → Lead Gen Insufficient → Can"t Find Prospects"
+      pathToRoot: 'Not Enough Activity → Lead Gen Insufficient → Can"t Find Prospects'
     }
   },
   'tactics-stopped-working': {
-    explanation: "What used to bring in leads (e.g., cold email, Facebook ads, SEO) has become saturated, outdated, or algorithmically penalized. Your lead flow has dried up.",
+    explanation: 'What used to bring in leads (e.g., cold email, Facebook ads, SEO) has become saturated, outdated, or algorithmically penalized. Your lead flow has dried up.',
     relatedProblems: ["sources-dried", "market-shifted", "not-trying-channels"],
     impactAnalysis: {
-      financialImpact: "Sudden revenue drop; scrambling to find new channels; loss of predictability.",
+      financialImpact: 'Sudden revenue drop; scrambling to find new channels; loss of predictability.',
       severity: "Major",
       affectedAreas: ["Lead Generation", "Revenue Predictability"],
       strategicPriority: 'High'
@@ -11039,16 +11039,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Platform algorithm changes", "Market saturation of tactic", "Customer behavior shifts"],
       automationPotential: {
         rating: "Medium",
-        example: "AI-powered ad testing and multi-channel automation to quickly identify what"s working."
+        example: 'AI-powered ad testing and multi-channel automation to quickly identify what"s working.'
       },
-      pathToRoot: "Tactics Stopped Working → Lead Gen Insufficient → Can"t Find Prospects"
+      pathToRoot: 'Tactics Stopped Working → Lead Gen Insufficient → Can"t Find Prospects'
     }
   },
   'not-trying-channels': {
-    explanation: "You are stuck in one or two marketing channels (e.g., only Instagram, only referrals) and haven"t tested others. This limits your reach and makes you vulnerable to channel risk.",
+    explanation: 'You are stuck in one or two marketing channels (e.g., only Instagram, only referrals) and haven"t tested others. This limits your reach and makes you vulnerable to channel risk.',
     relatedProblems: ["not-enough-activity", "inconsistent-effort", "wrong-channels"],
     impactAnalysis: {
-      financialImpact: "Missed opportunities; vulnerable to single-channel failure; slower growth.",
+      financialImpact: 'Missed opportunities; vulnerable to single-channel failure; slower growth.',
       severity: "Moderate",
       affectedAreas: ["Lead Diversity", "Risk Management"],
       strategicPriority: 'Medium'
@@ -11062,16 +11062,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of the unknown", "Comfort with current method", "Resource constraints"],
       automationPotential: {
         rating: "High",
-        example: "Multi-channel marketing automation platforms (e.g., HubSpot, Marketo) make it easy to test new channels."
+        example: 'Multi-channel marketing automation platforms (e.g., HubSpot, Marketo) make it easy to test new channels.'
       },
-      pathToRoot: "Not Trying Channels → Lead Gen Insufficient → Can"t Find Prospects"
+      pathToRoot: 'Not Trying Channels → Lead Gen Insufficient → Can"t Find Prospects'
     }
   },
   'inconsistent-effort': {
-    explanation: "You do marketing in bursts when desperate for leads, then stop when busy. This creates a feast-or-famine cycle where your pipeline is either empty or overflowing.",
+    explanation: 'You do marketing in bursts when desperate for leads, then stop when busy. This creates a feast-or-famine cycle where your pipeline is either empty or overflowing.',
     relatedProblems: ["not-enough-activity", "lumpy-revenue", "cash-flow-gaps"],
     impactAnalysis: {
-      financialImpact: "Unpredictable revenue; inability to plan or scale; constant stress.",
+      financialImpact: 'Unpredictable revenue; inability to plan or scale; constant stress.',
       severity: "Major",
       affectedAreas: ["Revenue Predictability", "Scalability", "Founder Stress"],
       strategicPriority: 'High'
@@ -11085,17 +11085,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Reactive business management", "No systems or delegation", "Founder doing delivery and sales"],
       automationPotential: {
         rating: "High",
-        example: "Automated drip campaigns, SEO, and content marketing run 24/7 whether you are busy or not."
+        example: 'Automated drip campaigns, SEO, and content marketing run 24/7 whether you are busy or not.'
       },
-      pathToRoot: "Inconsistent Effort → Lead Gen Insufficient → Can"t Find Prospects"
+      pathToRoot: 'Inconsistent Effort → Lead Gen Insufficient → Can"t Find Prospects'
     }
   },
   // NO VISIBILITY
   'no-website': {
-    explanation: "You have no website or a broken/outdated one. Prospects who search for you online find nothing, or find something that makes you look unprofessional or out of business.",
+    explanation: 'You have no website or a broken/outdated one. Prospects who search for you online find nothing, or find something that makes you look unprofessional or out of business.',
     relatedProblems: ["no-visibility", "seo-nonexistent", "website-unprofessional"],
     impactAnalysis: {
-      financialImpact: "Lost inbound leads; damaged credibility; inability to scale marketing.",
+      financialImpact: 'Lost inbound leads; damaged credibility; inability to scale marketing.',
       severity: "Major",
       affectedAreas: ["Lead Generation", "Brand Trust", "Marketing Scalability"],
       strategicPriority: 'High'
@@ -11109,16 +11109,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Relying solely on referrals", "Thinking "I don"t need a website"", "Perfectionism preventing launch"],
       automationPotential: {
         rating: "High",
-        example: "AI website builders (e.g., 10Web, Durable) can create a professional site in minutes."
+        example: 'AI website builders (e.g., 10Web, Durable) can create a professional site in minutes.'
       },
-      pathToRoot: "No Website → No Visibility → Prospects Don"t Know We Exist"
+      pathToRoot: 'No Website → No Visibility → Prospects Don"t Know We Exist'
     }
   },
   'not-on-platforms': {
-    explanation: "You are absent from the platforms where your audience is actively searching, discussing, and making buying decisions (e.g., LinkedIn, Reddit, industry forums).",
+    explanation: 'You are absent from the platforms where your audience is actively searching, discussing, and making buying decisions (e.g., LinkedIn, Reddit, industry forums).',
     relatedProblems: ["no-visibility", "social-inactive", "wrong-channels"],
     impactAnalysis: {
-      financialImpact: "Invisible to a large segment of potential customers; competitors capture mindshare.",
+      financialImpact: 'Invisible to a large segment of potential customers; competitors capture mindshare.',
       severity: "Major",
       affectedAreas: ["Brand Awareness", "Lead Generation"],
       strategicPriority: 'High'
@@ -11132,16 +11132,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Don"t know where audience is", "Fear of social media", "Too busy"],
       automationPotential: {
         rating: "High",
-        example: "Social media scheduling tools (Buffer, Hootsuite) and AI content generators make this easy."
+        example: 'Social media scheduling tools (Buffer, Hootsuite) and AI content generators make this easy.'
       },
-      pathToRoot: "Not On Platforms → No Visibility → Prospects Don"t Know We Exist"
+      pathToRoot: 'Not On Platforms → No Visibility → Prospects Don"t Know We Exist'
     }
   },
   'seo-nonexistent': {
-    explanation: "Your website doesn"t rank for any relevant keywords. When prospects search for solutions to their problems, you don't appear in results—even on page 10.",
+    explanation: 'Your website doesn"t rank for any relevant keywords. When prospects search for solutions to their problems, you don't appear in results—even on page 10.',
     relatedProblems: ["not-showing-search", "no-visibility", "no-website"],
     impactAnalysis: {
-      financialImpact: "Zero organic traffic; reliance on expensive paid ads; missed long-term compounding.",
+      financialImpact: 'Zero organic traffic; reliance on expensive paid ads; missed long-term compounding.',
       severity: "Major",
       affectedAreas: ["Inbound Leads", "CAC", "Scalability"],
       strategicPriority: 'High'
@@ -11155,16 +11155,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["New website", "No content strategy", "Technical SEO issues", "No backlink profile"],
       automationPotential: {
         rating: "High",
-        example: "AI SEO tools (e.g., Surfer SEO, Clearscope) guide optimization; AI content tools scale production."
+        example: 'AI SEO tools (e.g., Surfer SEO, Clearscope) guide optimization; AI content tools scale production.'
       },
-      pathToRoot: "SEO Non-Existent → No Visibility → Prospects Don"t Know We Exist"
+      pathToRoot: 'SEO Non-Existent → No Visibility → Prospects Don"t Know We Exist'
     }
   },
   'not-showing-search': {
-    explanation: "Even if you have a website, it"s not appearing in Google/Bing for the keywords your prospects are searching. This could be technical (de-indexed) or competitive (outranked).",
+    explanation: 'Even if you have a website, it"s not appearing in Google/Bing for the keywords your prospects are searching. This could be technical (de-indexed) or competitive (outranked).',
     relatedProblems: ["seo-nonexistent", "no-visibility"],
     impactAnalysis: {
-      financialImpact: "Lost organic lead flow; higher reliance on paid channels.",
+      financialImpact: 'Lost organic lead flow; higher reliance on paid channels.',
       severity: "Major",
       affectedAreas: ["Organic Traffic", "CAC"],
       strategicPriority: 'High'
@@ -11178,16 +11178,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technical SEO issues (robots.txt blocking crawlers)", "Google penalty", "Zero backlinks", "Weak content"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated SEO audits (Screaming Frog, Ahrefs) identify technical issues."
+        example: 'Automated SEO audits (Screaming Frog, Ahrefs) identify technical issues.'
       },
-      pathToRoot: "Not Showing in Search → No Visibility → Prospects Don"t Know We Exist"
+      pathToRoot: 'Not Showing in Search → No Visibility → Prospects Don"t Know We Exist'
     }
   },
   'social-inactive': {
-    explanation: "Your social media profiles exist but are dormant (last post was 6 months ago). This signals to prospects that your business might be dead or unprofessional.",
+    explanation: 'Your social media profiles exist but are dormant (last post was 6 months ago). This signals to prospects that your business might be dead or unprofessional.',
     relatedProblems: ["no-visibility", "not-on-platforms", "not-publishing"],
     impactAnalysis: {
-      financialImpact: "Lost trust and credibility; missed networking and referral opportunities.",
+      financialImpact: 'Lost trust and credibility; missed networking and referral opportunities.',
       severity: "Moderate",
       affectedAreas: ["Brand Perception", "Lead Generation"],
       strategicPriority: 'Medium'
@@ -11201,16 +11201,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Don"t see ROI", "Too busy", "Don"t know what to post"],
       automationPotential: {
         rating: "High",
-        example: "AI content generators and scheduling tools (Buffer, Later) automate social presence."
+        example: 'AI content generators and scheduling tools (Buffer, Later) automate social presence.'
       },
-      pathToRoot: "Social Inactive → No Visibility → Prospects Don"t Know We Exist"
+      pathToRoot: 'Social Inactive → No Visibility → Prospects Don"t Know We Exist'
     }
   },
   'not-publishing': {
-    explanation: "You create no content—no blog posts, videos, podcasts, or case studies. You have no way to demonstrate expertise, attract organic traffic, or nurture leads.",
+    explanation: 'You create no content—no blog posts, videos, podcasts, or case studies. You have no way to demonstrate expertise, attract organic traffic, or nurture leads.',
     relatedProblems: ["no-visibility", "seo-nonexistent", "social-inactive"],
     impactAnalysis: {
-      financialImpact: "No inbound marketing engine; high CAC; no compounding growth.",
+      financialImpact: 'No inbound marketing engine; high CAC; no compounding growth.',
       severity: "Major",
       affectedAreas: ["Lead Generation", "Authority Building", "SEO"],
       strategicPriority: 'High'
@@ -11224,17 +11224,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Perfectionism", "Don"t know what to write", "Too busy", "Fear of judgment"],
       automationPotential: {
         rating: "High",
-        example: "AI writing tools (ChatGPT, Jasper) can draft content in minutes; video tools auto-transcribe and repurpose."
+        example: 'AI writing tools (ChatGPT, Jasper) can draft content in minutes; video tools auto-transcribe and repurpose.'
       },
-      pathToRoot: "Not Publishing → No Visibility → Prospects Don"t Know We Exist"
+      pathToRoot: 'Not Publishing → No Visibility → Prospects Don"t Know We Exist'
     }
   },
   // NO REFERRALS COMING IN
   'dont-know-how-refer': {
-    explanation: "Your customers want to refer you but don"t know how. There's no clear process, link, or incentive structure guiding them.",
+    explanation: 'Your customers want to refer you but don"t know how. There's no clear process, link, or incentive structure guiding them.',
     relatedProblems: ["no-referrals", "not-asking-referrals", "dont-make-easy"],
     impactAnalysis: {
-      financialImpact: "Lost low-CAC leads; untapped word-of-mouth growth.",
+      financialImpact: 'Lost low-CAC leads; untapped word-of-mouth growth.',
       severity: "Moderate",
       affectedAreas: ["Lead Generation", "Customer Lifetime Value"],
       strategicPriority: 'Medium'
@@ -11248,16 +11248,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Assumed it was obvious", "No formal referral program", "No incentive offered"],
       automationPotential: {
         rating: "High",
-        example: "Referral software (ReferralCandy, Viral Loops) automates tracking and rewards."
+        example: 'Referral software (ReferralCandy, Viral Loops) automates tracking and rewards.'
       },
-      pathToRoot: "Don"t Know How to Refer → No Referrals → Prospects Don't Know We Exist"
+      pathToRoot: 'Don"t Know How to Refer → No Referrals → Prospects Don't Know We Exist'
     }
   },
   'no-incentive-referrals': {
-    explanation: "You ask for referrals but offer nothing in return. Most people need a nudge—either financial (commission, discount) or social (recognition).",
+    explanation: 'You ask for referrals but offer nothing in return. Most people need a nudge—either financial (commission, discount) or social (recognition).',
     relatedProblems: ["no-referrals", "not-asking-referrals"],
     impactAnalysis: {
-      financialImpact: "Referral rate stays at baseline (<5%); missed compounding growth.",
+      financialImpact: 'Referral rate stays at baseline (<5%); missed compounding growth.',
       severity: "Moderate",
       affectedAreas: ["Growth Rate", "CAC"],
       strategicPriority: 'Medium'
@@ -11271,16 +11271,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Cheapness", "Fear of "Paying for referrals"", "Didn"t think it was necessary"],
       automationPotential: {
         rating: "High",
-        example: "Automated referral tracking and reward distribution via platforms like Rewardful."
+        example: 'Automated referral tracking and reward distribution via platforms like Rewardful.'
       },
-      pathToRoot: "No Incentive → No Referrals → Prospects Don"t Know We Exist"
+      pathToRoot: 'No Incentive → No Referrals → Prospects Don"t Know We Exist'
     }
   },
   'service-not-remarkable': {
-    explanation: "Your service is fine but not exceptional. There"s nothing "Wow' about it that compels customers to tell their friends. It's forgettable.",
+    explanation: 'Your service is fine but not exceptional. There"s nothing "Wow' about it that compels customers to tell their friends. It's forgettable.',
     relatedProblems: ["no-referrals", "no-word-mouth", "not-memorable"],
     impactAnalysis: {
-      financialImpact: "Low organic growth; high dependence on paid marketing; limited viral potential.",
+      financialImpact: 'Low organic growth; high dependence on paid marketing; limited viral potential.',
       severity: "Major",
       affectedAreas: ["Growth Rate", "Brand Advocacy"],
       strategicPriority: 'High'
@@ -11294,16 +11294,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Commoditized service", "Low service standards", "No unique process or experience"],
       automationPotential: {
         rating: "Medium",
-        example: "AI-powered personalization or instant results can create "Wow" moments."
+        example: 'AI-powered personalization or instant results can create "Wow" moments.'
       },
-      pathToRoot: "Service Not Remarkable → No Referrals → Prospects Don"t Know We Exist"
+      pathToRoot: 'Service Not Remarkable → No Referrals → Prospects Don"t Know We Exist'
     }
   },
   'dont-make-easy': {
-    explanation: "Even motivated customers struggle to refer you because the process is clunky—no link, no template, no form. Friction kills referrals.",
+    explanation: 'Even motivated customers struggle to refer you because the process is clunky—no link, no template, no form. Friction kills referrals.',
     relatedProblems: ["no-referrals", "dont-know-how-refer"],
     impactAnalysis: {
-      financialImpact: "Referral rate cut in half by friction alone.",
+      financialImpact: 'Referral rate cut in half by friction alone.',
       severity: "Moderate",
       affectedAreas: ["Lead Generation", "Growth Efficiency"],
       strategicPriority: 'Medium'
@@ -11317,16 +11317,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Never thought about the UX of referring", "No dedicated landing page", "Manual process"],
       automationPotential: {
         rating: "High",
-        example: "Referral platforms (ReferralCandy, GrowSurf) make sharing one-click simple."
+        example: 'Referral platforms (ReferralCandy, GrowSurf) make sharing one-click simple.'
       },
-      pathToRoot: "Don"t Make It Easy → No Referrals → Prospects Don't Know We Exist"
+      pathToRoot: 'Don"t Make It Easy → No Referrals → Prospects Don't Know We Exist'
     }
   },
   'forget-ask': {
-    explanation: "You intend to ask for referrals but always forget—after project completion, after great results, after positive feedback. The moment passes.",
+    explanation: 'You intend to ask for referrals but always forget—after project completion, after great results, after positive feedback. The moment passes.',
     relatedProblems: ["not-asking-referrals", "no-referrals"],
     impactAnalysis: {
-      financialImpact: "Massive missed opportunity; lost low-CAC leads at peak satisfaction.",
+      financialImpact: 'Massive missed opportunity; lost low-CAC leads at peak satisfaction.',
       severity: "Moderate",
       affectedAreas: ["Lead Generation", "Growth Rate"],
       strategicPriority: 'Medium'
@@ -11340,17 +11340,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["No system or reminder", "Awkwardness or fear of asking", "Too busy"],
       automationPotential: {
         rating: "High",
-        example: "Automated post-delivery email sequences with referral CTA."
+        example: 'Automated post-delivery email sequences with referral CTA.'
       },
-      pathToRoot: "Forget to Ask → No Referrals → Prospects Don"t Know We Exist"
+      pathToRoot: 'Forget to Ask → No Referrals → Prospects Don"t Know We Exist'
     }
   },
   // NO WORD OF MOUTH
   'not-talk-worthy': {
-    explanation: "Your service doesn"t generate stories or emotions strong enough for people to naturally bring it up in conversation. It's transactional, not memorable.",
+    explanation: 'Your service doesn"t generate stories or emotions strong enough for people to naturally bring it up in conversation. It's transactional, not memorable.',
     relatedProblems: ["no-word-mouth", "service-not-remarkable", "not-memorable"],
     impactAnalysis: {
-      financialImpact: "No viral coefficient; reliance on paid/outbound only; slow growth.",
+      financialImpact: 'No viral coefficient; reliance on paid/outbound only; slow growth.',
       severity: "Moderate",
       affectedAreas: ["Growth Rate", "Brand Advocacy"],
       strategicPriority: 'Medium'
@@ -11364,16 +11364,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Generic service delivery", "No emotional connection", "Purely functional value"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated personalized video messages or AI-generated custom insights can create "Wow" moments."
+        example: 'Automated personalized video messages or AI-generated custom insights can create "Wow" moments.'
       },
-      pathToRoot: "Not Talk-Worthy → No Word of Mouth → Prospects Don"t Know We Exist"
+      pathToRoot: 'Not Talk-Worthy → No Word of Mouth → Prospects Don"t Know We Exist'
     }
   },
   'no-community': {
-    explanation: "You have no community, group, or network where customers can connect with each other. This kills network effects and organic word-of-mouth.",
+    explanation: 'You have no community, group, or network where customers can connect with each other. This kills network effects and organic word-of-mouth.',
     relatedProblems: ["no-word-mouth", "not-talk-worthy"],
     impactAnalysis: {
-      financialImpact: "Low retention; no viral loops; missed upsell opportunities.",
+      financialImpact: 'Low retention; no viral loops; missed upsell opportunities.',
       severity: "Moderate",
       affectedAreas: ["Customer Retention", "LTV", "Organic Growth"],
       strategicPriority: 'Medium'
@@ -11387,16 +11387,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Transactional business model", "No thought given to post-sale engagement", "Fear of moderation burden"],
       automationPotential: {
         rating: "Medium",
-        example: "Community platforms (Circle, Skool) have built-in automation and AI moderation."
+        example: 'Community platforms (Circle, Skool) have built-in automation and AI moderation.'
       },
-      pathToRoot: "No Community → No Word of Mouth → Prospects Don"t Know We Exist"
+      pathToRoot: 'No Community → No Word of Mouth → Prospects Don"t Know We Exist'
     }
   },
   'not-memorable': {
-    explanation: "Your brand, service, and experience are so bland that customers forget about you the moment they finish working with you. No top-of-mind awareness.",
+    explanation: 'Your brand, service, and experience are so bland that customers forget about you the moment they finish working with you. No top-of-mind awareness.',
     relatedProblems: ["not-talk-worthy", "no-word-mouth", "service-not-remarkable"],
     impactAnalysis: {
-      financialImpact: "No repeat business; no referrals; constant need to reintroduce yourself.",
+      financialImpact: 'No repeat business; no referrals; constant need to reintroduce yourself.',
       severity: "Moderate",
       affectedAreas: ["Brand Recall", "Repeat Revenue", "Referrals"],
       strategicPriority: 'Medium'
@@ -11410,16 +11410,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Generic branding", "No personality", "Purely functional service"],
       automationPotential: {
         rating: "Low",
-        example: "Brand identity is human-driven, but AI can help with consistent messaging."
+        example: 'Brand identity is human-driven, but AI can help with consistent messaging.'
       },
-      pathToRoot: "Not Memorable → No Word of Mouth → Prospects Don"t Know We Exist"
+      pathToRoot: 'Not Memorable → No Word of Mouth → Prospects Don"t Know We Exist'
     }
   },
   'clients-dont-understand': {
-    explanation: "Your service is so complex or technical that even satisfied customers can"t explain what you do to their peers. 'It's complicated' kills referrals.",
+    explanation: 'Your service is so complex or technical that even satisfied customers can"t explain what you do to their peers. 'It's complicated' kills referrals.',
     relatedProblems: ["no-word-mouth", "explanation-complicated"],
     impactAnalysis: {
-      financialImpact: "Low referral rate despite satisfaction; longer sales cycles (re-explaining every time).",
+      financialImpact: 'Low referral rate despite satisfaction; longer sales cycles (re-explaining every time).',
       severity: "Moderate",
       affectedAreas: ["Referrals", "Sales Efficiency"],
       strategicPriority: 'Medium'
@@ -11433,17 +11433,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Industry jargon", "Technical service", "No clear value prop"],
       automationPotential: {
         rating: "High",
-        example: "AI-generated explainer videos or infographics simplify complex concepts."
+        example: 'AI-generated explainer videos or infographics simplify complex concepts.'
       },
-      pathToRoot: "Clients Don"t Understand → No Word of Mouth → Prospects Don't Know We Exist"
+      pathToRoot: 'Clients Don"t Understand → No Word of Mouth → Prospects Don't Know We Exist'
     }
   },
   // WRONG CHANNELS
   'marketing-not-audience': {
-    explanation: "You are marketing where you prefer to be, not where your customers actually are. Classic mismatch between your behavior and theirs.",
+    explanation: 'You are marketing where you prefer to be, not where your customers actually are. Classic mismatch between your behavior and theirs.',
     relatedProblems: ["wrong-channels", "not-on-platforms", "assumptions-hangout"],
     impactAnalysis: {
-      financialImpact: "100% wasted marketing budget on wrong channels.",
+      financialImpact: '100% wasted marketing budget on wrong channels.',
       severity: "Critical",
       affectedAreas: ["Marketing ROI", "Lead Generation"],
       strategicPriority: 'High'
@@ -11457,16 +11457,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Founder comfort over customer research", "Following generic advice", "Assumptions not validated"],
       automationPotential: {
         rating: "Medium",
-        example: "Social listening tools (SparkToro) reveal where your audience actually hangs out."
+        example: 'Social listening tools (SparkToro) reveal where your audience actually hangs out.'
       },
-      pathToRoot: "Marketing Not Where Audience Is → Wrong Channels → Prospects Don"t Know We Exist"
+      pathToRoot: 'Marketing Not Where Audience Is → Wrong Channels → Prospects Don"t Know We Exist'
     }
   },
   'message-wrong-platforms': {
-    explanation: "Your message might be right, but you"re saying it on the wrong platform. LinkedIn content on TikTok, or vice versa, falls flat.",
+    explanation: 'Your message might be right, but you"re saying it on the wrong platform. LinkedIn content on TikTok, or vice versa, falls flat.',
     relatedProblems: ["wrong-channels", "tactics-dont-match"],
     impactAnalysis: {
-      financialImpact: "Low engagement; wasted content production effort.",
+      financialImpact: 'Low engagement; wasted content production effort.',
       severity: "Moderate",
       affectedAreas: ["Marketing Efficiency", "Content ROI"],
       strategicPriority: 'Medium'
@@ -11480,16 +11480,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Cross-posting same content everywhere", "Not understanding platform culture"],
       automationPotential: {
         rating: "High",
-        example: "AI tools (Repurpose.io) adapt content format to each platform automatically."
+        example: 'AI tools (Repurpose.io) adapt content format to each platform automatically.'
       },
-      pathToRoot: "Message on Wrong Platforms → Wrong Channels → Prospects Don"t Know We Exist"
+      pathToRoot: 'Message on Wrong Platforms → Wrong Channels → Prospects Don"t Know We Exist'
     }
   },
   'tactics-dont-match': {
-    explanation: "You"re using outbound tactics (cold email) for an inbound audience (they want to discover you), or vice versa. The approach doesn't fit customer buying behavior.",
+    explanation: 'You"re using outbound tactics (cold email) for an inbound audience (they want to discover you), or vice versa. The approach doesn't fit customer buying behavior.',
     relatedProblems: ["wrong-channels", "message-wrong-platforms"],
     impactAnalysis: {
-      financialImpact: "High effort, low conversion; wasted time and resources.",
+      financialImpact: 'High effort, low conversion; wasted time and resources.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "CAC"],
       strategicPriority: 'High'
@@ -11503,16 +11503,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Copying other industries", "Not understanding customer journey", "Using what"s comfortable not what works"],
       automationPotential: {
         rating: "Medium",
-        example: "Marketing automation platforms help align tactics to journey stage."
+        example: 'Marketing automation platforms help align tactics to journey stage.'
       },
-      pathToRoot: "Tactics Don"t Match Behavior → Wrong Channels → Prospects Don't Know We Exist"
+      pathToRoot: 'Tactics Don"t Match Behavior → Wrong Channels → Prospects Don't Know We Exist'
     }
   },
   'budget-wrong-activities': {
-    explanation: "You"re spending money on low-ROI activities (e.g., expensive trade shows) while neglecting high-ROI ones (e.g., SEO, email).",
+    explanation: 'You"re spending money on low-ROI activities (e.g., expensive trade shows) while neglecting high-ROI ones (e.g., SEO, email).',
     relatedProblems: ["wrong-channels", "events-no-roi", "ads-expensive"],
     impactAnalysis: {
-      financialImpact: "Direct waste of marketing budget; missed opportunities in better channels.",
+      financialImpact: 'Direct waste of marketing budget; missed opportunities in better channels.',
       severity: "Major",
       affectedAreas: ["Marketing ROI", "Profitability"],
       strategicPriority: 'High'
@@ -11526,17 +11526,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Not tracking ROI", "Emotional attachment to certain tactics", "Sunk cost fallacy"],
       automationPotential: {
         rating: "High",
-        example: "Marketing attribution software (HubSpot, Google Analytics 4) shows exact ROI per channel."
+        example: 'Marketing attribution software (HubSpot, Google Analytics 4) shows exact ROI per channel.'
       },
-      pathToRoot: "Budget on Wrong Activities → Wrong Channels → Prospects Don"t Know We Exist"
+      pathToRoot: 'Budget on Wrong Activities → Wrong Channels → Prospects Don"t Know We Exist'
     }
   },
   // OUTREACH ISSUES (LEVEL 7)
   'lists-outdated': {
-    explanation: "You"re emailing or calling prospects from old, bought, or scraped lists. Most contacts are invalid, irrelevant, or already annoyed by spam.",
+    explanation: 'You"re emailing or calling prospects from old, bought, or scraped lists. Most contacts are invalid, irrelevant, or already annoyed by spam.',
     relatedProblems: ["outreach-issues", "getting-ignored", "outbound-spammy"],
     impactAnalysis: {
-      financialImpact: "Wasted labor and tools; domain reputation damage; potential legal issues (GDPR/CAN-SPAM).",
+      financialImpact: 'Wasted labor and tools; domain reputation damage; potential legal issues (GDPR/CAN-SPAM).',
       severity: "Moderate",
       affectedAreas: ["Outbound Effectiveness", "Brand Reputation"],
       strategicPriority: 'Medium'
@@ -11550,17 +11550,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Bought cheap list", "Haven"t updated in months/years", "No data hygiene process"],
       automationPotential: {
         rating: "High",
-        example: "Email verification tools (NeverBounce, ZeroBounce) auto-clean lists."
+        example: 'Email verification tools (NeverBounce, ZeroBounce) auto-clean lists.'
       },
-      pathToRoot: "Lists Outdated → Outreach Issues → Prospects Don"t Know We Exist"
+      pathToRoot: 'Lists Outdated → Outreach Issues → Prospects Don"t Know We Exist'
     }
   },
   // MESSAGE DOESN"T RESONATE (LEVEL 7)
   'talking-us-not-problems': {
-    explanation: "Your marketing talks about you—your features, your company, your awards—not their problems, desires, or transformation. It"s all "We' and no 'You'.",
+    explanation: 'Your marketing talks about you—your features, your company, your awards—not their problems, desires, or transformation. It"s all "We' and no 'You'.',
     relatedProblems: ["message-no-resonate", "benefits-unclear", "generic-messaging"],
     impactAnalysis: {
-      financialImpact: "Low engagement; high bounce rate; prospects tune out.",
+      financialImpact: 'Low engagement; high bounce rate; prospects tune out.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Engagement"],
       strategicPriority: 'High'
@@ -11574,16 +11574,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Ego-driven marketing", "Copywriting 101 not learned", "Internal focus"],
       automationPotential: {
         rating: "High",
-        example: "AI copywriting tools (Jasper, Copy.ai) can reframe features as benefits."
+        example: 'AI copywriting tools (Jasper, Copy.ai) can reframe features as benefits.'
       },
-      pathToRoot: "Talking About Us → Message Doesn"t Resonate → Prospects Aware But Don't Engage"
+      pathToRoot: 'Talking About Us → Message Doesn"t Resonate → Prospects Aware But Don't Engage'
     }
   },
   'wrong-language': {
-    explanation: "You"re either using too much jargon (confusing) or not enough industry terminology (not credible). The language doesn't match how your audience talks.",
+    explanation: 'You"re either using too much jargon (confusing) or not enough industry terminology (not credible). The language doesn't match how your audience talks.',
     relatedProblems: ["message-no-resonate", "doesnt-speak-pain", "explanation-complicated"],
     impactAnalysis: {
-      financialImpact: "Low trust; high friction; prospects don"t "Get it'.",
+      financialImpact: 'Low trust; high friction; prospects don"t "Get it'.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Trust"],
       strategicPriority: 'High'
@@ -11597,16 +11597,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Assuming your vocabulary is theirs", "Technical background showing through", "No customer research"],
       automationPotential: {
         rating: "High",
-        example: "AI text analysis of customer support tickets and reviews reveals their exact language."
+        example: 'AI text analysis of customer support tickets and reviews reveals their exact language.'
       },
-      pathToRoot: "Wrong Language → Message Doesn"t Resonate → Prospects Aware But Don't Engage"
+      pathToRoot: 'Wrong Language → Message Doesn"t Resonate → Prospects Aware But Don't Engage'
     }
   },
   'benefits-unclear': {
-    explanation: "You list features but don"t translate them into benefits. Prospects think 'So what?' because you haven't connected the dots for them.",
+    explanation: 'You list features but don"t translate them into benefits. Prospects think 'So what?' because you haven't connected the dots for them.',
     relatedProblems: ["message-no-resonate", "unclear-value-prop", "talking-us-not-problems"],
     impactAnalysis: {
-      financialImpact: "Low conversion; prospects don"t see value; price becomes only differentiator.",
+      financialImpact: 'Low conversion; prospects don"t see value; price becomes only differentiator.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Perceived Value"],
       strategicPriority: 'High'
@@ -11620,16 +11620,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Inside-out thinking", "Feature-focused product development", "Poor copywriting"],
       automationPotential: {
         rating: "High",
-        example: "AI can convert feature lists to benefit statements using frameworks like PAS (Problem-Agitate-Solution)."
+        example: 'AI can convert feature lists to benefit statements using frameworks like PAS (Problem-Agitate-Solution).'
       },
-      pathToRoot: "Benefits Unclear → Message Doesn"t Resonate → Prospects Aware But Don't Engage"
+      pathToRoot: 'Benefits Unclear → Message Doesn"t Resonate → Prospects Aware But Don't Engage'
     }
   },
   'doesnt-speak-pain': {
-    explanation: "Your messaging focuses on aspirational outcomes but doesn"t acknowledge or amplify the current pain. Pain is a stronger motivator than gain for most buyers.",
+    explanation: 'Your messaging focuses on aspirational outcomes but doesn"t acknowledge or amplify the current pain. Pain is a stronger motivator than gain for most buyers.',
     relatedProblems: ["message-no-resonate", "talking-us-not-problems"],
     impactAnalysis: {
-      financialImpact: "Low urgency; prospects delay; "Maybe later" becomes "Never'.",
+      financialImpact: 'Low urgency; prospects delay; "Maybe later" becomes "Never'.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Deal Velocity"],
       strategicPriority: 'High'
@@ -11643,16 +11643,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Accentuate the positive" mindset", "Not understanding emotional triggers", "Fear of being "Negative""],
       automationPotential: {
         rating: "Medium",
-        example: "AI sentiment analysis can identify high-pain keywords and phrases from reviews."
+        example: 'AI sentiment analysis can identify high-pain keywords and phrases from reviews.'
       },
-      pathToRoot: "Doesn"t Speak to Pain → Message Doesn't Resonate → Prospects Aware But Don't Engage"
+      pathToRoot: 'Doesn"t Speak to Pain → Message Doesn't Resonate → Prospects Aware But Don't Engage'
     }
   },
   'generic-messaging': {
-    explanation: "Your message could apply to anyone. "We help businesses grow" or "Quality service, affordable prices.' Nothing specific, memorable, or differentiated.",
+    explanation: 'Your message could apply to anyone. "We help businesses grow" or "Quality service, affordable prices.' Nothing specific, memorable, or differentiated.',
     relatedProblems: ["message-no-resonate", "generic-positioning", "looks-like-everyone"],
     impactAnalysis: {
-      financialImpact: "Invisible in market; no recall; confused prospects; price competition.",
+      financialImpact: 'Invisible in market; no recall; confused prospects; price competition.',
       severity: "Major",
       affectedAreas: ["Brand Differentiation", "Conversion Rate"],
       strategicPriority: 'High'
@@ -11666,17 +11666,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of being too niche", "Copying competitors", "No clear positioning"],
       automationPotential: {
         rating: "Medium",
-        example: "AI competitor analysis tools identify overused phrases to avoid."
+        example: 'AI competitor analysis tools identify overused phrases to avoid.'
       },
-      pathToRoot: "Generic Messaging → Message Doesn"t Resonate → Prospects Aware But Don't Engage"
+      pathToRoot: 'Generic Messaging → Message Doesn"t Resonate → Prospects Aware But Don't Engage'
     }
   },
   // OFFER NOT COMPELLING (LEVEL 7)
   'looks-like-everyone': {
-    explanation: "Your service offering, pricing, packaging, and presentation are indistinguishable from competitors. There"s no clear reason to choose you over them.",
+    explanation: 'Your service offering, pricing, packaging, and presentation are indistinguishable from competitors. There"s no clear reason to choose you over them.',
     relatedProblems: ["offer-not-compelling", "no-differentiation", "generic-positioning"],
     impactAnalysis: {
-      financialImpact: "Price becomes the only decision factor; low margins; high churn.",
+      financialImpact: 'Price becomes the only decision factor; low margins; high churn.',
       severity: "Critical",
       affectedAreas: ["Differentiation", "Pricing Power", "Win Rate"],
       strategicPriority: 'High'
@@ -11690,16 +11690,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Copying industry standards", "Fear of being different", "No strategic positioning"],
       automationPotential: {
         rating: "Low",
-        example: "Strategic differentiation is human-driven, but AI can analyze competitor positioning gaps."
+        example: 'Strategic differentiation is human-driven, but AI can analyze competitor positioning gaps.'
       },
-      pathToRoot: "Looks Like Everyone → Offer Not Compelling → Prospects Aware But Don"t Engage"
+      pathToRoot: 'Looks Like Everyone → Offer Not Compelling → Prospects Aware But Don"t Engage'
     }
   },
   'no-differentiation': {
-    explanation: "You have not clearly articulated what makes you different. Even if differences exist, they are invisible to prospects because you haven"t communicated them.",
+    explanation: 'You have not clearly articulated what makes you different. Even if differences exist, they are invisible to prospects because you haven"t communicated them.',
     relatedProblems: ["offer-not-compelling", "differentiation-unclear", "looks-like-everyone"],
     impactAnalysis: {
-      financialImpact: "Commoditization; price competition; low brand value.",
+      financialImpact: 'Commoditization; price competition; low brand value.',
       severity: "Major",
       affectedAreas: ["Pricing Power", "Brand Equity", "Win Rate"],
       strategicPriority: 'High'
@@ -11713,16 +11713,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Never did positioning work", "Assumed differences were obvious", "Internal vs external perspective gap"],
       automationPotential: {
         rating: "Medium",
-        example: "AI-powered competitive analysis identifies white space opportunities."
+        example: 'AI-powered competitive analysis identifies white space opportunities.'
       },
-      pathToRoot: "No Differentiation → Offer Not Compelling → Prospects Aware But Don"t Engage"
+      pathToRoot: 'No Differentiation → Offer Not Compelling → Prospects Aware But Don"t Engage'
     }
   },
   'generic-positioning': {
-    explanation: "Your positioning is broad and vague. You serve "Everyone" with "Everything,' which means you are memorable to no one.",
+    explanation: 'Your positioning is broad and vague. You serve "Everyone" with "Everything,' which means you are memorable to no one.',
     relatedProblems: ["offer-not-compelling", "generic-messaging", "no-differentiation"],
     impactAnalysis: {
-      financialImpact: "High CAC; low conversion; difficult to scale marketing.",
+      financialImpact: 'High CAC; low conversion; difficult to scale marketing.',
       severity: "Major",
       affectedAreas: ["Marketing Efficiency", "Brand Strength"],
       strategicPriority: 'High'
@@ -11736,16 +11736,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of turning away business", "No strategic clarity", "Generalist background"],
       automationPotential: {
         rating: "Low",
-        example: "AI can help analyze market segments, but strategic positioning is a human decision."
+        example: 'AI can help analyze market segments, but strategic positioning is a human decision.'
       },
-      pathToRoot: "Generic Positioning → Offer Not Compelling → Prospects Aware But Don"t Engage"
+      pathToRoot: 'Generic Positioning → Offer Not Compelling → Prospects Aware But Don"t Engage'
     }
   },
   'nothing-unique': {
-    explanation: "There is genuinely nothing unique about your service. You are a pure commodity, and the only way to compete is on price or availability.",
+    explanation: 'There is genuinely nothing unique about your service. You are a pure commodity, and the only way to compete is on price or availability.',
     relatedProblems: ["offer-not-compelling", "commoditized-service", "looks-like-everyone"],
     impactAnalysis: {
-      financialImpact: "Race to bottom on price; zero brand value; unsustainable margins.",
+      financialImpact: 'Race to bottom on price; zero brand value; unsustainable margins.',
       severity: "Critical",
       affectedAreas: ["Profitability", "Business Sustainability"],
       strategicPriority: 'High'
@@ -11759,16 +11759,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Never innovated beyond industry standard", "Lack of strategic thinking", "Survival mode (reactive business)"],
       automationPotential: {
         rating: "High",
-        example: "Building proprietary AI or automation into your service creates instant differentiation."
+        example: 'Building proprietary AI or automation into your service creates instant differentiation.'
       },
-      pathToRoot: "Nothing Unique → Offer Not Compelling → Prospects Aware But Don"t Engage"
+      pathToRoot: 'Nothing Unique → Offer Not Compelling → Prospects Aware But Don"t Engage'
     }
   },
   'doesnt-stand-out': {
-    explanation: "Your offer might be good, but it"s visually, verbally, and experientially bland. Nothing catches the eye or ear. You blend into the background.",
+    explanation: 'Your offer might be good, but it"s visually, verbally, and experientially bland. Nothing catches the eye or ear. You blend into the background.',
     relatedProblems: ["offer-not-compelling", "design-amateur", "not-memorable"],
     impactAnalysis: {
-      financialImpact: "Low attention capture; poor recall; high prospect drop-off.",
+      financialImpact: 'Low attention capture; poor recall; high prospect drop-off.',
       severity: "Moderate",
       affectedAreas: ["Brand Recognition", "Conversion Rate"],
       strategicPriority: 'Medium'
@@ -11782,17 +11782,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Playing it safe", "No design/brand investment", "Risk aversion"],
       automationPotential: {
         rating: "Medium",
-        example: "AI design tools (Canva, Looka) can create standout visuals quickly."
+        example: 'AI design tools (Canva, Looka) can create standout visuals quickly.'
       },
-      pathToRoot: "Doesn"t Stand Out → Offer Not Compelling → Prospects Aware But Don't Engage"
+      pathToRoot: 'Doesn"t Stand Out → Offer Not Compelling → Prospects Aware But Don't Engage'
     }
   },
   // WRONG TIMING (LEVEL 7)
   'not-buying-mode': {
-    explanation: "You"re reaching prospects when they are not actively looking for a solution. They might have the problem but no urgency to solve it right now.",
+    explanation: 'You"re reaching prospects when they are not actively looking for a solution. They might have the problem but no urgency to solve it right now.',
     relatedProblems: ["wrong-timing", "not-nurturing", "problem-not-urgent"],
     impactAnalysis: {
-      financialImpact: "Low conversion despite interest; long sales cycles; high follow-up burden.",
+      financialImpact: 'Low conversion despite interest; long sales cycles; high follow-up burden.',
       severity: "Moderate",
       affectedAreas: ["Conversion Rate", "Deal Velocity"],
       strategicPriority: 'Medium'
@@ -11806,16 +11806,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Outbound to cold lists", "No trigger-based outreach", "No long-term nurture"],
       automationPotential: {
         rating: "High",
-        example: "Automated drip campaigns keep you top-of-mind until buying mode activates."
+        example: 'Automated drip campaigns keep you top-of-mind until buying mode activates.'
       },
-      pathToRoot: "Not in Buying Mode → Wrong Timing → Prospects Aware But Don"t Engage"
+      pathToRoot: 'Not in Buying Mode → Wrong Timing → Prospects Aware But Don"t Engage'
     }
   },
   'not-nurturing': {
-    explanation: "You contact prospects once, they say "Not now,' and you give up. No follow-up, no nurturing, no staying in touch. You let them go cold.",
+    explanation: 'You contact prospects once, they say "Not now,' and you give up. No follow-up, no nurturing, no staying in touch. You let them go cold.',
     relatedProblems: ["wrong-timing", "no-followup", "one-and-done"],
     impactAnalysis: {
-      financialImpact: "Massive lost opportunity; 80% of sales happen after 5+ touches.",
+      financialImpact: 'Massive lost opportunity; 80% of sales happen after 5+ touches.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Pipeline Efficiency"],
       strategicPriority: 'High'
@@ -11829,16 +11829,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of CRM or follow-up system", "Impatience", "Fear of being annoying"],
       automationPotential: {
         rating: "High",
-        example: "Marketing automation (HubSpot, ActiveCampaign) handles nurturing automatically."
+        example: 'Marketing automation (HubSpot, ActiveCampaign) handles nurturing automatically.'
       },
-      pathToRoot: "Not Nurturing → Wrong Timing → Prospects Aware But Don"t Engage"
+      pathToRoot: 'Not Nurturing → Wrong Timing → Prospects Aware But Don"t Engage'
     }
   },
   'no-followup': {
-    explanation: "You send one message or have one conversation, then wait for them to come back to you. Most won"t. No follow-up means no sales.",
+    explanation: 'You send one message or have one conversation, then wait for them to come back to you. Most won"t. No follow-up means no sales.',
     relatedProblems: ["not-nurturing", "one-and-done", "following-up-inconsistently"],
     impactAnalysis: {
-      financialImpact: "Conversion rate drops by 50-80% without follow-up.",
+      financialImpact: 'Conversion rate drops by 50-80% without follow-up.',
       severity: "Critical",
       affectedAreas: ["Sales Conversion", "Pipeline Efficiency"],
       strategicPriority: 'High'
@@ -11852,16 +11852,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Forgetting", "Assuming they"ll reach out if interested", "Fear of rejection"],
       automationPotential: {
         rating: "High",
-        example: "Automated follow-up sequences trigger based on prospect behavior."
+        example: 'Automated follow-up sequences trigger based on prospect behavior.'
       },
-      pathToRoot: "No Follow-Up → Wrong Timing → Prospects Aware But Don"t Engage"
+      pathToRoot: 'No Follow-Up → Wrong Timing → Prospects Aware But Don"t Engage'
     }
   },
   'one-and-done': {
-    explanation: "You give up after the first attempt. One email, one call, one message. This is the most common sales mistake and kills 80% of potential deals.",
+    explanation: 'You give up after the first attempt. One email, one call, one message. This is the most common sales mistake and kills 80% of potential deals.',
     relatedProblems: ["no-followup", "not-nurturing", "inconsistent-effort"],
     impactAnalysis: {
-      financialImpact: "Leaving 80% of revenue on the table; massive opportunity cost.",
+      financialImpact: 'Leaving 80% of revenue on the table; massive opportunity cost.',
       severity: "Critical",
       affectedAreas: ["Sales Effectiveness", "Revenue Growth"],
       strategicPriority: 'High'
@@ -11875,17 +11875,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of being pushy", "Lack of persistence", "No system"],
       automationPotential: {
         rating: "High",
-        example: "Sales engagement platforms (Outreach, SalesLoft) automate multi-touch sequences."
+        example: 'Sales engagement platforms (Outreach, SalesLoft) automate multi-touch sequences.'
       },
-      pathToRoot: "One-and-Done → Wrong Timing → Prospects Aware But Don"t Engage"
+      pathToRoot: 'One-and-Done → Wrong Timing → Prospects Aware But Don"t Engage'
     }
   },
   // NO CLEAR NEXT STEP (LEVEL 7)
   'no-cta': {
-    explanation: "Your marketing or sales conversation ends with no call-to-action. Prospects are interested but don"t know what to do next, so they do nothing.",
+    explanation: 'Your marketing or sales conversation ends with no call-to-action. Prospects are interested but don"t know what to do next, so they do nothing.',
     relatedProblems: ["no-clear-next-step", "cta-unclear"],
     impactAnalysis: {
-      financialImpact: "Huge drop-off at conversion point; lost qualified leads.",
+      financialImpact: 'Huge drop-off at conversion point; lost qualified leads.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Sales Effectiveness"],
       strategicPriority: 'High'
@@ -11899,16 +11899,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Assumption that prospects will figure it out", "Passive selling", "Fear of being pushy"],
       automationPotential: {
         rating: "Low",
-        example: "This is a human/design fix, but A/B testing tools can optimize CTA wording."
+        example: 'This is a human/design fix, but A/B testing tools can optimize CTA wording.'
       },
-      pathToRoot: "No CTA → No Clear Next Step → Prospects Aware But Don"t Engage"
+      pathToRoot: 'No CTA → No Clear Next Step → Prospects Aware But Don"t Engage'
     }
   },
   'cta-unclear': {
-    explanation: "Your CTA exists but is vague or confusing. "Learn more,' 'Get started,' 'Contact us'—these don't tell prospects what will actually happen or why they should click.",
+    explanation: 'Your CTA exists but is vague or confusing. "Learn more,' 'Get started,' 'Contact us'—these don't tell prospects what will actually happen or why they should click.',
     relatedProblems: ["no-clear-next-step", "no-cta", "too-much-friction"],
     impactAnalysis: {
-      financialImpact: "Lower click-through and conversion rates; confused prospects bounce.",
+      financialImpact: 'Lower click-through and conversion rates; confused prospects bounce.',
       severity: "Moderate",
       affectedAreas: ["Conversion Rate", "User Experience"],
       strategicPriority: 'Medium'
@@ -11922,16 +11922,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Generic templates", "Not thinking from prospect"s perspective", "Fear of commitment"],
       automationPotential: {
         rating: "Medium",
-        example: "A/B testing tools (Optimizely, VWO) identify best-performing CTA wording."
+        example: 'A/B testing tools (Optimizely, VWO) identify best-performing CTA wording.'
       },
-      pathToRoot: "CTA Unclear → No Clear Next Step → Prospects Aware But Don"t Engage"
+      pathToRoot: 'CTA Unclear → No Clear Next Step → Prospects Aware But Don"t Engage'
     }
   },
   'too-much-friction': {
-    explanation: "The next step requires too much effort, information, or commitment. Long forms, scheduling hassles, or unclear processes kill momentum.",
+    explanation: 'The next step requires too much effort, information, or commitment. Long forms, scheduling hassles, or unclear processes kill momentum.',
     relatedProblems: ["no-clear-next-step", "cta-unclear", "ask-too-big"],
     impactAnalysis: {
-      financialImpact: "Massive drop-off at conversion point; qualified leads lost due to process friction.",
+      financialImpact: 'Massive drop-off at conversion point; qualified leads lost due to process friction.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "User Experience"],
       strategicPriority: 'High'
@@ -11945,16 +11945,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Internal process requirements overriding UX", "No funnel optimization", "Lack of awareness"],
       automationPotential: {
         rating: "High",
-        example: "Form builders and scheduling tools (Calendly, Typeform) eliminate friction."
+        example: 'Form builders and scheduling tools (Calendly, Typeform) eliminate friction.'
       },
-      pathToRoot: "Too Much Friction → No Clear Next Step → Prospects Aware But Don"t Engage"
+      pathToRoot: 'Too Much Friction → No Clear Next Step → Prospects Aware But Don"t Engage'
     }
   },
   'ask-too-big': {
-    explanation: "Your first ask is too large. "Sign a 12-month contract' or 'Pay $10k upfront.' You haven't built enough trust or demonstrated value yet.",
+    explanation: 'Your first ask is too large. "Sign a 12-month contract' or 'Pay $10k upfront.' You haven't built enough trust or demonstrated value yet.',
     relatedProblems: ["no-clear-next-step", "too-much-friction", "risk-too-high"],
     impactAnalysis: {
-      financialImpact: "High abandonment rate; long sales cycles; low close rate.",
+      financialImpact: 'High abandonment rate; long sales cycles; low close rate.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Deal Velocity"],
       strategicPriority: 'High'
@@ -11968,16 +11968,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["No low-commitment offer", "Impatience to close", "Not understanding buyer psychology"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated lead magnets and trials lower the first commitment threshold."
+        example: 'Automated lead magnets and trials lower the first commitment threshold.'
       },
-      pathToRoot: "Ask Too Big → No Clear Next Step → Prospects Aware But Don"t Engage"
+      pathToRoot: 'Ask Too Big → No Clear Next Step → Prospects Aware But Don"t Engage'
     }
   },
   'multiple-conflicting-cta': {
-    explanation: "Your page or pitch has too many CTAs (Book a demo, Download whitepaper, Subscribe, Call us). Paradox of choice leads to no action.",
+    explanation: 'Your page or pitch has too many CTAs (Book a demo, Download whitepaper, Subscribe, Call us). Paradox of choice leads to no action.',
     relatedProblems: ["no-clear-next-step", "too-many-options", "cta-unclear"],
     impactAnalysis: {
-      financialImpact: "Conversion rate drops significantly; confused prospects leave.",
+      financialImpact: 'Conversion rate drops significantly; confused prospects leave.',
       severity: "Moderate",
       affectedAreas: ["Conversion Rate", "Clarity"],
       strategicPriority: 'Medium'
@@ -11991,17 +11991,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Trying to please everyone", "No prioritization", "Internal politics (everyone wants their CTA)"],
       automationPotential: {
         rating: "Low",
-        example: "A/B testing can determine which single CTA performs best."
+        example: 'A/B testing can determine which single CTA performs best.'
       },
-      pathToRoot: "Multiple Conflicting CTAs → No Clear Next Step → Prospects Aware But Don"t Engage"
+      pathToRoot: 'Multiple Conflicting CTAs → No Clear Next Step → Prospects Aware But Don"t Engage'
     }
   },
   // CONTENT/CREATIVE WEAK (LEVEL 7)
   'design-amateur': {
-    explanation: "Your website, ads, or materials look unprofessional—bad fonts, low-quality images, poor layout. This signals "Amateur" and kills trust before they even read your message.",
+    explanation: 'Your website, ads, or materials look unprofessional—bad fonts, low-quality images, poor layout. This signals "Amateur" and kills trust before they even read your message.',
     relatedProblems: ["content-weak", "website-unprofessional", "doesnt-stand-out"],
     impactAnalysis: {
-      financialImpact: "High bounce rate; low trust; inability to charge premium prices.",
+      financialImpact: 'High bounce rate; low trust; inability to charge premium prices.',
       severity: "Major",
       affectedAreas: ["Brand Perception", "Trust", "Conversion Rate"],
       strategicPriority: 'High'
@@ -12015,16 +12015,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["DIY everything", "No budget for design", "Undervaluing importance of aesthetics"],
       automationPotential: {
         rating: "High",
-        example: "AI design tools (Canva, Looka, Uizard) create professional-looking assets quickly."
+        example: 'AI design tools (Canva, Looka, Uizard) create professional-looking assets quickly.'
       },
-      pathToRoot: "Design Looks Amateur → Content/Creative Weak → Prospects Aware But Don"t Engage"
+      pathToRoot: 'Design Looks Amateur → Content/Creative Weak → Prospects Aware But Don"t Engage'
     }
   },
   'copy-boring': {
-    explanation: "Your copy is technically correct but lifeless. No personality, no emotion, no storytelling. Prospects read it and feel nothing, remember nothing.",
+    explanation: 'Your copy is technically correct but lifeless. No personality, no emotion, no storytelling. Prospects read it and feel nothing, remember nothing.',
     relatedProblems: ["content-weak", "no-hook", "not-memorable"],
     impactAnalysis: {
-      financialImpact: "Low engagement; high bounce rate; no emotional connection.",
+      financialImpact: 'Low engagement; high bounce rate; no emotional connection.',
       severity: "Moderate",
       affectedAreas: ["Engagement", "Brand Connection"],
       strategicPriority: 'Medium'
@@ -12038,16 +12038,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Engineering/technical background", "Fear of being too bold", "No copywriting skill"],
       automationPotential: {
         rating: "High",
-        example: "AI copywriting tools (Jasper, Copy.ai) can punch up bland copy."
+        example: 'AI copywriting tools (Jasper, Copy.ai) can punch up bland copy.'
       },
-      pathToRoot: "Copy Boring → Content/Creative Weak → Prospects Aware But Don"t Engage"
+      pathToRoot: 'Copy Boring → Content/Creative Weak → Prospects Aware But Don"t Engage'
     }
   },
   'no-hook': {
-    explanation: "Your content doesn"t grab attention in the first 3 seconds. No compelling headline, no pattern interrupt, no curiosity gap. Prospects scroll right past.",
+    explanation: 'Your content doesn"t grab attention in the first 3 seconds. No compelling headline, no pattern interrupt, no curiosity gap. Prospects scroll right past.',
     relatedProblems: ["content-weak", "copy-boring", "doesnt-stand-out"],
     impactAnalysis: {
-      financialImpact: "Zero engagement despite ad spend; wasted content production.",
+      financialImpact: 'Zero engagement despite ad spend; wasted content production.',
       severity: "Major",
       affectedAreas: ["Attention Capture", "Engagement Rate"],
       strategicPriority: 'High'
@@ -12061,16 +12061,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Burying the lede", "No copywriting training", "Playing it too safe"],
       automationPotential: {
         rating: "High",
-        example: "AI tools analyze high-performing hooks and suggest variations."
+        example: 'AI tools analyze high-performing hooks and suggest variations.'
       },
-      pathToRoot: "No Hook → Content/Creative Weak → Prospects Aware But Don"t Engage"
+      pathToRoot: 'No Hook → Content/Creative Weak → Prospects Aware But Don"t Engage'
     }
   },
   'too-much-text': {
-    explanation: "Your page or ad is a wall of text. No one reads anymore—they scan. Dense paragraphs with no visuals or breaks get ignored.",
+    explanation: 'Your page or ad is a wall of text. No one reads anymore—they scan. Dense paragraphs with no visuals or breaks get ignored.',
     relatedProblems: ["content-weak", "design-amateur", "explanation-complicated"],
     impactAnalysis: {
-      financialImpact: "High bounce rate; key messages never seen; low conversion.",
+      financialImpact: 'High bounce rate; key messages never seen; low conversion.',
       severity: "Moderate",
       affectedAreas: ["Engagement", "Conversion Rate"],
       strategicPriority: 'Medium'
@@ -12084,16 +12084,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Academic or technical writing background", "Trying to explain everything", "No design awareness"],
       automationPotential: {
         rating: "Medium",
-        example: "AI editing tools (Hemingway, Grammarly) suggest readability improvements."
+        example: 'AI editing tools (Hemingway, Grammarly) suggest readability improvements.'
       },
-      pathToRoot: "Too Much Text → Content/Creative Weak → Prospects Aware But Don"t Engage"
+      pathToRoot: 'Too Much Text → Content/Creative Weak → Prospects Aware But Don"t Engage'
     }
   },
   'unclear-value-prop': {
-    explanation: "After visiting your site or reading your message, prospects still don"t understand what you do, who it's for, or why it matters. Confusion kills conversion.",
+    explanation: 'After visiting your site or reading your message, prospects still don"t understand what you do, who it's for, or why it matters. Confusion kills conversion.',
     relatedProblems: ["content-weak", "benefits-unclear", "explanation-complicated"],
     impactAnalysis: {
-      financialImpact: "High bounce rate; low conversion; confused prospects leave.",
+      financialImpact: 'High bounce rate; low conversion; confused prospects leave.',
       severity: "Critical",
       affectedAreas: ["Clarity", "Conversion Rate"],
       strategicPriority: 'High'
@@ -12107,17 +12107,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Inside-out thinking", "Trying to serve everyone", "No clear positioning"],
       automationPotential: {
         rating: "Medium",
-        example: "AI can test value prop clarity with simulated audiences."
+        example: 'AI can test value prop clarity with simulated audiences.'
       },
-      pathToRoot: "Unclear Value Prop → Content/Creative Weak → Prospects Aware But Don"t Engage"
+      pathToRoot: 'Unclear Value Prop → Content/Creative Weak → Prospects Aware But Don"t Engage'
     }
   },
   // TRUST SIGNALS MISSING (LEVEL 7)
   'no-social-proof': {
-    explanation: "You have no visible testimonials, reviews, ratings, or client logos. Prospects have no external validation that you"re legit or effective.",
+    explanation: 'You have no visible testimonials, reviews, ratings, or client logos. Prospects have no external validation that you"re legit or effective.',
     relatedProblems: ["trust-signals-missing", "no-testimonials", "no-recognizable-clients"],
     impactAnalysis: {
-      financialImpact: "Low trust; high skepticism; prospects choose competitors with proof.",
+      financialImpact: 'Low trust; high skepticism; prospects choose competitors with proof.',
       severity: "Major",
       affectedAreas: ["Trust", "Conversion Rate"],
       strategicPriority: 'High'
@@ -12131,16 +12131,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Never asked for testimonials", "Forgot to add them to site", "No social proof strategy"],
       automationPotential: {
         rating: "High",
-        example: "Review collection tools (Trustpilot, Birdeye) automate gathering and displaying social proof."
+        example: 'Review collection tools (Trustpilot, Birdeye) automate gathering and displaying social proof.'
       },
-      pathToRoot: "No Social Proof → Trust Signals Missing → Prospects Aware But Don"t Engage"
+      pathToRoot: 'No Social Proof → Trust Signals Missing → Prospects Aware But Don"t Engage'
     }
   },
   'no-credentials': {
-    explanation: "You have no visible credentials, certifications, awards, or recognitions. Prospects can"t assess your authority or expertise.",
+    explanation: 'You have no visible credentials, certifications, awards, or recognitions. Prospects can"t assess your authority or expertise.',
     relatedProblems: ["trust-signals-missing", "anonymous-brand", "look-too-small"],
     impactAnalysis: {
-      financialImpact: "Lower trust; inability to command premium pricing; longer sales cycles.",
+      financialImpact: 'Lower trust; inability to command premium pricing; longer sales cycles.',
       severity: "Moderate",
       affectedAreas: ["Authority", "Trust", "Pricing Power"],
       strategicPriority: 'Medium'
@@ -12154,16 +12154,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["New business", "Haven"t pursued credentials", "Undervaluing importance of authority signals"],
       automationPotential: {
         rating: "Low",
-        example: "Authority building is human-driven, but AI can help publish thought leadership content."
+        example: 'Authority building is human-driven, but AI can help publish thought leadership content.'
       },
-      pathToRoot: "No Credentials → Trust Signals Missing → Prospects Aware But Don"t Engage"
+      pathToRoot: 'No Credentials → Trust Signals Missing → Prospects Aware But Don"t Engage'
     }
   },
   'anonymous-brand': {
-    explanation: "Your brand has no face, name, or personality. It"s a faceless entity. People buy from people, not corporations.",
+    explanation: 'Your brand has no face, name, or personality. It"s a faceless entity. People buy from people, not corporations.',
     relatedProblems: ["trust-signals-missing", "no-credentials", "new-unknown"],
     impactAnalysis: {
-      financialImpact: "Low trust; difficulty building relationships; harder to differentiate.",
+      financialImpact: 'Low trust; difficulty building relationships; harder to differentiate.',
       severity: "Moderate",
       affectedAreas: ["Trust", "Brand Connection"],
       strategicPriority: 'Medium'
@@ -12177,16 +12177,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Hiding behind brand", "Shyness or privacy concerns", "Corporate mindset"],
       automationPotential: {
         rating: "Low",
-        example: "AI-generated avatars and voices can add personality, but real humans build more trust."
+        example: 'AI-generated avatars and voices can add personality, but real humans build more trust.'
       },
-      pathToRoot: "Anonymous Brand → Trust Signals Missing → Prospects Aware But Don"t Engage"
+      pathToRoot: 'Anonymous Brand → Trust Signals Missing → Prospects Aware But Don"t Engage'
     }
   },
   'new-unknown': {
-    explanation: "Your brand is new with no track record. Prospects are risk-averse and prefer established players. You haven"t built any brand equity yet.",
+    explanation: 'Your brand is new with no track record. Prospects are risk-averse and prefer established players. You haven"t built any brand equity yet.',
     relatedProblems: ["trust-signals-missing", "too-new-unproven", "no-track-record"],
     impactAnalysis: {
-      financialImpact: "High skepticism; need to offer more proof or lower prices; longer sales cycles.",
+      financialImpact: 'High skepticism; need to offer more proof or lower prices; longer sales cycles.',
       severity: "Major",
       affectedAreas: ["Trust", "Pricing Power", "Win Rate"],
       strategicPriority: 'High'
@@ -12200,17 +12200,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["New business", "No prior track record to transfer"],
       automationPotential: {
         rating: "Low",
-        example: "Trust building is human and time-based, but AI-powered content can accelerate thought leadership."
+        example: 'Trust building is human and time-based, but AI-powered content can accelerate thought leadership.'
       },
-      pathToRoot: "New/Unknown Brand → Trust Signals Missing → Prospects Aware But Don"t Engage"
+      pathToRoot: 'New/Unknown Brand → Trust Signals Missing → Prospects Aware But Don"t Engage'
     }
   },
   // DON"T TRUST US (LEVEL 7)
   'no-testimonials': {
-    explanation: "You have no customer testimonials displayed anywhere. Prospects can"t hear from real people who have used and benefited from your service.",
+    explanation: 'You have no customer testimonials displayed anywhere. Prospects can"t hear from real people who have used and benefited from your service.',
     relatedProblems: ["dont-trust", "no-social-proof", "no-track-record"],
     impactAnalysis: {
-      financialImpact: "Significantly reduced conversion rate; prospects choose competitors with testimonials.",
+      financialImpact: 'Significantly reduced conversion rate; prospects choose competitors with testimonials.',
       severity: "Major",
       affectedAreas: ["Trust", "Conversion Rate"],
       strategicPriority: 'High'
@@ -12224,16 +12224,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Never asked", "Afraid of rejection", "Don"t know where to put them"],
       automationPotential: {
         rating: "High",
-        example: "Automated review request emails after project completion (via Trustpilot, Boast)."
+        example: 'Automated review request emails after project completion (via Trustpilot, Boast).'
       },
-      pathToRoot: "No Testimonials → Don"t Trust Us → Prospects Engage But Don't Buy"
+      pathToRoot: 'No Testimonials → Don"t Trust Us → Prospects Engage But Don't Buy'
     }
   },
   'no-track-record': {
-    explanation: "You have no visible history of success. No case studies, no portfolio, no results shown. Prospects see you as unproven and risky.",
+    explanation: 'You have no visible history of success. No case studies, no portfolio, no results shown. Prospects see you as unproven and risky.',
     relatedProblems: ["dont-trust", "no-case-studies", "too-new-unproven"],
     impactAnalysis: {
-      financialImpact: "Low close rate; inability to charge premium; only price-sensitive customers buy.",
+      financialImpact: 'Low close rate; inability to charge premium; only price-sensitive customers buy.',
       severity: "Major",
       affectedAreas: ["Trust", "Pricing Power", "Win Rate"],
       strategicPriority: 'High'
@@ -12247,16 +12247,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["New business", "Haven"t documented results", "Client confidentiality concerns (get permission)"],
       automationPotential: {
         rating: "Medium",
-        example: "AI case study templates can speed up creation, but stories must be real."
+        example: 'AI case study templates can speed up creation, but stories must be real.'
       },
-      pathToRoot: "No Track Record → Don"t Trust Us → Prospects Engage But Don't Buy"
+      pathToRoot: 'No Track Record → Don"t Trust Us → Prospects Engage But Don't Buy'
     }
   },
   'website-unprofessional': {
-    explanation: "Your website looks outdated, broken, or cheap. Poor design, slow load times, or missing information signal that your service quality might be similarly poor.",
+    explanation: 'Your website looks outdated, broken, or cheap. Poor design, slow load times, or missing information signal that your service quality might be similarly poor.',
     relatedProblems: ["dont-trust", "design-amateur", "no-website"],
     impactAnalysis: {
-      financialImpact: "High bounce rate; lost credibility; prospects don"t even engage.",
+      financialImpact: 'High bounce rate; lost credibility; prospects don"t even engage.',
       severity: "Critical",
       affectedAreas: ["Brand Perception", "Trust", "Conversion Rate"],
       strategicPriority: 'High'
@@ -12270,16 +12270,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Built it yourself years ago", "No budget allocated", "Underestimating impact of web presence"],
       automationPotential: {
         rating: "High",
-        example: "AI website builders (10Web, Durable) create professional sites in minutes."
+        example: 'AI website builders (10Web, Durable) create professional sites in minutes.'
       },
-      pathToRoot: "Website Unprofessional → Don"t Trust Us → Prospects Engage But Don't Buy"
+      pathToRoot: 'Website Unprofessional → Don"t Trust Us → Prospects Engage But Don't Buy'
     }
   },
   'no-case-studies': {
-    explanation: "You have no documented success stories. Prospects can"t visualize how you"ve solved similar problems or what results to expect.",
+    explanation: 'You have no documented success stories. Prospects can"t visualize how you"ve solved similar problems or what results to expect.',
     relatedProblems: ["dont-trust", "no-track-record", "no-testimonials"],
     impactAnalysis: {
-      financialImpact: "Longer sales cycles; lower close rates; inability to prove ROI.",
+      financialImpact: 'Longer sales cycles; lower close rates; inability to prove ROI.',
       severity: "Major",
       affectedAreas: ["Sales Conversion", "Trust"],
       strategicPriority: 'High'
@@ -12293,16 +12293,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Never took time to document", "Confidentiality fears", "Don"t know how to write them"],
       automationPotential: {
         rating: "High",
-        example: "AI can draft case studies from interview transcripts or project summaries."
+        example: 'AI can draft case studies from interview transcripts or project summaries.'
       },
-      pathToRoot: "No Case Studies → Don"t Trust Us → Prospects Engage But Don't Buy"
+      pathToRoot: 'No Case Studies → Don"t Trust Us → Prospects Engage But Don't Buy'
     }
   },
   'cant-find-reviews': {
-    explanation: "When prospects Google you or search review sites, they find nothing—or worse, bad reviews. No reviews = no trust in modern buying.",
+    explanation: 'When prospects Google you or search review sites, they find nothing—or worse, bad reviews. No reviews = no trust in modern buying.',
     relatedProblems: ["dont-trust", "no-social-proof", "no-testimonials"],
     impactAnalysis: {
-      financialImpact: "Lost deals to competitors with reviews; prospects ghost after research phase.",
+      financialImpact: 'Lost deals to competitors with reviews; prospects ghost after research phase.',
       severity: "Major",
       affectedAreas: ["Trust", "Conversion Rate"],
       strategicPriority: 'High'
@@ -12316,16 +12316,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Never actively solicited reviews", "Don"t have review profiles set up", "Afraid of bad reviews"],
       automationPotential: {
         rating: "High",
-        example: "Review request automation (Birdeye, Podium) asks for reviews automatically post-service."
+        example: 'Review request automation (Birdeye, Podium) asks for reviews automatically post-service.'
       },
-      pathToRoot: "Can"t Find Reviews → Don't Trust Us → Prospects Engage But Don't Buy"
+      pathToRoot: 'Can"t Find Reviews → Don't Trust Us → Prospects Engage But Don't Buy'
     }
   },
   'no-recognizable-clients': {
-    explanation: "You have no well-known brands or logos to display. Prospects can"t use social proof shortcuts ('If X trusts them, I can too').",
+    explanation: 'You have no well-known brands or logos to display. Prospects can"t use social proof shortcuts ('If X trusts them, I can too').',
     relatedProblems: ["dont-trust", "no-social-proof", "too-new-unproven"],
     impactAnalysis: {
-      financialImpact: "Harder to close enterprise or premium clients; lack of brand association.",
+      financialImpact: 'Harder to close enterprise or premium clients; lack of brand association.',
       severity: "Moderate",
       affectedAreas: ["Trust", "Brand Perception"],
       strategicPriority: 'Medium'
@@ -12339,16 +12339,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["New business", "Serve SMBs not enterprises", "Haven"t prioritized "Trophy clients'"],
       automationPotential: {
         rating: "Low",
-        example: "Client acquisition is human-driven, but CRM can help target and track enterprise prospects."
+        example: 'Client acquisition is human-driven, but CRM can help target and track enterprise prospects.'
       },
-      pathToRoot: "No Recognizable Clients → Don"t Trust Us → Prospects Engage But Don't Buy"
+      pathToRoot: 'No Recognizable Clients → Don"t Trust Us → Prospects Engage But Don't Buy'
     }
   },
   'too-new-unproven': {
-    explanation: "You just launched, have few or no clients, and no reputation. You"re asking prospects to be guinea pigs. Most won't take that risk.",
+    explanation: 'You just launched, have few or no clients, and no reputation. You"re asking prospects to be guinea pigs. Most won't take that risk.',
     relatedProblems: ["dont-trust", "new-unknown", "no-track-record"],
     impactAnalysis: {
-      financialImpact: "Very high skepticism; need to discount or over-deliver to win early clients.",
+      financialImpact: 'Very high skepticism; need to discount or over-deliver to win early clients.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Pricing Power"],
       strategicPriority: 'High'
@@ -12362,16 +12362,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["New business", "No transferable reputation"],
       automationPotential: {
         rating: "Low",
-        example: "Trust is built over time with real results, but AI content can accelerate thought leadership."
+        example: 'Trust is built over time with real results, but AI content can accelerate thought leadership.'
       },
-      pathToRoot: "Too New/Unproven → Don"t Trust Us → Prospects Engage But Don't Buy"
+      pathToRoot: 'Too New/Unproven → Don"t Trust Us → Prospects Engage But Don't Buy'
     }
   },
   'promises-too-good': {
-    explanation: "Your marketing promises seem unrealistic or exaggerated ("10X your revenue in 30 days!'). This triggers skepticism and 'Too good to be true' alarm bells.",
+    explanation: 'Your marketing promises seem unrealistic or exaggerated ("10X your revenue in 30 days!'). This triggers skepticism and 'Too good to be true' alarm bells.',
     relatedProblems: ["dont-trust", "results-unrealistic", "cant-articulate-roi"],
     impactAnalysis: {
-      financialImpact: "High skepticism; prospects assume scam; brand damage.",
+      financialImpact: 'High skepticism; prospects assume scam; brand damage.',
       severity: "Major",
       affectedAreas: ["Trust", "Brand Reputation"],
       strategicPriority: 'High'
@@ -12385,17 +12385,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Copying "Guru" marketing", "Desperation", "Lack of ethical marketing standards"],
       automationPotential: {
         rating: "Low",
-        example: "This is a messaging and ethics issue, not an automation opportunity."
+        example: 'This is a messaging and ethics issue, not an automation opportunity.'
       },
-      pathToRoot: "Promises Too Good → Don"t Trust Us → Prospects Engage But Don't Buy"
+      pathToRoot: 'Promises Too Good → Don"t Trust Us → Prospects Engage But Don't Buy'
     }
   },
   // DON"T UNDERSTAND OFFER (LEVEL 7)
   'explanation-complicated': {
-    explanation: "Your service description is full of jargon, technical terms, or convoluted explanations. Prospects can"t grasp what you actually do or how it helps them.",
+    explanation: 'Your service description is full of jargon, technical terms, or convoluted explanations. Prospects can"t grasp what you actually do or how it helps them.',
     relatedProblems: ["dont-understand-offer", "process-unclear", "wrong-language"],
     impactAnalysis: {
-      financialImpact: "High drop-off; confused prospects don"t buy; longer sales cycles re-explaining.",
+      financialImpact: 'High drop-off; confused prospects don"t buy; longer sales cycles re-explaining.',
       severity: "Major",
       affectedAreas: ["Clarity", "Conversion Rate", "Sales Efficiency"],
       strategicPriority: 'High'
@@ -12409,16 +12409,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Technical background", "Trying to sound smart", "Inside-out thinking"],
       automationPotential: {
         rating: "High",
-        example: "AI readability tools (Hemingway, Grammarly) simplify language; AI can convert jargon to plain English."
+        example: 'AI readability tools (Hemingway, Grammarly) simplify language; AI can convert jargon to plain English.'
       },
-      pathToRoot: "Explanation Complicated → Don"t Understand Offer → Prospects Engage But Don't Buy"
+      pathToRoot: 'Explanation Complicated → Don"t Understand Offer → Prospects Engage But Don't Buy'
     }
   },
   'too-many-options': {
-    explanation: "You offer too many packages, tiers, or add-ons. Paradox of choice overwhelms prospects, and they freeze rather than decide.",
+    explanation: 'You offer too many packages, tiers, or add-ons. Paradox of choice overwhelms prospects, and they freeze rather than decide.',
     relatedProblems: ["dont-understand-offer", "pricing-structure-confusing", "multiple-conflicting-cta"],
     impactAnalysis: {
-      financialImpact: "Lower conversion; analysis paralysis; prospects delay or abandon.",
+      financialImpact: 'Lower conversion; analysis paralysis; prospects delay or abandon.',
       severity: "Moderate",
       affectedAreas: ["Conversion Rate", "Decision Speed"],
       strategicPriority: 'Medium'
@@ -12432,16 +12432,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Trying to serve everyone", "Adding options without removing old ones", "Fear of missing a sale"],
       automationPotential: {
         rating: "High",
-        example: "AI recommendation engines guide customers to the right option based on their answers."
+        example: 'AI recommendation engines guide customers to the right option based on their answers.'
       },
-      pathToRoot: "Too Many Options → Don"t Understand Offer → Prospects Engage But Don't Buy"
+      pathToRoot: 'Too Many Options → Don"t Understand Offer → Prospects Engage But Don't Buy'
     }
   },
   'unclear-included': {
-    explanation: "Prospects don"t know exactly what they"re getting. What's included? What's extra? Ambiguity creates anxiety and blocks purchase decisions.",
+    explanation: 'Prospects don"t know exactly what they"re getting. What's included? What's extra? Ambiguity creates anxiety and blocks purchase decisions.',
     relatedProblems: ["dont-understand-offer", "process-unclear", "pricing-structure-confusing"],
     impactAnalysis: {
-      financialImpact: "Low trust; high pre-sale support burden; lost deals due to uncertainty.",
+      financialImpact: 'Low trust; high pre-sale support burden; lost deals due to uncertainty.',
       severity: "Moderate",
       affectedAreas: ["Clarity", "Conversion Rate"],
       strategicPriority: 'Medium'
@@ -12455,16 +12455,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Assumed it was obvious", "Custom scopes make it hard to define", "Fear of being too specific"],
       automationPotential: {
         rating: "Medium",
-        example: "Interactive scope builders let prospects see what"s included as they configure."
+        example: 'Interactive scope builders let prospects see what"s included as they configure.'
       },
-      pathToRoot: "Unclear What"s Included → Don't Understand Offer → Prospects Engage But Don't Buy"
+      pathToRoot: 'Unclear What"s Included → Don't Understand Offer → Prospects Engage But Don't Buy'
     }
   },
   'process-unclear': {
-    explanation: "Prospects don"t understand what happens after they buy. How does onboarding work? What are the steps? How long does it take? Mystery creates friction.",
+    explanation: 'Prospects don"t understand what happens after they buy. How does onboarding work? What are the steps? How long does it take? Mystery creates friction.',
     relatedProblems: ["dont-understand-offer", "unclear-included", "explanation-complicated"],
     impactAnalysis: {
-      financialImpact: "Hesitation at purchase; longer sales cycles; lost deals to clearer competitors.",
+      financialImpact: 'Hesitation at purchase; longer sales cycles; lost deals to clearer competitors.',
       severity: "Moderate",
       affectedAreas: ["Conversion Rate", "Sales Efficiency"],
       strategicPriority: 'Medium'
@@ -12478,16 +12478,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Internal focus", "Assumed prospects know the process", "No documented process to show"],
       automationPotential: {
         rating: "Medium",
-        example: "Interactive process walkthroughs or explainer videos can clarify."
+        example: 'Interactive process walkthroughs or explainer videos can clarify.'
       },
-      pathToRoot: "Process Unclear → Don"t Understand Offer → Prospects Engage But Don't Buy"
+      pathToRoot: 'Process Unclear → Don"t Understand Offer → Prospects Engage But Don't Buy'
     }
   },
   'pricing-structure-confusing': {
-    explanation: "Your pricing is complex, hard to calculate, or full of caveats. Prospects can"t figure out what they"ll actually pay, so they don't commit.",
+    explanation: 'Your pricing is complex, hard to calculate, or full of caveats. Prospects can"t figure out what they"ll actually pay, so they don't commit.',
     relatedProblems: ["dont-understand-offer", "unclear-included", "payment-terms-dont-work"],
     impactAnalysis: {
-      financialImpact: "Lost deals; high pre-sale support; sticker shock surprises kill trust.",
+      financialImpact: 'Lost deals; high pre-sale support; sticker shock surprises kill trust.',
       severity: "Major",
       affectedAreas: ["Clarity", "Trust", "Conversion Rate"],
       strategicPriority: 'High'
@@ -12501,16 +12501,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Complex variable pricing", "Trying to hide true cost", "No pricing strategy"],
       automationPotential: {
         rating: "High",
-        example: "Pricing calculators and configurators make costs transparent and instant."
+        example: 'Pricing calculators and configurators make costs transparent and instant.'
       },
-      pathToRoot: "Pricing Structure Confusing → Don"t Understand Offer → Prospects Engage But Don't Buy"
+      pathToRoot: 'Pricing Structure Confusing → Don"t Understand Offer → Prospects Engage But Don't Buy'
     }
   },
   'terms-unclear': {
-    explanation: "Your contract terms, refund policy, or commitments are vague or buried in fine print. Prospects fear hidden traps.",
+    explanation: 'Your contract terms, refund policy, or commitments are vague or buried in fine print. Prospects fear hidden traps.',
     relatedProblems: ["dont-understand-offer", "risk-too-high", "no-trial-guarantee"],
     impactAnalysis: {
-      financialImpact: "Hesitation at purchase; legal friction; prospects choose clearer alternatives.",
+      financialImpact: 'Hesitation at purchase; legal friction; prospects choose clearer alternatives.',
       severity: "Moderate",
       affectedAreas: ["Trust", "Conversion Rate"],
       strategicPriority: 'Medium'
@@ -12524,17 +12524,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Legal-first thinking", "Hiding unfavorable terms", "No thought given to clarity"],
       automationPotential: {
         rating: "Low",
-        example: "This is a legal/clarity issue, but AI can simplify legal language into plain terms."
+        example: 'This is a legal/clarity issue, but AI can simplify legal language into plain terms.'
       },
-      pathToRoot: "Terms Unclear → Don"t Understand Offer → Prospects Engage But Don't Buy"
+      pathToRoot: 'Terms Unclear → Don"t Understand Offer → Prospects Engage But Don't Buy'
     }
   },
   // DON"T BELIEVE IT SOLVES THEIR PROBLEM (LEVEL 7)
   'weak-case-studies': {
-    explanation: "Your case studies are vague, generic, or irrelevant to the prospect"s situation. They don't see themselves in the stories you tell.",
+    explanation: 'Your case studies are vague, generic, or irrelevant to the prospect"s situation. They don't see themselves in the stories you tell.',
     relatedProblems: ["dont-believe-solves", "no-proof-situation", "situation-different"],
     impactAnalysis: {
-      financialImpact: "Low credibility; prospects don"t believe you can help them; longer sales cycles.",
+      financialImpact: 'Low credibility; prospects don"t believe you can help them; longer sales cycles.',
       severity: "Moderate",
       affectedAreas: ["Trust", "Conversion Rate"],
       strategicPriority: 'Medium'
@@ -12548,16 +12548,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Generic templates", "No storytelling skill", "Protecting client confidentiality too much"],
       automationPotential: {
         rating: "Medium",
-        example: "AI can draft case studies from interview transcripts, but specificity requires real data."
+        example: 'AI can draft case studies from interview transcripts, but specificity requires real data.'
       },
-      pathToRoot: "Weak Case Studies → Don"t Believe It Solves → Prospects Engage But Don't Buy"
+      pathToRoot: 'Weak Case Studies → Don"t Believe It Solves → Prospects Engage But Don't Buy'
     }
   },
   'cant-articulate-roi': {
-    explanation: "You can"t clearly explain the financial return prospects will get. No numbers, no payback period, no value quantification. Just vague promises.",
+    explanation: 'You can"t clearly explain the financial return prospects will get. No numbers, no payback period, no value quantification. Just vague promises.',
     relatedProblems: ["dont-believe-solves", "benefits-unclear", "no-roi-proof"],
     impactAnalysis: {
-      financialImpact: "Low conversion on high-ticket offers; budget objections; lost enterprise deals.",
+      financialImpact: 'Low conversion on high-ticket offers; budget objections; lost enterprise deals.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Deal Size", "Win Rate"],
       strategicPriority: 'High'
@@ -12571,16 +12571,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Never tracked client outcomes", "Fear of overpromising", "Soft outcomes (hard to quantify)"],
       automationPotential: {
         rating: "High",
-        example: "Interactive ROI calculators automate value demonstration."
+        example: 'Interactive ROI calculators automate value demonstration.'
       },
-      pathToRoot: "Can"t Articulate ROI → Don't Believe It Solves → Prospects Engage But Don't Buy"
+      pathToRoot: 'Can"t Articulate ROI → Don't Believe It Solves → Prospects Engage But Don't Buy'
     }
   },
   'no-proof-situation': {
-    explanation: "You have general proof, but nothing specific to their industry, size, or unique situation. They don"t believe it will work for them.",
+    explanation: 'You have general proof, but nothing specific to their industry, size, or unique situation. They don"t believe it will work for them.',
     relatedProblems: ["dont-believe-solves", "situation-different", "weak-case-studies"],
     impactAnalysis: {
-      financialImpact: "Lost deals to specialists; need to discount to overcome skepticism.",
+      financialImpact: 'Lost deals to specialists; need to discount to overcome skepticism.',
       severity: "Moderate",
       affectedAreas: ["Win Rate", "Pricing Power"],
       strategicPriority: 'Medium'
@@ -12594,16 +12594,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Generic marketing", "Haven"t segmented case studies", "New to this type of client"],
       automationPotential: {
         rating: "Medium",
-        example: "Dynamic case study displays can show the most relevant proof based on prospect profile."
+        example: 'Dynamic case study displays can show the most relevant proof based on prospect profile.'
       },
-      pathToRoot: "No Proof for Their Situation → Don"t Believe It Solves → Prospects Engage But Don't Buy"
+      pathToRoot: 'No Proof for Their Situation → Don"t Believe It Solves → Prospects Engage But Don't Buy'
     }
   },
   'results-unrealistic': {
-    explanation: "Your promised results seem too big, too fast, or too good. This triggers skepticism rather than excitement.",
+    explanation: 'Your promised results seem too big, too fast, or too good. This triggers skepticism rather than excitement.',
     relatedProblems: ["dont-believe-solves", "promises-too-good", "cant-articulate-roi"],
     impactAnalysis: {
-      financialImpact: "High skepticism; prospects assume exaggeration; brand damage.",
+      financialImpact: 'High skepticism; prospects assume exaggeration; brand damage.',
       severity: "Major",
       affectedAreas: ["Trust", "Conversion Rate"],
       strategicPriority: 'High'
@@ -12617,16 +12617,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Hyperbolic marketing", "Cherry-picking best results", "Copying "Guru" tactics"],
       automationPotential: {
         rating: "Low",
-        example: "This is an ethics and messaging issue, not automation."
+        example: 'This is an ethics and messaging issue, not automation.'
       },
-      pathToRoot: "Results Seem Unrealistic → Don"t Believe It Solves → Prospects Engage But Don't Buy"
+      pathToRoot: 'Results Seem Unrealistic → Don"t Believe It Solves → Prospects Engage But Don't Buy'
     }
   },
   'situation-different': {
-    explanation: "Prospects believe their situation is uniquely different or complex, so your solution won"t work for them. Classic objection requiring empathy and proof.",
+    explanation: 'Prospects believe their situation is uniquely different or complex, so your solution won"t work for them. Classic objection requiring empathy and proof.',
     relatedProblems: ["dont-believe-solves", "no-proof-situation", "weak-case-studies"],
     impactAnalysis: {
-      financialImpact: "Lost deals despite qualification; longer sales cycles overcoming objection.",
+      financialImpact: 'Lost deals despite qualification; longer sales cycles overcoming objection.',
       severity: "Moderate",
       affectedAreas: ["Win Rate", "Sales Efficiency"],
       strategicPriority: 'Medium'
@@ -12640,16 +12640,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Prospect rationalization", "Lack of relevant case studies", "Generic positioning"],
       automationPotential: {
         rating: "Low",
-        example: "This is a sales objection requiring human empathy, but AI can suggest relevant case studies."
+        example: 'This is a sales objection requiring human empathy, but AI can suggest relevant case studies.'
       },
-      pathToRoot: "Situation Feels Different → Don"t Believe It Solves → Prospects Engage But Don't Buy"
+      pathToRoot: 'Situation Feels Different → Don"t Believe It Solves → Prospects Engage But Don't Buy'
     }
   },
   'missing-key-features': {
-    explanation: "Your solution is close but lacks one or two critical features the prospect needs. This deal-breaker prevents purchase.",
+    explanation: 'Your solution is close but lacks one or two critical features the prospect needs. This deal-breaker prevents purchase.',
     relatedProblems: ["dont-believe-solves", "bad-fit-services"],
     impactAnalysis: {
-      financialImpact: "Lost qualified deals; opportunity cost of not expanding offering.",
+      financialImpact: 'Lost qualified deals; opportunity cost of not expanding offering.',
       severity: "Moderate",
       affectedAreas: ["Product-Market Fit', "Win Rate"],
       strategicPriority: 'Medium'
@@ -12663,17 +12663,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Product/service not fully developed", "Targeting wrong segment", "Not listening to customer needs"],
       automationPotential: {
         rating: "Medium",
-        example: "Feature request tracking and prioritization tools guide product roadmap."
+        example: 'Feature request tracking and prioritization tools guide product roadmap.'
       },
-      pathToRoot: "Missing Key Features → Don"t Believe It Solves → Prospects Engage But Don't Buy"
+      pathToRoot: 'Missing Key Features → Don"t Believe It Solves → Prospects Engage But Don't Buy'
     }
   },
   // PRICE OBJECTION (LEVEL 7)
   'sticker-shock': {
-    explanation: "Your price is higher than prospects expected. The surprise creates resistance, even if the value is there. Anchoring matters.",
+    explanation: 'Your price is higher than prospects expected. The surprise creates resistance, even if the value is there. Anchoring matters.',
     relatedProblems: ["price-objection", "cant-see-value", "comparing-cheaper"],
     impactAnalysis: {
-      financialImpact: "Lost deals at pricing reveal; need to justify or discount.",
+      financialImpact: 'Lost deals at pricing reveal; need to justify or discount.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Pricing Integrity"],
       strategicPriority: 'High'
@@ -12687,16 +12687,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Hiding price too long", "Market mispricing", "Weak value demonstration"],
       automationPotential: {
         rating: "Medium",
-        example: "Pricing reveal sequences that build value first can reduce sticker shock."
+        example: 'Pricing reveal sequences that build value first can reduce sticker shock.'
       },
-      pathToRoot: "Sticker Shock → Price Objection → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Sticker Shock → Price Objection → Prospects Engage But Don"t Buy'
     }
   },
   'cant-see-value': {
-    explanation: "Prospects understand the price but don"t see enough value to justify it. The value-to-price ratio feels off.",
+    explanation: 'Prospects understand the price but don"t see enough value to justify it. The value-to-price ratio feels off.',
     relatedProblems: ["price-objection", "benefits-unclear", "cant-articulate-roi"],
     impactAnalysis: {
-      financialImpact: "Forced discounting; inability to charge premium; commoditization.",
+      financialImpact: 'Forced discounting; inability to charge premium; commoditization.',
       severity: "Major",
       affectedAreas: ["Pricing Power", "Margins"],
       strategicPriority: 'High'
@@ -12710,16 +12710,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Weak value proposition", "Poor sales presentation", "Wrong target market (can"t afford)"],
       automationPotential: {
         rating: "High",
-        example: "Interactive ROI calculators and value demonstration tools show worth."
+        example: 'Interactive ROI calculators and value demonstration tools show worth.'
       },
-      pathToRoot: "Can"t See Value vs Cost → Price Objection → Prospects Engage But Don't Buy"
+      pathToRoot: 'Can"t See Value vs Cost → Price Objection → Prospects Engage But Don't Buy'
     }
   },
   'payment-terms-dont-work': {
-    explanation: "Your payment structure doesn"t fit their cash flow, budget cycle, or procurement process. They want to buy but can't with current terms.",
+    explanation: 'Your payment structure doesn"t fit their cash flow, budget cycle, or procurement process. They want to buy but can't with current terms.',
     relatedProblems: ["price-objection", "budget-not-available", "timing-not-right-sales"],
     impactAnalysis: {
-      financialImpact: "Lost qualified deals due to payment inflexibility; opportunity cost.",
+      financialImpact: 'Lost qualified deals due to payment inflexibility; opportunity cost.',
       severity: "Moderate",
       affectedAreas: ["Win Rate", "Revenue"],
       strategicPriority: 'Medium'
@@ -12733,16 +12733,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Inflexible payment policy", "Not understanding customer needs", "Cash flow concerns on your side"],
       automationPotential: {
         rating: "High",
-        example: "Financing integrations (Affirm, Klarna) or automated payment plans remove barriers."
+        example: 'Financing integrations (Affirm, Klarna) or automated payment plans remove barriers.'
       },
-      pathToRoot: "Payment Terms Don"t Work → Price Objection → Prospects Engage But Don't Buy"
+      pathToRoot: 'Payment Terms Don"t Work → Price Objection → Prospects Engage But Don't Buy'
     }
   },
   'comparing-cheaper': {
-    explanation: "Prospects are comparing you to lower-priced competitors. Unless you"ve differentiated, price becomes the deciding factor.",
+    explanation: 'Prospects are comparing you to lower-priced competitors. Unless you"ve differentiated, price becomes the deciding factor.',
     relatedProblems: ["price-objection", "no-differentiation", "competing-price"],
     impactAnalysis: {
-      financialImpact: "Pressure to discount; margin erosion; lost deals to cheaper options.",
+      financialImpact: 'Pressure to discount; margin erosion; lost deals to cheaper options.',
       severity: "Major",
       affectedAreas: ["Pricing Power", "Win Rate", "Margins"],
       strategicPriority: 'High'
@@ -12756,16 +12756,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Weak differentiation", "Commoditized service", "Wrong target market (price-sensitive)"],
       automationPotential: {
         rating: "Low",
-        example: "Differentiation is strategic, but AI can identify competitor weaknesses to highlight."
+        example: 'Differentiation is strategic, but AI can identify competitor weaknesses to highlight.'
       },
-      pathToRoot: "Comparing to Cheaper Alternatives → Price Objection → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Comparing to Cheaper Alternatives → Price Objection → Prospects Engage But Don"t Buy'
     }
   },
   'budget-not-available': {
-    explanation: "Prospect has no budget allocated for your solution. They might want it, but the money isn"t there (or isn't approved yet).",
+    explanation: 'Prospect has no budget allocated for your solution. They might want it, but the money isn"t there (or isn't approved yet).',
     relatedProblems: ["price-objection", "not-decision-maker-budget", "timing-not-right-sales"],
     impactAnalysis: {
-      financialImpact: "Long sales cycles; lost deals to budget constraints.",
+      financialImpact: 'Long sales cycles; lost deals to budget constraints.',
       severity: "Major",
       affectedAreas: ["Deal Velocity", "Win Rate"],
       strategicPriority: 'Medium'
@@ -12779,16 +12779,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Selling to unqualified prospects", "Budget timing misalignment", "Lack of urgency"],
       automationPotential: {
         rating: "Medium",
-        example: "CRM qualification questions filter out prospects without budget authority."
+        example: 'CRM qualification questions filter out prospects without budget authority.'
       },
-      pathToRoot: "Budget Not Available → Price Objection → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Budget Not Available → Price Objection → Prospects Engage But Don"t Buy'
     }
   },
   'not-decision-maker-budget': {
-    explanation: "You"re talking to someone who likes your solution but has no authority to approve the budget. You need to reach the economic buyer.",
+    explanation: 'You"re talking to someone who likes your solution but has no authority to approve the budget. You need to reach the economic buyer.',
     relatedProblems: ["price-objection", "budget-not-available", "not-qualifying"],
     impactAnalysis: {
-      financialImpact: "Wasted sales effort; long cycles; deals stall or die.",
+      financialImpact: 'Wasted sales effort; long cycles; deals stall or die.',
       severity: "Major",
       affectedAreas: ["Sales Efficiency", "Win Rate"],
       strategicPriority: 'High'
@@ -12802,16 +12802,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor qualification", "Not asking about decision-making process", "Avoiding difficult questions"],
       automationPotential: {
         rating: "Low",
-        example: "This is a sales qualification and process issue requiring human intervention."
+        example: 'This is a sales qualification and process issue requiring human intervention.'
       },
-      pathToRoot: "Not Decision Maker on Budget → Price Objection → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Not Decision Maker on Budget → Price Objection → Prospects Engage But Don"t Buy'
     }
   },
   'cost-benefit-unclear': {
-    explanation: "Prospects can"t do the mental math on whether your price is worth it. The cost is clear, but the benefit isn't quantified.",
+    explanation: 'Prospects can"t do the mental math on whether your price is worth it. The cost is clear, but the benefit isn't quantified.',
     relatedProblems: ["price-objection", "cant-articulate-roi", "benefits-unclear"],
     impactAnalysis: {
-      financialImpact: "Hesitation and lost deals; need to over-explain in every sale.",
+      financialImpact: 'Hesitation and lost deals; need to over-explain in every sale.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Sales Efficiency"],
       strategicPriority: 'High'
@@ -12825,17 +12825,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["No value quantification", "Soft benefits only", "Weak sales presentation"],
       automationPotential: {
         rating: "High",
-        example: "Interactive ROI calculators automate cost-benefit demonstration."
+        example: 'Interactive ROI calculators automate cost-benefit demonstration.'
       },
-      pathToRoot: "Cost vs Benefit Unclear → Price Objection → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Cost vs Benefit Unclear → Price Objection → Prospects Engage But Don"t Buy'
     }
   },
   // TIMING NOT RIGHT (SALES) - LEVEL 7
   'problem-not-urgent': {
-    explanation: "The prospect acknowledges the problem but doesn"t feel urgency to solve it now. It's on their 'Someday' list, not 'This quarter.'",
+    explanation: 'The prospect acknowledges the problem but doesn"t feel urgency to solve it now. It's on their 'Someday' list, not 'This quarter.'',
     relatedProblems: ["timing-not-right-sales", "other-priorities", "want-think-about"],
     impactAnalysis: {
-      financialImpact: "Pipeline full of stalled deals; low conversion; wasted nurture effort.",
+      financialImpact: 'Pipeline full of stalled deals; low conversion; wasted nurture effort.',
       severity: "Major",
       affectedAreas: ["Deal Velocity", "Conversion Rate"],
       strategicPriority: 'High'
@@ -12849,16 +12849,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Problem isn"t painful enough yet", "No triggering event", "Competing priorities"],
       automationPotential: {
         rating: "High",
-        example: "Automated nurture sequences stay top-of-mind until urgency increases."
+        example: 'Automated nurture sequences stay top-of-mind until urgency increases.'
       },
-      pathToRoot: "Problem Not Urgent → Timing Not Right → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Problem Not Urgent → Timing Not Right → Prospects Engage But Don"t Buy'
     }
   },
   'budget-not-now': {
-    explanation: "Budget exists but isn"t available right now due to fiscal year, seasonal constraints, or recent spending. They want to buy later.",
+    explanation: 'Budget exists but isn"t available right now due to fiscal year, seasonal constraints, or recent spending. They want to buy later.',
     relatedProblems: ["timing-not-right-sales", "budget-not-available", "waiting-approval"],
     impactAnalysis: {
-      financialImpact: "Delayed revenue; risk of losing deal to forgetfulness or competitor.",
+      financialImpact: 'Delayed revenue; risk of losing deal to forgetfulness or competitor.',
       severity: "Moderate",
       affectedAreas: ["Revenue Timing", "Pipeline Predictability"],
       strategicPriority: 'Medium'
@@ -12872,16 +12872,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Budget cycle misalignment", "Recent spending exhausted budget", "Unexpected expenses"],
       automationPotential: {
         rating: "High",
-        example: "CRM reminders and automated follow-ups at the right time keep deals alive."
+        example: 'CRM reminders and automated follow-ups at the right time keep deals alive.'
       },
-      pathToRoot: "Budget Not Available Now → Timing Not Right → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Budget Not Available Now → Timing Not Right → Prospects Engage But Don"t Buy'
     }
   },
   'other-priorities': {
-    explanation: "Prospect is interested but has other more urgent initiatives taking precedence. Your solution is important, but not #1.",
+    explanation: 'Prospect is interested but has other more urgent initiatives taking precedence. Your solution is important, but not #1.',
     relatedProblems: ["timing-not-right-sales", "problem-not-urgent", "want-think-about"],
     impactAnalysis: {
-      financialImpact: "Deals pushed to "Later" often die; lost to competitors who create urgency.",
+      financialImpact: 'Deals pushed to "Later" often die; lost to competitors who create urgency.',
       severity: "Moderate",
       affectedAreas: ["Win Rate", "Deal Velocity"],
       strategicPriority: 'Medium'
@@ -12895,16 +12895,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Your solution isn"t critical enough", "Poor timing", "Weak value positioning"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated check-ins keep you top-of-mind when priorities shift."
+        example: 'Automated check-ins keep you top-of-mind when priorities shift.'
       },
-      pathToRoot: "Other Priorities → Timing Not Right → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Other Priorities → Timing Not Right → Prospects Engage But Don"t Buy'
     }
   },
   'waiting-approval': {
-    explanation: "Prospect wants to move forward but needs internal approvals, legal review, or committee sign-off. They"re stuck in internal process.",
+    explanation: 'Prospect wants to move forward but needs internal approvals, legal review, or committee sign-off. They"re stuck in internal process.',
     relatedProblems: ["timing-not-right-sales", "many-decision-makers", "procurement-bottleneck"],
     impactAnalysis: {
-      financialImpact: "Long sales cycles; deals stall; risk of losing to status quo.",
+      financialImpact: 'Long sales cycles; deals stall; risk of losing to status quo.',
       severity: "Moderate",
       affectedAreas: ["Deal Velocity", "Predictability"],
       strategicPriority: 'Medium'
@@ -12918,16 +12918,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Enterprise/complex org structures", "High-risk purchase requires multiple approvals", "Political dynamics"],
       automationPotential: {
         rating: "Low",
-        example: "This is a human/political issue, but CRM can track approval stages."
+        example: 'This is a human/political issue, but CRM can track approval stages.'
       },
-      pathToRoot: "Waiting on Approval → Timing Not Right → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Waiting on Approval → Timing Not Right → Prospects Engage But Don"t Buy'
     }
   },
   'want-think-about': {
-    explanation: "The classic stall. Prospect says they need time to think, often a polite way of saying "No" or hiding another objection.",
+    explanation: 'The classic stall. Prospect says they need time to think, often a polite way of saying "No" or hiding another objection.',
     relatedProblems: ["timing-not-right-sales", "problem-not-urgent", "other-priorities"],
     impactAnalysis: {
-      financialImpact: "Most "Think about it" deals die; lost time and effort.",
+      financialImpact: 'Most "Think about it" deals die; lost time and effort.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Sales Efficiency"],
       strategicPriority: 'High'
@@ -12941,16 +12941,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Hidden objection", "Conflict avoidance", "Lack of urgency"],
       automationPotential: {
         rating: "Low",
-        example: "This is a sales skill issue requiring human objection handling."
+        example: 'This is a sales skill issue requiring human objection handling.'
       },
-      pathToRoot: "Want to Think About It → Timing Not Right → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Want to Think About It → Timing Not Right → Prospects Engage But Don"t Buy'
     }
   },
   'need-finish-current': {
-    explanation: "Prospect is locked into a current provider or solution and needs to finish that contract, project, or commitment before considering yours.",
+    explanation: 'Prospect is locked into a current provider or solution and needs to finish that contract, project, or commitment before considering yours.',
     relatedProblems: ["timing-not-right-sales", "switching-costs-high", "incumbent-advantage"],
     impactAnalysis: {
-      financialImpact: "Long wait times; risk competitor locks them in first.",
+      financialImpact: 'Long wait times; risk competitor locks them in first.',
       severity: "Moderate",
       affectedAreas: ["Deal Timing", "Win Rate"],
       strategicPriority: 'Medium'
@@ -12964,17 +12964,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Contract lock-in", "Mid-project disruption risk", "Switching costs"],
       automationPotential: {
         rating: "High",
-        example: "Automated reminders and nurture sequences keep you top-of-mind until they"re ready."
+        example: 'Automated reminders and nurture sequences keep you top-of-mind until they"re ready.'
       },
-      pathToRoot: "Need to Finish Current Solution → Timing Not Right → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Need to Finish Current Solution → Timing Not Right → Prospects Engage But Don"t Buy'
     }
   },
   // SALES PROCESS WEAK (LEVEL 7)
   'not-qualifying': {
-    explanation: "You"re talking to anyone who shows interest instead of pre-qualifying for budget, authority, need, and timeline. This fills your pipeline with junk.",
+    explanation: 'You"re talking to anyone who shows interest instead of pre-qualifying for budget, authority, need, and timeline. This fills your pipeline with junk.',
     relatedProblems: ["sales-process-weak", "wrong-prospects", "not-decision-maker-budget"],
     impactAnalysis: {
-      financialImpact: "Wasted sales effort on unqualified leads; low close rate; burnout.",
+      financialImpact: 'Wasted sales effort on unqualified leads; low close rate; burnout.',
       severity: "Major",
       affectedAreas: ["Sales Efficiency", "Win Rate", "Morale"],
       strategicPriority: 'High'
@@ -12988,16 +12988,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Desperate for leads", "No sales process", "Fear of rejection"],
       automationPotential: {
         rating: "High",
-        example: "Automated qualification forms and chatbots filter leads before sales involvement."
+        example: 'Automated qualification forms and chatbots filter leads before sales involvement.'
       },
-      pathToRoot: "Not Qualifying → Sales Process Weak → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Not Qualifying → Sales Process Weak → Prospects Engage But Don"t Buy'
     }
   },
   'not-asking-discovery': {
-    explanation: "You jump straight to pitching without understanding the prospect"s situation, pain, or goals. Generic pitches don't convert.",
+    explanation: 'You jump straight to pitching without understanding the prospect"s situation, pain, or goals. Generic pitches don't convert.',
     relatedProblems: ["sales-process-weak", "proposal-misses-mark", "not-qualifying"],
     impactAnalysis: {
-      financialImpact: "Low close rate; proposals that miss the mark; wasted effort.",
+      financialImpact: 'Low close rate; proposals that miss the mark; wasted effort.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Sales Effectiveness"],
       strategicPriority: 'High'
@@ -13011,16 +13011,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Eagerness to sell", "No sales training", "Product-focused mindset"],
       automationPotential: {
         rating: "Medium",
-        example: "CRM prompts can guide discovery, but listening is a human skill."
+        example: 'CRM prompts can guide discovery, but listening is a human skill.'
       },
-      pathToRoot: "Not Asking Good Discovery Questions → Sales Process Weak → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Not Asking Good Discovery Questions → Sales Process Weak → Prospects Engage But Don"t Buy'
     }
   },
   'not-handling-objections': {
-    explanation: "When prospects raise objections, you either avoid them or become defensive instead of addressing them confidently and empathetically.",
+    explanation: 'When prospects raise objections, you either avoid them or become defensive instead of addressing them confidently and empathetically.',
     relatedProblems: ["sales-process-weak", "not-closing", "too-pushy-not-assertive"],
     impactAnalysis: {
-      financialImpact: "Lost deals at objection stage; weak negotiation position.",
+      financialImpact: 'Lost deals at objection stage; weak negotiation position.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Deal Progress"],
       strategicPriority: 'High'
@@ -13034,16 +13034,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Lack of sales training", "Fear of conflict", "Weak product confidence"],
       automationPotential: {
         rating: "Low",
-        example: "Objection handling is a human skill, but AI can suggest responses based on best practices."
+        example: 'Objection handling is a human skill, but AI can suggest responses based on best practices.'
       },
-      pathToRoot: "Not Handling Objections → Sales Process Weak → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Not Handling Objections → Sales Process Weak → Prospects Engage But Don"t Buy'
     }
   },
   'not-closing': {
-    explanation: "You never ask for the sale. You present, answer questions, then wait for them to decide. Most won"t without a clear ask.",
+    explanation: 'You never ask for the sale. You present, answer questions, then wait for them to decide. Most won"t without a clear ask.',
     relatedProblems: ["sales-process-weak", "following-up-inconsistently", "too-pushy-not-assertive"],
     impactAnalysis: {
-      financialImpact: "Leaving 30-50% of potential deals on the table; low conversion.",
+      financialImpact: 'Leaving 30-50% of potential deals on the table; low conversion.',
       severity: "Critical",
       affectedAreas: ["Win Rate", "Revenue"],
       strategicPriority: 'High'
@@ -13057,16 +13057,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of rejection", "Passive sales style", "No training on closing techniques"],
       automationPotential: {
         rating: "Low",
-        example: "Closing is a human skill requiring confidence and timing."
+        example: 'Closing is a human skill requiring confidence and timing.'
       },
-      pathToRoot: "Not Closing/Asking for Sale → Sales Process Weak → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Not Closing/Asking for Sale → Sales Process Weak → Prospects Engage But Don"t Buy'
     }
   },
   'following-up-inconsistently': {
-    explanation: "You follow up sometimes but not systematically. Some prospects get 10 touches, others get 1. No consistency = lost deals.",
+    explanation: 'You follow up sometimes but not systematically. Some prospects get 10 touches, others get 1. No consistency = lost deals.',
     relatedProblems: ["sales-process-weak", "not-closing", "no-followup"],
     impactAnalysis: {
-      financialImpact: "Random win rate; unpredictable revenue; missed opportunities.",
+      financialImpact: 'Random win rate; unpredictable revenue; missed opportunities.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Revenue Predictability"],
       strategicPriority: 'High'
@@ -13080,16 +13080,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["No system", "Forgetting", "Too busy"],
       automationPotential: {
         rating: "High",
-        example: "Sales engagement platforms (Outreach, SalesLoft) automate consistent follow-up."
+        example: 'Sales engagement platforms (Outreach, SalesLoft) automate consistent follow-up.'
       },
-      pathToRoot: "Following Up Inconsistently → Sales Process Weak → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Following Up Inconsistently → Sales Process Weak → Prospects Engage But Don"t Buy'
     }
   },
   'too-pushy-not-assertive': {
-    explanation: "You"re either too aggressive (turning prospects off) or too passive (not driving the sale forward). Finding the balance is key.",
+    explanation: 'You"re either too aggressive (turning prospects off) or too passive (not driving the sale forward). Finding the balance is key.',
     relatedProblems: ["sales-process-weak", "not-closing", "not-handling-objections"],
     impactAnalysis: {
-      financialImpact: "Lost deals either way; damaged relationships or stalled pipeline.",
+      financialImpact: 'Lost deals either way; damaged relationships or stalled pipeline.',
       severity: "Moderate",
       affectedAreas: ["Win Rate", "Brand Perception"],
       strategicPriority: 'Medium'
@@ -13103,16 +13103,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["No sales training", "Personality extremes", "Desperation or passivity"],
       automationPotential: {
         rating: "Low",
-        example: "This is a human skill and personality issue requiring training and self-awareness."
+        example: 'This is a human skill and personality issue requiring training and self-awareness.'
       },
-      pathToRoot: "Too Pushy or Not Assertive Enough → Sales Process Weak → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Too Pushy or Not Assertive Enough → Sales Process Weak → Prospects Engage But Don"t Buy'
     }
   },
   'taking-long-respond': {
-    explanation: "You take hours or days to respond to prospect questions. Slow response kills momentum and signals you"ll be slow to deliver too.",
+    explanation: 'You take hours or days to respond to prospect questions. Slow response kills momentum and signals you"ll be slow to deliver too.',
     relatedProblems: ["sales-process-weak", "poor-communication-client"],
     impactAnalysis: {
-      financialImpact: "Lost deals to faster competitors; damaged trust; slower sales cycles.",
+      financialImpact: 'Lost deals to faster competitors; damaged trust; slower sales cycles.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Deal Velocity", "Trust"],
       strategicPriority: 'High'
@@ -13126,16 +13126,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Too busy", "No urgency culture", "Disorganization"],
       automationPotential: {
         rating: "High",
-        example: "Chatbots and auto-responders provide instant answers to common questions."
+        example: 'Chatbots and auto-responders provide instant answers to common questions.'
       },
-      pathToRoot: "Taking Too Long to Respond → Sales Process Weak → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Taking Too Long to Respond → Sales Process Weak → Prospects Engage But Don"t Buy'
     }
   },
   'proposal-misses-mark': {
-    explanation: "Your proposals don"t address the specific needs, pain, or goals discovered in sales conversations. They're generic templates that miss the point.",
+    explanation: 'Your proposals don"t address the specific needs, pain, or goals discovered in sales conversations. They're generic templates that miss the point.',
     relatedProblems: ["sales-process-weak", "not-asking-discovery", "expectations-misaligned"],
     impactAnalysis: {
-      financialImpact: "Low proposal acceptance rate; need to redo work; lost deals.",
+      financialImpact: 'Low proposal acceptance rate; need to redo work; lost deals.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Sales Efficiency"],
       strategicPriority: 'High'
@@ -13149,17 +13149,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Poor discovery", "Template laziness", "Rushed proposal creation"],
       automationPotential: {
         rating: "High",
-        example: "Proposal software (PandaDoc, Proposify) with dynamic fields pulls from CRM for customization."
+        example: 'Proposal software (PandaDoc, Proposify) with dynamic fields pulls from CRM for customization.'
       },
-      pathToRoot: "Proposal Misses the Mark → Sales Process Weak → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Proposal Misses the Mark → Sales Process Weak → Prospects Engage But Don"t Buy'
     }
   },
   // COMPETITION BEATS US (LEVEL 7)
   'competitor-better-offer': {
-    explanation: "Competitor has a better product, price, terms, or value proposition. You"re simply outgunned on the fundamentals.",
+    explanation: 'Competitor has a better product, price, terms, or value proposition. You"re simply outgunned on the fundamentals.',
     relatedProblems: ["competition-beats", "lost-on-price", "nothing-unique"],
     impactAnalysis: {
-      financialImpact: "Systematic losing to specific competitor; market share erosion.",
+      financialImpact: 'Systematic losing to specific competitor; market share erosion.',
       severity: "Critical",
       affectedAreas: ["Win Rate", "Market Position"],
       strategicPriority: 'High'
@@ -13173,16 +13173,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Product/service gap", "Pricing strategy", "Better positioning"],
       automationPotential: {
         rating: "Low",
-        example: "Competitive intelligence tools track competitor moves, but strategy is human."
+        example: 'Competitive intelligence tools track competitor moves, but strategy is human.'
       },
-      pathToRoot: "Competitor Better Offer → Competition Beats Us → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Competitor Better Offer → Competition Beats Us → Prospects Engage But Don"t Buy'
     }
   },
   'competitor-stronger-relationship': {
-    explanation: "Competitor has an existing relationship, referral, or network advantage. They have trust you don"t.",
+    explanation: 'Competitor has an existing relationship, referral, or network advantage. They have trust you don"t.',
     relatedProblems: ["competition-beats", "incumbent-advantage", "dont-trust"],
     impactAnalysis: {
-      financialImpact: "High CAC; low win rate on competitive deals; relationship disadvantage.",
+      financialImpact: 'High CAC; low win rate on competitive deals; relationship disadvantage.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Sales Efficiency"],
       strategicPriority: 'Medium'
@@ -13196,16 +13196,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["New market entrant", "Weak network", "Referral disadvantage"],
       automationPotential: {
         rating: "Low",
-        example: "Relationships are human-built, but CRM helps nurture and track them."
+        example: 'Relationships are human-built, but CRM helps nurture and track them.'
       },
-      pathToRoot: "Competitor Stronger Relationship → Competition Beats Us → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Competitor Stronger Relationship → Competition Beats Us → Prospects Engage But Don"t Buy'
     }
   },
   'competitor-moved-faster': {
-    explanation: "Competitor responded quicker, proposed faster, or closed before you could. Speed wins in competitive sales.",
+    explanation: 'Competitor responded quicker, proposed faster, or closed before you could. Speed wins in competitive sales.',
     relatedProblems: ["competition-beats", "taking-long-respond", "proposal-drags"],
     impactAnalysis: {
-      financialImpact: "Lost deals to speed; first-mover advantage goes to competitor.",
+      financialImpact: 'Lost deals to speed; first-mover advantage goes to competitor.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Deal Velocity"],
       strategicPriority: 'High'
@@ -13219,16 +13219,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Slow internal processes", "Disorganization", "Undervaluing speed"],
       automationPotential: {
         rating: "High",
-        example: "Automated proposal generation and instant quotes speed up response times."
+        example: 'Automated proposal generation and instant quotes speed up response times.'
       },
-      pathToRoot: "Competitor Moved Faster → Competition Beats Us → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Competitor Moved Faster → Competition Beats Us → Prospects Engage But Don"t Buy'
     }
   },
   'competitor-better-reputation': {
-    explanation: "Competitor is a known brand with strong reputation. You"re unknown or have less brand equity. Prospects default to the safer choice.",
+    explanation: 'Competitor is a known brand with strong reputation. You"re unknown or have less brand equity. Prospects default to the safer choice.',
     relatedProblems: ["competition-beats", "new-unknown", "no-social-proof"],
     impactAnalysis: {
-      financialImpact: "Need to offer more proof, lower prices, or stronger guarantees to compete.",
+      financialImpact: 'Need to offer more proof, lower prices, or stronger guarantees to compete.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Pricing Power"],
       strategicPriority: 'High'
@@ -13242,16 +13242,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["New business", "Competing with established players", "Weak marketing"],
       automationPotential: {
         rating: "Medium",
-        example: "AI-powered content marketing can accelerate thought leadership and brand building."
+        example: 'AI-powered content marketing can accelerate thought leadership and brand building.'
       },
-      pathToRoot: "Competitor Better Reputation → Competition Beats Us → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Competitor Better Reputation → Competition Beats Us → Prospects Engage But Don"t Buy'
     }
   },
   'incumbent-advantage': {
-    explanation: "Competitor is already the incumbent provider. Switching costs, familiarity, and inertia work in their favor.",
+    explanation: 'Competitor is already the incumbent provider. Switching costs, familiarity, and inertia work in their favor.',
     relatedProblems: ["competition-beats", "switching-costs-high", "need-finish-current"],
     impactAnalysis: {
-      financialImpact: "Very low win rate on replacement deals; need to 10X better to switch.",
+      financialImpact: 'Very low win rate on replacement deals; need to 10X better to switch.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Market Penetration"],
       strategicPriority: 'Medium'
@@ -13265,16 +13265,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Status quo bias", "Switching costs", "Incumbent lock-in tactics"],
       automationPotential: {
         rating: "High",
-        example: "Automated migration tools and onboarding reduce switching friction."
+        example: 'Automated migration tools and onboarding reduce switching friction.'
       },
-      pathToRoot: "Incumbent Advantage → Competition Beats Us → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Incumbent Advantage → Competition Beats Us → Prospects Engage But Don"t Buy'
     }
   },
   'lost-on-price': {
-    explanation: "Competitor undercut you on price. If you can"t differentiate enough to justify premium, price becomes the deciding factor.",
+    explanation: 'Competitor undercut you on price. If you can"t differentiate enough to justify premium, price becomes the deciding factor.',
     relatedProblems: ["competition-beats", "comparing-cheaper", "no-differentiation"],
     impactAnalysis: {
-      financialImpact: "Margin pressure; race to bottom; commoditization.",
+      financialImpact: 'Margin pressure; race to bottom; commoditization.',
       severity: "Major",
       affectedAreas: ["Margins", "Win Rate", "Brand Value"],
       strategicPriority: 'High'
@@ -13288,17 +13288,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Weak differentiation", "Commoditized offering", "Wrong target market"],
       automationPotential: {
         rating: "Low",
-        example: "Pricing strategy is human, but ROI calculators help justify premium pricing."
+        example: 'Pricing strategy is human, but ROI calculators help justify premium pricing.'
       },
-      pathToRoot: "Lost on Price → Competition Beats Us → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Lost on Price → Competition Beats Us → Prospects Engage But Don"t Buy'
     }
   },
   // RISK FEELS TOO HIGH (LEVEL 7)
   'big-commitment': {
-    explanation: "Your offer requires a large commitment (time, money, or resources) with a provider they don"t know well. That's a scary ask.",
+    explanation: 'Your offer requires a large commitment (time, money, or resources) with a provider they don"t know well. That's a scary ask.',
     relatedProblems: ["risk-too-high", "fear-wrong-decision", "no-trial-guarantee"],
     impactAnalysis: {
-      financialImpact: "Low close rate on first deals; long sales cycles; need to over-prove.",
+      financialImpact: 'Low close rate on first deals; long sales cycles; need to over-prove.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Deal Velocity"],
       strategicPriority: 'High'
@@ -13312,16 +13312,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["No low-risk entry point", "High-ticket offer only", "New/unknown provider"],
       automationPotential: {
         rating: "Medium",
-        example: "Trial and pilot programs can be automated for easy onboarding."
+        example: 'Trial and pilot programs can be automated for easy onboarding.'
       },
-      pathToRoot: "Big Commitment with Unknown → Risk Too High → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Big Commitment with Unknown → Risk Too High → Prospects Engage But Don"t Buy'
     }
   },
   'fear-wrong-decision': {
-    explanation: "Prospect fears making the wrong choice and looking bad internally or wasting money. Paralysis by analysis sets in.",
+    explanation: 'Prospect fears making the wrong choice and looking bad internally or wasting money. Paralysis by analysis sets in.',
     relatedProblems: ["risk-too-high", "political-risk", "want-think-about"],
     impactAnalysis: {
-      financialImpact: "Deals stall indefinitely; prospects choose inaction over risk.",
+      financialImpact: 'Deals stall indefinitely; prospects choose inaction over risk.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Deal Progress"],
       strategicPriority: 'High'
@@ -13335,16 +13335,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["High-stakes decision", "Lack of trust or proof", "Organizational culture of risk aversion"],
       automationPotential: {
         rating: "Low",
-        example: "Risk reduction is psychological; requires human reassurance and proof."
+        example: 'Risk reduction is psychological; requires human reassurance and proof.'
       },
-      pathToRoot: "Fear of Wrong Decision → Risk Too High → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Fear of Wrong Decision → Risk Too High → Prospects Engage But Don"t Buy'
     }
   },
   'no-trial-guarantee': {
-    explanation: "You offer no way to try before buying or get money back if unsatisfied. Prospects carry all the risk.",
+    explanation: 'You offer no way to try before buying or get money back if unsatisfied. Prospects carry all the risk.',
     relatedProblems: ["risk-too-high", "big-commitment", "switching-costs-high"],
     impactAnalysis: {
-      financialImpact: "Significantly lower conversion; lose deals to competitors with trials.",
+      financialImpact: 'Significantly lower conversion; lose deals to competitors with trials.',
       severity: "Major",
       affectedAreas: ["Conversion Rate", "Win Rate"],
       strategicPriority: 'High'
@@ -13358,16 +13358,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of refund abuse", "Complex delivery model", "Never considered it"],
       automationPotential: {
         rating: "High",
-        example: "Automated trial management and guarantee policies are standard in SaaS."
+        example: 'Automated trial management and guarantee policies are standard in SaaS.'
       },
-      pathToRoot: "No Trial or Guarantee → Risk Too High → Prospects Engage But Don"t Buy"
+      pathToRoot: 'No Trial or Guarantee → Risk Too High → Prospects Engage But Don"t Buy'
     }
   },
   'switching-costs-high': {
-    explanation: "Switching to you requires significant effort, migration pain, or disruption. Prospects prefer to stick with the devil they know.",
+    explanation: 'Switching to you requires significant effort, migration pain, or disruption. Prospects prefer to stick with the devil they know.',
     relatedProblems: ["risk-too-high", "incumbent-advantage", "big-commitment"],
     impactAnalysis: {
-      financialImpact: "Very low win rate on replacement deals; need to be 10X better to justify switch.",
+      financialImpact: 'Very low win rate on replacement deals; need to be 10X better to justify switch.',
       severity: "Major",
       affectedAreas: ["Win Rate", "Market Penetration"],
       strategicPriority: 'High'
@@ -13381,16 +13381,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Complex integration", "Data migration required", "Change management resistance"],
       automationPotential: {
         rating: "High",
-        example: "Automated migration tools, onboarding, and training reduce switching friction."
+        example: 'Automated migration tools, onboarding, and training reduce switching friction.'
       },
-      pathToRoot: "Switching Costs High → Risk Too High → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Switching Costs High → Risk Too High → Prospects Engage But Don"t Buy'
     }
   },
   'political-risk': {
-    explanation: "Internal politics make this a risky decision for your champion. If it fails, they look bad. If another faction opposes it, it creates conflict.",
+    explanation: 'Internal politics make this a risky decision for your champion. If it fails, they look bad. If another faction opposes it, it creates conflict.',
     relatedProblems: ["risk-too-high", "fear-wrong-decision", "waiting-approval"],
     impactAnalysis: {
-      financialImpact: "Deals stall or die in committee; need executive sponsorship to overcome.",
+      financialImpact: 'Deals stall or die in committee; need executive sponsorship to overcome.',
       severity: "Moderate",
       affectedAreas: ["Enterprise Win Rate", "Deal Velocity"],
       strategicPriority: 'Medium'
@@ -13404,17 +13404,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Organizational complexity", "Turf wars", "Change-resistant culture"],
       automationPotential: {
         rating: "Low",
-        example: "Politics are human dynamics; requires relationship building and stakeholder management."
+        example: 'Politics are human dynamics; requires relationship building and stakeholder management.'
       },
-      pathToRoot: "Political Risk Internally → Risk Too High → Prospects Engage But Don"t Buy"
+      pathToRoot: 'Political Risk Internally → Risk Too High → Prospects Engage But Don"t Buy'
     }
   },
   // CLIENTS NOT BUYING MORE - LEVEL 6
   'dont-know-offer': {
-    explanation: "Your existing customers don"t know about your other services. You've never told them, and they assume you only do what they hired you for.",
+    explanation: 'Your existing customers don"t know about your other services. You've never told them, and they assume you only do what they hired you for.',
     relatedProblems: ["lack-awareness", "assume-one-thing", "never-told"],
     impactAnalysis: {
-      financialImpact: "Massive missed upsell opportunity; customers buy from competitors what you could provide.",
+      financialImpact: 'Massive missed upsell opportunity; customers buy from competitors what you could provide.',
       severity: "Major",
       affectedAreas: ["Revenue per Customer", "LTV"],
       strategicPriority: 'High'
@@ -13428,16 +13428,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Assumed they"d ask", "No cross-sell process", "Focus on new customers only"],
       automationPotential: {
         rating: "High",
-        example: "Automated email campaigns educate customers on full service offering."
+        example: 'Automated email campaigns educate customers on full service offering.'
       },
-      pathToRoot: "Don"t Know We Offer → Lack of Awareness → Not Buying More"
+      pathToRoot: 'Don"t Know We Offer → Lack of Awareness → Not Buying More'
     }
   },
   'dont-know-what-else': {
-    explanation: "Customers know you offer more, but don"t understand what those other services are or how they could help.",
+    explanation: 'Customers know you offer more, but don"t understand what those other services are or how they could help.',
     relatedProblems: ["lack-awareness", "dont-know-offer", "dont-see-connection"],
     impactAnalysis: {
-      financialImpact: "Low upsell rate; customers don"t see connection between services.",
+      financialImpact: 'Low upsell rate; customers don"t see connection between services.',
       severity: "Moderate",
       affectedAreas: ["Cross-sell Rate', "LTV"],
       strategicPriority: 'Medium'
@@ -13451,16 +13451,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Unclear service descriptions", "No education process", "Siloed service delivery"],
       automationPotential: {
         rating: "High",
-        example: "Automated content series educating customers on complementary services."
+        example: 'Automated content series educating customers on complementary services.'
       },
-      pathToRoot: "Don"t Know What Else We Can Do → Lack of Awareness → Not Buying More"
+      pathToRoot: 'Don"t Know What Else We Can Do → Lack of Awareness → Not Buying More'
     }
   },
   'never-told': {
-    explanation: "You have never proactively communicated your other offerings to existing customers. Out of sight, out of mind.",
+    explanation: 'You have never proactively communicated your other offerings to existing customers. Out of sight, out of mind.',
     relatedProblems: ["lack-awareness", "dont-know-offer", "not-proactively-offering"],
     impactAnalysis: {
-      financialImpact: "Zero cross-sell; leaving money on the table.",
+      financialImpact: 'Zero cross-sell; leaving money on the table.',
       severity: "Major",
       affectedAreas: ["Revenue Growth", "Customer LTV"],
       strategicPriority: 'High'
@@ -13474,16 +13474,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of seeming pushy", "No cross-sell strategy", "Siloed teams"],
       automationPotential: {
         rating: "High",
-        example: "Automated cross-sell campaigns triggered by customer milestones or service completion."
+        example: 'Automated cross-sell campaigns triggered by customer milestones or service completion.'
       },
-      pathToRoot: "Never Told About Other Options → Lack of Awareness → Not Buying More"
+      pathToRoot: 'Never Told About Other Options → Lack of Awareness → Not Buying More'
     }
   },
   'assume-one-thing': {
-    explanation: "Customers have pigeonholed you as "The X company" and don't realize you do A, B, C, and D as well. Brand perception is too narrow.",
+    explanation: 'Customers have pigeonholed you as "The X company" and don't realize you do A, B, C, and D as well. Brand perception is too narrow.',
     relatedProblems: ["lack-awareness", "dont-know-offer"],
     impactAnalysis: {
-      financialImpact: "Lost cross-sell opportunities; narrow market perception limits growth.",
+      financialImpact: 'Lost cross-sell opportunities; narrow market perception limits growth.',
       severity: "Moderate",
       affectedAreas: ["Cross-sell Rate', "Market Position"],
       strategicPriority: 'Medium'
@@ -13497,17 +13497,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Strong initial positioning in one area", "No marketing of other services", "Historical focus"],
       automationPotential: {
         rating: "Medium",
-        example: "Marketing automation can systematically educate customers on full offering."
+        example: 'Marketing automation can systematically educate customers on full offering.'
       },
-      pathToRoot: "Assume We Only Do One Thing → Lack of Awareness → Not Buying More"
+      pathToRoot: 'Assume We Only Do One Thing → Lack of Awareness → Not Buying More'
     }
   },
   // LACK OF NEED (PERCEIVED) - LEVEL 6
   'dont-need-else': {
-    explanation: "Customers are satisfied with what they"re currently getting and genuinely don"t see a need for your other services right now.",
+    explanation: 'Customers are satisfied with what they"re currently getting and genuinely don"t see a need for your other services right now.',
     relatedProblems: ["lack-need-perceived", "satisfied-current"],
     impactAnalysis: {
-      financialImpact: "Low cross-sell until you create/reveal need.",
+      financialImpact: 'Low cross-sell until you create/reveal need.',
       severity: "Moderate",
       affectedAreas: ["Revenue per Customer", "Growth Rate"],
       strategicPriority: 'Medium'
@@ -13521,16 +13521,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Genuine lack of need", "Not seeing connection", "Happy with current scope"],
       automationPotential: {
         rating: "High",
-        example: "Automated educational content and use-case demonstrations reveal hidden needs."
+        example: 'Automated educational content and use-case demonstrations reveal hidden needs.'
       },
-      pathToRoot: "Don"t Need Anything Else → Lack of Need → Not Buying More"
+      pathToRoot: 'Don"t Need Anything Else → Lack of Need → Not Buying More'
     }
   },
   'dont-see-connection': {
-    explanation: "Customers don"t see how your other services relate to or support what they"re already doing with you. The connection isn't obvious.",
+    explanation: 'Customers don"t see how your other services relate to or support what they"re already doing with you. The connection isn't obvious.',
     relatedProblems: ["lack-need-perceived", "dont-need-else"],
     impactAnalysis: {
-      financialImpact: "Low cross-sell; customers buy complementary services elsewhere.",
+      financialImpact: 'Low cross-sell; customers buy complementary services elsewhere.',
       severity: "Moderate",
       affectedAreas: ["Cross-sell Rate', "Market Share of Wallet"],
       strategicPriority: 'Medium'
@@ -13544,16 +13544,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Unclear value proposition connection", "Siloed service presentation", "No education"],
       automationPotential: {
         rating: "High",
-        example: "Automated journey mapping shows customers how services complement each other."
+        example: 'Automated journey mapping shows customers how services complement each other.'
       },
-      pathToRoot: "Don"t See Connection to Other Services → Lack of Need → Not Buying More"
+      pathToRoot: 'Don"t See Connection to Other Services → Lack of Need → Not Buying More'
     }
   },
   'satisfied-current': {
-    explanation: "Customers are happy with what they have and see no reason to expand. They"re not experiencing pain that would drive them to buy more.",
+    explanation: 'Customers are happy with what they have and see no reason to expand. They"re not experiencing pain that would drive them to buy more.',
     relatedProblems: ["lack-need-perceived", "dont-need-else"],
     impactAnalysis: {
-      financialImpact: "Flat revenue per customer; reliance on new customer acquisition for growth.",
+      financialImpact: 'Flat revenue per customer; reliance on new customer acquisition for growth.',
       severity: "Moderate",
       affectedAreas: ["LTV", "Growth Efficiency"],
       strategicPriority: 'Medium'
@@ -13567,17 +13567,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Comfortable with status quo", "No urgency for more", "Already getting value"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated benchmarking reports show customers what similar clients achieve with expanded services."
+        example: 'Automated benchmarking reports show customers what similar clients achieve with expanded services.'
       },
-      pathToRoot: "Satisfied with Current Scope → Lack of Need → Not Buying More"
+      pathToRoot: 'Satisfied with Current Scope → Lack of Need → Not Buying More'
     }
   },
   // BARRIERS TO EXPANSION - LEVEL 6
   'budget-constraints': {
-    explanation: "Customers want more but genuinely can"t afford it right now. Budget is allocated elsewhere or constrained.",
+    explanation: 'Customers want more but genuinely can"t afford it right now. Budget is allocated elsewhere or constrained.',
     relatedProblems: ["barriers-expansion", "cant-afford-pricing"],
     impactAnalysis: {
-      financialImpact: "Lost expansion revenue until budget frees up.",
+      financialImpact: 'Lost expansion revenue until budget frees up.',
       severity: "Moderate",
       affectedAreas: ["Revenue Growth", "Cross-sell Rate"],
       strategicPriority: 'Medium'
@@ -13591,16 +13591,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Economic conditions", "Customer cash flow issues", "Budget allocation to other priorities"],
       automationPotential: {
         rating: "High",
-        example: "Financing options or payment plans make expansion affordable."
+        example: 'Financing options or payment plans make expansion affordable.'
       },
-      pathToRoot: "Budget Constraints → Barriers to Expansion → Not Buying More"
+      pathToRoot: 'Budget Constraints → Barriers to Expansion → Not Buying More'
     }
   },
   'bad-experience-first': {
-    explanation: "Customers had a negative experience with the first service, so they"re not eager to try more from you. Trust is damaged.",
+    explanation: 'Customers had a negative experience with the first service, so they"re not eager to try more from you. Trust is damaged.',
     relatedProblems: ["barriers-expansion", "client-dissatisfaction"],
     impactAnalysis: {
-      financialImpact: "Zero cross-sell; potential churn; negative word-of-mouth.",
+      financialImpact: 'Zero cross-sell; potential churn; negative word-of-mouth.',
       severity: "Major",
       affectedAreas: ["Cross-sell Rate', "Churn Risk", "Reputation"],
       strategicPriority: 'High'
@@ -13614,16 +13614,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Quality issues", "Miscommunication", "Unmet expectations"],
       automationPotential: {
         rating: "Medium",
-        example: "Automated satisfaction monitoring can catch issues before they kill cross-sell opportunities."
+        example: 'Automated satisfaction monitoring can catch issues before they kill cross-sell opportunities.'
       },
-      pathToRoot: "Bad Experience with First Service → Barriers to Expansion → Not Buying More"
+      pathToRoot: 'Bad Experience with First Service → Barriers to Expansion → Not Buying More'
     }
   },
   'buying-elsewhere': {
-    explanation: "Customer already has a provider for that service and is satisfied with them. You"d need to displace an incumbent.",
+    explanation: 'Customer already has a provider for that service and is satisfied with them. You"d need to displace an incumbent.',
     relatedProblems: ["barriers-expansion", "incumbent-advantage"],
     impactAnalysis: {
-      financialImpact: "Lost cross-sell; customer relationship not maximized.",
+      financialImpact: 'Lost cross-sell; customer relationship not maximized.',
       severity: "Moderate",
       affectedAreas: ["Share of Wallet", "Cross-sell Rate"],
       strategicPriority: 'Medium'
@@ -13637,16 +13637,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Existing relationships", "Timing (you came second)", "They don"t know you offer it"],
       automationPotential: {
         rating: "Low",
-        example: "Relationship-based; requires human persuasion and differentiation."
+        example: 'Relationship-based; requires human persuasion and differentiation.'
       },
-      pathToRoot: "Buying That Service Elsewhere → Barriers to Expansion → Not Buying More"
+      pathToRoot: 'Buying That Service Elsewhere → Barriers to Expansion → Not Buying More'
     }
   },
   'decision-maker-changed': {
-    explanation: "Your original contact left or lost authority. The new decision-maker doesn"t know you, trust you, or prioritize expansion.",
+    explanation: 'Your original contact left or lost authority. The new decision-maker doesn"t know you, trust you, or prioritize expansion.',
     relatedProblems: ["barriers-expansion", "contact-left", "relationship-deteriorated"],
     impactAnalysis: {
-      financialImpact: "Cross-sell opportunities stall; need to re-establish relationship.",
+      financialImpact: 'Cross-sell opportunities stall; need to re-establish relationship.',
       severity: "Moderate",
       affectedAreas: ["Account Growth", "Relationship Risk"],
       strategicPriority: 'Medium'
@@ -13660,16 +13660,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Personnel turnover", "Organizational restructuring", "Relying on single contact"],
       automationPotential: {
         rating: "Medium",
-        example: "CRM alerts when key contacts change; automated intro sequences help onboard new stakeholders."
+        example: 'CRM alerts when key contacts change; automated intro sequences help onboard new stakeholders.'
       },
-      pathToRoot: "Decision Maker Changed → Barriers to Expansion → Not Buying More"
+      pathToRoot: 'Decision Maker Changed → Barriers to Expansion → Not Buying More'
     }
   },
   'timing-not-right': {
-    explanation: "Customer is interested in expanding but not right now. Other priorities, seasonality, or internal factors create timing mismatch.",
+    explanation: 'Customer is interested in expanding but not right now. Other priorities, seasonality, or internal factors create timing mismatch.',
     relatedProblems: ["barriers-expansion", "other-priorities", "budget-not-now"],
     impactAnalysis: {
-      financialImpact: "Delayed expansion revenue; risk of losing opportunity to competitor or forgetfulness.",
+      financialImpact: 'Delayed expansion revenue; risk of losing opportunity to competitor or forgetfulness.',
       severity: "Moderate",
       affectedAreas: ["Revenue Timing", "Growth Rate"],
       strategicPriority: 'Medium'
@@ -13683,17 +13683,17 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Seasonal business cycles", "Internal capacity constraints", "Competing priorities"],
       automationPotential: {
         rating: "High",
-        example: "Automated nurture and reminder sequences keep expansion top-of-mind until timing aligns."
+        example: 'Automated nurture and reminder sequences keep expansion top-of-mind until timing aligns.'
       },
-      pathToRoot: "Timing Not Right → Barriers to Expansion → Not Buying More"
+      pathToRoot: 'Timing Not Right → Barriers to Expansion → Not Buying More'
     }
   },
   // NO UPSELL PROCESS - LEVEL 6
   'not-proactively-offering': {
-    explanation: "You never proactively suggest additional services to existing customers. You wait for them to ask, and most never will.",
+    explanation: 'You never proactively suggest additional services to existing customers. You wait for them to ask, and most never will.',
     relatedProblems: ["no-upsell-process", "waiting-ask", "not-identifying-opportunities"],
     impactAnalysis: {
-      financialImpact: "Zero proactive upsell; massive missed revenue.",
+      financialImpact: 'Zero proactive upsell; massive missed revenue.',
       severity: "Critical",
       affectedAreas: ["Revenue per Customer", "Growth Efficiency"],
       strategicPriority: 'High'
@@ -13707,16 +13707,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Fear of seeming pushy", "No process", "Focus on new customer acquisition"],
       automationPotential: {
         rating: "High",
-        example: "Automated upsell prompts triggered by milestones, usage, or service completion."
+        example: 'Automated upsell prompts triggered by milestones, usage, or service completion.'
       },
-      pathToRoot: "Not Proactively Offering → No Upsell Process → Not Buying More"
+      pathToRoot: 'Not Proactively Offering → No Upsell Process → Not Buying More'
     }
   },
   'not-identifying-opportunities': {
-    explanation: "You"re not watching for signals that customers could benefit from additional services. You miss the moment when need emerges.",
+    explanation: 'You"re not watching for signals that customers could benefit from additional services. You miss the moment when need emerges.',
     relatedProblems: ["no-upsell-process", "not-proactively-offering", "waiting-ask"],
     impactAnalysis: {
-      financialImpact: "Lost upsell opportunities; customers buy from competitors.",
+      financialImpact: 'Lost upsell opportunities; customers buy from competitors.',
       severity: "Major",
       affectedAreas: ["Cross-sell Rate', "Revenue per Customer"],
       strategicPriority: 'High'
@@ -13730,16 +13730,16 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["No process for monitoring accounts", "Reactive not proactive", "No tracking"],
       automationPotential: {
         rating: "High",
-        example: "AI-powered account monitoring identifies expansion opportunities based on usage patterns, industry trends, or life-cycle stage."
+        example: 'AI-powered account monitoring identifies expansion opportunities based on usage patterns, industry trends, or life-cycle stage.'
       },
-      pathToRoot: "Not Identifying Opportunities → No Upsell Process → Not Buying More"
+      pathToRoot: 'Not Identifying Opportunities → No Upsell Process → Not Buying More'
     }
   },
   'waiting-ask': {
-    explanation: "You assume customers will ask when they need something. They won"t. You need to educate and suggest proactively.",
+    explanation: 'You assume customers will ask when they need something. They won"t. You need to educate and suggest proactively.',
     relatedProblems: ["no-upsell-process", "not-proactively-offering", "never-told"],
     impactAnalysis: {
-      financialImpact: "Passive approach leaves most upsell revenue on the table.",
+      financialImpact: 'Passive approach leaves most upsell revenue on the table.',
       severity: "Major",
       affectedAreas: ["Revenue Growth", "Customer LTV"],
       strategicPriority: 'High'
@@ -13753,9 +13753,9 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
       likelyCauses: ["Passive sales culture", "Fear of rejection", "Assumed they"d ask if interested"],
       automationPotential: {
         rating: "High",
-        example: "Automated upsell campaigns and suggestions remove reliance on customers asking."
+        example: 'Automated upsell campaigns and suggestions remove reliance on customers asking.'
       },
-      pathToRoot: "Waiting for Them to Ask → No Upsell Process → Not Buying More"
+      pathToRoot: 'Waiting for Them to Ask → No Upsell Process → Not Buying More'
     }
   }
 };
@@ -13763,10 +13763,10 @@ export const nodeExplanations: Record<string, NodeExplanation> = {
 // Default explanation when specific node not found
 export const getNodeExplanation = (nodeId: string): NodeExplanation => {
   return nodeExplanations[nodeId] || {
-    explanation: "This specific issue contributes to the overall problem in your diagnostic branch. It represents a point of friction, inefficiency, or missing infrastructure that needs to be addressed to unlock growth.",
+    explanation: 'This specific issue contributes to the overall problem in your diagnostic branch. It represents a point of friction, inefficiency, or missing infrastructure that needs to be addressed to unlock growth.',
     relatedProblems: [],
     impactAnalysis: {
-      financialImpact: "Varies by business context; usually manifests as lost time or missed opportunities.",
+      financialImpact: 'Varies by business context; usually manifests as lost time or missed opportunities.',
       severity: "To be assessed",
       affectedAreas: ["Operations", "Efficiency"],
       strategicPriority: 'Medium'
@@ -13780,9 +13780,9 @@ export const getNodeExplanation = (nodeId: string): NodeExplanation => {
       likelyCauses: ["Lack of standardized SOP", "Undefined ownership", "Outdated tools"],
       automationPotential: {
         rating: "Medium",
-        example: "Look for repetitive data entry or communication steps that can be automated."
+        example: 'Look for repetitive data entry or communication steps that can be automated.'
       },
-      pathToRoot: "Part of the larger systemic chain identified in the map."
+      pathToRoot: 'Part of the larger systemic chain identified in the map.'
     }
   };
 };
