@@ -22,7 +22,6 @@ import ContextMenu from './ContextMenu';
 import AIModal from './AIModal';
 import SettingsModal from './SettingsModal';
 import { rawTreeData, TreeNode, getAllNodes, getChildrenIds, getNodeById } from '../data/diagnosticTree';
-import { getNodeExplanation } from '../data/nodeExplanations';
 
 // Node types for React Flow
 const nodeTypes = {
@@ -169,6 +168,9 @@ const DiagnosisMapContent: React.FC = () => {
     isLoading: false,
   });
 
+  // Cache for AI-generated explanations
+  const [explanationCache, setExplanationCache] = useState<Record<string, any>>({});
+
   // Handle context menu
   const handleContextMenu = useCallback((nodeId: string, event: React.MouseEvent) => {
     const allNodesData = getAllNodes(rawTreeData);
@@ -187,21 +189,69 @@ const DiagnosisMapContent: React.FC = () => {
     setContextMenu(null);
   }, []);
 
-  // Handle Explain - using static content
-  const handleExplain = useCallback(() => {
+  // Handle Explain - with AI and caching
+  const handleExplain = useCallback(async () => {
     if (!contextMenu) return;
     
     closeContextMenu();
     
-    const explanation = getNodeExplanation(contextMenu.nodeId);
+    // Check cache first
+    if (explanationCache[contextMenu.nodeId]) {
+      setAiModal({
+        isOpen: true,
+        title: `Explaining: ${contextMenu.nodeLabel}`,
+        content: explanationCache[contextMenu.nodeId],
+        isLoading: false,
+      });
+      return;
+    }
     
+    // Show loading state
     setAiModal({
       isOpen: true,
       title: `Explaining: ${contextMenu.nodeLabel}`,
-      content: explanation.explanation,
-      isLoading: false,
+      content: '',
+      isLoading: true,
     });
-  }, [contextMenu, closeContextMenu]);
+
+    try {
+      const nodeContext = buildNodeContext(contextMenu.nodeId);
+      
+      const response = await fetch('/api/ai-diagnosis', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nodeId: contextMenu.nodeId,
+          nodeLabel: contextMenu.nodeLabel,
+          nodeContext: nodeContext,
+          mode: 'explain',
+        }),
+      });
+
+      const data = await response.json();
+      const content = data.content || 'Unable to generate explanation.';
+      
+      // Cache the result
+      setExplanationCache(prev => ({ ...prev, [contextMenu.nodeId]: content }));
+      
+      setAiModal({
+        isOpen: true,
+        title: `Explaining: ${contextMenu.nodeLabel}`,
+        content,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error('Error fetching explanation:', error);
+      setAiModal({
+        isOpen: true,
+        title: `Explaining: ${contextMenu.nodeLabel}`,
+        content: 'Failed to generate explanation. Please try again.',
+        isLoading: false,
+      });
+    }
+  }, [contextMenu, closeContextMenu, explanationCache, buildNodeContext]);
 
   // Handle AI Solve
   const handleSolve = useCallback(async () => {
@@ -252,24 +302,71 @@ const DiagnosisMapContent: React.FC = () => {
     }
   }, [contextMenu, closeContextMenu]);
 
-  // Handle Impact Analysis
-  const handleImpactAnalysis = useCallback(() => {
+  // Handle Impact Analysis - with AI and caching
+  const handleImpactAnalysis = useCallback(async () => {
     if (!contextMenu) return;
     
     closeContextMenu();
     
-    const explanation = getNodeExplanation(contextMenu.nodeId);
-    const impact = explanation.impactAnalysis;
+    const cacheKey = `impact_${contextMenu.nodeId}`;
     
-    const content = `**Financial Impact:**\n${impact.financialImpact}\n\n**Severity Level:**\n${impact.severity}\n\n**Affected Business Areas:**\n${impact.affectedAreas.map(area => `• ${area}`).join('\n')}\n\nUnderstanding the full impact helps prioritize which problems to solve first and allocate appropriate resources.`;
+    // Check cache first
+    if (explanationCache[cacheKey]) {
+      setAiModal({
+        isOpen: true,
+        title: `Impact Analysis: ${contextMenu.nodeLabel}`,
+        content: explanationCache[cacheKey],
+        isLoading: false,
+      });
+      return;
+    }
     
+    // Show loading state
     setAiModal({
       isOpen: true,
       title: `Impact Analysis: ${contextMenu.nodeLabel}`,
-      content,
-      isLoading: false,
+      content: '',
+      isLoading: true,
     });
-  }, [contextMenu, closeContextMenu]);
+
+    try {
+      const nodeContext = buildNodeContext(contextMenu.nodeId);
+      
+      const response = await fetch('/api/ai-diagnosis', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nodeId: contextMenu.nodeId,
+          nodeLabel: contextMenu.nodeLabel,
+          nodeContext: nodeContext,
+          mode: 'impact',
+        }),
+      });
+
+      const data = await response.json();
+      const content = data.content || 'Unable to generate impact analysis.';
+      
+      // Cache the result
+      setExplanationCache(prev => ({ ...prev, [cacheKey]: content }));
+      
+      setAiModal({
+        isOpen: true,
+        title: `Impact Analysis: ${contextMenu.nodeLabel}`,
+        content,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error('Error fetching impact analysis:', error);
+      setAiModal({
+        isOpen: true,
+        title: `Impact Analysis: ${contextMenu.nodeLabel}`,
+        content: 'Failed to generate impact analysis. Please try again.',
+        isLoading: false,
+      });
+    }
+  }, [contextMenu, closeContextMenu, explanationCache, buildNodeContext]);
 
   const closeAiModal = useCallback(() => {
     setAiModal({

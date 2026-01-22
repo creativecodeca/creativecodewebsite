@@ -79,6 +79,28 @@ Provide a clear, concise explanation of this business problem:
 ${nodeContext ? '- Consider the sub-problems listed above in your explanation' : ''}
 
 Keep it very concise. Maximum 2 paragraphs. If the user provides sub-issues, incorporate them into a single coherent explanation.`;
+    } else if (mode === 'impact') {
+      prompt = `You are a business consultant analyzing the impact of a specific business problem.
+
+Problem: "${nodeLabel || 'Unknown Problem'}"
+
+${nodeContext ? `Full problem breakdown (including sub-issues):\n${nodeContext}\n` : ''}
+
+Provide a comprehensive impact analysis structured as follows:
+
+**Financial Impact:**
+Describe the direct and indirect financial costs of this problem (revenue loss, increased expenses, opportunity costs, etc.)
+
+**Severity Level:**
+Rate as Critical / Major / Moderate / Minor and explain why
+
+**Affected Business Areas:**
+List 3-5 key areas of the business that this problem impacts
+
+**Strategic Priority:**
+High / Medium / Low - explain why this should (or shouldn't) be prioritized
+
+Keep it structured, actionable, and focused on helping prioritize which problems to solve first.`;
     } else if (mode === 'solve') {
       prompt = `You are an innovative business consultant specializing in automation, AI, and modern solutions.
 
