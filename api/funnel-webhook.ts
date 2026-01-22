@@ -19,11 +19,14 @@ export default async function handler(
 
     // Get webhook URL from environment variable
     const webhookUrl = process.env.GHL_GIFT_WEBHOOK;
-
+    
+    // Check if the webhook URL is configured
     if (!webhookUrl) {
-      console.error('GHL_GIFT_WEBHOOK environment variable is not set');
-      return res.status(500).json({ error: 'Webhook configuration error' });
+      console.warn('GHL_GIFT_WEBHOOK environment variable is not set. Falling back to default.');
     }
+
+    // Default to the known GHL webhook URL if environment variable is missing
+    const activeWebhookUrl = webhookUrl || 'https://services.leadconnectorhq.com/hooks/rpTHZGMl1DRkn0TYGHwe/webhook-trigger/fd16b1b9-ff4f-42d9-b947-d184242d4336';
 
     // Prepare payload for GHL webhook
     const payload = {
@@ -34,7 +37,7 @@ export default async function handler(
     };
 
     // Send to GHL webhook
-    const webhookResponse = await fetch(webhookUrl, {
+    const webhookResponse = await fetch(activeWebhookUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

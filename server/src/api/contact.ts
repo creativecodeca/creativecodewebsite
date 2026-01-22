@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
+import { sendSecurityAlert } from '../../../api/security-utils';
 
 dotenv.config();
 
@@ -16,13 +17,21 @@ router.use(
         origin: process.env.FRONTEND_ORIGIN || 'https://your-domain.com',
     })
 );
-router.use(
-    rateLimit({
-        windowMs: 60_000, // 1 minute
-        max: 10, // max 10 submissions per minute per IP
-        message: 'Too many requests, please try again later.',
-    })
-);
+
+const contactLimiter = rateLimit({
+    windowMs: 60_000, // 1 minute
+    max: 5, // Tightened to 5 submissions per minute per IP
+    message: 'Too many requests, please try again later.',
+    handler: (req, res, next, options) => {
+        sendSecurityAlert('Contact Form Rate Limit Reached', {
+            ip: req.ip,
+            body: req.body,
+            userAgent: req.get('User-Agent')
+        });
+        res.status(options.statusCode).send(options.message);
+    }
+});
+router.use(contactLimiter);
 
 // ---------- Simple validation ----------
 function validate(body: any): string | null {
@@ -63,12 +72,16 @@ router.post('/', async (req: Request, res: Response) => {
     }
 
     // ----- Send the webhook to GoHighLevel -----
-    const webhookUrl =
-        process.env.GHL_WEBHOOK_URL ||
-        'https://services.leadconnectorhq.com/hooks/rpTHZGMl1DRkn0TYGHwe/webhook-trigger/fd16b1b9-ff4f-42d9-b947-d184242d4336';
+    const webhookUrl = process.env.GHL_WEBHOOK_URL;
+    
+    if (!webhookUrl) {
+        console.warn('GHL_WEBHOOK_URL environment variable is not set. Falling back to default.');
+    }
+
+    const activeWebhookUrl = webhookUrl || 'https://services.leadconnectorhq.com/hooks/rpTHZGMl1DRkn0TYGHwe/webhook-trigger/fd16b1b9-ff4f-42d9-b947-d184242d4336';
 
     try {
-        const ghResponse = await fetch(webhookUrl, {
+        const ghResponse = await fetch(activeWebhookUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,7 +91,7 @@ router.post('/', async (req: Request, res: Response) => {
         });
 
         console.log('🔔 Sent webhook to GHL', {
-            url: webhookUrl,
+            url: activeWebhookUrl,
             status: ghResponse.status,
         });
 
