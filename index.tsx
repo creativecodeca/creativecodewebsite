@@ -5,22 +5,27 @@ import { HelmetProvider } from 'react-helmet-async';
 import './src/index.css';
 import App from './App';
 
-// Register service worker
+// Service worker DISABLED - causes chunk loading issues after deployments
+// Unregister any existing service workers and clear stale caches
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then((registration) => {
-        console.log('Service Worker registered:', registration.scope);
-        // Check for updates every hour
-        setInterval(() => {
-          registration.update();
-        }, 3600000);
-      })
-      .catch((error) => {
-        console.log('Service Worker registration failed:', error);
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    registrations.forEach((registration) => {
+      registration.unregister().then(() => {
+        console.log('Service Worker unregistered');
       });
+    });
   });
+  
+  // Clear all caches to fix chunk loading errors
+  if ('caches' in window) {
+    caches.keys().then((cacheNames) => {
+      cacheNames.forEach((cacheName) => {
+        caches.delete(cacheName).then(() => {
+          console.log('Cache cleared:', cacheName);
+        });
+      });
+    });
+  }
 }
 
 const rootElement = document.getElementById('root');
