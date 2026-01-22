@@ -8,8 +8,10 @@ import Navbar from './components/Navbar';
 // import AIChatWidget from './components/AIChatWidget';
 import PageWrapper from './components/PageWrapper';
 
-// Handle chunk loading errors by reloading the page
+// Handle chunk loading errors by reloading the page (client-side only)
 const handleChunkError = () => {
+  if (typeof window === 'undefined') return; // Skip during SSR
+  
   const chunkFailedMessage = /Loading chunk \d+ failed|Failed to fetch dynamically imported module/i;
   
   window.addEventListener('error', (event) => {
@@ -29,12 +31,19 @@ const handleChunkError = () => {
   });
 };
 
-// Initialize chunk error handling
-handleChunkError();
+// Initialize chunk error handling (only in browser)
+if (typeof window !== 'undefined') {
+  handleChunkError();
+}
 
-// Retry lazy loading with exponential backoff
+// Retry lazy loading with exponential backoff (client-side only)
 const retryImport = (importFn: () => Promise<any>, retries = 3, delay = 1000): Promise<any> => {
   return importFn().catch((error) => {
+    // Skip retry logic during SSR
+    if (typeof window === 'undefined') {
+      throw error;
+    }
+    
     if (retries === 0) {
       // If all retries failed, force reload the page to get fresh chunks
       if (!sessionStorage.getItem('chunk-error-reload')) {

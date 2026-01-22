@@ -150,12 +150,17 @@ const DiagnosisMapContent: React.FC = () => {
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [businessInfo, setBusinessInfo] = useState(() => {
+  const [businessInfo, setBusinessInfo] = useState('');
+
+  // Load business info from localStorage after mount
+  useEffect(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('diagnosis_business_info') || '';
+      const saved = localStorage.getItem('diagnosis_business_info');
+      if (saved) {
+        setBusinessInfo(saved);
+      }
     }
-    return '';
-  });
+  }, []);
 
   // Context menu state
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; nodeId: string; nodeLabel: string } | null>(null);
@@ -723,7 +728,8 @@ const DiagnosisMap: React.FC = () => {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted) {
+  // Prevent SSR - return loading state during server render or before mount
+  if (typeof window === 'undefined' || !isMounted) {
     return (
       <div className="w-screen h-screen bg-[#020202] flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
