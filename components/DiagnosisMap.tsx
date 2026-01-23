@@ -640,7 +640,7 @@ const DiagnosisMapContent: React.FC = () => {
       {/* Compass Recenter Button - to the right of search, vertically centered */}
       <motion.button
         onClick={handleRecenter}
-        className="absolute top-[2.2rem] left-[27.5rem] transition-all group z-50 h-[52px] flex items-center justify-center"
+        className="absolute top-[7.2rem] left-[27.5rem] transition-all group z-50 h-[52px] flex items-center justify-center"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.5 }}
@@ -655,7 +655,7 @@ const DiagnosisMapContent: React.FC = () => {
       {/* Settings Button - Top Right */}
       <motion.button
         onClick={() => setIsSettingsOpen(true)}
-        className="absolute top-6 right-6 z-50 p-3 bg-black/90 backdrop-blur-sm border border-white/10 rounded-full text-white hover:bg-white/10 transition-all shadow-lg group"
+        className="absolute top-24 right-6 z-50 p-3 bg-black/90 backdrop-blur-sm border border-white/10 rounded-full text-white hover:bg-white/10 transition-all shadow-lg group"
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.5, duration: 0.5 }}

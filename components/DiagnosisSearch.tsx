@@ -76,7 +76,7 @@ const DiagnosisSearch: React.FC<DiagnosisSearchProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div className="fixed top-6 left-6 z-50 flex flex-col max-w-md">
+    <div className="fixed top-24 left-6 z-50 flex flex-col max-w-md">
       {/* Search Input with embedded send button */}
       <motion.div 
         className="bg-black/95 backdrop-blur-sm rounded-lg shadow-lg border border-white/10 p-3 w-96"

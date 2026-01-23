@@ -95,14 +95,14 @@ function AppContent() {
     }
   }, [location.pathname]);
 
-  // Don't show navbar or footer on funnel pages or diagnosis map
+  // Don't show navbar or footer on funnel pages
   const isFunnelPage = location.pathname.startsWith('/funnel/');
   const isDiagnosisMap = location.pathname === '/tools/diagnosismap';
 
   return (
     <div className="relative min-h-screen bg-[#020202] text-slate-200 selection:bg-white/20 selection:text-white overflow-x-hidden font-sans">
       {/* <CustomCursor /> */}
-      {!isFunnelPage && !isDiagnosisMap && <Navbar />}
+      {!isFunnelPage && <Navbar />}
       {/* <AIChatWidget /> */}
 
       <Suspense fallback={<LoadingFallback />}>
