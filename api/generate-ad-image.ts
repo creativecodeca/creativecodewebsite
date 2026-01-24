@@ -138,7 +138,8 @@ Respond with a detailed, creative ad concept in 2-3 sentences that an image AI c
     const conceptResponse = await conceptResult.response;
     const adConcept = conceptResponse.text();
     
-    console.log('Generated Ad Concept:', adConcept.substring(0, 200) + '...');
+    // Don't log the full concept to avoid showing in Vercel logs
+    console.log('Ad concept generated successfully');
 
     // Step 2: Construct the final Imagen prompt using the AI-generated concept
     const prompt = `Create a professional ${styleDesc} advertisement image with ${colorDesc}.
@@ -164,9 +165,8 @@ Technical Requirements:
 - Perfect for social media advertising
 - Aspect ratio: ${aspectRatio}`;
 
-    console.log('Step 2: Generating image with Imagen 4 Ultra (2K)...');
+    console.log('Step 2: Design specifications prepared');
     console.log('Aspect Ratio:', aspectRatio);
-    console.log('Final Prompt:', prompt.substring(0, 250) + '...');
 
     // Generate 1 image using Canvas-based template rendering
     console.log('Step 3: Generating ad image with custom template...');
