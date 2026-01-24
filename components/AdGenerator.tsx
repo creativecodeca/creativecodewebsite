@@ -301,11 +301,7 @@ const AdGenerator: React.FC = () => {
                 {STYLES.map(style => (
                   <button
                     key={style.id}
-                    onClick={() => {
-                      updateFormData('style', style.id);
-                      // Auto-advance after selecting style
-                      setTimeout(() => handleGenerate(), 300);
-                    }}
+                    onClick={() => updateFormData('style', style.id)}
                     className={`p-6 rounded-xl border-2 transition-all text-left ${
                       formData.style === style.id
                         ? 'border-purple-500 bg-purple-500/20'
@@ -357,8 +353,9 @@ const AdGenerator: React.FC = () => {
                         </button>
                       </div>
                     ) : generatedAds.length > 0 ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {generatedAds.slice(0, 4).map(ad => (
+                      <div className="space-y-6">
+                        {/* Show only the most recent ad */}
+                        {generatedAds.slice(0, 1).map(ad => (
                           <div key={ad.id} className="relative group">
                             <img
                               src={ad.imageDataUrl}
@@ -417,7 +414,7 @@ const AdGenerator: React.FC = () => {
               Back
             </button>
 
-            {currentQuestion < 4 && (
+            {currentQuestion < 4 ? (
               <button
                 onClick={nextQuestion}
                 disabled={!canAdvance()}
@@ -425,6 +422,15 @@ const AdGenerator: React.FC = () => {
               >
                 Next
                 <ArrowRight className="w-5 h-5" />
+              </button>
+            ) : (
+              <button
+                onClick={handleGenerate}
+                disabled={!canAdvance()}
+                className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                <Sparkles className="w-5 h-5" />
+                Generate Ad
               </button>
             )}
           </motion.div>

@@ -112,78 +112,55 @@ Requirements:
 
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
     
-    // Use Nano Banana Pro for image generation (available through Gemini API)
-    // Model name for image generation with Gemini
+    // Use Nano Banana Pro for image generation
     const model = genAI.getGenerativeModel({ 
-      model: 'gemini-2.0-flash-exp',
+      model: 'gemini-3-pro-image-preview',
     });
 
-    // Generate 2 variations
+    // Generate 1 image
     const images = [];
     
-    for (let i = 0; i < 2; i++) {
-      try {
-        // Add variation instruction for each iteration
-        const variationPrompt = i === 0 
-          ? prompt 
-          : prompt + '\n\nVARIATION: Create a different composition and color scheme while maintaining the same message.';
-
-        // Generate image using Gemini's image generation capability
-        const result = await model.generateContent([
-          {
-            text: variationPrompt,
-          },
-          {
-            inlineData: {
-              mimeType: 'text/plain',
-              data: Buffer.from('GENERATE_IMAGE').toString('base64'),
-            },
-          },
-        ]);
-
-        const response = await result.response;
-        
-        // Extract image data from response
-        // The actual implementation depends on the Gemini API response format
-        // For now, we'll use a fallback placeholder if the API doesn't return image data
-        let imageDataUrl: string;
-        
-        if (response.candidates && response.candidates[0]) {
-          const candidate = response.candidates[0];
-          // Check if response contains image data
-          if (candidate.content?.parts?.[0]?.inlineData) {
-            const imageData = candidate.content.parts[0].inlineData;
-            imageDataUrl = `data:${imageData.mimeType};base64,${imageData.data}`;
-          } else {
-            // Fallback to placeholder if no image data
-            console.warn('No image data in response, using placeholder');
-            imageDataUrl = createPlaceholderImage(adMessage, businessName, style);
+    try {
+      // Generate image using Nano Banana Pro
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      
+      // Extract image data from response
+      let imageDataUrl: string | null = null;
+      
+      if (response.candidates && response.candidates[0]) {
+        const candidate = response.candidates[0];
+        // Look through all parts for image data
+        if (candidate.content?.parts) {
+          for (const part of candidate.content.parts) {
+            if (part.inlineData && part.inlineData.mimeType?.startsWith('image/')) {
+              const imageData = part.inlineData;
+              imageDataUrl = `data:${imageData.mimeType};base64,${imageData.data}`;
+              break;
+            }
           }
-        } else {
-          // Fallback to placeholder
-          console.warn('No candidates in response, using placeholder');
-          imageDataUrl = createPlaceholderImage(adMessage, businessName, style);
         }
-
-        images.push({
-          id: `ad-${Date.now()}-${i}`,
-          dataUrl: imageDataUrl,
-          prompt: variationPrompt.substring(0, 500),
-        });
-
-        // Add small delay between requests to avoid rate limiting
-        if (i < 1) {
-          await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-      } catch (error: any) {
-        console.error(`Error generating image ${i + 1}:`, error);
-        // Fallback to placeholder on error
-        images.push({
-          id: `ad-${Date.now()}-${i}`,
-          dataUrl: createPlaceholderImage(adMessage, businessName, style),
-          prompt: prompt.substring(0, 500),
-        });
       }
+      
+      // If no AI image generated, use fallback
+      if (!imageDataUrl) {
+        console.warn('No image data in Gemini response, using placeholder');
+        imageDataUrl = createPlaceholderImage(adMessage, businessName, style);
+      }
+
+      images.push({
+        id: `ad-${Date.now()}`,
+        dataUrl: imageDataUrl,
+        prompt: prompt.substring(0, 500),
+      });
+    } catch (error: any) {
+      console.error('Error generating image with Nano Banana Pro:', error);
+      // Fallback to placeholder on error
+      images.push({
+        id: `ad-${Date.now()}`,
+        dataUrl: createPlaceholderImage(adMessage, businessName, style),
+        prompt: prompt.substring(0, 500),
+      });
     }
 
     return res.status(200).json({
