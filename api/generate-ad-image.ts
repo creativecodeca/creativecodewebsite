@@ -100,94 +100,125 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const styleDesc = styleDescriptions[style] || 'professional';
     const colorDesc = colorSchemeDescriptions[colorScheme] || 'balanced color palette';
 
-    // Construct detailed prompt for Nano Banana Pro
-    const prompt = `Create a professional ${styleDesc} advertisement image with ${colorDesc}.
+    console.log('Step 1: Using Gemini to craft unique ad concept...');
+    
+    // Step 1: Use Gemini to create a unique ad concept
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    const conceptModel = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+    
+    const conceptPrompt = `You are a creative advertising expert. Based on the following information, create a unique, compelling ad concept:
 
 Business: ${businessName}
 Ad Message: ${adMessage}
 Target Audience: ${targetAudience}
+Visual Style: ${styleDesc}
+Color Scheme: ${colorDesc}
+Aspect Ratio: ${aspectRatio}
+
+Your task:
+1. Create a creative visual concept that will make this ad stand out
+2. Suggest specific visual elements, composition, and design details
+3. Think about what would catch the target audience's attention
+4. Be specific about imagery, layout, and visual storytelling
+
+Respond with a detailed, creative ad concept in 2-3 sentences that an image AI can use to generate the perfect ad. Focus on visual details, not marketing copy.`;
+
+    const conceptResult = await conceptModel.generateContent(conceptPrompt);
+    const conceptResponse = await conceptResult.response;
+    const adConcept = conceptResponse.text();
+    
+    console.log('Generated Ad Concept:', adConcept.substring(0, 200) + '...');
+
+    // Step 2: Construct the final Imagen prompt using the AI-generated concept
+    const prompt = `Create a professional ${styleDesc} advertisement image with ${colorDesc}.
+
+Business: ${businessName}
+Ad Message: "${adMessage}"
+Target Audience: ${targetAudience}
+
+Creative Concept: ${adConcept}
 
 Visual Style: ${styleDesc}
 Color Scheme: ${colorDesc}
 
-Requirements:
-- Ultra high-resolution, print-quality 4K image
+Technical Requirements:
+- Ultra high-resolution, print-quality 2K image
 - Professional composition suitable for digital advertising
 - Eye-catching and modern design
 - Clear, readable typography with the ad message prominently displayed
 - Ensure text is prominent and legible
-- Include visual elements that represent the business
 - Ad should appeal to: ${targetAudience}
-- Perfect for social media advertising`;
+- Perfect for social media advertising
+- Aspect ratio: ${aspectRatio}`;
 
-    console.log('Generating ad image with Nano Banana Pro (4K)...');
+    console.log('Step 2: Generating image with Imagen 4 Ultra (2K)...');
     console.log('Aspect Ratio:', aspectRatio);
-    console.log('Prompt:', prompt.substring(0, 200) + '...');
-
-    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    
-    // Use Nano Banana Pro for image generation with 4K quality
-    const model = genAI.getGenerativeModel({ 
-      model: 'gemini-3-pro-image-preview',
-      generationConfig: {
-        responseModalities: ['IMAGE'],
-        imageConfig: {
-          aspectRatio: aspectRatio, // Use the user's selected ratio
-          imageSize: '4K', // Maximum quality
-        },
-      },
-    });
+    console.log('Final Prompt:', prompt.substring(0, 250) + '...');
 
     // Generate 1 image
     const images = [];
     
     try {
-      // Generate image using Nano Banana Pro with 4K config
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      
-      // Extract image data from response
-      let imageDataUrl: string | null = null;
-      
-      if (response.candidates && response.candidates[0]) {
-        const candidate = response.candidates[0];
-        // Look through all parts for image data
-        if (candidate.content?.parts) {
-          for (const part of candidate.content.parts) {
-            if (part.inlineData && part.inlineData.mimeType?.startsWith('image/')) {
-              const imageData = part.inlineData;
-              imageDataUrl = `data:${imageData.mimeType};base64,${imageData.data}`;
-              break;
-            }
-          }
-        }
-      }
-      
-      // If no AI image generated, use fallback
-      if (!imageDataUrl) {
-        console.warn('No image data in Gemini response, using placeholder');
-        imageDataUrl = createPlaceholderImage(adMessage, businessName, style);
-      }
+      // Use Imagen 4 Ultra - Google's best text-to-image model
 
-      images.push({
-        id: `ad-${Date.now()}`,
-        dataUrl: imageDataUrl,
-        prompt: prompt.substring(0, 500),
-      });
-    } catch (error: any) {
-      console.error('Error generating image with Nano Banana Pro:', error);
-      // Fallback to placeholder on error
-      images.push({
-        id: `ad-${Date.now()}`,
-        dataUrl: createPlaceholderImage(adMessage, businessName, style),
-        prompt: prompt.substring(0, 500),
-      });
+    // Use Imagen 4 Ultra - Google's best text-to-image model
+    // Available aspect ratios: 1:1, 3:4, 4:3, 9:16, 16:9
+    const response = await fetch(
+      'https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-ultra-generate-001:predict',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': GEMINI_API_KEY,
+        },
+        body: JSON.stringify({
+          instances: [{
+            prompt: prompt,
+          }],
+          parameters: {
+            sampleCount: 1,
+            aspectRatio: aspectRatio,
+            imageSize: '2K', // Imagen 4 supports up to 2K
+          },
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Imagen API error: ${response.statusText}`);
     }
+
+    const data = await response.json();
+    
+    // Extract image from Imagen response
+    let imageDataUrl: string | null = null;
+    
+    if (data.predictions && data.predictions[0]) {
+      const prediction = data.predictions[0];
+      if (prediction.bytesBase64Encoded) {
+        imageDataUrl = `data:image/png;base64,${prediction.bytesBase64Encoded}`;
+      } else if (prediction.mimeType && prediction.bytesBase64Encoded) {
+        imageDataUrl = `data:${prediction.mimeType};base64,${prediction.bytesBase64Encoded}`;
+      }
+    }
+    
+    // Fallback to placeholder if no image generated
+    if (!imageDataUrl) {
+      console.warn('No image data from Imagen 4, using placeholder');
+      imageDataUrl = createPlaceholderImage(adMessage, businessName, style);
+    }
+
+    images.push({
+      id: `ad-${Date.now()}`,
+      dataUrl: imageDataUrl,
+      prompt: prompt.substring(0, 500),
+    });
 
     return res.status(200).json({
       images,
       metadata: {
-        model: 'nano-banana-pro (via Gemini 2.0)',
+        model: 'imagen-4.0-ultra (Google AI)',
+        concept: adConcept,
         generatedAt: new Date().toISOString(),
         remaining: rateCheck.remaining,
       },
@@ -195,9 +226,22 @@ Requirements:
 
   } catch (error: any) {
     console.error('Error generating ad image:', error);
-    return res.status(500).json({ 
-      error: 'Internal server error',
-      details: error.message
+    
+    // Fallback to placeholder on error
+    const fallbackImage = {
+      id: `ad-${Date.now()}`,
+      dataUrl: createPlaceholderImage(req.body.adMessage || '', req.body.businessName || '', req.body.style || 'modern'),
+      prompt: 'Fallback placeholder',
+    };
+    
+    return res.status(200).json({
+      images: [fallbackImage],
+      metadata: {
+        model: 'fallback-svg',
+        generatedAt: new Date().toISOString(),
+        remaining: rateCheck.remaining,
+        error: 'AI generation failed, using fallback',
+      },
     });
   }
 }

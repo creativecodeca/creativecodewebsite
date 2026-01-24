@@ -22,15 +22,15 @@ const Tools: React.FC = () => {
     {
       id: 'ad-generator',
       title: 'AI Ad Image Generator',
-      description: 'Generate professional ad images powered by Google Nano Banana Pro. Answer 3 quick questions and get stunning ad creatives instantly—no signup required.',
+      description: 'Generate professional ad images powered by Google Imagen 4 Ultra. Answer 6 quick questions and get stunning 2K ad creatives instantly—no signup required.',
       icon: Sparkles,
       link: '/tools/ad-generator',
       color: 'from-purple-500 to-pink-500',
       features: [
-        'Nano Banana Pro AI generation',
+        'Google Imagen 4 Ultra AI',
         'No account needed—100% local storage',
-        'Studio-quality 4K resolution',
-        'Multiple style variations',
+        'Studio-quality 2K resolution',
+        'Custom aspect ratios & color schemes',
       ],
     },
   ];

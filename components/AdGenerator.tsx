@@ -18,6 +18,7 @@ interface GeneratedAd {
   prompt: string;
   timestamp: number;
   formData: AdFormData;
+  concept?: string; // AI-generated creative concept
 }
 
 const STYLES = [
@@ -45,6 +46,7 @@ const AdGenerator: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedAds, setGeneratedAds] = useState<GeneratedAd[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [adConcept, setAdConcept] = useState<string>('');
 
   const [formData, setFormData] = useState<AdFormData>({
     businessName: '',
@@ -122,12 +124,18 @@ const AdGenerator: React.FC = () => {
 
       const data = await response.json();
       
+      // Store the AI-generated concept
+      if (data.metadata?.concept) {
+        setAdConcept(data.metadata.concept);
+      }
+      
       const newAds: GeneratedAd[] = data.images.map((img: any) => ({
         id: img.id,
         imageDataUrl: img.dataUrl,
         prompt: img.prompt,
         timestamp: Date.now(),
         formData: { ...formData },
+        concept: data.metadata?.concept,
       }));
 
       const updatedAds = [...newAds, ...generatedAds];
@@ -162,6 +170,7 @@ const AdGenerator: React.FC = () => {
       colorScheme: '',
     });
     setError(null);
+    setAdConcept('');
   };
 
   return (
@@ -191,7 +200,7 @@ const AdGenerator: React.FC = () => {
             </h1>
           </div>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Answer 6 quick questions. Powered by Google Nano Banana Pro.
+            Answer 6 quick questions. Powered by Google Imagen 4 Ultra.
           </p>
         </motion.div>
 
@@ -436,13 +445,36 @@ const AdGenerator: React.FC = () => {
               {isGenerating ? (
                 <div className="bg-gradient-to-br from-gray-900 to-black border border-white/10 rounded-2xl p-12 text-center">
                   <Loader2 className="w-16 h-16 text-purple-400 animate-spin mx-auto mb-6" />
-                  <h2 className="text-2xl font-bold mb-2">Creating your ads...</h2>
-                  <p className="text-gray-400">This will take a moment</p>
+                  <h2 className="text-2xl font-bold mb-2">Crafting your perfect ad...</h2>
+                  <p className="text-gray-400 mb-4">AI is designing a unique creative concept</p>
+                  <div className="max-w-md mx-auto">
+                    <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                      <span>Step 1: Generating creative concept with Gemini</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mt-2">
+                      <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
+                      <span>Step 2: Creating image with Imagen 4 Ultra</span>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <>
                   <div className="bg-gradient-to-br from-gray-900 to-black border border-white/10 rounded-2xl p-8">
-                    <h2 className="text-2xl font-bold mb-6">Your Generated Ads</h2>
+                    <h2 className="text-2xl font-bold mb-6">Your Generated Ad</h2>
+                    
+                    {/* Show AI-generated concept */}
+                    {adConcept && (
+                      <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg">
+                        <div className="flex items-start gap-3">
+                          <Sparkles className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+                          <div>
+                            <p className="text-sm font-semibold text-purple-400 mb-1">AI Creative Concept</p>
+                            <p className="text-sm text-gray-300 leading-relaxed">{adConcept}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     
                     {error ? (
                       <div className="text-center py-8">
