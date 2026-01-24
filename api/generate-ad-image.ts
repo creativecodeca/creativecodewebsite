@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.API_KEY;
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // Rate limiting storage (in-memory for serverless, resets on cold start)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
@@ -78,6 +79,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       console.error('GEMINI_API_KEY not found');
       return res.status(500).json({ 
         error: 'AI service is temporarily unavailable',
+        code: 'SERVICE_UNAVAILABLE'
+      });
+    }
+
+    if (!OPENAI_API_KEY) {
+      console.error('OPENAI_API_KEY not found');
+      return res.status(500).json({ 
+        error: 'Image generation service is temporarily unavailable',
         code: 'SERVICE_UNAVAILABLE'
       });
     }
@@ -168,41 +177,40 @@ Technical Requirements:
     console.log('Aspect Ratio:', aspectRatio);
     console.log('Final Prompt:', prompt.substring(0, 250) + '...');
 
-    // Generate 1 image using Gemini with image generation
-    console.log('Step 3: Generating image with Gemini 2.0 Flash Image Generation...');
-    
-    // Try using Gemini's image generation capability
-    const imageModel = genAI.getGenerativeModel({ 
-      model: 'gemini-2.0-flash-exp'
-    });
+    // Generate 1 image using OpenAI DALL-E 3
+    console.log('Step 3: Generating image with DALL-E 3...');
     
     try {
-      const result = await imageModel.generateContent([
-        {
-          text: `Generate a high-quality advertisement image based on this description:\n\n${prompt}\n\nIMPORTANT: Output only the image, no text response.`
-        }
-      ]);
+      const openaiResponse = await fetch('https://api.openai.com/v1/images/generations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: 'dall-e-3',
+          prompt: prompt,
+          n: 1,
+          size: aspectRatio === '16:9' ? '1792x1024' : aspectRatio === '4:5' ? '1024x1792' : '1024x1024',
+          quality: 'hd',
+          response_format: 'b64_json',
+        }),
+      });
 
-      const response = result.response;
-      
-      // Check if response contains image data
-      let imageDataUrl: string | null = null;
-      
-      if (response.candidates && response.candidates[0]) {
-        const candidate = response.candidates[0];
-        if (candidate.content && candidate.content.parts) {
-          for (const part of candidate.content.parts) {
-            if (part.inlineData && part.inlineData.mimeType.startsWith('image/')) {
-              imageDataUrl = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
-              break;
-            }
-          }
-        }
+      if (!openaiResponse.ok) {
+        const errorData = await openaiResponse.json();
+        console.error('DALL-E 3 API error:', errorData);
+        throw new Error(`DALL-E 3 API error: ${errorData.error?.message || openaiResponse.statusText}`);
       }
 
-      if (!imageDataUrl) {
-        throw new Error('No image data returned from Gemini model');
+      const openaiData = await openaiResponse.json();
+      
+      if (!openaiData.data || openaiData.data.length === 0) {
+        throw new Error('No image data returned from DALL-E 3');
       }
+
+      const imageBase64 = openaiData.data[0].b64_json;
+      const imageDataUrl = `data:image/png;base64,${imageBase64}`;
 
       const images = [{
         id: `ad-${Date.now()}`,
@@ -213,7 +221,7 @@ Technical Requirements:
       return res.status(200).json({
         images,
         metadata: {
-          model: 'gemini-2.0-flash-exp (Google AI)',
+          model: 'DALL-E 3 (OpenAI)',
           concept: adConcept,
           generatedAt: new Date().toISOString(),
           remaining: rateCheck.remaining,

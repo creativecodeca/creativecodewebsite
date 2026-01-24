@@ -22,15 +22,15 @@ const Tools: React.FC = () => {
     {
       id: 'ad-generator',
       title: 'AI Ad Image Generator',
-      description: 'Generate professional ad images powered by Google Imagen 4 Ultra. Answer 6 quick questions and get stunning 2K ad creatives instantly—no signup required.',
+      description: 'Generate professional ad images powered by DALL-E 3. Answer 7 quick questions and get stunning HD ad creatives instantly—no signup required.',
       icon: Sparkles,
       link: '/tools/ad-generator',
       color: 'from-purple-500 to-pink-500',
       features: [
-        'Google Imagen 4 Ultra AI',
+        'DALL-E 3 AI by OpenAI',
         'No account needed—100% local storage',
-        'Studio-quality 2K resolution',
-        'Custom aspect ratios & color schemes',
+        'Studio-quality HD resolution',
+        'Custom colors & aspect ratios',
       ],
     },
   ];
