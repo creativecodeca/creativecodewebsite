@@ -10,6 +10,7 @@ interface AdFormData {
   style: string;
   aspectRatio: string;
   colorScheme: string;
+  customColors: string[];
 }
 
 interface GeneratedAd {
@@ -55,6 +56,7 @@ const AdGenerator: React.FC = () => {
     style: '',
     aspectRatio: '',
     colorScheme: '',
+    customColors: [],
   });
 
   // Load saved ads from localStorage on mount
@@ -86,17 +88,18 @@ const AdGenerator: React.FC = () => {
     if (currentQuestion === 4) return formData.style !== '';
     if (currentQuestion === 5) return formData.aspectRatio !== '';
     if (currentQuestion === 6) return formData.colorScheme !== '';
+    if (currentQuestion === 7) return formData.customColors.length > 0;
     return false;
   };
 
   const nextQuestion = () => {
-    if (canAdvance() && currentQuestion < 6) {
+    if (canAdvance() && currentQuestion < 7) {
       setCurrentQuestion(prev => prev + 1);
     }
   };
 
   const prevQuestion = () => {
-    if (currentQuestion > 1 && currentQuestion <= 6) {
+    if (currentQuestion > 1 && currentQuestion <= 7) {
       setCurrentQuestion(prev => prev - 1);
     }
   };
@@ -106,7 +109,7 @@ const AdGenerator: React.FC = () => {
 
     setIsGenerating(true);
     setError(null);
-    setCurrentQuestion(7); // Move to results view
+    setCurrentQuestion(8); // Move to results view
 
     try {
       const response = await fetch('/api/generate-ad-image', {
@@ -168,6 +171,7 @@ const AdGenerator: React.FC = () => {
       style: '',
       aspectRatio: '',
       colorScheme: '',
+      customColors: [],
     });
     setError(null);
     setAdConcept('');
@@ -200,18 +204,18 @@ const AdGenerator: React.FC = () => {
             </h1>
           </div>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Answer 6 quick questions. Powered by Google Imagen 4 Ultra.
+            Answer 7 quick questions. Powered by Google Imagen 4 Ultra.
           </p>
         </motion.div>
 
         {/* Progress Dots */}
-        {currentQuestion <= 6 && (
+        {currentQuestion <= 7 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="flex justify-center gap-2 mb-12"
           >
-            {[1, 2, 3, 4, 5, 6].map(q => (
+            {[1, 2, 3, 4, 5, 6, 7].map(q => (
               <div
                 key={q}
                 className={`h-2 rounded-full transition-all ${
@@ -434,8 +438,110 @@ const AdGenerator: React.FC = () => {
             </motion.div>
           )}
 
-          {/* Results View */}
+          {/* Question 7: Custom Colors */}
           {currentQuestion === 7 && (
+            <motion.div
+              key="q7"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="bg-gradient-to-br from-gray-900 to-black border border-white/10 rounded-2xl p-8 md:p-12"
+            >
+              <div className="mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  Choose your brand colors
+                </h2>
+                <p className="text-gray-400">Select 2-4 colors to use in your ad (click to add).</p>
+              </div>
+              
+              {/* Selected Colors Display */}
+              {formData.customColors.length > 0 && (
+                <div className="mb-6 p-4 bg-white/5 rounded-xl border border-white/10">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <span className="text-sm text-gray-400 font-medium">Selected Colors:</span>
+                    {formData.customColors.map((color, index) => (
+                      <div key={index} className="flex items-center gap-2 group">
+                        <div
+                          className="w-10 h-10 rounded-lg border-2 border-white/20 shadow-lg"
+                          style={{ backgroundColor: color }}
+                        />
+                        <button
+                          onClick={() => {
+                            updateFormData('customColors', formData.customColors.filter((_, i) => i !== index).join(','));
+                            setFormData(prev => ({
+                              ...prev,
+                              customColors: prev.customColors.filter((_, i) => i !== index)
+                            }));
+                          }}
+                          className="text-red-400 hover:text-red-300 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Color Picker Grid */}
+              <div className="grid grid-cols-8 gap-3 mb-6">
+                {[
+                  '#FF0000', '#FF4500', '#FF8C00', '#FFD700', '#FFFF00', '#9ACD32', '#00FF00', '#00CED1',
+                  '#1E90FF', '#0000FF', '#8A2BE2', '#9400D3', '#FF1493', '#FF69B4', '#FFB6C1', '#FFA07A',
+                  '#DC143C', '#C71585', '#DB7093', '#F08080', '#CD5C5C', '#BC8F8F', '#F4A460', '#DAA520',
+                  '#B8860B', '#CD853F', '#D2691E', '#8B4513', '#A0522D', '#A52A2A', '#800000', '#696969',
+                  '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3', '#DCDCDC', '#F5F5F5', '#FFFFFF', '#000000',
+                ].map(color => (
+                  <button
+                    key={color}
+                    onClick={() => {
+                      if (formData.customColors.length < 4 && !formData.customColors.includes(color)) {
+                        setFormData(prev => ({
+                          ...prev,
+                          customColors: [...prev.customColors, color]
+                        }));
+                      }
+                    }}
+                    disabled={formData.customColors.includes(color) || formData.customColors.length >= 4}
+                    className={`w-full aspect-square rounded-lg border-2 transition-all hover:scale-110 ${
+                      formData.customColors.includes(color)
+                        ? 'border-purple-500 opacity-50 cursor-not-allowed'
+                        : formData.customColors.length >= 4
+                        ? 'border-white/10 opacity-30 cursor-not-allowed'
+                        : 'border-white/20 hover:border-white/40 cursor-pointer'
+                    }`}
+                    style={{ backgroundColor: color }}
+                    title={color}
+                  />
+                ))}
+              </div>
+
+              {/* Custom Color Input */}
+              <div className="flex gap-3">
+                <input
+                  type="color"
+                  className="w-16 h-16 rounded-lg cursor-pointer border-2 border-white/20 bg-transparent"
+                  onChange={(e) => {
+                    const color = e.target.value.toUpperCase();
+                    if (formData.customColors.length < 4 && !formData.customColors.includes(color)) {
+                      setFormData(prev => ({
+                        ...prev,
+                        customColors: [...prev.customColors, color]
+                      }));
+                    }
+                  }}
+                />
+                <div className="flex-1 flex items-center">
+                  <p className="text-sm text-gray-400">
+                    Use the color picker to add custom colors, or click a preset above.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Results View */}
+          {currentQuestion === 8 && (
             <motion.div
               key="results"
               initial={{ opacity: 0 }}
@@ -534,7 +640,7 @@ const AdGenerator: React.FC = () => {
         </AnimatePresence>
 
         {/* Navigation Buttons */}
-        {currentQuestion > 1 && currentQuestion <= 6 && (
+        {currentQuestion > 1 && currentQuestion <= 7 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -548,7 +654,7 @@ const AdGenerator: React.FC = () => {
               Back
             </button>
 
-            {currentQuestion < 6 ? (
+            {currentQuestion < 7 ? (
               <button
                 onClick={nextQuestion}
                 disabled={!canAdvance()}
