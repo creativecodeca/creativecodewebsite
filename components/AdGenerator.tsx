@@ -8,6 +8,8 @@ interface AdFormData {
   adMessage: string;
   targetAudience: string;
   style: string;
+  aspectRatio: string;
+  colorScheme: string;
 }
 
 interface GeneratedAd {
@@ -25,6 +27,19 @@ const STYLES = [
   { id: 'warm', label: 'Warm & Friendly', emoji: '☀️' },
 ];
 
+const ASPECT_RATIOS = [
+  { id: '4:5', label: 'Portrait (4:5)', description: 'Instagram/Facebook posts', emoji: '📱' },
+  { id: '1:1', label: 'Square (1:1)', description: 'Universal social media', emoji: '⬛' },
+  { id: '16:9', label: 'Landscape (16:9)', description: 'YouTube/Twitter banners', emoji: '🖼️' },
+];
+
+const COLOR_SCHEMES = [
+  { id: 'vibrant', label: 'Vibrant & Colorful', emoji: '🌈' },
+  { id: 'dark', label: 'Dark & Moody', emoji: '🌙' },
+  { id: 'light', label: 'Light & Airy', emoji: '☁️' },
+  { id: 'monochrome', label: 'Black & White', emoji: '⚫' },
+];
+
 const AdGenerator: React.FC = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -36,6 +51,8 @@ const AdGenerator: React.FC = () => {
     adMessage: '',
     targetAudience: '',
     style: '',
+    aspectRatio: '',
+    colorScheme: '',
   });
 
   // Load saved ads from localStorage on mount
@@ -65,17 +82,19 @@ const AdGenerator: React.FC = () => {
     if (currentQuestion === 2) return formData.adMessage.trim().length > 0;
     if (currentQuestion === 3) return formData.targetAudience.trim().length > 0;
     if (currentQuestion === 4) return formData.style !== '';
+    if (currentQuestion === 5) return formData.aspectRatio !== '';
+    if (currentQuestion === 6) return formData.colorScheme !== '';
     return false;
   };
 
   const nextQuestion = () => {
-    if (canAdvance() && currentQuestion < 4) {
+    if (canAdvance() && currentQuestion < 6) {
       setCurrentQuestion(prev => prev + 1);
     }
   };
 
   const prevQuestion = () => {
-    if (currentQuestion > 1 && currentQuestion <= 4) {
+    if (currentQuestion > 1 && currentQuestion <= 6) {
       setCurrentQuestion(prev => prev - 1);
     }
   };
@@ -85,7 +104,7 @@ const AdGenerator: React.FC = () => {
 
     setIsGenerating(true);
     setError(null);
-    setCurrentQuestion(5); // Move to results view
+    setCurrentQuestion(7); // Move to results view
 
     try {
       const response = await fetch('/api/generate-ad-image', {
@@ -139,6 +158,8 @@ const AdGenerator: React.FC = () => {
       adMessage: '',
       targetAudience: '',
       style: '',
+      aspectRatio: '',
+      colorScheme: '',
     });
     setError(null);
   };
@@ -170,18 +191,18 @@ const AdGenerator: React.FC = () => {
             </h1>
           </div>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Answer 4 quick questions. Powered by Google Nano Banana Pro.
+            Answer 6 quick questions. Powered by Google Nano Banana Pro.
           </p>
         </motion.div>
 
         {/* Progress Dots */}
-        {currentQuestion <= 4 && (
+        {currentQuestion <= 6 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="flex justify-center gap-2 mb-12"
           >
-            {[1, 2, 3, 4].map(q => (
+            {[1, 2, 3, 4, 5, 6].map(q => (
               <div
                 key={q}
                 className={`h-2 rounded-full transition-all ${
@@ -323,8 +344,89 @@ const AdGenerator: React.FC = () => {
             </motion.div>
           )}
 
-          {/* Results View */}
+          {/* Question 5: Aspect Ratio */}
           {currentQuestion === 5 && (
+            <motion.div
+              key="q5"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="bg-gradient-to-br from-gray-900 to-black border border-white/10 rounded-2xl p-8 md:p-12"
+            >
+              <div className="mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  Select your ad dimensions
+                </h2>
+                <p className="text-gray-400">Choose the format for your platform.</p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {ASPECT_RATIOS.map(ratio => (
+                  <button
+                    key={ratio.id}
+                    onClick={() => updateFormData('aspectRatio', ratio.id)}
+                    className={`p-6 rounded-xl border-2 transition-all text-center ${
+                      formData.aspectRatio === ratio.id
+                        ? 'border-purple-500 bg-purple-500/20'
+                        : 'border-white/10 hover:border-white/20 hover:bg-white/5'
+                    }`}
+                  >
+                    <div className="text-5xl mb-3">{ratio.emoji}</div>
+                    <div className="font-semibold text-lg mb-1">{ratio.label}</div>
+                    <div className="text-sm text-gray-400">{ratio.description}</div>
+                    {formData.aspectRatio === ratio.id && (
+                      <Check className="w-6 h-6 text-purple-400 mx-auto mt-3" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Question 6: Color Scheme */}
+          {currentQuestion === 6 && (
+            <motion.div
+              key="q6"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="bg-gradient-to-br from-gray-900 to-black border border-white/10 rounded-2xl p-8 md:p-12"
+            >
+              <div className="mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  Pick your color scheme
+                </h2>
+                <p className="text-gray-400">Set the mood for your ad.</p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {COLOR_SCHEMES.map(scheme => (
+                  <button
+                    key={scheme.id}
+                    onClick={() => updateFormData('colorScheme', scheme.id)}
+                    className={`p-6 rounded-xl border-2 transition-all text-left ${
+                      formData.colorScheme === scheme.id
+                        ? 'border-purple-500 bg-purple-500/20'
+                        : 'border-white/10 hover:border-white/20 hover:bg-white/5'
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className="text-4xl">{scheme.emoji}</span>
+                      <div className="flex-1">
+                        <div className="font-semibold text-lg">{scheme.label}</div>
+                      </div>
+                      {formData.colorScheme === scheme.id && (
+                        <Check className="w-6 h-6 text-purple-400" />
+                      )}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Results View */}
+          {currentQuestion === 7 && (
             <motion.div
               key="results"
               initial={{ opacity: 0 }}
@@ -400,7 +502,7 @@ const AdGenerator: React.FC = () => {
         </AnimatePresence>
 
         {/* Navigation Buttons */}
-        {currentQuestion > 1 && currentQuestion <= 4 && (
+        {currentQuestion > 1 && currentQuestion <= 6 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -414,7 +516,7 @@ const AdGenerator: React.FC = () => {
               Back
             </button>
 
-            {currentQuestion < 4 ? (
+            {currentQuestion < 6 ? (
               <button
                 onClick={nextQuestion}
                 disabled={!canAdvance()}

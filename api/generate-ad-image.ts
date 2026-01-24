@@ -64,10 +64,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       adMessage,
       targetAudience,
       style,
+      aspectRatio,
+      colorScheme,
     } = req.body;
 
-    // Validation - only 4 required fields now
-    if (!businessName || !adMessage || !targetAudience || !style) {
+    // Validation - 6 required fields
+    if (!businessName || !adMessage || !targetAudience || !style || !aspectRatio || !colorScheme) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -87,41 +89,60 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       warm: 'warm and friendly with an approachable, human-centered design',
     };
 
+    // Map color schemes to descriptive terms
+    const colorSchemeDescriptions: Record<string, string> = {
+      vibrant: 'vibrant, saturated colors with high contrast and energetic palette',
+      dark: 'dark, moody atmosphere with deep shadows and dramatic lighting',
+      light: 'light, airy aesthetic with soft pastels and bright, clean backgrounds',
+      monochrome: 'black and white with strong contrast and classic elegance',
+    };
+
     const styleDesc = styleDescriptions[style] || 'professional';
+    const colorDesc = colorSchemeDescriptions[colorScheme] || 'balanced color palette';
 
     // Construct detailed prompt for Nano Banana Pro
-    const prompt = `Create a professional ${styleDesc} advertisement image.
+    const prompt = `Create a professional ${styleDesc} advertisement image with ${colorDesc}.
 
 Business: ${businessName}
 Ad Message: ${adMessage}
 Target Audience: ${targetAudience}
 
 Visual Style: ${styleDesc}
+Color Scheme: ${colorDesc}
 
 Requirements:
-- High-resolution, print-quality image
+- Ultra high-resolution, print-quality 4K image
 - Professional composition suitable for digital advertising
 - Eye-catching and modern design
-- Clear, readable typography
+- Clear, readable typography with the ad message prominently displayed
 - Ensure text is prominent and legible
 - Include visual elements that represent the business
-- Ad should appeal to: ${targetAudience}`;
+- Ad should appeal to: ${targetAudience}
+- Perfect for social media advertising`;
 
-    console.log('Generating ad image with Nano Banana Pro...');
+    console.log('Generating ad image with Nano Banana Pro (4K)...');
+    console.log('Aspect Ratio:', aspectRatio);
     console.log('Prompt:', prompt.substring(0, 200) + '...');
 
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
     
-    // Use Nano Banana Pro for image generation
+    // Use Nano Banana Pro for image generation with 4K quality
     const model = genAI.getGenerativeModel({ 
       model: 'gemini-3-pro-image-preview',
+      generationConfig: {
+        responseModalities: ['IMAGE'],
+        imageConfig: {
+          aspectRatio: aspectRatio, // Use the user's selected ratio
+          imageSize: '4K', // Maximum quality
+        },
+      },
     });
 
     // Generate 1 image
     const images = [];
     
     try {
-      // Generate image using Nano Banana Pro
+      // Generate image using Nano Banana Pro with 4K config
       const result = await model.generateContent(prompt);
       const response = await result.response;
       
