@@ -78,7 +78,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!GEMINI_API_KEY) {
       console.error('GEMINI_API_KEY not found');
       return res.status(500).json({ 
-        error: 'AI service is temporarily unavailable',
+        error: 'AI concept generation service is unavailable. Please add GEMINI_API_KEY to environment variables.',
         code: 'SERVICE_UNAVAILABLE'
       });
     }
@@ -86,7 +86,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!OPENAI_API_KEY) {
       console.error('OPENAI_API_KEY not found');
       return res.status(500).json({ 
-        error: 'Image generation service is temporarily unavailable',
+        error: 'Image generation service is unavailable. Please add OPENAI_API_KEY to environment variables.',
         code: 'SERVICE_UNAVAILABLE'
       });
     }

@@ -438,7 +438,7 @@ const AdGenerator: React.FC = () => {
             </motion.div>
           )}
 
-          {/* Question 7: Custom Colors */}
+          {/* Question 7: Custom Colors with Color Wheel */}
           {currentQuestion === 7 && (
             <motion.div
               key="q7"
@@ -451,7 +451,7 @@ const AdGenerator: React.FC = () => {
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
                   Choose your brand colors
                 </h2>
-                <p className="text-gray-400">Select 2-4 colors to use in your ad (click to add).</p>
+                <p className="text-gray-400">Select 2-4 colors using the color wheel (click to add).</p>
               </div>
               
               {/* Selected Colors Display */}
@@ -482,58 +482,98 @@ const AdGenerator: React.FC = () => {
                 </div>
               )}
 
-              {/* Color Picker Grid */}
-              <div className="grid grid-cols-8 gap-3 mb-6">
-                {[
-                  '#FF0000', '#FF4500', '#FF8C00', '#FFD700', '#FFFF00', '#9ACD32', '#00FF00', '#00CED1',
-                  '#1E90FF', '#0000FF', '#8A2BE2', '#9400D3', '#FF1493', '#FF69B4', '#FFB6C1', '#FFA07A',
-                  '#DC143C', '#C71585', '#DB7093', '#F08080', '#CD5C5C', '#BC8F8F', '#F4A460', '#DAA520',
-                  '#B8860B', '#CD853F', '#D2691E', '#8B4513', '#A0522D', '#A52A2A', '#800000', '#696969',
-                  '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3', '#DCDCDC', '#F5F5F5', '#FFFFFF', '#000000',
-                ].map(color => (
-                  <button
-                    key={color}
-                    onClick={() => {
-                      if (formData.customColors.length < 4 && !formData.customColors.includes(color)) {
-                        setFormData(prev => ({
-                          ...prev,
-                          customColors: [...prev.customColors, color]
-                        }));
-                      }
-                    }}
-                    disabled={formData.customColors.includes(color) || formData.customColors.length >= 4}
-                    className={`w-full aspect-square rounded-lg border-2 transition-all hover:scale-110 ${
-                      formData.customColors.includes(color)
-                        ? 'border-purple-500 opacity-50 cursor-not-allowed'
-                        : formData.customColors.length >= 4
-                        ? 'border-white/10 opacity-30 cursor-not-allowed'
-                        : 'border-white/20 hover:border-white/40 cursor-pointer'
-                    }`}
-                    style={{ backgroundColor: color }}
-                    title={color}
-                  />
-                ))}
-              </div>
+              {/* Color Wheel Component */}
+              <div className="flex flex-col items-center gap-6">
+                <div className="relative">
+                  {/* Color Wheel SVG */}
+                  <svg width="280" height="280" viewBox="0 0 280 280" className="cursor-pointer">
+                    <defs>
+                      <radialGradient id="colorWheel">
+                        <stop offset="0%" stopColor="white" />
+                        <stop offset="100%" stopColor="transparent" />
+                      </radialGradient>
+                    </defs>
+                    {/* Generate color wheel with HSL */}
+                    {Array.from({ length: 360 }).map((_, hue) => {
+                      const nextHue = (hue + 1) % 360;
+                      return (
+                        <path
+                          key={hue}
+                          d={`M 140 140 L ${140 + 120 * Math.cos((hue * Math.PI) / 180)} ${140 + 120 * Math.sin((hue * Math.PI) / 180)} L ${140 + 120 * Math.cos((nextHue * Math.PI) / 180)} ${140 + 120 * Math.sin((nextHue * Math.PI) / 180)} Z`}
+                          fill={`hsl(${hue}, 100%, 50%)`}
+                          onClick={(e) => {
+                            if (formData.customColors.length < 4) {
+                              const color = `hsl(${hue}, 100%, 50%)`;
+                              // Convert HSL to HEX
+                              const h = hue / 360;
+                              const s = 1;
+                              const l = 0.5;
+                              let r, g, b;
+                              if (s === 0) {
+                                r = g = b = l;
+                              } else {
+                                const hue2rgb = (p: number, q: number, t: number) => {
+                                  if (t < 0) t += 1;
+                                  if (t > 1) t -= 1;
+                                  if (t < 1/6) return p + (q - p) * 6 * t;
+                                  if (t < 1/2) return q;
+                                  if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                                  return p;
+                                };
+                                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                                const p = 2 * l - q;
+                                r = hue2rgb(p, q, h + 1/3);
+                                g = hue2rgb(p, q, h);
+                                b = hue2rgb(p, q, h - 1/3);
+                              }
+                              const toHex = (x: number) => {
+                                const hex = Math.round(x * 255).toString(16);
+                                return hex.length === 1 ? '0' + hex : hex;
+                              };
+                              const hexColor = `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+                              
+                              if (!formData.customColors.includes(hexColor)) {
+                                setFormData(prev => ({
+                                  ...prev,
+                                  customColors: [...prev.customColors, hexColor]
+                                }));
+                              }
+                            }
+                          }}
+                          className="hover:opacity-80 transition-opacity"
+                        />
+                      );
+                    })}
+                    {/* White center gradient overlay */}
+                    <circle cx="140" cy="140" r="120" fill="url(#colorWheel)" pointerEvents="none" />
+                  </svg>
+                </div>
 
-              {/* Custom Color Input */}
-              <div className="flex gap-3">
-                <input
-                  type="color"
-                  className="w-16 h-16 rounded-lg cursor-pointer border-2 border-white/20 bg-transparent"
-                  onChange={(e) => {
-                    const color = e.target.value.toUpperCase();
-                    if (formData.customColors.length < 4 && !formData.customColors.includes(color)) {
-                      setFormData(prev => ({
-                        ...prev,
-                        customColors: [...prev.customColors, color]
-                      }));
-                    }
-                  }}
-                />
-                <div className="flex-1 flex items-center">
-                  <p className="text-sm text-gray-400">
-                    Use the color picker to add custom colors, or click a preset above.
+                {/* Saturation/Lightness Selector */}
+                <div className="w-full max-w-md">
+                  <p className="text-sm text-gray-400 mb-3 text-center">
+                    Click on the color wheel to add colors. Need a specific shade? Use the picker below:
                   </p>
+                  <div className="flex gap-3 items-center justify-center">
+                    <input
+                      type="color"
+                      className="w-20 h-20 rounded-lg cursor-pointer border-2 border-white/20 bg-transparent"
+                      onChange={(e) => {
+                        const color = e.target.value.toUpperCase();
+                        if (formData.customColors.length < 4 && !formData.customColors.includes(color)) {
+                          setFormData(prev => ({
+                            ...prev,
+                            customColors: [...prev.customColors, color]
+                          }));
+                        }
+                      }}
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm text-gray-500">
+                        Use the native color picker for precise control
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
