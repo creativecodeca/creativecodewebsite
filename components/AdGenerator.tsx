@@ -92,6 +92,16 @@ const AdGenerator: React.FC = () => {
     if (currentQuestion === 5) return formData.aspectRatio !== '';
     if (currentQuestion === 6) return formData.colorScheme !== '';
     if (currentQuestion === 7) return formData.customColors.length > 0;
+    // For generating (all questions complete)
+    if (currentQuestion === 8) {
+      return formData.businessName.trim().length > 0 &&
+             formData.adMessage.trim().length > 0 &&
+             formData.targetAudience.trim().length > 0 &&
+             formData.style !== '' &&
+             formData.aspectRatio !== '' &&
+             formData.colorScheme !== '' &&
+             formData.customColors.length > 0;
+    }
     return false;
   };
 
@@ -108,7 +118,16 @@ const AdGenerator: React.FC = () => {
   };
 
   const handleGenerate = async () => {
-    if (!canAdvance()) return;
+    // Validate all required fields
+    if (!formData.businessName.trim() || 
+        !formData.adMessage.trim() || 
+        !formData.targetAudience.trim() ||
+        !formData.style ||
+        !formData.aspectRatio ||
+        !formData.colorScheme ||
+        formData.customColors.length === 0) {
+      return;
+    }
 
     setIsGenerating(true);
     setError(null);
@@ -703,7 +722,7 @@ const AdGenerator: React.FC = () => {
             ) : (
               <button
                 onClick={handleGenerate}
-                disabled={!canAdvance()}
+                disabled={formData.customColors.length === 0 || isGenerating}
                 className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 <Sparkles className="w-5 h-5" />
