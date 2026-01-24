@@ -159,75 +159,78 @@ Technical Requirements:
     const images = [];
     
     try {
-      // Use Imagen 4 Ultra - Google's best text-to-image model
-
-    // Use Imagen 4 Ultra - Google's best text-to-image model
-    // Available aspect ratios: 1:1, 3:4, 4:3, 9:16, 16:9
-    const response = await fetch(
-      'https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-ultra-generate-001:predict',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': GEMINI_API_KEY,
+      // Step 3: Use Imagen 4 Ultra via the proper SDK method
+      console.log('Step 2: Generating image with Imagen 4 Ultra (2K)...');
+      
+      // Use the genAI client we already created for concepts
+      const imagenResponse = await genAI.models.generateImages({
+        model: 'imagen-4.0-ultra-generate-001',
+        prompt: prompt,
+        config: {
+          numberOfImages: 1,
+          aspectRatio: aspectRatio,
+          imageSize: '2K',
         },
-        body: JSON.stringify({
-          instances: [{
-            prompt: prompt,
-          }],
-          parameters: {
-            sampleCount: 1,
-            aspectRatio: aspectRatio,
-            imageSize: '2K', // Imagen 4 supports up to 2K
-          },
-        }),
+      });
+
+      // Extract image from response
+      let imageDataUrl: string | null = null;
+      
+      if (imagenResponse.generatedImages && imagenResponse.generatedImages.length > 0) {
+        const generatedImage = imagenResponse.generatedImages[0];
+        if (generatedImage.image?.imageBytes) {
+          const imageBytes = generatedImage.image.imageBytes;
+          imageDataUrl = `data:image/png;base64,${imageBytes}`;
+        }
       }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Imagen API error: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    
-    // Extract image from Imagen response
-    let imageDataUrl: string | null = null;
-    
-    if (data.predictions && data.predictions[0]) {
-      const prediction = data.predictions[0];
-      if (prediction.bytesBase64Encoded) {
-        imageDataUrl = `data:image/png;base64,${prediction.bytesBase64Encoded}`;
-      } else if (prediction.mimeType && prediction.bytesBase64Encoded) {
-        imageDataUrl = `data:${prediction.mimeType};base64,${prediction.bytesBase64Encoded}`;
+      
+      // Fallback to placeholder if no image generated
+      if (!imageDataUrl) {
+        console.warn('No image data from Imagen 4, using placeholder');
+        imageDataUrl = createPlaceholderImage(adMessage, businessName, style);
       }
-    }
-    
-    // Fallback to placeholder if no image generated
-    if (!imageDataUrl) {
-      console.warn('No image data from Imagen 4, using placeholder');
-      imageDataUrl = createPlaceholderImage(adMessage, businessName, style);
-    }
 
-    images.push({
-      id: `ad-${Date.now()}`,
-      dataUrl: imageDataUrl,
-      prompt: prompt.substring(0, 500),
-    });
+      images.push({
+        id: `ad-${Date.now()}`,
+        dataUrl: imageDataUrl,
+        prompt: prompt.substring(0, 500),
+      });
 
-    return res.status(200).json({
-      images,
-      metadata: {
-        model: 'imagen-4.0-ultra (Google AI)',
-        concept: adConcept,
-        generatedAt: new Date().toISOString(),
-        remaining: rateCheck.remaining,
-      },
-    });
+      return res.status(200).json({
+        images,
+        metadata: {
+          model: 'imagen-4.0-ultra (Google AI)',
+          concept: adConcept,
+          generatedAt: new Date().toISOString(),
+          remaining: rateCheck.remaining,
+        },
+      });
+    } catch (imagenError: any) {
+      console.error('Imagen generation error:', imagenError);
+      
+      // Fallback to placeholder on Imagen error
+      const fallbackImage = {
+        id: `ad-${Date.now()}`,
+        dataUrl: createPlaceholderImage(adMessage, businessName, style),
+        prompt: prompt.substring(0, 500),
+      };
+      
+      return res.status(200).json({
+        images: [fallbackImage],
+        metadata: {
+          model: 'fallback-svg',
+          concept: adConcept,
+          generatedAt: new Date().toISOString(),
+          remaining: rateCheck.remaining,
+          error: 'Imagen API failed, using fallback',
+        },
+      });
+    }
 
   } catch (error: any) {
-    console.error('Error generating ad image:', error);
+    console.error('Error in ad generation process:', error);
     
-    // Fallback to placeholder on error
+    // Fallback to placeholder on any error
     const fallbackImage = {
       id: `ad-${Date.now()}`,
       dataUrl: createPlaceholderImage(req.body.adMessage || '', req.body.businessName || '', req.body.style || 'modern'),
@@ -239,8 +242,8 @@ Technical Requirements:
       metadata: {
         model: 'fallback-svg',
         generatedAt: new Date().toISOString(),
-        remaining: rateCheck.remaining,
-        error: 'AI generation failed, using fallback',
+        remaining: rateCheck.remaining || 0,
+        error: error.message || 'Generation failed, using fallback',
       },
     });
   }
