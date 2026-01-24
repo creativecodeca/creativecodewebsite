@@ -204,7 +204,7 @@ const AdGenerator: React.FC = () => {
             </h1>
           </div>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Answer 7 quick questions. AI-powered design generator.
+            Answer 7 quick questions. Powered by Nano Banana Pro.
           </p>
         </motion.div>
 
@@ -599,7 +599,7 @@ const AdGenerator: React.FC = () => {
                     </div>
                     <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mt-2">
                       <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
-                      <span>Step 2: Creating custom ad design</span>
+                      <span>Step 2: Rendering with Nano Banana Pro</span>
                     </div>
                   </div>
                 </div>

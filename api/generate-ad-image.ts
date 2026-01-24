@@ -168,32 +168,60 @@ Technical Requirements:
     console.log('Step 2: Design specifications prepared');
     console.log('Aspect Ratio:', aspectRatio);
 
-    // Generate 1 image using Canvas-based template rendering
-    console.log('Step 3: Generating ad image with custom template...');
+    // Generate 1 image using Gemini 3 Pro Image (Nano Banana Pro)
+    console.log('Step 3: Generating image with Gemini Nano Banana Pro...');
     
     try {
-      // Create a professional ad image based on the concept and user inputs
-      const adImage = await generateTemplateAd({
-        businessName,
-        adMessage,
-        targetAudience,
-        style,
-        aspectRatio,
-        colorScheme,
-        customColors: colorsList,
-        concept: adConcept,
+      const imageModel = genAI.getGenerativeModel({ 
+        model: 'gemini-3-pro-image-preview'
       });
+      
+      const result = await imageModel.generateContent({
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: {
+          responseModalities: ['IMAGE'],
+          imageConfig: {
+            aspectRatio: aspectRatio,
+            imageSize: '2K',
+          },
+        },
+      });
+
+      const response = await result.response;
+      
+      // Extract image from response
+      if (!response.candidates || response.candidates.length === 0) {
+        throw new Error('No candidates in Nano Banana Pro response');
+      }
+
+      const candidate = response.candidates[0];
+      if (!candidate.content || !candidate.content.parts) {
+        throw new Error('No content parts in response');
+      }
+
+      let imageDataUrl: string | null = null;
+      
+      for (const part of candidate.content.parts) {
+        if (part.inlineData && part.inlineData.mimeType?.startsWith('image/')) {
+          imageDataUrl = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+          break;
+        }
+      }
+
+      if (!imageDataUrl) {
+        throw new Error('No image data found in Nano Banana Pro response');
+      }
 
       const images = [{
         id: `ad-${Date.now()}`,
-        dataUrl: adImage,
+        dataUrl: imageDataUrl,
         prompt: prompt.substring(0, 500),
       }];
 
       return res.status(200).json({
         images,
         metadata: {
-          model: 'Custom Template Generator (Creative Code AI)',
+          model: 'Nano Banana Pro (Gemini 3 Pro Image)',
           concept: adConcept,
           generatedAt: new Date().toISOString(),
           remaining: rateCheck.remaining,
@@ -212,204 +240,4 @@ Technical Requirements:
       code: 'GENERATION_FAILED',
     });
   }
-}
-
-// Template-based ad generator function
-interface AdTemplateData {
-  businessName: string;
-  adMessage: string;
-  targetAudience: string;
-  style: string;
-  aspectRatio: string;
-  colorScheme: string;
-  customColors: string[];
-  concept: string;
-}
-
-async function generateTemplateAd(data: AdTemplateData): Promise<string> {
-  const { businessName, adMessage, style, aspectRatio, customColors } = data;
-  
-  // Determine dimensions based on aspect ratio
-  const dimensions: Record<string, { width: number; height: number }> = {
-    '1:1': { width: 1200, height: 1200 },
-    '4:5': { width: 1080, height: 1350 },
-    '16:9': { width: 1920, height: 1080 },
-  };
-  
-  const { width, height } = dimensions[aspectRatio] || dimensions['1:1'];
-  
-  // Use custom colors or defaults
-  const primaryColor = customColors[0] || '#3B82F6';
-  const secondaryColor = customColors[1] || '#8B5CF6';
-  const accentColor = customColors[2] || '#EC4899';
-  const textColor = customColors[3] || '#FFFFFF';
-  
-  // Style-specific design parameters
-  const styleConfigs: Record<string, { fontWeight: string; pattern: string; overlay: string }> = {
-    modern: { fontWeight: '300', pattern: 'minimal', overlay: 'linear' },
-    bold: { fontWeight: '900', pattern: 'geometric', overlay: 'vibrant' },
-    professional: { fontWeight: '600', pattern: 'clean', overlay: 'subtle' },
-    warm: { fontWeight: '500', pattern: 'organic', overlay: 'soft' },
-  };
-  
-  const config = styleConfigs[style] || styleConfigs.modern;
-  
-  // Create SVG with professional design
-  const svg = `
-<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <!-- Gradient backgrounds -->
-    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:${primaryColor};stop-opacity:1" />
-      <stop offset="50%" style="stop-color:${secondaryColor};stop-opacity:0.9" />
-      <stop offset="100%" style="stop-color:${accentColor};stop-opacity:0.8" />
-    </linearGradient>
-    
-    <!-- Radial gradient for depth -->
-    <radialGradient id="depthGradient" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:white;stop-opacity:0.1" />
-      <stop offset="100%" style="stop-color:black;stop-opacity:0.3" />
-    </radialGradient>
-    
-    <!-- Text shadow filter -->
-    <filter id="textShadow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
-      <feOffset dx="0" dy="4" result="offsetblur"/>
-      <feComponentTransfer>
-        <feFuncA type="linear" slope="0.5"/>
-      </feComponentTransfer>
-      <feMerge>
-        <feMergeNode/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-    
-    <!-- Glow effect -->
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="10" result="coloredBlur"/>
-      <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-  
-  <!-- Background -->
-  <rect width="${width}" height="${height}" fill="url(#bgGradient)"/>
-  
-  <!-- Depth overlay -->
-  <rect width="${width}" height="${height}" fill="url(#depthGradient)"/>
-  
-  <!-- Decorative elements based on style -->
-  ${config.pattern === 'geometric' ? `
-    <circle cx="${width * 0.2}" cy="${height * 0.3}" r="${width * 0.15}" fill="${accentColor}" opacity="0.2"/>
-    <circle cx="${width * 0.8}" cy="${height * 0.7}" r="${width * 0.2}" fill="${secondaryColor}" opacity="0.15"/>
-  ` : config.pattern === 'organic' ? `
-    <ellipse cx="${width * 0.15}" cy="${height * 0.2}" rx="${width * 0.12}" ry="${width * 0.18}" fill="${accentColor}" opacity="0.15" transform="rotate(30 ${width * 0.15} ${height * 0.2})"/>
-    <ellipse cx="${width * 0.85}" cy="${height * 0.8}" rx="${width * 0.15}" ry="${width * 0.1}" fill="${secondaryColor}" opacity="0.2" transform="rotate(-20 ${width * 0.85} ${height * 0.8})"/>
-  ` : ''}
-  
-  <!-- Content container -->
-  <g transform="translate(${width * 0.1}, ${height * 0.4})">
-    <!-- Business Name -->
-    <text 
-      x="0" 
-      y="0" 
-      font-family="Arial, Helvetica, sans-serif" 
-      font-size="${Math.min(width * 0.05, 60)}" 
-      font-weight="${config.fontWeight}" 
-      fill="${textColor}"
-      filter="url(#textShadow)"
-      opacity="0.9"
-    >
-      ${businessName.substring(0, 30)}
-    </text>
-    
-    <!-- Ad Message -->
-    <text 
-      x="0" 
-      y="${Math.min(height * 0.15, 120)}" 
-      font-family="Arial, Helvetica, sans-serif" 
-      font-size="${Math.min(width * 0.08, 96)}" 
-      font-weight="${parseInt(config.fontWeight) + 200}" 
-      fill="${textColor}"
-      filter="url(#textShadow)"
-    >
-      ${wrapText(adMessage, Math.floor(width * 0.8 / (width * 0.04)))[0]?.substring(0, 40) || ''}
-    </text>
-    ${wrapText(adMessage, Math.floor(width * 0.8 / (width * 0.04)))[1] ? `
-    <text 
-      x="0" 
-      y="${Math.min(height * 0.15, 120) + Math.min(width * 0.085, 100)}" 
-      font-family="Arial, Helvetica, sans-serif" 
-      font-size="${Math.min(width * 0.08, 96)}" 
-      font-weight="${parseInt(config.fontWeight) + 200}" 
-      fill="${textColor}"
-      filter="url(#textShadow)"
-    >
-      ${wrapText(adMessage, Math.floor(width * 0.8 / (width * 0.04)))[1]?.substring(0, 40) || ''}
-    </text>
-    ` : ''}
-  </g>
-  
-  <!-- Call-to-Action Button -->
-  <g transform="translate(${width * 0.1}, ${height * 0.75})">
-    <rect 
-      x="0" 
-      y="0" 
-      width="${Math.min(width * 0.4, 400)}" 
-      height="${Math.min(height * 0.08, 80)}" 
-      rx="40" 
-      fill="${textColor}"
-      filter="url(#glow)"
-    />
-    <text 
-      x="${Math.min(width * 0.2, 200)}" 
-      y="${Math.min(height * 0.055, 52)}" 
-      font-family="Arial, Helvetica, sans-serif" 
-      font-size="${Math.min(width * 0.035, 36)}" 
-      font-weight="700" 
-      fill="${primaryColor}"
-      text-anchor="middle"
-    >
-      Learn More
-    </text>
-  </g>
-  
-  <!-- Branding -->
-  <text 
-    x="${width * 0.5}" 
-    y="${height * 0.95}" 
-    font-family="Arial, Helvetica, sans-serif" 
-    font-size="${Math.min(width * 0.02, 20)}" 
-    fill="${textColor}"
-    text-anchor="middle"
-    opacity="0.6"
-  >
-    Powered by Creative Code AI
-  </text>
-</svg>`;
-
-  // Convert SVG to base64 data URL
-  const base64 = Buffer.from(svg).toString('base64');
-  return `data:image/svg+xml;base64,${base64}`;
-}
-
-// Helper function to wrap text
-function wrapText(text: string, maxCharsPerLine: number): string[] {
-  const words = text.split(' ');
-  const lines: string[] = [];
-  let currentLine = '';
-  
-  for (const word of words) {
-    if ((currentLine + word).length <= maxCharsPerLine) {
-      currentLine += (currentLine ? ' ' : '') + word;
-    } else {
-      if (currentLine) lines.push(currentLine);
-      currentLine = word;
-    }
-  }
-  
-  if (currentLine) lines.push(currentLine);
-  return lines;
 }
