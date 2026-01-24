@@ -1,6 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { sendSecurityAlert } from './security-utils';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.API_KEY;
 
@@ -50,12 +49,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const rateCheck = checkRateLimit(ip);
   
   if (!rateCheck.allowed) {
-    // Send security alert
-    sendSecurityAlert('Ad Generator Rate Limit Exceeded', {
-      ip,
-      endpoint: '/api/generate-ad-image',
-      timestamp: new Date().toISOString(),
-    });
+    // Log rate limit exceeded
+    console.warn('Rate limit exceeded:', { ip, endpoint: '/api/generate-ad-image' });
 
     return res.status(429).json({ 
       error: 'Too many requests. Please try again in 10 minutes.',
@@ -66,18 +61,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const {
       businessName,
-      industry,
-      description,
-      headline,
-      cta,
-      platform,
+      adMessage,
+      targetAudience,
       style,
-      colorMood,
-      additionalInstructions,
     } = req.body;
 
-    // Validation
-    if (!businessName || !industry || !description || !headline || !cta || !platform || !style) {
+    // Validation - only 4 required fields now
+    if (!businessName || !adMessage || !targetAudience || !style) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -98,31 +88,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     };
 
     const styleDesc = styleDescriptions[style] || 'professional';
-    const platformStr = Array.isArray(platform) ? platform.join(', ') : platform;
 
-    // Construct detailed prompt for Imagen
-    const prompt = `Create a professional ${styleDesc} advertisement image for ${platformStr}.
+    // Construct detailed prompt for Nano Banana Pro
+    const prompt = `Create a professional ${styleDesc} advertisement image.
 
 Business: ${businessName}
-Industry: ${industry}
-Description: ${description}
-
-Ad Content:
-- Headline: "${headline}"
-- Call-to-Action: "${cta}"
+Ad Message: ${adMessage}
+Target Audience: ${targetAudience}
 
 Visual Style: ${styleDesc}
-${colorMood ? `Color Mood: ${colorMood}` : ''}
-${additionalInstructions ? `Additional Requirements: ${additionalInstructions}` : ''}
 
 Requirements:
 - High-resolution, print-quality image
 - Professional composition suitable for digital advertising
 - Eye-catching and modern design
 - Clear, readable typography
-- Appropriate for the ${industry} industry
 - Ensure text is prominent and legible
-- Include visual elements that represent the business`;
+- Include visual elements that represent the business
+- Ad should appeal to: ${targetAudience}`;
 
     console.log('Generating ad image with Nano Banana Pro...');
     console.log('Prompt:', prompt.substring(0, 200) + '...');
@@ -174,12 +157,12 @@ Requirements:
           } else {
             // Fallback to placeholder if no image data
             console.warn('No image data in response, using placeholder');
-            imageDataUrl = createPlaceholderImage(headline, businessName, style);
+            imageDataUrl = createPlaceholderImage(adMessage, businessName, style);
           }
         } else {
           // Fallback to placeholder
           console.warn('No candidates in response, using placeholder');
-          imageDataUrl = createPlaceholderImage(headline, businessName, style);
+          imageDataUrl = createPlaceholderImage(adMessage, businessName, style);
         }
 
         images.push({
@@ -197,7 +180,7 @@ Requirements:
         // Fallback to placeholder on error
         images.push({
           id: `ad-${Date.now()}-${i}`,
-          dataUrl: createPlaceholderImage(headline, businessName, style),
+          dataUrl: createPlaceholderImage(adMessage, businessName, style),
           prompt: prompt.substring(0, 500),
         });
       }
@@ -222,8 +205,7 @@ Requirements:
 }
 
 // Helper function to create placeholder images
-// In production, this would be replaced with actual Imagen API calls
-function createPlaceholderImage(headline: string, businessName: string, style: string): string {
+function createPlaceholderImage(adMessage: string, businessName: string, style: string): string {
   // Create a simple SVG placeholder that looks like an ad
   const colors: Record<string, { bg: string; accent: string }> = {
     modern: { bg: '#1a1a1a', accent: '#3b82f6' },
@@ -244,7 +226,7 @@ function createPlaceholderImage(headline: string, businessName: string, style: s
   </defs>
   <rect width="1200" height="628" fill="url(#grad)"/>
   <text x="600" y="280" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="white" text-anchor="middle">
-    ${headline.substring(0, 40)}
+    ${adMessage.substring(0, 40)}
   </text>
   <text x="600" y="350" font-family="Arial, sans-serif" font-size="36" fill="white" text-anchor="middle" opacity="0.9">
     ${businessName}
