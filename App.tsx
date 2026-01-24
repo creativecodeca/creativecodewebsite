@@ -76,6 +76,7 @@ const WebsiteOnboardingForm = lazy(() => retryImport(() => import('./components/
 const FunnelPrivateGift = lazy(() => retryImport(() => import('./components/FunnelPrivateGift')));
 const Tools = lazy(() => retryImport(() => import('./components/Tools')));
 const DiagnosisMap = lazy(() => retryImport(() => import('./components/DiagnosisMap')));
+const AdGenerator = lazy(() => retryImport(() => import('./components/AdGenerator')));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -124,6 +125,7 @@ function AppContent() {
             <Route path="/funnel/privategift/r1/:name" element={<FunnelPrivateGift />} />
             <Route path="/tools" element={<PageWrapper><Tools /></PageWrapper>} />
             <Route path="/tools/diagnosismap" element={<DiagnosisMap />} />
+            <Route path="/tools/ad-generator" element={<PageWrapper><AdGenerator /></PageWrapper>} />
             {/* Catch-all route - redirect to home for any undefined paths */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

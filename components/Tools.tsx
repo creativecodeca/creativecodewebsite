@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Compass, ArrowRight } from 'lucide-react';
+import { Compass, ArrowRight, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Tools: React.FC = () => {
@@ -17,6 +17,20 @@ const Tools: React.FC = () => {
         'AI-powered solutions',
         'Smart search with Gemini AI',
         'Impact analysis for each issue',
+      ],
+    },
+    {
+      id: 'ad-generator',
+      title: 'AI Ad Image Generator',
+      description: 'Generate professional ad images powered by Google Nano Banana Pro. Answer 3 quick questions and get stunning ad creatives instantly—no signup required.',
+      icon: Sparkles,
+      link: '/tools/ad-generator',
+      color: 'from-purple-500 to-pink-500',
+      features: [
+        'Nano Banana Pro AI generation',
+        'No account needed—100% local storage',
+        'Studio-quality 4K resolution',
+        'Multiple style variations',
       ],
     },
   ];
