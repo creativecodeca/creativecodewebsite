@@ -50,6 +50,7 @@ const AdGenerator: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [adConcept, setAdConcept] = useState<string>('');
   const [currentColor, setCurrentColor] = useState('#3B82F6');
+  const [remainingGenerations, setRemainingGenerations] = useState<number | null>(null);
 
   const [formData, setFormData] = useState<AdFormData>({
     businessName: '',
@@ -111,7 +112,6 @@ const AdGenerator: React.FC = () => {
 
     setIsGenerating(true);
     setError(null);
-    setCurrentQuestion(8); // Move to results view
 
     try {
       const response = await fetch('/api/generate-ad-image', {
@@ -133,6 +133,11 @@ const AdGenerator: React.FC = () => {
       if (data.metadata?.concept) {
         setAdConcept(data.metadata.concept);
       }
+
+      // Store remaining generations
+      if (data.metadata?.remaining !== undefined) {
+        setRemainingGenerations(data.metadata.remaining);
+      }
       
       const newAds: GeneratedAd[] = data.images.map((img: any) => ({
         id: img.id,
@@ -143,9 +148,15 @@ const AdGenerator: React.FC = () => {
         concept: data.metadata?.concept,
       }));
 
+      // Add new ads to the BEGINNING of the array (so they show at top)
       const updatedAds = [...newAds, ...generatedAds];
       setGeneratedAds(updatedAds);
       localStorage.setItem('creativeCodeAds', JSON.stringify(updatedAds));
+
+      // Move to results view only on first generation
+      if (currentQuestion !== 8) {
+        setCurrentQuestion(8);
+      }
 
     } catch (err: any) {
       setError(err.message || 'Failed to generate images. Please try again.');
@@ -206,7 +217,7 @@ const AdGenerator: React.FC = () => {
             </h1>
           </div>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Answer 7 quick questions. Powered by Nano Banana Pro.
+            Answer 7 quick questions to get your custom ad.
           </p>
         </motion.div>
 
@@ -563,35 +574,12 @@ const AdGenerator: React.FC = () => {
                 <div className="bg-gradient-to-br from-gray-900 to-black border border-white/10 rounded-2xl p-12 text-center">
                   <Loader2 className="w-16 h-16 text-purple-400 animate-spin mx-auto mb-6" />
                   <h2 className="text-2xl font-bold mb-2">Crafting your perfect ad...</h2>
-                  <p className="text-gray-400 mb-4">AI is designing a unique creative concept</p>
-                  <div className="max-w-md mx-auto">
-                    <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
-                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-                      <span>Step 1: Generating creative concept with Gemini</span>
-                    </div>
-                    <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mt-2">
-                      <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
-                      <span>Step 2: Rendering with Nano Banana Pro</span>
-                    </div>
-                  </div>
+                  <p className="text-gray-400">This may take a moment</p>
                 </div>
               ) : (
                 <>
                   <div className="bg-gradient-to-br from-gray-900 to-black border border-white/10 rounded-2xl p-8">
-                    <h2 className="text-2xl font-bold mb-6">Your Generated Ad</h2>
-                    
-                    {/* Show AI-generated concept */}
-                    {adConcept && (
-                      <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg">
-                        <div className="flex items-start gap-3">
-                          <Sparkles className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
-                          <div>
-                            <p className="text-sm font-semibold text-purple-400 mb-1">AI Creative Concept</p>
-                            <p className="text-sm text-gray-300 leading-relaxed">{adConcept}</p>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                    <h2 className="text-2xl font-bold mb-6">Your Generated Ads</h2>
                     
                     {error ? (
                       <div className="text-center py-8">
@@ -605,8 +593,8 @@ const AdGenerator: React.FC = () => {
                       </div>
                     ) : generatedAds.length > 0 ? (
                       <div className="space-y-6">
-                        {/* Show only the most recent ad */}
-                        {generatedAds.slice(0, 1).map(ad => (
+                        {/* Show all generated ads */}
+                        {generatedAds.map(ad => (
                           <div key={ad.id} className="relative group">
                             <img
                               src={ad.imageDataUrl}
@@ -627,14 +615,28 @@ const AdGenerator: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="flex gap-4 justify-center">
+                  <div className="flex gap-4 justify-center flex-wrap">
                     <button
                       onClick={handleGenerate}
-                      disabled={isGenerating}
+                      disabled={isGenerating || (remainingGenerations !== null && remainingGenerations <= 0)}
                       className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                     >
-                      <RefreshCw className="w-5 h-5" />
-                      Generate More
+                      {isGenerating ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          Generating...
+                        </>
+                      ) : (
+                        <>
+                          <RefreshCw className="w-5 h-5" />
+                          Generate More
+                          {remainingGenerations !== null && (
+                            <span className="text-xs bg-white/20 px-2 py-1 rounded">
+                              {remainingGenerations} left
+                            </span>
+                          )}
+                        </>
+                      )}
                     </button>
 
                     <button
@@ -644,6 +646,30 @@ const AdGenerator: React.FC = () => {
                       Start Over
                     </button>
                   </div>
+
+                  {/* CTA Section - Book a Call */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="mt-12"
+                  >
+                    <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 border border-purple-500/20 rounded-2xl p-8 text-center">
+                      <h3 className="text-2xl font-bold mb-3 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        Love Your Results?
+                      </h3>
+                      <p className="text-gray-300 mb-6">
+                        Imagine what we can do with a full marketing strategy. Book a free call to discuss scaling your business.
+                      </p>
+                      <Link
+                        to="/book"
+                        className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
+                      >
+                        Book Your Free Strategy Call
+                        <ArrowRight className="w-5 h-5" />
+                      </Link>
+                    </div>
+                  </motion.div>
                 </>
               )}
             </motion.div>

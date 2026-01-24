@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Compass, ArrowRight, Sparkles } from 'lucide-react';
+import { Compass, ArrowRight, Sparkles, Calendar } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Tools: React.FC = () => {
@@ -8,29 +8,29 @@ const Tools: React.FC = () => {
     {
       id: 'diagnosis-map',
       title: 'Business Diagnosis Map',
-      description: 'Interactive mindmap to diagnose business problems and find AI-powered solutions. Navigate through a comprehensive tree of business challenges with intelligent search and automated recommendations.',
+      description: 'Interactive mindmap to diagnose business problems and find solutions. Navigate through a comprehensive tree of business challenges with intelligent search and recommendations.',
       icon: Compass,
       link: '/tools/diagnosismap',
       color: 'from-blue-500 to-cyan-500',
       features: [
         'Interactive problem tree navigation',
-        'AI-powered solutions',
-        'Smart search with Gemini AI',
+        'Solution recommendations',
+        'Smart search capabilities',
         'Impact analysis for each issue',
       ],
     },
     {
       id: 'ad-generator',
       title: 'AI Ad Image Generator',
-      description: 'Generate professional ad images with Google Nano Banana Pro. Answer 7 quick questions and get stunning 2K ad creatives instantly—no signup required.',
+      description: 'Generate professional ad images instantly. Answer 7 quick questions and get studio-quality ad creatives—no signup required.',
       icon: Sparkles,
       link: '/tools/ad-generator',
       color: 'from-purple-500 to-pink-500',
       features: [
-        'Nano Banana Pro AI',
-        'No account needed—100% local storage',
-        'Studio-quality 2K resolution',
-        'Custom colors & color wheel',
+        'Professional-quality images',
+        'No account needed',
+        'High-resolution output',
+        'Custom brand colors',
       ],
     },
   ];
@@ -136,6 +136,39 @@ const Tools: React.FC = () => {
             <p className="text-gray-600 text-xs">
               We're constantly developing new diagnostic and optimization tools to help your business thrive.
             </p>
+          </div>
+        </motion.div>
+
+        {/* CTA Section - Book a Call */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-20"
+        >
+          <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 border border-purple-500/20 rounded-2xl p-12 text-center">
+            <div className="max-w-2xl mx-auto">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 p-3 flex items-center justify-center">
+                <Calendar className="w-full h-full text-white" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Need More Than Tools?
+              </h2>
+              <p className="text-xl text-gray-300 mb-8">
+                Get a custom strategy tailored to your business. Book a free consultation to discuss your unique challenges and goals.
+              </p>
+              <Link
+                to="/book"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
+              >
+                <Calendar className="w-5 h-5" />
+                Book a Free Call
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <p className="text-sm text-gray-500 mt-4">
+                No commitments • 30-minute strategy session
+              </p>
+            </div>
           </div>
         </motion.div>
       </div>
