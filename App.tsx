@@ -68,6 +68,13 @@ const Contact = lazy(() => retryImport(() => import('./components/Contact')));
 const PrivacyPolicy = lazy(() => retryImport(() => import('./components/PrivacyPolicy')));
 const TermsConditions = lazy(() => retryImport(() => import('./components/TermsConditions')));
 const WebsiteServices = lazy(() => retryImport(() => import('./components/WebsiteServices')));
+const WebsiteExamples = lazy(() => retryImport(() => import('./components/WebsiteExamples')));
+const MetaAdsServices = lazy(() => retryImport(() => import('./components/MetaAdsServices')));
+const MetaAdsExamples = lazy(() => retryImport(() => import('./components/MetaAdsExamples')));
+const AutomationServices = lazy(() => retryImport(() => import('./components/AutomationServices')));
+const AutomationExamples = lazy(() => retryImport(() => import('./components/AutomationExamples')));
+const VoiceAIServices = lazy(() => retryImport(() => import('./components/VoiceAIServices')));
+const VoiceAIExamples = lazy(() => retryImport(() => import('./components/VoiceAIExamples')));
 const BuyPopupWebsite = lazy(() => retryImport(() => import('./components/BuyPopupWebsite')));
 const BuyStandardWebsite = lazy(() => retryImport(() => import('./components/BuyStandardWebsite')));
 const MobileContact = lazy(() => retryImport(() => import('./components/MobileContact')));
@@ -118,8 +125,15 @@ function AppContent() {
             <Route path="/clientcall" element={<PageWrapper><ClientCall /></PageWrapper>} />
             <Route path="/onboarding/websiteform" element={<PageWrapper><WebsiteOnboardingForm /></PageWrapper>} />
             <Route path="/services/website" element={<PageWrapper><WebsiteServices /></PageWrapper>} />
+            <Route path="/services/website/examples" element={<PageWrapper><WebsiteExamples /></PageWrapper>} />
             <Route path="/services/website/buy-popup" element={<PageWrapper><BuyPopupWebsite /></PageWrapper>} />
             <Route path="/services/website/buy-standard" element={<PageWrapper><BuyStandardWebsite /></PageWrapper>} />
+            <Route path="/services/meta-ads" element={<PageWrapper><MetaAdsServices /></PageWrapper>} />
+            <Route path="/services/meta-ads/examples" element={<PageWrapper><MetaAdsExamples /></PageWrapper>} />
+            <Route path="/services/automation" element={<PageWrapper><AutomationServices /></PageWrapper>} />
+            <Route path="/services/automation/examples" element={<PageWrapper><AutomationExamples /></PageWrapper>} />
+            <Route path="/services/voice-ai" element={<PageWrapper><VoiceAIServices /></PageWrapper>} />
+            <Route path="/services/voice-ai/examples" element={<PageWrapper><VoiceAIExamples /></PageWrapper>} />
             <Route path="/privacy" element={<PageWrapper><PrivacyPolicy /></PageWrapper>} />
             <Route path="/terms" element={<PageWrapper><TermsConditions /></PageWrapper>} />
             <Route path="/funnel/privategift/r1/:name" element={<FunnelPrivateGift />} />
