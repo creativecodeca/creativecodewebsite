@@ -64,17 +64,12 @@ const DemoWebsiteWrapper: React.FC = () => {
         to="/services/website/examples"
         className="fixed top-6 left-6 z-[9999] group flex items-center gap-2 px-4 py-3 bg-black/80 backdrop-blur-md border border-white/10 rounded-full hover:bg-black/90 transition-all hover:gap-3 shadow-2xl"
       >
-        <img 
-          src="/resources/whitelogo.png" 
-          alt="Creative Code" 
-          className="h-6 w-6"
-        />
+        <ArrowLeft className="w-6 h-6 text-white" />
         <motion.span
           initial={{ width: 0, opacity: 0 }}
           whileHover={{ width: 'auto', opacity: 1 }}
           className="text-white text-sm font-medium whitespace-nowrap overflow-hidden group-hover:opacity-100 opacity-0 transition-opacity"
         >
-          <ArrowLeft className="w-4 h-4 inline mr-1" />
           Back to Examples
         </motion.span>
       </Link>

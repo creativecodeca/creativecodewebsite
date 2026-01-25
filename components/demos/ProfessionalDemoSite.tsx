@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Scale, Award, Clock, Phone, Mail, MapPin, CheckCircle, Calendar, Shield } from 'lucide-react';
+import { Scale, Award, Clock, Phone, Mail, MapPin, CheckCircle, Briefcase, Shield, FileText } from 'lucide-react';
 import { BlockedButton, GradientPlaceholder, AvatarPlaceholder } from './demoUtils';
 
 interface ProfessionalDemoSiteProps {
@@ -10,24 +10,24 @@ interface ProfessionalDemoSiteProps {
 const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick }) => {
   const services = [
     {
-      icon: Scale,
+      icon: Briefcase,
       title: 'Business Law',
-      description: 'Contract negotiations, mergers & acquisitions, corporate governance, and business formation services.'
+      description: 'Contract negotiations, mergers & acquisitions, corporate governance, and business formation.'
+    },
+    {
+      icon: FileText,
+      title: 'Estate Planning',
+      description: 'Wills, trusts, probate administration, and comprehensive estate planning services.'
+    },
+    {
+      icon: Scale,
+      title: 'Real Estate Law',
+      description: 'Property transactions, title disputes, zoning issues, and commercial real estate.'
     },
     {
       icon: Shield,
-      title: 'Estate Planning',
-      description: 'Wills, trusts, probate administration, and comprehensive estate planning for your family\'s future.'
-    },
-    {
-      icon: Award,
-      title: 'Real Estate Law',
-      description: 'Property transactions, title disputes, zoning issues, and commercial real estate representation.'
-    },
-    {
-      icon: CheckCircle,
       title: 'Civil Litigation',
-      description: 'Expert representation in disputes, settlements, and trial advocacy for complex civil matters.'
+      description: 'Expert representation in disputes, settlements, and trial advocacy.'
     }
   ];
 
@@ -36,112 +36,94 @@ const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick
       name: 'James Richardson',
       title: 'Senior Partner',
       initials: 'JR',
-      credentials: 'JD, Harvard Law School',
+      credentials: 'JD, Harvard Law',
       experience: '25 years',
-      specialties: ['Business Law', 'Mergers & Acquisitions']
+      specialties: ['Business Law', 'M&A']
     },
     {
       name: 'Sarah Chen',
       title: 'Partner',
       initials: 'SC',
-      credentials: 'JD, Yale Law School',
+      credentials: 'JD, Yale Law',
       experience: '18 years',
-      specialties: ['Estate Planning', 'Tax Law']
+      specialties: ['Estate Planning', 'Tax']
     },
     {
       name: 'Michael Torres',
       title: 'Partner',
       initials: 'MT',
-      credentials: 'JD, Columbia Law School',
+      credentials: 'JD, Columbia Law',
       experience: '15 years',
-      specialties: ['Real Estate', 'Civil Litigation']
-    },
-    {
-      name: 'Emily Watson',
-      title: 'Associate Attorney',
-      initials: 'EW',
-      credentials: 'JD, Stanford Law School',
-      experience: '8 years',
-      specialties: ['Business Law', 'Contract Law']
-    }
-  ];
-
-  const credentials = [
-    {
-      icon: Award,
-      title: 'Top Rated Firm',
-      description: 'Martindale-Hubbell AV Preeminent Rating'
-    },
-    {
-      icon: Scale,
-      title: 'Over 40 Years',
-      description: 'Combined legal experience serving clients'
-    },
-    {
-      icon: CheckCircle,
-      title: '500+ Cases',
-      description: 'Successfully resolved for our clients'
-    },
-    {
-      icon: Shield,
-      title: 'Licensed',
-      description: 'California & New York State Bar'
+      specialties: ['Real Estate', 'Litigation']
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#020202] to-[#0a0a1a] text-white">
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 relative overflow-hidden">
-        <div className="absolute inset-0">
-          <GradientPlaceholder 
-            gradient="from-indigo-900/20 to-blue-900/20"
-            className="absolute inset-0"
-          />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.5)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+    <div className="min-h-screen bg-[#fafaf8] text-[#1a1a1a]" style={{ fontFamily: 'Georgia, Times, serif' }}>
+      {/* Top Bar */}
+      <div className="bg-[#1a2332] text-[#c5a572] py-3 px-6 text-sm">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-6">
+            <span className="flex items-center gap-2">
+              <Phone className="w-4 h-4" />
+              (415) 555-0188
+            </span>
+            <span className="hidden md:flex items-center gap-2">
+              <Mail className="w-4 h-4" />
+              info@richardsonlaw.com
+            </span>
+          </div>
+          <div className="flex items-center gap-4 text-xs">
+            <span>Licensed in CA & NY</span>
+            <span className="text-white/30">|</span>
+            <span>AV Rated</span>
+          </div>
         </div>
-        <div className="max-w-6xl mx-auto relative z-10 text-center">
+      </div>
+
+      {/* Hero Section */}
+      <section className="bg-white border-b border-[#1a2332]/10">
+        <div className="max-w-7xl mx-auto px-6 py-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            className="text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-indigo-400 to-blue-400 bg-clip-text text-transparent">
-              Richardson & Associates
-            </h1>
-            <p className="text-2xl md:text-3xl text-slate-300 mb-4 font-light">
-              Attorneys at Law
+            <div className="mb-8">
+              <Scale className="w-16 h-16 mx-auto mb-6 text-[#1a2332]" />
+              <h1 className="text-5xl md:text-6xl mb-6 text-[#1a2332]" style={{ fontFamily: 'Georgia, Times, serif' }}>
+                Richardson & Associates
+              </h1>
+              <p className="text-xl text-[#c5a572] mb-4 tracking-wide uppercase" style={{ fontSize: '0.875rem', letterSpacing: '0.2em' }}>
+                Attorneys at Law
+              </p>
+              <div className="w-24 h-[1px] bg-[#c5a572] mx-auto mb-8"></div>
+            </div>
+            <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+              Providing trusted legal counsel and exceptional representation since 1982. Our experienced team is dedicated to protecting your interests and achieving favorable outcomes.
             </p>
-            <p className="text-lg text-slate-400 max-w-3xl mx-auto mb-4">
-              Providing trusted legal counsel for over 40 years. Our experienced team is dedicated to protecting your interests and achieving the best possible outcomes.
-            </p>
-            <div className="flex items-center justify-center gap-6 mb-8 text-sm text-slate-400">
+            <div className="flex items-center justify-center gap-8 mb-10 text-sm text-gray-600">
               <div className="flex items-center gap-2">
-                <Award className="w-5 h-5 text-indigo-400" />
-                <span>AV Rated</span>
+                <Award className="w-5 h-5 text-[#c5a572]" />
+                <span>AV Preeminent Rated</span>
               </div>
               <div className="flex items-center gap-2">
-                <Scale className="w-5 h-5 text-indigo-400" />
-                <span>Licensed in CA & NY</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-indigo-400" />
-                <span>500+ Cases Won</span>
+                <CheckCircle className="w-5 h-5 text-[#c5a572]" />
+                <span>40+ Years Combined Experience</span>
               </div>
             </div>
-            <div className="flex gap-4 justify-center flex-wrap">
+            <div className="flex gap-4 justify-center">
               <BlockedButton
                 onClick={onDemoClick}
-                className="px-8 py-4 bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold rounded-full hover:scale-105 transition-all shadow-lg inline-flex items-center gap-2"
+                className="px-10 py-4 bg-[#1a2332] text-white hover:bg-[#2a3342] transition-colors"
               >
-                <Calendar className="w-5 h-5" />
                 Schedule Consultation
               </BlockedButton>
               <BlockedButton
                 onClick={onDemoClick}
-                className="px-8 py-4 bg-white/5 border-2 border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-all inline-flex items-center gap-2"
+                className="px-10 py-4 border-2 border-[#1a2332] text-[#1a2332] hover:bg-[#1a2332] hover:text-white transition-colors"
               >
-                <Phone className="w-5 h-5" />
                 (415) 555-0188
               </BlockedButton>
             </div>
@@ -149,9 +131,34 @@ const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="py-20 px-6 bg-[#0a0a0a]">
-        <div className="max-w-6xl mx-auto">
+      {/* Trust Indicators */}
+      <section className="bg-[#1a2332] text-white py-12 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { value: '40+', label: 'Years Combined Experience' },
+              { value: '500+', label: 'Cases Successfully Resolved' },
+              { value: 'AV', label: 'Martindale-Hubbell Rating' },
+              { value: '98%', label: 'Client Satisfaction Rate' }
+            ].map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+              >
+                <p className="text-4xl font-bold text-[#c5a572] mb-2">{stat.value}</p>
+                <p className="text-sm text-gray-300">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Practice Areas */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -159,12 +166,11 @@ const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <p className="text-sm text-[#c5a572] mb-4 tracking-widest uppercase">Our Expertise</p>
+            <h2 className="text-4xl md:text-5xl mb-4 text-[#1a2332]" style={{ fontFamily: 'Georgia, Times, serif' }}>
               Practice Areas
             </h2>
-            <p className="text-xl text-slate-400">
-              Comprehensive legal services tailored to your needs
-            </p>
+            <div className="w-16 h-[1px] bg-[#c5a572] mx-auto"></div>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -175,26 +181,26 @@ const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/[0.07] hover:border-indigo-500/30 transition-all duration-300"
+                className="bg-[#fafaf8] border border-[#1a2332]/10 p-10 hover:border-[#c5a572] hover:shadow-lg transition-all duration-300 cursor-pointer"
+                onClick={onDemoClick}
               >
-                <service.icon className="w-12 h-12 text-indigo-400 mb-4" />
-                <h3 className="text-2xl font-bold mb-3">{service.title}</h3>
-                <p className="text-slate-400 leading-relaxed">{service.description}</p>
-                <BlockedButton
-                  onClick={onDemoClick}
-                  className="mt-6 px-6 py-2 bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-full hover:scale-105 transition-all text-sm font-semibold"
-                >
-                  Learn More
-                </BlockedButton>
+                <service.icon className="w-12 h-12 text-[#1a2332] mb-6" />
+                <h3 className="text-2xl mb-4 text-[#1a2332]" style={{ fontFamily: 'Georgia, Times, serif' }}>
+                  {service.title}
+                </h3>
+                <p className="text-gray-700 leading-relaxed mb-6">{service.description}</p>
+                <span className="text-[#c5a572] text-sm tracking-wider uppercase hover:underline cursor-pointer">
+                  Learn More →
+                </span>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+      {/* Attorneys */}
+      <section className="py-24 px-6 bg-[#fafaf8]">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -202,15 +208,17 @@ const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <p className="text-sm text-[#c5a572] mb-4 tracking-widest uppercase">Legal Team</p>
+            <h2 className="text-4xl md:text-5xl mb-4 text-[#1a2332]" style={{ fontFamily: 'Georgia, Times, serif' }}>
               Our Attorneys
             </h2>
-            <p className="text-xl text-slate-400">
-              Experienced professionals dedicated to your success
+            <div className="w-16 h-[1px] bg-[#c5a572] mx-auto mb-6"></div>
+            <p className="text-gray-700 max-w-2xl mx-auto">
+              Experienced professionals dedicated to providing exceptional legal representation
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {team.map((member, index) => (
               <motion.div
                 key={index}
@@ -218,32 +226,36 @@ const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/[0.07] transition-all duration-300"
+                className="bg-white border border-[#1a2332]/10 overflow-hidden hover:border-[#c5a572] hover:shadow-lg transition-all duration-300"
               >
-                <div className="flex gap-6 mb-6">
+                <div className="bg-[#1a2332] p-8 flex justify-center">
                   <AvatarPlaceholder 
                     initials={member.initials}
-                    gradient="from-indigo-500 to-blue-500"
-                    className="w-24 h-24 rounded-full text-2xl shrink-0"
+                    gradient="from-[#c5a572] to-[#a08855]"
+                    className="w-32 h-32 text-3xl"
                   />
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold mb-1">{member.name}</h3>
-                    <div className="text-indigo-400 font-semibold mb-2">{member.title}</div>
-                    <div className="text-sm text-slate-400 mb-2">{member.credentials}</div>
-                    <div className="text-sm text-slate-500">{member.experience} of experience</div>
-                  </div>
                 </div>
-                <div className="pt-4 border-t border-white/10">
-                  <div className="text-sm font-semibold text-slate-300 mb-2">Specialties:</div>
-                  <div className="flex flex-wrap gap-2">
-                    {member.specialties.map((specialty, i) => (
-                      <span 
-                        key={i}
-                        className="px-3 py-1 bg-indigo-500/20 border border-indigo-500/30 rounded-full text-xs text-indigo-300"
-                      >
-                        {specialty}
-                      </span>
-                    ))}
+                <div className="p-8 text-center">
+                  <h3 className="text-2xl mb-2 text-[#1a2332]" style={{ fontFamily: 'Georgia, Times, serif' }}>
+                    {member.name}
+                  </h3>
+                  <p className="text-[#c5a572] mb-4 text-sm tracking-wide">{member.title}</p>
+                  <div className="text-sm text-gray-600 mb-4 space-y-1">
+                    <p>{member.credentials}</p>
+                    <p>{member.experience} of experience</p>
+                  </div>
+                  <div className="pt-4 border-t border-[#1a2332]/10">
+                    <p className="text-xs text-gray-500 mb-2 uppercase tracking-wider">Specialties</p>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      {member.specialties.map((specialty, i) => (
+                        <span 
+                          key={i}
+                          className="px-3 py-1 bg-[#fafaf8] border border-[#1a2332]/10 text-xs text-[#1a2332]"
+                        >
+                          {specialty}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -253,7 +265,7 @@ const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-20 px-6 bg-[#0a0a0a]">
+      <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -262,265 +274,184 @@ const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <p className="text-sm text-[#c5a572] mb-4 tracking-widest uppercase">Our Commitment</p>
+            <h2 className="text-4xl md:text-5xl mb-4 text-[#1a2332]" style={{ fontFamily: 'Georgia, Times, serif' }}>
               Why Choose Our Firm
             </h2>
-            <p className="text-xl text-slate-400">
-              Proven track record and unwavering commitment to excellence
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {credentials.map((credential, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center"
-              >
-                <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-indigo-500/20 to-blue-500/20 rounded-full flex items-center justify-center border border-white/10">
-                  <credential.icon className="w-10 h-10 text-indigo-400" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">{credential.title}</h3>
-                <p className="text-slate-400 text-sm">{credential.description}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-16 bg-gradient-to-r from-indigo-500/10 to-blue-500/10 border border-indigo-500/20 rounded-2xl p-8"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h3 className="text-2xl font-bold mb-4">Our Commitment to You</h3>
-                <div className="space-y-3">
-                  {[
-                    'Personalized attention to every case',
-                    'Transparent communication at all times',
-                    'Strategic approach to legal challenges',
-                    'Competitive and fair fee structures',
-                    'Available for urgent matters'
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <CheckCircle className="w-5 h-5 text-indigo-400 shrink-0" />
-                      <span className="text-slate-300">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="text-center md:text-right">
-                <div className="text-4xl font-bold text-indigo-400 mb-2">Free Consultation</div>
-                <p className="text-slate-400 mb-6">Initial consultation at no cost to discuss your case</p>
-                <BlockedButton
-                  onClick={onDemoClick}
-                  className="px-8 py-4 bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold rounded-full hover:scale-105 transition-all shadow-lg inline-flex items-center gap-2"
-                >
-                  <Calendar className="w-5 h-5" />
-                  Book Your Consultation
-                </BlockedButton>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Appointment Booking */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Schedule an Appointment
-            </h2>
-            <p className="text-xl text-slate-400">
-              Take the first step toward resolving your legal matter
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white/5 border border-white/10 rounded-2xl p-8"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <input
-                type="text"
-                placeholder="Full Name *"
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-indigo-500/50 transition-colors"
-                onClick={onDemoClick}
-              />
-              <input
-                type="email"
-                placeholder="Email Address *"
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-indigo-500/50 transition-colors"
-                onClick={onDemoClick}
-              />
-              <input
-                type="tel"
-                placeholder="Phone Number *"
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-indigo-500/50 transition-colors"
-                onClick={onDemoClick}
-              />
-              <select
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-indigo-500/50 transition-colors"
-                onClick={onDemoClick}
-              >
-                <option>Select Practice Area *</option>
-                <option>Business Law</option>
-                <option>Estate Planning</option>
-                <option>Real Estate Law</option>
-                <option>Civil Litigation</option>
-                <option>Other</option>
-              </select>
-              <input
-                type="date"
-                placeholder="Preferred Date"
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-indigo-500/50 transition-colors"
-                onClick={onDemoClick}
-              />
-              <select
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-indigo-500/50 transition-colors"
-                onClick={onDemoClick}
-              >
-                <option>Preferred Time</option>
-                <option>Morning (9 AM - 12 PM)</option>
-                <option>Afternoon (12 PM - 5 PM)</option>
-                <option>Evening (After 5 PM)</option>
-              </select>
-              <textarea
-                placeholder="Brief description of your legal matter..."
-                rows={5}
-                className="md:col-span-2 px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-indigo-500/50 transition-colors resize-none"
-                onClick={onDemoClick}
-              />
-            </div>
-            <BlockedButton
-              onClick={onDemoClick}
-              className="w-full mt-6 py-4 bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-full hover:scale-105 transition-all font-bold text-lg"
-            >
-              Request Appointment
-            </BlockedButton>
-            <p className="text-center text-sm text-slate-500 mt-4">
-              All consultations are confidential. We'll contact you within 24 hours.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Contact Information */}
-      <section className="py-20 px-6 bg-[#0a0a0a]">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Contact Us
-            </h2>
-            <p className="text-xl text-slate-400">
-              We're here to help with your legal needs
-            </p>
+            <div className="w-16 h-[1px] bg-[#c5a572] mx-auto"></div>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[
+              { title: 'Personalized Attention', desc: 'Every client receives individualized attention and strategy tailored to their unique situation.' },
+              { title: 'Proven Track Record', desc: 'Over 500 cases successfully resolved with favorable outcomes for our clients.' },
+              { title: 'Transparent Communication', desc: 'We keep you informed at every stage, explaining legal concepts in clear terms.' },
+              { title: 'Competitive Fees', desc: 'Fair, transparent pricing with no hidden costs. Free initial consultation available.' }
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="flex gap-4"
+              >
+                <CheckCircle className="w-6 h-6 text-[#c5a572] shrink-0 mt-1" />
+                <div>
+                  <h3 className="text-xl mb-2 text-[#1a2332]" style={{ fontFamily: 'Georgia, Times, serif' }}>
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Consultation CTA */}
+      <section className="py-24 px-6 bg-[#1a2332] text-white">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <Scale className="w-16 h-16 mx-auto mb-6 text-[#c5a572]" />
+            <h2 className="text-4xl md:text-5xl mb-6" style={{ fontFamily: 'Georgia, Times, serif' }}>
+              Schedule Your Free Consultation
+            </h2>
+            <div className="w-16 h-[1px] bg-[#c5a572] mx-auto mb-8"></div>
+            <p className="text-lg mb-8 text-gray-300 leading-relaxed">
+              Discuss your legal matter with an experienced attorney. Initial consultation at no cost.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+              <BlockedButton
+                onClick={onDemoClick}
+                className="px-12 py-5 bg-[#c5a572] text-[#1a2332] hover:bg-[#d4b66f] transition-colors font-medium"
+              >
+                Schedule Appointment
+              </BlockedButton>
+              <BlockedButton
+                onClick={onDemoClick}
+                className="px-12 py-5 border-2 border-white text-white hover:bg-white hover:text-[#1a2332] transition-colors"
+              >
+                Call (415) 555-0188
+              </BlockedButton>
+            </div>
+            <p className="text-sm text-gray-400">
+              Available Monday-Friday, 9:00 AM - 6:00 PM • Emergency consultations available
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Contact Info */}
+      <section className="py-24 px-6 bg-[#fafaf8]">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <GradientPlaceholder 
-                gradient="from-indigo-900/30 to-blue-900/30"
-                className="h-[400px] rounded-2xl border border-white/10 relative overflow-hidden"
-              >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="w-16 h-16 text-indigo-400 mx-auto mb-4" />
-                    <div className="text-lg font-semibold">Office Location</div>
-                    <div className="text-sm text-slate-400">Downtown Financial District</div>
+              <p className="text-sm text-[#c5a572] mb-4 tracking-widest uppercase">Contact</p>
+              <h2 className="text-3xl md:text-4xl mb-8 text-[#1a2332]" style={{ fontFamily: 'Georgia, Times, serif' }}>
+                Our Office
+              </h2>
+              <div className="space-y-8">
+                <div className="flex items-start gap-4">
+                  <MapPin className="w-6 h-6 text-[#c5a572] mt-1 shrink-0" />
+                  <div>
+                    <p className="font-semibold mb-2 text-[#1a2332]">Address</p>
+                    <p className="text-gray-700">555 Market Street, Suite 3200<br />San Francisco, CA 94105</p>
                   </div>
                 </div>
-              </GradientPlaceholder>
+                <div className="flex items-start gap-4">
+                  <Phone className="w-6 h-6 text-[#c5a572] mt-1 shrink-0" />
+                  <div>
+                    <p className="font-semibold mb-2 text-[#1a2332]">Phone</p>
+                    <p className="text-gray-700">Main: (415) 555-0188<br />Fax: (415) 555-0189</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <Mail className="w-6 h-6 text-[#c5a572] mt-1 shrink-0" />
+                  <div>
+                    <p className="font-semibold mb-2 text-[#1a2332]">Email</p>
+                    <p className="text-gray-700">info@richardsonlaw.com</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <Clock className="w-6 h-6 text-[#c5a572] mt-1 shrink-0" />
+                  <div>
+                    <p className="font-semibold mb-2 text-[#1a2332]">Office Hours</p>
+                    <p className="text-gray-700">Monday - Friday: 9:00 AM - 6:00 PM<br />Saturday: By appointment<br />Sunday: Closed</p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
-
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="space-y-6"
             >
-              <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                <div className="flex items-start gap-4">
-                  <MapPin className="w-6 h-6 text-indigo-400 shrink-0 mt-1" />
-                  <div>
-                    <div className="font-bold mb-2">Office Address</div>
-                    <div className="text-slate-400">
-                      555 Market Street, Suite 3200<br />
-                      San Francisco, CA 94105
-                    </div>
-                  </div>
+              <GradientPlaceholder 
+                gradient="from-[#1a2332] to-[#2a3342]"
+                className="h-full min-h-[400px] border border-[#1a2332]/10"
+              >
+                <div className="h-full flex items-center justify-center">
+                  <MapPin className="w-16 h-16 text-[#c5a572]/30" />
                 </div>
-              </div>
-
-              <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                <div className="flex items-start gap-4">
-                  <Phone className="w-6 h-6 text-indigo-400 shrink-0 mt-1" />
-                  <div>
-                    <div className="font-bold mb-2">Phone</div>
-                    <div className="text-slate-400">
-                      Main: (415) 555-0188<br />
-                      Fax: (415) 555-0189
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                <div className="flex items-start gap-4">
-                  <Mail className="w-6 h-6 text-indigo-400 shrink-0 mt-1" />
-                  <div>
-                    <div className="font-bold mb-2">Email</div>
-                    <div className="text-slate-400">
-                      info@richardsonassociates.com
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                <div className="flex items-start gap-4">
-                  <Clock className="w-6 h-6 text-indigo-400 shrink-0 mt-1" />
-                  <div>
-                    <div className="font-bold mb-2">Office Hours</div>
-                    <div className="text-slate-400 space-y-1">
-                      <div>Monday - Friday: 9:00 AM - 6:00 PM</div>
-                      <div>Saturday: By appointment only</div>
-                      <div className="text-sm text-slate-500 mt-2">Emergency consultations available</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              </GradientPlaceholder>
             </motion.div>
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="py-12 px-6 bg-[#1a2332] text-white border-t border-[#c5a572]/20">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <Scale className="w-10 h-10 text-[#c5a572] mb-4" />
+              <p className="text-2xl mb-2" style={{ fontFamily: 'Georgia, Times, serif' }}>
+                Richardson & Associates
+              </p>
+              <p className="text-sm text-gray-400">Attorneys at Law</p>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold mb-4 text-[#c5a572] tracking-wider uppercase">Quick Links</h3>
+              <ul className="space-y-2 text-sm text-gray-300">
+                {['Practice Areas', 'Our Team', 'About Us', 'Contact'].map((link) => (
+                  <li key={link}>
+                    <BlockedButton onClick={onDemoClick} className="hover:text-white transition-colors text-left">
+                      {link}
+                    </BlockedButton>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold mb-4 text-[#c5a572] tracking-wider uppercase">Legal</h3>
+              <ul className="space-y-2 text-sm text-gray-300">
+                {['Privacy Policy', 'Terms of Service', 'Disclaimer'].map((link) => (
+                  <li key={link}>
+                    <BlockedButton onClick={onDemoClick} className="hover:text-white transition-colors text-left">
+                      {link}
+                    </BlockedButton>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="pt-8 border-t border-[#c5a572]/20 text-center text-sm text-gray-400">
+            <p>© 2024 Richardson & Associates. All rights reserved. Licensed in California and New York.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Heart, Truck, RefreshCw, Shield, Star, Search } from 'lucide-react';
+import { ShoppingBag, Heart, Truck, RefreshCw, Shield, Star, Search, ChevronRight } from 'lucide-react';
 import { BlockedButton, GradientPlaceholder, BlockedLink } from './demoUtils';
 
 interface EcommerceDemoSiteProps {
@@ -23,129 +23,120 @@ const EcommerceDemoSite: React.FC<EcommerceDemoSiteProps> = ({ onDemoClick }) =>
     { name: 'Cashmere Coat', price: '$599', category: 'Outerwear', rating: 5.0 }
   ];
 
-  const categories = ['All', 'Dresses', 'Tops', 'Outerwear', 'Bags', 'Accessories', 'Shoes', 'Jewelry'];
-
-  const benefits = [
-    { icon: Truck, title: 'Free Shipping', description: 'On orders over $100' },
-    { icon: RefreshCw, title: 'Easy Returns', description: '30-day return policy' },
-    { icon: Shield, title: 'Secure Payment', description: 'SSL encrypted checkout' },
-    { icon: Star, title: 'Premium Quality', description: 'Luxury materials only' }
-  ];
+  const categories = ['New Arrivals', 'Dresses', 'Tops', 'Outerwear', 'Bags', 'Accessories', 'Shoes', 'Jewelry', 'Sale'];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#020202] to-[#0a0a1a] text-white">
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 relative overflow-hidden">
-        <div className="absolute inset-0">
-          <GradientPlaceholder 
-            gradient="from-purple-900/20 to-pink-900/20"
-            className="absolute inset-0"
-          />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.5)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
-        </div>
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Luxe & Co.
+    <div className="min-h-screen bg-white text-black">
+      {/* Top Banner */}
+      <div className="bg-black text-white py-2 px-6 text-center text-sm">
+        <p>Free shipping on orders over $150 | Spring Collection Now Available</p>
+      </div>
+
+      {/* Header/Nav */}
+      <header className="border-b border-gray-200 bg-white sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-between py-6">
+            <div className="flex items-center gap-8">
+              <h1 className="text-3xl font-light tracking-[0.2em] cursor-pointer" onClick={onDemoClick}>
+                LUXE & CO.
               </h1>
-              <p className="text-2xl md:text-3xl text-slate-300 mb-4 font-light">
-                Spring Collection 2024
-              </p>
-              <p className="text-lg text-slate-400 mb-8">
-                Discover timeless elegance with our curated collection of luxury fashion. Each piece is crafted with attention to detail and uncompromising quality.
-              </p>
-              <div className="flex gap-4 flex-wrap">
-                <BlockedButton
-                  onClick={onDemoClick}
-                  className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-full hover:scale-105 transition-all shadow-lg"
-                >
-                  Shop New Arrivals
-                </BlockedButton>
-                <BlockedButton
-                  onClick={onDemoClick}
-                  className="px-8 py-4 bg-white/5 border-2 border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-all"
-                >
-                  Explore Collections
-                </BlockedButton>
-              </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <GradientPlaceholder 
-                gradient="from-purple-500/40 to-pink-500/40"
-                className="h-[500px] rounded-2xl border border-white/10 relative overflow-hidden shadow-2xl"
-              >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <ShoppingBag className="w-24 h-24 text-white/60 mx-auto mb-4" />
-                    <div className="text-xl font-semibold text-white/80">Featured Product</div>
-                  </div>
-                </div>
-              </GradientPlaceholder>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Search & Filter Bar */}
-      <section className="py-8 px-6 bg-[#0a0a0a] border-y border-white/10">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            <div className="relative flex-1 max-w-md w-full">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-full focus:outline-none focus:border-purple-500/50 transition-colors"
-                onClick={onDemoClick}
-              />
             </div>
-            <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
-              {categories.map((category) => (
-                <BlockedButton
-                  key={category}
-                  onClick={onDemoClick}
-                  className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-                    category === 'All'
-                      ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
-                      : 'bg-white/5 border border-white/10 hover:bg-white/10'
-                  }`}
-                >
-                  {category}
-                </BlockedButton>
+            <nav className="hidden lg:flex items-center gap-8 text-sm tracking-wider">
+              {['NEW', 'SHOP', 'COLLECTIONS', 'ABOUT'].map((item) => (
+                <BlockedLink key={item} onClick={onDemoClick} className="hover:text-gray-600 transition-colors">
+                  {item}
+                </BlockedLink>
               ))}
+            </nav>
+            <div className="flex items-center gap-6">
+              <BlockedButton onClick={onDemoClick} className="hover:text-gray-600 transition-colors">
+                <Search className="w-5 h-5" />
+              </BlockedButton>
+              <BlockedButton onClick={onDemoClick} className="hover:text-gray-600 transition-colors relative">
+                <Heart className="w-5 h-5" />
+              </BlockedButton>
+              <BlockedButton onClick={onDemoClick} className="hover:text-gray-600 transition-colors relative">
+                <ShoppingBag className="w-5 h-5" />
+                <span className="absolute -top-2 -right-2 w-5 h-5 bg-black text-white text-xs flex items-center justify-center rounded-full">
+                  0
+                </span>
+              </BlockedButton>
             </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="relative h-[600px] overflow-hidden">
+        <GradientPlaceholder 
+          gradient="from-rose-100 to-pink-50"
+          className="absolute inset-0"
+        >
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-64 h-96 bg-gradient-to-br from-rose-200 to-pink-200 opacity-40"></div>
+          </div>
+        </GradientPlaceholder>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-xl"
+          >
+            <p className="text-sm tracking-[0.3em] mb-4 text-gray-600">SPRING 2024</p>
+            <h2 className="text-6xl md:text-7xl font-light mb-6 leading-tight">
+              Effortless<br/>Elegance
+            </h2>
+            <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+              Discover our new collection of timeless pieces crafted for the modern woman.
+            </p>
+            <BlockedButton
+              onClick={onDemoClick}
+              className="px-10 py-4 bg-black text-white font-light tracking-wider hover:bg-gray-800 transition-all"
+            >
+              SHOP THE COLLECTION
+            </BlockedButton>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Category Nav */}
+      <section className="border-y border-gray-200 bg-gray-50 py-6 px-6 overflow-x-auto">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex gap-8 items-center justify-center whitespace-nowrap">
+            {categories.map((category) => (
+              <BlockedButton
+                key={category}
+                onClick={onDemoClick}
+                className="text-sm tracking-wider hover:text-gray-600 transition-colors font-light"
+              >
+                {category}
+              </BlockedButton>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Product Grid */}
-      <section className="py-20 px-6">
+      {/* Featured Collection */}
+      <section className="py-20 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Featured Products
+            <p className="text-sm tracking-[0.3em] mb-4 text-gray-600">CURATED FOR YOU</p>
+            <h2 className="text-4xl md:text-5xl font-light mb-4">
+              New Arrivals
             </h2>
-            <p className="text-xl text-slate-400">
-              Handpicked selections from our latest collection
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Each piece is carefully selected to bring you the finest in luxury fashion
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
             {products.map((product, index) => (
               <motion.div
                 key={index}
@@ -156,30 +147,33 @@ const EcommerceDemoSite: React.FC<EcommerceDemoSiteProps> = ({ onDemoClick }) =>
                 className="group cursor-pointer"
                 onClick={onDemoClick}
               >
-                <div className="relative mb-4 overflow-hidden rounded-2xl">
+                <div className="relative mb-4 overflow-hidden aspect-[3/4] bg-gray-100">
                   <GradientPlaceholder 
-                    gradient="from-purple-500/20 to-pink-500/20"
-                    className="aspect-[3/4] border border-white/10 group-hover:scale-105 transition-transform duration-500"
+                    gradient="from-gray-200 to-gray-100"
+                    className="w-full h-full"
                   >
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 opacity-50"></div>
+                      <div className="w-24 h-32 bg-gradient-to-br from-gray-300 to-gray-200"></div>
                     </div>
                   </GradientPlaceholder>
                   <button 
                     onClick={onDemoClick}
-                    className="absolute top-4 right-4 w-10 h-10 bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/80"
+                    className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
                   >
                     <Heart className="w-5 h-5" />
                   </button>
+                  <div className="absolute bottom-0 left-0 right-0 bg-white py-3 transform translate-y-full group-hover:translate-y-0 transition-transform">
+                    <p className="text-center text-sm tracking-wider">QUICK VIEW</p>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-xs text-purple-400 mb-1">{product.category}</div>
-                  <h3 className="font-semibold mb-1 group-hover:text-purple-400 transition-colors">{product.name}</h3>
-                  <div className="flex items-center justify-between">
-                    <span className="text-lg font-bold">{product.price}</span>
+                <div className="text-center">
+                  <p className="text-xs text-gray-500 mb-1 tracking-wider">{product.category}</p>
+                  <h3 className="font-light mb-2">{product.name}</h3>
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-sm">{product.price}</span>
                     <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-purple-400 text-purple-400" />
-                      <span className="text-sm text-slate-400">{product.rating}</span>
+                      <Star className="w-3 h-3 fill-black text-black" />
+                      <span className="text-xs text-gray-600">{product.rating}</span>
                     </div>
                   </div>
                 </div>
@@ -187,171 +181,163 @@ const EcommerceDemoSite: React.FC<EcommerceDemoSiteProps> = ({ onDemoClick }) =>
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-16">
             <BlockedButton
               onClick={onDemoClick}
-              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-full hover:scale-105 transition-all shadow-lg"
+              className="px-10 py-4 border border-black text-black font-light tracking-wider hover:bg-black hover:text-white transition-all"
             >
-              Load More Products
+              VIEW ALL PRODUCTS
             </BlockedButton>
           </div>
         </div>
       </section>
 
-      {/* Featured Collection */}
-      <section className="py-20 px-6 bg-[#0a0a0a]">
+      {/* Editorial Section */}
+      <section className="py-20 px-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="order-2 lg:order-1"
             >
-              <GradientPlaceholder 
-                gradient="from-purple-600/30 to-pink-600/30"
-                className="h-[600px] rounded-2xl border border-white/10 relative overflow-hidden"
-              >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 mx-auto mb-6"></div>
-                    <div className="text-2xl font-bold">Evening Collection</div>
-                  </div>
-                </div>
-              </GradientPlaceholder>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Evening Elegance Collection
+              <p className="text-sm tracking-[0.3em] mb-4 text-gray-600">SPRING EDIT</p>
+              <h2 className="text-4xl md:text-5xl font-light mb-6 leading-tight">
+                The Art of<br/>Minimalism
               </h2>
-              <p className="text-lg text-slate-400 mb-6 leading-relaxed">
-                Step into sophistication with our curated evening collection. Each piece is designed to make you feel confident and glamorous for any special occasion.
+              <p className="text-gray-700 mb-6 leading-relaxed">
+                Embrace simplicity with our carefully curated edit of essential pieces. Clean lines, luxurious fabrics, and timeless silhouettes that transcend seasons.
               </p>
               <ul className="space-y-3 mb-8">
-                {['Premium silk and satin fabrics', 'Timeless silhouettes', 'Hand-finished details', 'Available in multiple colors'].map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
+                {['Sustainable materials', 'Handcrafted details', 'Limited production', 'Timeless design'].map((feature, i) => (
+                  <li key={i} className="flex items-center gap-3 text-sm text-gray-700">
+                    <div className="w-1 h-1 bg-black"></div>
                     <span>{feature}</span>
                   </li>
                 ))}
               </ul>
               <BlockedButton
                 onClick={onDemoClick}
-                className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-full hover:scale-105 transition-all shadow-lg inline-flex items-center gap-2"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-black text-white font-light tracking-wider hover:bg-gray-800 transition-all"
               >
-                Shop Collection
+                EXPLORE THE EDIT
+                <ChevronRight className="w-4 h-4" />
               </BlockedButton>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="order-1 lg:order-2"
+            >
+              <GradientPlaceholder 
+                gradient="from-gray-300 to-gray-200"
+                className="h-[600px]"
+              >
+                <div className="h-full flex items-center justify-center">
+                  <div className="w-48 h-64 bg-gradient-to-br from-gray-400 to-gray-300"></div>
+                </div>
+              </GradientPlaceholder>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="py-20 px-6">
+      {/* Benefits Bar */}
+      <section className="py-16 px-6 bg-white border-y border-gray-200">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {benefits.map((benefit, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+            {[
+              { icon: Truck, title: 'Complimentary Shipping', description: 'On orders over $150' },
+              { icon: RefreshCw, title: 'Easy Returns', description: '30 days, no questions asked' },
+              { icon: Shield, title: 'Secure Checkout', description: 'Your data protected' },
+              { icon: Star, title: 'Exceptional Quality', description: 'Handpicked materials' }
+            ].map((benefit, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center"
               >
-                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full flex items-center justify-center border border-white/10">
-                  <benefit.icon className="w-8 h-8 text-purple-400" />
-                </div>
-                <h3 className="text-lg font-bold mb-2">{benefit.title}</h3>
-                <p className="text-slate-400 text-sm">{benefit.description}</p>
+                <benefit.icon className="w-8 h-8 mx-auto mb-4" />
+                <h3 className="font-light mb-1 tracking-wide">{benefit.title}</h3>
+                <p className="text-sm text-gray-600">{benefit.description}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <section className="py-20 px-6 bg-[#0a0a0a]">
-        <div className="max-w-4xl mx-auto">
+      {/* Newsletter */}
+      <section className="py-20 px-6 bg-gray-50">
+        <div className="max-w-2xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-2xl p-12 text-center"
+            className="text-center"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Join Our Exclusive Community
+            <h2 className="text-3xl md:text-4xl font-light mb-4">
+              Stay in Touch
             </h2>
-            <p className="text-xl text-slate-400 mb-8">
-              Subscribe to receive early access to new collections, exclusive offers, and style tips
+            <p className="text-gray-600 mb-8">
+              Subscribe to receive early access to new collections and exclusive offers
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+            <div className="flex gap-4 max-w-md mx-auto">
               <input
                 type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-full focus:outline-none focus:border-purple-500/50 transition-colors"
+                placeholder="Your email address"
+                className="flex-1 px-6 py-4 border border-gray-300 focus:outline-none focus:border-black transition-colors bg-white"
                 onClick={onDemoClick}
               />
               <BlockedButton
                 onClick={onDemoClick}
-                className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-full hover:scale-105 transition-all shadow-lg whitespace-nowrap"
+                className="px-8 py-4 bg-black text-white font-light tracking-wider hover:bg-gray-800 transition-all whitespace-nowrap"
               >
-                Subscribe
+                SUBSCRIBE
               </BlockedButton>
             </div>
-            <p className="text-sm text-slate-500 mt-4">Join 50,000+ fashion lovers. Unsubscribe anytime.</p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Instagram Feed */}
-      <section className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Follow @luxeandco
-            </h2>
-            <p className="text-xl text-slate-400">
-              Get inspired by our community
+            <p className="text-xs text-gray-500 mt-4">
+              By subscribing, you agree to our Privacy Policy and consent to receive updates
             </p>
           </motion.div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {[...Array(12)].map((_, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                onClick={onDemoClick}
-                className="aspect-square cursor-pointer group"
-              >
-                <GradientPlaceholder 
-                  gradient={`${index % 2 === 0 ? 'from-purple-500/30 to-pink-500/30' : 'from-pink-500/30 to-purple-500/30'}`}
-                  className="w-full h-full rounded-lg border border-white/10 group-hover:scale-105 transition-transform duration-300 relative overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                    <Heart className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                </GradientPlaceholder>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-gray-200 py-16 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+            {[
+              { title: 'Shop', items: ['New Arrivals', 'Clothing', 'Accessories', 'Sale'] },
+              { title: 'About', items: ['Our Story', 'Sustainability', 'Careers', 'Press'] },
+              { title: 'Help', items: ['Contact Us', 'Shipping', 'Returns', 'Size Guide'] },
+              { title: 'Connect', items: ['Instagram', 'Pinterest', 'Facebook', 'Twitter'] }
+            ].map((column, i) => (
+              <div key={i}>
+                <h3 className="font-light mb-4 tracking-wider text-sm">{column.title}</h3>
+                <ul className="space-y-2">
+                  {column.items.map((item) => (
+                    <li key={item}>
+                      <BlockedLink onClick={onDemoClick} className="text-sm text-gray-600 hover:text-black transition-colors">
+                        {item}
+                      </BlockedLink>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div className="pt-8 border-t border-gray-200 text-center text-sm text-gray-600">
+            <p>© 2024 Luxe & Co. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
