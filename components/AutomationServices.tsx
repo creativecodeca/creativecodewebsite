@@ -37,15 +37,15 @@ const AutomationServices: React.FC = () => {
                 <section className="py-12 px-6 border-y border-white/10">
                     <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
                         <div className="text-center">
-                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">40+</div>
+                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">25+</div>
                             <div className="text-sm text-slate-500 uppercase tracking-wider">Hours Saved/Week</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">95%</div>
+                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">85%</div>
                             <div className="text-sm text-slate-500 uppercase tracking-wider">Error Reduction</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">3x</div>
+                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">2.5x</div>
                             <div className="text-sm text-slate-500 uppercase tracking-wider">Faster Processing</div>
                         </div>
                         <div className="text-center">
@@ -60,7 +60,7 @@ const AutomationServices: React.FC = () => {
                     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
 
                         {/* Basic Automation */}
-                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-white/20 transition-colors">
+                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-emerald-500/30 hover:bg-[#0d0d0d] transition-all duration-300 hover:scale-[1.02]">
                             <div className="mb-8">
                                 <h3 className="text-xl font-bold text-white mb-2">Basic Automation</h3>
                                 <p className="text-slate-400 text-sm">Essential workflow automation</p>
@@ -71,7 +71,7 @@ const AutomationServices: React.FC = () => {
                                     <span className="text-4xl font-bold text-white">$2,000</span>
                                     <span className="text-slate-500 text-sm">/month</span>
                                 </div>
-                                <div className="text-emerald-400 font-medium mt-2 text-sm">Setup included</div>
+                                <div className="text-emerald-400 font-medium mt-2 text-sm">One-time setup fee applies</div>
                             </div>
 
                             <div className="space-y-4 mb-8 flex-1">
@@ -124,7 +124,7 @@ const AutomationServices: React.FC = () => {
                                     <span className="text-4xl font-bold text-white">$4,000</span>
                                     <span className="text-slate-500 text-sm">/month</span>
                                 </div>
-                                <div className="text-emerald-400 font-medium mt-2 text-sm">Full setup & migration</div>
+                                <div className="text-emerald-400 font-medium mt-2 text-sm">Setup & migration included</div>
                             </div>
 
                             <div className="space-y-4 mb-8 flex-1">
@@ -170,7 +170,7 @@ const AutomationServices: React.FC = () => {
                         </div>
 
                         {/* Enterprise Automation */}
-                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-white/20 transition-colors">
+                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-emerald-500/30 hover:bg-[#0d0d0d] transition-all duration-300 hover:scale-[1.02]">
                             <div className="mb-8">
                                 <h3 className="text-xl font-bold text-white mb-2">Enterprise Automation</h3>
                                 <p className="text-slate-400 text-sm">Full-scale automation system</p>
@@ -328,6 +328,9 @@ const AutomationServices: React.FC = () => {
                                     View Examples
                                 </Link>
                             </div>
+                            <p className="text-xs text-slate-500 mt-6 max-w-xl mx-auto">
+                                Pricing based on complexity and number of workflows. Setup fees may apply depending on integrations required.
+                            </p>
                         </div>
                     </div>
                 </section>

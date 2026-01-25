@@ -22,9 +22,9 @@ const AutomationExamples: React.FC = () => {
                 'Creates CRM entry with notes'
             ],
             results: {
-                timeSaved: '25 hours/week',
-                improvement: '68% faster response',
-                roi: '$12,000/month saved'
+                timeSaved: '18 hours/week',
+                improvement: '58% faster response',
+                roi: '$8,500/month saved'
             }
         },
         {
@@ -42,9 +42,9 @@ const AutomationExamples: React.FC = () => {
                 'Updates accounting software'
             ],
             results: {
-                timeSaved: '15 hours/week',
-                improvement: '95% error reduction',
-                roi: '$8,500/month saved'
+                timeSaved: '12 hours/week',
+                improvement: '88% error reduction',
+                roi: '$6,200/month saved'
             }
         },
         {
@@ -62,9 +62,9 @@ const AutomationExamples: React.FC = () => {
                 'Assigns customer success manager'
             ],
             results: {
-                timeSaved: '12 hours/week',
-                improvement: '82% better retention',
-                roi: '$15,000/month value'
+                timeSaved: '10 hours/week',
+                improvement: '65% better retention',
+                roi: '$9,500/month value'
             }
         },
         {
@@ -82,9 +82,9 @@ const AutomationExamples: React.FC = () => {
                 'Updates inventory system'
             ],
             results: {
-                timeSaved: '20 hours/week',
-                improvement: '90% stockout reduction',
-                roi: '$18,000/month saved'
+                timeSaved: '15 hours/week',
+                improvement: '78% stockout reduction',
+                roi: '$11,500/month saved'
             }
         },
         {
@@ -102,9 +102,9 @@ const AutomationExamples: React.FC = () => {
                 'Compiles performance reports'
             ],
             results: {
-                timeSaved: '18 hours/week',
-                improvement: '3x engagement increase',
-                roi: '$10,000/month value'
+                timeSaved: '12 hours/week',
+                improvement: '2.1x engagement increase',
+                roi: '$6,800/month value'
             }
         }
     ];
@@ -310,6 +310,9 @@ const AutomationExamples: React.FC = () => {
                                     View Pricing
                                 </Link>
                             </div>
+                            <p className="text-xs text-slate-500 mt-6 max-w-xl mx-auto">
+                                Results are illustrative examples. Actual time and cost savings depend on your specific workflows and business size.
+                            </p>
                         </div>
                     </motion.div>
                 </section>

@@ -16,9 +16,9 @@ const VoiceAIExamples: React.FC = () => {
             icon: Stethoscope,
             color: 'from-blue-500 to-cyan-500',
             results: {
-                metric1: { value: '68%', label: 'Reduction in Missed Appointments' },
-                metric2: { value: '2,400+', label: 'Calls Handled Monthly' },
-                metric3: { value: '94%', label: 'Patient Satisfaction Score' }
+                metric1: { value: '52%', label: 'Reduction in Missed Appointments' },
+                metric2: { value: '1,800+', label: 'Calls Handled Monthly' },
+                metric3: { value: '4.6/5', label: 'Patient Satisfaction Score' }
             },
             conversation: [
                 { role: 'ai', text: "Hello, this is Dr. Smith's office. How can I help you today?" },
@@ -40,8 +40,8 @@ const VoiceAIExamples: React.FC = () => {
             color: 'from-orange-500 to-red-500',
             results: {
                 metric1: { value: '100%', label: 'Call Answer Rate' },
-                metric2: { value: '$45K', label: 'Additional Monthly Revenue' },
-                metric3: { value: '3.2x', label: 'After-Hours Bookings' }
+                metric2: { value: '$32K', label: 'Additional Monthly Revenue' },
+                metric3: { value: '2.8x', label: 'After-Hours Bookings' }
             },
             conversation: [
                 { role: 'ai', text: "Thank you for calling ABC Plumbing. Are you experiencing a plumbing emergency?" },
@@ -62,9 +62,9 @@ const VoiceAIExamples: React.FC = () => {
             icon: ShoppingBag,
             color: 'from-purple-500 to-pink-500',
             results: {
-                metric1: { value: '82%', label: 'Queries Resolved Without Human' },
-                metric2: { value: '4.8/5', label: 'Customer Satisfaction Rating' },
-                metric3: { value: '60%', label: 'Reduction in Support Costs' }
+                metric1: { value: '75%', label: 'Queries Resolved Without Human' },
+                metric2: { value: '4.6/5', label: 'Customer Satisfaction Rating' },
+                metric3: { value: '52%', label: 'Reduction in Support Costs' }
             },
             conversation: [
                 { role: 'ai', text: "Hi! I'm here to help. What can I assist you with today?" },
@@ -85,9 +85,9 @@ const VoiceAIExamples: React.FC = () => {
             icon: Building,
             color: 'from-green-500 to-emerald-500',
             results: {
-                metric1: { value: '89%', label: 'Lead Capture Rate' },
-                metric2: { value: '156', label: 'Additional Showings/Month' },
-                metric3: { value: '4.5x', label: 'Faster Lead Response' }
+                metric1: { value: '85%', label: 'Lead Capture Rate' },
+                metric2: { value: '120', label: 'Additional Showings/Month' },
+                metric3: { value: '3.5x', label: 'Faster Lead Response' }
             },
             conversation: [
                 { role: 'ai', text: "Hello, you've reached Riverside Realty. How can I help you today?" },
@@ -109,8 +109,8 @@ const VoiceAIExamples: React.FC = () => {
             color: 'from-yellow-500 to-amber-500',
             results: {
                 metric1: { value: '100%', label: 'Calls Answered Immediately' },
-                metric2: { value: '$28K', label: 'Additional Monthly Revenue' },
-                metric3: { value: '47%', label: 'Increase in Reservations' }
+                metric2: { value: '$22K', label: 'Additional Monthly Revenue' },
+                metric3: { value: '38%', label: 'Increase in Reservations' }
             },
             conversation: [
                 { role: 'ai', text: "Thank you for calling Villa Toscana. How may I help you this evening?" },
@@ -315,6 +315,9 @@ const VoiceAIExamples: React.FC = () => {
                                     View Pricing
                                 </Link>
                             </div>
+                            <p className="text-xs text-slate-500 mt-6 max-w-xl mx-auto">
+                                Case studies are representative examples. Results depend on call volume, industry, and implementation scope.
+                            </p>
                         </div>
                     </motion.div>
                 </section>

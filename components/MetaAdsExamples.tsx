@@ -14,9 +14,9 @@ const MetaAdsExamples: React.FC = () => {
             challenge: 'Seasonal business struggling to generate leads during off-peak months with inconsistent marketing efforts.',
             strategy: 'Implemented year-round lead generation campaigns targeting homeowners with aging HVAC systems, using local radius targeting and seasonal messaging.',
             results: {
-                roas: '427%',
-                costPerLead: '$18',
-                leadIncrease: '312%',
+                roas: '3.8x',
+                costPerLead: '$28',
+                leadIncrease: '185%',
                 timeframe: '6 months'
             },
             color: 'from-orange-500 to-red-500',
@@ -29,10 +29,10 @@ const MetaAdsExamples: React.FC = () => {
             challenge: 'High cart abandonment rates and difficulty scaling beyond initial customer base.',
             strategy: 'Created retargeting campaigns for cart abandoners, built lookalike audiences from best customers, and implemented dynamic product ads.',
             results: {
-                roas: '5.8x',
-                costPerLead: '$8.50',
-                leadIncrease: '280%',
-                timeframe: '4 months'
+                roas: '4.2x',
+                costPerLead: '$12',
+                leadIncrease: '165%',
+                timeframe: '5 months'
             },
             color: 'from-purple-500 to-pink-500',
             icon: DollarSign
@@ -44,10 +44,10 @@ const MetaAdsExamples: React.FC = () => {
             challenge: 'New practice needed to build patient base quickly in competitive market.',
             strategy: 'Targeted local families with children and adults 25-55, highlighting same-day appointments and modern technology. Used video testimonials and before/after imagery.',
             results: {
-                roas: '620%',
-                costPerLead: '$24',
-                leadIncrease: '450%',
-                timeframe: '3 months'
+                roas: '5.2x',
+                costPerLead: '$35',
+                leadIncrease: '220%',
+                timeframe: '4 months'
             },
             color: 'from-blue-500 to-cyan-500',
             icon: Users
@@ -59,9 +59,9 @@ const MetaAdsExamples: React.FC = () => {
             challenge: 'Membership sales plateaued after initial launch momentum, needed to attract new demographics.',
             strategy: 'Developed campaigns targeting different fitness goals (weight loss, strength, flexibility) with specific class offerings. Leveraged user-generated content and transformation stories.',
             results: {
-                roas: '385%',
-                costPerLead: '$15',
-                leadIncrease: '195%',
+                roas: '3.2x',
+                costPerLead: '$22',
+                leadIncrease: '145%',
                 timeframe: '5 months'
             },
             color: 'from-green-500 to-emerald-500',
@@ -74,10 +74,10 @@ const MetaAdsExamples: React.FC = () => {
             challenge: 'High customer acquisition cost and long sales cycles limiting growth potential.',
             strategy: 'Built multi-touch attribution campaigns targeting decision-makers in specific industries. Used lead magnets, webinars, and case studies to nurture prospects.',
             results: {
-                roas: '520%',
-                costPerLead: '$45',
-                leadIncrease: '240%',
-                timeframe: '8 months'
+                roas: '4.8x',
+                costPerLead: '$65',
+                leadIncrease: '175%',
+                timeframe: '7 months'
             },
             color: 'from-indigo-500 to-purple-500',
             icon: TrendingUp
@@ -105,9 +105,9 @@ const MetaAdsExamples: React.FC = () => {
                     <div className="max-w-5xl mx-auto">
                         <Link
                             to="/services/meta-ads"
-                            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8"
+                            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8 hover:gap-3"
                         >
-                            <ArrowLeft className="w-4 h-4" />
+                            <ArrowLeft className="w-4 h-4 transition-all" />
                             <span className="text-sm">Back to Pricing</span>
                         </Link>
                         
@@ -138,11 +138,12 @@ const MetaAdsExamples: React.FC = () => {
                                 <motion.div
                                     key={study.id}
                                     initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "-100px" }}
                                     transition={{ duration: 0.6, delay: index * 0.1 }}
                                 >
                                     <SpotlightCard>
-                                        <div className="bg-[#0a0a0a] rounded-2xl p-8 md:p-12">
+                                        <div className="bg-[#0a0a0a] rounded-2xl p-8 md:p-12 hover:bg-[#0d0d0d] transition-colors duration-300">
                                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                                                 {/* Left: Overview */}
                                                 <div className="lg:col-span-2 space-y-6">
@@ -185,7 +186,7 @@ const MetaAdsExamples: React.FC = () => {
                                                         Results
                                                     </h3>
                                                     
-                                                    <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-center">
+                                                    <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-center hover:bg-white/[0.07] hover:border-white/20 transition-all duration-300 hover:scale-105">
                                                         <div className={`text-4xl font-bold bg-gradient-to-r ${study.color} bg-clip-text text-transparent mb-2`}>
                                                             {study.results.roas}
                                                         </div>
@@ -194,7 +195,7 @@ const MetaAdsExamples: React.FC = () => {
                                                         </div>
                                                     </div>
 
-                                                    <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-center">
+                                                    <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-center hover:bg-white/[0.07] hover:border-white/20 transition-all duration-300 hover:scale-105">
                                                         <div className="text-3xl font-bold text-white mb-2">
                                                             {study.results.costPerLead}
                                                         </div>
@@ -203,7 +204,7 @@ const MetaAdsExamples: React.FC = () => {
                                                         </div>
                                                     </div>
 
-                                                    <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-center">
+                                                    <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-center hover:bg-white/[0.07] hover:border-white/20 transition-all duration-300 hover:scale-105">
                                                         <div className="text-3xl font-bold text-white mb-2">
                                                             {study.results.leadIncrease}
                                                         </div>
@@ -214,30 +215,6 @@ const MetaAdsExamples: React.FC = () => {
 
                                                     <div className="text-center text-sm text-slate-500 pt-2">
                                                         Achieved in {study.results.timeframe}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {/* Mock Ad Preview */}
-                                            <div className="mt-8 pt-8 border-t border-white/10">
-                                                <h4 className="text-sm font-semibold text-slate-400 mb-4 uppercase tracking-wider">
-                                                    Sample Ad Creative
-                                                </h4>
-                                                <div className="bg-black/40 rounded-lg p-4 border border-white/5">
-                                                    <div className="flex items-center gap-3 mb-4">
-                                                        <div className="w-10 h-10 rounded-full bg-white/10"></div>
-                                                        <div>
-                                                            <div className="w-32 h-3 bg-white/10 rounded mb-1"></div>
-                                                            <div className="w-20 h-2 bg-white/5 rounded"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div className={`h-48 rounded-lg bg-gradient-to-br ${study.color} opacity-20 mb-4 flex items-center justify-center`}>
-                                                        <div className="text-white/60 text-sm">Ad Visual</div>
-                                                    </div>
-                                                    <div className="space-y-2">
-                                                        <div className="w-full h-3 bg-white/10 rounded"></div>
-                                                        <div className="w-5/6 h-3 bg-white/10 rounded"></div>
-                                                        <div className="w-4/6 h-3 bg-white/10 rounded"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -267,10 +244,10 @@ const MetaAdsExamples: React.FC = () => {
                             <div className="flex gap-4 justify-center flex-wrap">
                                 <Link
                                     to="/contact#booking"
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-slate-200 transition-all hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.15)]"
+                                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-slate-200 transition-all hover:scale-105 hover:gap-3 shadow-[0_0_20px_rgba(255,255,255,0.15)]"
                                 >
                                     Schedule Free Consultation
-                                    <ArrowRight className="w-5 h-5" />
+                                    <ArrowRight className="w-5 h-5 transition-all" />
                                 </Link>
                                 <Link
                                     to="/services/meta-ads"
@@ -279,6 +256,9 @@ const MetaAdsExamples: React.FC = () => {
                                     View Pricing
                                 </Link>
                             </div>
+                            <p className="text-xs text-slate-500 mt-6 max-w-xl mx-auto">
+                                Results shown are for illustrative purposes. Actual performance varies based on industry, budget, competition, and market conditions.
+                            </p>
                         </div>
                     </motion.div>
                 </section>

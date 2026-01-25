@@ -129,6 +129,8 @@ const AdGenerator: React.FC = () => {
       return;
     }
 
+    // Move to results view IMMEDIATELY to show loading state
+    setCurrentQuestion(8);
     setIsGenerating(true);
     setError(null);
 
@@ -171,11 +173,6 @@ const AdGenerator: React.FC = () => {
       const updatedAds = [...newAds, ...generatedAds];
       setGeneratedAds(updatedAds);
       localStorage.setItem('creativeCodeAds', JSON.stringify(updatedAds));
-
-      // Move to results view only on first generation
-      if (currentQuestion !== 8) {
-        setCurrentQuestion(8);
-      }
 
     } catch (err: any) {
       setError(err.message || 'Failed to generate images. Please try again.');

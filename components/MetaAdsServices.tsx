@@ -37,20 +37,20 @@ const MetaAdsServices: React.FC = () => {
                 <section className="py-12 px-6 border-y border-white/10">
                     <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
                         <div className="text-center">
-                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">4.5x</div>
+                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">3.2x</div>
                             <div className="text-sm text-slate-500 uppercase tracking-wider">Average ROAS</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">$12</div>
-                            <div className="text-sm text-slate-500 uppercase tracking-wider">Cost Per Lead</div>
+                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">$18</div>
+                            <div className="text-sm text-slate-500 uppercase tracking-wider">Avg Cost Per Lead</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">2.3M+</div>
+                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">$1.2M+</div>
                             <div className="text-sm text-slate-500 uppercase tracking-wider">Ad Spend Managed</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">94%</div>
-                            <div className="text-sm text-slate-500 uppercase tracking-wider">Client Retention</div>
+                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">89%</div>
+                            <div className="text-sm text-slate-500 uppercase tracking-wider">Client Satisfaction</div>
                         </div>
                     </div>
                 </section>
@@ -60,7 +60,7 @@ const MetaAdsServices: React.FC = () => {
                     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
 
                         {/* Starter Package */}
-                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-white/20 transition-colors">
+                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-pink-500/30 hover:bg-[#0d0d0d] transition-all duration-300 hover:scale-[1.02]">
                             <div className="mb-8">
                                 <h3 className="text-xl font-bold text-white mb-2">Starter Package</h3>
                                 <p className="text-slate-400 text-sm">Perfect for testing the waters</p>
@@ -71,7 +71,7 @@ const MetaAdsServices: React.FC = () => {
                                     <span className="text-4xl font-bold text-white">$1,500</span>
                                     <span className="text-slate-500 text-sm">/month</span>
                                 </div>
-                                <div className="text-pink-400 font-medium mt-2 text-sm">+ ad spend budget</div>
+                                <div className="text-pink-400 font-medium mt-2 text-sm">+ ad spend budget • 3-month minimum</div>
                             </div>
 
                             <div className="space-y-4 mb-8 flex-1">
@@ -109,8 +109,8 @@ const MetaAdsServices: React.FC = () => {
                         </div>
 
                         {/* Growth Package */}
-                        <div className="bg-[#0a0a0a] border border-pink-500/30 rounded-3xl p-8 flex flex-col relative group shadow-[0_0_40px_rgba(236,72,153,0.1)] hover:border-pink-500/50 transition-colors">
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-pink-500 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
+                        <div className="bg-[#0a0a0a] border border-pink-500/30 rounded-3xl p-8 flex flex-col relative group shadow-[0_0_40px_rgba(236,72,153,0.1)] hover:border-pink-500/50 hover:bg-[#0d0d0d] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(236,72,153,0.2)]">
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-pink-500 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider shadow-lg">
                                 Most Popular
                             </div>
 
@@ -124,7 +124,7 @@ const MetaAdsServices: React.FC = () => {
                                     <span className="text-4xl font-bold text-white">$3,000</span>
                                     <span className="text-slate-500 text-sm">/month</span>
                                 </div>
-                                <div className="text-pink-400 font-medium mt-2 text-sm">+ ad spend budget</div>
+                                <div className="text-pink-400 font-medium mt-2 text-sm">+ ad spend budget • 3-month minimum</div>
                             </div>
 
                             <div className="space-y-4 mb-8 flex-1">
@@ -163,14 +163,15 @@ const MetaAdsServices: React.FC = () => {
                             </div>
 
                             <div className="mt-auto space-y-4">
-                                <Link to="/contact#booking" className="block w-full py-4 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-center rounded-xl font-medium transition-colors shadow-lg">
-                                    Book a Call
+                                <Link to="/contact#booking" className="group/btn block w-full py-4 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-center rounded-xl font-medium transition-all shadow-lg hover:shadow-pink-500/50 hover:scale-[1.02] flex items-center justify-center gap-2">
+                                    <span>Book a Call</span>
+                                    <ArrowRight className="w-5 h-5 opacity-0 group-hover/btn:opacity-100 transition-opacity" />
                                 </Link>
                             </div>
                         </div>
 
                         {/* Scale Package */}
-                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-white/20 transition-colors">
+                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-pink-500/30 hover:bg-[#0d0d0d] transition-all duration-300 hover:scale-[1.02]">
                             <div className="mb-8">
                                 <h3 className="text-xl font-bold text-white mb-2">Scale Package</h3>
                                 <p className="text-slate-400 text-sm">Enterprise-level campaigns</p>
@@ -328,6 +329,9 @@ const MetaAdsServices: React.FC = () => {
                                     View Case Studies
                                 </Link>
                             </div>
+                            <p className="text-xs text-slate-500 mt-6 max-w-xl mx-auto">
+                                Results vary by industry, competition, and ad spend. All packages require a 3-month minimum commitment.
+                            </p>
                         </div>
                     </div>
                 </section>

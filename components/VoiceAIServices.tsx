@@ -41,15 +41,15 @@ const VoiceAIServices: React.FC = () => {
                             <div className="text-sm text-slate-500 uppercase tracking-wider">Always Available</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">&lt;3s</div>
-                            <div className="text-sm text-slate-500 uppercase tracking-wider">Response Time</div>
+                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">&lt;5s</div>
+                            <div className="text-sm text-slate-500 uppercase tracking-wider">Avg Response Time</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">98%</div>
-                            <div className="text-sm text-slate-500 uppercase tracking-wider">Accuracy Rate</div>
+                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">92%</div>
+                            <div className="text-sm text-slate-500 uppercase tracking-wider">Resolution Rate</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">70%</div>
+                            <div className="text-3xl md:text-4xl font-bold text-white mb-2">60%</div>
                             <div className="text-sm text-slate-500 uppercase tracking-wider">Cost Reduction</div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@ const VoiceAIServices: React.FC = () => {
                     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
 
                         {/* Voice Receptionist */}
-                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-white/20 transition-colors">
+                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-amber-500/30 hover:bg-[#0d0d0d] transition-all duration-300 hover:scale-[1.02]">
                             <div className="mb-8">
                                 <h3 className="text-xl font-bold text-white mb-2">Voice Receptionist</h3>
                                 <p className="text-slate-400 text-sm">AI phone answering system</p>
@@ -81,23 +81,23 @@ const VoiceAIServices: React.FC = () => {
                                 </div>
                                 <div className="flex gap-3 text-sm text-slate-300">
                                     <Check className="w-5 h-5 text-amber-500 shrink-0" />
-                                    <span>Appointment booking & scheduling</span>
+                                    <span>Appointment booking & calendar sync</span>
                                 </div>
                                 <div className="flex gap-3 text-sm text-slate-300">
                                     <Check className="w-5 h-5 text-amber-500 shrink-0" />
-                                    <span>Basic FAQ answering</span>
+                                    <span>FAQ answering</span>
                                 </div>
                                 <div className="flex gap-3 text-sm text-slate-300">
                                     <Check className="w-5 h-5 text-amber-500 shrink-0" />
-                                    <span>Call transcripts & recordings</span>
+                                    <span>Call transcripts</span>
                                 </div>
                                 <div className="flex gap-3 text-sm text-slate-300">
                                     <Check className="w-5 h-5 text-amber-500 shrink-0" />
-                                    <span>Email notifications</span>
+                                    <span>Email & SMS notifications</span>
                                 </div>
                                 <div className="flex gap-3 text-sm text-slate-300">
                                     <Check className="w-5 h-5 text-amber-500 shrink-0" />
-                                    <span>Custom voice & personality</span>
+                                    <span>Basic analytics</span>
                                 </div>
                             </div>
 
@@ -176,7 +176,7 @@ const VoiceAIServices: React.FC = () => {
                         </div>
 
                         {/* Enterprise AI */}
-                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-white/20 transition-colors">
+                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-amber-500/30 hover:bg-[#0d0d0d] transition-all duration-300 hover:scale-[1.02]">
                             <div className="mb-8">
                                 <h3 className="text-xl font-bold text-white mb-2">Enterprise AI</h3>
                                 <p className="text-slate-400 text-sm">Custom AI team solution</p>
@@ -334,6 +334,9 @@ const VoiceAIServices: React.FC = () => {
                                     View Case Studies
                                 </Link>
                             </div>
+                            <p className="text-xs text-slate-500 mt-6 max-w-xl mx-auto">
+                                Setup time typically 2-3 weeks. Custom training and integration requirements may affect final pricing.
+                            </p>
                         </div>
                     </div>
                 </section>
