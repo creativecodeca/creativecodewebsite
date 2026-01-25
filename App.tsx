@@ -84,6 +84,7 @@ const FunnelPrivateGift = lazy(() => retryImport(() => import('./components/Funn
 const Tools = lazy(() => retryImport(() => import('./components/Tools')));
 const DiagnosisMap = lazy(() => retryImport(() => import('./components/DiagnosisMap')));
 const AdGenerator = lazy(() => retryImport(() => import('./components/AdGenerator')));
+const DemoWebsiteWrapper = lazy(() => retryImport(() => import('./components/demos/DemoWebsiteWrapper')));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -106,11 +107,12 @@ function AppContent() {
   // Don't show navbar or footer on funnel pages
   const isFunnelPage = location.pathname.startsWith('/funnel/');
   const isDiagnosisMap = location.pathname === '/tools/diagnosismap';
+  const isDemoPage = location.pathname.startsWith('/demo/');
 
   return (
     <div className="relative min-h-screen bg-[#020202] text-slate-200 selection:bg-white/20 selection:text-white overflow-x-hidden font-sans">
       {/* <CustomCursor /> */}
-      {!isFunnelPage && <Navbar />}
+      {!isFunnelPage && !isDemoPage && <Navbar />}
       {/* <AIChatWidget /> */}
 
       <Suspense fallback={<LoadingFallback />}>
@@ -140,14 +142,15 @@ function AppContent() {
             <Route path="/tools" element={<PageWrapper><Tools /></PageWrapper>} />
             <Route path="/tools/diagnosismap" element={<DiagnosisMap />} />
             <Route path="/tools/ad-generator" element={<PageWrapper><AdGenerator /></PageWrapper>} />
+            <Route path="/demo/:type" element={<DemoWebsiteWrapper />} />
             {/* Catch-all route - redirect to home for any undefined paths */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </AnimatePresence>
       </Suspense>
 
-      {/* Footer - hidden on funnel pages and diagnosis map */}
-      {!isFunnelPage && !isDiagnosisMap && (
+      {/* Footer - hidden on funnel pages, diagnosis map, and demo pages */}
+      {!isFunnelPage && !isDiagnosisMap && !isDemoPage && (
       <footer id="contact" className="border-t border-white/10 bg-black pt-20 pb-10 px-6 relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
           <div className="max-w-md">

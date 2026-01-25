@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Code, Home, ShoppingBag, Utensils, Briefcase } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Code, Home, ShoppingBag, Utensils, Briefcase, Eye } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SpotlightCard from './SpotlightCard';
 import SEO from './SEO';
@@ -290,13 +290,22 @@ const WebsiteExamples: React.FC = () => {
                                             ))}
                                         </ul>
                                         
-                                        <Link
-                                            to="/contact#booking"
-                                            className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${example.color} text-white font-semibold rounded-full hover:scale-105 transition-all shadow-lg`}
-                                        >
-                                            Book a Strategy Call
-                                            <ArrowRight className="w-5 h-5" />
-                                        </Link>
+                                        <div className="flex gap-3 flex-wrap">
+                                            <Link
+                                                to={`/demo/${example.id}`}
+                                                className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 border-2 border-white/20 text-white font-semibold rounded-full hover:bg-white/10 hover:scale-105 transition-all"
+                                            >
+                                                <Eye className="w-5 h-5" />
+                                                Open Page
+                                            </Link>
+                                            <Link
+                                                to="/contact#booking"
+                                                className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${example.color} text-white font-semibold rounded-full hover:scale-105 transition-all shadow-lg`}
+                                            >
+                                                Book a Strategy Call
+                                                <ArrowRight className="w-5 h-5" />
+                                            </Link>
+                                        </div>
                                     </div>
                                     
                                     {/* Mockup */}
