@@ -38,7 +38,8 @@ const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick
       initials: 'JR',
       credentials: 'JD, Harvard Law',
       experience: '25 years',
-      specialties: ['Business Law', 'M&A']
+      specialties: ['Business Law', 'M&A'],
+      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=400'
     },
     {
       name: 'Sarah Chen',
@@ -46,7 +47,8 @@ const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick
       initials: 'SC',
       credentials: 'JD, Yale Law',
       experience: '18 years',
-      specialties: ['Estate Planning', 'Tax']
+      specialties: ['Estate Planning', 'Tax'],
+      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400&h=400'
     },
     {
       name: 'Michael Torres',
@@ -54,7 +56,8 @@ const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick
       initials: 'MT',
       credentials: 'JD, Columbia Law',
       experience: '15 years',
-      specialties: ['Real Estate', 'Litigation']
+      specialties: ['Real Estate', 'Litigation'],
+      image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400&h=400'
     }
   ];
 
@@ -82,8 +85,15 @@ const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick
       </div>
 
       {/* Hero Section */}
-      <section className="bg-white border-b border-[#1a2332]/10">
-        <div className="max-w-7xl mx-auto px-6 py-20">
+      <section className="bg-white border-b border-[#1a2332]/10 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03]">
+          <img 
+            src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=2070" 
+            alt="Law Office" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="max-w-7xl mx-auto px-6 py-20 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -226,13 +236,13 @@ const ProfessionalDemoSite: React.FC<ProfessionalDemoSiteProps> = ({ onDemoClick
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white border border-[#1a2332]/10 overflow-hidden hover:border-[#c5a572] hover:shadow-lg transition-all duration-300"
+                className="bg-white border border-[#1a2332]/10 overflow-hidden hover:border-[#c5a572] hover:shadow-lg transition-all duration-300 group"
               >
-                <div className="bg-[#1a2332] p-8 flex justify-center">
-                  <AvatarPlaceholder 
-                    initials={member.initials}
-                    gradient="from-[#c5a572] to-[#a08855]"
-                    className="w-32 h-32 text-3xl"
+                <div className="h-80 overflow-hidden">
+                  <img 
+                    src={member.image} 
+                    alt={member.name} 
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
                 </div>
                 <div className="p-8 text-center">

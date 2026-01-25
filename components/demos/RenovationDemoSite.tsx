@@ -40,25 +40,33 @@ const RenovationDemoSite: React.FC<RenovationDemoSiteProps> = ({ onDemoClick }) 
       title: 'Modern Kitchen Transformation',
       location: 'Phoenix, AZ',
       before: 'Outdated 1980s kitchen',
-      after: 'Sleek modern space'
+      after: 'Sleek modern space',
+      beforeImg: 'https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?auto=format&fit=crop&q=80&w=400&h=400',
+      afterImg: 'https://images.unsplash.com/photo-1556911220-e150247713f9?auto=format&fit=crop&q=80&w=400&h=400'
     },
     {
       title: 'Master Bath Upgrade',
       location: 'Scottsdale, AZ',
       before: 'Small dated bathroom',
-      after: 'Spa-like retreat'
+      after: 'Spa-like retreat',
+      beforeImg: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=400&h=400',
+      afterImg: 'https://images.unsplash.com/photo-1620626011761-9963d7521576?auto=format&fit=crop&q=80&w=400&h=400'
     },
     {
       title: 'Open Concept Living',
       location: 'Tempe, AZ',
       before: 'Closed-off dark rooms',
-      after: 'Bright open floor plan'
+      after: 'Bright open floor plan',
+      beforeImg: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=400&h=400',
+      afterImg: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=400&h=400'
     },
     {
       title: 'Basement Entertainment',
       location: 'Mesa, AZ',
       before: 'Unfinished basement',
-      after: 'Modern game room'
+      after: 'Modern game room',
+      beforeImg: 'https://images.unsplash.com/photo-1595844730298-b9f0ff98ffd0?auto=format&fit=crop&q=80&w=400&h=400',
+      afterImg: 'https://images.unsplash.com/photo-1618219740975-d429804f1176?auto=format&fit=crop&q=80&w=400&h=400'
     }
   ];
 
@@ -66,17 +74,20 @@ const RenovationDemoSite: React.FC<RenovationDemoSiteProps> = ({ onDemoClick }) 
     {
       name: 'David & Lisa T.',
       rating: 5,
-      text: 'Exceptional work! Our kitchen is now the heart of our home. They stayed on schedule and on budget.'
+      text: 'Exceptional work! Our kitchen is now the heart of our home. They stayed on schedule and on budget.',
+      image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=150&h=150'
     },
     {
       name: 'Robert M.',
       rating: 5,
-      text: 'Professional team, great quality. Our bathroom renovation exceeded our expectations!'
+      text: 'Professional team, great quality. Our bathroom renovation exceeded our expectations!',
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150'
     },
     {
       name: 'Sarah J.',
       rating: 5,
-      text: 'From start to finish, they made the process easy. The craftsmanship is outstanding.'
+      text: 'From start to finish, they made the process easy. The craftsmanship is outstanding.',
+      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150&h=150'
     }
   ];
 
@@ -84,7 +95,13 @@ const RenovationDemoSite: React.FC<RenovationDemoSiteProps> = ({ onDemoClick }) 
     <div className="min-h-screen bg-[#f8f5f0] text-[#2c2416]">
       {/* Hero Section - Bold contractor style */}
       <section className="relative bg-[#d84315] text-white pt-32 pb-20 px-6 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=2070" 
+            alt="Renovation Background" 
+            className="w-full h-full object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#d84315]/80 to-[#d84315]/40"></div>
           <div className="absolute inset-0" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,.1) 10px, rgba(0,0,0,.1) 20px)' }}></div>
         </div>
         <div className="max-w-6xl mx-auto relative z-10">
@@ -212,20 +229,16 @@ const RenovationDemoSite: React.FC<RenovationDemoSiteProps> = ({ onDemoClick }) 
                 onClick={onDemoClick}
               >
                 <div className="grid grid-cols-2 gap-0">
-                  <div className="relative bg-[#8d6e63] aspect-square">
-                    <div className="absolute top-4 left-4 bg-[#d84315] text-white px-3 py-1 font-black text-xs uppercase">
+                  <div className="relative aspect-square">
+                    <img src={project.beforeImg} alt="Before" className="w-full h-full object-cover grayscale" />
+                    <div className="absolute top-4 left-4 bg-[#d84315] text-white px-3 py-1 font-black text-xs uppercase shadow-lg">
                       Before
                     </div>
-                    <div className="absolute inset-0 flex items-center justify-center text-white/50 font-black text-6xl">
-                      ✕
-                    </div>
                   </div>
-                  <div className="relative bg-[#ffd54f] aspect-square">
-                    <div className="absolute top-4 right-4 bg-[#2c2416] text-white px-3 py-1 font-black text-xs uppercase">
+                  <div className="relative aspect-square">
+                    <img src={project.afterImg} alt="After" className="w-full h-full object-cover" />
+                    <div className="absolute top-4 right-4 bg-[#2c2416] text-white px-3 py-1 font-black text-xs uppercase shadow-lg">
                       After
-                    </div>
-                    <div className="absolute inset-0 flex items-center justify-center text-[#2c2416]/50 font-black text-6xl">
-                      ✓
                     </div>
                   </div>
                 </div>
@@ -278,12 +291,19 @@ const RenovationDemoSite: React.FC<RenovationDemoSiteProps> = ({ onDemoClick }) 
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="bg-[#f8f5f0] border-4 border-[#2c2416] p-6"
               >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-[#ffd54f] text-[#ffd54f]" />
-                  ))}
+                <div className="flex items-center gap-4 mb-4">
+                  <img 
+                    src={testimonial.image} 
+                    alt={testimonial.name} 
+                    className="w-12 h-12 rounded-full border-2 border-[#2c2416] object-cover"
+                  />
+                  <div className="flex gap-1">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-[#ffd54f] text-[#ffd54f]" />
+                    ))}
+                  </div>
                 </div>
-                <p className="text-[#2c2416] mb-6 leading-relaxed font-medium">"{testimonial.text}"</p>
+                <p className="text-[#2c2416] mb-6 leading-relaxed font-medium italic">"{testimonial.text}"</p>
                 <div className="font-black text-[#d84315] uppercase text-sm">{testimonial.name}</div>
               </motion.div>
             ))}

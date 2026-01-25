@@ -9,18 +9,62 @@ interface EcommerceDemoSiteProps {
 
 const EcommerceDemoSite: React.FC<EcommerceDemoSiteProps> = ({ onDemoClick }) => {
   const products = [
-    { name: 'Silk Evening Dress', price: '$299', category: 'Dresses', rating: 4.8 },
-    { name: 'Cashmere Sweater', price: '$189', category: 'Sweaters', rating: 4.9 },
-    { name: 'Leather Crossbody', price: '$245', category: 'Bags', rating: 4.7 },
-    { name: 'Pearl Necklace', price: '$159', category: 'Jewelry', rating: 5.0 },
-    { name: 'Wool Blazer', price: '$349', category: 'Outerwear', rating: 4.6 },
-    { name: 'Satin Blouse', price: '$129', category: 'Tops', rating: 4.8 },
-    { name: 'Designer Sunglasses', price: '$199', category: 'Accessories', rating: 4.9 },
-    { name: 'Velvet Heels', price: '$279', category: 'Shoes', rating: 4.7 },
-    { name: 'Silk Scarf', price: '$89', category: 'Accessories', rating: 4.8 },
-    { name: 'Tailored Trousers', price: '$179', category: 'Pants', rating: 4.6 },
-    { name: 'Leather Belt', price: '$119', category: 'Accessories', rating: 4.9 },
-    { name: 'Cashmere Coat', price: '$599', category: 'Outerwear', rating: 5.0 }
+    { 
+      name: 'Silk Evening Dress', 
+      price: '$299', 
+      category: 'Dresses', 
+      rating: 4.8,
+      image: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&q=80&w=400&h=600'
+    },
+    { 
+      name: 'Cashmere Sweater', 
+      price: '$189', 
+      category: 'Sweaters', 
+      rating: 4.9,
+      image: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&q=80&w=400&h=600'
+    },
+    { 
+      name: 'Leather Crossbody', 
+      price: '$245', 
+      category: 'Bags', 
+      rating: 4.7,
+      image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=400&h=600'
+    },
+    { 
+      name: 'Pearl Necklace', 
+      price: '$159', 
+      category: 'Jewelry', 
+      rating: 5.0,
+      image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=400&h=600'
+    },
+    { 
+      name: 'Wool Blazer', 
+      price: '$349', 
+      category: 'Outerwear', 
+      rating: 4.6,
+      image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=400&h=600'
+    },
+    { 
+      name: 'Satin Blouse', 
+      price: '$129', 
+      category: 'Tops', 
+      rating: 4.8,
+      image: 'https://images.unsplash.com/photo-1551163943-3f6a855d1153?auto=format&fit=crop&q=80&w=400&h=600'
+    },
+    { 
+      name: 'Designer Sunglasses', 
+      price: '$199', 
+      category: 'Accessories', 
+      rating: 4.9,
+      image: 'https://images.unsplash.com/photo-1511499767390-a7335958beb7?auto=format&fit=crop&q=80&w=400&h=600'
+    },
+    { 
+      name: 'Velvet Heels', 
+      price: '$279', 
+      category: 'Shoes', 
+      rating: 4.7,
+      image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=80&w=400&h=600'
+    }
   ];
 
   const categories = ['New Arrivals', 'Dresses', 'Tops', 'Outerwear', 'Bags', 'Accessories', 'Shoes', 'Jewelry', 'Sale'];
@@ -68,14 +112,12 @@ const EcommerceDemoSite: React.FC<EcommerceDemoSiteProps> = ({ onDemoClick }) =>
 
       {/* Hero Section */}
       <section className="relative h-[600px] overflow-hidden">
-        <GradientPlaceholder 
-          gradient="from-rose-100 to-pink-50"
-          className="absolute inset-0"
-        >
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-64 h-96 bg-gradient-to-br from-rose-200 to-pink-200 opacity-40"></div>
-          </div>
-        </GradientPlaceholder>
+        <img 
+          src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=2070" 
+          alt="Spring Collection" 
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -148,22 +190,19 @@ const EcommerceDemoSite: React.FC<EcommerceDemoSiteProps> = ({ onDemoClick }) =>
                 onClick={onDemoClick}
               >
                 <div className="relative mb-4 overflow-hidden aspect-[3/4] bg-gray-100">
-                  <GradientPlaceholder 
-                    gradient="from-gray-200 to-gray-100"
-                    className="w-full h-full"
-                  >
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-24 h-32 bg-gradient-to-br from-gray-300 to-gray-200"></div>
-                    </div>
-                  </GradientPlaceholder>
+                  <img 
+                    src={product.image} 
+                    alt={product.name} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
                   <button 
                     onClick={onDemoClick}
                     className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
                   >
                     <Heart className="w-5 h-5" />
                   </button>
-                  <div className="absolute bottom-0 left-0 right-0 bg-white py-3 transform translate-y-full group-hover:translate-y-0 transition-transform">
-                    <p className="text-center text-sm tracking-wider">QUICK VIEW</p>
+                  <div className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm py-3 transform translate-y-full group-hover:translate-y-0 transition-transform">
+                    <p className="text-center text-sm tracking-wider font-medium">QUICK VIEW</p>
                   </div>
                 </div>
                 <div className="text-center">
@@ -231,16 +270,13 @@ const EcommerceDemoSite: React.FC<EcommerceDemoSiteProps> = ({ onDemoClick }) =>
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="order-1 lg:order-2"
+              className="order-1 lg:order-2 h-full"
             >
-              <GradientPlaceholder 
-                gradient="from-gray-300 to-gray-200"
-                className="h-[600px]"
-              >
-                <div className="h-full flex items-center justify-center">
-                  <div className="w-48 h-64 bg-gradient-to-br from-gray-400 to-gray-300"></div>
-                </div>
-              </GradientPlaceholder>
+              <img 
+                src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=2070" 
+                alt="Minimalist Collection" 
+                className="w-full h-[600px] object-cover shadow-2xl"
+              />
             </motion.div>
           </div>
         </div>

@@ -12,27 +12,82 @@ const RestaurantDemoSite: React.FC<RestaurantDemoSiteProps> = ({ onDemoClick }) 
     {
       title: 'Appetizers',
       items: [
-        { name: 'Burrata & Heirloom Tomatoes', price: '18', description: 'Fresh burrata, heirloom tomatoes, basil, aged balsamic' },
-        { name: 'Wagyu Beef Carpaccio', price: '24', description: 'Thinly sliced wagyu, arugula, parmesan, truffle oil' },
-        { name: 'Grilled Octopus', price: '22', description: 'Tender octopus, fingerling potatoes, paprika oil' },
-        { name: 'Tuna Tartare', price: '20', description: 'Yellowfin tuna, avocado, crispy wonton, ponzu' }
+        { 
+          name: 'Burrata & Heirloom Tomatoes', 
+          price: '18', 
+          description: 'Fresh burrata, heirloom tomatoes, basil, aged balsamic',
+          image: 'https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?auto=format&fit=crop&q=80&w=200&h=200'
+        },
+        { 
+          name: 'Wagyu Beef Carpaccio', 
+          price: '24', 
+          description: 'Thinly sliced wagyu, arugula, parmesan, truffle oil',
+          image: 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&q=80&w=200&h=200'
+        },
+        { 
+          name: 'Grilled Octopus', 
+          price: '22', 
+          description: 'Tender octopus, fingerling potatoes, paprika oil',
+          image: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&q=80&w=200&h=200'
+        },
+        { 
+          name: 'Tuna Tartare', 
+          price: '20', 
+          description: 'Yellowfin tuna, avocado, crispy wonton, ponzu',
+          image: 'https://images.unsplash.com/photo-1546039907-7fa05f864c02?auto=format&fit=crop&q=80&w=200&h=200'
+        }
       ]
     },
     {
       title: 'Main Courses',
       items: [
-        { name: 'Pan-Seared Sea Bass', price: '42', description: 'Mediterranean sea bass, fennel, cherry tomatoes, white wine' },
-        { name: 'Dry-Aged Ribeye', price: '58', description: '16oz ribeye, truffle mashed potatoes, seasonal vegetables' },
-        { name: 'Lobster Risotto', price: '48', description: 'Maine lobster, saffron risotto, peas, lemon butter' },
-        { name: 'Duck Confit', price: '38', description: 'Crispy duck leg, orange glaze, roasted root vegetables' }
+        { 
+          name: 'Pan-Seared Sea Bass', 
+          price: '42', 
+          description: 'Mediterranean sea bass, fennel, cherry tomatoes, white wine',
+          image: 'https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?auto=format&fit=crop&q=80&w=200&h=200'
+        },
+        { 
+          name: 'Dry-Aged Ribeye', 
+          price: '58', 
+          description: '16oz ribeye, truffle mashed potatoes, seasonal vegetables',
+          image: 'https://images.unsplash.com/photo-1546241072-48010ad28c2c?auto=format&fit=crop&q=80&w=200&h=200'
+        },
+        { 
+          name: 'Lobster Risotto', 
+          price: '48', 
+          description: 'Maine lobster, saffron risotto, peas, lemon butter',
+          image: 'https://images.unsplash.com/photo-1534422298391-e4f8c170db76?auto=format&fit=crop&q=80&w=200&h=200'
+        },
+        { 
+          name: 'Duck Confit', 
+          price: '38', 
+          description: 'Crispy duck leg, orange glaze, roasted root vegetables',
+          image: 'https://images.unsplash.com/photo-1514516313570-c552199db410?auto=format&fit=crop&q=80&w=200&h=200'
+        }
       ]
     },
     {
       title: 'Desserts',
       items: [
-        { name: 'Chocolate Soufflé', price: '14', description: 'Dark chocolate, vanilla ice cream, berry compote' },
-        { name: 'Crème Brûlée', price: '12', description: 'Classic French vanilla custard, caramelized sugar' },
-        { name: 'Tiramisu', price: '13', description: 'House-made ladyfingers, espresso, mascarpone' }
+        { 
+          name: 'Chocolate Soufflé', 
+          price: '14', 
+          description: 'Dark chocolate, vanilla ice cream, berry compote',
+          image: 'https://images.unsplash.com/photo-1579954115545-a95591f28bee?auto=format&fit=crop&q=80&w=200&h=200'
+        },
+        { 
+          name: 'Crème Brûlée', 
+          price: '12', 
+          description: 'Classic French vanilla custard, caramelized sugar',
+          image: 'https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?auto=format&fit=crop&q=80&w=200&h=200'
+        },
+        { 
+          name: 'Tiramisu', 
+          price: '13', 
+          description: 'House-made ladyfingers, espresso, mascarpone',
+          image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&q=80&w=200&h=200'
+        }
       ]
     }
   ];
@@ -42,15 +97,14 @@ const RestaurantDemoSite: React.FC<RestaurantDemoSiteProps> = ({ onDemoClick }) 
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#0d1b0d]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0d1b0d]"></div>
         
-        {/* Background image placeholder */}
-        <GradientPlaceholder 
-          gradient="from-emerald-900 to-green-950"
-          className="absolute inset-0"
-        >
-          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '50px 50px' }}></div>
-        </GradientPlaceholder>
+        {/* Background image */}
+        <img 
+          src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=2070" 
+          alt="Fine Dining" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -147,20 +201,29 @@ const RestaurantDemoSite: React.FC<RestaurantDemoSiteProps> = ({ onDemoClick }) 
                 {section.items.map((item, itemIndex) => (
                   <div 
                     key={itemIndex}
-                    className="border-b border-[#c9a961]/20 pb-8 hover:border-[#c9a961]/40 transition-colors cursor-pointer group"
+                    className="flex gap-6 pb-8 border-b border-[#c9a961]/20 last:border-0 hover:bg-white/[0.03] p-4 rounded-lg transition-all cursor-pointer group"
                     onClick={onDemoClick}
                   >
-                    <div className="flex justify-between items-start mb-3 gap-4">
-                      <h4 className="text-xl font-light flex-1 group-hover:text-[#c9a961] transition-colors">
-                        {item.name}
-                      </h4>
-                      <span className="text-[#c9a961] font-light text-lg whitespace-nowrap">
-                        {item.price}
-                      </span>
+                    <div className="w-24 h-24 shrink-0 overflow-hidden rounded-lg border border-[#c9a961]/20">
+                      <img 
+                        src={item.image} 
+                        alt={item.name} 
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
                     </div>
-                    <p className="text-sm opacity-70 leading-relaxed italic">
-                      {item.description}
-                    </p>
+                    <div className="flex-1">
+                      <div className="flex justify-between items-start mb-2 gap-4">
+                        <h4 className="text-xl font-light group-hover:text-[#c9a961] transition-colors">
+                          {item.name}
+                        </h4>
+                        <span className="text-[#c9a961] font-light text-lg whitespace-nowrap">
+                          {item.price}
+                        </span>
+                      </div>
+                      <p className="text-sm opacity-70 leading-relaxed italic">
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -188,15 +251,13 @@ const RestaurantDemoSite: React.FC<RestaurantDemoSiteProps> = ({ onDemoClick }) 
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
+              className="h-[500px] overflow-hidden rounded-lg shadow-2xl border border-[#c9a961]/20"
             >
-              <GradientPlaceholder 
-                gradient="from-emerald-800 to-green-900"
-                className="h-[500px]"
-              >
-                <div className="h-full flex items-center justify-center opacity-30">
-                  <Utensils className="w-24 h-24" />
-                </div>
-              </GradientPlaceholder>
+              <img 
+                src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=1974" 
+                alt="Chef's Tasting Menu" 
+                className="w-full h-full object-cover"
+              />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: 30 }}
