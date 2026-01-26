@@ -60,7 +60,7 @@ const Research: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#020202] text-white">
       {/* Left Sidebar - Fixed to Viewport */}
-      <aside className="hidden lg:block fixed top-20 left-0 bottom-0 w-80 border-r border-white/10 bg-[#020202] z-40 overflow-hidden">
+      <aside className="hidden lg:block fixed top-20 left-0 bottom-0 w-80 border-r border-white/10 bg-[#020202] z-40">
         <div className="h-full flex flex-col p-8">
           <div className="flex-shrink-0 mb-6">
             <h2 className="text-2xl font-bold mb-2 text-white">
@@ -69,7 +69,7 @@ const Research: React.FC = () => {
             <p className="text-sm text-gray-500">The Axioms of Scalable Growth</p>
           </div>
 
-          <nav className="overflow-y-auto pr-4 custom-scrollbar max-h-[calc(100vh-280px)]">
+          <nav className="flex-1 overflow-y-auto pr-4 custom-scrollbar min-h-0">
             <div className="space-y-2">
               {chapters.map((chapter) => (
                 <button
