@@ -143,7 +143,7 @@ function AppContent() {
             <Route path="/tools" element={<PageWrapper><Tools /></PageWrapper>} />
             <Route path="/tools/diagnosismap" element={<DiagnosisMap />} />
             <Route path="/tools/ad-generator" element={<PageWrapper><AdGenerator /></PageWrapper>} />
-            <Route path="/research" element={<PageWrapper><Research /></PageWrapper>} />
+            <Route path="/research" element={<Research />} />
             <Route path="/demo/:type" element={<DemoWebsiteWrapper />} />
             {/* Catch-all route - redirect to home for any undefined paths */}
             <Route path="*" element={<Navigate to="/" replace />} />

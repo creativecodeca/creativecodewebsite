@@ -121,7 +121,12 @@ const Research: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="min-h-screen bg-[#020202] text-white">
-        <main className="lg:pl-80 pt-20">
+        <motion.main 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="lg:pl-80 pt-20"
+        >
           <div className="max-w-4xl mx-auto px-6 md:px-12 py-12" ref={contentRef}>
             {/* Hero */}
             <motion.div
@@ -1472,7 +1477,7 @@ const Research: React.FC = () => {
               </motion.div>
             </section>
           </div>
-        </main>
+        </motion.main>
       </div>
 
       {/* Custom scrollbar styles */}
