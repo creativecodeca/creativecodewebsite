@@ -60,7 +60,7 @@ const Research: React.FC = () => {
   return (
     <>
       {/* Left Sidebar - Fixed to Viewport - OUTSIDE main container to avoid filter/transform issues */}
-      <aside className="hidden lg:block fixed top-20 left-0 bottom-0 w-80 border-r border-white/10 bg-[#020202] z-40">
+      <aside className="hidden lg:block fixed top-20 left-0 h-[calc(100vh-5rem)] w-80 border-r border-white/10 bg-[#020202] z-40">
         <div className="h-full flex flex-col p-8">
           <div className="flex-shrink-0 mb-6">
             <h2 className="text-2xl font-bold mb-2 text-white">

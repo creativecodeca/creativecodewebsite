@@ -157,10 +157,10 @@ function AppContent() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
           <div className="max-w-md">
             <a href="#" className="text-white font-bold tracking-tighter text-2xl flex items-center gap-2 mb-6 interactable hover:text-slate-300 transition-colors">
-              Digital Growth Partners
+              Creative Code
             </a>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Digital Growth Partners is dedicated to scaling your business. From premium website design, to AI chatbots, to killer ad campaigns, we're here to solve all your digital growth challenges.
+              Creative Code is dedicated to scaling your business. From premium website design, to AI chatbots, to killer ad campaigns, we're here to solve all your digital growth challenges.
             </p>
           </div>
 
@@ -194,7 +194,7 @@ function AppContent() {
         </div>
         <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between text-xs text-slate-500 font-mono">
           <div className="flex items-center gap-2"><div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div> SYSTEM_STATUS: ONLINE</div>
-          <div>© 2025 DIGITAL GROWTH PARTNERS INC.</div>
+          <div>© 2025 CREATIVE CODE INC.</div>
         </div>
       </footer>
       )}
