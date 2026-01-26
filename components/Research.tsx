@@ -58,8 +58,8 @@ const Research: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#020202] text-white">
-      {/* Left Sidebar - Fixed to Viewport */}
+    <>
+      {/* Left Sidebar - Fixed to Viewport - OUTSIDE main container to avoid filter/transform issues */}
       <aside className="hidden lg:block fixed top-20 left-0 bottom-0 w-80 border-r border-white/10 bg-[#020202] z-40">
         <div className="h-full flex flex-col p-8">
           <div className="flex-shrink-0 mb-6">
@@ -120,8 +120,9 @@ const Research: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="lg:pl-80 pt-20">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 py-12" ref={contentRef}>
+      <div className="min-h-screen bg-[#020202] text-white">
+        <main className="lg:pl-80 pt-20">
+          <div className="max-w-4xl mx-auto px-6 md:px-12 py-12" ref={contentRef}>
             {/* Hero */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -1472,6 +1473,7 @@ const Research: React.FC = () => {
             </section>
           </div>
         </main>
+      </div>
 
       {/* Custom scrollbar styles */}
       <style>{`
@@ -1489,7 +1491,7 @@ const Research: React.FC = () => {
           background: rgba(139, 92, 246, 0.5);
         }
       `}</style>
-    </div>
+    </>
   );
 };
 

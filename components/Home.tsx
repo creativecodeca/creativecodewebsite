@@ -104,7 +104,7 @@ const Home: React.FC = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
           {/* Headline */}
           <h1 className="md:text-8xl leading-tight md:leading-[1.1] text-4xl md:text-5xl font-semibold text-white tracking-tighter mb-8">
-            Digital Partners
+            Creative Code
           </h1>
 
           {/* Subheadline */}
