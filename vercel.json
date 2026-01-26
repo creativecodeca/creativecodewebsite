@@ -13,11 +13,6 @@
       "destination": "/index.html"
     }
   ],
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/api/.*", "dest": "/api/$0" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ],
   "headers": [
     {
       "source": "/assets/(.*)\\.css",
