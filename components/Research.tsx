@@ -60,16 +60,16 @@ const Research: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#020202] text-white">
       {/* Left Sidebar - Fixed Chapter Navigation */}
-      <div className="hidden lg:block w-80 fixed left-0 top-20 h-[calc(100vh-5rem)] border-r border-white/10 bg-[#020202] overflow-hidden z-40">
-        <div className="p-8 h-full flex flex-col">
-            <div className="mb-8">
+      <div className="hidden lg:block w-80 fixed left-0 top-20 bottom-0 border-r border-white/10 bg-[#020202] z-50">
+        <div className="p-8 h-full flex flex-col overflow-hidden">
+            <div className="mb-6 flex-shrink-0">
               <h2 className="text-2xl font-bold mb-2 text-white">
                 Research
               </h2>
               <p className="text-sm text-gray-500">The Axioms of Scalable Growth</p>
             </div>
 
-            <div className="flex-1 overflow-y-auto pr-4 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto pr-4 custom-scrollbar min-h-0">
               <nav className="space-y-2">
                 {chapters.map((chapter) => (
                   <button
@@ -104,7 +104,7 @@ const Research: React.FC = () => {
               </nav>
             </div>
 
-            <div className="mt-6 pt-6 border-t border-white/10">
+            <div className="mt-6 pt-6 border-t border-white/10 flex-shrink-0">
               <div className="text-xs text-gray-600 space-y-1">
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-white/40"></div>
@@ -360,21 +360,21 @@ const Research: React.FC = () => {
                         <text x="340" y="275" fill="rgba(255,255,255,0.5)" fontSize="12">30m</text>
                         <text x="520" y="275" fill="rgba(255,255,255,0.5)" fontSize="12">60m</text>
                         
-                        {/* Cliff line */}
+                        {/* Cliff line - steeper exponential drop */}
                         <path
-                          d="M 50 50 L 150 60 L 250 120 L 350 200 L 550 240"
+                          d="M 50 50 L 150 70 L 200 110 L 250 160 L 300 195 L 400 225 L 550 242"
                           stroke="rgb(168, 85, 247)"
                           strokeWidth="3"
                           fill="none"
                         />
                         
                         {/* Critical point marker */}
-                        <circle cx="150" cy="60" r="6" fill="rgb(168, 85, 247)" />
-                        <text x="160" y="55" fill="white" fontSize="14" fontWeight="bold">10x Drop</text>
+                        <circle cx="150" cy="70" r="6" fill="rgb(168, 85, 247)" />
+                        <text x="160" y="65" fill="white" fontSize="14" fontWeight="bold">10x Drop</text>
                         
                         {/* Fill under curve */}
                         <path
-                          d="M 50 50 L 150 60 L 250 120 L 350 200 L 550 240 L 550 250 L 50 250 Z"
+                          d="M 50 50 L 150 70 L 200 110 L 250 160 L 300 195 L 400 225 L 550 242 L 550 250 L 50 250 Z"
                           fill="rgba(168, 85, 247, 0.1)"
                         />
                       </svg>
@@ -683,25 +683,37 @@ const Research: React.FC = () => {
                         <circle cx="300" cy="50" r="8" fill="rgb(168, 85, 247)" stroke="white" strokeWidth="2"/>
                         <text x="310" y="45" fill="white" fontSize="13" fontWeight="bold">Optimal</text>
                         
-                        {/* Skepticism zone */}
-                        <line x1="400" y1="30" x2="400" y2="250" stroke="rgba(239,68,68,0.4)" strokeWidth="2" strokeDasharray="5,5"/>
-                        <text x="410" y="140" fill="rgba(239,68,68,0.8)" fontSize="12" fontWeight="bold">Skepticism</text>
-                        <text x="410" y="155" fill="rgba(239,68,68,0.8)" fontSize="12" fontWeight="bold">Alarm</text>
+                        {/* Too Weak zone divider */}
+                        <line x1="150" y1="30" x2="150" y2="250" stroke="rgba(239,68,68,0.4)" strokeWidth="2" strokeDasharray="5,5"/>
+                        
+                        {/* Skepticism zone divider */}
+                        <line x1="420" y1="30" x2="420" y2="250" stroke="rgba(239,68,68,0.4)" strokeWidth="2" strokeDasharray="5,5"/>
+                        <text x="430" y="140" fill="rgba(239,68,68,0.8)" fontSize="12" fontWeight="bold">Skepticism</text>
+                        <text x="430" y="155" fill="rgba(239,68,68,0.8)" fontSize="12" fontWeight="bold">Alarm</text>
                         
                         {/* Fill zones */}
+                        {/* Too Weak zone (left) */}
                         <path
-                          d="M 50 240 Q 200 80, 300 50 T 400 100 L 400 250 L 50 250 Z"
+                          d="M 50 240 Q 100 160, 150 120 L 150 250 L 50 250 Z"
+                          fill="rgba(239, 68, 68, 0.1)"
+                        />
+                        {/* Trust/Optimal zone (center) */}
+                        <path
+                          d="M 150 120 Q 200 80, 300 50 T 420 110 L 420 250 L 150 250 Z"
                           fill="rgba(168, 85, 247, 0.1)"
                         />
+                        {/* Too Good zone (right) */}
                         <path
-                          d="M 400 100 Q 475 165, 550 240 L 550 250 L 400 250 Z"
+                          d="M 420 110 Q 485 175, 550 240 L 550 250 L 420 250 Z"
                           fill="rgba(239, 68, 68, 0.1)"
                         />
                         
                         {/* Zone labels */}
-                        <text x="180" y="200" fill="rgba(255,255,255,0.4)" fontSize="11">Trust Zone</text>
-                        <text x="460" y="200" fill="rgba(239,68,68,0.6)" fontSize="11">Too Good</text>
-                        <text x="460" y="215" fill="rgba(239,68,68,0.6)" fontSize="11">To Be True</text>
+                        <text x="90" y="200" fill="rgba(239,68,68,0.6)" fontSize="11">Offer</text>
+                        <text x="85" y="215" fill="rgba(239,68,68,0.6)" fontSize="11">Too Weak</text>
+                        <text x="260" y="200" fill="rgba(255,255,255,0.4)" fontSize="11">Trust Zone</text>
+                        <text x="480" y="200" fill="rgba(239,68,68,0.6)" fontSize="11">Too Good</text>
+                        <text x="475" y="215" fill="rgba(239,68,68,0.6)" fontSize="11">To Be True</text>
                       </svg>
                       <div className="text-center mt-4">
                         <p className="text-sm text-gray-400">Value must exceed price but remain believable</p>
