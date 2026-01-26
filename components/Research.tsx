@@ -1460,7 +1460,6 @@ const Research: React.FC = () => {
             </section>
           </div>
         </div>
-      </div>
 
       {/* Custom scrollbar styles */}
       <style>{`
