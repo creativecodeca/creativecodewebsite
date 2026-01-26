@@ -25,7 +25,7 @@ const About: React.FC = () => {
                     {/* Badge */}
                     <div className="inline-flex hover:scale-105 transition-transform cursor-default text-xs font-medium text-slate-300 bg-white/5 border-white/10 border rounded-full mb-8 pt-2 pr-4 pb-2 pl-4 backdrop-blur-md gap-x-2 items-center">
                         <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-                        About Creative Code
+                        About Digital Growth Partners
                     </div>
 
                     {/* Headline */}
@@ -84,7 +84,7 @@ const About: React.FC = () => {
                                 </p>
 
                                 <p className="text-white font-medium">
-                                    That's why we created Creative Code. We build high-performing websites, manage ad campaigns that actually deliver, and offer a truly done-for-you experience. If we don't hit the results we promise, you're contractually entitled to a refund. Guaranteed.
+                                    That's why we created Digital Growth Partners. We build high-performing websites, manage ad campaigns that actually deliver, and offer a truly done-for-you experience. If we don't hit the results we promise, you're contractually entitled to a refund. Guaranteed.
                                 </p>
 
                                 <p className="text-lg md:text-xl text-white font-semibold pt-4">
