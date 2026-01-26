@@ -65,8 +65,8 @@ const RenovationDemoSite: React.FC<RenovationDemoSiteProps> = ({ onDemoClick }) 
       location: 'Mesa, AZ',
       before: 'Unfinished basement',
       after: 'Modern game room',
-      beforeImg: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=400&h=400',
-      afterImg: 'https://images.unsplash.com/photo-1595844730298-b9f0ff98ffd0?auto=format&fit=crop&q=80&w=400&h=400'
+      beforeImg: 'https://images.unsplash.com/photo-1505798577917-a65157d3320a?auto=format&fit=crop&q=80&w=400&h=400',
+      afterImg: 'https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&q=80&w=400&h=400'
     }
   ];
 

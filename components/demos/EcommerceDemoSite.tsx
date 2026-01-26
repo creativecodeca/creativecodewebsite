@@ -17,29 +17,29 @@ const EcommerceDemoSite: React.FC<EcommerceDemoSiteProps> = ({ onDemoClick }) =>
       image: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&q=80&w=400&h=600'
     },
     { 
-      name: 'Cashmere Sweater', 
+      name: 'Wool Knitt Sweater', 
       price: '$189', 
       category: 'Sweaters', 
       rating: 4.9,
       image: 'https://images.unsplash.com/photo-1576188973526-0e5d742240ad?auto=format&fit=crop&q=80&w=400&h=600'
     },
     { 
-      name: 'Leather Crossbody', 
+      name: 'Leather Sidebag', 
       price: '$245', 
       category: 'Bags', 
       rating: 4.7,
       image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=400&h=600'
     },
     { 
-      name: 'Pearl Necklace', 
+      name: 'Lapis Earings', 
       price: '$159', 
       category: 'Jewelry', 
       rating: 5.0,
       image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=400&h=600'
     },
     { 
-      name: 'Wool Blazer', 
-      price: '$349', 
+      name: 'Nylon Bomber', 
+      price: '$199', 
       category: 'Outerwear', 
       rating: 4.6,
       image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=400&h=600'
