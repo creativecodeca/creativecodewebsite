@@ -9,8 +9,8 @@ const About: React.FC = () => {
     return (
         <>
             <SEO
-                title="About Us | Creative Code Digital Marketing Agency"
-                description="Learn about Creative Code's mission to make digital growth easy, honest, and affordable for real businesses."
+                title="About Us | Digital Growth Partners"
+                description="Learn about Digital Growth Partners' mission to make digital growth easy, honest, and affordable for real businesses."
                 canonical="https://creativecodeca.com/about"
             />
             {/* Ambient Background Light */}
@@ -72,11 +72,11 @@ const About: React.FC = () => {
 
                             <div className="relative z-10 space-y-6 text-slate-300 text-base md:text-lg leading-relaxed">
                                 <p>
-                                    Creative Code was founded to make professional digital solutions actually work for business owners, not just sound good on paper.
+                                    Digital Growth Partners was founded to make professional digital solutions actually work for business owners, not just sound good on paper.
                                 </p>
 
                                 <p>
-                                    Before starting Creative Code, we ran a local business and worked with multiple agencies who promised "done-for-you" ads and guaranteed appointments. But in reality, we were left doing most of the work ourselves. Even when they didn't deliver, they refused to honor their refund promises.
+                                    Before starting Digital Growth Partners, we ran a local business and worked with multiple agencies who promised "done-for-you" ads and guaranteed appointments. But in reality, we were left doing most of the work ourselves. Even when they didn't deliver, they refused to honor their refund promises.
                                 </p>
 
                                 <p>
@@ -103,7 +103,7 @@ const About: React.FC = () => {
                 <div className="max-w-5xl mx-auto relative z-10">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl md:text-5xl font-medium tracking-tight text-white mb-6 text-glow">
-                            Creative Code CA INC.
+                            Digital Growth Partners INC.
                         </h2>
                         <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
                             We help businesses and individuals grow by creating high-performing websites, implementing AI-driven automation, and delivering comprehensive marketing solutions.

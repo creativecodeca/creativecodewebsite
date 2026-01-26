@@ -14,7 +14,7 @@ const SEO: React.FC<SEOProps> = ({
     description,
     canonical = 'https://creativecodeca.com/',
     ogImage = 'https://creativecodeca.com/og-image.jpg',
-    keywords = 'web design, website design, digital marketing agency, web development, custom website design, responsive web design, professional web design, AI chatbots, Meta ads, Google ads, Facebook advertising, marketing automation, CRM software, SEO optimization, business growth, website builder, ecommerce web design, landing page design, UI UX design'
+    keywords = 'web design, website design, digital growth, business growth partners, web development, custom website design, responsive web design, professional web design, AI chatbots, Meta ads, Google ads, Facebook advertising, marketing automation, CRM software, SEO optimization, business scaling, website builder, ecommerce web design, landing page design, UI UX design'
 }) => {
     return (
         <Helmet>

@@ -157,10 +157,10 @@ function AppContent() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
           <div className="max-w-md">
             <a href="#" className="text-white font-bold tracking-tighter text-2xl flex items-center gap-2 mb-6 interactable hover:text-slate-300 transition-colors">
-              Creative Code
+              Digital Growth Partners
             </a>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Creative Code is a digital marketing agency dedicated to scaling your business. From premium website design, to AI chatbots, to killer ad campaigns, Creative Code is here to solve all your digital problems.
+              Digital Growth Partners is dedicated to scaling your business. From premium website design, to AI chatbots, to killer ad campaigns, we're here to solve all your digital growth challenges.
             </p>
           </div>
 

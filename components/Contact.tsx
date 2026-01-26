@@ -318,8 +318,8 @@ const Contact: React.FC = () => {
     return (
         <>
             <SEO
-                title="Contact Us - Web Design & Digital Marketing | Creative Code"
-                description="Get professional web design and digital marketing services. Contact Creative Code for custom websites, AI chatbots, and ad campaigns. 24-hour response."
+                title="Contact Us - Web Design & Digital Growth | Digital Growth Partners"
+                description="Get professional web design and digital growth services. Contact Digital Growth Partners for custom websites, AI chatbots, and ad campaigns. 24-hour response."
                 canonical="https://creativecodeca.com/contact"
                 keywords="contact web design agency, hire web designer, digital marketing consultation, web design quote, website design services, get started"
             />
@@ -604,7 +604,7 @@ const Contact: React.FC = () => {
                                                                 </div>
                                                             </div>
                                                             <label htmlFor="consentNonMarketing" className="text-sm text-slate-300 leading-relaxed cursor-pointer flex-1">
-                                                                I Consent to receive non‑marketing text messages from Creative Code about my order updates, appointment reminders etc. Message & data rates may apply.
+                                                                I Consent to receive non‑marketing text messages from Digital Growth Partners about my order updates, appointment reminders etc. Message & data rates may apply.
                                                             </label>
                                                         </div>
                                                         <div className="relative flex items-start gap-4 p-5 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-500/30 transition-all cursor-pointer group"
@@ -632,7 +632,7 @@ const Contact: React.FC = () => {
                                                                 </div>
                                                             </div>
                                                             <label htmlFor="consentMarketing" className="text-sm text-slate-300 leading-relaxed cursor-pointer flex-1">
-                                                                I consent to receive marketing text messages from Creative Code. Frequency may vary. Reply STOP to opt out.
+                                                                I consent to receive marketing text messages from Digital Growth Partners. Frequency may vary. Reply STOP to opt out.
                                                             </label>
                                                         </div>
                                                     </div>
