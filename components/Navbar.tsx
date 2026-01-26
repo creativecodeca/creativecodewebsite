@@ -30,13 +30,13 @@ const Navbar: React.FC = () => {
             <div className="absolute inset-0 bg-white/20 blur-md rounded-full group-hover:bg-white/30 transition-all opacity-40"></div>
             <img
               src="/logo.png"
-              alt="Digital Growth Partners Logo"
+              alt="Creative Code Logo"
               loading="eager"
               fetchPriority="high"
               className="w-full h-full object-contain relative z-10 drop-shadow-md"
             />
           </div>
-          <span className="tracking-tight text-white/90">Digital Growth Partners</span>
+          <span className="tracking-tight text-white/90">Creative Code</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-10 text-xs font-semibold uppercase tracking-widest text-slate-500">

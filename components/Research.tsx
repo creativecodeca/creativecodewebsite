@@ -59,68 +59,68 @@ const Research: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#020202] text-white">
-      {/* Left Sidebar - Truly Fixed on Desktop */}
-      <div className="hidden lg:block w-80 fixed left-0 top-20 bottom-0 border-r border-white/10 bg-[#020202] z-50 overflow-hidden">
-        <div className="p-8 h-full flex flex-col">
-            <div className="mb-6 flex-shrink-0">
-              <h2 className="text-2xl font-bold mb-2 text-white">
-                Research
-              </h2>
-              <p className="text-sm text-gray-500">The Axioms of Scalable Growth</p>
-            </div>
+      {/* Left Sidebar - Fixed to Viewport */}
+      <aside className="hidden lg:fixed lg:inset-y-20 lg:left-0 lg:w-80 lg:block border-r border-white/10 bg-[#020202] z-40">
+        <div className="h-full flex flex-col p-8">
+          <div className="flex-shrink-0 mb-6">
+            <h2 className="text-2xl font-bold mb-2 text-white">
+              Research
+            </h2>
+            <p className="text-sm text-gray-500">The Axioms of Scalable Growth</p>
+          </div>
 
-            <div className="flex-1 overflow-y-auto pr-4 custom-scrollbar min-h-0">
-              <nav className="space-y-2">
-                {chapters.map((chapter) => (
-                  <button
-                    key={chapter.id}
-                    onClick={() => scrollToChapter(chapter.id)}
-                    className={`w-full text-left px-4 py-3 rounded-lg transition-all group ${
-                      activeChapter === chapter.id
-                        ? 'bg-white/5 border-l-2 border-purple-500/50'
-                        : 'hover:bg-white/[0.02] border-l-2 border-transparent'
-                    }`}
-                  >
-                    <div className="flex items-start gap-3">
-                      <span
-                        className={`text-xs font-mono mt-0.5 ${
-                          activeChapter === chapter.id ? 'text-purple-500/70' : 'text-gray-600'
-                        }`}
-                      >
-                        {String(chapter.number).padStart(2, '0')}
-                      </span>
-                      <span
-                        className={`text-sm leading-tight ${
-                          activeChapter === chapter.id
-                            ? 'text-white font-medium'
-                            : 'text-gray-400 group-hover:text-gray-300'
-                        }`}
-                      >
-                        {chapter.title}
-                      </span>
-                    </div>
-                  </button>
-                ))}
-              </nav>
+          <nav className="flex-1 overflow-y-auto pr-4 custom-scrollbar min-h-0">
+            <div className="space-y-2">
+              {chapters.map((chapter) => (
+                <button
+                  key={chapter.id}
+                  onClick={() => scrollToChapter(chapter.id)}
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-all group ${
+                    activeChapter === chapter.id
+                      ? 'bg-white/5 border-l-2 border-purple-500/50'
+                      : 'hover:bg-white/[0.02] border-l-2 border-transparent'
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <span
+                      className={`text-xs font-mono mt-0.5 ${
+                        activeChapter === chapter.id ? 'text-purple-500/70' : 'text-gray-600'
+                      }`}
+                    >
+                      {String(chapter.number).padStart(2, '0')}
+                    </span>
+                    <span
+                      className={`text-sm leading-tight ${
+                        activeChapter === chapter.id
+                          ? 'text-white font-medium'
+                          : 'text-gray-400 group-hover:text-gray-300'
+                      }`}
+                    >
+                      {chapter.title}
+                    </span>
+                  </div>
+                </button>
+              ))}
             </div>
+          </nav>
 
-            <div className="mt-6 pt-6 border-t border-white/10 flex-shrink-0">
-              <div className="text-xs text-gray-600 space-y-1">
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-white/40"></div>
-                  <span>11 Chapters</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-white/40"></div>
-                  <span>Research-Backed</span>
-                </div>
+          <div className="flex-shrink-0 mt-6 pt-6 border-t border-white/10">
+            <div className="text-xs text-gray-600 space-y-1">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-white/40"></div>
+                <span>11 Chapters</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-white/40"></div>
+                <span>Research-Backed</span>
               </div>
             </div>
           </div>
         </div>
+      </aside>
 
-      {/* Right Content - Independent Scrolling */}
-      <div className="lg:ml-80 pt-20">
+      {/* Main Content Area */}
+      <main className="lg:pl-80 pt-20">
         <div className="max-w-4xl mx-auto px-6 md:px-12 py-12" ref={contentRef}>
             {/* Hero */}
             <motion.div
@@ -1471,7 +1471,7 @@ const Research: React.FC = () => {
               </motion.div>
             </section>
           </div>
-        </div>
+        </main>
 
       {/* Custom scrollbar styles */}
       <style>{`
