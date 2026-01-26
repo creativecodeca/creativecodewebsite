@@ -18,28 +18,28 @@ const EcommerceDemoSite: React.FC<EcommerceDemoSiteProps> = ({ onDemoClick }) =>
     },
     { 
       name: 'Wool Knitt Sweater', 
-      price: '$189', 
+      price: '$159', 
       category: 'Sweaters', 
       rating: 4.9,
-      image: 'https://images.unsplash.com/photo-1576188973526-0e5d742240ad?auto=format&fit=crop&q=80&w=400&h=600'
+      image: 'https://images.unsplash.com/photo-1591258739299-5b65d5cbb235?auto=format&fit=crop&q=80&w=400&h=600'
     },
     { 
       name: 'Leather Sidebag', 
-      price: '$245', 
+      price: '$225', 
       category: 'Bags', 
       rating: 4.7,
       image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=400&h=600'
     },
     { 
       name: 'Lapis Earings', 
-      price: '$159', 
+      price: '$89', 
       category: 'Jewelry', 
       rating: 5.0,
       image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=400&h=600'
     },
     { 
       name: 'Nylon Bomber', 
-      price: '$199', 
+      price: '$189', 
       category: 'Outerwear', 
       rating: 4.6,
       image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=400&h=600'

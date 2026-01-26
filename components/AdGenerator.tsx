@@ -68,11 +68,18 @@ const AdGenerator: React.FC = () => {
     if (saved) {
       try {
         const ads: GeneratedAd[] = JSON.parse(saved);
-        // Filter out expired ads (older than 24 hours)
-        const validAds = ads.filter(ad => Date.now() - ad.timestamp < 24 * 60 * 60 * 1000);
+        // Filter out expired ads (older than 24 hours) and limit to 10
+        const validAds = ads
+          .filter(ad => Date.now() - ad.timestamp < 24 * 60 * 60 * 1000)
+          .slice(0, 10);
+        
         setGeneratedAds(validAds);
         if (validAds.length !== ads.length) {
-          localStorage.setItem('creativeCodeAds', JSON.stringify(validAds));
+          try {
+            localStorage.setItem('creativeCodeAds', JSON.stringify(validAds));
+          } catch (e) {
+            console.error('Error updating localStorage on mount:', e);
+          }
         }
       } catch (e) {
         console.error('Error loading saved ads:', e);
@@ -170,9 +177,27 @@ const AdGenerator: React.FC = () => {
       }));
 
       // Add new ads to the BEGINNING of the array (so they show at top)
-      const updatedAds = [...newAds, ...generatedAds];
+      const updatedAds = [...newAds, ...generatedAds].slice(0, 10); // Keep only last 10 ads
       setGeneratedAds(updatedAds);
-      localStorage.setItem('creativeCodeAds', JSON.stringify(updatedAds));
+      
+      try {
+        localStorage.setItem('creativeCodeAds', JSON.stringify(updatedAds));
+      } catch (e) {
+        if (e instanceof DOMException && e.name === 'QuotaExceededError') {
+          // If quota exceeded, try saving fewer ads
+          const smallerAdsList = updatedAds.slice(0, 5);
+          setGeneratedAds(smallerAdsList);
+          try {
+            localStorage.setItem('creativeCodeAds', JSON.stringify(smallerAdsList));
+          } catch (innerE) {
+            console.error('Failed to save even reduced ads list:', innerE);
+            // If it still fails, just save the newest one
+            const newestOnly = updatedAds.slice(0, 1);
+            setGeneratedAds(newestOnly);
+            localStorage.setItem('creativeCodeAds', JSON.stringify(newestOnly));
+          }
+        }
+      }
 
     } catch (err: any) {
       setError(err.message || 'Failed to generate images. Please try again.');

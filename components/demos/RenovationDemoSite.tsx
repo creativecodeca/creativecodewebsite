@@ -66,7 +66,7 @@ const RenovationDemoSite: React.FC<RenovationDemoSiteProps> = ({ onDemoClick }) 
       before: 'Unfinished basement',
       after: 'Modern game room',
       beforeImg: 'https://images.unsplash.com/photo-1505798577917-a65157d3320a?auto=format&fit=crop&q=80&w=400&h=400',
-      afterImg: 'https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&q=80&w=400&h=400'
+      afterImg: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=400&h=400'
     }
   ];
 
