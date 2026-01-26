@@ -60,7 +60,7 @@ const Research: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#020202] text-white">
       {/* Left Sidebar - Fixed to Viewport */}
-      <aside className="hidden lg:fixed lg:inset-y-20 lg:left-0 lg:w-80 lg:block border-r border-white/10 bg-[#020202] z-40">
+      <aside className="hidden lg:block fixed top-20 left-0 bottom-0 w-80 border-r border-white/10 bg-[#020202] z-40 overflow-hidden">
         <div className="h-full flex flex-col p-8">
           <div className="flex-shrink-0 mb-6">
             <h2 className="text-2xl font-bold mb-2 text-white">

@@ -99,34 +99,23 @@ const Home: React.FC = () => {
 
       {/* Hero Section */}
       <section className="md:pt-48 md:pb-32 overflow-hidden flex flex-col pt-32 pb-20 relative justify-center">
-        {showParticleCanvas && (
-          <Suspense fallback={null}>
-            <ParticleCanvas />
-          </Suspense>
-        )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-transparent to-[#020202]/80 z-0 pointer-events-none"></div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-          {/* Badge */}
-          <div className="inline-flex hover:scale-105 transition-transform cursor-default text-xs font-medium text-slate-300 bg-white/5 border-white/10 border rounded-full mb-8 pt-2 pr-4 pb-2 pl-4 backdrop-blur-md gap-x-2 items-center">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-            Accepting new clients
-          </div>
-
           {/* Headline */}
           <h1 className="md:text-8xl leading-tight md:leading-[1.1] text-4xl md:text-5xl font-semibold text-white tracking-tighter mb-8">
-            Web Design & <br className="hidden md:block" /> Growth.
+            Digital Partners
           </h1>
 
           {/* Subheadline */}
           <p className="text-base md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed px-4">
-            Creative Code is a digital marketing agency specializing in web design, web development, SEO optimization, and social media marketing. From custom website design and ecommerce solutions to AI chatbots and high-converting ad campaigns, we deliver complete digital marketing services to grow your business.
+            Let software do what your employees can't.
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-5">
             <Link to="/contact" className="bg-white text-black h-14 px-10 rounded-full font-bold hover:bg-slate-200 transition-all interactable flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-105">
-              Start a Project
+              Inquire
               <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2.5} />
             </Link>
           </div>
