@@ -84,6 +84,7 @@ const FunnelPrivateGift = lazy(() => retryImport(() => import('./components/Funn
 const Tools = lazy(() => retryImport(() => import('./components/Tools')));
 const DiagnosisMap = lazy(() => retryImport(() => import('./components/DiagnosisMap')));
 const AdGenerator = lazy(() => retryImport(() => import('./components/AdGenerator')));
+const Research = lazy(() => retryImport(() => import('./components/Research')));
 const DemoWebsiteWrapper = lazy(() => retryImport(() => import('./components/demos/DemoWebsiteWrapper')));
 
 // Loading fallback component
@@ -142,6 +143,7 @@ function AppContent() {
             <Route path="/tools" element={<PageWrapper><Tools /></PageWrapper>} />
             <Route path="/tools/diagnosismap" element={<DiagnosisMap />} />
             <Route path="/tools/ad-generator" element={<PageWrapper><AdGenerator /></PageWrapper>} />
+            <Route path="/research" element={<PageWrapper><Research /></PageWrapper>} />
             <Route path="/demo/:type" element={<DemoWebsiteWrapper />} />
             {/* Catch-all route - redirect to home for any undefined paths */}
             <Route path="*" element={<Navigate to="/" replace />} />
