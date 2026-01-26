@@ -66,7 +66,7 @@ const Research: React.FC = () => {
             <h2 className="text-2xl font-bold mb-2 text-white">
               Research
             </h2>
-            <p className="text-sm text-gray-500">The Axioms of Scalable Growth</p>
+            <p className="text-sm text-gray-500">Principals of digital growth</p>
           </div>
 
           <nav className="flex-1 overflow-y-auto pr-4 custom-scrollbar min-h-0">
@@ -140,9 +140,9 @@ const Research: React.FC = () => {
                 <span>Research & First Principles</span>
               </div>
               <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-                The Axioms of <br />
+                Principals of <br />
                 <span className="text-white">
-                  Scalable Growth
+                  digital growth
                 </span>
               </h1>
               <p className="text-xl text-gray-400 leading-relaxed max-w-3xl">
