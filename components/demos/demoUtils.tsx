@@ -17,10 +17,10 @@ export const DemoTooltip: React.FC<TooltipProps> = ({ show, x, y, message = "Thi
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 10 }}
           transition={{ duration: 0.2 }}
-          className="fixed z-[10000] pointer-events-none"
+          className="fixed z-[10000] pointer-events-none -translate-x-1/2 -translate-y-[calc(100%+10px)]"
           style={{
             left: `${x}px`,
-            top: `${y + 40}px`,
+            top: `${y}px`,
           }}
         >
           <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-lg shadow-2xl text-sm font-medium whitespace-nowrap">

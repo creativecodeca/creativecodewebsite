@@ -21,7 +21,7 @@ const EcommerceDemoSite: React.FC<EcommerceDemoSiteProps> = ({ onDemoClick }) =>
       price: '$189', 
       category: 'Sweaters', 
       rating: 4.9,
-      image: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&q=80&w=400&h=600'
+      image: 'https://images.unsplash.com/photo-1576188973526-0e5d742240ad?auto=format&fit=crop&q=80&w=400&h=600'
     },
     { 
       name: 'Leather Crossbody', 
@@ -56,7 +56,7 @@ const EcommerceDemoSite: React.FC<EcommerceDemoSiteProps> = ({ onDemoClick }) =>
       price: '$199', 
       category: 'Accessories', 
       rating: 4.9,
-      image: 'https://images.unsplash.com/photo-1511499767390-a7335958beb7?auto=format&fit=crop&q=80&w=400&h=600'
+      image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=400&h=600'
     },
     { 
       name: 'Velvet Heels', 

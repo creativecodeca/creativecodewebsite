@@ -19,11 +19,10 @@ const DemoWebsiteWrapper: React.FC = () => {
 
   const handleDemoClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const rect = e.currentTarget.getBoundingClientRect();
     setTooltip({ 
       show: true, 
-      x: rect.left + rect.width / 2 - 75, // Center the tooltip
-      y: rect.top 
+      x: e.clientX,
+      y: e.clientY
     });
     setTimeout(() => setTooltip({ show: false, x: 0, y: 0 }), 2000);
   };

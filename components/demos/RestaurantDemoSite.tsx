@@ -51,19 +51,19 @@ const RestaurantDemoSite: React.FC<RestaurantDemoSiteProps> = ({ onDemoClick }) 
           name: 'Dry-Aged Ribeye', 
           price: '58', 
           description: '16oz ribeye, truffle mashed potatoes, seasonal vegetables',
-          image: 'https://images.unsplash.com/photo-1546241072-48010ad28c2c?auto=format&fit=crop&q=80&w=200&h=200'
+          image: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&q=80&w=200&h=200'
         },
         { 
           name: 'Lobster Risotto', 
           price: '48', 
           description: 'Maine lobster, saffron risotto, peas, lemon butter',
-          image: 'https://images.unsplash.com/photo-1534422298391-e4f8c170db76?auto=format&fit=crop&q=80&w=200&h=200'
+          image: 'https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&q=80&w=200&h=200'
         },
         { 
           name: 'Duck Confit', 
           price: '38', 
           description: 'Crispy duck leg, orange glaze, roasted root vegetables',
-          image: 'https://images.unsplash.com/photo-1514516313570-c552199db410?auto=format&fit=crop&q=80&w=200&h=200'
+          image: 'https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?auto=format&fit=crop&q=80&w=200&h=200'
         }
       ]
     },
@@ -74,7 +74,7 @@ const RestaurantDemoSite: React.FC<RestaurantDemoSiteProps> = ({ onDemoClick }) 
           name: 'Chocolate Soufflé', 
           price: '14', 
           description: 'Dark chocolate, vanilla ice cream, berry compote',
-          image: 'https://images.unsplash.com/photo-1579954115545-a95591f28bee?auto=format&fit=crop&q=80&w=200&h=200'
+          image: 'https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?auto=format&fit=crop&q=80&w=200&h=200'
         },
         { 
           name: 'Crème Brûlée', 

@@ -141,24 +141,6 @@ const SaaSDemoSite: React.FC<SaaSDemoSiteProps> = ({ onDemoClick }) => {
               </BlockedButton>
             </div>
           </motion.div>
-
-          {/* Dashboard Preview */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 blur-3xl"></div>
-            <div className="relative bg-[#0a0a0a] rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
-              <img 
-                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426" 
-                alt="TaskFlow Dashboard" 
-                className="w-full h-auto opacity-80 group-hover:opacity-100 transition-opacity"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
-            </div>
-          </motion.div>
         </div>
       </section>
 

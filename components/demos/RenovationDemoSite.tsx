@@ -65,8 +65,8 @@ const RenovationDemoSite: React.FC<RenovationDemoSiteProps> = ({ onDemoClick }) 
       location: 'Mesa, AZ',
       before: 'Unfinished basement',
       after: 'Modern game room',
-      beforeImg: 'https://images.unsplash.com/photo-1595844730298-b9f0ff98ffd0?auto=format&fit=crop&q=80&w=400&h=400',
-      afterImg: 'https://images.unsplash.com/photo-1618219740975-d429804f1176?auto=format&fit=crop&q=80&w=400&h=400'
+      beforeImg: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=400&h=400',
+      afterImg: 'https://images.unsplash.com/photo-1595844730298-b9f0ff98ffd0?auto=format&fit=crop&q=80&w=400&h=400'
     }
   ];
 
@@ -97,7 +97,7 @@ const RenovationDemoSite: React.FC<RenovationDemoSiteProps> = ({ onDemoClick }) 
       <section className="relative bg-[#d84315] text-white pt-32 pb-20 px-6 overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=2070" 
+            src="https://images.unsplash.com/photo-1503387762-592cd58cd4fb?auto=format&fit=crop&q=80&w=2070" 
             alt="Renovation Background" 
             className="w-full h-full object-cover opacity-20"
           />
