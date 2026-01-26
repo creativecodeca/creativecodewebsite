@@ -69,7 +69,7 @@ const Research: React.FC = () => {
             <p className="text-sm text-gray-500">The Axioms of Scalable Growth</p>
           </div>
 
-          <nav className="flex-1 overflow-y-auto pr-4 custom-scrollbar min-h-0">
+          <nav className="overflow-y-auto pr-4 custom-scrollbar max-h-[calc(100vh-280px)]">
             <div className="space-y-2">
               {chapters.map((chapter) => (
                 <button
