@@ -58,7 +58,7 @@ const Research: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#020202] text-white pt-20">
+    <div className="min-h-screen bg-[#020202] text-white">
       {/* Left Sidebar - Truly Fixed on Desktop */}
       <div className="hidden lg:block w-80 fixed left-0 top-20 bottom-0 border-r border-white/10 bg-[#020202] z-50 overflow-hidden">
         <div className="p-8 h-full flex flex-col">
@@ -120,7 +120,7 @@ const Research: React.FC = () => {
         </div>
 
       {/* Right Content - Independent Scrolling */}
-      <div className="lg:ml-80">
+      <div className="lg:ml-80 pt-20">
         <div className="max-w-4xl mx-auto px-6 md:px-12 py-12" ref={contentRef}>
             {/* Hero */}
             <motion.div
