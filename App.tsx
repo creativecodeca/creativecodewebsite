@@ -109,6 +109,7 @@ function AppContent() {
   const isFunnelPage = location.pathname.startsWith('/funnel/');
   const isDiagnosisMap = location.pathname === '/tools/diagnosismap';
   const isDemoPage = location.pathname.startsWith('/demo/');
+  const isResearchPage = location.pathname === '/research';
 
   return (
     <div className="relative min-h-screen bg-[#020202] text-slate-200 selection:bg-white/20 selection:text-white overflow-x-hidden font-sans">
@@ -153,7 +154,7 @@ function AppContent() {
 
       {/* Footer - hidden on funnel pages, diagnosis map, and demo pages */}
       {!isFunnelPage && !isDiagnosisMap && !isDemoPage && (
-      <footer id="contact" className="border-t border-white/10 bg-black pt-20 pb-10 px-6 relative z-10">
+      <footer id="contact" className={`border-t border-white/10 bg-black pt-20 pb-10 px-6 relative z-10 ${isResearchPage ? 'lg:pl-80' : ''}`}>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
           <div className="max-w-md">
             <a href="#" className="text-white font-bold tracking-tighter text-2xl flex items-center gap-2 mb-6 interactable hover:text-slate-300 transition-colors">
