@@ -118,7 +118,6 @@ const Research: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
 
       {/* Right Content - Scrollable */}
       <div className="lg:ml-80 pt-20">
