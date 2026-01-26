@@ -25,10 +25,20 @@ const routesToPrerender = [
     '/clientcall',
     '/onboarding/websiteform',
     '/services/website',
+    '/services/website/examples',
     '/services/website/buy-popup',
     '/services/website/buy-standard',
+    '/services/meta-ads',
+    '/services/meta-ads/examples',
+    '/services/automation',
+    '/services/automation/examples',
+    '/services/voice-ai',
+    '/services/voice-ai/examples',
     '/privacy',
-    '/terms'
+    '/terms',
+    '/tools',
+    '/tools/ad-generator',
+    '/research'
 ];
 
 (async () => {
