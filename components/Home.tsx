@@ -104,19 +104,19 @@ const Home: React.FC = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left Column - Text Content */}
-            <div className="text-left">
+            <div className="text-center md:text-left">
               {/* Headline */}
               <h1 className="text-5xl md:text-7xl lg:text-8xl leading-tight font-semibold text-white tracking-tighter mb-6">
                 Creative Code
               </h1>
 
               {/* Subheadline */}
-              <p className="text-lg md:text-xl text-slate-400 max-w-xl mb-10 leading-relaxed">
+              <p className="text-lg md:text-xl text-slate-400 max-w-xl mx-auto md:mx-0 mb-10 leading-relaxed">
                 Let software do what your employees can't.
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-start gap-5">
+              <div className="flex flex-col sm:flex-row items-center md:items-start justify-center md:justify-start gap-5">
                 <Link to="/contact" className="bg-white text-black h-14 px-10 rounded-full font-bold hover:bg-slate-200 transition-all interactable flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-105">
                   Inquire
                   <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2.5} />
@@ -124,8 +124,8 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column - Spline 3D Scene */}
-            <div className="relative h-[600px] md:h-[700px] lg:h-[800px] rounded-2xl overflow-hidden">
+            {/* Right Column - Spline 3D Scene (hidden on mobile) */}
+            <div className="hidden md:block relative h-[700px] lg:h-[800px] rounded-2xl overflow-hidden">
               <iframe 
                 src="https://my.spline.design/particleshand-GoWXWuct0HrThIwZ50RIBaXU/" 
                 frameBorder="0" 
