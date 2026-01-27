@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { Monitor, Target, Zap, Users, CheckCircle, Mail, Database, ArrowRight, ArrowLeft } from 'lucide-react';
 const ParticleCanvas = lazy(() => import('./ParticleCanvas'));
@@ -9,7 +9,6 @@ const Home: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [lastInteraction, setLastInteraction] = useState(Date.now());
   const [showParticleCanvas, setShowParticleCanvas] = useState(false);
-  const splineContainerRef = useRef<HTMLDivElement>(null);
 
   const steps = [
     {
@@ -72,49 +71,6 @@ const Home: React.FC = () => {
     });
   }, []);
 
-  // Scroll delegation for Spline container - locks scroll until animation is fully explored
-  useEffect(() => {
-    const container = splineContainerRef.current;
-    if (!container) return;
-
-    let scrollAccumulator = 0;
-    let lastScrollTime = 0;
-    const SCROLL_THRESHOLD = 500; // Pixels of scroll before allowing page scroll
-    const RESET_DELAY = 150; // Ms of no scroll before resetting accumulator
-
-    const handleWheel = (e: WheelEvent) => {
-      const target = e.target as HTMLElement;
-      
-      // Check if scroll is over the Spline container
-      if (container.contains(target)) {
-        const now = Date.now();
-        
-        // Reset accumulator if user paused scrolling
-        if (now - lastScrollTime > RESET_DELAY) {
-          scrollAccumulator = 0;
-        }
-        
-        lastScrollTime = now;
-        scrollAccumulator += Math.abs(e.deltaY);
-        
-        // If user has scrolled enough, assume they've explored the scene and allow page scroll
-        if (scrollAccumulator < SCROLL_THRESHOLD) {
-          e.preventDefault();
-          e.stopPropagation();
-        } else {
-          // Allow scroll to pass through to page
-          scrollAccumulator = SCROLL_THRESHOLD; // Keep at threshold to allow continuous scrolling
-        }
-      }
-    };
-
-    container.addEventListener('wheel', handleWheel, { passive: false });
-
-    return () => {
-      container.removeEventListener('wheel', handleWheel);
-    };
-  }, []);
-
   const handleNext = useCallback(() => {
     setActiveStep((prev) => (prev + 1) % steps.length);
     setLastInteraction(Date.now());
@@ -142,42 +98,26 @@ const Home: React.FC = () => {
       <div className="fixed bottom-0 right-0 w-[800px] h-[600px] bg-black blur-[150px] rounded-full pointer-events-none z-0 mix-blend-screen opacity-30"></div>
 
       {/* Hero Section */}
-      <section className="min-h-screen pt-20 overflow-hidden flex items-center relative">
+      <section className="md:pt-48 md:pb-32 overflow-hidden flex flex-col pt-32 pb-20 relative justify-center">
         <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-transparent to-[#020202]/80 z-0 pointer-events-none"></div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left Column - Text Content */}
-            <div className="text-left">
-              {/* Headline */}
-              <h1 className="text-5xl md:text-7xl lg:text-8xl leading-tight font-semibold text-white tracking-tighter mb-6">
-                Creative Code
-              </h1>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+          {/* Headline */}
+          <h1 className="md:text-8xl leading-tight md:leading-[1.1] text-4xl md:text-5xl font-semibold text-white tracking-tighter mb-8">
+            Creative Code
+          </h1>
 
-              {/* Subheadline */}
-              <p className="text-lg md:text-xl text-slate-400 max-w-xl mb-10 leading-relaxed">
-                Let software do what your employees can't.
-              </p>
+          {/* Subheadline */}
+          <p className="text-base md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed px-4">
+            Let software do what your employees can't.
+          </p>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-start gap-5">
-                <Link to="/contact" className="bg-white text-black h-14 px-10 rounded-full font-bold hover:bg-slate-200 transition-all interactable flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-105">
-                  Inquire
-                  <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2.5} />
-                </Link>
-              </div>
-            </div>
-
-            {/* Right Column - Spline 3D Scene with Scroll Lock */}
-            <div 
-              ref={splineContainerRef}
-              className="relative h-[500px] md:h-[600px] rounded-2xl overflow-hidden cursor-pointer"
-            >
-              <spline-viewer 
-                url="https://prod.spline.design/RyKZ1CoFMw1SJzIM/scene.splinecode"
-                className="w-full h-full"
-              ></spline-viewer>
-            </div>
+          {/* CTA Buttons */}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-5">
+            <Link to="/contact" className="bg-white text-black h-14 px-10 rounded-full font-bold hover:bg-slate-200 transition-all interactable flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-105">
+              Inquire
+              <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2.5} />
+            </Link>
           </div>
         </div>
       </section>
