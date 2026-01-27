@@ -9,6 +9,7 @@ const Home: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [lastInteraction, setLastInteraction] = useState(Date.now());
   const [showParticleCanvas, setShowParticleCanvas] = useState(false);
+  const [fadeOverlay, setFadeOverlay] = useState(true);
 
   const steps = [
     {
@@ -71,6 +72,14 @@ const Home: React.FC = () => {
     });
   }, []);
 
+  // Fade out black overlay after 3 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFadeOverlay(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleNext = useCallback(() => {
     setActiveStep((prev) => (prev + 1) % steps.length);
     setLastInteraction(Date.now());
@@ -107,7 +116,15 @@ const Home: React.FC = () => {
             width="100%" 
             height="100%"
             className="w-full h-full"
+            loading="eager"
+            title="Spline 3D Animation"
           ></iframe>
+          {/* Black fade overlay - fades out over 3 seconds */}
+          <div 
+            className={`absolute inset-0 bg-black pointer-events-none transition-opacity duration-[3000ms] ${
+              fadeOverlay ? 'opacity-100' : 'opacity-0'
+            }`}
+          ></div>
           {/* Top fade gradient */}
           <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#020202] to-transparent pointer-events-none"></div>
           {/* Bottom fade gradient */}
