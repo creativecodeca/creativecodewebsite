@@ -72,11 +72,11 @@ const Home: React.FC = () => {
     });
   }, []);
 
-  // Fade out black overlay after 3 seconds
+  // Fade out black overlay after 1.3 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setFadeOverlay(false);
-    }, 3000);
+    }, 1300);
     return () => clearTimeout(timer);
   }, []);
 
@@ -119,9 +119,9 @@ const Home: React.FC = () => {
             loading="eager"
             title="Spline 3D Animation"
           ></iframe>
-          {/* Black fade overlay - fades out over 3 seconds */}
+          {/* Black fade overlay - fades out over 1.3 seconds */}
           <div 
-            className={`absolute inset-0 bg-black pointer-events-none transition-opacity duration-[3000ms] ${
+            className={`absolute inset-0 bg-black pointer-events-none transition-opacity duration-[1300ms] ${
               fadeOverlay ? 'opacity-100' : 'opacity-0'
             }`}
           ></div>
@@ -146,11 +146,14 @@ const Home: React.FC = () => {
             Let software do what your employees can't.
           </p>
 
-          {/* CTA Button */}
-          <div className="flex items-center justify-center">
+          {/* CTA Buttons */}
+          <div className="flex items-center justify-center gap-4">
             <Link to="/contact" className="bg-white text-black h-14 px-10 rounded-full font-bold hover:bg-slate-200 transition-all interactable flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-105">
               Inquire
               <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2.5} />
+            </Link>
+            <Link to="/products" className="bg-black text-white border-2 border-white h-14 px-10 rounded-full font-bold hover:bg-white hover:text-black transition-all interactable flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-105">
+              Services
             </Link>
           </div>
         </div>
