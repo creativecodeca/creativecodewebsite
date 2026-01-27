@@ -125,7 +125,7 @@ const Home: React.FC = () => {
             </div>
 
             {/* Right Column - Spline 3D Scene (hidden on mobile) */}
-            <div className="hidden md:block relative h-[700px] lg:h-[800px] rounded-2xl overflow-hidden">
+            <div className="hidden md:block relative h-[800px] lg:h-[900px] rounded-2xl overflow-hidden">
               <iframe 
                 src="https://my.spline.design/particleshand-GoWXWuct0HrThIwZ50RIBaXU/" 
                 frameBorder="0" 
@@ -133,6 +133,10 @@ const Home: React.FC = () => {
                 height="100%"
                 className="w-full h-full"
               ></iframe>
+              {/* Top fade gradient */}
+              <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#020202] to-transparent pointer-events-none z-10"></div>
+              {/* Bottom fade gradient */}
+              <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#020202] to-transparent pointer-events-none z-10"></div>
             </div>
           </div>
         </div>
