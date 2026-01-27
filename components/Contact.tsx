@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Send, CheckCircle, X, Phone, MapPin, Mail, Calendar, ArrowRight, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ParticleCanvas from './ParticleCanvas';
 import CaptchaGame from './CaptchaGame';
 import BookingCalendar from './BookingCalendar';
 import SEO from './SEO';
@@ -325,11 +324,10 @@ const Contact: React.FC = () => {
             />
             {/* Hero Section */}
             <section className="md:pt-48 md:pb-72 overflow-hidden flex flex-col pt-32 pb-48 relative justify-center">
-                <ParticleCanvas />
                 <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-[#020202]/40 z-0 pointer-events-none" />
                 <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
                     <h1 className="md:text-8xl leading-tight md:leading-[1.1] text-4xl md:text-5xl font-semibold text-white tracking-tighter mb-8">
-                        Let's Talk
+                        Get in Contact
                     </h1>
                     <p className="text-base md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed px-4">
                         Ready to transform your business? Fill out the form below and we'll get back to you within 24 hours.
