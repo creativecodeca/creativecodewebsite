@@ -4,6 +4,7 @@ import { Monitor, Target, Zap, Users, CheckCircle, Mail, Database, ArrowRight, A
 const ParticleCanvas = lazy(() => import('./ParticleCanvas'));
 import SpotlightCard from './SpotlightCard';
 import SEO from './SEO';
+import Spline from '@splinetool/react-spline';
 
 const Home: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -110,15 +111,10 @@ const Home: React.FC = () => {
       <section className="min-h-screen pt-20 overflow-hidden flex items-center relative">
         {/* Spline 3D Scene Background - Full Width (hidden on mobile) */}
         <div className="hidden md:block absolute inset-0 z-0">
-          <iframe 
-            src="https://my.spline.design/motiontrails-XVq1JXTcEmUxFGIYsjgIbwSP/" 
-            frameBorder="0" 
-            width="100%" 
-            height="100%"
+          <Spline 
+            scene="/scene.splinecode"
             className="w-full h-full"
-            loading="eager"
-            title="Spline 3D Animation"
-          ></iframe>
+          />
           {/* Black fade overlay - fades out over 1 second */}
           <div 
             className={`absolute inset-0 bg-black pointer-events-none transition-opacity duration-[1000ms] ${
