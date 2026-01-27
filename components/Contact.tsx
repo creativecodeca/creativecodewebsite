@@ -317,10 +317,10 @@ const Contact: React.FC = () => {
     return (
         <>
             <SEO
-                title="Contact Us - Web Design & Digital Growth | Digital Growth Partners"
-                description="Get professional web design and digital growth services. Contact Digital Growth Partners for custom websites, AI chatbots, and ad campaigns. 24-hour response."
+                title="Contact Creative Code | Toronto Web Design - Richmond Hill, Vaughan, North York & GTA"
+                description="Contact Creative Code for professional web design in Toronto, Richmond Hill, Vaughan, Woodbridge, North York & GTA. Custom websites, AI chatbots, Meta & Google ads. 24-hour response."
                 canonical="https://creativecodeca.com/contact"
-                keywords="contact web design agency, hire web designer, digital marketing consultation, web design quote, website design services, get started"
+                keywords="contact web design Toronto, hire web designer Richmond Hill, digital marketing consultation Vaughan, web design quote Toronto, website design services GTA, Toronto web agency contact, get started web design North York"
             />
             {/* Hero Section */}
             <section className="md:pt-48 md:pb-72 overflow-hidden flex flex-col pt-32 pb-48 relative justify-center">
@@ -762,6 +762,25 @@ const Contact: React.FC = () => {
                                 <h3 className="text-white font-semibold mb-2">Book a Meeting</h3>
                                 <button className="text-white hover:underline">Schedule Now</button>
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Service Areas */}
+                    <div className="mt-16 text-center border-t border-white/10 pt-12">
+                        <h3 className="text-2xl font-medium text-white mb-4">Service Areas</h3>
+                        <p className="text-slate-400 mb-6">
+                            Proudly serving businesses across the Greater Toronto Area
+                        </p>
+                        <div className="flex flex-wrap justify-center gap-2 text-sm">
+                            <span className="text-slate-500">Toronto •</span>
+                            <span className="text-slate-500">Richmond Hill •</span>
+                            <span className="text-slate-500">Vaughan •</span>
+                            <span className="text-slate-500">Woodbridge •</span>
+                            <span className="text-slate-500">North York •</span>
+                            <span className="text-slate-500">Markham •</span>
+                            <span className="text-slate-500">Mississauga •</span>
+                            <span className="text-slate-500">Brampton •</span>
+                            <span className="text-slate-500">Greater Toronto Area (GTA)</span>
                         </div>
                     </div>
                 </div>

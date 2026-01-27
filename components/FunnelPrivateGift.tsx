@@ -245,7 +245,7 @@ const FunnelPrivateGift: React.FC = () => {
         </div>
         <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between text-xs text-slate-500 font-mono">
           <div className="flex items-center gap-2"><div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div> SYSTEM_STATUS: ONLINE</div>
-          <div>© 2025 CREATIVE CODE INC.</div>
+          <div>© 2026 CREATIVE CODE INC.</div>
         </div>
       </footer>
       </div>

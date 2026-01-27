@@ -9,9 +9,10 @@ const About: React.FC = () => {
     return (
         <>
             <SEO
-                title="About Us | Digital Growth Partners"
-                description="Learn about Digital Growth Partners' mission to make digital growth easy, honest, and affordable for real businesses."
+                title="About Creative Code | Toronto Web Design Agency Serving Richmond Hill, Vaughan & GTA"
+                description="Toronto-based web design and digital marketing agency serving Richmond Hill, Vaughan, Woodbridge, North York & GTA. Our mission: make digital growth easy, honest, and affordable for local businesses."
                 canonical="https://creativecodeca.com/about"
+                keywords="about Creative Code, Toronto web design agency, Richmond Hill web design, Vaughan digital marketing, GTA web development, local Toronto agency"
             />
             {/* Ambient Background Light */}
             {/* Ambient Background Light - Removed */}
@@ -161,6 +162,7 @@ const About: React.FC = () => {
                                     <div>
                                         <h3 className="text-white font-semibold mb-2 text-lg">Address</h3>
                                         <p className="text-slate-400">Toronto, Ontario</p>
+                                        <p className="text-sm text-slate-500 mt-2">Serving Toronto • Richmond Hill • Vaughan • Woodbridge • North York & Greater Toronto Area</p>
                                     </div>
                                 </div>
                             </div>

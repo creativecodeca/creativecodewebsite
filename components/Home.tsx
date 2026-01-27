@@ -98,10 +98,10 @@ const Home: React.FC = () => {
   return (
     <>
       <SEO
-        title="Web Design & Digital Marketing Agency | Creative Code"
-        description="Professional web design and digital marketing services. Custom websites, AI chatbots, Meta & Google ads. Expert web development for business growth."
+        title="Toronto Web Design & Digital Marketing | Creative Code - Richmond Hill, Vaughan & GTA"
+        description="Toronto web design & digital marketing agency serving Richmond Hill, Vaughan, Woodbridge, North York & GTA. Custom websites, AI chatbots, Meta & Google ads for local businesses."
         canonical="https://creativecodeca.com/"
-        keywords="web design, website design, digital marketing agency, web development, custom website design, professional web design, responsive web design, AI chatbots, Meta ads, Google ads, marketing automation, SEO services"
+        keywords="web design Toronto, digital marketing Toronto, web design Richmond Hill, website design Vaughan, web development Woodbridge, SEO North York, Toronto web design agency, GTA web design, custom website design, professional web design Toronto, responsive web design, AI chatbots Toronto, Meta ads Toronto, Google ads GTA, marketing automation Toronto, SEO services Ontario"
       />
       {/* Ambient Background Light - specific to Home */}
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-black blur-[150px] rounded-full pointer-events-none z-0 mix-blend-screen opacity-40"></div>
@@ -360,9 +360,34 @@ const Home: React.FC = () => {
               Whether you need a <strong>responsive website redesign</strong>, a complex <strong>ecommerce platform</strong>, or an <strong>AI-powered customer support agent</strong>, we deliver results that move the needle. We specialize in <strong>SEO optimization</strong> to ensure your brand dominates search results, and we run data-driven <strong>Meta and Google ad campaigns</strong> that maximize your ROI.
             </p>
             <p>
-              Stop settling for agencies that over-promise and under-deliver. Partner with a <strong>digital marketing agency</strong> that prioritizes transparency, speed, and measurable growth. From Toronto to the world, Creative Code is your trusted partner for <strong>scalable business growth</strong> through technology.
+              Stop settling for agencies that over-promise and under-deliver. Partner with a <strong>digital marketing agency</strong> that prioritizes transparency, speed, and measurable growth. Serving Toronto, Richmond Hill, Vaughan, Woodbridge, North York, and across the Greater Toronto Area (GTA), Creative Code is your trusted partner for <strong>scalable business growth</strong> through technology.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Service Areas Section */}
+      <section className="py-20 px-6 relative bg-[#020202] border-b border-white/10">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+            Serving the Greater Toronto Area
+          </h2>
+          <p className="text-slate-400 text-lg mb-8 max-w-2xl mx-auto">
+            Professional web design and digital marketing services for businesses across the GTA
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 mb-6">
+            <span className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-slate-300 hover:bg-white/10 transition-colors">Toronto</span>
+            <span className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-slate-300 hover:bg-white/10 transition-colors">Richmond Hill</span>
+            <span className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-slate-300 hover:bg-white/10 transition-colors">Vaughan</span>
+            <span className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-slate-300 hover:bg-white/10 transition-colors">Woodbridge</span>
+            <span className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-slate-300 hover:bg-white/10 transition-colors">North York</span>
+            <span className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-slate-300 hover:bg-white/10 transition-colors">Markham</span>
+            <span className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-slate-300 hover:bg-white/10 transition-colors">Mississauga</span>
+            <span className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-slate-300 hover:bg-white/10 transition-colors">Brampton</span>
+          </div>
+          <p className="text-sm text-slate-500">
+            Local web design • Digital marketing • AI automation • Meta & Google ads
+          </p>
         </div>
       </section>
 

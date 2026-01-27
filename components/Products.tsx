@@ -7,10 +7,10 @@ const Products: React.FC = () => {
     return (
         <div className="min-h-screen bg-[#020202] w-full relative overflow-hidden">
             <SEO
-                title="Web Design Services & Digital Marketing | Creative Code"
-                description="Professional web design, Meta advertising, AI automation, and voice agents. Complete digital marketing solutions for business growth."
+                title="Web Design Services Toronto | Digital Marketing Richmond Hill, Vaughan & GTA | Creative Code"
+                description="Toronto web design services, Meta advertising, AI automation for Richmond Hill, Vaughan, Woodbridge, North York & GTA. Complete digital marketing solutions for local businesses."
                 canonical="https://creativecodeca.com/products"
-                keywords="web design services, website design, Meta advertising, Facebook ads, Google ads, AI automation, chatbot development, voice AI, digital marketing services, CRM automation"
+                keywords="web design services Toronto, website design Richmond Hill, Meta advertising Vaughan, Facebook ads Toronto, Google ads GTA, AI automation Toronto, chatbot development Ontario, voice AI Toronto, digital marketing services Toronto, CRM automation GTA, web development North York, Woodbridge web design"
             />
             <section className="py-20 px-6 relative pt-32 min-h-screen">
                 {/* Background */}
@@ -331,18 +331,18 @@ const Products: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-slate-400 leading-relaxed">
                         <div className="space-y-6">
                             <p>
-                                At Creative Code, we understand that a fragmented approach to digital marketing leads to fragmented results. That's why we offer a holistic suite of services designed to work in perfect harmony. Our <strong>custom web development</strong> ensures your foundation is rock-solid, fast, and secure, while our <strong>advanced SEO strategies</strong> drive organic traffic that actually converts.
+                                At Creative Code, we understand that a fragmented approach to digital marketing leads to fragmented results. That's why we offer a holistic suite of services designed to work in perfect harmony for businesses across Toronto, Richmond Hill, Vaughan, and the GTA. Our <strong>custom web development</strong> ensures your foundation is rock-solid, fast, and secure, while our <strong>advanced SEO strategies</strong> drive organic traffic from local Toronto-area customers that actually converts.
                             </p>
                             <p>
-                                We go beyond basic aesthetics. Our <strong>web design services</strong> focus on user experience (UX) and conversion rate optimization (CRO), ensuring every pixel serves a purpose. By integrating <strong>marketing automation tools</strong> and CRM systems, we help you nurture leads automatically, ensuring no opportunity slips through the cracks.
+                                We go beyond basic aesthetics. Our <strong>web design services in Toronto and the GTA</strong> focus on user experience (UX) and conversion rate optimization (CRO), ensuring every pixel serves a purpose. By integrating <strong>marketing automation tools</strong> and CRM systems, we help businesses in Richmond Hill, Vaughan, Woodbridge, and North York nurture leads automatically, ensuring no opportunity slips through the cracks.
                             </p>
                         </div>
                         <div className="space-y-6">
                             <p>
-                                The future of business is automated. Our <strong>AI automation services</strong> allow you to scale your operations without increasing headcount. From <strong>intelligent chatbots</strong> that handle customer inquiries instantly to <strong>voice AI agents</strong> that can manage appointment bookings, we implement technology that gives you a competitive edge.
+                                The future of business is automated. Our <strong>AI automation services</strong> allow Toronto-area businesses to scale operations without increasing headcount. From <strong>intelligent chatbots</strong> that handle customer inquiries instantly to <strong>voice AI agents</strong> that can manage appointment bookings for your Richmond Hill, Vaughan, or North York business, we implement technology that gives you a competitive edge in the Greater Toronto Area market.
                             </p>
                             <p>
-                                Combined with our precision-targeted <strong>paid advertising campaigns</strong> on platforms like Facebook, Instagram, and Google, we create a predictable revenue engine for your business. Choose Creative Code for a partner who is as invested in your growth as you are.
+                                Combined with our precision-targeted <strong>paid advertising campaigns</strong> on platforms like Facebook, Instagram, and Google specifically targeting the GTA, we create a predictable revenue engine for your business. Serving Toronto, Richmond Hill, Vaughan, Woodbridge, North York, and beyond—choose Creative Code for a local partner who is as invested in your growth as you are.
                             </p>
                         </div>
                     </div>
