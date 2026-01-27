@@ -148,7 +148,7 @@ const Home: React.FC = () => {
 
           {/* CTA Buttons */}
           <div className="flex items-center justify-center gap-4">
-            <Link to="/contact" className="bg-white text-black h-14 px-10 rounded-full font-bold hover:bg-slate-200 transition-all interactable flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-105">
+            <Link to="/contact#contact-form" className="bg-white text-black h-14 px-10 rounded-full font-bold hover:bg-slate-200 transition-all interactable flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-105">
               Inquire
               <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2.5} />
             </Link>

@@ -338,7 +338,7 @@ const Contact: React.FC = () => {
             </section>
 
             {/* Contact Form Section */}
-            < section className="pb-20 px-6 relative z-20" >
+            < section id="contact-form" className="pb-20 px-6 relative z-20" >
                 <div className="max-w-3xl mx-auto -mt-24 md:-mt-48">
                     <div ref={formContainerRef} className="relative rounded-3xl bg-[rgba(20,20,20,0.6)] overflow-hidden shadow-2xl min-h-[500px] flex flex-col">
                         <div className="relative h-full rounded-[22px] border border-white/5 bg-[#0a0a0a] overflow-visible p-8 md:p-12 flex-1 flex flex-col">
@@ -406,7 +406,7 @@ const Contact: React.FC = () => {
                                                     className="flex-1 flex flex-col justify-center"
                                                 >
                                                     <label htmlFor="email" className="block text-2xl md:text-3xl font-medium text-white mb-6">
-                                                        What's your email address? <span className="text-emerald-500">*</span>
+                                                        Thanks, {formData.name.split(' ')[0]}! What's your email address? <span className="text-emerald-500">*</span>
                                                     </label>
                                                     <input
                                                         type="text"
