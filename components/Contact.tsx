@@ -328,10 +328,6 @@ const Contact: React.FC = () => {
                 <ParticleCanvas />
                 <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-[#020202]/40 z-0 pointer-events-none" />
                 <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-                    <div className="inline-flex hover:scale-105 transition-transform cursor-default text-xs font-medium text-slate-300 bg-white/5 border-white/10 border rounded-full mb-8 pt-2 pr-4 pb-2 pl-4 backdrop-blur-md gap-x-2 items-center">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        We're here to help
-                    </div>
                     <h1 className="md:text-8xl leading-tight md:leading-[1.1] text-4xl md:text-5xl font-semibold text-white tracking-tighter mb-8">
                         Let's Talk
                     </h1>

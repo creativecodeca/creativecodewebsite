@@ -160,7 +160,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Video Showcase Section */}
-      <section className="relative z-20 px-6 pb-20 mt-10 md:-mt-20">
+      <section className="hidden md:block relative z-20 px-6 pb-20 mt-10 md:-mt-20">
         <div className="max-w-6xl mx-auto">
           <div className="relative rounded-[2rem] p-3 bg-black border border-white/10 backdrop-blur-3xl shadow-[0_0_100px_rgba(0,0,0,0.8)] group animate-fade-in delay-300">
             {/* Subtle Glow effect behind video */}
