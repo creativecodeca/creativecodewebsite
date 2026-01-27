@@ -125,7 +125,7 @@ const Home: React.FC = () => {
             </div>
 
             {/* Right Column - Spline 3D Scene */}
-            <div className="relative h-[500px] md:h-[600px] rounded-2xl overflow-hidden">
+            <div className="relative h-[600px] md:h-[700px] lg:h-[800px] rounded-2xl overflow-hidden">
               <iframe 
                 src="https://my.spline.design/particleshand-GoWXWuct0HrThIwZ50RIBaXU/" 
                 frameBorder="0" 
