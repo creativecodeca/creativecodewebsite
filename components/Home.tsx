@@ -99,45 +99,42 @@ const Home: React.FC = () => {
 
       {/* Hero Section */}
       <section className="min-h-screen pt-20 overflow-hidden flex items-center relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-transparent to-[#020202]/80 z-0 pointer-events-none"></div>
+        {/* Spline 3D Scene Background - Full Width (hidden on mobile) */}
+        <div className="hidden md:block absolute inset-0 z-0">
+          <iframe 
+            src="https://my.spline.design/particleshand-GoWXWuct0HrThIwZ50RIBaXU/" 
+            frameBorder="0" 
+            width="100%" 
+            height="100%"
+            className="w-full h-full"
+          ></iframe>
+          {/* Top fade gradient */}
+          <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#020202] to-transparent pointer-events-none"></div>
+          {/* Bottom fade gradient */}
+          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#020202] to-transparent pointer-events-none"></div>
+        </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left Column - Text Content */}
-            <div className="text-center md:text-left">
-              {/* Headline */}
-              <h1 className="text-5xl md:text-7xl lg:text-8xl leading-tight font-semibold text-white tracking-tighter mb-6">
-                Creative Code
-              </h1>
+        {/* Gradient overlay for mobile */}
+        <div className="md:hidden absolute inset-0 bg-gradient-to-t from-[#020202] via-transparent to-[#020202]/80 z-0 pointer-events-none"></div>
 
-              {/* Subheadline */}
-              <p className="text-lg md:text-xl text-slate-400 max-w-xl mx-auto md:mx-0 mb-10 leading-relaxed">
-                Let software do what your employees can't.
-              </p>
+        {/* Centered Text Content */}
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+          {/* Headline */}
+          <h1 className="text-5xl md:text-7xl lg:text-8xl leading-tight font-semibold text-white tracking-tighter mb-6 drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
+            Creative Code
+          </h1>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-center md:items-start justify-center md:justify-start gap-5">
-                <Link to="/contact" className="bg-white text-black h-14 px-10 rounded-full font-bold hover:bg-slate-200 transition-all interactable flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-105">
-                  Inquire
-                  <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2.5} />
-                </Link>
-              </div>
-            </div>
+          {/* Subheadline */}
+          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+            Let software do what your employees can't.
+          </p>
 
-            {/* Right Column - Spline 3D Scene (hidden on mobile) */}
-            <div className="hidden md:block relative h-[800px] lg:h-[900px] rounded-2xl overflow-hidden">
-              <iframe 
-                src="https://my.spline.design/particleshand-GoWXWuct0HrThIwZ50RIBaXU/" 
-                frameBorder="0" 
-                width="100%" 
-                height="100%"
-                className="w-full h-full"
-              ></iframe>
-              {/* Top fade gradient */}
-              <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#020202] to-transparent pointer-events-none z-10"></div>
-              {/* Bottom fade gradient */}
-              <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#020202] to-transparent pointer-events-none z-10"></div>
-            </div>
+          {/* CTA Button */}
+          <div className="flex items-center justify-center">
+            <Link to="/contact" className="bg-white text-black h-14 px-10 rounded-full font-bold hover:bg-slate-200 transition-all interactable flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-105">
+              Inquire
+              <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2.5} />
+            </Link>
           </div>
         </div>
       </section>
