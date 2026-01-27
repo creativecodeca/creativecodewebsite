@@ -98,26 +98,39 @@ const Home: React.FC = () => {
       <div className="fixed bottom-0 right-0 w-[800px] h-[600px] bg-black blur-[150px] rounded-full pointer-events-none z-0 mix-blend-screen opacity-30"></div>
 
       {/* Hero Section */}
-      <section className="md:pt-48 md:pb-32 overflow-hidden flex flex-col pt-32 pb-20 relative justify-center">
+      <section className="min-h-screen pt-20 overflow-hidden flex items-center relative">
         <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-transparent to-[#020202]/80 z-0 pointer-events-none"></div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-          {/* Headline */}
-          <h1 className="md:text-8xl leading-tight md:leading-[1.1] text-4xl md:text-5xl font-semibold text-white tracking-tighter mb-8">
-            Creative Code
-          </h1>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Text Content */}
+            <div className="text-left">
+              {/* Headline */}
+              <h1 className="text-5xl md:text-7xl lg:text-8xl leading-tight font-semibold text-white tracking-tighter mb-6">
+                Creative Code
+              </h1>
 
-          {/* Subheadline */}
-          <p className="text-base md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed px-4">
-            Let software do what your employees can't.
-          </p>
+              {/* Subheadline */}
+              <p className="text-lg md:text-xl text-slate-400 max-w-xl mb-10 leading-relaxed">
+                Let software do what your employees can't.
+              </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col md:flex-row items-center justify-center gap-5">
-            <Link to="/contact" className="bg-white text-black h-14 px-10 rounded-full font-bold hover:bg-slate-200 transition-all interactable flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-105">
-              Inquire
-              <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2.5} />
-            </Link>
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row items-start gap-5">
+                <Link to="/contact" className="bg-white text-black h-14 px-10 rounded-full font-bold hover:bg-slate-200 transition-all interactable flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:scale-105">
+                  Inquire
+                  <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2.5} />
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column - Spline 3D Scene */}
+            <div className="relative h-[500px] md:h-[600px] rounded-2xl overflow-hidden">
+              <spline-viewer 
+                url="https://prod.spline.design/RyKZ1CoFMw1SJzIM/scene.splinecode"
+                className="w-full h-full"
+              ></spline-viewer>
+            </div>
           </div>
         </div>
       </section>
