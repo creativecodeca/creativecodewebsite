@@ -73,11 +73,11 @@ const Home: React.FC = () => {
     });
   }, []);
 
-  // Fade out black overlay after 0.5 seconds
+  // Fade out black overlay after 0.2 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setFadeOverlay(false);
-    }, 500);
+    }, 200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -115,9 +115,9 @@ const Home: React.FC = () => {
             scene="/scene.splinecode"
             className="w-full h-full"
           />
-          {/* Black fade overlay - fades out over 0.5 seconds */}
+          {/* Black fade overlay - fades out over 0.2 seconds */}
           <div 
-            className={`absolute inset-0 bg-black pointer-events-none transition-opacity duration-[500ms] ${
+            className={`absolute inset-0 bg-black pointer-events-none transition-opacity duration-[200ms] ${
               fadeOverlay ? 'opacity-100' : 'opacity-0'
             }`}
           ></div>
