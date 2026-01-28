@@ -138,7 +138,7 @@ const Home: React.FC = () => {
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+          <p className="text-base md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
             Let software do what your employees can't.
           </p>
 
